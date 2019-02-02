@@ -1,0 +1,194 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : Download.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
+using System;
+using System.ComponentModel;
+using WodiLib.Sys;
+
+namespace WodiLib.Event.EventCommand
+{
+    /// <inheritdoc />
+    /// <summary>
+    /// イベントコマンド・ダウンロード
+    /// </summary>
+    public class Download : EventCommandBase
+    {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     OverrideMethod
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        public override int EventCommandCode => EventCommand.EventCommandCode.Download;
+
+        /// <inheritdoc />
+        public override byte NumberVariableCount => 0x03;
+
+        /// <inheritdoc />
+        public override byte StringVariableCount => 0x02;
+
+        /// <inheritdoc />
+        /// <summary>
+        /// インデックスを指定して数値変数を取得する。
+        /// </summary>
+        /// <param name="index">[Range(0, 2)] インデックス</param>
+        /// <returns>インデックスに対応した値</returns>
+        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public override int GetNumberVariable(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return EventCommandCode;
+
+                case 1:
+                {
+                    var result = 0;
+                    if (!IsOutputFile) result += 1;
+                    if (IsWaitForComplete) result += 2;
+                    return result;
+                }
+
+                case 2:
+                    return IsStoreInVariable ? PathStringVar : 0;
+
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        ErrorMessage.OutOfRange(nameof(index), 0, 2, index));
+            }
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 数値変数を設定する。
+        /// </summary>
+        /// <param name="index">[Range(1, 2)] インデックス</param>
+        /// <param name="value">設定値</param>
+        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public override void SetNumberVariable(int index, int value)
+        {
+            switch (index)
+            {
+                case 1:
+                    IsOutputFile = (value & 0x01) == 0;
+                    IsWaitForComplete = (value & 0x02) != 0;
+                    return;
+
+                case 2:
+                    PathStringVar = value;
+                    IsStoreInVariable = value != 0;
+                    return;
+
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        ErrorMessage.OutOfRange(nameof(index), 1, 2, index));
+            }
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// インデックスを指定して文字列変数を取得する。
+        /// </summary>
+        /// <param name="index">[Range(0, 1)] インデックス</param>
+        /// <returns>インデックスに対応した値</returns>
+        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public override string GetStringVariable(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return DownloadUrl;
+
+                case 1:
+                    return IsOutputFile ? StorageFolder : "";
+
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        ErrorMessage.OutOfRange(nameof(index), 0, 1, index));
+            }
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 文字列変数を設定する。
+        /// </summary>
+        /// <param name="index">[Range(0, 1)] インデックス</param>
+        /// <param name="value">[NotNull] 設定値</param>
+        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
+        /// <exception cref="ArgumentNullException">valueがnull</exception>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public override void SetStringVariable(int index, string value)
+        {
+            if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
+            switch (index)
+            {
+                case 0:
+                    DownloadUrl = value;
+                    return;
+
+                case 1:
+                    StorageFolder = value;
+                    return;
+
+                default:
+                    throw new ArgumentOutOfRangeException(
+                        ErrorMessage.OutOfRange(nameof(index), 0, 1, index));
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private string downloadUrl = "";
+
+        /// <summary>[NotNull] URL</summary>
+        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
+        public string DownloadUrl
+        {
+            get => downloadUrl;
+            set
+            {
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(DownloadUrl)));
+                downloadUrl = value;
+            }
+        }
+
+        /// <summary>保存フラグ</summary>
+        public bool IsOutputFile { get; set; }
+
+        private string storageFolder = "";
+
+        /// <summary>[NotNull] 保存フォルダ</summary>
+        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
+        public string StorageFolder
+        {
+            get => storageFolder;
+            set
+            {
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(StorageFolder)));
+                storageFolder = value;
+            }
+        }
+
+        /// <summary>変数に格納する。ラグ</summary>
+        public bool IsStoreInVariable { get; set; }
+
+        /// <summary>格納先の文字列変数</summary>
+        public int PathStringVar { get; set; }
+
+        /// <summary>ダウンロード完了までウェイト</summary>
+        public bool IsWaitForComplete { get; set; }
+    }
+}
