@@ -23,7 +23,6 @@ WodiLib.dllを使用したいプロジェクトの参照に追加してくださ
 使用するにあたり、明示的に初期化を行う必要はありません。
 
 各API詳細は Help ディレクトリ配下の WodiLibAPI.chm または index.html を参照してください。
-[オンラインでも公開](http://kameske027.php.xdomain.jp/)しています。
 
 ライセンス
 ----------
