@@ -9,10 +9,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WodiLib.Event;
 using WodiLib.Sys;
 
-namespace WodiLib.Map
+namespace WodiLib.Event.EventCommand
 {
     /// <summary>
     /// イベントコマンドリスト

@@ -10,23 +10,23 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] EventBootTypeTestCaseSource =
         {
-            new object[] {EventBootType.Auto, false},
+            new object[] {MapEventBootType.Auto, false},
             new object[] {null, true}
         };
         [TestCaseSource(nameof(EventBootTypeTestCaseSource))]
-        public static void EventBootTypeTest(EventBootType bootType, bool isError)
+        public static void EventBootTypeTest(MapEventBootType bootType, bool isError)
         {
             var instance = new MapEventPageBootInfo();
             var errorOccured = false;
             try
             {
-                instance.EventBootType = bootType;
+                instance.MapEventBootType = bootType;
             }
             catch (Exception)
             {
                 errorOccured = true;
             }
-            
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
@@ -47,7 +47,7 @@ namespace WodiLib.Test.Map
             {
                 errorOccured = true;
             }
-            
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
@@ -60,13 +60,13 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                instance.EventBootCondition1 = isNull ? null : new EventBootCondition();
+                instance.MapEventBootCondition1 = isNull ? null : new MapEventBootCondition();
             }
             catch (Exception)
             {
                 errorOccured = true;
             }
-            
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
@@ -79,13 +79,13 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                instance.EventBootCondition2 = isNull ? null : new EventBootCondition();
+                instance.MapEventBootCondition2 = isNull ? null : new MapEventBootCondition();
             }
             catch (Exception)
             {
                 errorOccured = true;
             }
-            
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
@@ -98,13 +98,13 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                instance.EventBootCondition3 = isNull ? null : new EventBootCondition();
+                instance.MapEventBootCondition3 = isNull ? null : new MapEventBootCondition();
             }
             catch (Exception)
             {
                 errorOccured = true;
             }
-            
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
@@ -117,13 +117,13 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                instance.EventBootCondition4 = isNull ? null : new EventBootCondition();
+                instance.MapEventBootCondition4 = isNull ? null : new MapEventBootCondition();
             }
             catch (Exception)
             {
                 errorOccured = true;
             }
-            
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
@@ -140,13 +140,13 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                instance.SetEventBootCondition(index, isNull ? null : new EventBootCondition());
+                instance.SetEventBootCondition(index, isNull ? null : new MapEventBootCondition());
             }
             catch (Exception)
             {
                 errorOccured = true;
             }
-            
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }

@@ -17,51 +17,51 @@ namespace WodiLib.Map
     /// </summary>
     public class MapEventPageBootInfo : IWodiLibObject
     {
-        private EventBootType eventBootType = EventBootType.PushOKKey;
+        private MapEventBootType mapEventBootType = MapEventBootType.PushOKKey;
 
         /// <summary>イベント起動タイプ</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public EventBootType EventBootType
+        public MapEventBootType MapEventBootType
         {
-            get => eventBootType;
+            get => mapEventBootType;
             set
             {
-                if (value == null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(EventBootType)));
-                eventBootType = value;
+                if (value == null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(MapEventBootType)));
+                mapEventBootType = value;
             }
         }
 
-        private EventBootCondition eventBootCondition1 = new EventBootCondition();
-        private EventBootCondition eventBootCondition2 = new EventBootCondition();
-        private EventBootCondition eventBootCondition3 = new EventBootCondition();
-        private EventBootCondition eventBootCondition4 = new EventBootCondition();
+        private MapEventBootCondition mapEventBootCondition1 = new MapEventBootCondition();
+        private MapEventBootCondition mapEventBootCondition2 = new MapEventBootCondition();
+        private MapEventBootCondition mapEventBootCondition3 = new MapEventBootCondition();
+        private MapEventBootCondition mapEventBootCondition4 = new MapEventBootCondition();
 
         /// <summary>起動条件1設定フラグ</summary>
         public bool HasEventBootCondition1
         {
-            get => eventBootCondition1.UseCondition;
-            set => eventBootCondition1.UseCondition = value;
+            get => mapEventBootCondition1.UseCondition;
+            set => mapEventBootCondition1.UseCondition = value;
         }
 
         /// <summary>起動条件2設定フラグ</summary>
         public bool HasEventBootCondition2
         {
-            get => eventBootCondition2.UseCondition;
-            set => eventBootCondition2.UseCondition = value;
+            get => mapEventBootCondition2.UseCondition;
+            set => mapEventBootCondition2.UseCondition = value;
         }
 
         /// <summary>起動条件3設定フラグ</summary>
         public bool HasEventBootCondition3
         {
-            get => eventBootCondition3.UseCondition;
-            set => eventBootCondition3.UseCondition = value;
+            get => mapEventBootCondition3.UseCondition;
+            set => mapEventBootCondition3.UseCondition = value;
         }
 
         /// <summary>起動条件4設定フラグ</summary>
         public bool HasEventBootCondition4
         {
-            get => eventBootCondition4.UseCondition;
-            set => eventBootCondition4.UseCondition = value;
+            get => mapEventBootCondition4.UseCondition;
+            set => mapEventBootCondition4.UseCondition = value;
         }
 
         /// <summary>
@@ -94,57 +94,57 @@ namespace WodiLib.Map
 
         /// <summary>[NotNull] イベント起動条件1</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public EventBootCondition EventBootCondition1
+        public MapEventBootCondition MapEventBootCondition1
         {
-            get => eventBootCondition1;
+            get => mapEventBootCondition1;
             set
             {
                 if (value == null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(EventBootCondition1)));
-                eventBootCondition1 = value;
+                        ErrorMessage.NotNull(nameof(MapEventBootCondition1)));
+                mapEventBootCondition1 = value;
             }
         }
 
         /// <summary>[NotNull] イベント起動条件2</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public EventBootCondition EventBootCondition2
+        public MapEventBootCondition MapEventBootCondition2
         {
-            get => eventBootCondition2;
+            get => mapEventBootCondition2;
             set
             {
                 if (value == null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(EventBootCondition2)));
-                eventBootCondition2 = value;
+                        ErrorMessage.NotNull(nameof(MapEventBootCondition2)));
+                mapEventBootCondition2 = value;
             }
         }
 
         /// <summary>[NotNull] イベント起動条件3</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public EventBootCondition EventBootCondition3
+        public MapEventBootCondition MapEventBootCondition3
         {
-            get => eventBootCondition3;
+            get => mapEventBootCondition3;
             set
             {
                 if (value == null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(EventBootCondition3)));
-                eventBootCondition3 = value;
+                        ErrorMessage.NotNull(nameof(MapEventBootCondition3)));
+                mapEventBootCondition3 = value;
             }
         }
 
         /// <summary>[NotNull] イベント起動条件4</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public EventBootCondition EventBootCondition4
+        public MapEventBootCondition MapEventBootCondition4
         {
-            get => eventBootCondition4;
+            get => mapEventBootCondition4;
             set
             {
                 if (value == null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(EventBootCondition4)));
-                eventBootCondition4 = value;
+                        ErrorMessage.NotNull(nameof(MapEventBootCondition4)));
+                mapEventBootCondition4 = value;
             }
         }
 
@@ -155,7 +155,7 @@ namespace WodiLib.Map
         /// <param name="condition">[NotNull] 条件</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが 0～3 以外</exception>
         /// <exception cref="ArgumentNullException">conditionがnull</exception>
-        public void SetEventBootCondition(int index, EventBootCondition condition)
+        public void SetEventBootCondition(int index, MapEventBootCondition condition)
         {
             if (condition == null)
             {
@@ -166,16 +166,16 @@ namespace WodiLib.Map
             switch (index)
             {
                 case 0:
-                    EventBootCondition1 = condition;
+                    MapEventBootCondition1 = condition;
                     return;
                 case 1:
-                    EventBootCondition2 = condition;
+                    MapEventBootCondition2 = condition;
                     return;
                 case 2:
-                    EventBootCondition3 = condition;
+                    MapEventBootCondition3 = condition;
                     return;
                 case 3:
-                    EventBootCondition4 = condition;
+                    MapEventBootCondition4 = condition;
                     return;
                 default:
                     throw new ArgumentOutOfRangeException(
@@ -189,31 +189,31 @@ namespace WodiLib.Map
             var result = new List<byte>();
 
             // 起動条件
-            result.Add(EventBootType.Code);
+            result.Add(MapEventBootType.Code);
             // 条件1演算子 & 使用フラグ
-            result.Add(EventBootCondition1.MakeEventBootConditionByte());
+            result.Add(MapEventBootCondition1.MakeEventBootConditionByte());
             // 条件2演算子 & 使用フラグ
-            result.Add(EventBootCondition2.MakeEventBootConditionByte());
+            result.Add(MapEventBootCondition2.MakeEventBootConditionByte());
             // 条件3演算子 & 使用フラグ
-            result.Add(EventBootCondition3.MakeEventBootConditionByte());
+            result.Add(MapEventBootCondition3.MakeEventBootConditionByte());
             // 条件4演算子 & 使用フラグ
-            result.Add(EventBootCondition4.MakeEventBootConditionByte());
+            result.Add(MapEventBootCondition4.MakeEventBootConditionByte());
             // 条件1左辺
-            result.AddRange(EventBootCondition1.LeftSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition1.LeftSide.ToWoditorIntBytes());
             // 条件2左辺
-            result.AddRange(EventBootCondition2.LeftSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition2.LeftSide.ToWoditorIntBytes());
             // 条件3左辺
-            result.AddRange(EventBootCondition3.LeftSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition3.LeftSide.ToWoditorIntBytes());
             // 条件4左辺
-            result.AddRange(EventBootCondition4.LeftSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition4.LeftSide.ToWoditorIntBytes());
             // 条件1右辺
-            result.AddRange(EventBootCondition1.RightSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition1.RightSide.ToWoditorIntBytes());
             // 条件2右辺
-            result.AddRange(EventBootCondition2.RightSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition2.RightSide.ToWoditorIntBytes());
             // 条件3右辺
-            result.AddRange(EventBootCondition3.RightSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition3.RightSide.ToWoditorIntBytes());
             // 条件4右辺
-            result.AddRange(EventBootCondition4.RightSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition4.RightSide.ToWoditorIntBytes());
 
             return result.ToArray();
         }

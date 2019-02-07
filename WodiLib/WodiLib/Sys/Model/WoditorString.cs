@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace WodiLib.Sys
 {
@@ -47,9 +46,6 @@ namespace WodiLib.Sys
 
         /// <summary>文字列をbyte配列化したときの長さ</summary>
         public int ByteLength { get; }
-
-        /// <summary>統一用改行コード</summary>
-        private static string NewLineUnit => "\\r\\n|\\n"; // \r はルビ振りのため改行とみなさない
 
         /// <summary>
         /// バイト配列からインスタンスを生成する。

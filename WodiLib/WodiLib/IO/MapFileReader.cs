@@ -12,6 +12,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using WodiLib.Event;
+using WodiLib.Event.EventCommand;
 using WodiLib.Map;
 using WodiLib.Sys;
 using WodiLib.Sys.Observer;
@@ -488,16 +489,16 @@ namespace WodiLib.IO
             var bootInfo = new MapEventPageBootInfo();
 
             // 起動条件
-            bootInfo.EventBootType = EventBootType.FromByte(buf[offset]);
+            bootInfo.MapEventBootType = MapEventBootType.FromByte(buf[offset]);
             offset += 1;
 
             // 条件1～4演算子 & 使用フラグ
-            var conditions = new List<EventBootCondition>
+            var conditions = new List<MapEventBootCondition>
             {
-                new EventBootCondition(),
-                new EventBootCondition(),
-                new EventBootCondition(),
-                new EventBootCondition(),
+                new MapEventBootCondition(),
+                new MapEventBootCondition(),
+                new MapEventBootCondition(),
+                new MapEventBootCondition(),
             };
             for (var i = 0; i < 4; i++)
             {

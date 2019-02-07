@@ -8,7 +8,7 @@
 
 using WodiLib.Sys;
 
-namespace WodiLib.Map
+namespace WodiLib.Event
 {
     /// <summary>
     ///     イベント起動条件

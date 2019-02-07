@@ -4,9 +4,8 @@ using System.Linq;
 using NUnit.Framework;
 using WodiLib.Event;
 using WodiLib.Event.EventCommand;
-using WodiLib.Map;
 
-namespace WodiLib.Test.Map
+namespace WodiLib.Test.Event.EventCommand.Model
 {
     [TestFixture]
     public class EventCommandListTest
