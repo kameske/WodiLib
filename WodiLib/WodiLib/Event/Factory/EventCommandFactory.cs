@@ -32,11 +32,9 @@ namespace WodiLib.Event
         /// <returns>イベントコマンドのインスタンス</returns>
         /// <exception cref="ArgumentOutOfRangeException">Range項目が規定の範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">NotNull項目がnullの場合</exception>
-        /// <exception cref="ArgumentException">
-        ///     <para>numberVariableCountとintValues.Lengthが一致しない場合</para>
-        ///     <para>stringVariableCountとstrValuesが一致しない場合</para>
-        ///     <para>該当イベントコマンドが存在しない場合</para>
-        /// </exception>
+        /// <exception cref="ArgumentException">numberVariableCountとintValues.Lengthが一致しない場合</exception>
+        /// <exception cref="ArgumentException">stringVariableCountとstrValuesが一致しない場合</exception>
+        /// <exception cref="ArgumentException">該当イベントコマンドが存在しない場合</exception>
         public static IEventCommand CreateRaw(
             int numberVariableCount, IEnumerable<int> intValues,
             byte indent,
