@@ -59,6 +59,11 @@ namespace WodiLib.Event.EventCommand
             return args[index];
         }
 
+        public bool HasStringParam(int index)
+        {
+            return args[index].HasStr;
+        }
+
         private static readonly byte Arg1ReferFlg = 0x10;
         private static readonly byte Arg2ReferFlg = 0x20;
         private static readonly byte Arg3ReferFlg = 0x40;

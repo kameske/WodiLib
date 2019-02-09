@@ -191,15 +191,7 @@ namespace WodiLib.Event.EventCommand
                 return "";
             }
 
-            var target = conditionList.Get(index);
-            if (target.IsUseNumberVariable)
-            {
-                // 右辺が数値変数指定なら空文字
-                return "";
-            }
-
-            // 右辺値を返す
-            return target.RightSide.ToStr();
+            return conditionList.GetRightSideString(index);
         }
 
         /// <inheritdoc />

@@ -49,7 +49,7 @@ namespace WodiLib.Event.EventCommand
             {
                 for (var i = StrArgValue - 1; i >= 0; i--)
                 {
-                    if (strArgList.Get(i).HasStr) return (byte) (StrArgValue + 1);
+                    if (strArgList.HasStringParam(i)) return (byte) (StrArgValue + 1);
                 }
 
                 return (byte) (IsOrderByString ? 0x01 : 0x00);

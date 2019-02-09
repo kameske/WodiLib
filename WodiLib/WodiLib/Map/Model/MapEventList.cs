@@ -29,7 +29,9 @@ namespace WodiLib.Map
 
         private readonly List<MapEvent> eventList;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public MapEventList() : this(new MapEvent[0])
         {
         }
@@ -120,18 +122,42 @@ namespace WodiLib.Map
         }
 
         /// <summary>
-        /// マップイベントを取得する。
+        /// マップイベントIDからマップイベントを取得する。
         /// </summary>
         /// <param name="mapEventId">[Range(0, 9999)] インデックス</param>
         /// <returns>[Nullable] マップイベント</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
-        public MapEvent Get(int mapEventId)
+        public MapEvent GetForMapEventId(int mapEventId)
         {
             if (mapEventId < EventIdMin || EventIdMax <= mapEventId)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(mapEventId), EventIdMin, EventIdMax, mapEventId));
 
             return eventList.FirstOrDefault(x => x.MapEventId == mapEventId);
+        }
+
+        /// <summary>
+        /// 配列インデックスからマップイベントを取得する。
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public MapEvent GetForIndex(int index)
+        {
+            const int min = 0;
+            var max = eventList.Count - 1;
+            if(index < min || max <index) throw new ArgumentOutOfRangeException(
+                ErrorMessage.OutOfRange(nameof(index), min, max, index));
+            return eventList[index];
+        }
+
+        /// <summary>
+        /// MapEventの集合に変換する
+        /// </summary>
+        /// <returns>MapEvent集合</returns>
+        public IEnumerable<MapEvent> ToEnumerable()
+        {
+            return eventList;
         }
 
         /// <summary>

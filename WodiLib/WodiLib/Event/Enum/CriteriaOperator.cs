@@ -36,6 +36,9 @@ namespace WodiLib.Event
         /// <summary>ビットを満たす</summary>
         public static readonly CriteriaOperator BitAnd;
 
+        /// <summary>デフォルト値</summary>
+        public static readonly CriteriaOperator Default;
+
         /// <summary>値</summary>
         public byte Code { get; }
 
@@ -48,6 +51,7 @@ namespace WodiLib.Event
             Below = new CriteriaOperator("Below", 0x40);
             Not = new CriteriaOperator("Not", 0x50);
             BitAnd = new CriteriaOperator("BitAnd", 0x60);
+            Default = Equal;
         }
 
         private CriteriaOperator(string id, byte code) : base(id)

@@ -176,6 +176,22 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
+        /// 右辺文字列を返す。
+        /// </summary>
+        /// <param name="index">[Range(0, 3)] 条件番号</param>
+        /// <returns>
+        ///     指定した条件番号の右辺文字列。<br/>
+        ///     右辺が通史指定の場合空文字。
+        /// </returns>
+        public string GetRightSideString(int index)
+        {
+            if (index < 0 || LengthMax < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), 0, 3, index));
+            return list[index].GetRightSideString();
+        }
+
+        /// <summary>
         /// 右辺に数値変数を設定している条件を探し、その最大のインデックスを返す。
         /// </summary>
         /// <returns>右辺に数値変数を設定している条件のインデックス最大値（0～4）</returns>
