@@ -1,3 +1,11 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : MpsFile.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 using System;
 using System.Threading.Tasks;
 using WodiLib.Map;
