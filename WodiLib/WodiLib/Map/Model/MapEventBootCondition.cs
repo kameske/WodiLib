@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : EventBootCondition.cs
+// File Name    : MapEventBootCondition.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Map
 {
     /// <summary>
-    ///     イベント起動条件実装クラス
+    ///     マップイベント起動条件実装クラス
     /// </summary>
-    public class EventBootCondition
+    public class MapEventBootCondition
     {
         /// <summary>右辺最大値</summary>
         public static int RightSide_Max => 999999;

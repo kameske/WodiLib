@@ -18,7 +18,7 @@ namespace WodiLib.Test.Map
             var _ = layer.Chips;
             // ここまでの処理でエラーにならないこと
             Assert.True(true);
-            
+
             // 幅、高さが正しく取得できること
             Assert.AreEqual(layer.Width, 20);
             Assert.AreEqual(layer.Height, 15);
@@ -37,13 +37,13 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                layer.SetWidth(width);
+                layer.UpdateWidth(width);
             }
             catch (ArgumentOutOfRangeException)
             {
                 errorOccured = true;
             }
-            
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
@@ -53,7 +53,7 @@ namespace WodiLib.Test.Map
                 Assert.AreEqual(layer.Width, width);
             }
         }
-        
+
         [TestCase(-1, true)]
         [TestCase(14, true)]
         [TestCase(15, false)]
@@ -67,13 +67,13 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                layer.SetHeight(height);
+                layer.UpdateHeight(height);
             }
             catch (ArgumentOutOfRangeException)
             {
                 errorOccured = true;
             }
-            
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
@@ -118,8 +118,8 @@ namespace WodiLib.Test.Map
             if (!errorOccured)
             {
                 // チップ番号値が指定した値になっていること
-                var result = layer.Chips.ToList()[x].ToList()[y];
-                Assert.AreEqual(result.Value, chip.Value);
+                var result = layer.GetChip(x, y);
+                Assert.AreEqual((int)result, (int)chip);
             }
         }
 
@@ -134,7 +134,7 @@ namespace WodiLib.Test.Map
             layer.SetChips(GenerateTestChipsData(20, 15));
 
             var errorOccured = false;
-            MapChip getChip = null;
+            MapChip getChip = MapChip.Default;
             try
             {
                 getChip = layer.GetChip(x, y);
@@ -149,7 +149,7 @@ namespace WodiLib.Test.Map
             if (!errorOccured)
             {
                 // 座標の値が初期化した値になっていること
-                Assert.AreEqual(getChip.Value, x * 10 + y);
+                Assert.AreEqual((int)getChip, x * 10 + y);
             }
         }
 

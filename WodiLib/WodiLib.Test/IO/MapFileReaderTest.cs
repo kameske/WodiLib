@@ -48,14 +48,26 @@ namespace WodiLib.Test
 
         private static void Common(MapData resultData, string readFileName)
         {
-            var reader = new MapFileReader($@"{MapFileTestItemGenerator.TestWorkRootDir}\{readFileName}");
-            var readResult = reader.ReadSync();
+            var reader = new MpsFileReader($@"{MapFileTestItemGenerator.TestWorkRootDir}\{readFileName}");
+
+            var readResult = false;
+            var errorMessage = "";
+            try
+            {
+                reader.ReadSync();
+                readResult = true;
+            }
+            catch(Exception e)
+            {
+                errorMessage = e.Message;
+            }
+
 
             // 正しく読めること
             if (!readResult)
             {
                 throw new InvalidOperationException(
-                    $"Error Occured. Message : {reader.ErrorMessage}");
+                    $"Error Occured. Message : {errorMessage}");
             }
             Console.WriteLine("Write Test Clear.");
 

@@ -14,4 +14,7 @@
   <ItemGroup>
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1-servicing-27114-05" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Event\Model" />
+  </ItemGroup>
 </Project>

@@ -56,5 +56,15 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>数値変数使用フラグ</summary>
         public bool IsUseNumberVariable { get; set; }
+
+        /// <summary>
+        /// 右辺の文字列を返す。
+        /// </summary>
+        /// <returns>右辺文字列。右辺が数値指定の場合、空文字。</returns>
+        public string GetRightSideString()
+        {
+            if (IsUseNumberVariable) return "";
+            return RightSide.ToStr();
+        }
     }
 }

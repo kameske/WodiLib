@@ -17,7 +17,7 @@ namespace WodiLib.Test.Map
         [TestCaseSource(nameof(SetCriteriaOperatorTestCaseSource))]
         public static void SetCriteriaOperatorTest(CriteriaOperator operation, bool isError)
         {
-            var instance = new EventBootCondition();
+            var instance = new MapEventBootCondition();
             var errorOccured = false;
             try
             {
@@ -27,7 +27,7 @@ namespace WodiLib.Test.Map
             {
                 errorOccured = true;
             }
-            
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }

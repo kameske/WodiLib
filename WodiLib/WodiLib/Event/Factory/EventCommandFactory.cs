@@ -32,11 +32,9 @@ namespace WodiLib.Event
         /// <returns>イベントコマンドのインスタンス</returns>
         /// <exception cref="ArgumentOutOfRangeException">Range項目が規定の範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">NotNull項目がnullの場合</exception>
-        /// <exception cref="ArgumentException">
-        ///     <para>numberVariableCountとintValues.Lengthが一致しない場合</para>
-        ///     <para>stringVariableCountとstrValuesが一致しない場合</para>
-        ///     <para>該当イベントコマンドが存在しない場合</para>
-        /// </exception>
+        /// <exception cref="ArgumentException">numberVariableCountとintValues.Lengthが一致しない場合</exception>
+        /// <exception cref="ArgumentException">stringVariableCountとstrValuesが一致しない場合</exception>
+        /// <exception cref="ArgumentException">該当イベントコマンドが存在しない場合</exception>
         public static IEventCommand CreateRaw(
             int numberVariableCount, IEnumerable<int> intValues,
             byte indent,
@@ -710,7 +708,7 @@ namespace WodiLib.Event
                     $"インデントの値が不正です。0以上である必要があります。（取得値：{indent}）");
 
             // 数値引数
-            var numArgList = split[3].Equals(string.Empty)
+            var numArgList = split[3].IsEmpty()
                 ? new List<int>()
                 : split[3].Split(numArgListSplitter).Select(s =>
                 {
@@ -725,7 +723,7 @@ namespace WodiLib.Event
                     ErrorMessage.Unsuitable(nameof(src), src));
 
             // 文字列引数
-            var strArgList = split[4].Equals(string.Empty)
+            var strArgList = split[4].IsEmpty()
                 ? new List<string>()
                 : Regex.Split(split[4], strArgsListSplitter).Select(s =>
                 {

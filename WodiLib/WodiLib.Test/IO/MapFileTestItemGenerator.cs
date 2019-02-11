@@ -11,7 +11,7 @@ using WodiLib.Sys;
 namespace WodiLib.Test
 {
     /// <summary>
-    /// MapFileReader/Writerテスト時に比較するためのアイテムを生成する。
+    /// MpsFileReader/Writerテスト時に比較するためのアイテムを生成する。
     /// </summary>
     public static class MapFileTestItemGenerator
     {
@@ -251,29 +251,29 @@ namespace WodiLib.Test
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
-                                    EventBootType = EventBootType.Parallel,
-                                    EventBootCondition1 = new EventBootCondition
+                                    MapEventBootType = MapEventBootType.Parallel,
+                                    MapEventBootCondition1 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
                                         LeftSide = 1100000,
                                         Operation = CriteriaOperator.Equal,
                                         RightSide = 22
                                     },
-                                    EventBootCondition2 = new EventBootCondition
+                                    MapEventBootCondition2 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
                                         LeftSide = 1100003,
                                         Operation = CriteriaOperator.Not,
                                         RightSide = 13002
                                     },
-                                    EventBootCondition3 = new EventBootCondition
+                                    MapEventBootCondition3 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
                                         LeftSide = 2200000,
                                         Operation = CriteriaOperator.Greater,
                                         RightSide = -35
                                     },
-                                    EventBootCondition4 = new EventBootCondition()
+                                    MapEventBootCondition4 = new MapEventBootCondition()
                                 },
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
@@ -669,29 +669,29 @@ namespace WodiLib.Test
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
-                                    EventBootType = EventBootType.HitEvent,
-                                    EventBootCondition1 = new EventBootCondition
+                                    MapEventBootType = MapEventBootType.HitMapEvent,
+                                    MapEventBootCondition1 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
                                         LeftSide = 1100001,
                                         RightSide = 10,
                                         Operation = CriteriaOperator.Above
                                     },
-                                    EventBootCondition2 = new EventBootCondition
+                                    MapEventBootCondition2 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
                                         LeftSide = 1100002,
                                         RightSide = 111,
                                         Operation = CriteriaOperator.Greater
                                     },
-                                    EventBootCondition3 = new EventBootCondition
+                                    MapEventBootCondition3 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
                                         LeftSide = 2000000,
                                         RightSide = 30,
                                         Operation = CriteriaOperator.Less
                                     },
-                                    EventBootCondition4 = new EventBootCondition
+                                    MapEventBootCondition4 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
                                         LeftSide = 2000001,
@@ -793,7 +793,7 @@ namespace WodiLib.Test
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
-                                    EventBootType = EventBootType.Parallel,
+                                    MapEventBootType = MapEventBootType.Parallel,
                                 },
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
@@ -878,7 +878,7 @@ namespace WodiLib.Test
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
-                                    EventBootType = EventBootType.PushOKKey,
+                                    MapEventBootType = MapEventBootType.PushOKKey,
                                 },
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
@@ -1036,22 +1036,22 @@ namespace WodiLib.Test
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
-                                    EventBootType = EventBootType.PushOKKey,
-                                    EventBootCondition1 = new EventBootCondition
+                                    MapEventBootType = MapEventBootType.PushOKKey,
+                                    MapEventBootCondition1 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
                                         LeftSide = 1000000, // ウディタ上で無編集のため、初期値のままのはず
                                         RightSide = 0,
                                         Operation = CriteriaOperator.Equal
                                     },
-                                    EventBootCondition2 = new EventBootCondition
+                                    MapEventBootCondition2 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
                                         LeftSide = 1100001,
                                         RightSide = 1,
                                         Operation = CriteriaOperator.Less
                                     },
-                                    EventBootCondition3 = new EventBootCondition
+                                    MapEventBootCondition3 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
                                         LeftSide = 1100002,
@@ -1124,7 +1124,7 @@ namespace WodiLib.Test
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
-                                    EventBootType = EventBootType.PushOKKey,
+                                    MapEventBootType = MapEventBootType.PushOKKey,
                                 },
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
@@ -1263,7 +1263,7 @@ namespace WodiLib.Test
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
-                                    EventBootType = EventBootType.PushOKKey,
+                                    MapEventBootType = MapEventBootType.PushOKKey,
                                 },
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
@@ -1334,7 +1334,7 @@ namespace WodiLib.Test
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
-                                    EventBootType = EventBootType.PushOKKey,
+                                    MapEventBootType = MapEventBootType.PushOKKey,
                                 },
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
@@ -1400,7 +1400,7 @@ namespace WodiLib.Test
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
-                                    EventBootType = EventBootType.PushOKKey,
+                                    MapEventBootType = MapEventBootType.PushOKKey,
                                 },
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
@@ -1462,7 +1462,7 @@ namespace WodiLib.Test
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
-                                    EventBootType = EventBootType.HitEvent,
+                                    MapEventBootType = MapEventBootType.HitMapEvent,
                                 },
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {

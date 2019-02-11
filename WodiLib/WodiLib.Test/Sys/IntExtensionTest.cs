@@ -42,7 +42,7 @@ namespace WodiLib.Test.Sys
                 Endian.Little, 3, 16
             },
         };
-        
+
         [TestCaseSource(nameof(ToInt32TestCaseSource))]
         public static void ToInt32Test(byte[] value, Endian endian, long offset, int result)
         {
@@ -74,7 +74,7 @@ namespace WodiLib.Test.Sys
                 Endian.Little, 5
             },
         };
-        
+
         [TestCaseSource(nameof(ToInt32ErrorTestCaseSource))]
         public static void ToInt32ErrorTest(byte[] value, Endian endian, long offset)
         {
