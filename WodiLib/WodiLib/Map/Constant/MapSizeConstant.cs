@@ -1,3 +1,11 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : MapSizeConstant.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 namespace WodiLib.Map
 {
     /// <summary>

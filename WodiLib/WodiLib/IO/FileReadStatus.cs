@@ -1,3 +1,11 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : FileReadStatus.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 using System;
 using System.IO;
 using WodiLib.Sys;
