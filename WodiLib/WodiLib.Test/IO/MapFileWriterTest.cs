@@ -30,14 +30,26 @@ namespace WodiLib.Test
         [TestCaseSource(nameof(WriteSyncTestCaseSource))]
         public static void WriteSyncTest(MapData outputData, string outputFileName)
         {
-            var writer = new MapFileWriter(outputData, outputFileName);
-            var result = writer.WriteSync();
+            var writer = new MpsFileWriter(outputData, outputFileName);
+
+            var isSuccess = false;
+            var errorMessage = "";
+
+            try
+            {
+                writer.WriteSync();
+                isSuccess = true;
+            }
+            catch (Exception e)
+            {
+                errorMessage = e.Message;
+            }
 
             // 出力成功すること
-            if (!result)
+            if (!isSuccess)
             {
                 throw new InvalidOperationException(
-                    $"Error message: {writer.ErrorMessage}");
+                    $"Error message: {errorMessage}");
             }
 
             Assert.True(true);

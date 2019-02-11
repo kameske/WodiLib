@@ -25,15 +25,33 @@ namespace WodiLib.Test
             const string inputFileName = "SampleMapA.mps";
             const string outputFileName = "OutputSampleMapA.mps";
 
-            var reader = new MapFileReader($@"{MapFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
-            var isSuccessRead = reader.ReadAsync().GetAwaiter().GetResult();
+            var reader = new MpsFileReader($@"{MapFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
+            var isSuccessRead = false;
+            try
+            {
+                reader.ReadAsync().GetAwaiter().GetResult();
+                isSuccessRead = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             Assert.IsTrue(isSuccessRead);
 
             var mapData = reader.MapData;
 
-            var writer = new MapFileWriter(mapData,
+            var writer = new MpsFileWriter(mapData,
                 $@"{MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
-            var isSuccessWrite = writer.WriteAsync().GetAwaiter().GetResult();
+            var isSuccessWrite = false;
+            try
+            {
+                writer.WriteAsync().GetAwaiter().GetResult();
+                isSuccessWrite = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             Assert.IsTrue(isSuccessWrite);
 
             Console.WriteLine($@"Written FileName : {MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
@@ -45,27 +63,36 @@ namespace WodiLib.Test
             const string inputFileName = "SampleMapB.mps";
             const string outputFileName = "OutputSampleMapB.mps";
 
-            var reader = new MapFileReader($@"{MapFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
-            reader.CreateObservable().Subscribe(isSuccessRead =>
-                {
-                    Assert.IsTrue(isSuccessRead);
+            var reader = new MpsFileReader($@"{MapFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
+            var isSuccessRead = false;
+            try
+            {
+                reader.ReadAsync().GetAwaiter().GetResult();
+                isSuccessRead = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            Assert.IsTrue(isSuccessRead);
 
-                    var mapData = reader.MapData;
+            var mapData = reader.MapData;
 
-                    var writer = new MapFileWriter(mapData,
-                        $@"{MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
-                    writer.CreateObservable().Subscribe(isSuccessWrite =>
-                        {
-                            Assert.IsTrue(isSuccessWrite);
+            var writer = new MpsFileWriter(mapData,
+                $@"{MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+            var isSuccessWrite = false;
+            try
+            {
+                writer.WriteAsync().GetAwaiter().GetResult();
+                isSuccessWrite = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            Assert.IsTrue(isSuccessWrite);
 
-                            Console.WriteLine(
-                                $@"Written FileName : {MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
-                        }, error => throw new Exception("", error),
-                        () => Console.WriteLine("Write Observable OnComplete."));
-                }, error => throw new Exception("", error),
-                () => Console.WriteLine("Read Observable OnComplete."));
-
-
+            Console.WriteLine($@"Written FileName : {MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
         }
 
         [Test]
@@ -74,15 +101,33 @@ namespace WodiLib.Test
             const string inputFileName = "Dungeon.mps";
             const string outputFileName = "OutputDungeon.mps";
 
-            var reader = new MapFileReader($@"{MapFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
-            var isSuccessRead = reader.ReadSync();
+            var reader = new MpsFileReader($@"{MapFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
+            var isSuccessRead = false;
+            try
+            {
+                reader.ReadSync();
+                isSuccessRead = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             Assert.IsTrue(isSuccessRead);
 
             var mapData = reader.MapData;
 
-            var writer = new MapFileWriter(mapData, $@"{MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
-            var isSuccessWrite = writer.WriteSync();
+            var writer = new MpsFileWriter(mapData, $@"{MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+            var isSuccessWrite = false;
 
+            try
+            {
+                writer.WriteSync();
+                isSuccessWrite = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             Assert.IsTrue(isSuccessWrite);
         }
 
@@ -92,15 +137,33 @@ namespace WodiLib.Test
             const string inputFileName = "Map100.mps";
             const string outputFileName = "OutputMap100.mps";
 
-            var reader = new MapFileReader($@"{MapFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
-            var isSuccessRead = reader.ReadSync();
+            var readFile = new MpsFile($@"{MapFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
+            var isSuccessRead = false;
+            try
+            {
+                readFile.ReadSync();
+                isSuccessRead = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             Assert.IsTrue(isSuccessRead);
 
-            var mapData = reader.MapData;
+            var mapData = readFile.MapData;
 
-            var writer = new MapFileWriter(mapData, $@"{MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
-            var isSuccessWrite = writer.WriteSync();
+            var writeFile = new MpsFile($@"{MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+            var isSuccessWrite = false;
 
+            try
+            {
+                writeFile.WriteSync(mapData);
+                isSuccessWrite = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
             Assert.IsTrue(isSuccessWrite);
         }
 

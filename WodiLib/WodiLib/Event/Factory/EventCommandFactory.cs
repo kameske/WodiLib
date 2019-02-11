@@ -708,7 +708,7 @@ namespace WodiLib.Event
                     $"インデントの値が不正です。0以上である必要があります。（取得値：{indent}）");
 
             // 数値引数
-            var numArgList = split[3].Equals(string.Empty)
+            var numArgList = split[3].IsEmpty()
                 ? new List<int>()
                 : split[3].Split(numArgListSplitter).Select(s =>
                 {
@@ -723,7 +723,7 @@ namespace WodiLib.Event
                     ErrorMessage.Unsuitable(nameof(src), src));
 
             // 文字列引数
-            var strArgList = split[4].Equals(string.Empty)
+            var strArgList = split[4].IsEmpty()
                 ? new List<string>()
                 : Regex.Split(split[4], strArgsListSplitter).Select(s =>
                 {

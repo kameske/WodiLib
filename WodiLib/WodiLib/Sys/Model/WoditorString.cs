@@ -105,7 +105,7 @@ namespace WodiLib.Sys
 
             // byte配列
             var unityNewLineString = String;
-            if (unityNewLineString.Equals(string.Empty) || unityNewLineString.Last() != 0x00)
+            if (unityNewLineString.IsEmpty() || unityNewLineString.Last() != 0x00)
             {
                 // 末尾 '0' が欠けているため補正
                 unityNewLineString += '\0';

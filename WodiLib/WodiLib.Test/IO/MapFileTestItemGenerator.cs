@@ -11,7 +11,7 @@ using WodiLib.Sys;
 namespace WodiLib.Test
 {
     /// <summary>
-    /// MapFileReader/Writerテスト時に比較するためのアイテムを生成する。
+    /// MpsFileReader/Writerテスト時に比較するためのアイテムを生成する。
     /// </summary>
     public static class MapFileTestItemGenerator
     {
