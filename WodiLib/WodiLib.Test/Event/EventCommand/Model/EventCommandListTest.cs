@@ -32,7 +32,7 @@ namespace WodiLib.Test.Event.EventCommand.Model
             {
                 errorOccured = true;
             }
-            
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
@@ -78,7 +78,7 @@ namespace WodiLib.Test.Event.EventCommand.Model
         public static void AddRangeTest(int length, int count, bool isError)
         {
             var instance = new EventCommandList(GenerateEventCommandList(length));
-            
+
             var errorOccured = false;
             try
             {
@@ -110,7 +110,7 @@ namespace WodiLib.Test.Event.EventCommand.Model
         public static void InsertTest(int length, int index, bool isAddNull, bool isError)
         {
             var instance = new EventCommandList(GenerateEventCommandList(length));
-            
+
             var errorOccured = false;
             try
             {
@@ -144,7 +144,7 @@ namespace WodiLib.Test.Event.EventCommand.Model
         public static void InsertRangeTest(int length, int index, int count, bool isError)
         {
             var instance = new EventCommandList(GenerateEventCommandList(length));
-            
+
             var errorOccured = false;
             try
             {
@@ -182,7 +182,7 @@ namespace WodiLib.Test.Event.EventCommand.Model
                 pages[i].Indent = (byte)i;
             }
             var instance = new EventCommandList(pages);
-            
+
             var errorOccured = false;
             var removeTileId = -1;
             var isSuccess = false;
@@ -242,7 +242,7 @@ namespace WodiLib.Test.Event.EventCommand.Model
         public static void RemoveAtTest(int length, int index, bool isError)
         {
             var instance = new EventCommandList(GenerateEventCommandList(length));
-            
+
             var errorOccured = false;
             try
             {
@@ -278,7 +278,7 @@ namespace WodiLib.Test.Event.EventCommand.Model
         public static void RemoveRangeTest(int length, int index, int count, bool isError)
         {
             var instance = new EventCommandList(GenerateEventCommandList(length));
-            
+
             var errorOccured = false;
             try
             {
@@ -313,7 +313,7 @@ namespace WodiLib.Test.Event.EventCommand.Model
                 pages[i].Indent = (byte)i;
             }
             var instance = new EventCommandList(pages);
-            
+
             var errorOccured = false;
             IEventCommand getResult = null;
             try
@@ -358,7 +358,7 @@ namespace WodiLib.Test.Event.EventCommand.Model
         {
             var instance = new EventCommandList(GenerateEventCommandList(length));
             IEnumerable<IEventCommand> getRangeResult = null;
-            
+
             var errorOccured = false;
             try
             {
@@ -395,7 +395,7 @@ namespace WodiLib.Test.Event.EventCommand.Model
                 pages[i].Indent = (byte)i;
             }
             var instance = new EventCommandList(pages);
-            
+
             var errorOccured = false;
             IEnumerable<IEventCommand> getResult = null;
             try
@@ -410,20 +410,36 @@ namespace WodiLib.Test.Event.EventCommand.Model
             // エラーが起こらないこと
             Assert.IsFalse(errorOccured);
 
-            if (!errorOccured)
+            // 取得した項目がセットした値と一致すること
+            var srcList = pages.ToList();
+            var dstList = getResult.ToList();
+
+            Assert.AreEqual(srcList.Count, dstList.Count);
+            for (var i = 0; i < srcList.Count; i++)
             {
-                // 取得した項目がセットした値と一致すること
-                var srcList = pages.ToList();
-                var dstList = getResult.ToList();
-                
-                Assert.AreEqual(srcList.Count, dstList.Count);
-                for (var i = 0; i < srcList.Count; i++)
-                {
-                    Assert.AreEqual(srcList[i].Indent, dstList[i].Indent);
-                }
+                Assert.AreEqual(srcList[i].Indent, dstList[i].Indent);
             }
         }
-        
+
+        private static readonly object[] ValidateTestCaseSource =
+        {
+            new object[] {new List<IEventCommand>{new Blank()}, true},
+            new object[] {new List<IEventCommand>{new CallCommonEventById()}, false},
+            new object[] {new List<IEventCommand>{new Message(), new Blank()}, true},
+            new object[] {new List<IEventCommand>{new Message(), new DebugText()}, false},
+        };
+
+        [TestCaseSource(nameof(ValidateTestCaseSource))]
+        public static void ValidateTest(IEnumerable<IEventCommand> commands, bool result)
+        {
+            var instance = new EventCommandList(commands);
+            var validFlag = instance.Validate();
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(validFlag, result);
+
+        }
+
         private static IEnumerable<IEventCommand> GenerateEventCommandList(int length)
         {
             var list = new List<IEventCommand>();

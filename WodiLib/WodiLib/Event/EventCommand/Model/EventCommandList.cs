@@ -34,6 +34,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>行数</summary>
         public int Count => commandList.Count;
 
+        /// <summary>コマンドリスト</summary>
         private readonly List<IEventCommand> commandList;
 
         /// <summary>
@@ -268,18 +269,46 @@ namespace WodiLib.Event.EventCommand
             return (LineMin <= length && length <= LineMax);
         }
 
+        /// <summary>
+        /// イベントコマンドリストとして適切かどうかを返す。
+        /// </summary>
+        /// <returns>適切ではないデータの場合、false</returns>
+        public bool Validate()
+        {
+            if (!CheckLastCommand(commandList)) return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// コマンド末尾の適正チェック
+        /// </summary>
+        /// <param name="commands">コマンドリスト</param>
+        /// <returns>コマンド末尾が「空白行（Blankクラス）」ではない場合、false</returns>
+        private static bool CheckLastCommand(IEnumerable<IEventCommand> commands)
+        {
+            var lastCommand = commands.LastOrDefault();
+            if (lastCommand == null) return false;
+            return lastCommand is Blank;
+        }
+
         /// <inheritdoc />
         public byte[] ToBinary()
         {
+            if (!CheckLastCommand(commandList))
+            {
+                throw new InvalidOperationException(
+                    "コマンド末尾は「空白行」である必要があります。");
+            }
             var result = new List<byte>();
 
             // イベント行数
             result.AddRange(Count.ToWoditorIntBytes());
 
             // イベントコマンド
-            foreach (var page in commandList)
+            foreach (var command in commandList)
             {
-                result.AddRange(page.ToBinary());
+                result.AddRange(command.ToBinary());
             }
 
             // イベントコマンド終端
