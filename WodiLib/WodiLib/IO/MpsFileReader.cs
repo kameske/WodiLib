@@ -238,6 +238,7 @@ namespace WodiLib.IO
         /// <param name="size">マップイベント数</param>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapData">読み込み経過状態</param>
+        /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
         private static void ReadMapEvent(int size, FileReadStatus status, MapData mapData)
         {
             var mapEvents = new List<MapEvent>();
@@ -321,7 +322,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapEventPages">格納先リスト</param>
-        /// <returns>読み込んだ情報 エラー時、null</returns>
+        /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
         private static void ReadMapEventOnePage(FileReadStatus status, ICollection<MapEventPage> mapEventPages)
         {
             var result = new MapEventPage();
@@ -467,13 +468,9 @@ namespace WodiLib.IO
             status.IncreaseIntOffset();
 
             // イベントコマンド
-            var eventCommandList = new List<IEventCommand>();
-            for (var i = 0; i < eventLength; i++)
-            {
-                ReadEventCommand(status, eventCommandList);
-            }
+            var eventCommandListReader = new EventCommandListReader(status, eventLength);
 
-            result.EventCommands = new EventCommandList(eventCommandList);
+            result.EventCommands = eventCommandListReader.Read();
 
             // イベントコマンド終端チェック
             foreach (var b in EventCommandList.EndEventCommand)
@@ -520,7 +517,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commandList">データ格納先</param>
-        /// <returns>読み込みに失敗した場合、null</returns>
+        /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
         private static void ReadCharaMoveCommand(FileReadStatus status, ICollection<ICharaMoveCommand> commandList)
         {
             // 動作指定コード
@@ -557,107 +554,10 @@ namespace WodiLib.IO
         }
 
         /// <summary>
-        /// イベントコマンド
-        /// </summary>
-        /// <param name="status">読み込み経過状態</param>
-        /// <param name="commandList">データ格納先</param>
-        /// <returns>読み込みに失敗した場合、false</returns>
-        private static void ReadEventCommand(FileReadStatus status, ICollection<IEventCommand> commandList)
-        {
-            // 数値変数の数
-            var numVarLength = status.ReadByte();
-            status.IncreaseByteOffset();
-
-            // 数値変数
-            var numVarList = new List<int>();
-            for (var i = 0; i < numVarLength; i++)
-            {
-                var numVar = status.ReadInt();
-                numVarList.Add(numVar);
-                status.IncreaseIntOffset();
-            }
-
-            // インデント
-            var indent = status.ReadByte();
-            status.IncreaseByteOffset();
-
-            // 文字データ数
-            var strVarLength = status.ReadByte();
-            status.IncreaseByteOffset();
-
-            // 文字列変数
-            var strVarList = new List<string>();
-            for (var i = 0; i < strVarLength; i++)
-            {
-                var woditorString = status.ReadString();
-                strVarList.Add(woditorString.String);
-                status.AddOffset(woditorString.ByteLength);
-            }
-
-            // 動作指定フラグ
-            var hasMoveCommand = status.ReadByte() != 0;
-            status.IncreaseByteOffset();
-
-            // 動作指定コマンド
-            ActionEntry actionEntry = null;
-            if (hasMoveCommand)
-            {
-                actionEntry = new ActionEntry();
-                ReadEventActionEntry(status, actionEntry);
-            }
-
-            // 結果
-            var eventCommand = EventCommandFactory.CreateRaw(
-                numVarLength, numVarList,
-                indent,
-                strVarLength, strVarList,
-                actionEntry);
-            commandList.Add(eventCommand);
-        }
-
-        /// <summary>
-        /// イベントコマンドの動作指定コマンド
-        /// </summary>
-        /// <param name="status">読み込み経過状態</param>
-        /// <param name="actionEntry">データ格納先</param>
-        /// <returns>読み込みに失敗した場合、false</returns>
-        private static void ReadEventActionEntry(FileReadStatus status, ActionEntry actionEntry)
-        {
-            // ヘッダチェック
-            foreach (var b in ActionEntry.HeaderBytes)
-            {
-                if (status.ReadByte() != b)
-                {
-                    throw new InvalidOperationException(
-                        $"イベントコマンド中の動作指定ヘッダの値が異なります。（offset: {status.Offset}）");
-                }
-
-                status.IncreaseByteOffset();
-            }
-
-            // 動作フラグ
-            actionEntry.SetOptionFlag(status.ReadByte());
-            status.IncreaseByteOffset();
-
-            // 動作コマンド数
-            var commandLength = status.ReadInt();
-            status.IncreaseIntOffset();
-
-            // 動作指定コマンド
-            var charaMoveCommandList = new List<ICharaMoveCommand>();
-            for (var i = 0; i < commandLength; i++)
-            {
-                ReadCharaMoveCommand(status, charaMoveCommandList);
-            }
-
-            actionEntry.CommandList = charaMoveCommandList;
-        }
-
-        /// <summary>
         /// フッタ
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
-        /// <returns>読み込み成否</returns>
+        /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
         private static void ReadFooter(FileReadStatus status)
         {
             foreach (var b in MapData.Footer)
