@@ -39,13 +39,16 @@ namespace WodiLib.IO
         {
             if (!File.Exists(filePath))
                 throw new FileNotFoundException($"指定されたファイルが見つかりませんでした。 file: {filePath}");
-            var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-            var bufLength = stream.Length;
-            if(bufLength > int.MaxValue) throw new InvalidOperationException(
-                "ファイルサイズが大きすぎるため、扱うことができません。");
-            BufferLength = (int)stream.Length;
-            DataBuffer = new byte[BufferLength];
-            stream.Read(DataBuffer, 0, BufferLength);
+
+            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                var bufLength = stream.Length;
+                if(bufLength > int.MaxValue) throw new InvalidOperationException(
+                    "ファイルサイズが大きすぎるため、扱うことができません。");
+                BufferLength = (int)stream.Length;
+                DataBuffer = new byte[BufferLength];
+                stream.Read(DataBuffer, 0, BufferLength);
+            }
 
             Offset = 0;
         }
