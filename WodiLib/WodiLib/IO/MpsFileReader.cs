@@ -246,7 +246,7 @@ namespace WodiLib.IO
             while (true)
             {
                 // ヘッダチェック
-                var validatedHeader = status.ReadByte() != MapEvent.Header[0];
+                var validatedHeader = status.ReadByte() == MapEvent.Header[0];
                 if (!validatedHeader) break;
 
                 // ヘッダ分オフセット加算
