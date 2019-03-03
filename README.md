@@ -1,5 +1,5 @@
 WodiLib
-Ver 0.1.2
+Ver 0.1.3
 ====
 
 概要
@@ -22,7 +22,7 @@ Ver 0.1.2
 WodiLib.dllを使用したいプロジェクトの参照に追加してください。
 使用するにあたり、明示的に初期化を行う必要はありません。
 
-各API詳細は Help ディレクトリ配下の WodiLibAPI.chm または index.html を参照してください。
+各API詳細は <https://kameske.github.io/WodiLib/> 、または gh-pages ブランチにある Help ディレクトリ配下の WodiLibAPI.chm または index.html を参照してください。
 
 ライセンス
 ----------
@@ -39,6 +39,10 @@ MIT License Copyright (c) 2019 kameske
 
 更新履歴
 ----------
+
+- 2019/03/03 Ver 0.1.3
+  - マップファイル読み込み時の不具合修正
+  - ファイル読み込み処理を改善
 
 - 2019/02/22 Ver 0.1.2
   - クラス設計見直し
