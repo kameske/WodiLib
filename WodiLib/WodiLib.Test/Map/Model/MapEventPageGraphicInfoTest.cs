@@ -2,12 +2,23 @@ using System;
 using NUnit.Framework;
 using WodiLib.Event;
 using WodiLib.Map;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
 {
     [TestFixture]
     public class MapEventPageGraphicInfoTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         [TestCase(false, -1, true)]
         [TestCase(true, -1, true)]
         [TestCase(false, 0, true)]
@@ -25,8 +36,9 @@ namespace WodiLib.Test.Map
                 instance.IsGraphicTileChip = isGraphicTileChip;
                 instance.GraphicTileId = tileId;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -49,8 +61,9 @@ namespace WodiLib.Test.Map
                 instance.IsGraphicTileChip = isGraphicTileChip;
                 instance.CharaChipFileName = fileName;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -68,8 +81,9 @@ namespace WodiLib.Test.Map
             {
                 instance.CharaChipDrawType = isNull ? null : PictureDrawType.Add;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -94,8 +108,9 @@ namespace WodiLib.Test.Map
             {
                 instance.SetGraphicTileId(tileId);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -124,20 +139,20 @@ namespace WodiLib.Test.Map
             {
                 instance.SetGraphicFileName(fileName);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-            
+
             if (!errorOccured)
             {
                 // タイルチップ使用フラグがfalseであること
                 Assert.IsFalse(instance.IsGraphicTileChip);
             }
-
         }
     }
 }

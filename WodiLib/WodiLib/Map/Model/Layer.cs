@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// <summary>
     /// Layer実装クラス
     /// </summary>
-    public class Layer : IWodiLibObject
+    public class Layer
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
@@ -138,14 +138,17 @@ namespace WodiLib.Map
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <summary>
+        /// バイナリ変換する。
+        /// </summary>
+        /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
         {
             var result = new List<byte>();
 
             foreach (var chipColumn in Chips)
             foreach (var chip in chipColumn)
-                result.AddRange(((int)chip).ToBytes(Endian.Woditor));
+                result.AddRange(((int) chip).ToBytes(Endian.Woditor));
 
             return result.ToArray();
         }

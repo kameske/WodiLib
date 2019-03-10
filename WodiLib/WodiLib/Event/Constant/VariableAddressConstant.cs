@@ -32,10 +32,10 @@ namespace WodiLib.Event
         public static readonly int CommonEventVariableAddressMax = 15999999;
 
         /// <summary>このコモンイベントのセルフ変数最小値</summary>
-        public static readonly int ThisCommonEventVariableAddressMin = 16000000;
+        public static readonly int ThisCommonEventVariableAddressMin = 1600000;
 
         /// <summary>このコモンイベントのセルフ変数最大値</summary>
-        public static readonly int ThisCommonEventVariableAddressMax = 16000099;
+        public static readonly int ThisCommonEventVariableAddressMax = 1600099;
 
         /// <summary>通常変数最小値</summary>
         public static readonly int NormalNumberVariableAddressMin = 2000000;

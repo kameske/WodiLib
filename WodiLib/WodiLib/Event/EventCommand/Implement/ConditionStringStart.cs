@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -288,6 +289,42 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case4)));
                 conditionList.Set(3, value);
+            }
+        }
+
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     VersionCheck
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、
+        /// イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
+        /// </summary>
+        public override void OutputVersionWarningLogIfNeed()
+        {
+            if (VersionConfig.IsUnderVersion(WoditorVersion.Ver2_00))
+            {
+                OutputVersionWarningLogIfNeed_UnderVer2_00();
+            }
+        }
+
+        /// <summary>
+        /// 設定バージョン = 2.00未満 の場合の警告
+        /// </summary>
+        private void OutputVersionWarningLogIfNeed_UnderVer2_00()
+        {
+            for (var i=0; i<conditionList.ConditionValue; i++ )
+            {
+                var con = conditionList.Get(i);
+                if (con.Condition == StringConditionalOperator.StartWith)
+                {
+                    Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(ConditionStringStart)}.{nameof(conditionList)}[{i}]",
+                        $"{StringConditionalOperator.StartWith}",
+                        VersionConfig.GetConfigWoditorVersion(),
+                        WoditorVersion.Ver2_00));
+                }
             }
         }
     }

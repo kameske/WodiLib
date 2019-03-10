@@ -15,7 +15,7 @@ namespace WodiLib.Map
     /// <summary>
     ///     マップイベント
     /// </summary>
-    public class MapEvent : IWodiLibObject
+    public class MapEvent
     {
         private int mapEventId;
 
@@ -68,7 +68,10 @@ namespace WodiLib.Map
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <summary>
+        /// バイナリ変換する。
+        /// </summary>
+        /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
         {
             var result = new List<byte>();

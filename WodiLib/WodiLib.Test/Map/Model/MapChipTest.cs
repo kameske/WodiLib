@@ -1,12 +1,23 @@
+using System;
 using NUnit.Framework;
 using WodiLib.Map;
-using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
 {
     [TestFixture]
     public class MapChipTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         [TestCase(-1, true)]
         [TestCase(0, false)]
         [TestCase(99999, false)]
@@ -19,20 +30,21 @@ namespace WodiLib.Test.Map
             MapChip instance = MapChip.Default;
             try
             {
-                instance =new MapChip(id);
+                instance = new MapChip(id);
             }
-            catch (PropertyOutOfRangeException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if(errorOccured) return;
+            if (errorOccured) return;
 
             // インスタンスの値と設定値が一致すること
-            Assert.AreEqual((int)instance, id);
+            Assert.AreEqual((int) instance, id);
         }
 
         [TestCase(-1, true)]
@@ -49,18 +61,19 @@ namespace WodiLib.Test.Map
             {
                 instance = (MapChip) id;
             }
-            catch (PropertyOutOfRangeException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if(errorOccured) return;
+            if (errorOccured) return;
 
             // インスタンスの値と設定値が一致すること
-            Assert.AreEqual((int)instance, id);
+            Assert.AreEqual((int) instance, id);
         }
 
         [TestCase(0, false)]
@@ -84,6 +97,7 @@ namespace WodiLib.Test.Map
             new object[] {103401, false, AutoTilePartType.ConnectionOutSide},
             new object[] {104012, false, AutoTilePartType.SurroundingFilled},
         };
+
         [TestCaseSource(nameof(LeftUpAutoTileGetTestCaseSource))]
         public static void LeftUpAutoTileGetTest(int id, bool isError, AutoTilePartType type)
         {
@@ -95,8 +109,9 @@ namespace WodiLib.Test.Map
             {
                 result = instance.LeftUpAutoTile;
             }
-            catch (PropertyAccessException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -118,6 +133,7 @@ namespace WodiLib.Test.Map
             new object[] {102345, false, AutoTilePartType.ConnectionOutSide},
             new object[] {103401, false, AutoTilePartType.SurroundingFilled},
         };
+
         [TestCaseSource(nameof(RightUpAutoTileGetTestCaseSource))]
         public static void RightUpAutoTileGetTest(int id, bool isError, AutoTilePartType type)
         {
@@ -129,8 +145,9 @@ namespace WodiLib.Test.Map
             {
                 result = instance.RightUpAutoTile;
             }
-            catch (PropertyAccessException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -152,6 +169,7 @@ namespace WodiLib.Test.Map
             new object[] {101234, false, AutoTilePartType.ConnectionOutSide},
             new object[] {102340, false, AutoTilePartType.SurroundingFilled},
         };
+
         [TestCaseSource(nameof(LeftDownAutoTileGetTestCaseSource))]
         public static void LeftDownAutoTileGetTest(int id, bool isError, AutoTilePartType type)
         {
@@ -163,8 +181,9 @@ namespace WodiLib.Test.Map
             {
                 result = instance.LeftDownAutoTile;
             }
-            catch (PropertyAccessException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -186,6 +205,7 @@ namespace WodiLib.Test.Map
             new object[] {100123, false, AutoTilePartType.ConnectionOutSide},
             new object[] {101234, false, AutoTilePartType.SurroundingFilled},
         };
+
         [TestCaseSource(nameof(RightDownAutoTileGetTestCaseSource))]
         public static void RightDownAutoTileGetTest(int id, bool isError, AutoTilePartType type)
         {
@@ -197,8 +217,9 @@ namespace WodiLib.Test.Map
             {
                 result = instance.RightDownAutoTile;
             }
-            catch (PropertyAccessException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 

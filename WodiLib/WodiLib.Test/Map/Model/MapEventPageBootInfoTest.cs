@@ -1,18 +1,29 @@
 using System;
 using NUnit.Framework;
 using WodiLib.Map;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
 {
     [TestFixture]
     public class MapEventPageBootInfoTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
 
         private static readonly object[] EventBootTypeTestCaseSource =
         {
             new object[] {MapEventBootType.Auto, false},
             new object[] {null, true}
         };
+
         [TestCaseSource(nameof(EventBootTypeTestCaseSource))]
         public static void EventBootTypeTest(MapEventBootType bootType, bool isError)
         {
@@ -22,8 +33,9 @@ namespace WodiLib.Test.Map
             {
                 instance.MapEventBootType = bootType;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -43,8 +55,9 @@ namespace WodiLib.Test.Map
             {
                 instance.SetHasEventBootCondition(index, true);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -62,8 +75,9 @@ namespace WodiLib.Test.Map
             {
                 instance.MapEventBootCondition1 = isNull ? null : new MapEventBootCondition();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -81,8 +95,9 @@ namespace WodiLib.Test.Map
             {
                 instance.MapEventBootCondition2 = isNull ? null : new MapEventBootCondition();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -100,8 +115,9 @@ namespace WodiLib.Test.Map
             {
                 instance.MapEventBootCondition3 = isNull ? null : new MapEventBootCondition();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -119,8 +135,9 @@ namespace WodiLib.Test.Map
             {
                 instance.MapEventBootCondition4 = isNull ? null : new MapEventBootCondition();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -142,8 +159,9 @@ namespace WodiLib.Test.Map
             {
                 instance.SetEventBootCondition(index, isNull ? null : new MapEventBootCondition());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 

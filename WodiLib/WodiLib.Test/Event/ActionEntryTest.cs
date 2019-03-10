@@ -4,25 +4,36 @@ using System.Linq;
 using WodiLib.Event;
 using NUnit.Framework;
 using WodiLib.Event.CharaMoveCommand;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event
 {
     [TestFixture]
     public class ActionEntryTest
     {
-        private static readonly object[] testCaseSource =
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
         {
-            new object[] { MakeCommands(1), false, false, false},
-            new object[] { MakeCommands(2), false, false, true},
-            new object[] { MakeCommands(3), false, true, false},
-            new object[] { MakeCommands(4), true, false, false},
-            new object[] { MakeCommands(5), false, true, true},
-            new object[] { MakeCommands(0), true, true, false},
-            new object[] { MakeCommands(4), true, false, true},
-            new object[] { MakeCommands(1), true, true, true},
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
+        private static readonly object[] TestCaseSource =
+        {
+            new object[] {MakeCommands(1), false, false, false},
+            new object[] {MakeCommands(2), false, false, true},
+            new object[] {MakeCommands(3), false, true, false},
+            new object[] {MakeCommands(4), true, false, false},
+            new object[] {MakeCommands(5), false, true, true},
+            new object[] {MakeCommands(0), true, true, false},
+            new object[] {MakeCommands(4), true, false, true},
+            new object[] {MakeCommands(1), true, true, true},
         };
 
-        [TestCaseSource(nameof(testCaseSource))]
+        [TestCaseSource(nameof(TestCaseSource))]
         public static void IsWaitForCompleteTest(
             IEnumerable<ICharaMoveCommand> commands,
             bool isWaitForComplete,
@@ -37,14 +48,14 @@ namespace WodiLib.Test.Event
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                logger.Exception(ex);
                 result = false;
             }
 
             Assert.IsTrue(result);
         }
 
-        [TestCaseSource(nameof(testCaseSource))]
+        [TestCaseSource(nameof(TestCaseSource))]
         public static void IsRepeatActionTest(
             IEnumerable<ICharaMoveCommand> commands,
             bool isWaitForComplete,
@@ -60,14 +71,14 @@ namespace WodiLib.Test.Event
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                logger.Exception(ex);
                 result = false;
             }
 
             Assert.IsTrue(result);
         }
 
-        [TestCaseSource(nameof(testCaseSource))]
+        [TestCaseSource(nameof(TestCaseSource))]
         public static void IsSkipIfCannotMoveTest(
             IEnumerable<ICharaMoveCommand> commands,
             bool isWaitForComplete,
@@ -83,14 +94,14 @@ namespace WodiLib.Test.Event
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                logger.Exception(ex);
                 result = false;
             }
 
             Assert.IsTrue(result);
         }
 
-        [TestCaseSource(nameof(testCaseSource))]
+        [TestCaseSource(nameof(TestCaseSource))]
         public static void CommandsTest(
             IEnumerable<ICharaMoveCommand> commands,
             bool isWaitForComplete,
@@ -106,14 +117,14 @@ namespace WodiLib.Test.Event
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                logger.Exception(ex);
                 result = false;
             }
 
             Assert.IsTrue(result);
         }
 
-        [TestCaseSource(nameof(testCaseSource))]
+        [TestCaseSource(nameof(TestCaseSource))]
         public static void MakeOptionByteTest(
             IEnumerable<ICharaMoveCommand> commands,
             bool isWaitForComplete,
@@ -126,15 +137,15 @@ namespace WodiLib.Test.Event
                 var instance = GetInstance(commands, isWaitForComplete, isRepeatAction, isSkipIfCannotMove);
 
                 byte flagByte = 0x00;
-                if(isWaitForComplete) flagByte += ActionEntry.FlgWaitForCompleteOn;
-                if(isRepeatAction) flagByte += ActionEntry.FlgRepeatAction;
-                if(isSkipIfCannotMove) flagByte += ActionEntry.FlgSkipIfCannotMove;
+                if (isWaitForComplete) flagByte += ActionEntry.FlgWaitForCompleteOn;
+                if (isRepeatAction) flagByte += ActionEntry.FlgRepeatAction;
+                if (isSkipIfCannotMove) flagByte += ActionEntry.FlgSkipIfCannotMove;
 
                 result = instance.MakeOptionByte() == flagByte;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                logger.Exception(ex);
                 result = false;
             }
 
@@ -153,6 +164,7 @@ namespace WodiLib.Test.Event
             {
                 result.Add(new MoveLeft());
             }
+
             return result;
         }
 

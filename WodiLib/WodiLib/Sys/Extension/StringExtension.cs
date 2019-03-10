@@ -20,7 +20,7 @@ namespace WodiLib.Sys
         /// <returns>空文字の場合、true</returns>
         public static bool IsEmpty(this string src)
         {
-            return src.IsEmpty();
+            return src.Equals(string.Empty);
         }
     }
 }

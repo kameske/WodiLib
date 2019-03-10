@@ -2,12 +2,23 @@ using System;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand
 {
     [TestFixture]
     public class ConditionStringDescTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         [TestCase]
         public static void NullGuardTest()
         {
@@ -19,8 +30,9 @@ namespace WodiLib.Test.Event.EventCommand
                     instance.Condition = null;
                     isError = false;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    logger.Exception(ex);
                     isError = true;
                 }
 
@@ -32,8 +44,9 @@ namespace WodiLib.Test.Event.EventCommand
                     instance.RightSide = null;
                     isError = false;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    logger.Exception(ex);
                     isError = true;
                 }
 
@@ -45,8 +58,9 @@ namespace WodiLib.Test.Event.EventCommand
                     instance.RightSide = null;
                     isError = false;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    logger.Exception(ex);
                     isError = true;
                 }
 
@@ -59,8 +73,9 @@ namespace WodiLib.Test.Event.EventCommand
                     instance.RightSide = none;
                     isError = false;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    logger.Exception(ex);
                     isError = true;
                 }
 

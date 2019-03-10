@@ -1,12 +1,23 @@
 using System;
 using NUnit.Framework;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Sys
 {
     [TestFixture]
     public class IntExtensionTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         private static readonly object[] ToInt32TestCaseSource =
         {
             new object[]
@@ -83,10 +94,12 @@ namespace WodiLib.Test.Sys
             {
                 var _ = value.ToInt32(endian, offset);
             }
-            catch (ArgumentException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
+
             Assert.IsTrue(errorOccured);
         }
 
@@ -119,11 +132,12 @@ namespace WodiLib.Test.Sys
                 new byte[] {0x00, 0x00, 0x00, 0x04}
             },
         };
+
         [TestCaseSource(nameof(ToBytesTestCaseSource))]
         public static void ToBytesTest(int value, Endian endian, byte[] result)
         {
             var bytes = value.ToBytes(endian);
-            for(var i=0; i<4; i++)
+            for (var i = 0; i < 4; i++)
             {
                 Assert.AreEqual(bytes[i], result[i]);
             }

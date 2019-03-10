@@ -1,6 +1,8 @@
 using System;
 using WodiLib.Event;
 using NUnit.Framework;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event
 {
@@ -9,6 +11,15 @@ namespace WodiLib.Test.Event
     [TestFixture]
     public class CharaMoveCommandFactoryTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         private static readonly object[] TestCaseSource =
         {
             new object[] {CharaMoveCommandCode.MoveDown},
@@ -80,14 +91,14 @@ namespace WodiLib.Test.Event
                 instance = Factory.CreateRaw(code);
                 result = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 result = false;
             }
 
             Assert.IsTrue(result);
             Assert.AreEqual(instance.CommandCode, code);
-
         }
     }
 }

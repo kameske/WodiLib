@@ -5,7 +5,7 @@ using WodiLib.Event.EventCommand;
 namespace WodiLib.Test.Event.EventCommand
 {
     using Factory = EventCommandFactory;
-    
+
     /// <summary>
     /// イベントコマンド・DB操作に関するテスト
     /// </summary>
@@ -34,11 +34,11 @@ namespace WodiLib.Test.Event.EventCommand
                 var typeId = instance.DBTypeId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -47,8 +47,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBTypeId = intSrc;
                 typeId = instance.DBTypeId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -72,11 +72,11 @@ namespace WodiLib.Test.Event.EventCommand
                 var typeId = instance.DBDataId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -85,8 +85,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBDataId = intSrc;
                 typeId = instance.DBDataId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -110,11 +110,11 @@ namespace WodiLib.Test.Event.EventCommand
                 var typeId = instance.DBItemId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -123,8 +123,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBItemId = intSrc;
                 typeId = instance.DBItemId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -132,7 +132,7 @@ namespace WodiLib.Test.Event.EventCommand
                 Assert.AreEqual(instance.IsItemIdUseStr, isUseStr);
             }
         }
-        
+
         /// <summary>
         /// 文字列入力に関するテスト
         /// </summary>
@@ -152,16 +152,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementInputString();
                 instance.DBTypeId = (intSrc, stringSrc);
                 instance.IsTypeIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBTypeId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -170,15 +170,15 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBTypeId = intSrc;
                 typeId = instance.DBTypeId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
                 // 文字列使用フラグが正しいこと
                 Assert.AreEqual(instance.IsTypeIdUseStr, isUseStr);
             }
-            
+
             /// <summary>
             /// データIDテスト
             /// </summary>
@@ -192,16 +192,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementInputString();
                 instance.DBDataId = (intSrc, stringSrc);
                 instance.IsDataIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBDataId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -210,8 +210,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBDataId = intSrc;
                 typeId = instance.DBDataId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -232,16 +232,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementInputString();
                 instance.DBItemId = (intSrc, stringSrc);
                 instance.IsItemIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBItemId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -250,8 +250,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBItemId = intSrc;
                 typeId = instance.DBItemId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -279,16 +279,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementOutput();
                 instance.DBTypeId = (intSrc, stringSrc);
                 instance.IsTypeIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBTypeId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -297,8 +297,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBTypeId = intSrc;
                 typeId = instance.DBTypeId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -319,16 +319,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementOutput();
                 instance.DBDataId = (intSrc, stringSrc);
                 instance.IsDataIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBDataId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -337,8 +337,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBDataId = intSrc;
                 typeId = instance.DBDataId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -359,16 +359,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementOutput();
                 instance.DBItemId = (intSrc, stringSrc);
                 instance.IsItemIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBItemId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -377,17 +377,16 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBItemId = intSrc;
                 typeId = instance.DBItemId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
                 // 文字列使用フラグが正しいこと
                 Assert.AreEqual(instance.IsItemIdUseStr, isUseStr);
             }
-
         }
-        
+
         /// <summary>
         /// 全データ初期化に関するテスト
         /// </summary>
@@ -407,16 +406,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementClearData();
                 instance.DBTypeId = (intSrc, stringSrc);
                 instance.IsTypeIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBTypeId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -425,8 +424,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBTypeId = intSrc;
                 typeId = instance.DBTypeId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -454,16 +453,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementClearField();
                 instance.DBTypeId = (intSrc, stringSrc);
                 instance.IsTypeIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBTypeId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -472,15 +471,15 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBTypeId = intSrc;
                 typeId = instance.DBTypeId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
                 // 文字列使用フラグが正しいこと
                 Assert.AreEqual(instance.IsTypeIdUseStr, isUseStr);
             }
-            
+
             /// <summary>
             /// データIDテスト
             /// </summary>
@@ -494,16 +493,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementClearField();
                 instance.DBDataId = (intSrc, stringSrc);
                 instance.IsDataIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBDataId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -512,8 +511,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBDataId = intSrc;
                 typeId = instance.DBDataId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -521,7 +520,7 @@ namespace WodiLib.Test.Event.EventCommand
                 Assert.AreEqual(instance.IsDataIdUseStr, isUseStr);
             }
         }
-        
+
         /// <summary>
         /// データ番号取得に関するテスト
         /// </summary>
@@ -541,16 +540,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementGetDataId();
                 instance.DBTypeId = (intSrc, stringSrc);
                 instance.IsTypeIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBTypeId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -559,8 +558,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBTypeId = intSrc;
                 typeId = instance.DBTypeId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -568,7 +567,7 @@ namespace WodiLib.Test.Event.EventCommand
                 Assert.AreEqual(instance.IsTypeIdUseStr, isUseStr);
             }
         }
-        
+
         /// <summary>
         /// データ数取得に関するテスト
         /// </summary>
@@ -588,16 +587,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementGetDataLength();
                 instance.DBTypeId = (intSrc, stringSrc);
                 instance.IsTypeIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBTypeId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -606,8 +605,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBTypeId = intSrc;
                 typeId = instance.DBTypeId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -615,7 +614,7 @@ namespace WodiLib.Test.Event.EventCommand
                 Assert.AreEqual(instance.IsTypeIdUseStr, isUseStr);
             }
         }
-        
+
         /// <summary>
         /// データ名取得に関するテスト
         /// </summary>
@@ -635,16 +634,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementInputNumber();
                 instance.DBTypeId = (intSrc, stringSrc);
                 instance.IsTypeIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBTypeId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -653,8 +652,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBTypeId = intSrc;
                 typeId = instance.DBTypeId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -682,16 +681,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementInputNumber();
                 instance.DBTypeId = (intSrc, stringSrc);
                 instance.IsTypeIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBTypeId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -700,8 +699,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBTypeId = intSrc;
                 typeId = instance.DBTypeId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -709,7 +708,7 @@ namespace WodiLib.Test.Event.EventCommand
                 Assert.AreEqual(instance.IsTypeIdUseStr, isUseStr);
             }
         }
-                
+
         /// <summary>
         /// 項目数取得に関するテスト
         /// </summary>
@@ -729,16 +728,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementInputNumber();
                 instance.DBTypeId = (intSrc, stringSrc);
                 instance.IsTypeIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBTypeId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -747,8 +746,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBTypeId = intSrc;
                 typeId = instance.DBTypeId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -756,7 +755,7 @@ namespace WodiLib.Test.Event.EventCommand
                 Assert.AreEqual(instance.IsTypeIdUseStr, isUseStr);
             }
         }
-        
+
         /// <summary>
         /// 項目名取得に関するテスト
         /// </summary>
@@ -776,16 +775,16 @@ namespace WodiLib.Test.Event.EventCommand
                 var instance = new DBManagementInputNumber();
                 instance.DBTypeId = (intSrc, stringSrc);
                 instance.IsTypeIdUseStr = isUseStr;
-                
+
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBTypeId;
                 Assert.AreNotEqual(typeId.HasInt, isUseStr);
                 Assert.AreEqual(typeId.HasStr, isUseStr);
-                
+
                 // 取得した値が同じであること
                 var hasStr = typeId.HasStr;
-                var isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                var isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -794,8 +793,8 @@ namespace WodiLib.Test.Event.EventCommand
                 else instance.DBTypeId = intSrc;
                 typeId = instance.DBTypeId;
                 hasStr = typeId.HasStr;
-                isSameValue = hasStr 
-                    ? typeId.ToStr().Equals(stringSrc) 
+                isSameValue = hasStr
+                    ? typeId.ToStr().Equals(stringSrc)
                     : typeId.ToInt().Equals(intSrc);
                 Assert.IsTrue(isSameValue);
 
@@ -803,7 +802,7 @@ namespace WodiLib.Test.Event.EventCommand
                 Assert.AreEqual(instance.IsTypeIdUseStr, isUseStr);
             }
         }
-        
+
         /// <summary>
         /// タイプ番号取得に関するテスト
         /// </summary>

@@ -139,4 +139,16 @@
   <data name="MapFile_SampleMapB" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\SampleMapB.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="CommonEvent_00" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\CommonEvent_00.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="000_コモンイベント000" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\000_コモンイベント000.common;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Common003to005_コモンイベント003" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\Common003to005_コモンイベント003.common;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Common005to006_コモンイベント005" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\Common005to006_コモンイベント005.common;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

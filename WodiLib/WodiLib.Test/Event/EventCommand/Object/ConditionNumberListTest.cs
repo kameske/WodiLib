@@ -1,12 +1,23 @@
 using System;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand
 {
     [TestFixture]
     public class ConditionNumberListTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         private static readonly object[] SetConditionValueOutOfRangeTestCaseSource =
         {
             new object[] {-1, true},
@@ -26,8 +37,9 @@ namespace WodiLib.Test.Event.EventCommand
                 instance.ConditionValue = value;
                 isError = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 isError = true;
             }
 
@@ -60,8 +72,9 @@ namespace WodiLib.Test.Event.EventCommand
                 instance.Set(setIndex, new ConditionNumberDesc());
                 isError = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 isError = true;
             }
 
@@ -77,10 +90,12 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 instance.Set(0, null);
             }
-            catch (ArgumentNullException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 isError = true;
             }
+
             Assert.IsTrue(isError);
         }
 
@@ -95,8 +110,9 @@ namespace WodiLib.Test.Event.EventCommand
                 var _ = instance.Get(getIndex);
                 isError = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 isError = true;
             }
 
@@ -112,6 +128,7 @@ namespace WodiLib.Test.Event.EventCommand
             new object[] {3, 2, 2000000, false},
             new object[] {3, 3, 2000000, true},
         };
+
         [TestCaseSource(nameof(SetLeftSideTestCaseSource))]
         public static void SetLeftSideTest(int length, int index, int setValue, bool isError)
         {
@@ -125,15 +142,16 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 instance.SetLeftSide(index, setValue);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
-        
+
         private static readonly object[] SetRightSideTestCaseSource =
         {
             new object[] {1, 0, 2000000, false},
@@ -143,6 +161,7 @@ namespace WodiLib.Test.Event.EventCommand
             new object[] {3, 2, 2000000, false},
             new object[] {3, 3, 2000000, true},
         };
+
         [TestCaseSource(nameof(SetRightSideTestCaseSource))]
         public static void SetRightSideTest(int length, int index, int setValue, bool isError)
         {
@@ -156,8 +175,9 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 instance.SetRightSide(index, setValue);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -174,6 +194,7 @@ namespace WodiLib.Test.Event.EventCommand
             new object[] {3, 2, NumberConditionalOperator.Not, false},
             new object[] {3, 3, NumberConditionalOperator.Not, true},
         };
+
         [TestCaseSource(nameof(SetConditionTestCaseSource))]
         public static void SetConditionTest(int length, int index, NumberConditionalOperator setValue, bool isError)
         {
@@ -187,8 +208,9 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 instance.SetCondition(index, setValue);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -205,6 +227,7 @@ namespace WodiLib.Test.Event.EventCommand
             new object[] {3, 2, true, false},
             new object[] {3, 3, true, true},
         };
+
         [TestCaseSource(nameof(SetIsNotReferXTestCaseSource))]
         public static void SetIsNotReferXTest(int length, int index, bool setValue, bool isError)
         {
@@ -218,14 +241,14 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 instance.SetIsNotReferX(index, setValue);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
-
     }
 }

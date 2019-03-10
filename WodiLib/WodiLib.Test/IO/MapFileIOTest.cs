@@ -1,14 +1,25 @@
 using System;
 using NUnit.Framework;
 using WodiLib.IO;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
-namespace WodiLib.Test
+namespace WodiLib.Test.IO
 {
     [TestFixture]
     public class MapFileIOTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         [OneTimeSetUp]
-        public static void SetUp()
+        public static void OneTimeSetUp()
         {
             // テスト用マップファイル出力
             MapFileTestItemGenerator.OutputMapFile();
@@ -32,10 +43,11 @@ namespace WodiLib.Test
                 reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                logger.Exception(ex);
             }
+
             Assert.IsTrue(isSuccessRead);
 
             var mapData = reader.MapData;
@@ -48,10 +60,11 @@ namespace WodiLib.Test
                 writer.WriteAsync().GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                logger.Exception(ex);
             }
+
             Assert.IsTrue(isSuccessWrite);
 
             Console.WriteLine($@"Written FileName : {MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
@@ -70,10 +83,11 @@ namespace WodiLib.Test
                 reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                logger.Exception(ex);
             }
+
             Assert.IsTrue(isSuccessRead);
 
             var mapData = reader.MapData;
@@ -86,10 +100,11 @@ namespace WodiLib.Test
                 writer.WriteAsync().GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                logger.Exception(ex);
             }
+
             Assert.IsTrue(isSuccessWrite);
 
             Console.WriteLine($@"Written FileName : {MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
@@ -108,10 +123,11 @@ namespace WodiLib.Test
                 reader.ReadSync();
                 isSuccessRead = true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                logger.Exception(ex);
             }
+
             Assert.IsTrue(isSuccessRead);
 
             var mapData = reader.MapData;
@@ -124,10 +140,11 @@ namespace WodiLib.Test
                 writer.WriteSync();
                 isSuccessWrite = true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                logger.Exception(ex);
             }
+
             Assert.IsTrue(isSuccessWrite);
         }
 
@@ -144,10 +161,11 @@ namespace WodiLib.Test
                 readFile.ReadSync();
                 isSuccessRead = true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                logger.Exception(ex);
             }
+
             Assert.IsTrue(isSuccessRead);
 
             var mapData = readFile.MapData;
@@ -160,10 +178,11 @@ namespace WodiLib.Test
                 writeFile.WriteSync(mapData);
                 isSuccessWrite = true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                logger.Exception(ex);
             }
+
             Assert.IsTrue(isSuccessWrite);
         }
 
@@ -173,6 +192,5 @@ namespace WodiLib.Test
             // テスト用マップファイル削除
             MapFileTestItemGenerator.DeleteMapFile();
         }
-
     }
 }

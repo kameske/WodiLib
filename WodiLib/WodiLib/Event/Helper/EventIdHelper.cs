@@ -6,11 +6,15 @@
 // see LICENSE file
 // ========================================
 
+using System;
+
 namespace WodiLib.Event
 {
     /// <summary>
     /// イベントIDに関するヘルパークラス
+    /// （将来EventIdクラスに載せ替え）
     /// </summary>
+//    [Obsolete]
     public static class EventIdHelper
     {
         /// <summary>

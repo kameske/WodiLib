@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -165,6 +166,33 @@ namespace WodiLib.Event.EventCommand
                         ErrorMessage.NotNull(nameof(PlaybackText)));
                 playbackText = value;
             }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     VersionCheck
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、
+        /// イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
+        /// </summary>
+        public override void OutputVersionWarningLogIfNeed()
+        {
+            if (VersionConfig.IsGreaterVersion(WoditorVersion.Ver2_00))
+            {
+                OutputVersionWarningLogIfNeed_GreaterVer2_00();
+            }
+        }
+
+        /// <summary>
+        /// 設定バージョン = 2.00以上 の場合の警告
+        /// </summary>
+        private void OutputVersionWarningLogIfNeed_GreaterVer2_00()
+        {
+            Logger.Warning(VersionWarningMessage.NotGreaterInCommand($"{nameof(SyntheticVoice)}",
+                VersionConfig.GetConfigWoditorVersion(),
+                WoditorVersion.Ver2_00));
         }
     }
 }

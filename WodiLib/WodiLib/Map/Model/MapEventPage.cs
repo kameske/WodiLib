@@ -15,7 +15,7 @@ namespace WodiLib.Map
     /// <summary>
     ///     マップイベント1ページ毎の情報実装クラス
     /// </summary>
-    public class MapEventPage : IWodiLibObject
+    public class MapEventPage
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constant
@@ -124,7 +124,10 @@ namespace WodiLib.Map
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <summary>
+        /// バイナリ変換する。
+        /// </summary>
+        /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
         {
             ValidateToBinary();

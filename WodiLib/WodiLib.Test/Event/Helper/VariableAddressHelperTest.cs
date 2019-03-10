@@ -15,6 +15,10 @@ namespace WodiLib.Test.Event
             new object[] {1100000, "ThisMapEvent"},
             new object[] {1100009, "ThisMapEvent"},
             new object[] {1100010, "None"},
+            new object[] {1599999, "None"},
+            new object[] {1600000, "ThisCommonEvent"},
+            new object[] {1600099, "ThisCommonEvent"},
+            new object[] {1600100, "None"},
             new object[] {1999999, "None"},
             new object[] {2000000, "NormalNumberVariable"},
             new object[] {2099999, "NormalNumberVariable"},
@@ -43,9 +47,7 @@ namespace WodiLib.Test.Event
             new object[] {9999999, "SystemString"},
             new object[] {15000000, "CommonEvent"},
             new object[] {15999999, "CommonEvent"},
-            new object[] {16000000, "ThisCommonEvent"},
-            new object[] {16000099, "ThisCommonEvent"},
-            new object[] {16000100, "None"},
+            new object[] {16000000, "None"},
             new object[] {999999999, "None"},
             new object[] {1000000000, "UserDatabase"},
             new object[] {1099999999, "UserDatabase"},
@@ -57,7 +59,7 @@ namespace WodiLib.Test.Event
             new object[] {1399999999, "SystemDatabase"},
             new object[] {1400000000, "Not"},
         };
-        
+
         [TestCaseSource(nameof(TestCaseSource))]
         public static void IsVariableAddressTest(int number, string typeCode)
         {

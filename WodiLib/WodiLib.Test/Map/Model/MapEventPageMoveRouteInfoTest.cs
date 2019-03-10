@@ -2,12 +2,23 @@ using System;
 using NUnit.Framework;
 using WodiLib.Event;
 using WodiLib.Map;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
 {
     [TestFixture]
     public class MapEventPageMoveRouteInfoTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         [TestCase(false, false)]
         [TestCase(true, true)]
         public static void AnimateSpeedSetTest(bool isNull, bool isError)
@@ -18,11 +29,12 @@ namespace WodiLib.Test.Map
             {
                 instance.AnimateSpeed = isNull ? null : AnimateSpeed.Middle;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
-    
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
@@ -37,15 +49,16 @@ namespace WodiLib.Test.Map
             {
                 instance.MoveSpeed = isNull ? null : MoveSpeed.Fast;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
-    
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
-        
+
         [TestCase(false, false)]
         [TestCase(true, true)]
         public static void MoveFrequencySetTest(bool isNull, bool isError)
@@ -56,11 +69,12 @@ namespace WodiLib.Test.Map
             {
                 instance.MoveFrequency = isNull ? null : MoveFrequency.Long;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
-    
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
@@ -75,11 +89,12 @@ namespace WodiLib.Test.Map
             {
                 instance.MoveType = isNull ? null : MoveType.Not;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
-    
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
@@ -97,11 +112,12 @@ namespace WodiLib.Test.Map
             {
                 instance.CustomMoveRoute = isSetNull ? null : new ActionEntry();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
-    
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }

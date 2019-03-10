@@ -1,12 +1,23 @@
 using System;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand
 {
     [TestFixture]
     public class ZoomRateTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         private static readonly object[] SameRateAccessorTestCaseSource =
         {
             new object[] {ZoomRateType.Normal, false},
@@ -30,8 +41,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         var _ = instance.Rate;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -47,8 +59,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.Rate = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -80,8 +93,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         var _ = instance.RateWidth;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -94,8 +108,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         var _ = instance.RateHeight;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -111,8 +126,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.RateWidth = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -125,8 +141,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.RateHeight = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 

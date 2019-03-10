@@ -46,12 +46,15 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">fileNameが空文字の場合</exception>
         private static MpsFileWriter BuildMpsFileWriter(string fileName, MapData mapData)
         {
-            if(mapData == null) throw new ArgumentNullException(
-                ErrorMessage.NotNull(nameof(mapData)));
-            if(fileName == null) throw new ArgumentNullException(
-                ErrorMessage.NotNull(nameof(fileName)));
-            if(fileName.IsEmpty()) throw new ArgumentException(
-                ErrorMessage.NotEmpty(nameof(fileName)));
+            if (mapData == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(mapData)));
+            if (fileName == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(fileName)));
+            if (fileName.IsEmpty())
+                throw new ArgumentException(
+                    ErrorMessage.NotEmpty(nameof(fileName)));
 
             var writer = new MpsFileWriter(mapData, fileName);
             return writer;
@@ -66,10 +69,12 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">fileNameが空文字の場合</exception>
         private static MpsFileReader BuildMpsFileReader(string fileName)
         {
-            if(fileName == null) throw new ArgumentNullException(
-                ErrorMessage.NotNull(nameof(fileName)));
-            if(fileName.IsEmpty()) throw new ArgumentException(
-                ErrorMessage.NotEmpty(nameof(fileName)));
+            if (fileName == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(fileName)));
+            if (fileName.IsEmpty())
+                throw new ArgumentException(
+                    ErrorMessage.NotEmpty(nameof(fileName)));
 
             var reader = new MpsFileReader(fileName);
             return reader;
@@ -87,10 +92,12 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">fileNameが空の場合</exception>
         public MpsFile(string fileName)
         {
-            if(fileName == null) throw new ArgumentNullException(
-                ErrorMessage.NotNull(nameof(fileName)));
-            if(fileName.IsEmpty()) throw new ArgumentException(
-                ErrorMessage.NotEmpty(nameof(fileName)));
+            if (fileName == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(fileName)));
+            if (fileName.IsEmpty())
+                throw new ArgumentException(
+                    ErrorMessage.NotEmpty(nameof(fileName)));
 
             FileName = fileName;
         }
@@ -106,8 +113,9 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">mapData がnullの場合</exception>
         public void WriteSync(MapData mapData)
         {
-            if(mapData == null) throw new ArgumentNullException(
-                ErrorMessage.NotNull(nameof(mapData)));
+            if (mapData == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(mapData)));
 
             MapData = mapData;
 
@@ -123,8 +131,9 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">mapData がnullの場合</exception>
         public async Task WriteAsync(MapData mapData)
         {
-            if(mapData == null) throw new ArgumentNullException(
-                ErrorMessage.NotNull(nameof(mapData)));
+            if (mapData == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(mapData)));
 
             MapData = mapData;
 

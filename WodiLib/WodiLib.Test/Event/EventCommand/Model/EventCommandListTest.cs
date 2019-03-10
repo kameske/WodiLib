@@ -4,12 +4,23 @@ using System.Linq;
 using NUnit.Framework;
 using WodiLib.Event;
 using WodiLib.Event.EventCommand;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand.Model
 {
     [TestFixture]
     public class EventCommandListTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         /// <summary>
         /// コンストラクタテスト
         /// </summary>
@@ -28,8 +39,9 @@ namespace WodiLib.Test.Event.EventCommand.Model
                 var pageList = length == -1 ? null : GenerateEventCommandList(length);
                 var _ = new EventCommandList(pageList);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -54,8 +66,9 @@ namespace WodiLib.Test.Event.EventCommand.Model
             {
                 instance.Add(new Blank());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -83,12 +96,13 @@ namespace WodiLib.Test.Event.EventCommand.Model
             try
             {
                 IEnumerable<IEventCommand> addItems = null;
-                if(count == 0) addItems = new List<IEventCommand>();
+                if (count == 0) addItems = new List<IEventCommand>();
                 else if (count > 0) addItems = GenerateEventCommandList(count);
                 instance.AddRange(addItems);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -117,8 +131,9 @@ namespace WodiLib.Test.Event.EventCommand.Model
                 var insertItem = isAddNull ? null : new Blank();
                 instance.Insert(index, insertItem);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -151,8 +166,9 @@ namespace WodiLib.Test.Event.EventCommand.Model
                 var insertItems = count == -1 ? null : GenerateEventCommandList(count);
                 instance.InsertRange(index, insertItems);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -179,8 +195,9 @@ namespace WodiLib.Test.Event.EventCommand.Model
             var pages = GenerateEventCommandList(length).ToList();
             for (var i = 0; i < pages.Count; i++)
             {
-                pages[i].Indent = (byte)i;
+                pages[i].Indent = (byte) i;
             }
+
             var instance = new EventCommandList(pages);
 
             var errorOccured = false;
@@ -201,11 +218,13 @@ namespace WodiLib.Test.Event.EventCommand.Model
                 {
                     removeItem = pages[removeNum];
                 }
+
                 if (removeItem != null) removeTileId = removeItem.Indent;
                 isSuccess = instance.Remove(removeItem);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -248,8 +267,9 @@ namespace WodiLib.Test.Event.EventCommand.Model
             {
                 instance.RemoveAt(index);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -284,8 +304,9 @@ namespace WodiLib.Test.Event.EventCommand.Model
             {
                 instance.RemoveRange(index, count);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -310,8 +331,9 @@ namespace WodiLib.Test.Event.EventCommand.Model
             var pages = GenerateEventCommandList(length).ToList();
             for (var i = 0; i < pages.Count; i++)
             {
-                pages[i].Indent = (byte)i;
+                pages[i].Indent = (byte) i;
             }
+
             var instance = new EventCommandList(pages);
 
             var errorOccured = false;
@@ -320,8 +342,9 @@ namespace WodiLib.Test.Event.EventCommand.Model
             {
                 getResult = instance.Get(index);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -364,8 +387,9 @@ namespace WodiLib.Test.Event.EventCommand.Model
             {
                 getRangeResult = instance.GetRange(index, count);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -392,8 +416,9 @@ namespace WodiLib.Test.Event.EventCommand.Model
             var pages = GenerateEventCommandList(length).ToList();
             for (var i = 0; i < pages.Count; i++)
             {
-                pages[i].Indent = (byte)i;
+                pages[i].Indent = (byte) i;
             }
+
             var instance = new EventCommandList(pages);
 
             var errorOccured = false;
@@ -402,8 +427,9 @@ namespace WodiLib.Test.Event.EventCommand.Model
             {
                 getResult = instance.GetAll();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -423,10 +449,10 @@ namespace WodiLib.Test.Event.EventCommand.Model
 
         private static readonly object[] ValidateTestCaseSource =
         {
-            new object[] {new List<IEventCommand>{new Blank()}, true},
-            new object[] {new List<IEventCommand>{new CallCommonEventById()}, false},
-            new object[] {new List<IEventCommand>{new Message(), new Blank()}, true},
-            new object[] {new List<IEventCommand>{new Message(), new DebugText()}, false},
+            new object[] {new List<IEventCommand> {new Blank()}, true},
+            new object[] {new List<IEventCommand> {new CallCommonEventById()}, false},
+            new object[] {new List<IEventCommand> {new Message(), new Blank()}, true},
+            new object[] {new List<IEventCommand> {new Message(), new DebugText()}, false},
         };
 
         [TestCaseSource(nameof(ValidateTestCaseSource))]
@@ -437,7 +463,6 @@ namespace WodiLib.Test.Event.EventCommand.Model
 
             // エラーフラグが一致すること
             Assert.AreEqual(validFlag, result);
-
         }
 
         private static IEnumerable<IEventCommand> GenerateEventCommandList(int length)
@@ -450,6 +475,5 @@ namespace WodiLib.Test.Event.EventCommand.Model
 
             return list;
         }
-
     }
 }

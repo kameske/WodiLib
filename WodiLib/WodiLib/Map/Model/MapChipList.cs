@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// <summary>
     /// マップチップ配列クラス
     /// </summary>
-    public class MapChipList : IWodiLibObject
+    public class MapChipList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -209,7 +209,10 @@ namespace WodiLib.Map
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <summary>
+        /// バイナリ変換する。
+        /// </summary>
+        /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
         {
             var result = new List<byte>();

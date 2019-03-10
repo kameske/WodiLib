@@ -63,6 +63,46 @@ namespace WodiLib.Test {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] _000_コモンイベント000 {
+            get {
+                object obj = ResourceManager.GetObject("000_コモンイベント000", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Common003to005_コモンイベント003 {
+            get {
+                object obj = ResourceManager.GetObject("Common003to005_コモンイベント003", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Common005to006_コモンイベント005 {
+            get {
+                object obj = ResourceManager.GetObject("Common005to006_コモンイベント005", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] CommonEvent_00 {
+            get {
+                object obj = ResourceManager.GetObject("CommonEvent_00", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] MapFile_Dungeon {
             get {
                 object obj = ResourceManager.GetObject("MapFile_Dungeon", resourceCulture);

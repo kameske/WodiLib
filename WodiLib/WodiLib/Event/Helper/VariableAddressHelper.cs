@@ -6,13 +6,22 @@
 // see LICENSE file
 // ========================================
 
+using System;
+using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
+
 namespace WodiLib.Event
 {
     /// <summary>
     /// 数値変数ヘルパークラス
+    /// （将来VariableAddressクラスに載せ替え）
     /// </summary>
+//    [Obsolete]
     public static class VariableAddressHelper
     {
+        /// <summary>ロガー</summary>
+        private static readonly WodiLibLogger Logger = WodiLibLogger.GetInstance();
+
         /// <summary>
         /// 数値変数値かどうかを判定する。厳密な判定ではないことに注意（1000000～1399999999はすべてtrueとなる）
         /// </summary>
@@ -208,6 +217,18 @@ namespace WodiLib.Event
             if (number > VariableAddressConstant.EventPositionAddressMax) return false;
 
             var infoCode = number % 10;
+
+            if (VersionConfig.IsUnderVersion(WoditorVersion.Ver2_01))
+            {
+                if (infoCode == 5 || infoCode == 6)
+                {
+                    Logger.Warning(VersionWarningMessage.NotUnderInVariableAddress(
+                        number,
+                        VersionConfig.GetConfigWoditorVersion(),
+                        WoditorVersion.Ver2_01));
+                }
+            }
+
             if (infoCode == 7 || infoCode == 8) return false;
 
             return true;

@@ -36,6 +36,9 @@ namespace WodiLib.Event.EventCommand
         /// <summary>角度</summary>
         public static readonly NumberPlusPictureInfoType Angle;
 
+        /// <summary>拡大率（Ver2.00より前）</summary>
+        public static readonly NumberPlusPictureInfoType Zoom;
+
         /// <summary>拡大率（横）</summary>
         public static readonly NumberPlusPictureInfoType ZoomWidth;
 
@@ -87,6 +90,7 @@ namespace WodiLib.Event.EventCommand
             PatternNumber = new NumberPlusPictureInfoType(nameof(PatternNumber), 4);
             Opacity = new NumberPlusPictureInfoType(nameof(Opacity), 5);
             Angle = new NumberPlusPictureInfoType(nameof(Angle), 6);
+            Zoom = new NumberPlusPictureInfoType(nameof(Zoom), 7);
             ZoomWidth = new NumberPlusPictureInfoType(nameof(ZoomWidth), 11);
             ZoomHeight = new NumberPlusPictureInfoType(nameof(ZoomHeight), 12);
             IsMouseCursorHover = new NumberPlusPictureInfoType(nameof(IsMouseCursorHover), 8);

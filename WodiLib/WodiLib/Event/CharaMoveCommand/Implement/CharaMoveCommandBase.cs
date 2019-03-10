@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.CharaMoveCommand
 {
@@ -79,6 +80,9 @@ namespace WodiLib.Event.CharaMoveCommand
         /// </summary>
         public static byte[] EndBlockCode => new byte[] {0x01, 0x00};
 
+        /// <summary>ロガー</summary>
+        protected static readonly WodiLibLogger Logger = WodiLibLogger.GetInstance();
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -111,5 +115,15 @@ namespace WodiLib.Event.CharaMoveCommand
             result.AddRange(EndBlockCode);
             return result.ToArray();
         }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、
+        /// イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
+        /// </summary>
+        public virtual void OutputVersionWarningLogIfNeed()
+        {
+        }
+
     }
 }

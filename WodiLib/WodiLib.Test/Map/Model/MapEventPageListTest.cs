@@ -3,12 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using WodiLib.Map;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
 {
     [TestFixture]
     public class MapEventPageListTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         /// <summary>
         /// コンストラクタテスト
         /// </summary>
@@ -27,11 +38,12 @@ namespace WodiLib.Test.Map
                 var pageList = length == -1 ? null : GenerateMapEventOnePageList(length);
                 var _ = new MapEventPageList(pageList);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
-            
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
@@ -53,8 +65,9 @@ namespace WodiLib.Test.Map
             {
                 instance.Add(new MapEventPage());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -77,17 +90,18 @@ namespace WodiLib.Test.Map
         public static void AddRangeTest(int length, int count, bool isError)
         {
             var instance = new MapEventPageList(GenerateMapEventOnePageList(length));
-            
+
             var errorOccured = false;
             try
             {
                 IEnumerable<MapEventPage> addItems = null;
-                if(count == 0) addItems = new List<MapEventPage>();
+                if (count == 0) addItems = new List<MapEventPage>();
                 else if (count > 0) addItems = GenerateMapEventOnePageList(count);
                 instance.AddRange(addItems);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -112,15 +126,16 @@ namespace WodiLib.Test.Map
         public static void InsertTest(int length, int index, bool isAddNull, bool isError)
         {
             var instance = new MapEventPageList(GenerateMapEventOnePageList(length));
-            
+
             var errorOccured = false;
             try
             {
                 var insertItem = isAddNull ? null : new MapEventPage();
                 instance.Insert(index, insertItem);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -146,15 +161,16 @@ namespace WodiLib.Test.Map
         public static void InsertRangeTest(int length, int index, int count, bool isError)
         {
             var instance = new MapEventPageList(GenerateMapEventOnePageList(length));
-            
+
             var errorOccured = false;
             try
             {
                 var insertItems = count == -1 ? null : GenerateMapEventOnePageList(count);
                 instance.InsertRange(index, insertItems);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -183,8 +199,9 @@ namespace WodiLib.Test.Map
                 pages[i].GraphicInfo.IsGraphicTileChip = true;
                 pages[i].GraphicInfo.GraphicTileId = i;
             }
+
             var instance = new MapEventPageList(pages);
-            
+
             var errorOccured = false;
             var removeTileId = -1;
             var isSuccess = false;
@@ -203,11 +220,13 @@ namespace WodiLib.Test.Map
                 {
                     removeItem = pages[removeNum];
                 }
+
                 if (removeItem != null) removeTileId = removeItem.GraphicInfo.GraphicTileId;
                 isSuccess = instance.Remove(removeItem);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -219,10 +238,10 @@ namespace WodiLib.Test.Map
                 // 成否フラグが正しいこと
                 Assert.AreEqual(isSuccess, result);
                 // 正しく除去されていること
-                Assert.AreEqual(instance.Count, length-1);
+                Assert.AreEqual(instance.Count, length - 1);
                 for (var i = 0; i < instance.Count; i++)
                 {
-                    Assert.AreNotEqual(instance.Get(i).GraphicInfo.GraphicTileId, 
+                    Assert.AreNotEqual(instance.Get(i).GraphicInfo.GraphicTileId,
                         removeTileId);
                 }
             }
@@ -246,14 +265,15 @@ namespace WodiLib.Test.Map
         public static void RemoveAtTest(int length, int index, bool isError)
         {
             var instance = new MapEventPageList(GenerateMapEventOnePageList(length));
-            
+
             var errorOccured = false;
             try
             {
                 instance.RemoveAt(index);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -286,14 +306,15 @@ namespace WodiLib.Test.Map
         public static void RemoveRangeTest(int length, int index, int count, bool isError)
         {
             var instance = new MapEventPageList(GenerateMapEventOnePageList(length));
-            
+
             var errorOccured = false;
             try
             {
                 instance.RemoveRange(index, count);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -320,16 +341,18 @@ namespace WodiLib.Test.Map
                 pages[i].GraphicInfo.IsGraphicTileChip = true;
                 pages[i].GraphicInfo.GraphicTileId = i;
             }
+
             var instance = new MapEventPageList(pages);
-            
+
             var errorOccured = false;
             MapEventPage getResult = null;
             try
             {
                 getResult = instance.Get(index);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -365,14 +388,15 @@ namespace WodiLib.Test.Map
         {
             var instance = new MapEventPageList(GenerateMapEventOnePageList(length));
             IEnumerable<MapEventPage> getRangeResult = null;
-            
+
             var errorOccured = false;
             try
             {
                 getRangeResult = instance.GetRange(index, count);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -401,16 +425,18 @@ namespace WodiLib.Test.Map
                 pages[i].GraphicInfo.IsGraphicTileChip = true;
                 pages[i].GraphicInfo.GraphicTileId = i;
             }
+
             var instance = new MapEventPageList(pages);
-            
+
             var errorOccured = false;
             IEnumerable<MapEventPage> getResult = null;
             try
             {
                 getResult = instance.GetAll();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -420,15 +446,15 @@ namespace WodiLib.Test.Map
             // 取得した項目がセットした値と一致すること
             var srcList = pages.ToList();
             var dstList = getResult.ToList();
-                
+
             Assert.AreEqual(srcList.Count, dstList.Count);
             for (var i = 0; i < srcList.Count; i++)
             {
-                Assert.AreEqual(srcList[i].GraphicInfo.GraphicTileId, 
+                Assert.AreEqual(srcList[i].GraphicInfo.GraphicTileId,
                     dstList[i].GraphicInfo.GraphicTileId);
             }
         }
-        
+
         private static IEnumerable<MapEventPage> GenerateMapEventOnePageList(int length)
         {
             var list = new List<MapEventPage>();
@@ -439,6 +465,5 @@ namespace WodiLib.Test.Map
 
             return list;
         }
-
     }
 }

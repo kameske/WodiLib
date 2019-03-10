@@ -1,13 +1,24 @@
+using System;
 using NUnit.Framework;
 using WodiLib.Event;
 using WodiLib.Map;
-using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
 {
     [TestFixture]
     public class EventBootConditionTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         private static readonly object[] SetCriteriaOperatorTestCaseSource =
         {
             new object[] {CriteriaOperator.Above, false},
@@ -23,8 +34,9 @@ namespace WodiLib.Test.Map
             {
                 instance.Operation = operation;
             }
-            catch (PropertyNullException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 

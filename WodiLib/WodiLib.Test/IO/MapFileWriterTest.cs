@@ -3,7 +3,7 @@ using NUnit.Framework;
 using WodiLib.IO;
 using WodiLib.Map;
 
-namespace WodiLib.Test
+namespace WodiLib.Test.IO
 {
     [TestFixture]
     public class MapFileWriterTest

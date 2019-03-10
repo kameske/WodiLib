@@ -4,12 +4,23 @@ using WodiLib.Map;
 using NUnit.Framework;
 using WodiLib.Event;
 using WodiLib.Event.EventCommand;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
 {
     [TestFixture]
     public class MapEventOnePageTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         [TestCase(false, false)]
         [TestCase(true, true)]
         public static void GraphicInfoSetTest(bool isNull, bool isError)
@@ -20,8 +31,9 @@ namespace WodiLib.Test.Map
             {
                 instance.GraphicInfo = isNull ? null : new MapEventPageGraphicInfo();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -39,15 +51,16 @@ namespace WodiLib.Test.Map
             {
                 instance.BootInfo = isNull ? null : new MapEventPageBootInfo();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
-        
+
         [TestCase(false, false)]
         [TestCase(true, true)]
         public static void MoveRouteInfoSetTest(bool isNull, bool isError)
@@ -58,8 +71,9 @@ namespace WodiLib.Test.Map
             {
                 instance.MoveRouteInfo = isNull ? null : new MapEventPageMoveRouteInfo();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -77,8 +91,9 @@ namespace WodiLib.Test.Map
             {
                 instance.Option = isNull ? null : new MapEventPageOption();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -89,7 +104,7 @@ namespace WodiLib.Test.Map
         private static readonly object[] EventCommandsSetTestCaseSource =
         {
             new object[] {new List<IEventCommand>(), false},
-            new object[] {new List<IEventCommand>{ new Blank()}, false},
+            new object[] {new List<IEventCommand> {new Blank()}, false},
             new object[] {null, true},
         };
 
@@ -102,8 +117,9 @@ namespace WodiLib.Test.Map
             {
                 instance.EventCommands = new EventCommandList(commands);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 

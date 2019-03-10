@@ -2,12 +2,22 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Map;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
 {
     [TestFixture]
     public class MapEventTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
 
         [TestCase(-1, true)]
         [TestCase(1, false)]
@@ -22,15 +32,12 @@ namespace WodiLib.Test.Map
             {
                 instance.MapEventPageList = setPages;
             }
-            catch (ArgumentNullException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
-            catch (ArgumentOutOfRangeException)
-            {
-                errorOccured = true;
-            }
-            
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 

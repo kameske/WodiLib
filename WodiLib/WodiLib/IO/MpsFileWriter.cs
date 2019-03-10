@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WodiLib.Map;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -25,6 +26,9 @@ namespace WodiLib.IO
 
         /// <summary>書き出すマップデータ</summary>
         public MapData MapData { get; }
+
+        /// <summary>ロガー</summary>
+        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -41,8 +45,9 @@ namespace WodiLib.IO
             if (filePath == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
-            if(filePath.IsEmpty()) throw new ArgumentException(
-                ErrorMessage.NotEmpty(nameof(filePath)));
+            if (filePath.IsEmpty())
+                throw new ArgumentException(
+                    ErrorMessage.NotEmpty(nameof(filePath)));
             MapData = outputData;
             FilePath = filePath;
         }
@@ -56,11 +61,15 @@ namespace WodiLib.IO
         /// </exception>
         public void WriteSync()
         {
+            Logger.Info(FileIOMessage.StartFileWrite(GetType()));
+
             var bin = MapData.ToBinary().ToArray();
             using (var stream = new FileStream(FilePath, FileMode.Create))
             {
                 stream.Write(bin, 0, bin.Length);
             }
+
+            Logger.Info(FileIOMessage.EndFileWrite(GetType()));
         }
 
 

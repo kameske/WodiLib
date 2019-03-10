@@ -1,14 +1,24 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using WodiLib.Map;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
 {
     [TestFixture]
     public class LayerTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         [Test]
         public static void PropertyTest()
         {
@@ -39,8 +49,9 @@ namespace WodiLib.Test.Map
             {
                 layer.UpdateWidth(width);
             }
-            catch (ArgumentOutOfRangeException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -69,8 +80,9 @@ namespace WodiLib.Test.Map
             {
                 layer.UpdateHeight(height);
             }
-            catch (ArgumentOutOfRangeException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -86,13 +98,14 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] SetChipTestCaseSource =
         {
-            new object[] {2, 4, (MapChip)322, false},
-            new object[] {19, 4, (MapChip)322, false},
-            new object[] {20, 4, (MapChip)322, true},
-            new object[] {2, 14, (MapChip)322, false},
-            new object[] {2, 15, (MapChip)322, true},
-            new object[] {2, 4, null, true},
+            new object[] {2, 4, (MapChip) 322, false},
+            new object[] {19, 4, (MapChip) 322, false},
+            new object[] {20, 4, (MapChip) 322, true},
+            new object[] {2, 14, (MapChip) 322, false},
+            new object[] {2, 15, (MapChip) 322, true},
+            // new object[] {2, 4, null, true},  /* MapChipを構造体にしたため、nullは設定不可能 */
         };
+
         [TestCaseSource(nameof(SetChipTestCaseSource))]
         public static void SetChipTest(int x, int y, MapChip chip, bool isError)
         {
@@ -104,14 +117,12 @@ namespace WodiLib.Test.Map
             {
                 layer.SetChip(x, y, chip);
             }
-            catch (ArgumentNullException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
-            catch (ArgumentOutOfRangeException)
-            {
-                errorOccured = true;
-            }
+
             // エラー発生フラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
@@ -119,7 +130,7 @@ namespace WodiLib.Test.Map
             {
                 // チップ番号値が指定した値になっていること
                 var result = layer.GetChip(x, y);
-                Assert.AreEqual((int)result, (int)chip);
+                Assert.AreEqual((int) result, (int) chip);
             }
         }
 
@@ -139,17 +150,19 @@ namespace WodiLib.Test.Map
             {
                 getChip = layer.GetChip(x, y);
             }
-            catch (ArgumentOutOfRangeException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
             if (!errorOccured)
             {
                 // 座標の値が初期化した値になっていること
-                Assert.AreEqual((int)getChip, x * 10 + y);
+                Assert.AreEqual((int) getChip, x * 10 + y);
             }
         }
 
@@ -165,6 +178,7 @@ namespace WodiLib.Test.Map
                     var chip = (MapChip) (i * 10 + j);
                     testChipList.Add(chip);
                 }
+
                 testChips.Add(testChipList);
             }
 

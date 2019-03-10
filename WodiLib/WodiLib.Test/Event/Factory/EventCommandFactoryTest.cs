@@ -2,17 +2,28 @@ using System;
 using WodiLib.Event;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event
 {
     using Factory = EventCommandFactory;
-    
+
     /// <summary>
     /// イベントコマンドFactoryテスト
     /// </summary>
     [TestFixture]
     public class EventCommandFactoryTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         /// <summary>
         /// イベントコマンド「空白行」のインスタンス生成
         /// </summary>
@@ -1291,13 +1302,18 @@ namespace WodiLib.Test.Event
         [TestCase("[140][7,1]<0>(33554448,3,0,4,100,105,20)(\"BGS/音楽.mp3\")")]
         [TestCase("[150][2,0]<0>(33559043,100)()")]
         [TestCase("[150][4,0]<0>(33559042,100,11,22)()")]
-        [TestCase("[150][15,1]<0>(54533920,120,11,1,10,-1000000,-1000000,10,20,-1000000,-1000000,0,16777216,22,123)(\"表示文字列\")")]
+        [TestCase(
+            "[150][15,1]<0>(54533920,120,11,1,10,-1000000,-1000000,10,20,-1000000,-1000000,0,16777216,22,123)(\"表示文字列\")")]
         [TestCase("[150][18,0]<0>(33559041,100,11,0,0,3,65,30,32,110,4000,0,33554432,22,0,70,80,90)()")]
         [TestCase("[150][18,0]<0>(33571392,120,11,4,4,3,65,10,20,1000060,4000,3000015,33554432,22,0,70,80,90)()")]
-        [TestCase("[150][18,1]<0>(0,120,20,4,3,1,255,200,300,95,18,0,33554432,30,0,101,102,103)(\"CharaChip/[Animal]Chicken.png\")")]
-        [TestCase("[150][18,1]<0>(33567280,120,11,4,4,3,65,10,20,1000060,4000,0,33554432,22,0,70,80,90)(\"SystemGraphic/Text_Pause.png\")")]
-        [TestCase("[150][19,0]<0>(19996944,120,1000030,1,10,1000010,1000020,1000000,1000001,1000060,1000050,3000020,33554432,1000040,123,1000080,1000081,1000082,1000070)()")]
-        [TestCase("[150][25,1]<0>(100667904,120,11,4,4,3,65,1,2,1000060,4000,0,33554432,22,0,70,80,90,0,3,4,5,6,7,8)(\"3000015\")")]
+        [TestCase(
+            "[150][18,1]<0>(0,120,20,4,3,1,255,200,300,95,18,0,33554432,30,0,101,102,103)(\"CharaChip/[Animal]Chicken.png\")")]
+        [TestCase(
+            "[150][18,1]<0>(33567280,120,11,4,4,3,65,10,20,1000060,4000,0,33554432,22,0,70,80,90)(\"SystemGraphic/Text_Pause.png\")")]
+        [TestCase(
+            "[150][19,0]<0>(19996944,120,1000030,1,10,1000010,1000020,1000000,1000001,1000060,1000050,3000020,33554432,1000040,123,1000080,1000081,1000082,1000070)()")]
+        [TestCase(
+            "[150][25,1]<0>(100667904,120,11,4,4,3,65,1,2,1000060,4000,0,33554432,22,0,70,80,90,0,3,4,5,6,7,8)(\"3000015\")")]
         [TestCase("[151][2,0]<0>(3942420,10)()")]
         [TestCase("[151][5,0]<0>(16777216,1100003,1100000,1100001,1100002)()")]
         [TestCase("[160][2,0]<1>(-1,3)()")]
@@ -1441,10 +1457,12 @@ namespace WodiLib.Test.Event
             {
                 var _ = Factory.CreateCommandString(src);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
+
             Assert.IsTrue(errorOccured);
         }
     }

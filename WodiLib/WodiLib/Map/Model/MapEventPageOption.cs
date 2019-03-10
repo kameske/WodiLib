@@ -6,15 +6,12 @@
 // see LICENSE file
 // ========================================
 
-using WodiLib.Sys;
-
 namespace WodiLib.Map
 {
-    /// <inheritdoc />
     /// <summary>
     /// マップイベントページオプションクラス
     /// </summary>
-    public class MapEventPageOption : IWodiLibObject
+    public class MapEventPageOption
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constant
@@ -108,7 +105,10 @@ namespace WodiLib.Map
             return result;
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// バイナリ変換する。
+        /// </summary>
+        /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
         {
             return new[]

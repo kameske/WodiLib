@@ -1,12 +1,23 @@
 using System;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand
 {
     [TestFixture]
     public class ChoiceCaseListTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         [TestCase(-1, true)]
         [TestCase(0, true)]
         [TestCase(1, false)]
@@ -19,8 +30,9 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 var _ = new ChoiceCaseList {CaseValue = setValue};
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -42,8 +54,9 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 var _ = instance.Get(index);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -65,8 +78,9 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 instance.Set(index, "");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 

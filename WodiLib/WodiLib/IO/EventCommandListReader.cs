@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using WodiLib.Event;
 using WodiLib.Event.EventCommand;
+using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -23,6 +25,9 @@ namespace WodiLib.IO
 
         /// <summary>イベントコマンド行数</summary>
         private int Length { get; }
+
+        /// <summary>ロガー</summary>
+        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -42,11 +47,17 @@ namespace WodiLib.IO
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
         public EventCommandList Read()
         {
+            Logger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
+                "イベントコマンドリスト"));
+
             var eventCommandList = new List<IEventCommand>();
             for (var i = 0; i < Length; i++)
             {
                 ReadEventCommand(Status, eventCommandList);
             }
+
+            Logger.Debug(FileIOMessage.EndCommonRead(typeof(EventCommandListReader),
+                "イベントコマンドリスト"));
 
             return new EventCommandList(eventCommandList);
         }
@@ -63,6 +74,9 @@ namespace WodiLib.IO
             var numVarLength = status.ReadByte();
             status.IncreaseByteOffset();
 
+            Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+                "数値変数の数", numVarLength));
+
             // 数値変数
             var numVarList = new List<int>();
             for (var i = 0; i < numVarLength; i++)
@@ -70,15 +84,24 @@ namespace WodiLib.IO
                 var numVar = status.ReadInt();
                 numVarList.Add(numVar);
                 status.IncreaseIntOffset();
+
+                Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+                    $"数値変数{i}", numVar));
             }
 
             // インデント
             var indent = status.ReadByte();
             status.IncreaseByteOffset();
 
+            Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+                "インデント", indent));
+
             // 文字データ数
             var strVarLength = status.ReadByte();
             status.IncreaseByteOffset();
+
+            Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+                "文字列変数の数", strVarLength));
 
             // 文字列変数
             var strVarList = new List<string>();
@@ -87,11 +110,17 @@ namespace WodiLib.IO
                 var woditorString = status.ReadString();
                 strVarList.Add(woditorString.String);
                 status.AddOffset(woditorString.ByteLength);
+
+                Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+                    $"文字列変数{i}", woditorString.String));
             }
 
             // 動作指定フラグ
             var hasMoveCommand = status.ReadByte() != 0;
             status.IncreaseByteOffset();
+
+            Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+                "動作指定フラグ", hasMoveCommand));
 
             // 動作指定コマンド
             ActionEntry actionEntry = null;
@@ -107,6 +136,9 @@ namespace WodiLib.IO
                 indent,
                 strVarLength, strVarList,
                 actionEntry);
+
+            Logger.Debug("イベントコマンド生成成功");
+
             commandList.Add(eventCommand);
         }
 
@@ -118,75 +150,64 @@ namespace WodiLib.IO
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
         private static void ReadEventActionEntry(FileReadStatus status, ActionEntry actionEntry)
         {
+            Logger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
+                "動作指定コマンド"));
+
             // ヘッダチェック
             foreach (var b in ActionEntry.HeaderBytes)
             {
                 if (status.ReadByte() != b)
                 {
                     throw new InvalidOperationException(
-                        $"イベントコマンド中の動作指定ヘッダの値が異なります。（offset: {status.Offset}）");
+                        $"イベントコマンド中のイベントコマンドヘッダの値が異なります。（offset: {status.Offset}）");
                 }
 
                 status.IncreaseByteOffset();
             }
 
+            Logger.Debug(FileIOMessage.CheckOk(typeof(EventCommandListReader),
+                "動作指定コマンドヘッダ"));
+
             // 動作フラグ
-            actionEntry.SetOptionFlag(status.ReadByte());
+            var optionFlag = status.ReadByte();
+            actionEntry.SetOptionFlag(optionFlag);
             status.IncreaseByteOffset();
+
+            Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+                "数値変数の数", optionFlag));
+
+            // 動作コマンドリスト
+            actionEntry.CommandList = ReadCharaMoveCommand(status);
+
+            Logger.Debug(FileIOMessage.EndCommonRead(typeof(EventCommandListReader),
+                "動作指定コマンド"));
+        }
+
+        /// <summary>
+        /// 動作コマンドリスト
+        /// </summary>
+        /// <param name="status">読み込み経過状態</param>
+        /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
+        private static List<ICharaMoveCommand> ReadCharaMoveCommand(FileReadStatus status)
+        {
+            Logger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
+                "動作コマンドリスト"));
 
             // 動作コマンド数
             var commandLength = status.ReadInt();
             status.IncreaseIntOffset();
 
+            Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+                "動作コマンド数", commandLength));
+
             // 動作指定コマンド
-            var charaMoveCommandList = new List<ICharaMoveCommand>();
-            for (var i = 0; i < commandLength; i++)
-            {
-                ReadCharaMoveCommand(status, charaMoveCommandList);
-            }
+            var reader = new CharaMoveCommandListReader(status, commandLength);
+            var result = reader.Read();
 
-            actionEntry.CommandList = charaMoveCommandList;
-        }
+            Logger.Debug(FileIOMessage.EndCommonRead(typeof(EventCommandListReader),
+                "動作コマンドリスト"));
 
-        /// <summary>
-        /// 動作指定コマンド
-        /// </summary>
-        /// <param name="status">読み込み経過状態</param>
-        /// <param name="commandList">データ格納先</param>
-        /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
-        private static void ReadCharaMoveCommand(FileReadStatus status, ICollection<ICharaMoveCommand> commandList)
-        {
-            // 動作指定コード
-            var charaMoveCode = status.ReadByte();
-            var charaMoveCommand = CharaMoveCommandFactory.CreateRaw(charaMoveCode);
-            status.IncreaseByteOffset();
-
-            // 変数の数
-            var varLength = status.ReadByte();
-            status.IncreaseByteOffset();
-
-            // 変数
-            for (var i = 0; i < varLength; i++)
-            {
-                var variable = status.ReadInt();
-                charaMoveCommand.SetNumberValue(i, variable);
-                status.IncreaseIntOffset();
-            }
-
-            // 終端コードチェック
-            foreach (var b in Event.CharaMoveCommand.CharaMoveCommandBase.EndBlockCode)
-            {
-                if (status.ReadByte() != b)
-                {
-                    throw new InvalidOperationException(
-                        $"動作指定コマンド末尾の値が異なります。（offset: {status.Offset}）");
-                }
-
-                status.IncreaseByteOffset();
-            }
-
-            // 結果
-            commandList.Add(charaMoveCommand);
+            return result;
         }
     }
 }

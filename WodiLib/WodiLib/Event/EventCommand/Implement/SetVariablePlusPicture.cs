@@ -7,6 +7,7 @@
 // ========================================
 
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -83,6 +84,117 @@ namespace WodiLib.Event.EventCommand
         {
             get => InfoType.Code;
             set => InfoType = NumberPlusPictureInfoType.FromValue(value);
+        }
+
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     VersionCheck
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、
+        /// イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
+        /// </summary>
+        public override void OutputVersionWarningLogIfNeed()
+        {
+            if (VersionConfig.IsUnderVersion(WoditorVersion.Ver2_00))
+            {
+                OutputVersionWarningLogIfNeed_UnderVer2_00();
+            }
+
+            if (VersionConfig.IsGreaterVersion(WoditorVersion.Ver2_00))
+            {
+                OutputVersionWarningLogIfNeed_GreaterVer2_00();
+            }
+        }
+
+        /// <summary>
+        /// 設定バージョン = 2.00未満 の場合の警告
+        /// </summary>
+        private void OutputVersionWarningLogIfNeed_UnderVer2_00()
+        {
+            if (TargetDetailCode == NumberPlusPictureInfoType.ZoomWidth.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                    $"{NumberPlusPictureInfoType.ZoomWidth}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver2_00));
+            }
+            if (TargetDetailCode == NumberPlusPictureInfoType.ZoomWidth.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                    $"{NumberPlusPictureInfoType.ZoomHeight}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver2_00));
+            }
+            if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeLeftUpX.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                    $"{NumberPlusPictureInfoType.FreeModeLeftUpX}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver2_00));
+            }
+            if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeLeftUpY.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                    $"{NumberPlusPictureInfoType.FreeModeLeftUpY}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver2_00));
+            }
+            if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeLeftDownX.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                    $"{NumberPlusPictureInfoType.FreeModeLeftDownX}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver2_00));
+            }
+            if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeLeftDownY.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                    $"{NumberPlusPictureInfoType.FreeModeLeftDownY}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver2_00));
+            }
+            if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeRightDownX.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                    $"{NumberPlusPictureInfoType.FreeModeRightDownX}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver2_00));
+            }
+            if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeRightDownY.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                    $"{NumberPlusPictureInfoType.FreeModeRightDownY}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver2_00));
+            }
+            if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeRightDownX.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                    $"{NumberPlusPictureInfoType.FreeModeRightDownX}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver2_00));
+            }
+            if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeRightDownY.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                    $"{NumberPlusPictureInfoType.FreeModeRightDownY}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver2_00));
+            }
+        }
+
+        private void OutputVersionWarningLogIfNeed_GreaterVer2_00()
+        {
+            if (TargetDetailCode == NumberPlusPictureInfoType.Zoom.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotGreaterInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                    $"{NumberPlusPictureInfoType.Zoom}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver2_00));
+            }
         }
     }
 }

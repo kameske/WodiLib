@@ -13,11 +13,10 @@ using WodiLib.Sys;
 
 namespace WodiLib.Map
 {
-    /// <inheritdoc />
     /// <summary>
     /// マップイベントページリストクラス
     /// </summary>
-    public class MapEventPageList : IWodiLibObject
+    public class MapEventPageList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constant
@@ -269,7 +268,10 @@ namespace WodiLib.Map
             return (EventPageMin <= length && length <= EventPageMax);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// バイナリ変換する。
+        /// </summary>
+        /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
         {
             var result = new List<byte>();

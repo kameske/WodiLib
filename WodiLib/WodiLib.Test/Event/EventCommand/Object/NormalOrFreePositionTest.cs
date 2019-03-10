@@ -1,12 +1,23 @@
 using System;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand
 {
     [TestFixture]
     public class NormalOrFreePositionTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         [TestCase(false, false)]
         [TestCase(true, false)]
         public static void NormalPositionAccessorTest(bool isFreePosition, bool isError)
@@ -22,8 +33,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         var _ = instance.NormalPositionX;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -36,8 +48,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         var _ = instance.NormalPositionY;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -53,8 +66,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.NormalPositionX = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -67,8 +81,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.NormalPositionY = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -92,8 +107,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         var _ = instance.FreePositionLeftUpX;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -106,8 +122,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         var _ = instance.FreePositionLeftUpY;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -120,8 +137,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         var _ = instance.FreePositionLeftDownX;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -134,8 +152,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         var _ = instance.FreePositionLeftDownY;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -148,8 +167,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         var _ = instance.FreePositionRightUpX;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -162,8 +182,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         var _ = instance.FreePositionRightUpY;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -176,8 +197,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         var _ = instance.FreePositionRightDownX;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -190,8 +212,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         var _ = instance.FreePositionRightDownY;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -207,8 +230,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.FreePositionLeftUpX = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -221,8 +245,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.FreePositionLeftUpY = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -235,8 +260,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.FreePositionLeftDownX = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -249,8 +275,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.FreePositionLeftDownY = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -263,8 +290,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.FreePositionLeftUpX = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -277,8 +305,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.FreePositionLeftUpY = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -291,8 +320,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.FreePositionLeftDownX = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -305,8 +335,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.FreePositionLeftDownY = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -319,8 +350,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.FreePositionRightUpX = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -333,8 +365,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.FreePositionRightUpY = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -347,8 +380,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.FreePositionRightDownX = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 
@@ -361,8 +395,9 @@ namespace WodiLib.Test.Event.EventCommand
                     {
                         instance.FreePositionRightDownY = 0;
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        logger.Exception(ex);
                         errorOccured = true;
                     }
 

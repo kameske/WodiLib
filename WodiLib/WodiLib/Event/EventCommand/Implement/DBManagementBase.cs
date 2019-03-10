@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Database;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand

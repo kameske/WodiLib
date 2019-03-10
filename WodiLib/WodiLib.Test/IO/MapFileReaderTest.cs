@@ -4,13 +4,13 @@ using NUnit.Framework;
 using WodiLib.IO;
 using WodiLib.Map;
 
-namespace WodiLib.Test
+namespace WodiLib.Test.IO
 {
     [TestFixture]
     public class MapFileReaderTest
     {
         [OneTimeSetUp]
-        public static void SetUp()
+        public static void OneTimeSetUp()
         {
             // テスト用マップファイル出力
             MapFileTestItemGenerator.OutputMapFile();

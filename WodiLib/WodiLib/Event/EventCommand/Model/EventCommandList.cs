@@ -16,7 +16,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンドリスト
     /// </summary>
-    public class EventCommandList : IWodiLibObject
+    public class EventCommandList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constant
@@ -292,7 +292,10 @@ namespace WodiLib.Event.EventCommand
             return lastCommand is Blank;
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// バイナリ変換する。
+        /// </summary>
+        /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
         {
             if (!CheckLastCommand(commandList))

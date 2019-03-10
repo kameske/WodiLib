@@ -43,9 +43,10 @@ namespace WodiLib.IO
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 var bufLength = stream.Length;
-                if(bufLength > int.MaxValue) throw new InvalidOperationException(
-                    "ファイルサイズが大きすぎるため、扱うことができません。");
-                BufferLength = (int)stream.Length;
+                if (bufLength > int.MaxValue)
+                    throw new InvalidOperationException(
+                        "ファイルサイズが大きすぎるため、扱うことができません。");
+                BufferLength = (int) stream.Length;
                 DataBuffer = new byte[BufferLength];
                 stream.Read(DataBuffer, 0, BufferLength);
             }
@@ -91,8 +92,9 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">オフセットがバッファサイズを超える場合</exception>
         public void AddOffset(int i)
         {
-            if(Offset + i > BufferLength) throw new ArgumentException(
-                "オフセットがバッファサイズを超えるため、オフセットを増やせません。");
+            if (Offset + i > BufferLength)
+                throw new ArgumentException(
+                    "オフセットがバッファサイズを超えるため、オフセットを増やせません。");
             Offset += i;
         }
 
@@ -102,8 +104,9 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">オフセットがバッファサイズを超える場合</exception>
         public void IncreaseByteOffset()
         {
-            if(Offset + 1 > BufferLength) throw new ArgumentException(
-                "オフセットがバッファサイズを超えるため、オフセットを増やせません。");
+            if (Offset + 1 > BufferLength)
+                throw new ArgumentException(
+                    "オフセットがバッファサイズを超えるため、オフセットを増やせません。");
             AddOffset(1);
         }
 
@@ -114,10 +117,10 @@ namespace WodiLib.IO
         public void IncreaseIntOffset()
         {
             const int intSize = 4;
-            if(Offset + intSize > BufferLength) throw new ArgumentException(
-                "オフセットがバッファサイズを超えるため、オフセットを増やせません。");
+            if (Offset + intSize > BufferLength)
+                throw new ArgumentException(
+                    "オフセットがバッファサイズを超えるため、オフセットを増やせません。");
             AddOffset(intSize);
         }
     }
 }
-

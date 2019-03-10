@@ -12,11 +12,10 @@ using WodiLib.Sys;
 
 namespace WodiLib.Map
 {
-    /// <inheritdoc />
     /// <summary>
     ///     MapDataクラス
     /// </summary>
-    public class MapData : IWodiLibObject
+    public class MapData
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constant
@@ -170,7 +169,10 @@ namespace WodiLib.Map
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <summary>
+        /// バイナリ変換する。
+        /// </summary>
+        /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
         {
             CheckMakeBinary();

@@ -7,15 +7,13 @@
 // ========================================
 
 using System.ComponentModel;
-using WodiLib.Sys;
 
 namespace WodiLib.Event
 {
-    /// <inheritdoc />
     /// <summary>
     /// イベントコマンドインタフェース
     /// </summary>
-    public interface IEventCommand : IWodiLibObject
+    public interface IEventCommand
     {
         /// <summary>数値変数個数</summary>
         byte NumberVariableCount { get; }
@@ -67,5 +65,15 @@ namespace WodiLib.Event
         /// <param name="value">設定値</param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         void SetStringVariable(int index, string value);
+
+        /// <summary>
+        /// VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、
+        /// イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
+        /// </summary>
+        void OutputVersionWarningLogIfNeed();
+
+        /// <summary>バイナリデータに変換する</summary>
+        /// <returns>バイナリデータ</returns>
+        byte[] ToBinary();
     }
 }

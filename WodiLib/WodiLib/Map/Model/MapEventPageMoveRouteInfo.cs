@@ -13,11 +13,10 @@ using WodiLib.Sys;
 
 namespace WodiLib.Map
 {
-    /// <inheritdoc />
     /// <summary>
     /// マップイベント移動ルート情報クラス
     /// </summary>
-    public class MapEventPageMoveRouteInfo : IWodiLibObject
+    public class MapEventPageMoveRouteInfo
     {
         private AnimateSpeed animateSpeed = AnimateSpeed.Middle;
 
@@ -107,7 +106,10 @@ namespace WodiLib.Map
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// バイナリ変換する。
+        /// </summary>
+        /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
         {
             var result = new List<byte>();

@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using WodiLib.Database;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand

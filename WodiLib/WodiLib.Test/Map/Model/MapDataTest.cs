@@ -4,15 +4,26 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using WodiLib.Map;
-using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.IO;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
 {
     [TestFixture]
     public class MapDataTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         [OneTimeSetUp]
-        public static void SetUp()
+        public static void OneTimeSetUp()
         {
             // テスト用マップファイル出力
             MapFileTestItemGenerator.OutputMapFile();
@@ -29,10 +40,12 @@ namespace WodiLib.Test.Map
             {
                 instance.Memo = value;
             }
-            catch (PropertyNullException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
@@ -60,8 +73,9 @@ namespace WodiLib.Test.Map
             {
                 getResult = instance.GetLayer(index);
             }
-            catch (ArgumentOutOfRangeException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -83,6 +97,7 @@ namespace WodiLib.Test.Map
                         setObject = layer3;
                         break;
                 }
+
                 // 取得したインスタンスが初期化内容と一致すること
                 Assert.AreSame(getResult, setObject);
             }
@@ -97,18 +112,15 @@ namespace WodiLib.Test.Map
         {
             var instance = new MapData();
             Layer layer = null;
-            if(!isNull) layer = new Layer();
+            if (!isNull) layer = new Layer();
             var errorOccured = false;
             try
             {
                 instance.SetLayer(index, layer);
             }
-            catch(ArgumentNullException)
+            catch (Exception ex)
             {
-                errorOccured = true;
-            }
-            catch(ArgumentOutOfRangeException)
-            {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -131,6 +143,7 @@ namespace WodiLib.Test.Map
                         setObject = instance.Layer3;
                         break;
                 }
+
                 Assert.AreSame(setObject, layer);
             }
         }
@@ -160,10 +173,12 @@ namespace WodiLib.Test.Map
                         break;
                 }
             }
-            catch (PropertyNullException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
+
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
@@ -177,7 +192,7 @@ namespace WodiLib.Test.Map
 
             using (var fs = new FileStream($@"{MapFileTestItemGenerator.TestWorkRootDir}\Map023.mps", FileMode.Open))
             {
-                var length = (int)fs.Length;
+                var length = (int) fs.Length;
                 // ファイルサイズが規定でない場合誤作動防止の為テスト失敗にする
                 Assert.AreEqual(length, 6615);
 
@@ -190,6 +205,7 @@ namespace WodiLib.Test.Map
                 {
                     builder.AppendLine(str);
                 }
+
                 var result = builder.ToString();
                 Console.WriteLine(result);
 
@@ -198,21 +214,25 @@ namespace WodiLib.Test.Map
                 {
                     builder.AppendLine(str);
                 }
+
                 result = builder.ToString();
                 Console.WriteLine(result);
 
                 for (var i = 0; i < map023DataBuf.Length; i++)
                 {
-                    if(i == fileData.Length) Assert.Fail(
-                        $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map023DataBuf.Length}）");
+                    if (i == fileData.Length)
+                        Assert.Fail(
+                            $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map023DataBuf.Length}）");
 
-                    if(fileData[i] != map023DataBuf[i]) Assert.Fail(
-                        $"offset: {i} のバイナリが異なります。（期待値：{fileData[i]}, 実際：{map023DataBuf[i]}）");
+                    if (fileData[i] != map023DataBuf[i])
+                        Assert.Fail(
+                            $"offset: {i} のバイナリが異なります。（期待値：{fileData[i]}, 実際：{map023DataBuf[i]}）");
                 }
-                if(fileData.Length != map023DataBuf.Length) Assert.Fail(
-                    $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map023DataBuf.Length}）");
-            }
 
+                if (fileData.Length != map023DataBuf.Length)
+                    Assert.Fail(
+                        $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map023DataBuf.Length}）");
+            }
         }
 
         [Test]
@@ -224,7 +244,7 @@ namespace WodiLib.Test.Map
 
             using (var fs = new FileStream($@"{MapFileTestItemGenerator.TestWorkRootDir}\Map024.mps", FileMode.Open))
             {
-                var length = (int)fs.Length;
+                var length = (int) fs.Length;
                 // ファイルサイズが規定でない場合誤作動防止の為テスト失敗にする
                 Assert.AreEqual(length, 6080);
 
@@ -237,6 +257,7 @@ namespace WodiLib.Test.Map
                 {
                     builder.AppendLine(str);
                 }
+
                 var result = builder.ToString();
                 Console.WriteLine(result);
 
@@ -245,21 +266,25 @@ namespace WodiLib.Test.Map
                 {
                     builder.AppendLine(str);
                 }
+
                 result = builder.ToString();
                 Console.WriteLine(result);
 
                 for (var i = 0; i < map024DataBuf.Length; i++)
                 {
-                    if(i == fileData.Length) Assert.Fail(
-                        $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map024DataBuf.Length}）");
+                    if (i == fileData.Length)
+                        Assert.Fail(
+                            $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map024DataBuf.Length}）");
 
-                    if(fileData[i] != map024DataBuf[i]) Assert.Fail(
-                        $"offset: {i} のバイナリが異なります。（期待値：{fileData[i]}, 実際：{map024DataBuf[i]}）");
+                    if (fileData[i] != map024DataBuf[i])
+                        Assert.Fail(
+                            $"offset: {i} のバイナリが異なります。（期待値：{fileData[i]}, 実際：{map024DataBuf[i]}）");
                 }
-                if(fileData.Length != map024DataBuf.Length) Assert.Fail(
-                    $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map024DataBuf.Length}）");
-            }
 
+                if (fileData.Length != map024DataBuf.Length)
+                    Assert.Fail(
+                        $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map024DataBuf.Length}）");
+            }
         }
 
         [Test]
@@ -271,7 +296,7 @@ namespace WodiLib.Test.Map
 
             using (var fs = new FileStream($@"{MapFileTestItemGenerator.TestWorkRootDir}\Map025.mps", FileMode.Open))
             {
-                var length = (int)fs.Length;
+                var length = (int) fs.Length;
                 // ファイルサイズが規定でない場合誤作動防止の為テスト失敗にする
                 Assert.AreEqual(length, 9211);
 
@@ -284,6 +309,7 @@ namespace WodiLib.Test.Map
                 {
                     builder.AppendLine(str);
                 }
+
                 var result = builder.ToString();
                 Console.WriteLine(result);
 
@@ -292,21 +318,25 @@ namespace WodiLib.Test.Map
                 {
                     builder.AppendLine(str);
                 }
+
                 result = builder.ToString();
                 Console.WriteLine(result);
 
                 for (var i = 0; i < map025DataBuf.Length; i++)
                 {
-                    if(i == fileData.Length) Assert.Fail(
-                        $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map025DataBuf.Length}）");
+                    if (i == fileData.Length)
+                        Assert.Fail(
+                            $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map025DataBuf.Length}）");
 
-                    if(fileData[i] != map025DataBuf[i]) Assert.Fail(
-                        $"offset: {i} のバイナリが異なります。（期待値：{fileData[i]}, 実際：{map025DataBuf[i]}）");
+                    if (fileData[i] != map025DataBuf[i])
+                        Assert.Fail(
+                            $"offset: {i} のバイナリが異なります。（期待値：{fileData[i]}, 実際：{map025DataBuf[i]}）");
                 }
-                if(fileData.Length != map025DataBuf.Length) Assert.Fail(
-                    $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map025DataBuf.Length}）");
-            }
 
+                if (fileData.Length != map025DataBuf.Length)
+                    Assert.Fail(
+                        $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map025DataBuf.Length}）");
+            }
         }
 
         [OneTimeTearDown]

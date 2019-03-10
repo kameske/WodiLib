@@ -7,15 +7,13 @@
 // ========================================
 
 using System.ComponentModel;
-using WodiLib.Sys;
 
 namespace WodiLib.Event
 {
-    /// <inheritdoc />
     /// <summary>
     /// キャラ動作指定コマンドインタフェース
     /// </summary>
-    public interface ICharaMoveCommand : IWodiLibObject
+    public interface ICharaMoveCommand
     {
         /// <summary>
         /// 動作コマンドコード
@@ -40,5 +38,17 @@ namespace WodiLib.Event
         /// <param name="value">設定する値</param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         void SetNumberValue(int index, int value);
+
+        /// <summary>
+        /// VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、
+        /// イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
+        /// </summary>
+        void OutputVersionWarningLogIfNeed();
+
+        /// <summary>
+        /// バイナリ変換する。
+        /// </summary>
+        /// <returns>バイナリデータ</returns>
+        byte[] ToBinary();
     }
 }

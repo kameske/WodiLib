@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// <summary>
     /// マップイベントリストクラス
     /// </summary>
-    public class MapEventList : IWodiLibObject
+    public class MapEventList
     {
         /// <summary>イベントID最大値</summary>
         public static readonly int EventIdMax = 9999;
@@ -191,7 +191,10 @@ namespace WodiLib.Map
             return true;
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// バイナリ変換する。
+        /// </summary>
+        /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
         {
             var result = new List<byte>();

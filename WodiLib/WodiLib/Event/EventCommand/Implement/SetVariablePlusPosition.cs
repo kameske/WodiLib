@@ -7,6 +7,7 @@
 // ========================================
 
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -96,5 +97,71 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         private const byte FlgPrecise = 0x20;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     VersionCheck
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、
+        /// イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
+        /// </summary>
+        public override void OutputVersionWarningLogIfNeed()
+        {
+            if (VersionConfig.IsUnderVersion(WoditorVersion.Ver1_30))
+            {
+                OutputVersionWarningLogIfNeed_UnderVer1_30();
+            }
+        }
+
+        /// <summary>
+        /// 設定バージョン = 1.30未満 の場合の警告
+        /// </summary>
+        private void OutputVersionWarningLogIfNeed_UnderVer1_30()
+        {
+            if (InfoTypeCode == NumberPlusPositionInfoType.Layer1ChipNumber.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPosition)}.{nameof(InfoTypeCode)}",
+                    $"{nameof(NumberPlusPositionInfoType.Layer1ChipNumber)}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver1_30));
+            }
+            if (InfoTypeCode == NumberPlusPositionInfoType.Layer2ChipNumber.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPosition)}.{nameof(InfoTypeCode)}",
+                    $"{nameof(NumberPlusPositionInfoType.Layer2ChipNumber)}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver1_30));
+            }
+            if (InfoTypeCode == NumberPlusPositionInfoType.Layer3ChipNumber.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPosition)}.{nameof(InfoTypeCode)}",
+                    $"{nameof(NumberPlusPositionInfoType.Layer3ChipNumber)}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver1_30));
+            }
+            if (InfoTypeCode == NumberPlusPositionInfoType.Layer1TileTag.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPosition)}.{nameof(InfoTypeCode)}",
+                    $"{nameof(NumberPlusPositionInfoType.Layer1TileTag)}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver1_30));
+            }
+            if (InfoTypeCode == NumberPlusPositionInfoType.Layer2TileTag.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPosition)}.{nameof(InfoTypeCode)}",
+                    $"{nameof(NumberPlusPositionInfoType.Layer2TileTag)}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver1_30));
+            }
+            if (InfoTypeCode == NumberPlusPositionInfoType.Layer3TileTag.Code)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPosition)}.{nameof(InfoTypeCode)}",
+                    $"{nameof(NumberPlusPositionInfoType.Layer3TileTag)}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver1_30));
+            }
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace WodiLib.Map
     /// <summary>
     /// マップイベントページ起動情報クラス
     /// </summary>
-    public class MapEventPageBootInfo : IWodiLibObject
+    public class MapEventPageBootInfo
     {
         private MapEventBootType mapEventBootType = MapEventBootType.PushOKKey;
 
@@ -183,7 +183,10 @@ namespace WodiLib.Map
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// バイナリ変換する。
+        /// </summary>
+        /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
         {
             var result = new List<byte>();

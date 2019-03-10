@@ -13,11 +13,10 @@ using WodiLib.Sys;
 
 namespace WodiLib.Map
 {
-    /// <inheritdoc />
     /// <summary>
     /// マップイベントページグラフィック情報クラス
     /// </summary>
-    public class MapEventPageGraphicInfo : IWodiLibObject
+    public class MapEventPageGraphicInfo
     {
         /// <summary>キャラグラフィックにタイル画像を使用しない場合の値</summary>
         public static readonly int GraphicNotUseTileId = -1;
@@ -145,7 +144,10 @@ namespace WodiLib.Map
             CharaChipFileName = fileName;
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// バイナリ変換する。
+        /// </summary>
+        /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
         {
             var result = new List<byte>();

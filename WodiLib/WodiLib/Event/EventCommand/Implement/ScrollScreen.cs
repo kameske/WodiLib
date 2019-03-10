@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -183,5 +184,43 @@ namespace WodiLib.Event.EventCommand
 
         private const byte FlgWaitForComplete = 0x01;
         private const byte FlgPixel = 0x02;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     VersionCheck
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、
+        /// イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
+        /// </summary>
+        public override void OutputVersionWarningLogIfNeed()
+        {
+            if (VersionConfig.IsUnderVersion(WoditorVersion.Ver2_20))
+            {
+                OutputVersionWarningLogIfNeed_UnderVer2_20();
+            }
+        }
+
+        /// <summary>
+        /// 設定バージョン = 2.20未満 の場合の警告
+        /// </summary>
+        private void OutputVersionWarningLogIfNeed_UnderVer2_20()
+        {
+            if (Speed == ScrollSpeed.Speed32)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(ScrollScreen)}.{nameof(Speed)}",
+                    $"{ScrollSpeed.Speed32}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver2_20));
+            }
+            if (Speed == ScrollSpeed.Speed64)
+            {
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(ScrollScreen)}.{nameof(Speed)}",
+                    $"{ScrollSpeed.Speed64}",
+                    VersionConfig.GetConfigWoditorVersion(),
+                    WoditorVersion.Ver2_20));
+            }
+        }
     }
 }

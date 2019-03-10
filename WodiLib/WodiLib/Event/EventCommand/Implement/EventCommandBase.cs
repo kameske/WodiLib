@@ -9,11 +9,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// イベントコマンドのすべて共通処理を定義する。ラス
+    /// イベントコマンドのすべて共通処理を定義する。
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class EventCommandBase : IEventCommand
@@ -70,6 +71,21 @@ namespace WodiLib.Event.EventCommand
         private readonly byte FlgNotHasActionEntry = 0x00;
         private readonly byte FlgHasActionEntry = 0x01;
 
+        /// <summary>
+        /// ロガー
+        /// </summary>
+        protected WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Virtual Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、
+        /// イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
+        /// </summary>
+        public virtual void OutputVersionWarningLogIfNeed() { }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -77,6 +93,8 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         public virtual byte[] ToBinary()
         {
+            OutputVersionWarningLogIfNeed();
+
             var result = new List<byte>();
 
             // 数値変数の数

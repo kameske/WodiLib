@@ -2,12 +2,23 @@ using System;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand
 {
     [TestFixture]
     public class ConditionStringListTest
     {
+        private static WodiLibLogger logger;
+
+        [SetUp]
+        public static void Setup()
+        {
+            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            logger = WodiLibLogger.GetInstance();
+        }
+
         private static readonly object[] SetConditionValueOutOfRangeTestCaseSource =
         {
             new object[] {-1, true},
@@ -16,6 +27,7 @@ namespace WodiLib.Test.Event.EventCommand
             new object[] {4, false},
             new object[] {5, true}
         };
+
         [TestCaseSource(nameof(SetConditionValueOutOfRangeTestCaseSource))]
         public static void SetConditionValueOutOfRangeTest(int value, bool error)
         {
@@ -26,8 +38,9 @@ namespace WodiLib.Test.Event.EventCommand
                 instance.ConditionValue = value;
                 isError = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 isError = true;
             }
 
@@ -48,6 +61,7 @@ namespace WodiLib.Test.Event.EventCommand
             new object[] {4, 3, false},
             new object[] {4, 4, true}
         };
+
         [TestCaseSource(nameof(AccessorOutOfRangeTestCaseSource))]
         public static void SetOutOfRangeTest(int conditionValue, int setIndex, bool error)
         {
@@ -59,8 +73,9 @@ namespace WodiLib.Test.Event.EventCommand
                 instance.Set(setIndex, new ConditionStringDesc());
                 isError = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 isError = true;
             }
 
@@ -79,10 +94,12 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 instance.Set(0, null);
             }
-            catch (ArgumentNullException)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 isError = true;
             }
+
             Assert.IsTrue(isError);
         }
 
@@ -95,6 +112,7 @@ namespace WodiLib.Test.Event.EventCommand
             new object[] {4, 3, 100, false},
             new object[] {4, 4, 100, true},
         };
+
         [TestCaseSource(nameof(SetLeftSideTestCaseSource))]
         public static void SetLeftSideTest(int conditionValue, int index, int leftSide, bool isError)
         {
@@ -107,8 +125,9 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 instance.SetLeftSide(index, leftSide);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -121,7 +140,7 @@ namespace WodiLib.Test.Event.EventCommand
             for (var i = 0; i < instance.ConditionValue; i++)
             {
                 var getValue = instance.Get(i).LeftSide;
-                if(i == index) Assert.AreEqual(getValue, leftSide);
+                if (i == index) Assert.AreEqual(getValue, leftSide);
                 else Assert.AreNotEqual(getValue, leftSide);
             }
         }
@@ -135,6 +154,7 @@ namespace WodiLib.Test.Event.EventCommand
             new object[] {4, 3, 100, false},
             new object[] {4, 4, 100, true},
         };
+
         [TestCaseSource(nameof(SetRightSideTestCaseSource))]
         public static void SetRightSideTest(int conditionValue, int index, int rightSide, bool isError)
         {
@@ -147,8 +167,9 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 instance.SetRightSide(index, rightSide);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -165,6 +186,7 @@ namespace WodiLib.Test.Event.EventCommand
             new object[] {4, 3, 100, false},
             new object[] {4, 4, 100, true},
         };
+
         [TestCaseSource(nameof(MergeRightSideTestCaseSource))]
         public static void MergeRightSideTest(int conditionValue, int index, int rightSide, bool isError)
         {
@@ -177,14 +199,14 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 instance.MergeRightSide(index, rightSide);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
         }
 
         private static readonly object[] MergeRightSideNonCheckIndexTestCaseSource =
@@ -198,6 +220,7 @@ namespace WodiLib.Test.Event.EventCommand
             new object[] {4, 3, 100, false},
             new object[] {4, 4, 100, true},
         };
+
         [TestCaseSource(nameof(MergeRightSideNonCheckIndexTestCaseSource))]
         public static void MergeRightSideNonCheckIndexTest(int conditionValue, int index, int rightSide, bool isError)
         {
@@ -210,14 +233,14 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 instance.MergeRightSideNonCheckIndex(index, rightSide);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
         }
 
         private static readonly object[] SetConditionTestCaseSource =
@@ -229,8 +252,10 @@ namespace WodiLib.Test.Event.EventCommand
             new object[] {4, 3, StringConditionalOperator.StartWith, false},
             new object[] {4, 4, StringConditionalOperator.StartWith, true},
         };
+
         [TestCaseSource(nameof(SetConditionTestCaseSource))]
-        public static void SetConditionTest(int conditionValue, int index, StringConditionalOperator condition, bool isError)
+        public static void SetConditionTest(int conditionValue, int index, StringConditionalOperator condition,
+            bool isError)
         {
             var instance = new ConditionStringList
             {
@@ -241,8 +266,9 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 instance.SetCondition(index, condition);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -255,7 +281,7 @@ namespace WodiLib.Test.Event.EventCommand
             for (var i = 0; i < instance.ConditionValue; i++)
             {
                 var getValue = instance.Get(i).Condition;
-                if(i == index) Assert.AreEqual(getValue, condition);
+                if (i == index) Assert.AreEqual(getValue, condition);
                 else Assert.AreNotEqual(getValue, condition);
             }
         }
@@ -269,8 +295,10 @@ namespace WodiLib.Test.Event.EventCommand
             new object[] {4, 3, true, false},
             new object[] {4, 4, true, true},
         };
+
         [TestCaseSource(nameof(SetIsUseNumberVariableTestCaseSource))]
-        public static void SetIsUseNumberVariableTest(int conditionValue, int index, bool isUseNumberVariable, bool isError)
+        public static void SetIsUseNumberVariableTest(int conditionValue, int index, bool isUseNumberVariable,
+            bool isError)
         {
             var instance = new ConditionStringList
             {
@@ -281,8 +309,9 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 instance.SetIsUseNumberVariable(index, isUseNumberVariable);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -295,7 +324,7 @@ namespace WodiLib.Test.Event.EventCommand
             for (var i = 0; i < instance.ConditionValue; i++)
             {
                 var getValue = instance.Get(i).IsUseNumberVariable;
-                if(i == index) Assert.AreEqual(getValue, isUseNumberVariable);
+                if (i == index) Assert.AreEqual(getValue, isUseNumberVariable);
                 else Assert.AreNotEqual(getValue, isUseNumberVariable);
             }
         }
@@ -311,8 +340,9 @@ namespace WodiLib.Test.Event.EventCommand
                 var _ = instance.Get(getIndex);
                 isError = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Exception(ex);
                 isError = true;
             }
 
@@ -352,6 +382,7 @@ namespace WodiLib.Test.Event.EventCommand
             new object[] {4, false, true, true, true, 1},
             new object[] {4, true, true, true, true, 0},
         };
+
         [TestCaseSource(nameof(SearchUseNumberVariableForRightSideMaxTestCaseSource))]
         public static void SearchUseNumberVariableForRightSideMaxTest(int conditionValue, bool is1Str, bool is2Str,
             bool is3Str, bool is4Str, int result)
@@ -365,28 +396,28 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 Condition = StringConditionalOperator.Equal,
                 LeftSide = 0,
-                RightSide = is1Str ? (IntOrStr)"a" : 0,
+                RightSide = is1Str ? (IntOrStr) "a" : 0,
                 IsUseNumberVariable = !is1Str
             });
             instance.Set(1, new ConditionStringDesc
             {
                 Condition = StringConditionalOperator.Equal,
                 LeftSide = 0,
-                RightSide = is2Str ? (IntOrStr)"a" : 0,
+                RightSide = is2Str ? (IntOrStr) "a" : 0,
                 IsUseNumberVariable = !is2Str
             });
             instance.Set(2, new ConditionStringDesc
             {
                 Condition = StringConditionalOperator.Equal,
                 LeftSide = 0,
-                RightSide = is3Str ? (IntOrStr)"a" : 0,
+                RightSide = is3Str ? (IntOrStr) "a" : 0,
                 IsUseNumberVariable = !is3Str
             });
             instance.Set(3, new ConditionStringDesc
             {
                 Condition = StringConditionalOperator.Equal,
                 LeftSide = 0,
-                RightSide = is4Str ? (IntOrStr)"a" : 0,
+                RightSide = is4Str ? (IntOrStr) "a" : 0,
                 IsUseNumberVariable = !is4Str
             });
             // 条件数を正しく

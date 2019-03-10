@@ -12,11 +12,10 @@ using WodiLib.Sys;
 
 namespace WodiLib.Event
 {
-    /// <inheritdoc />
     /// <summary>
     /// 動作指定
     /// </summary>
-    public class ActionEntry : IWodiLibObject
+    public class ActionEntry
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constant
@@ -112,7 +111,6 @@ namespace WodiLib.Event
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
         /// <summary>
         /// バイナリ変換する。
         /// </summary>
