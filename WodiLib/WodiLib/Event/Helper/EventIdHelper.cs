@@ -12,9 +12,9 @@ namespace WodiLib.Event
 {
     /// <summary>
     /// イベントIDに関するヘルパークラス
-    /// （将来EventIdクラスに載せ替え）
+    /// （将来EventIdオブジェクトに載せ替え）
     /// </summary>
-//    [Obsolete]
+    [Obsolete]
     public static class EventIdHelper
     {
         /// <summary>

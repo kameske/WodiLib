@@ -14,9 +14,9 @@ namespace WodiLib.Event
 {
     /// <summary>
     /// 数値変数ヘルパークラス
-    /// （将来VariableAddressクラスに載せ替え）
+    /// （廃止予定）
     /// </summary>
-//    [Obsolete]
+    [Obsolete]
     public static class VariableAddressHelper
     {
         /// <summary>ロガー</summary>

@@ -119,5 +119,35 @@ namespace WodiLib.Sys
         {
             return value.ToBytes(Endian.Woditor);
         }
+
+        /// <summary>
+        /// 指定した桁から指定桁数のIntを取り出す。
+        /// </summary>
+        /// <param name="target">対象</param>
+        /// <param name="beginColumn">[Range(0, targetの桁数)] 取り出し開始桁（1の位＝0とする）</param>
+        /// <param name="length">[Range(1, 10)] 取り出す桁数</param>
+        /// <returns>取り出した数値</returns>
+        /// <exception cref="ArgumentOutOfRangeException">beginColumn, length が指定範囲以外の場合</exception>
+        public static int SubInt(this int target, int beginColumn, int length)
+        {
+            var maxColumn = target == 0 ? 1 : (int)Math.Log10(target) + 1;
+
+            const int lengthMin = 1;
+            const int lengthMax = 10;
+            if(length < lengthMin || lengthMax < length) throw new ArgumentOutOfRangeException(
+                ErrorMessage.OutOfRange(nameof(length), lengthMin, lengthMax, length));
+
+            const int beginColumnMin = 0;
+            var beginColumnMax = maxColumn - length;
+            if(beginColumn < beginColumnMin || beginColumnMax < beginColumn) throw new ArgumentOutOfRangeException(
+                ErrorMessage.OutOfRange(nameof(beginColumn), beginColumnMax, beginColumnMax, beginColumn));
+
+            // 指定より下の桁を除去
+            var result = target / (int) Math.Pow(10, beginColumn);
+            // 指定より上の桁を除去
+            result %= (int)Math.Pow(10, length);
+
+            return result;
+        }
     }
 }

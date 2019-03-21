@@ -17,7 +17,7 @@ namespace WodiLib.Sys
         /// NotNullエラーメッセージ
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
-        /// <returns></returns>
+        /// <returns>エラーメッセージ</returns>
         public static string NotNull(string itemName)
         {
             return $"{itemName}にnullを設定できません。";
@@ -27,7 +27,7 @@ namespace WodiLib.Sys
         /// NotEmptyエラーメッセージ
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
-        /// <returns></returns>
+        /// <returns>エラーメッセージ</returns>
         public static string NotEmpty(string itemName)
         {
             return $"{itemName}にEmptyを設定できません。";
@@ -40,7 +40,7 @@ namespace WodiLib.Sys
         /// <param name="min">最小値</param>
         /// <param name="max">最大値</param>
         /// <param name="setValue">設定値</param>
-        /// <returns></returns>
+        /// <returns>エラーメッセージ</returns>
         public static string OutOfRange(string itemName, IntOrStr min, IntOrStr max, int setValue)
         {
             return $"{itemName}は{min.ToValueString()}～{max.ToValueString()}のみ設定できます。(設定値：{setValue})";
@@ -53,7 +53,7 @@ namespace WodiLib.Sys
         /// <param name="min">最小値</param>
         /// <param name="max">最大値</param>
         /// <param name="size">項目数</param>
-        /// <returns></returns>
+        /// <returns>エラーメッセージ</returns>
         public static string LengthRange(string itemName, IntOrStr min, IntOrStr max, int size)
         {
             return $"{itemName}のサイズは{min.ToValueString()}～{max.ToValueString()}にする必要があります。(サイズ：{size})";
@@ -64,20 +64,21 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
         /// <param name="item">エラーオブジェクト</param>
-        /// <returns></returns>
+        /// <returns>エラーメッセージ</returns>
         public static string Unsuitable(string itemName, object item)
         {
             return $"{itemName}が不適切です。{{ {item} }}";
         }
 
         /// <summary>
-        /// 必須（null非許容）エラーメッセージ
+        /// 改行を含む場合のエラーメッセージ
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
-        /// <returns></returns>
-        public static string Require(string itemName)
+        /// <param name="value">エラー文字列</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string NotNewLine(string itemName, string value)
         {
-            return $"{itemName}は必須です。（nullが許容されていない項目です。）";
+            return $"{itemName}に改行を含むことはできません。（設定値：{value}）";
         }
     }
 }
