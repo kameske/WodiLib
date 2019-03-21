@@ -302,11 +302,11 @@ namespace WodiLib.IO
         private static void ReadBeforeMemoString(FileReadStatus status, CommonEvent commonEvent)
         {
             var str = status.ReadString();
-            commonEvent.BeforeMemo = str.String;
+            commonEvent.Description = str.String;
             status.AddOffset(str.ByteLength);
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
-                "メモ前の文字列", commonEvent.BeforeMemo));
+                "メモ前の文字列", commonEvent.Description));
         }
 
         /// <summary>

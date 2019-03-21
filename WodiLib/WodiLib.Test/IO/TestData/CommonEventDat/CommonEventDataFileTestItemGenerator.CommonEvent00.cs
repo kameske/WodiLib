@@ -39,7 +39,7 @@ namespace WodiLib.Test.IO
                                 Indent = 0
                             }
                         }),
-                    BeforeMemo = "",
+                    Description = "",
                     Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
                     FooterString = "",
@@ -82,7 +82,7 @@ namespace WodiLib.Test.IO
                                 Indent = 0
                             }
                         }),
-                    BeforeMemo = "",
+                    Description = "",
                     Memo = "Memo",
                     LabelColor = CommonEventLabelColor.Blue,
                     FooterString = "",
@@ -215,7 +215,7 @@ namespace WodiLib.Test.IO
                             EventCommandFactory.CreateCommandString("[300][10,1]<0>(0,68,128,2,127,255,1600005,1600005,1600005,1600005)(\"コモンイベント001\")"),
                             EventCommandFactory.CreateCommandString("[0][0,0]<0>()()")
                         }),
-                    BeforeMemo = "",
+                    Description = "",
                     Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
                     FooterString = "",
@@ -264,7 +264,7 @@ namespace WodiLib.Test.IO
                             EventCommandFactory.CreateCommandString("[210][3,0]<0>(600099,16777216,1600000)()"),
                             EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
                         }),
-                    BeforeMemo = "",
+                    Description = "",
                     Memo = "Memo",
                     LabelColor = CommonEventLabelColor.Purple,
                     FooterString = "",
@@ -378,7 +378,7 @@ namespace WodiLib.Test.IO
                         {
                             EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
                         }),
-                    BeforeMemo = "",
+                    Description = "",
                     Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
                     FooterString = "",
@@ -407,7 +407,7 @@ namespace WodiLib.Test.IO
                         {
                             EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
                         }),
-                    BeforeMemo = "",
+                    Description = "",
                     Memo = "",
                     LabelColor = CommonEventLabelColor.Green,
                     FooterString = "",
@@ -436,7 +436,7 @@ namespace WodiLib.Test.IO
                         {
                             EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
                         }),
-                    BeforeMemo = "",
+                    Description = "",
                     Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
                     FooterString = "",
@@ -556,7 +556,7 @@ namespace WodiLib.Test.IO
                         {
                             EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
                         }),
-                    BeforeMemo = "",
+                    Description = "",
                     Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
                     FooterString = "",

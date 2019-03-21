@@ -55,7 +55,7 @@ namespace WodiLib.Common
         /// <summary>
         /// 値を返すフラグ
         /// </summary>
-        public bool IsReturnValue { get; private set; } = false;
+        public bool IsReturnValue { get; private set; }
 
         /// <summary>
         /// 返戻セルフ変数インデックス（値を返さない場合-1）

@@ -26,7 +26,6 @@ namespace WodiLib.Common
 
         private string argName = "";
 
-        /// <inheritdoc />
         /// <summary>
         /// [NotNull] 引数名
         /// </summary>
@@ -43,7 +42,6 @@ namespace WodiLib.Common
             }
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// 引数特殊指定タイプ
         /// </summary>
@@ -68,7 +66,6 @@ namespace WodiLib.Common
         /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
         public bool DatabaseUseAdditionalItemsFlag => InnerDesc.DatabaseUseAdditionalItemsFlag;
 
-        /// <inheritdoc />
         /// <summary>
         /// 数値引数の初期値
         /// </summary>
@@ -129,7 +126,6 @@ namespace WodiLib.Common
             InnerDesc.SetDatabaseUseAdditionalItemsFlag(flag);
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// すべての選択肢を取得する。
         /// </summary>
@@ -139,7 +135,6 @@ namespace WodiLib.Common
             return InnerDesc.GetAllSpecialCase();
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// すべての選択肢番号を取得する。
         /// <para>特殊指定が「データベース参照」の場合、返却されるリストは[-1, -2, -3]ではなく[DB種別コード, DBタイプID, -1～-3追加フラグ]。</para>
@@ -150,7 +145,6 @@ namespace WodiLib.Common
             return InnerDesc.GetAllSpecialCaseNumber();
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// すべての選択肢文字列を取得する。
         /// </summary>
@@ -212,10 +206,11 @@ namespace WodiLib.Common
         /// DB参照時の追加選択肢文字列を更新する。
         /// </summary>
         /// <param name="caseNumber">[Range[-3, -1)] 選択肢番号</param>
-        /// <param name="description">[NotNull] 文字列</param>
+        /// <param name="description">[NotNull][NotNewLine] 文字列</param>
         /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">caseNumberが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">descriptionがEmptyの場合</exception>
+        /// <exception cref="ArgumentNewLineException">descriptionが改行を含む場合</exception>
         public void UpdateDatabaseSpecialCase(int caseNumber, string description)
         {
             InnerDesc.UpdateDatabaseSpecialCase(caseNumber, description);

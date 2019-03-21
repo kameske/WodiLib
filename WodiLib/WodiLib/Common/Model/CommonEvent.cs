@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using WodiLib.Event;
 using WodiLib.Event.EventCommand;
 using WodiLib.Sys;
@@ -187,22 +188,22 @@ namespace WodiLib.Common
             }
         }
 
-        private string beforeMemo = "";
+        private string description = "";
 
         /// <summary>
-        /// [NotNull] メモの前の文字列
+        /// [NotNull] 説明文
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public string BeforeMemo
+        public string Description
         {
-            get => beforeMemo;
+            get => description;
             set
             {
                 if (value == null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(BeforeMemo)));
-                beforeMemo = value;
+                        ErrorMessage.NotNull(nameof(Description)));
+                description = value;
             }
         }
 
@@ -425,18 +426,20 @@ namespace WodiLib.Common
         /// <param name="variableNameList">[NotNull] 変数名リスト</param>
         /// <exception cref="ArgumentNullException">variableNameListがnullの場合</exception>
         /// <exception cref="ArgumentException">variableNameListの要素数が100以外の場合</exception>
-        public void UpdateAllVariableName(List<string> variableNameList)
+        public void UpdateAllVariableName(IEnumerable<string> variableNameList)
         {
+            var nameList = variableNameList.ToList();
+
             if (variableNameList == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(variableNameList)));
 
             var count = CommonEventSelfVariableNameList.ListMax;
-            if (variableNameList.Count != count)
+            if (nameList.Count != count)
                 throw new ArgumentException(
                     $"{nameof(variableNameList)}の要素数は{count}である必要があります。");
 
-            SelfVariableNameList = new CommonEventSelfVariableNameList(variableNameList);
+            SelfVariableNameList = new CommonEventSelfVariableNameList(nameList);
         }
 
         /// <summary>
@@ -513,7 +516,7 @@ namespace WodiLib.Common
             }
 
             // メモの前の文字列
-            result.AddRange(new WoditorString(BeforeMemo).StringByte);
+            result.AddRange(new WoditorString(Description).StringByte);
 
             // メモ
             result.AddRange(new WoditorString(Memo).StringByte);

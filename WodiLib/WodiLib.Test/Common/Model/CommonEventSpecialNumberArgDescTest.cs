@@ -55,11 +55,8 @@ namespace WodiLib.Test.Common
         private static readonly object[] ArgTypeTestCaseSource =
         {
             new object[] {CommonEventArgType.Normal, false},
-            new object[] {CommonEventArgType.Normal, false},
             new object[] {CommonEventArgType.ReferDatabase, false},
-            new object[] {CommonEventArgType.ReferDatabase, false},
-            new object[] {CommonEventArgType.Manual, false},
-            new object[] {CommonEventArgType.Manual, false},
+            new object[] {CommonEventArgType.Manual, false}
         };
 
         [TestCaseSource(nameof(ArgTypeTestCaseSource))]
@@ -93,10 +90,7 @@ namespace WodiLib.Test.Common
         private static readonly object[] DatabaseUseDbKindTestCaseSource =
         {
             new object[] {CommonEventArgType.Normal, true},
-            new object[] {CommonEventArgType.Normal, true},
             new object[] {CommonEventArgType.ReferDatabase, false},
-            new object[] {CommonEventArgType.ReferDatabase, false},
-            new object[] {CommonEventArgType.Manual, true},
             new object[] {CommonEventArgType.Manual, true},
         };
 
@@ -124,10 +118,7 @@ namespace WodiLib.Test.Common
         private static readonly object[] DatabaseDbTypeIdTestCaseSource =
         {
             new object[] {CommonEventArgType.Normal, true},
-            new object[] {CommonEventArgType.Normal, true},
             new object[] {CommonEventArgType.ReferDatabase, false},
-            new object[] {CommonEventArgType.ReferDatabase, false},
-            new object[] {CommonEventArgType.Manual, true},
             new object[] {CommonEventArgType.Manual, true},
         };
 
@@ -155,10 +146,7 @@ namespace WodiLib.Test.Common
         private static readonly object[] DatabaseUseAdditionalItemsFlagTestCaseSource =
         {
             new object[] {CommonEventArgType.Normal, true},
-            new object[] {CommonEventArgType.Normal, true},
             new object[] {CommonEventArgType.ReferDatabase, false},
-            new object[] {CommonEventArgType.ReferDatabase, false},
-            new object[] {CommonEventArgType.Manual, true},
             new object[] {CommonEventArgType.Manual, true},
         };
 
@@ -686,14 +674,14 @@ namespace WodiLib.Test.Common
             new object[] {CommonEventArgType.ReferDatabase, -3, "", false},
             new object[] {CommonEventArgType.ReferDatabase, -3, "abc", false},
             new object[] {CommonEventArgType.ReferDatabase, -3, "あいうえお", false},
-            new object[] {CommonEventArgType.ReferDatabase, -3, "New\r\nLine\r\nCRLF", false},
-            new object[] {CommonEventArgType.ReferDatabase, -3, "New\nLine\nLF", false},
+            new object[] {CommonEventArgType.ReferDatabase, -3, "New\r\nLine\r\nCRLF", true},
+            new object[] {CommonEventArgType.ReferDatabase, -3, "New\nLine\nLF", true},
             new object[] {CommonEventArgType.ReferDatabase, -1, null, true},
             new object[] {CommonEventArgType.ReferDatabase, -1, "", false},
             new object[] {CommonEventArgType.ReferDatabase, -1, "abc", false},
             new object[] {CommonEventArgType.ReferDatabase, -1, "あいうえお", false},
-            new object[] {CommonEventArgType.ReferDatabase, -1, "New\r\nLine\r\nCRLF", false},
-            new object[] {CommonEventArgType.ReferDatabase, -1, "New\nLine\nLF", false},
+            new object[] {CommonEventArgType.ReferDatabase, -1, "New\r\nLine\r\nCRLF", true},
+            new object[] {CommonEventArgType.ReferDatabase, -1, "New\nLine\nLF", true},
             new object[] {CommonEventArgType.ReferDatabase, 0, null, true},
             new object[] {CommonEventArgType.ReferDatabase, 0, "", true},
             new object[] {CommonEventArgType.ReferDatabase, 0, "abc", true},

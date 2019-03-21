@@ -22,5 +22,15 @@ namespace WodiLib.Sys
         {
             return src.Equals(string.Empty);
         }
+
+        /// <summary>
+        /// 改行を含むかどうかを返す。
+        /// </summary>
+        /// <param name="src">対象</param>
+        /// <returns>改行を含む場合、true</returns>
+        public static bool HasNewLine(this string src)
+        {
+            return src.Contains("\n") || src.Contains("\r\n");
+        }
     }
 }

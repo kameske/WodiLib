@@ -193,7 +193,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                instance.BeforeMemo = str;
+                instance.Description = str;
             }
             catch (Exception ex)
             {
@@ -206,7 +206,7 @@ namespace WodiLib.Test.Common
 
             if (errorOccured) return;
 
-            var setValue = instance.BeforeMemo;
+            var setValue = instance.Description;
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(str));

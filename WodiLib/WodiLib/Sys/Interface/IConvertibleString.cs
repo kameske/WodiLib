@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : IConvertibleInt.cs
+// File Name    : IConvertibleString.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -11,12 +11,12 @@ namespace WodiLib.Sys
     /// <summary>
     /// int に変換できることを示すインタフェース
     /// </summary>
-    public interface IConvertibleInt
+    public interface IConvertibleString
     {
         /// <summary>
-        /// int に変換する。
+        /// string に変換する。
         /// </summary>
-        /// <returns>int値</returns>
-        int ToInt();
+        /// <returns>string値</returns>
+        string ToString();
     }
 }

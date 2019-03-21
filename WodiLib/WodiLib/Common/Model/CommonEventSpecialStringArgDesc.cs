@@ -24,7 +24,6 @@ namespace WodiLib.Common
 
         private string argName = "";
 
-        /// <inheritdoc />
         /// <summary>
         /// [NotNull] 引数名
         /// </summary>
@@ -41,13 +40,11 @@ namespace WodiLib.Common
             }
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// 引数特殊指定タイプ
         /// </summary>
         public CommonEventArgType ArgType => CommonEventArgType.Normal;
 
-        /// <inheritdoc />
         /// <summary>
         /// 数値引数の初期値
         /// </summary>
@@ -59,7 +56,6 @@ namespace WodiLib.Common
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
         /// <summary>
         /// 引数種別によらずすべての選択肢を取得する。
         /// </summary>
@@ -70,7 +66,6 @@ namespace WodiLib.Common
             return new List<CommonEventSpecialArgCase>();
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// すべての選択肢番号を取得する。
         /// </summary>
@@ -81,7 +76,6 @@ namespace WodiLib.Common
             return new List<int>();
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// すべての選択肢文字列を取得する。
         /// </summary>

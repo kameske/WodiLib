@@ -142,5 +142,69 @@ namespace WodiLib.Test.Sys
                 Assert.AreEqual(bytes[i], result[i]);
             }
         }
+
+        [TestCase(0, -1, -1, true, null)]
+        [TestCase(0,-1, 0, true, null)]
+        [TestCase(0, -1, 1, true, null)]
+        [TestCase(0, -1, 2, true, null)]
+        [TestCase(0, 0, -1, true, null)]
+        [TestCase(0, 0, 0, true, null)]
+        [TestCase(0, 0, 1, false, 0)]
+        [TestCase(0, 0, 2, false, 0)]
+        [TestCase(0, 1, -1, true, null)]
+        [TestCase(0, 1, 0, true, null)]
+        [TestCase(0, 1, 1, true, null)]
+        [TestCase(0, 1, 2, true, null)]
+        [TestCase(6, -1, -1, true, null)]
+        [TestCase(6, -1, 0, true, null)]
+        [TestCase(6, -1, 1, true, null)]
+        [TestCase(6, -1, 2, true, null)]
+        [TestCase(6, 0, -1, true, null)]
+        [TestCase(6, 0, 0, true, null)]
+        [TestCase(6, 0, 1, false, 6)]
+        [TestCase(6, 0, 2, false, 6)]
+        [TestCase(6, 1, -1, true, null)]
+        [TestCase(6, 1, 0, true, null)]
+        [TestCase(6, 1, 1, true, null)]
+        [TestCase(6, 1, 2, true, null)]
+        [TestCase(123456, -1, 0, true, null)]
+        [TestCase(123456, -1, 1, true, null)]
+        [TestCase(123456, -1, 2, true, null)]
+        [TestCase(123456, -1, 5, true, null)]
+        [TestCase(123456, -1, 6, true, null)]
+        [TestCase(123456, -1, 7, true, null)]
+        [TestCase(123456, 0, 0, true, null)]
+        [TestCase(123456, 0, 1, false, 6)]
+        [TestCase(123456, 0, 2, false, 56)]
+        [TestCase(123456, 0, 5, false, 23456)]
+        [TestCase(123456, 0, 6, false, 123456)]
+        [TestCase(123456, 0, 7, false, 123456)]
+        [TestCase(123456, 1, 0, true, null)]
+        [TestCase(123456, 1, 1, false, 5)]
+        [TestCase(123456, 1, 2, false, 45)]
+        [TestCase(123456, 1, 5, false, 12345)]
+        [TestCase(123456, 1, 6, false, 12345)]
+        [TestCase(123456, 5, 0, true, null)]
+        [TestCase(123456, 5, 1, false, 1)]
+        [TestCase(123456, 5, 2, false, 1)]
+        [TestCase(123456, 6, 0, true, null)]
+        [TestCase(123456, 6, 1, true, null)]
+        [TestCase(123456, 6, 2, true, null)]
+        public static void SubIntTest(int value, int beginColumn, int length, bool isError, int answer) {
+
+            var errorOccured = false;
+            var result = 0;
+            try {
+                result = value.SubInt(beginColumn, length);
+            } catch {
+                errorOccured = true;
+            }
+
+            Assert.AreEqual(errorOccured, isError);
+
+            if( errorOccured ) return;
+
+            Assert.AreEqual(result, answer);
+        }
     }
 }

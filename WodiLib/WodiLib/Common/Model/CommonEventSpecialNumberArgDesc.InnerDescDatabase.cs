@@ -226,24 +226,15 @@ namespace WodiLib.Common
             /// DB参照時の追加選択肢文字列を更新する。
             /// </summary>
             /// <param name="caseNumber">[Range[-3, -1)] 選択肢番号</param>
-            /// <param name="description">[NotNull] 文字列</param>
+            /// <param name="description">[NotNull][NotNewLine] 文字列</param>
             /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
             /// <exception cref="ArgumentOutOfRangeException">caseNumberが指定範囲外の場合</exception>
             /// <exception cref="ArgumentNullException">descriptionがEmptyの場合</exception>
+            /// <exception cref="ArgumentNewLineException">descriptionが改行を含む場合</exception>
             public void UpdateDatabaseSpecialCase(int caseNumber, string description)
             {
-                var max = CaseNumberMax;
-                var min = CaseNumberMin;
-                if (caseNumber < min || max < caseNumber)
-                    throw new ArgumentOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(caseNumber), min, max, caseNumber));
-                if (description == null)
-                    throw new ArgumentNullException(
-                        ErrorMessage.NotNull(nameof(description)));
-
-                var innerCaseNumber = caseNumber * -1 - 1;
-
                 var argCase = new CommonEventSpecialArgCase(caseNumber, description);
+                var innerCaseNumber = caseNumber * -1 - 1;
 
                 ArgCaseList.Update(innerCaseNumber, argCase);
             }

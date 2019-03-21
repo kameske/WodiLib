@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -43,17 +44,19 @@ namespace WodiLib.Common
         /// <param name="commonEvents">[NotNull] コモンイベントリスト</param>
         /// <exception cref="ArgumentNullException">commonEventsがnullの場合</exception>
         /// <exception cref="ArgumentException">commonEventsの要素数が0の場合</exception>
-        public void SetCommonEventList(List<CommonEvent> commonEvents)
+        public void SetCommonEventList(IEnumerable<CommonEvent> commonEvents)
         {
+            var eventList = commonEvents.ToList();
+
             if (commonEvents == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(commonEvents)));
 
-            if (commonEvents.Count == 0)
+            if (eventList.Count == 0)
                 throw new ArgumentException(
                     $"{nameof(commonEvents)}の要素数は1以上である必要があります。");
 
-            CommonEventList = new CommonEventList(commonEvents);
+            CommonEventList = new CommonEventList(eventList);
         }
 
         /// <summary>
