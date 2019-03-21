@@ -144,6 +144,7 @@ namespace WodiLib.Cmn
         #endregion
 
         #region SystemDatabaseVariableAddress
+
         /// <summary>
         /// システムDB変数アドレス値 - システムDB変数アドレス値 を計算し、アドレス値の差を返す。
         /// </summary>

@@ -132,6 +132,7 @@ namespace WodiLib.Cmn
         #endregion
 
         #region MapEventVariableAddress
+
         /// <summary>
         /// マップイベントセルフ変数アドレス値 - マップイベントセルフ変数アドレス値 を計算し、アドレス値の差を返す。
         /// </summary>

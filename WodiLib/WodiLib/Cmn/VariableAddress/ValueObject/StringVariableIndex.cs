@@ -44,9 +44,20 @@ namespace WodiLib.Cmn
         /// <exception cref="ArgumentOutOfRangeException">valueが文字列変数インデックスとして不適切な場合</exception>
         public StringVariableIndex(int value)
         {
-            if(value < MinValue || MaxValue < value) throw new ArgumentOutOfRangeException(
-                ErrorMessage.OutOfRange(nameof(value), MaxValue, MinValue, value));
+            if (value < MinValue || MaxValue < value)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(value), MaxValue, MinValue, value));
             Value = value;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return Value.ToString();
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -111,7 +122,7 @@ namespace WodiLib.Cmn
         /// <returns>左辺==右辺の場合true</returns>
         public static bool operator ==(StringVariableIndex left, int right)
         {
-            if ((object)left == null) return false;
+            if ((object) left == null) return false;
 
             return left.Value == right;
         }

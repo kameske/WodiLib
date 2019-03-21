@@ -181,6 +181,7 @@ namespace WodiLib.Cmn
         #endregion
 
         #region EventPositionAddress
+
         /// <summary>
         /// イベント座標アドレス値 - イベント座標アドレス値 を計算し、アドレス値の差を返す。
         /// </summary>

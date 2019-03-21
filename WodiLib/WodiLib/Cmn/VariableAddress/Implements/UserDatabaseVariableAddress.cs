@@ -132,6 +132,7 @@ namespace WodiLib.Cmn
         #endregion
 
         #region UserDatabaseVariableAddress
+
         /// <summary>
         /// ユーザDB変数アドレス値 - ユーザDB変数アドレス値 を計算し、アドレス値の差を返す。
         /// </summary>

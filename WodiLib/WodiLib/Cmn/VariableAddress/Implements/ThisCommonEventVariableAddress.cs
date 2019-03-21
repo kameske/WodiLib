@@ -132,6 +132,7 @@ namespace WodiLib.Cmn
         #endregion
 
         #region ThisCommonEventVariableAddress
+
         /// <summary>
         /// このコモンイベントセルフ変数アドレス値 - このコモンイベントセルフ変数アドレス値 を計算し、アドレス値の差を返す。
         /// </summary>

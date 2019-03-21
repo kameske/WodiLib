@@ -140,6 +140,7 @@ namespace WodiLib.Cmn
         #endregion
 
         #region SystemStringVariableAddress
+
         /// <summary>
         /// システム文字列変数アドレス値 - システム文字列変数アドレス値 を計算し、アドレス値の差を返す。
         /// </summary>
