@@ -14,7 +14,7 @@ namespace WodiLib.Common
     /// <summary>
     /// [Range(0, 99)] コモンイベントセルフ変数インデックス
     /// </summary>
-    public class CommonEventSelfVariableIndex : IConvertibleInt
+    public struct CommonEventSelfVariableIndex : IConvertibleInt
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -107,10 +107,6 @@ namespace WodiLib.Common
         /// <returns>左辺==右辺の場合true</returns>
         public static bool operator ==(CommonEventSelfVariableIndex left, CommonEventSelfVariableIndex right)
         {
-            if (ReferenceEquals(left, right)) return true;
-
-            if ((object) left == null || (object) right == null) return false;
-
             return left.Value == right.Value;
         }
 
@@ -122,8 +118,6 @@ namespace WodiLib.Common
         /// <returns>左辺==右辺の場合true</returns>
         public static bool operator ==(CommonEventSelfVariableIndex left, int right)
         {
-            if ((object) left == null) return false;
-
             return left.Value == right;
         }
 

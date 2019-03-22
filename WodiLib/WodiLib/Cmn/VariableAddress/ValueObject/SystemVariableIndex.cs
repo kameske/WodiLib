@@ -14,7 +14,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(0, 99999)] システム変数インデックス
     /// </summary>
-    public class SystemVariableIndex : IConvertibleInt
+    public struct SystemVariableIndex : IConvertibleInt
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -107,10 +107,6 @@ namespace WodiLib.Cmn
         /// <returns>左辺と右辺の</returns>
         public static bool operator ==(SystemVariableIndex left, SystemVariableIndex right)
         {
-            if (ReferenceEquals(left, right)) return true;
-
-            if ((object) left == null || (object) right == null) return false;
-
             return left.Value == right.Value;
         }
 
@@ -122,8 +118,6 @@ namespace WodiLib.Cmn
         /// <returns>左辺と右辺の</returns>
         public static bool operator ==(SystemVariableIndex left, int right)
         {
-            if ((object) left == null) return false;
-
             return left.Value == right;
         }
 

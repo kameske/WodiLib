@@ -192,7 +192,7 @@ namespace WodiLib.Test.Common.Internal
             var errorOccured = false;
             try
             {
-                var argCase = isNullArgCase ? CommonEventSpecialArgCase.Empty : new CommonEventSpecialArgCase(0, "");
+                var argCase = isNullArgCase ? null : new CommonEventSpecialArgCase(0, "");
                 instance.AddSpecialCase(argCase);
             }
             catch (Exception ex)
@@ -253,7 +253,7 @@ namespace WodiLib.Test.Common.Internal
             var errorOccured = false;
             try
             {
-                var argCase = isNullArgCase ? CommonEventSpecialArgCase.Empty : new CommonEventSpecialArgCase(0, "");
+                var argCase = isNullArgCase ? null : new CommonEventSpecialArgCase(0, "");
                 instance.InsertSpecialCase(index, argCase);
             }
             catch (Exception ex)
@@ -356,7 +356,7 @@ namespace WodiLib.Test.Common.Internal
             try
             {
                 var argCase = isNullArgCase
-                    ? CommonEventSpecialArgCase.Empty
+                    ? null
                     : new CommonEventSpecialArgCase(0, "");
                 instance.UpdateManualSpecialCase(index, argCase);
             }

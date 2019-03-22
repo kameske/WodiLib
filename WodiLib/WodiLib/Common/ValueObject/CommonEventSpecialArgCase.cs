@@ -14,7 +14,7 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベント特殊指定選択肢
     /// </summary>
-    public struct CommonEventSpecialArgCase
+    public class CommonEventSpecialArgCase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -25,15 +25,6 @@ namespace WodiLib.Common
 
         /// <summary>選択肢番号最小値</summary>
         public static readonly int CaseNumberMinValue = WoditorInt.MinValue;
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Constant
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// 空要素
-        /// </summary>
-        public static CommonEventSpecialArgCase Empty { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -51,11 +42,6 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        static CommonEventSpecialArgCase()
-        {
-            Empty = default(CommonEventSpecialArgCase);
-        }
 
         /// <summary>
         /// コンストラクタ
@@ -110,15 +96,6 @@ namespace WodiLib.Common
             {
                 return (CaseNumber * 397) ^ (Description != null ? Description.GetHashCode() : 0);
             }
-        }
-
-        /// <summary>
-        /// 自身が空オブジェクトかどうかを返す。
-        /// </summary>
-        /// <returns>空オブジェクトの場合true</returns>
-        public bool IsEmpty()
-        {
-            return this == Empty;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -177,6 +154,10 @@ namespace WodiLib.Common
         /// <returns>左辺と右辺の</returns>
         public static bool operator ==(CommonEventSpecialArgCase left, CommonEventSpecialArgCase right)
         {
+            if (ReferenceEquals(left, right)) return true;
+
+            if ((object) left == null || (object) right == null) return false;
+
             // 選択肢番号比較
             if (left.CaseNumber != right.CaseNumber) return false;
 

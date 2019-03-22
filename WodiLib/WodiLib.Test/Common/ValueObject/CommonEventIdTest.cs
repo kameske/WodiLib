@@ -57,7 +57,7 @@ namespace WodiLib.Test.Common
         [TestCase(10000, true)]
         public static void CastFromIntTest(int value, bool isError)
         {
-            CommonEventId instance = null;
+            var instance = default(CommonEventId);
             var errorOccured = false;
             try
             {

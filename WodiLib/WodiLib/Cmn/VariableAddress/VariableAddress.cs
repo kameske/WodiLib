@@ -17,7 +17,7 @@ namespace WodiLib.Cmn
     /// </summary>
     public abstract class VariableAddress : IConvertibleInt
     {
-        /**
+        /*
          * 演算子をオーバーロードしたいため、インタフェースは使用しない
          */
 

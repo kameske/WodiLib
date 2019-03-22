@@ -66,18 +66,6 @@ namespace WodiLib.Test.Common.Internal
             Assert.AreEqual(left.Equals(right), isEqual);
         }
 
-        [Test]
-        public static void IsEmptyTest()
-        {
-            var notEmpty = new CommonEventSpecialArgCase(0, "a");
-
-            // 空オブジェクトでないこと
-            Assert.IsFalse(notEmpty.IsEmpty());
-
-            // 空オブジェクトであること
-            Assert.IsTrue(CommonEventSpecialArgCase.Empty.IsEmpty());
-        }
-
         [TestCase(0, "a", 0, "a", true)]
         [TestCase(0, "a", 1, "a", false)]
         [TestCase(0, "a", 0, "b", false)]

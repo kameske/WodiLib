@@ -14,7 +14,7 @@ namespace WodiLib.Common
     /// <summary>
     /// [Range(0, 9999)] コモンイベントID
     /// </summary>
-    public class CommonEventId : IConvertibleInt
+    public struct CommonEventId : IConvertibleInt
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -119,10 +119,6 @@ namespace WodiLib.Common
         /// <returns>左辺==右辺の場合true</returns>
         public static bool operator ==(CommonEventId left, CommonEventId right)
         {
-            if (ReferenceEquals(left, right)) return true;
-
-            if ((object) left == null || (object) right == null) return false;
-
             return left.Value == right.Value;
         }
 
@@ -134,8 +130,6 @@ namespace WodiLib.Common
         /// <returns>左辺==右辺の場合true</returns>
         public static bool operator ==(CommonEventId left, int right)
         {
-            if ((object) left == null) return false;
-
             return left.Value == right;
         }
 

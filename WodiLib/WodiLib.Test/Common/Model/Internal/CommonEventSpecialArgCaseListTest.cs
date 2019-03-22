@@ -66,7 +66,7 @@ namespace WodiLib.Test.Common.Internal
         [TestCase(4, 0, false)]
         [TestCase(4, 3, false)]
         [TestCase(4, 4, true)]
-        public static void GetForCaseNumberTest(int initLength, int caseNumber, bool isEmpty)
+        public static void GetForCaseNumberTest(int initLength, int caseNumber, bool isNull)
         {
             var instance = new CommonEventSpecialArgCaseList(MakeSpecialArgCaseArray(initLength));
 
@@ -86,7 +86,7 @@ namespace WodiLib.Test.Common.Internal
 
             // 取得結果が意図した値であること
             var argCase = instance.GetForCaseNumber(caseNumber);
-            Assert.AreEqual(argCase.IsEmpty(), isEmpty);
+            Assert.AreEqual(argCase == null, isNull);
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace WodiLib.Test.Common.Internal
             try
             {
                 var argCase = isNull
-                    ? CommonEventSpecialArgCase.Empty
+                    ? null
                     : new CommonEventSpecialArgCase(0, "");
                 instance.Add(argCase);
             }
@@ -186,7 +186,7 @@ namespace WodiLib.Test.Common.Internal
             try
             {
                 var item = isNull
-                    ? CommonEventSpecialArgCase.Empty
+                    ? null
                     : new CommonEventSpecialArgCase(999, "");
                 instance.Insert(index, item);
             }
@@ -259,7 +259,7 @@ namespace WodiLib.Test.Common.Internal
         [TestCase(4, 4, true, true)]
         public static void UpdateTest(int initLength, int index, bool isUpdateEmpty, bool isError)
         {
-            var item = isUpdateEmpty ? CommonEventSpecialArgCase.Empty : new CommonEventSpecialArgCase(100, "");
+            var item = isUpdateEmpty ? null : new CommonEventSpecialArgCase(100, "");
 
             var instance = new CommonEventSpecialArgCaseList(MakeSpecialArgCaseArray(initLength));
 

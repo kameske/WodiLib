@@ -14,7 +14,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(0, 9)] 予備変数番号
     /// </summary>
-    public class SpareNumberVariableNumber : IConvertibleInt
+    public struct SpareNumberVariableNumber : IConvertibleInt
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -107,10 +107,6 @@ namespace WodiLib.Cmn
         /// <returns>左辺==右辺の場合true</returns>
         public static bool operator ==(SpareNumberVariableNumber left, SpareNumberVariableNumber right)
         {
-            if (ReferenceEquals(left, right)) return true;
-
-            if ((object) left == null || (object) right == null) return false;
-
             return left.Value == right.Value;
         }
 
@@ -122,8 +118,6 @@ namespace WodiLib.Cmn
         /// <returns>左辺==右辺の場合true</returns>
         public static bool operator ==(SpareNumberVariableNumber left, int right)
         {
-            if ((object) left == null) return false;
-
             return left.Value == right;
         }
 

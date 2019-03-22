@@ -142,11 +142,11 @@ namespace WodiLib.Common
             /// <summary>
             /// 選択肢を追加する。
             /// </summary>
-            /// <param name="argCase">[NotEmpty] 選択肢情報</param>
+            /// <param name="argCase">[NotNull] 選択肢情報</param>
             /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
             public void AddSpecialCase(CommonEventSpecialArgCase argCase)
             {
-                if (argCase == CommonEventSpecialArgCase.Empty)
+                if (argCase == null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(argCase)));
 
@@ -171,7 +171,7 @@ namespace WodiLib.Common
             /// 選択肢を挿入する。
             /// </summary>
             /// <param name="index">[Range(0, ManualCaseLength)] インデックス</param>
-            /// <param name="argCase">[NotEmpty] 選択肢情報</param>
+            /// <param name="argCase">[NotNull] 選択肢情報</param>
             /// <exception cref="ArgumentOutOfRangeException"></exception>
             /// <exception cref="ArgumentNullException"></exception>
             public void InsertSpecialCase(int index, CommonEventSpecialArgCase argCase)
@@ -182,7 +182,7 @@ namespace WodiLib.Common
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
-                if (argCase == CommonEventSpecialArgCase.Empty)
+                if (argCase == null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(argCase)));
 
@@ -230,7 +230,7 @@ namespace WodiLib.Common
             /// 選択肢を更新する。
             /// </summary>
             /// <param name="index">[Range(0, 選択肢数-1)] 更新する選択肢</param>
-            /// <param name="argCase">[NotEmpty] 更新する選択肢内容</param>
+            /// <param name="argCase">[NotNull] 更新する選択肢内容</param>
             /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
             /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
             /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
@@ -241,7 +241,7 @@ namespace WodiLib.Common
                 if (index < min || max < index)
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), min, max, index));
-                if (argCase == CommonEventSpecialArgCase.Empty)
+                if (argCase == null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotEmpty(nameof(argCase)));
 
