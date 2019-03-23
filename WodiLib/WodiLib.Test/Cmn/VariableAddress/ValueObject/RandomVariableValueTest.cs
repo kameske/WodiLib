@@ -60,7 +60,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                var _ = (RandomVariableValue)value;
+                var _ = (RandomVariableValue) value;
             }
             catch (Exception ex)
             {
@@ -96,6 +96,38 @@ namespace WodiLib.Test.Cmn
 
             // 元の値と一致すること
             Assert.AreEqual(castValue, value);
+        }
+
+        private static readonly object[] EqualTestCaseSource =
+        {
+            new object[] {0, 0, true},
+            new object[] {0, 243, false},
+            new object[] {243, 0, false},
+            new object[] {243, 243, true},
+        };
+
+        [TestCaseSource(nameof(EqualTestCaseSource))]
+        public static void OperatorEqualTest(int left, int right, bool isEqual)
+        {
+            var leftIndex = (RandomVariableValue) left;
+            var rightIndex = (RandomVariableValue) right;
+            Assert.AreEqual(leftIndex == rightIndex, isEqual);
+        }
+
+        [TestCaseSource(nameof(EqualTestCaseSource))]
+        public static void OperatorNotEqualTest(int left, int right, bool isEqual)
+        {
+            var leftIndex = (RandomVariableValue) left;
+            var rightIndex = (RandomVariableValue) right;
+            Assert.AreEqual(leftIndex != rightIndex, !isEqual);
+        }
+
+        [TestCaseSource(nameof(EqualTestCaseSource))]
+        public static void OperatorEqualsTest(int left, int right, bool isEqual)
+        {
+            var leftIndex = (RandomVariableValue) left;
+            var rightIndex = (RandomVariableValue) right;
+            Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }
 }

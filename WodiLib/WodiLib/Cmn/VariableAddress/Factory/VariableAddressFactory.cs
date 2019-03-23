@@ -23,9 +23,9 @@ namespace WodiLib.Cmn
         /// <exception cref="ArgumentOutOfRangeException">valueが変数アドレス値として適切でない場合</exception>
         public static VariableAddress Create(int value)
         {
-            if (ChangeableDatabaseVariableAddress.MinValue <= value &&
-                value <= ChangeableDatabaseVariableAddress.MaxValue)
-                return new ChangeableDatabaseVariableAddress(value);
+            if (ChangeableDatabaseAddress.MinValue <= value &&
+                value <= ChangeableDatabaseAddress.MaxValue)
+                return new ChangeableDatabaseAddress(value);
 
             if (CommonEventVariableAddress.MinValue <= value &&
                 value <= CommonEventVariableAddress.MaxValue)
@@ -63,9 +63,9 @@ namespace WodiLib.Cmn
                 value <= StringVariableAddress.MaxValue)
                 return new StringVariableAddress(value);
 
-            if (SystemDatabaseVariableAddress.MinValue <= value &&
-                value <= SystemDatabaseVariableAddress.MaxValue)
-                return new SystemDatabaseVariableAddress(value);
+            if (SystemDatabaseAddress.MinValue <= value &&
+                value <= SystemDatabaseAddress.MaxValue)
+                return new SystemDatabaseAddress(value);
 
             if (SystemVariableAddress.MinValue <= value &&
                 value <= SystemVariableAddress.MaxValue)
@@ -83,9 +83,9 @@ namespace WodiLib.Cmn
                 value <= ThisMapEventVariableAddress.MaxValue)
                 return new ThisMapEventVariableAddress(value);
 
-            if (UserDatabaseVariableAddress.MinValue <= value &&
-                value <= UserDatabaseVariableAddress.MaxValue)
-                return new UserDatabaseVariableAddress(value);
+            if (UserDatabaseAddress.MinValue <= value &&
+                value <= UserDatabaseAddress.MaxValue)
+                return new UserDatabaseAddress(value);
 
             throw new ArgumentOutOfRangeException(
                 $"指定された値は変数アドレス値ではありません。（value：{value}）");

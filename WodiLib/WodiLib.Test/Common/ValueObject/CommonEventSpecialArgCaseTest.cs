@@ -59,7 +59,7 @@ namespace WodiLib.Test.Common
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if(errorOccured) return;
+            if (errorOccured) return;
 
             // セットした値が正しく取得できること
             Assert.AreEqual(instance.CaseNumber, caseNumber);
@@ -77,7 +77,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                castValue = (Tuple<int, string>)instance;
+                castValue = (Tuple<int, string>) instance;
             }
             catch (Exception ex)
             {
@@ -107,7 +107,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                instance = (CommonEventSpecialArgCase)src;
+                instance = (CommonEventSpecialArgCase) src;
             }
             catch (Exception ex)
             {
@@ -166,7 +166,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                instance = (CommonEventSpecialArgCase)src;
+                instance = (CommonEventSpecialArgCase) src;
             }
             catch (Exception ex)
             {
@@ -206,7 +206,7 @@ namespace WodiLib.Test.Common
             int rightCaseNumber, string rightDescription, bool isEqual)
         {
             var leftInstance = (CommonEventSpecialArgCase) (leftCaseNumber, leftDescription);
-            var rightInstance = (CommonEventSpecialArgCase)(rightCaseNumber, rightDescription);
+            var rightInstance = (CommonEventSpecialArgCase) (rightCaseNumber, rightDescription);
             Assert.AreEqual(leftInstance == rightInstance, isEqual);
         }
 
@@ -215,9 +215,8 @@ namespace WodiLib.Test.Common
             int rightCaseNumber, string rightDescription, bool isEqual)
         {
             var leftInstance = (CommonEventSpecialArgCase) (leftCaseNumber, leftDescription);
-            var rightInstance = (CommonEventSpecialArgCase)(rightCaseNumber, rightDescription);
+            var rightInstance = (CommonEventSpecialArgCase) (rightCaseNumber, rightDescription);
             Assert.AreEqual(leftInstance.Equals(rightInstance), isEqual);
         }
-
     }
 }

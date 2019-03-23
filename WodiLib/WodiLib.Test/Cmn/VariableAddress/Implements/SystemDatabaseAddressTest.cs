@@ -7,7 +7,7 @@ using WodiLib.Test.Tools;
 namespace WodiLib.Test.Cmn
 {
     [TestFixture]
-    public class SystemDatabaseVariableAddressTest
+    public class SystemDatabaseAddressTest
     {
         private static WodiLibLogger logger;
 
@@ -29,7 +29,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                var _ = new SystemDatabaseVariableAddress(value);
+                var _ = new SystemDatabaseAddress(value);
             }
             catch (Exception ex)
             {
@@ -47,7 +47,7 @@ namespace WodiLib.Test.Cmn
         [TestCase(1399999999)]
         public static void ToIntTest(int value)
         {
-            var instance = new SystemDatabaseVariableAddress(value);
+            var instance = new SystemDatabaseAddress(value);
 
             var intValue = instance.ToInt();
 
@@ -61,12 +61,12 @@ namespace WodiLib.Test.Cmn
         [TestCase(1399999920, false)]
         [TestCase(1399999999, false)]
         [TestCase(1400000000, true)]
-        public static void CastIntToSystemDatabaseVariableAddressTest(int value, bool isError)
+        public static void CastIntToSystemDatabaseAddressTest(int value, bool isError)
         {
             var errorOccured = false;
             try
             {
-                var _ = (SystemDatabaseVariableAddress)value;
+                var _ = (SystemDatabaseAddress) value;
             }
             catch (Exception ex)
             {
@@ -82,11 +82,11 @@ namespace WodiLib.Test.Cmn
         [TestCase(1399999919)]
         [TestCase(1399999920)]
         [TestCase(1399999999)]
-        public static void CastSystemDatabaseVariableAddressToIntTest(int value)
+        public static void CastSystemDatabaseAddressToIntTest(int value)
         {
             var castValue = 0;
 
-            var instance = new SystemDatabaseVariableAddress(value);
+            var instance = new SystemDatabaseAddress(value);
 
             var errorOccured = false;
             try
@@ -116,8 +116,8 @@ namespace WodiLib.Test.Cmn
         [TestCase(1325002410, 74997590, true)]
         public static void OperatorPlusTest(int variableAddress, int value, bool isError)
         {
-            var instance = new SystemDatabaseVariableAddress(variableAddress);
-            SystemDatabaseVariableAddress result = null;
+            var instance = new SystemDatabaseAddress(variableAddress);
+            SystemDatabaseAddress result = null;
 
             var errorOccured = false;
             try
@@ -136,10 +136,10 @@ namespace WodiLib.Test.Cmn
             if (errorOccured) return;
 
             // 意図した値と一致すること
-            Assert.AreEqual((int)result, variableAddress + value);
+            Assert.AreEqual((int) result, variableAddress + value);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int)instance, variableAddress);
+            Assert.AreEqual((int) instance, variableAddress);
         }
 
         [TestCase(1300000000, -100000000, true)]
@@ -152,8 +152,8 @@ namespace WodiLib.Test.Cmn
         [TestCase(1325002410, 25002411, true)]
         public static void OperatorMinusIntTest(int variableAddress, int value, bool isError)
         {
-            var instance = new SystemDatabaseVariableAddress(variableAddress);
-            SystemDatabaseVariableAddress result = null;
+            var instance = new SystemDatabaseAddress(variableAddress);
+            SystemDatabaseAddress result = null;
 
             var errorOccured = false;
             try
@@ -172,17 +172,17 @@ namespace WodiLib.Test.Cmn
             if (errorOccured) return;
 
             // 意図した値と一致すること
-            Assert.AreEqual((int)result, variableAddress - value);
+            Assert.AreEqual((int) result, variableAddress - value);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int)instance, variableAddress);
+            Assert.AreEqual((int) instance, variableAddress);
         }
 
         [TestCase(1325002410, 1300000000)]
         [TestCase(1300000000, 1000000)]
         public static void OperatorMinusVariableAddressTestA(int srcVariableAddress, int dstVariableAddress)
         {
-            var instance = new SystemDatabaseVariableAddress(srcVariableAddress);
+            var instance = new SystemDatabaseAddress(srcVariableAddress);
             var dstInstance = VariableAddressFactory.Create(dstVariableAddress);
             var result = 0;
 
@@ -204,20 +204,20 @@ namespace WodiLib.Test.Cmn
             Assert.AreEqual(result, srcVariableAddress - dstVariableAddress);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int)instance, srcVariableAddress);
+            Assert.AreEqual((int) instance, srcVariableAddress);
         }
 
         [TestCase(1325002410, 1300000000)]
         [TestCase(1300000000, 1399999999)]
         public static void OperatorMinusVariableAddressTestB(int srcVariableAddress, int dstVariableAddress)
         {
-            var instance = new SystemDatabaseVariableAddress(srcVariableAddress);
+            var instance = new SystemDatabaseAddress(srcVariableAddress);
             var result = 0;
 
             var errorOccured = false;
             try
             {
-                result = instance - (SystemDatabaseVariableAddress)dstVariableAddress;
+                result = instance - (SystemDatabaseAddress) dstVariableAddress;
             }
             catch (Exception ex)
             {
@@ -232,7 +232,7 @@ namespace WodiLib.Test.Cmn
             Assert.AreEqual(result, srcVariableAddress - dstVariableAddress);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int)instance, srcVariableAddress);
+            Assert.AreEqual((int) instance, srcVariableAddress);
         }
     }
 }

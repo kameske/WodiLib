@@ -1,36 +1,40 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : NormalNumberVariableIndex.cs
+// File Name    : CommonEventReturnVariableIndex.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
 // ========================================
 
 using System;
+using System.Collections.Generic;
 using WodiLib.Sys;
 
-namespace WodiLib.Cmn
+namespace WodiLib.Common
 {
     /// <summary>
-    /// [Range(0, 99999)] 通常変数インデックス
+    /// [Range(-1, 99)] コモンイベント返戻セルフ変数インデックス
     /// </summary>
-    public struct NormalNumberVariableIndex : IConvertibleInt
+    public struct CommonEventReturnVariableIndex : IConvertibleInt
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>最大値</summary>
-        public static readonly int MaxValue = 99999;
+        public static readonly int MaxValue = 99;
 
         /// <summary>最小値</summary>
-        public static readonly int MinValue = 0;
+        public static readonly int MinValue = -1;
+
+        /// <summary>値を返さない場合のインデックス値</summary>
+        public static readonly CommonEventReturnVariableIndex NotReturn = (CommonEventReturnVariableIndex) (-1);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>通常変数インデックス</summary>
+        /// <summary>コモンイベント返戻セルフ変数インデックス</summary>
         private int Value { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -40,13 +44,13 @@ namespace WodiLib.Cmn
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[Range(0, 99999)] 通常変数インデックス</param>
-        /// <exception cref="ArgumentOutOfRangeException">valueが通常変数インデックスとして不適切な場合</exception>
-        public NormalNumberVariableIndex(int value)
+        /// <param name="value">[Range(-1, 99)] コモンイベント返戻セルフ変数インデックス</param>
+        /// <exception cref="ArgumentOutOfRangeException">valueがコモンイベント返戻セルフ変数インデックスとして不適切な場合</exception>
+        public CommonEventReturnVariableIndex(int value)
         {
             if (value < MinValue || MaxValue < value)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(value), MaxValue, MinValue, value));
+                    ErrorMessage.OutOfRange(nameof(value), MinValue, MaxValue, value));
             Value = value;
         }
 
@@ -70,27 +74,34 @@ namespace WodiLib.Cmn
         /// <returns>int値</returns>
         public int ToInt() => (int) this;
 
+        /// <summary>
+        /// byte配列に変換する。
+        /// </summary>
+        /// <param name="endian">エンディアン</param>
+        /// <returns>byte配列</returns>
+        public IEnumerable<byte> ToBytes(Endian endian) => Value.ToBytes(endian);
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> NormalNumberVariableIndex への明示的な型変換
+        /// int -> CommonEventReturnVariableIndex への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator NormalNumberVariableIndex(int src)
+        public static explicit operator CommonEventReturnVariableIndex(int src)
         {
-            var result = new NormalNumberVariableIndex(src);
+            var result = new CommonEventReturnVariableIndex(src);
             return result;
         }
 
         /// <summary>
-        /// NormalNumberVariableIndex -> int への明示的な型変換
+        /// CommonEventReturnVariableIndex -> int への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(NormalNumberVariableIndex src)
+        public static explicit operator int(CommonEventReturnVariableIndex src)
         {
             return src.Value;
         }
@@ -105,7 +116,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(NormalNumberVariableIndex left, NormalNumberVariableIndex right)
+        public static bool operator ==(CommonEventReturnVariableIndex left, CommonEventReturnVariableIndex right)
         {
             return left.Value == right.Value;
         }
@@ -116,7 +127,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(NormalNumberVariableIndex left, NormalNumberVariableIndex right)
+        public static bool operator !=(CommonEventReturnVariableIndex left, CommonEventReturnVariableIndex right)
         {
             return !(left == right);
         }
@@ -128,7 +139,7 @@ namespace WodiLib.Cmn
             {
                 case int other:
                     return other == Value;
-                case NormalNumberVariableIndex other:
+                case CommonEventReturnVariableIndex other:
                     return this == other;
                 default:
                     return false;

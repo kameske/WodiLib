@@ -47,7 +47,7 @@ namespace WodiLib.Test.Cmn
             var instance = new RandomVariableAddress(variableAddress);
 
             // 取得した値が意図した値と一致すること
-            Assert.AreEqual(instance.RandomValue, (RandomVariableValue)answer);
+            Assert.AreEqual(instance.RandomValue, (RandomVariableValue) answer);
         }
 
         [TestCase(8000000)]
@@ -71,7 +71,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                var _ = (RandomVariableAddress)value;
+                var _ = (RandomVariableAddress) value;
             }
             catch (Exception ex)
             {
@@ -139,10 +139,10 @@ namespace WodiLib.Test.Cmn
             if (errorOccured) return;
 
             // 意図した値と一致すること
-            Assert.AreEqual((int)result, variableAddress + value);
+            Assert.AreEqual((int) result, variableAddress + value);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int)instance, variableAddress);
+            Assert.AreEqual((int) instance, variableAddress);
         }
 
         [TestCase(8000000, -1000000, true)]
@@ -175,10 +175,10 @@ namespace WodiLib.Test.Cmn
             if (errorOccured) return;
 
             // 意図した値と一致すること
-            Assert.AreEqual((int)result, variableAddress - value);
+            Assert.AreEqual((int) result, variableAddress - value);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int)instance, variableAddress);
+            Assert.AreEqual((int) instance, variableAddress);
         }
 
         [TestCase(8320005, 8000000)]
@@ -207,7 +207,7 @@ namespace WodiLib.Test.Cmn
             Assert.AreEqual(result, srcVariableAddress - dstVariableAddress);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int)instance, srcVariableAddress);
+            Assert.AreEqual((int) instance, srcVariableAddress);
         }
 
         [TestCase(8320005, 8000000)]
@@ -220,7 +220,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                result = instance - (RandomVariableAddress)dstVariableAddress;
+                result = instance - (RandomVariableAddress) dstVariableAddress;
             }
             catch (Exception ex)
             {
@@ -235,7 +235,7 @@ namespace WodiLib.Test.Cmn
             Assert.AreEqual(result, srcVariableAddress - dstVariableAddress);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int)instance, srcVariableAddress);
+            Assert.AreEqual((int) instance, srcVariableAddress);
         }
     }
 }

@@ -60,7 +60,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                var _ = (MapEventVariableAddress)value;
+                var _ = (MapEventVariableAddress) value;
             }
             catch (Exception ex)
             {
@@ -128,10 +128,10 @@ namespace WodiLib.Test.Cmn
             if (errorOccured) return;
 
             // 意図した値と一致すること
-            Assert.AreEqual((int)result, variableAddress + value);
+            Assert.AreEqual((int) result, variableAddress + value);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int)instance, variableAddress);
+            Assert.AreEqual((int) instance, variableAddress);
         }
 
         [TestCase(1000000, -100000, true)]
@@ -164,10 +164,10 @@ namespace WodiLib.Test.Cmn
             if (errorOccured) return;
 
             // 意図した値と一致すること
-            Assert.AreEqual((int)result, variableAddress - value);
+            Assert.AreEqual((int) result, variableAddress - value);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int)instance, variableAddress);
+            Assert.AreEqual((int) instance, variableAddress);
         }
 
         [TestCase(1035210, 1000000)]
@@ -196,7 +196,7 @@ namespace WodiLib.Test.Cmn
             Assert.AreEqual(result, srcVariableAddress - dstVariableAddress);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int)instance, srcVariableAddress);
+            Assert.AreEqual((int) instance, srcVariableAddress);
         }
 
         [TestCase(1035210, 1000000)]
@@ -209,7 +209,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                result = instance - (MapEventVariableAddress)dstVariableAddress;
+                result = instance - (MapEventVariableAddress) dstVariableAddress;
             }
             catch (Exception ex)
             {
@@ -224,7 +224,7 @@ namespace WodiLib.Test.Cmn
             Assert.AreEqual(result, srcVariableAddress - dstVariableAddress);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int)instance, srcVariableAddress);
+            Assert.AreEqual((int) instance, srcVariableAddress);
         }
     }
 }

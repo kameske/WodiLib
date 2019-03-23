@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Collections.Generic;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -66,8 +67,9 @@ namespace WodiLib.Cmn
         /// <exception cref="ArgumentOutOfRangeException">value変数アドレス値として不適切な場合</exception>
         protected VariableAddress(int value)
         {
-            if( value < _MinValue || _MaxValue < value) throw new ArgumentOutOfRangeException(
-                ErrorMessage.OutOfRange(nameof(value), _MinValue, _MaxValue, value));
+            if (value < _MinValue || _MaxValue < value)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(value), _MinValue, _MaxValue, value));
 
             if (value < _SafetyMinValue || _SafetyMaxValue < value)
                 Logger.Warning(
@@ -85,6 +87,13 @@ namespace WodiLib.Cmn
         {
             return Value.ToString();
         }
+
+        /// <summary>
+        /// byte配列に変換する。
+        /// </summary>
+        /// <param name="endian">エンディアン</param>
+        /// <returns>byte配列</returns>
+        public IEnumerable<byte> ToBytes(Endian endian) => Value.ToBytes(endian);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
@@ -127,42 +136,42 @@ namespace WodiLib.Cmn
         #region int
 
         /// <summary>
-        /// 可変DB変数アドレス値 + int を計算し、構造体を返す。
+        /// 可変DBアドレス値 + int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">変数アドレス</param>
         /// <param name="value">加算値</param>
         /// <returns>加算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">加算後の値が可変DB変数アドレス値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">加算後の値が可変DBアドレス値として不適切な場合</exception>
         public static VariableAddress operator +(VariableAddress src, int value)
         {
             try
             {
-                return (VariableAddress)(src.Value + value);
+                return (VariableAddress) (src.Value + value);
             }
             catch (ArgumentOutOfRangeException ex)
             {
                 throw new InvalidOperationException(
-                    $"可変DB変数アドレス値として不適切な値です。(value = {src.Value + value})", ex);
+                    $"可変DBアドレス値として不適切な値です。(value = {src.Value + value})", ex);
             }
         }
 
         /// <summary>
-        /// 可変DB変数アドレス値 - int を計算し、構造体を返す。
+        /// 可変DBアドレス値 - int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">変数アドレス</param>
         /// <param name="value">減算値</param>
         /// <returns>減算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">減算後の値が可変DB変数アドレス値値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">減算後の値が可変DBアドレス値値として不適切な場合</exception>
         public static VariableAddress operator -(VariableAddress src, int value)
         {
             try
             {
-                return (VariableAddress)(src.Value - value);
+                return (VariableAddress) (src.Value - value);
             }
             catch (ArgumentOutOfRangeException ex)
             {
                 throw new InvalidOperationException(
-                    $"可変DB変数アドレス値として不適切な値です。(value = {src.Value - value})", ex);
+                    $"可変DBアドレス値として不適切な値です。(value = {src.Value - value})", ex);
             }
         }
 
@@ -171,18 +180,16 @@ namespace WodiLib.Cmn
         #region VariableAddress
 
         /// <summary>
-        /// 可変DB変数アドレス値 - 可変DB変数アドレス値 を計算し、アドレス値の差を返す。
+        /// 可変DBアドレス値 - 可変DBアドレス値 を計算し、アドレス値の差を返す。
         /// </summary>
         /// <param name="left">可変DB変数アドレス左辺</param>
         /// <param name="right">可変DB変数アドレス右辺</param>
-        /// <returns>可変DB変数アドレス値の差</returns>
+        /// <returns>可変DBアドレス値の差</returns>
         public static int operator -(VariableAddress left, VariableAddress right)
         {
             return left.Value - right.Value;
         }
 
         #endregion
-
-
     }
 }

@@ -7,7 +7,7 @@ using WodiLib.Test.Tools;
 namespace WodiLib.Test.Common
 {
     [TestFixture]
-    public class CommonEventSelfVariableNameTest
+    public class CommonEventNameTest
     {
         private static WodiLibLogger logger;
 
@@ -29,7 +29,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                var _ = new CommonEventSelfVariableName(value);
+                var _ = new CommonEventName(value);
             }
             catch (Exception ex)
             {
@@ -46,7 +46,7 @@ namespace WodiLib.Test.Common
         [TestCase("あいうえお")]
         public static void ToStringTest(string value)
         {
-            var instance = new CommonEventSelfVariableName(value);
+            var instance = new CommonEventName(value);
 
             var strValue = instance.ToString();
 
@@ -60,7 +60,7 @@ namespace WodiLib.Test.Common
         public static void CastToStringTest(string value)
         {
             var castValue = "_DEFAULT_";
-            var instance = new CommonEventSelfVariableName(value);
+            var instance = new CommonEventName(value);
 
             var errorOccured = false;
             try
@@ -88,12 +88,12 @@ namespace WodiLib.Test.Common
         [TestCase("Wolf\nRPG\nEditor.", true)]
         public static void CastFromStringTest(string value, bool isError)
         {
-            CommonEventSelfVariableName instance = null;
+            CommonEventName instance = null;
 
             var errorOccured = false;
             try
             {
-                instance = (CommonEventSelfVariableName) value;
+                instance = (CommonEventName) value;
             }
             catch (Exception ex)
             {
@@ -119,25 +119,32 @@ namespace WodiLib.Test.Common
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(string left, string right, bool isEqual)
         {
-            var leftIndex = (CommonEventSelfVariableName) left;
-            var rightIndex = (CommonEventSelfVariableName) right;
+            var leftIndex = (CommonEventName) left;
+            var rightIndex = (CommonEventName) right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
-        public static void OperatorNotEqualTest(string left, string right, bool isEqual)
+        public static void OperatorNotEqualTestA(string left, string right, bool isEqual)
         {
-            var leftIndex = (CommonEventSelfVariableName) left;
-            var rightIndex = (CommonEventSelfVariableName) right;
+            var leftIndex = (CommonEventName) left;
+            var rightIndex = (CommonEventName) right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
-        public static void OperatorEqualsTest(string left, string right, bool isEqual)
+        public static void OperatorEqualsTestA(string left, string right, bool isEqual)
         {
-            var leftIndex = (CommonEventSelfVariableName) left;
-            var rightIndex = (CommonEventSelfVariableName) right;
+            var leftIndex = (CommonEventName) left;
+            var rightIndex = (CommonEventName) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
+        }
+
+        [TestCaseSource(nameof(EqualTestCaseSource))]
+        public static void OperatorEqualsTestB(string left, string right, bool isEqual)
+        {
+            var leftIndex = (CommonEventName) left;
+            Assert.AreEqual(leftIndex.Equals(right), isEqual);
         }
     }
 }

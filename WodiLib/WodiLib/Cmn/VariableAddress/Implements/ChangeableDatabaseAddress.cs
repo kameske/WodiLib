@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : ChangeableDatabaseVariableAddress.cs
+// File Name    : ChangeableDatabaseAddress.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -11,9 +11,9 @@ using System;
 namespace WodiLib.Cmn
 {
     /// <summary>
-    /// [Range(1100000000, 1199999999)] 可変DB変数アドレス値
+    /// [Range(1100000000, 1199999999)] 可変DBアドレス値
     /// </summary>
-    public class ChangeableDatabaseVariableAddress : VariableAddress
+    public class ChangeableDatabaseAddress : VariableAddress
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -53,8 +53,8 @@ namespace WodiLib.Cmn
         /// コンストラクタ
         /// </summary>
         /// <param name="value">[Range(1100000000, 1199999999)] 変数アドレス値</param>
-        /// <exception cref="ArgumentOutOfRangeException">valueが可変DB変数アドレス値として不適切な場合</exception>
-        public ChangeableDatabaseVariableAddress(int value) : base(value)
+        /// <exception cref="ArgumentOutOfRangeException">valueが可変DBアドレス値として不適切な場合</exception>
+        public ChangeableDatabaseAddress(int value) : base(value)
         {
         }
 
@@ -63,22 +63,22 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> ChangeableDatabaseVariableAddress への明示的な型変換
+        /// int -> ChangeableDatabaseAddress への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator ChangeableDatabaseVariableAddress(int src)
+        public static explicit operator ChangeableDatabaseAddress(int src)
         {
-            var result = new ChangeableDatabaseVariableAddress(src);
+            var result = new ChangeableDatabaseAddress(src);
             return result;
         }
 
         /// <summary>
-        /// ChangeableDatabaseVariableAddress -> int への明示的な型変換
+        /// ChangeableDatabaseAddress -> int への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(ChangeableDatabaseVariableAddress src)
+        public static explicit operator int(ChangeableDatabaseAddress src)
         {
             return src.Value;
         }
@@ -90,56 +90,56 @@ namespace WodiLib.Cmn
         #region int
 
         /// <summary>
-        /// 可変DB変数アドレス値 + int を計算し、構造体を返す。
+        /// 可変DBアドレス値 + int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">変数アドレス</param>
         /// <param name="value">加算値</param>
         /// <returns>加算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">加算後の値が可変DB変数アドレス値として不適切な場合</exception>
-        public static ChangeableDatabaseVariableAddress operator +(ChangeableDatabaseVariableAddress src, int value)
+        /// <exception cref="InvalidOperationException">加算後の値が可変DBアドレス値として不適切な場合</exception>
+        public static ChangeableDatabaseAddress operator +(ChangeableDatabaseAddress src, int value)
         {
             try
             {
-                return new ChangeableDatabaseVariableAddress(src.Value + value);
+                return new ChangeableDatabaseAddress(src.Value + value);
             }
             catch (ArgumentOutOfRangeException ex)
             {
                 throw new InvalidOperationException(
-                    $"可変DB変数アドレス値として不適切な値です。(value = {src.Value + value})", ex);
+                    $"可変DBアドレス値として不適切な値です。(value = {src.Value + value})", ex);
             }
         }
 
         /// <summary>
-        /// 可変DB変数アドレス値 - int を計算し、構造体を返す。
+        /// 可変DBアドレス値 - int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">変数アドレス</param>
         /// <param name="value">減算値</param>
         /// <returns>減算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">減算後の値が可変DB変数アドレス値値として不適切な場合</exception>
-        public static ChangeableDatabaseVariableAddress operator -(ChangeableDatabaseVariableAddress src, int value)
+        /// <exception cref="InvalidOperationException">減算後の値が可変DBアドレス値値として不適切な場合</exception>
+        public static ChangeableDatabaseAddress operator -(ChangeableDatabaseAddress src, int value)
         {
             try
             {
-                return new ChangeableDatabaseVariableAddress(src.Value - value);
+                return new ChangeableDatabaseAddress(src.Value - value);
             }
             catch (ArgumentOutOfRangeException ex)
             {
                 throw new InvalidOperationException(
-                    $"可変DB変数アドレス値として不適切な値です。(value = {src.Value - value})", ex);
+                    $"可変DBアドレス値として不適切な値です。(value = {src.Value - value})", ex);
             }
         }
 
         #endregion
 
-        #region ChangeableDatabaseVariableAddress
+        #region ChangeableDatabaseAddress
 
         /// <summary>
-        /// 可変DB変数アドレス値 - 可変DB変数アドレス値 を計算し、アドレス値の差を返す。
+        /// 可変DBアドレス値 - 可変DBアドレス値 を計算し、アドレス値の差を返す。
         /// </summary>
         /// <param name="left">可変DB変数アドレス左辺</param>
         /// <param name="right">可変DB変数アドレス右辺</param>
-        /// <returns>可変DB変数アドレス値の差</returns>
-        public static int operator -(ChangeableDatabaseVariableAddress left, ChangeableDatabaseVariableAddress right)
+        /// <returns>可変DBアドレス値の差</returns>
+        public static int operator -(ChangeableDatabaseAddress left, ChangeableDatabaseAddress right)
         {
             return left.Value - right.Value;
         }

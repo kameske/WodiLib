@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : SystemDatabaseVariableAddress.cs
+// File Name    : SystemDatabaseAddress.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -13,9 +13,9 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(1300000000, 1399999999)]
     /// [SafetyRange(1300000000, 1399999920)]
-    /// システムDB変数アドレス値
+    /// システムDB変アドレス値
     /// </summary>
-    public class SystemDatabaseVariableAddress : VariableAddress
+    public class SystemDatabaseAddress : VariableAddress
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -65,8 +65,8 @@ namespace WodiLib.Cmn
         ///     [SafetyRange(1300000000, 1399999920)]
         ///     変数アドレス値
         /// </param>
-        /// <exception cref="ArgumentOutOfRangeException">valueがシステムDB変数アドレス値として不適切な場合</exception>
-        public SystemDatabaseVariableAddress(int value) : base(value)
+        /// <exception cref="ArgumentOutOfRangeException">valueがシステムDB変アドレス値として不適切な場合</exception>
+        public SystemDatabaseAddress(int value) : base(value)
         {
         }
 
@@ -75,22 +75,22 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> SystemDatabaseVariableAddress への明示的な型変換
+        /// int -> SystemDatabaseAddress への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator SystemDatabaseVariableAddress(int src)
+        public static explicit operator SystemDatabaseAddress(int src)
         {
-            var result = new SystemDatabaseVariableAddress(src);
+            var result = new SystemDatabaseAddress(src);
             return result;
         }
 
         /// <summary>
-        /// SystemDatabaseVariableAddress -> int への明示的な型変換
+        /// SystemDatabaseAddress -> int への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(SystemDatabaseVariableAddress src)
+        public static explicit operator int(SystemDatabaseAddress src)
         {
             return src.Value;
         }
@@ -102,56 +102,56 @@ namespace WodiLib.Cmn
         #region int
 
         /// <summary>
-        /// システムDB変数アドレス値 + int を計算し、構造体を返す。
+        /// システムDB変アドレス値 + int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">変数アドレス</param>
         /// <param name="value">加算値</param>
         /// <returns>加算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">加算後の値がシステムDB変数アドレス値として不適切な場合</exception>
-        public static SystemDatabaseVariableAddress operator +(SystemDatabaseVariableAddress src, int value)
+        /// <exception cref="InvalidOperationException">加算後の値がシステムDB変アドレス値として不適切な場合</exception>
+        public static SystemDatabaseAddress operator +(SystemDatabaseAddress src, int value)
         {
             try
             {
-                return new SystemDatabaseVariableAddress(src.Value + value);
+                return new SystemDatabaseAddress(src.Value + value);
             }
             catch (ArgumentOutOfRangeException ex)
             {
                 throw new InvalidOperationException(
-                    $"システムDB変数アドレス値として不適切な値です。(value = {src.Value + value})", ex);
+                    $"システムDB変アドレス値として不適切な値です。(value = {src.Value + value})", ex);
             }
         }
 
         /// <summary>
-        /// システムDB変数アドレス値 - int を計算し、構造体を返す。
+        /// システムDB変アドレス値 - int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">変数アドレス</param>
         /// <param name="value">減算値</param>
         /// <returns>減算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">減算後の値がシステムDB変数アドレス値値として不適切な場合</exception>
-        public static SystemDatabaseVariableAddress operator -(SystemDatabaseVariableAddress src, int value)
+        /// <exception cref="InvalidOperationException">減算後の値がシステムDB変アドレス値値として不適切な場合</exception>
+        public static SystemDatabaseAddress operator -(SystemDatabaseAddress src, int value)
         {
             try
             {
-                return new SystemDatabaseVariableAddress(src.Value - value);
+                return new SystemDatabaseAddress(src.Value - value);
             }
             catch (ArgumentOutOfRangeException ex)
             {
                 throw new InvalidOperationException(
-                    $"システムDB変数アドレス値として不適切な値です。(value = {src.Value - value})", ex);
+                    $"システムDB変アドレス値として不適切な値です。(value = {src.Value - value})", ex);
             }
         }
 
         #endregion
 
-        #region SystemDatabaseVariableAddress
+        #region SystemDatabaseAddress
 
         /// <summary>
-        /// システムDB変数アドレス値 - システムDB変数アドレス値 を計算し、アドレス値の差を返す。
+        /// システムDB変アドレス値 - システムDB変アドレス値 を計算し、アドレス値の差を返す。
         /// </summary>
         /// <param name="left">システムDB変数アドレス左辺</param>
         /// <param name="right">システムDB変数アドレス右辺</param>
-        /// <returns>システムDB変数アドレス値の差</returns>
-        public static int operator -(SystemDatabaseVariableAddress left, SystemDatabaseVariableAddress right)
+        /// <returns>システムDB変アドレス値の差</returns>
+        public static int operator -(SystemDatabaseAddress left, SystemDatabaseAddress right)
         {
             return left.Value - right.Value;
         }

@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : UserDatabaseVariableAddress.cs
+// File Name    : UserDatabaseAddress.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -11,9 +11,9 @@ using System;
 namespace WodiLib.Cmn
 {
     /// <summary>
-    /// [Range(1000000000, 1099999999)] ユーザDB変数アドレス値
+    /// [Range(1000000000, 1099999999)] ユーザDBアドレス値
     /// </summary>
-    public class UserDatabaseVariableAddress : VariableAddress
+    public class UserDatabaseAddress : VariableAddress
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -53,8 +53,8 @@ namespace WodiLib.Cmn
         /// コンストラクタ
         /// </summary>
         /// <param name="value">[Range(1000000000, 1099999999)] 変数アドレス値</param>
-        /// <exception cref="ArgumentOutOfRangeException">valueがユーザDB変数アドレス値として不適切な場合</exception>
-        public UserDatabaseVariableAddress(int value) : base(value)
+        /// <exception cref="ArgumentOutOfRangeException">valueがユーザDBアドレス値として不適切な場合</exception>
+        public UserDatabaseAddress(int value) : base(value)
         {
         }
 
@@ -63,22 +63,22 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> UserDatabaseVariableAddress への明示的な型変換
+        /// int -> UserDatabaseAddress への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator UserDatabaseVariableAddress(int src)
+        public static explicit operator UserDatabaseAddress(int src)
         {
-            var result = new UserDatabaseVariableAddress(src);
+            var result = new UserDatabaseAddress(src);
             return result;
         }
 
         /// <summary>
-        /// UserDatabaseVariableAddress -> int への明示的な型変換
+        /// UserDatabaseAddress -> int への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(UserDatabaseVariableAddress src)
+        public static explicit operator int(UserDatabaseAddress src)
         {
             return src.Value;
         }
@@ -90,56 +90,56 @@ namespace WodiLib.Cmn
         #region int
 
         /// <summary>
-        /// ユーザDB変数アドレス値 + int を計算し、構造体を返す。
+        /// ユーザDBアドレス値 + int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">変数アドレス</param>
         /// <param name="value">加算値</param>
         /// <returns>加算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">加算後の値がユーザDB変数アドレス値として不適切な場合</exception>
-        public static UserDatabaseVariableAddress operator +(UserDatabaseVariableAddress src, int value)
+        /// <exception cref="InvalidOperationException">加算後の値がユーザDBアドレス値として不適切な場合</exception>
+        public static UserDatabaseAddress operator +(UserDatabaseAddress src, int value)
         {
             try
             {
-                return new UserDatabaseVariableAddress(src.Value + value);
+                return new UserDatabaseAddress(src.Value + value);
             }
             catch (ArgumentOutOfRangeException ex)
             {
                 throw new InvalidOperationException(
-                    $"ユーザDB変数アドレス値として不適切な値です。(value = {src.Value + value})", ex);
+                    $"ユーザDBアドレス値として不適切な値です。(value = {src.Value + value})", ex);
             }
         }
 
         /// <summary>
-        /// ユーザDB変数アドレス値 - int を計算し、構造体を返す。
+        /// ユーザDBアドレス値 - int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">変数アドレス</param>
         /// <param name="value">減算値</param>
         /// <returns>減算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">減算後の値がユーザDB変数アドレス値値として不適切な場合</exception>
-        public static UserDatabaseVariableAddress operator -(UserDatabaseVariableAddress src, int value)
+        /// <exception cref="InvalidOperationException">減算後の値がユーザDBアドレス値値として不適切な場合</exception>
+        public static UserDatabaseAddress operator -(UserDatabaseAddress src, int value)
         {
             try
             {
-                return new UserDatabaseVariableAddress(src.Value - value);
+                return new UserDatabaseAddress(src.Value - value);
             }
             catch (ArgumentOutOfRangeException ex)
             {
                 throw new InvalidOperationException(
-                    $"ユーザDB変数アドレス値として不適切な値です。(value = {src.Value - value})", ex);
+                    $"ユーザDBアドレス値として不適切な値です。(value = {src.Value - value})", ex);
             }
         }
 
         #endregion
 
-        #region UserDatabaseVariableAddress
+        #region UserDatabaseAddress
 
         /// <summary>
-        /// ユーザDB変数アドレス値 - ユーザDB変数アドレス値 を計算し、アドレス値の差を返す。
+        /// ユーザDBアドレス値 - ユーザDBアドレス値 を計算し、アドレス値の差を返す。
         /// </summary>
         /// <param name="left">ユーザDB変数アドレス左辺</param>
         /// <param name="right">ユーザDB変数アドレス右辺</param>
-        /// <returns>ユーザDB変数アドレス値の差</returns>
-        public static int operator -(UserDatabaseVariableAddress left, UserDatabaseVariableAddress right)
+        /// <returns>ユーザDBアドレス値の差</returns>
+        public static int operator -(UserDatabaseAddress left, UserDatabaseAddress right)
         {
             return left.Value - right.Value;
         }

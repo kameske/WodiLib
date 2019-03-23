@@ -28,7 +28,7 @@ namespace WodiLib.Test.Common
             var result = varAddress.GetCommonEventId();
 
             // 取得した値が結果と一致すること
-            Assert.AreEqual(result, (CommonEventId)answer);
+            Assert.AreEqual(result, (CommonEventId) answer);
         }
     }
 }

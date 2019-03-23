@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Collections.Generic;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -55,6 +56,38 @@ namespace WodiLib.Common
         /// <returns>string値</returns>
         public override string ToString() => (string) this;
 
+        /// <summary>
+        /// ウディタ文字列のbyte配列に変換する。
+        /// </summary>
+        /// <returns>ウディタ文字列のbyte配列</returns>
+        public IEnumerable<byte> ToWoditorStringBytes()
+        {
+            var woditorStr = new WoditorString(Value);
+            return woditorStr.StringByte;
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(CommonEventName other)
+        {
+            if (other == null) return false;
+            return Value.Equals(other.Value);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(string other)
+        {
+            if (other == null) return false;
+            return Value.Equals(other);
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -100,36 +133,12 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// ==
-        /// </summary>
-        /// <param name="left">左辺</param>
-        /// <param name="right">右辺</param>
-        /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(CommonEventName left, string right)
-        {
-            if ((object) left == null) return false;
-
-            return left.Value == right;
-        }
-
-        /// <summary>
         /// !=
         /// </summary>
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
         public static bool operator !=(CommonEventName left, CommonEventName right)
-        {
-            return !(left == right);
-        }
-
-        /// <summary>
-        /// !=
-        /// </summary>
-        /// <param name="left">左辺</param>
-        /// <param name="right">右辺</param>
-        /// <returns>左辺と右辺の</returns>
-        public static bool operator !=(CommonEventName left, string right)
         {
             return !(left == right);
         }

@@ -1,13 +1,13 @@
 using System;
 using NUnit.Framework;
-using WodiLib.Cmn;
+using WodiLib.Common;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
-namespace WodiLib.Test.Cmn
+namespace WodiLib.Test.Common
 {
     [TestFixture]
-    public class SpareNumberVariableIndexTest
+    public class CommonEventStringArgIndexTest
     {
         private static WodiLibLogger logger;
 
@@ -20,14 +20,14 @@ namespace WodiLib.Test.Cmn
 
         [TestCase(-1, true)]
         [TestCase(0, false)]
-        [TestCase(99999, false)]
-        [TestCase(100000, true)]
+        [TestCase(4, false)]
+        [TestCase(5, true)]
         public static void ConstructorIntTest(int value, bool isError)
         {
             var errorOccured = false;
             try
             {
-                var _ = new SpareNumberVariableIndex(value);
+                var _ = new CommonEventStringArgIndex(value);
             }
             catch (Exception ex)
             {
@@ -40,10 +40,10 @@ namespace WodiLib.Test.Cmn
         }
 
         [TestCase(0)]
-        [TestCase(99999)]
+        [TestCase(4)]
         public static void ToIntTest(int value)
         {
-            var instance = new SpareNumberVariableIndex(value);
+            var instance = new CommonEventStringArgIndex(value);
 
             var intValue = instance.ToInt();
 
@@ -53,14 +53,15 @@ namespace WodiLib.Test.Cmn
 
         [TestCase(-1, true)]
         [TestCase(0, false)]
-        [TestCase(99999, false)]
-        [TestCase(100000, true)]
-        public static void CastIntToSpareNumberVariableIndexTest(int value, bool isError)
+        [TestCase(4, false)]
+        [TestCase(5, true)]
+        public static void CastFromIntTest(int value, bool isError)
         {
+            var instance = default(CommonEventStringArgIndex);
             var errorOccured = false;
             try
             {
-                var _ = (SpareNumberVariableIndex) value;
+                instance = (CommonEventStringArgIndex) value;
             }
             catch (Exception ex)
             {
@@ -70,15 +71,20 @@ namespace WodiLib.Test.Cmn
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            if (errorOccured) return;
+
+            // キャストした結果が一致すること
+            Assert.AreEqual((int) instance, value);
         }
 
         [TestCase(0)]
-        [TestCase(99999)]
-        public static void CastSpareNumberVariableIndexToIntTest(int value)
+        [TestCase(4)]
+        public static void CastToIntTest(int value)
         {
             var castValue = 0;
 
-            var instance = new SpareNumberVariableIndex(value);
+            var instance = new CommonEventStringArgIndex(value);
 
             var errorOccured = false;
             try
@@ -101,33 +107,52 @@ namespace WodiLib.Test.Cmn
         private static readonly object[] EqualTestCaseSource =
         {
             new object[] {0, 0, true},
-            new object[] {0, 243, false},
-            new object[] {243, 0, false},
-            new object[] {243, 243, true},
+            new object[] {0, 3, false},
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
-        public static void OperatorEqualTest(int left, int right, bool isEqual)
+        public static void OperatorEqualTestA(int left, int right, bool isEqual)
         {
-            var leftIndex = (SpareNumberVariableIndex) left;
-            var rightIndex = (SpareNumberVariableIndex) right;
+            var leftIndex = (CommonEventStringArgIndex) left;
+            var rightIndex = (CommonEventStringArgIndex) right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
-        public static void OperatorNotEqualTest(int left, int right, bool isEqual)
+        public static void OperatorEqualTestB(int left, int right, bool isEqual)
         {
-            var leftIndex = (SpareNumberVariableIndex) left;
-            var rightIndex = (SpareNumberVariableIndex) right;
+            var leftIndex = (CommonEventStringArgIndex) left;
+            Assert.AreEqual(leftIndex == right, isEqual);
+        }
+
+        [TestCaseSource(nameof(EqualTestCaseSource))]
+        public static void OperatorNotEqualTestA(int left, int right, bool isEqual)
+        {
+            var leftIndex = (CommonEventStringArgIndex) left;
+            var rightIndex = (CommonEventStringArgIndex) right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
-        public static void OperatorEqualsTest(int left, int right, bool isEqual)
+        public static void OperatorNotEqualTestB(int left, int right, bool isEqual)
         {
-            var leftIndex = (SpareNumberVariableIndex) left;
-            var rightIndex = (SpareNumberVariableIndex) right;
+            var leftIndex = (CommonEventStringArgIndex) left;
+            Assert.AreEqual(leftIndex != right, !isEqual);
+        }
+
+        [TestCaseSource(nameof(EqualTestCaseSource))]
+        public static void OperatorEqualsTestA(int left, int right, bool isEqual)
+        {
+            var leftIndex = (CommonEventStringArgIndex) left;
+            var rightIndex = (CommonEventStringArgIndex) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
+        }
+
+        [TestCaseSource(nameof(EqualTestCaseSource))]
+        public static void OperatorEqualsTestB(int left, int right, bool isEqual)
+        {
+            var leftIndex = (CommonEventStringArgIndex) left;
+            Assert.AreEqual(leftIndex.Equals(right), isEqual);
         }
     }
 }

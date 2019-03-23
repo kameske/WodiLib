@@ -26,7 +26,6 @@ namespace WodiLib.Test.Cmn
         [TestCase("Wolf\nRPG\nEditor.", true)]
         public static void ConstructorTest(string value, bool isError)
         {
-
             var errorOccured = false;
             try
             {
@@ -65,7 +64,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                var _ = (string)instance;
+                var _ = (string) instance;
             }
             catch (Exception ex)
             {
@@ -77,7 +76,7 @@ namespace WodiLib.Test.Cmn
             Assert.IsFalse(errorOccured);
 
             // キャストした結果が一致すること
-            Assert.AreEqual((string)instance, value);
+            Assert.AreEqual((string) instance, value);
         }
 
         [TestCase(null, true)]
@@ -93,7 +92,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                instance = (CharaChipFileName)value;
+                instance = (CharaChipFileName) value;
             }
             catch (Exception ex)
             {
@@ -107,7 +106,7 @@ namespace WodiLib.Test.Cmn
             if (errorOccured) return;
 
             // キャストした結果が一致すること
-            Assert.AreEqual((string)instance, value);
+            Assert.AreEqual((string) instance, value);
         }
     }
 }

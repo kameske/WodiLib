@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Collections.Generic;
 using WodiLib.Sys;
 
 namespace WodiLib.Cmn
@@ -59,6 +60,13 @@ namespace WodiLib.Cmn
         /// <returns>int値</returns>
         public int ToInt() => (int) this;
 
+        /// <summary>
+        /// byte配列に変換する。
+        /// </summary>
+        /// <param name="endian">エンディアン</param>
+        /// <returns>byte配列</returns>
+        public IEnumerable<byte> ToBytes(Endian endian) => Value.ToBytes(endian);
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -82,6 +90,52 @@ namespace WodiLib.Cmn
         public static explicit operator int(ConditionRight src)
         {
             return src.Value;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Operator
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// ==
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺==右辺の場合true</returns>
+        public static bool operator ==(ConditionRight left, ConditionRight right)
+        {
+            return left.Value == right.Value;
+        }
+
+        /// <summary>
+        /// !=
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺!=右辺の場合true</returns>
+        public static bool operator !=(ConditionRight left, ConditionRight right)
+        {
+            return !(left == right);
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            switch (obj)
+            {
+                case int other:
+                    return other == Value;
+                case ConditionRight other:
+                    return this == other;
+                default:
+                    return false;
+            }
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value;
         }
     }
 }

@@ -26,7 +26,6 @@ namespace WodiLib.Test.Common
         [TestCase("Wolf\nRPG\nEditor.", true)]
         public static void ConstructorTest(string value, bool isError)
         {
-
             var errorOccured = false;
             try
             {
@@ -66,7 +65,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                castValue = (string)instance;
+                castValue = (string) instance;
             }
             catch (Exception ex)
             {
@@ -94,7 +93,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                instance = (CommonEventFooterString)value;
+                instance = (CommonEventFooterString) value;
             }
             catch (Exception ex)
             {
@@ -108,7 +107,7 @@ namespace WodiLib.Test.Common
             if (errorOccured) return;
 
             // キャストした結果が一致すること
-            Assert.AreEqual((string)instance, value);
+            Assert.AreEqual((string) instance, value);
         }
 
         private static readonly object[] EqualTestCaseSource =
@@ -118,7 +117,7 @@ namespace WodiLib.Test.Common
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
-        public static void OperatorEqualTestA(string left, string right, bool isEqual)
+        public static void OperatorEqualTest(string left, string right, bool isEqual)
         {
             var leftIndex = (CommonEventFooterString) left;
             var rightIndex = (CommonEventFooterString) right;
@@ -126,14 +125,7 @@ namespace WodiLib.Test.Common
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
-        public static void OperatorEqualTestB(string left, string right, bool isEqual)
-        {
-            var leftIndex = (CommonEventFooterString) left;
-            Assert.AreEqual(leftIndex == right, isEqual);
-        }
-
-        [TestCaseSource(nameof(EqualTestCaseSource))]
-        public static void OperatorNotEqualTestA(string left, string right, bool isEqual)
+        public static void OperatorNotEqualTest(string left, string right, bool isEqual)
         {
             var leftIndex = (CommonEventFooterString) left;
             var rightIndex = (CommonEventFooterString) right;
@@ -141,25 +133,11 @@ namespace WodiLib.Test.Common
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
-        public static void OperatorNotEqualTestB(string left, string right, bool isEqual)
-        {
-            var leftIndex = (CommonEventFooterString) left;
-            Assert.AreEqual(leftIndex != right, !isEqual);
-        }
-
-        [TestCaseSource(nameof(EqualTestCaseSource))]
-        public static void OperatorEqualsTestA(string left, string right, bool isEqual)
+        public static void OperatorEqualsTest(string left, string right, bool isEqual)
         {
             var leftIndex = (CommonEventFooterString) left;
             var rightIndex = (CommonEventFooterString) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
-        }
-
-        [TestCaseSource(nameof(EqualTestCaseSource))]
-        public static void OperatorEqualsTestB(string left, string right, bool isEqual)
-        {
-            var leftIndex = (CommonEventFooterString) left;
-            Assert.AreEqual(leftIndex.Equals(right), isEqual);
         }
     }
 }

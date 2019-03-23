@@ -1,36 +1,53 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : NormalNumberVariableIndex.cs
+// File Name    : CommonEventNumberArgInitValue.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
 // ========================================
 
 using System;
+using System.Collections.Generic;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
-namespace WodiLib.Cmn
+namespace WodiLib.Common
 {
     /// <summary>
-    /// [Range(0, 99999)] 通常変数インデックス
+    ///     [Range(int.MinValue, int.MaxValue)]
+    ///     [SafetyRange(1400000000, -1400000000)]
+    ///     コモンイベント数値引数初期値
     /// </summary>
-    public struct NormalNumberVariableIndex : IConvertibleInt
+    public struct CommonEventNumberArgInitValue : IConvertibleInt
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>最大値</summary>
-        public static readonly int MaxValue = 99999;
+        public static readonly int MaxValue = int.MaxValue;
+
+        /// <summary>安全に使用できる最大値</summary>
+        public static readonly int SafetyMaxValue = 1400000000;
+
+        /// <summary>安全に使用できる最小値</summary>
+        public static readonly int SafetyMinValue = -1400000000;
 
         /// <summary>最小値</summary>
-        public static readonly int MinValue = 0;
+        public static readonly int MinValue = int.MinValue;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Static Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>ロガー</summary>
+        private static readonly WodiLibLogger Logger = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>通常変数インデックス</summary>
+        /// <summary>コモンイベント数値引数初期値</summary>
         private int Value { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -40,13 +57,22 @@ namespace WodiLib.Cmn
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[Range(0, 99999)] 通常変数インデックス</param>
-        /// <exception cref="ArgumentOutOfRangeException">valueが通常変数インデックスとして不適切な場合</exception>
-        public NormalNumberVariableIndex(int value)
+        /// <param name="value">
+        ///     [Range(int.MinValue, int.MaxValue)]
+        ///     [SafetyRange(1400000000, -1400000000)]
+        ///     コモンイベント数値引数初期値
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">valueがコモンイベント数値引数初期値として不適切な場合</exception>
+        public CommonEventNumberArgInitValue(int value)
         {
             if (value < MinValue || MaxValue < value)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(value), MaxValue, MinValue, value));
+                    ErrorMessage.OutOfRange(nameof(value), MinValue, MaxValue, value));
+
+            if (value < SafetyMinValue || SafetyMaxValue < value)
+                Logger.Warning(
+                    WarningMessage.OutOfRange(nameof(value), SafetyMinValue, SafetyMaxValue, value));
+
             Value = value;
         }
 
@@ -70,27 +96,34 @@ namespace WodiLib.Cmn
         /// <returns>int値</returns>
         public int ToInt() => (int) this;
 
+        /// <summary>
+        /// byte配列に変換する。
+        /// </summary>
+        /// <param name="endian">エンディアン</param>
+        /// <returns>byte配列</returns>
+        public IEnumerable<byte> ToBytes(Endian endian) => Value.ToBytes(endian);
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> NormalNumberVariableIndex への明示的な型変換
+        /// int -> CommonEventNumberArgInitValue への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator NormalNumberVariableIndex(int src)
+        public static explicit operator CommonEventNumberArgInitValue(int src)
         {
-            var result = new NormalNumberVariableIndex(src);
+            var result = new CommonEventNumberArgInitValue(src);
             return result;
         }
 
         /// <summary>
-        /// NormalNumberVariableIndex -> int への明示的な型変換
+        /// CommonEventNumberArgInitValue -> int への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(NormalNumberVariableIndex src)
+        public static explicit operator int(CommonEventNumberArgInitValue src)
         {
             return src.Value;
         }
@@ -105,7 +138,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(NormalNumberVariableIndex left, NormalNumberVariableIndex right)
+        public static bool operator ==(CommonEventNumberArgInitValue left, CommonEventNumberArgInitValue right)
         {
             return left.Value == right.Value;
         }
@@ -116,7 +149,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(NormalNumberVariableIndex left, NormalNumberVariableIndex right)
+        public static bool operator !=(CommonEventNumberArgInitValue left, CommonEventNumberArgInitValue right)
         {
             return !(left == right);
         }
@@ -128,7 +161,7 @@ namespace WodiLib.Cmn
             {
                 case int other:
                     return other == Value;
-                case NormalNumberVariableIndex other:
+                case CommonEventNumberArgInitValue other:
                     return this == other;
                 default:
                     return false;

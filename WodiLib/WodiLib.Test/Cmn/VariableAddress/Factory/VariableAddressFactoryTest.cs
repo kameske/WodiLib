@@ -61,14 +61,14 @@ namespace WodiLib.Test.Cmn
             new object[] {15999999, false, typeof(CommonEventVariableAddress)},
             new object[] {16000000, true, null},
             new object[] {999999999, true, null},
-            new object[] {1000000000, false, typeof(UserDatabaseVariableAddress)},
-            new object[] {1099999999, false, typeof(UserDatabaseVariableAddress)},
-            new object[] {1100000000, false, typeof(ChangeableDatabaseVariableAddress)},
-            new object[] {1199999999, false, typeof(ChangeableDatabaseVariableAddress)},
-            new object[] {1300000000, false, typeof(SystemDatabaseVariableAddress)},
-            new object[] {1399999920, false, typeof(SystemDatabaseVariableAddress)},
-            new object[] {1399999921, false, typeof(SystemDatabaseVariableAddress)},
-            new object[] {1399999999, false, typeof(SystemDatabaseVariableAddress)},
+            new object[] {1000000000, false, typeof(UserDatabaseAddress)},
+            new object[] {1099999999, false, typeof(UserDatabaseAddress)},
+            new object[] {1100000000, false, typeof(ChangeableDatabaseAddress)},
+            new object[] {1199999999, false, typeof(ChangeableDatabaseAddress)},
+            new object[] {1300000000, false, typeof(SystemDatabaseAddress)},
+            new object[] {1399999920, false, typeof(SystemDatabaseAddress)},
+            new object[] {1399999921, false, typeof(SystemDatabaseAddress)},
+            new object[] {1399999999, false, typeof(SystemDatabaseAddress)},
             new object[] {1400000000, true, null},
             new object[] {2000000000, true, null},
             new object[] {int.MaxValue, true, null},
@@ -101,6 +101,5 @@ namespace WodiLib.Test.Cmn
             // セットした値が正しく取得できること
             Assert.AreEqual(instance.ToInt(), value);
         }
-
     }
 }

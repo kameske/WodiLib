@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Collections.Generic;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -70,6 +71,13 @@ namespace WodiLib.Common
         /// <returns>int値</returns>
         public int ToInt() => (int) this;
 
+        /// <summary>
+        /// byte配列に変換する。
+        /// </summary>
+        /// <param name="endian">エンディアン</param>
+        /// <returns>byte配列</returns>
+        public IEnumerable<byte> ToBytes(Endian endian) => Value.ToBytes(endian);
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -111,34 +119,12 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// ==
-        /// </summary>
-        /// <param name="left">左辺</param>
-        /// <param name="right">右辺</param>
-        /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(CommonEventSelfVariableIndex left, int right)
-        {
-            return left.Value == right;
-        }
-
-        /// <summary>
         /// !=
         /// </summary>
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
         public static bool operator !=(CommonEventSelfVariableIndex left, CommonEventSelfVariableIndex right)
-        {
-            return !(left == right);
-        }
-
-        /// <summary>
-        /// !=
-        /// </summary>
-        /// <param name="left">左辺</param>
-        /// <param name="right">右辺</param>
-        /// <returns>左辺と右辺の</returns>
-        public static bool operator !=(CommonEventSelfVariableIndex left, int right)
         {
             return !(left == right);
         }
