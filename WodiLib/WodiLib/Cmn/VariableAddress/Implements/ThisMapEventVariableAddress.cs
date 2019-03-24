@@ -11,7 +11,7 @@ using System;
 namespace WodiLib.Cmn
 {
     /// <summary>
-    /// [Range(9180010, 9180059)] このマップイベントセルフ変数アドレス値
+    /// [Range(1100000, 1100009)] このマップイベントセルフ変数アドレス値
     /// </summary>
     public class ThisMapEventVariableAddress : VariableAddress
     {
@@ -52,7 +52,7 @@ namespace WodiLib.Cmn
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[Range(9180010, 9180059)] 変数アドレス値</param>
+        /// <param name="value">[Range(1100000, 1100009)] 変数アドレス値</param>
         /// <exception cref="ArgumentOutOfRangeException">valueが仲間座標アドレス値として不適切な場合</exception>
         public ThisMapEventVariableAddress(int value) : base(value)
         {
