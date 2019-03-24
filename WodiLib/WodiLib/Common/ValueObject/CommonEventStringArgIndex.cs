@@ -119,34 +119,12 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// ==
-        /// </summary>
-        /// <param name="left">左辺</param>
-        /// <param name="right">右辺</param>
-        /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(CommonEventStringArgIndex left, int right)
-        {
-            return left.Value == right;
-        }
-
-        /// <summary>
         /// !=
         /// </summary>
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
         public static bool operator !=(CommonEventStringArgIndex left, CommonEventStringArgIndex right)
-        {
-            return !(left == right);
-        }
-
-        /// <summary>
-        /// !=
-        /// </summary>
-        /// <param name="left">左辺</param>
-        /// <param name="right">右辺</param>
-        /// <returns>左辺と右辺の</returns>
-        public static bool operator !=(CommonEventStringArgIndex left, int right)
         {
             return !(left == right);
         }
