@@ -702,7 +702,7 @@ namespace WodiLib.Test.IO
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
                                     MoveType = MoveType.Nearer,
-                                    MoveSpeed = MoveSpeed.Faster,
+                                    MoveSpeed = MoveSpeed.Slower,
                                     MoveFrequency = MoveFrequency.Short,
                                     AnimateSpeed = AnimateSpeed.Longest,
                                 },
@@ -798,7 +798,7 @@ namespace WodiLib.Test.IO
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
                                     MoveType = MoveType.Not,
-                                    MoveSpeed = MoveSpeed.Fastest,
+                                    MoveSpeed = MoveSpeed.Slowest,
                                     MoveFrequency = MoveFrequency.Longest,
                                     AnimateSpeed = AnimateSpeed.Short,
                                 },
@@ -1062,7 +1062,7 @@ namespace WodiLib.Test.IO
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
                                     MoveType = MoveType.Not,
-                                    MoveSpeed = MoveSpeed.Fast,
+                                    MoveSpeed = MoveSpeed.Slow,
                                     MoveFrequency = MoveFrequency.Short,
                                     AnimateSpeed = AnimateSpeed.Long,
                                     CustomMoveRoute = null
@@ -1267,7 +1267,7 @@ namespace WodiLib.Test.IO
                                 },
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
-                                    MoveSpeed = MoveSpeed.Faster,
+                                    MoveSpeed = MoveSpeed.Slower,
                                     MoveFrequency = MoveFrequency.Long,
                                     AnimateSpeed = AnimateSpeed.Frame,
                                     MoveType = MoveType.Custom,
