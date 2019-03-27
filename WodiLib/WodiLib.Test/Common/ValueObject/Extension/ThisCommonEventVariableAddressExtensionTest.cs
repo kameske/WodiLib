@@ -16,7 +16,7 @@ namespace WodiLib.Test.Common
             var result = varAddress.GetIndex();
 
             // 取得した値が結果と一致すること
-            Assert.AreEqual(result, answer);
+            Assert.AreEqual((int) result, answer);
         }
     }
 }

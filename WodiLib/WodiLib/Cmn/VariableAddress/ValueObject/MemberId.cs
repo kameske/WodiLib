@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : SpareNumberVariableIndex.cs
+// File Name    : MemberId.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -12,26 +12,39 @@ using WodiLib.Sys;
 namespace WodiLib.Cmn
 {
     /// <summary>
-    /// [Range(0, 99999)] 予備変数インデックス
+    /// [Range(1, 5)] 仲間ID
     /// </summary>
-    public struct SpareNumberVariableIndex : IConvertibleInt, IEquatable<SpareNumberVariableIndex>
+    public struct MemberId : IConvertibleInt, IEquatable<MemberId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>最大値</summary>
-        public static readonly int MaxValue = 99999;
+        public static readonly int MaxValue = 5;
 
         /// <summary>最小値</summary>
-        public static readonly int MinValue = 0;
+        public static readonly int MinValue = 1;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>予備変数インデックス</summary>
-        private int Value { get; }
+        private readonly int value;
+
+        /// <summary>仲間ID</summary>
+        private int Value
+        {
+            get
+            {
+                if (value == default(int))
+                {
+                    return MinValue;
+                }
+
+                return value;
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -40,14 +53,14 @@ namespace WodiLib.Cmn
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[Range(0, 99999)] 予備変数インデックス</param>
-        /// <exception cref="ArgumentOutOfRangeException">valueが予備変数インデックスとして不適切な場合</exception>
-        public SpareNumberVariableIndex(int value)
+        /// <param name="value">[Range(1, 5)] 仲間ID</param>
+        /// <exception cref="ArgumentOutOfRangeException">valueが仲間IDとして不適切な場合</exception>
+        public MemberId(int value)
         {
             if (value < MinValue || MaxValue < value)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(value), MaxValue, MinValue, value));
-            Value = value;
+            this.value = value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -63,7 +76,7 @@ namespace WodiLib.Cmn
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is SpareNumberVariableIndex other && Equals(other);
+            return obj is MemberId other && Equals(other);
         }
 
         /// <inheritdoc />
@@ -87,7 +100,7 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(SpareNumberVariableIndex other)
+        public bool Equals(MemberId other)
         {
             return Value == other.Value;
         }
@@ -97,22 +110,22 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> SpareNumberVariableIndex への明示的な型変換
+        /// int -> MemberId への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator SpareNumberVariableIndex(int src)
+        public static explicit operator MemberId(int src)
         {
-            var result = new SpareNumberVariableIndex(src);
+            var result = new MemberId(src);
             return result;
         }
 
         /// <summary>
-        /// SpareNumberVariableIndex -> int への明示的な型変換
+        /// MemberId -> int への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(SpareNumberVariableIndex src)
+        public static explicit operator int(MemberId src)
         {
             return src.Value;
         }
@@ -127,7 +140,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(SpareNumberVariableIndex left, SpareNumberVariableIndex right)
+        public static bool operator ==(MemberId left, MemberId right)
         {
             return left.Value == right.Value;
         }
@@ -138,7 +151,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(SpareNumberVariableIndex left, SpareNumberVariableIndex right)
+        public static bool operator !=(MemberId left, MemberId right)
         {
             return !(left == right);
         }

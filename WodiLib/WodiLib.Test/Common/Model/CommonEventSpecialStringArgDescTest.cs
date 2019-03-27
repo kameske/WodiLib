@@ -18,15 +18,11 @@ namespace WodiLib.Test.Common
             logger = WodiLibLogger.GetInstance();
         }
 
-        [TestCase(null, true)]
-        [TestCase("", false)]
-        [TestCase("abc", false)]
-        [TestCase("あいうえお", false)]
-        [TestCase("New\r\nLine\r\nCRLF", false)]
-        [TestCase("New\nLine\nLF", false)]
-        public static void ArgNameTest(string argName, bool isError)
+        [Test]
+        public static void ArgNameTest()
         {
             var instance = new CommonEventSpecialStringArgDesc();
+            var argName = (CommonEventArgName) "test";
 
             var errorOccured = false;
             try
@@ -40,9 +36,7 @@ namespace WodiLib.Test.Common
             }
 
             // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            if (errorOccured) return;
+            Assert.IsFalse(errorOccured);
 
             var setValue = instance.ArgName;
 

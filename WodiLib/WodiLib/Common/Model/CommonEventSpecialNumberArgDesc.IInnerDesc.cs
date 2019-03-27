@@ -36,7 +36,7 @@ namespace WodiLib.Common
             /// DB参照時のタイプID
             /// </summary>
             /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
-            int DatabaseDbTypeId { get; }
+            TypeId DatabaseDbTypeId { get; }
 
             /// <summary>
             /// DB参照時の追加項目使用フラグ
@@ -52,11 +52,10 @@ namespace WodiLib.Common
             /// DB参照時の参照DBをセットする。
             /// </summary>
             /// <param name="dbKind">[NotNull] DB種別</param>
-            /// <param name="dbTypeId">[Range(0, 99)] タイプID</param>
+            /// <param name="dbTypeId">タイプID</param>
             /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
-            /// <exception cref="ArgumentNullException">dbKingがnullの場合</exception>
-            /// <exception cref="ArgumentOutOfRangeException">dbTypeIdが指定範囲外の値の場合</exception>
-            void SetDatabaseRefer(DBKind dbKind, int dbTypeId);
+            /// <exception cref="ArgumentNullException">dbKindがnullの場合</exception>
+            void SetDatabaseRefer(DBKind dbKind, TypeId dbTypeId);
 
             /// <summary>
             /// DB参照時の追加項目使用フラグをセットする。

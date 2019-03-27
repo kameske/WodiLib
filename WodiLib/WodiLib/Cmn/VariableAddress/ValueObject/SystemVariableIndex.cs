@@ -14,7 +14,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(0, 99999)] システム変数インデックス
     /// </summary>
-    public struct SystemVariableIndex : IConvertibleInt
+    public struct SystemVariableIndex : IConvertibleInt, IEquatable<SystemVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -60,6 +60,18 @@ namespace WodiLib.Cmn
             return Value.ToString();
         }
 
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is SystemStringVariableIndex other && Equals(other);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value;
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -69,6 +81,16 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => (int) this;
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(SystemVariableIndex other)
+        {
+            return Value == other.Value;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
@@ -119,26 +141,6 @@ namespace WodiLib.Cmn
         public static bool operator !=(SystemVariableIndex left, SystemVariableIndex right)
         {
             return !(left == right);
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case int other:
-                    return other == Value;
-                case SystemVariableIndex other:
-                    return this == other;
-                default:
-                    return false;
-            }
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return Value;
         }
     }
 }

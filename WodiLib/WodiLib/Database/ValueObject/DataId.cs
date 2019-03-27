@@ -15,17 +15,17 @@ namespace WodiLib.Database
     /// <summary>
     /// [Range(0, 9999)] DBデータID
     /// </summary>
-    public struct DataId : IConvertibleInt
+    public struct DataId : IConvertibleInt, IEquatable<DataId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>最大値</summary>
-        public static readonly int Max = 9999;
+        public static readonly int MaxValue = 9999;
 
         /// <summary>最小値</summary>
-        public static readonly int Min = 0;
+        public static readonly int MinValue = 0;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
@@ -41,14 +41,36 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="number">データID</param>
+        /// <param name="number">[Range(0, 9999)] データID</param>
         /// <exception cref="ArgumentOutOfRangeException">numberがデータIDとして不適切な場合</exception>
         public DataId(int number)
         {
-            if (number < Min || Max < number)
+            if (number < MinValue || MaxValue < number)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(number), Max, Min, number));
+                    ErrorMessage.OutOfRange(nameof(number), MaxValue, MinValue, number));
             Value = number;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// string に変換する。
+        /// </summary>
+        /// <returns>string値</returns>
+        public override string ToString() => Value.ToString();
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is DataId other && Equals(other);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -67,6 +89,16 @@ namespace WodiLib.Database
         /// <param name="endian">エンディアン</param>
         /// <returns>byte配列</returns>
         public IEnumerable<byte> ToBytes(Endian endian) => Value.ToBytes(endian);
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(DataId other)
+        {
+            return Value == other.Value;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
@@ -117,26 +149,6 @@ namespace WodiLib.Database
         public static bool operator !=(DataId left, DataId right)
         {
             return !(left == right);
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case int other:
-                    return other == Value;
-                case DataId other:
-                    return this == other;
-                default:
-                    return false;
-            }
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return Value;
         }
     }
 }

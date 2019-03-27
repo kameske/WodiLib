@@ -15,7 +15,7 @@ namespace WodiLib.Common
     /// <summary>
     /// フッタ文字列
     /// </summary>
-    public class CommonEventFooterString : IConvertibleString
+    public class CommonEventFooterString : IConvertibleString, IEquatable<CommonEventFooterString>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -47,7 +47,7 @@ namespace WodiLib.Common
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Method
+        //     Public Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
@@ -55,6 +55,22 @@ namespace WodiLib.Common
         /// </summary>
         /// <returns>string値</returns>
         public override string ToString() => (string) this;
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is CommonEventFooterString other && Equals(other);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         /// ウディタ文字列のbyte配列に変換する。
@@ -141,26 +157,6 @@ namespace WodiLib.Common
         public static bool operator !=(CommonEventFooterString left, CommonEventFooterString right)
         {
             return !(left == right);
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case string other:
-                    return other == Value;
-                case CommonEventFooterString other:
-                    return this == other;
-                default:
-                    return false;
-            }
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode();
         }
     }
 }

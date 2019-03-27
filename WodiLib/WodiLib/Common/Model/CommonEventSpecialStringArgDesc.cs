@@ -22,13 +22,13 @@ namespace WodiLib.Common
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private string argName = "";
+        private CommonEventArgName argName = (CommonEventArgName) "";
 
         /// <summary>
         /// [NotNull] 引数名
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public string ArgName
+        public CommonEventArgName ArgName
         {
             get => argName;
             set
@@ -49,7 +49,7 @@ namespace WodiLib.Common
         /// 数値引数の初期値
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public int InitValue => throw new InvalidOperationException(
+        public CommonEventNumberArgInitValue InitValue => throw new InvalidOperationException(
             "文字列引数の数値初期値は取得できません。");
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

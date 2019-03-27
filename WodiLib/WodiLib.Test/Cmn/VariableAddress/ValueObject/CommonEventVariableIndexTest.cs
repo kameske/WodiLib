@@ -7,7 +7,7 @@ using WodiLib.Test.Tools;
 namespace WodiLib.Test.Cmn
 {
     [TestFixture]
-    public class NormalNumberVariableIndexTest
+    public class CommonEventVariableIndexTest
     {
         private static WodiLibLogger logger;
 
@@ -20,14 +20,14 @@ namespace WodiLib.Test.Cmn
 
         [TestCase(-1, true)]
         [TestCase(0, false)]
-        [TestCase(99999, false)]
-        [TestCase(100000, true)]
+        [TestCase(99, false)]
+        [TestCase(100, true)]
         public static void ConstructorIntTest(int value, bool isError)
         {
             var errorOccured = false;
             try
             {
-                var _ = new NormalNumberVariableIndex(value);
+                var _ = new CommonEventVariableIndex(value);
             }
             catch (Exception ex)
             {
@@ -40,10 +40,10 @@ namespace WodiLib.Test.Cmn
         }
 
         [TestCase(0)]
-        [TestCase(99999)]
+        [TestCase(99)]
         public static void ToIntTest(int value)
         {
-            var instance = new NormalNumberVariableIndex(value);
+            var instance = new CommonEventVariableIndex(value);
 
             var intValue = instance.ToInt();
 
@@ -53,14 +53,14 @@ namespace WodiLib.Test.Cmn
 
         [TestCase(-1, true)]
         [TestCase(0, false)]
-        [TestCase(99999, false)]
-        [TestCase(100000, true)]
-        public static void CastIntToNormalNumberVariableIndexTest(int value, bool isError)
+        [TestCase(99, false)]
+        [TestCase(100, true)]
+        public static void CastIntToCommonEventVariableIndexTest(int value, bool isError)
         {
             var errorOccured = false;
             try
             {
-                var _ = (NormalNumberVariableIndex) value;
+                var _ = (CommonEventVariableIndex) value;
             }
             catch (Exception ex)
             {
@@ -73,12 +73,12 @@ namespace WodiLib.Test.Cmn
         }
 
         [TestCase(0)]
-        [TestCase(99999)]
-        public static void CastNormalNumberVariableIndexToIntTest(int value)
+        [TestCase(99)]
+        public static void CastCommonEventVariableIndexToIntTest(int value)
         {
             var castValue = 0;
 
-            var instance = new NormalNumberVariableIndex(value);
+            var instance = new CommonEventVariableIndex(value);
 
             var errorOccured = false;
             try
@@ -101,30 +101,30 @@ namespace WodiLib.Test.Cmn
         private static readonly object[] EqualTestCaseSource =
         {
             new object[] {0, 0, true},
-            new object[] {0, 243, false},
+            new object[] {0, 31, false},
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (NormalNumberVariableIndex) left;
-            var rightIndex = (NormalNumberVariableIndex) right;
+            var leftIndex = (CommonEventVariableIndex) left;
+            var rightIndex = (CommonEventVariableIndex) right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (NormalNumberVariableIndex) left;
-            var rightIndex = (NormalNumberVariableIndex) right;
+            var leftIndex = (CommonEventVariableIndex) left;
+            var rightIndex = (CommonEventVariableIndex) right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (NormalNumberVariableIndex) left;
-            var rightIndex = (NormalNumberVariableIndex) right;
+            var leftIndex = (CommonEventVariableIndex) left;
+            var rightIndex = (CommonEventVariableIndex) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

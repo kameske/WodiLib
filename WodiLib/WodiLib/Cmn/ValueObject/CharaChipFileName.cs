@@ -15,7 +15,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [NotNull][NotNewLine] キャラチップファイル名
     /// </summary>
-    public class CharaChipFileName : IConvertibleString
+    public class CharaChipFileName : IConvertibleString, IEquatable<CharaChipFileName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -46,7 +46,7 @@ namespace WodiLib.Cmn
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Method
+        //     Public Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
@@ -54,6 +54,25 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <returns>string値</returns>
         public override string ToString() => (string) this;
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((CharaChipFileName) obj);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         /// ウディタ文字列のbyte配列に変換する。
@@ -74,17 +93,6 @@ namespace WodiLib.Cmn
         {
             if (other == null) return false;
             return Value.Equals(other.Value);
-        }
-
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool Equals(string other)
-        {
-            if (other == null) return false;
-            return Value.Equals(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -128,7 +136,7 @@ namespace WodiLib.Cmn
 
             if ((object) left == null || (object) right == null) return false;
 
-            return left.Value == right.Value;
+            return left.Equals(right);
         }
 
         /// <summary>
@@ -140,26 +148,6 @@ namespace WodiLib.Cmn
         public static bool operator !=(CharaChipFileName left, CharaChipFileName right)
         {
             return !(left == right);
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case string other:
-                    return other == Value;
-                case CharaChipFileName other:
-                    return this == other;
-                default:
-                    return false;
-            }
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode();
         }
     }
 }

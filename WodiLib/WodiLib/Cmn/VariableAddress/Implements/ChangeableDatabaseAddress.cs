@@ -13,7 +13,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(1100000000, 1199999999)] 可変DBアドレス値
     /// </summary>
-    public class ChangeableDatabaseAddress : VariableAddress
+    public class ChangeableDatabaseAddress : VariableAddress, IEquatable<ChangeableDatabaseAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -56,6 +56,39 @@ namespace WodiLib.Cmn
         /// <exception cref="ArgumentOutOfRangeException">valueが可変DBアドレス値として不適切な場合</exception>
         public ChangeableDatabaseAddress(int value) : base(value)
         {
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj is VariableAddress other) return Equals(other);
+            return false;
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(ChangeableDatabaseAddress other)
+        {
+            return other != null && Value == other.Value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -142,6 +175,32 @@ namespace WodiLib.Cmn
         public static int operator -(ChangeableDatabaseAddress left, ChangeableDatabaseAddress right)
         {
             return left.Value - right.Value;
+        }
+
+        /// <summary>
+        /// ==
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺==右辺の場合true</returns>
+        public static bool operator ==(ChangeableDatabaseAddress left, ChangeableDatabaseAddress right)
+        {
+            if (ReferenceEquals(left, right)) return true;
+
+            if ((object) left == null || (object) right == null) return false;
+
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// !=
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺!=右辺の場合true</returns>
+        public static bool operator !=(ChangeableDatabaseAddress left, ChangeableDatabaseAddress right)
+        {
+            return !(left == right);
         }
 
         #endregion

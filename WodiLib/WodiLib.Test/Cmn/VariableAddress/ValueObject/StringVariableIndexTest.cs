@@ -102,8 +102,6 @@ namespace WodiLib.Test.Cmn
         {
             new object[] {0, 0, true},
             new object[] {0, 243, false},
-            new object[] {243, 0, false},
-            new object[] {243, 243, true},
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]

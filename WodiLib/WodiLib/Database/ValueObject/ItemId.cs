@@ -15,7 +15,7 @@ namespace WodiLib.Database
     /// <summary>
     /// [Range(0, 99)] DB項目ID
     /// </summary>
-    public struct ItemId : IConvertibleInt
+    public struct ItemId : IConvertibleInt, IEquatable<ItemId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -42,13 +42,35 @@ namespace WodiLib.Database
         /// コンストラクタ
         /// </summary>
         /// <param name="number">[Range(0, 99)] 項目ID</param>
-        /// <exception cref="ArgumentOutOfRangeException">numberが指定範囲外の場合</exception>
+        /// <exception cref="ArgumentOutOfRangeException">numberが項目IDとして不適切な場合</exception>
         public ItemId(int number)
         {
             if (number < MinValue || MaxValue < number)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(number), MaxValue, MinValue, number));
             Value = number;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// string に変換する。
+        /// </summary>
+        /// <returns>string値</returns>
+        public override string ToString() => Value.ToString();
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is ItemId other && Equals(other);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -67,6 +89,16 @@ namespace WodiLib.Database
         /// <param name="endian">エンディアン</param>
         /// <returns>byte配列</returns>
         public IEnumerable<byte> ToBytes(Endian endian) => Value.ToBytes(endian);
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(ItemId other)
+        {
+            return Value == other.Value;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
@@ -117,26 +149,6 @@ namespace WodiLib.Database
         public static bool operator !=(ItemId left, ItemId right)
         {
             return !(left == right);
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case int other:
-                    return other == Value;
-                case ItemId other:
-                    return this == other;
-                default:
-                    return false;
-            }
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return Value;
         }
     }
 }

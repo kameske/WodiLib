@@ -7,13 +7,14 @@
 // ========================================
 
 using System;
+using WodiLib.Sys;
 
 namespace WodiLib.Cmn
 {
     /// <summary>
     /// [Range(1000000, 1099999)] マップイベントセルフ変数アドレス値
     /// </summary>
-    public class MapEventVariableAddress : VariableAddress
+    public class MapEventVariableAddress : VariableAddress, IEquatable<MapEventVariableAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -46,6 +47,13 @@ namespace WodiLib.Cmn
         protected override int _MaxValue => MaxValue;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>変数インデックス</summary>
+        public MapEventVariableIndex VariableIndex { get; }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -56,6 +64,40 @@ namespace WodiLib.Cmn
         /// <exception cref="ArgumentOutOfRangeException">valueがマップイベントセルフ変数アドレス値として不適切な場合</exception>
         public MapEventVariableAddress(int value) : base(value)
         {
+            VariableIndex = (MapEventVariableIndex) value.SubInt(0, 1);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj is VariableAddress other) return Equals(other);
+            return false;
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(MapEventVariableAddress other)
+        {
+            return other != null && Value == other.Value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -142,6 +184,32 @@ namespace WodiLib.Cmn
         public static int operator -(MapEventVariableAddress left, MapEventVariableAddress right)
         {
             return left.Value - right.Value;
+        }
+
+        /// <summary>
+        /// ==
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺==右辺の場合true</returns>
+        public static bool operator ==(MapEventVariableAddress left, MapEventVariableAddress right)
+        {
+            if (ReferenceEquals(left, right)) return true;
+
+            if ((object) left == null || (object) right == null) return false;
+
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// !=
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺!=右辺の場合true</returns>
+        public static bool operator !=(MapEventVariableAddress left, MapEventVariableAddress right)
+        {
+            return !(left == right);
         }
 
         #endregion

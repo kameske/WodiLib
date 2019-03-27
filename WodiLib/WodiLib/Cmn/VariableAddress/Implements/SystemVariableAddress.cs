@@ -14,7 +14,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(9000000, 9099999)] システム変数アドレス値
     /// </summary>
-    public class SystemVariableAddress : VariableAddress
+    public class SystemVariableAddress : VariableAddress, IEquatable<SystemVariableAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -51,7 +51,7 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>変数インデックス</summary>
-        public SystemVariableIndex VariableIndex => (SystemVariableIndex) Value.SubInt(0, 5);
+        public SystemVariableIndex VariableIndex { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -64,6 +64,40 @@ namespace WodiLib.Cmn
         /// <exception cref="ArgumentOutOfRangeException">valueがシステム変数アドレス値として不適切な場合</exception>
         public SystemVariableAddress(int value) : base(value)
         {
+            VariableIndex = (SystemVariableIndex) Value.SubInt(0, 5);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj is VariableAddress other) return Equals(other);
+            return false;
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(SystemVariableAddress other)
+        {
+            return other != null && Value == other.Value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -150,6 +184,32 @@ namespace WodiLib.Cmn
         public static int operator -(SystemVariableAddress left, SystemVariableAddress right)
         {
             return left.Value - right.Value;
+        }
+
+        /// <summary>
+        /// ==
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺==右辺の場合true</returns>
+        public static bool operator ==(SystemVariableAddress left, SystemVariableAddress right)
+        {
+            if (ReferenceEquals(left, right)) return true;
+
+            if ((object) left == null || (object) right == null) return false;
+
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// !=
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺!=右辺の場合true</returns>
+        public static bool operator !=(SystemVariableAddress left, SystemVariableAddress right)
+        {
+            return !(left == right);
         }
 
         #endregion

@@ -7,13 +7,14 @@
 // ========================================
 
 using System;
+using WodiLib.Sys;
 
 namespace WodiLib.Cmn
 {
     /// <summary>
     /// [Range(15000000, 15999999)] コモンイベントセルフ変数アドレス値
     /// </summary>
-    public class CommonEventVariableAddress : VariableAddress
+    public class CommonEventVariableAddress : VariableAddress, IEquatable<CommonEventVariableAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -46,6 +47,20 @@ namespace WodiLib.Cmn
         protected override int _MaxValue => MaxValue;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// セルフ変数インデックス
+        /// </summary>
+        public CommonEventVariableIndex Index { get; }
+
+        /// <summary>
+        /// 文字列変数フラグ
+        /// </summary>
+        public bool IsStringVariable => Index.IsStringIndex;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -56,6 +71,40 @@ namespace WodiLib.Cmn
         /// <exception cref="ArgumentOutOfRangeException">valueがコモンイベントセルフ変数アドレス値として不適切な場合</exception>
         public CommonEventVariableAddress(int value) : base(value)
         {
+            Index = (CommonEventVariableIndex) value.SubInt(0, 2);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj is VariableAddress other) return Equals(other);
+            return false;
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(CommonEventVariableAddress other)
+        {
+            return other != null && Value == other.Value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -142,6 +191,32 @@ namespace WodiLib.Cmn
         public static int operator -(CommonEventVariableAddress left, CommonEventVariableAddress right)
         {
             return left.Value - right.Value;
+        }
+
+        /// <summary>
+        /// ==
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺==右辺の場合true</returns>
+        public static bool operator ==(CommonEventVariableAddress left, CommonEventVariableAddress right)
+        {
+            if (ReferenceEquals(left, right)) return true;
+
+            if ((object) left == null || (object) right == null) return false;
+
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// !=
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺!=右辺の場合true</returns>
+        public static bool operator !=(CommonEventVariableAddress left, CommonEventVariableAddress right)
+        {
+            return !(left == right);
         }
 
         #endregion

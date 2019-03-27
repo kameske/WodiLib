@@ -20,15 +20,11 @@ namespace WodiLib.Test.Common
             logger = WodiLibLogger.GetInstance();
         }
 
-        [TestCase(null, true)]
-        [TestCase("", false)]
-        [TestCase("abc", false)]
-        [TestCase("あいうえお", false)]
-        [TestCase("New\r\nLine\r\nCRLF", false)]
-        [TestCase("New\nLine\nLF", false)]
-        public static void ArgNameTest(string argName, bool isError)
+        [Test]
+        public static void ArgNameTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc();
+            var argName = (CommonEventArgName) "test";
 
             var errorOccured = false;
             try
@@ -41,10 +37,8 @@ namespace WodiLib.Test.Common
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            if (errorOccured) return;
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
 
             var setValue = instance.ArgName;
 
@@ -171,15 +165,12 @@ namespace WodiLib.Test.Common
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(-1000000, false)]
-        [TestCase(-999999, false)]
-        [TestCase(-1, false)]
-        [TestCase(0, false)]
-        [TestCase(999999, false)]
-        [TestCase(1000000, false)]
-        public static void InitValueTest(int initValue, bool isError)
+        [Test]
+        public static void InitValueTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc();
+
+            var initValue = (CommonEventNumberArgInitValue) 0;
 
             var errorOccured = false;
             try
@@ -192,15 +183,13 @@ namespace WodiLib.Test.Common
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            if (errorOccured) return;
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
 
             var setValue = instance.InitValue;
 
             // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(initValue));
+            Assert.IsTrue(setValue == initValue);
         }
 
         [TestCase(0xFF, -1, true)]
@@ -235,66 +224,32 @@ namespace WodiLib.Test.Common
 
         private static readonly object[] SetDatabaseReferTestCaseSource =
         {
-            new object[] {CommonEventArgType.Normal, DBKind.Changeable, -1, true},
-            new object[] {CommonEventArgType.Normal, DBKind.Changeable, 0, true},
-            new object[] {CommonEventArgType.Normal, DBKind.Changeable, 99, true},
-            new object[] {CommonEventArgType.Normal, DBKind.Changeable, 100, true},
-            new object[] {CommonEventArgType.Normal, DBKind.User, -1, true},
-            new object[] {CommonEventArgType.Normal, DBKind.User, 0, true},
-            new object[] {CommonEventArgType.Normal, DBKind.User, 99, true},
-            new object[] {CommonEventArgType.Normal, DBKind.User, 100, true},
-            new object[] {CommonEventArgType.Normal, DBKind.System, -1, true},
-            new object[] {CommonEventArgType.Normal, DBKind.System, 0, true},
-            new object[] {CommonEventArgType.Normal, DBKind.System, 99, true},
-            new object[] {CommonEventArgType.Normal, DBKind.System, 100, true},
-            new object[] {CommonEventArgType.Normal, null, -1, true},
-            new object[] {CommonEventArgType.Normal, null, 0, true},
-            new object[] {CommonEventArgType.Normal, null, 99, true},
-            new object[] {CommonEventArgType.Normal, null, 100, true},
-            new object[] {CommonEventArgType.ReferDatabase, DBKind.Changeable, -1, true},
-            new object[] {CommonEventArgType.ReferDatabase, DBKind.Changeable, 0, false},
-            new object[] {CommonEventArgType.ReferDatabase, DBKind.Changeable, 99, false},
-            new object[] {CommonEventArgType.ReferDatabase, DBKind.Changeable, 100, true},
-            new object[] {CommonEventArgType.ReferDatabase, DBKind.User, -1, true},
-            new object[] {CommonEventArgType.ReferDatabase, DBKind.User, 0, false},
-            new object[] {CommonEventArgType.ReferDatabase, DBKind.User, 99, false},
-            new object[] {CommonEventArgType.ReferDatabase, DBKind.User, 100, true},
-            new object[] {CommonEventArgType.ReferDatabase, DBKind.System, -1, true},
-            new object[] {CommonEventArgType.ReferDatabase, DBKind.System, 0, false},
-            new object[] {CommonEventArgType.ReferDatabase, DBKind.System, 99, false},
-            new object[] {CommonEventArgType.ReferDatabase, DBKind.System, 100, true},
-            new object[] {CommonEventArgType.ReferDatabase, null, -1, true},
-            new object[] {CommonEventArgType.ReferDatabase, null, 0, true},
-            new object[] {CommonEventArgType.ReferDatabase, null, 99, true},
-            new object[] {CommonEventArgType.ReferDatabase, null, 100, true},
-            new object[] {CommonEventArgType.Manual, DBKind.Changeable, -1, true},
-            new object[] {CommonEventArgType.Manual, DBKind.Changeable, 0, true},
-            new object[] {CommonEventArgType.Manual, DBKind.Changeable, 99, true},
-            new object[] {CommonEventArgType.Manual, DBKind.Changeable, 100, true},
-            new object[] {CommonEventArgType.Manual, DBKind.User, -1, true},
-            new object[] {CommonEventArgType.Manual, DBKind.User, 0, true},
-            new object[] {CommonEventArgType.Manual, DBKind.User, 99, true},
-            new object[] {CommonEventArgType.Manual, DBKind.User, 100, true},
-            new object[] {CommonEventArgType.Manual, DBKind.System, -1, true},
-            new object[] {CommonEventArgType.Manual, DBKind.System, 0, true},
-            new object[] {CommonEventArgType.Manual, DBKind.System, 99, true},
-            new object[] {CommonEventArgType.Manual, DBKind.System, 100, true},
-            new object[] {CommonEventArgType.Manual, null, -1, true},
-            new object[] {CommonEventArgType.Manual, null, 0, true},
-            new object[] {CommonEventArgType.Manual, null, 99, true},
-            new object[] {CommonEventArgType.Manual, null, 100, true},
+            new object[] {CommonEventArgType.Normal, DBKind.Changeable, true},
+            new object[] {CommonEventArgType.Normal, DBKind.User, true},
+            new object[] {CommonEventArgType.Normal, DBKind.System, true},
+            new object[] {CommonEventArgType.Normal, null, true},
+            new object[] {CommonEventArgType.ReferDatabase, DBKind.Changeable, false},
+            new object[] {CommonEventArgType.ReferDatabase, DBKind.User, false},
+            new object[] {CommonEventArgType.ReferDatabase, DBKind.System, false},
+            new object[] {CommonEventArgType.ReferDatabase, null, true},
+            new object[] {CommonEventArgType.Manual, DBKind.Changeable, true},
+            new object[] {CommonEventArgType.Manual, DBKind.User, true},
+            new object[] {CommonEventArgType.Manual, DBKind.System, true},
+            new object[] {CommonEventArgType.Manual, null, true},
         };
 
         [TestCaseSource(nameof(SetDatabaseReferTestCaseSource))]
-        public static void SetDatabaseReferTest(CommonEventArgType type, DBKind dbKind, int dbTypeId, bool isError)
+        public static void SetDatabaseReferTest(CommonEventArgType type, DBKind dbKind, bool isError)
         {
+            var typeId = (TypeId) 0;
+
             var instance = new CommonEventSpecialNumberArgDesc();
             instance.ChangeArgType(type, null);
 
             var errorOccured = false;
             try
             {
-                instance.SetDatabaseRefer(dbKind, dbTypeId);
+                instance.SetDatabaseRefer(dbKind, typeId);
             }
             catch (Exception ex)
             {
@@ -309,7 +264,7 @@ namespace WodiLib.Test.Common
 
             // セットした値が反映されていること
             Assert.AreEqual(instance.DatabaseUseDbKind, dbKind);
-            Assert.AreEqual(instance.DatabaseDbTypeId, dbTypeId);
+            Assert.AreEqual(instance.DatabaseDbTypeId, typeId);
         }
 
         private static readonly object[] SetDatabaseUseAdditionalItemsFlagTestCaseSource =

@@ -14,7 +14,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(0, 9)] 予備変数番号
     /// </summary>
-    public struct SpareNumberVariableNumber : IConvertibleInt
+    public struct SpareNumberVariableNumber : IConvertibleInt, IEquatable<SpareNumberVariableNumber>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -60,6 +60,18 @@ namespace WodiLib.Cmn
             return Value.ToString();
         }
 
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is SpareNumberVariableNumber other && Equals(other);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value;
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -69,6 +81,16 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => (int) this;
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(SpareNumberVariableNumber other)
+        {
+            return Value == other.Value;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
@@ -119,26 +141,6 @@ namespace WodiLib.Cmn
         public static bool operator !=(SpareNumberVariableNumber left, SpareNumberVariableNumber right)
         {
             return !(left == right);
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case int other:
-                    return other == Value;
-                case SpareNumberVariableNumber other:
-                    return this == other;
-                default:
-                    return false;
-            }
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return Value;
         }
     }
 }

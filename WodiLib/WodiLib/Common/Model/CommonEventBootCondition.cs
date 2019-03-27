@@ -6,7 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Collections.Generic;
+using WodiLib.Cmn;
 using WodiLib.Event;
 using WodiLib.Sys;
 
@@ -43,8 +45,44 @@ namespace WodiLib.Common
             }
         }
 
-        /// <summary>左辺</summary>
-        public int LeftSide { get; set; } = 1000000;
+        private VariableAddress leftSide = (NormalNumberVariableAddress) 2000000;
+
+        /// <summary>
+        ///     [NotNull]
+        ///     [Convertible(NormalNumberVariableAddress)]
+        ///     [Convertible(SpareNumberVariableAddress)]
+        ///     左辺
+        /// </summary>
+        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
+        /// <exception cref="InvalidCastException">
+        ///     NormalNumberVariableAddressまたは
+        ///     SpareNumberVariableAddressにキャストできない場合
+        /// </exception>
+        public VariableAddress LeftSide
+        {
+            get => leftSide;
+            set
+            {
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(LeftSide)));
+
+                switch (value)
+                {
+                    case NormalNumberVariableAddress _:
+                    case SpareNumberVariableAddress _:
+                        // 許容
+                        break;
+                    default:
+                        throw new InvalidCastException(
+                            ErrorMessage.InvalidAnyCast(nameof(LeftSide),
+                                nameof(NormalNumberVariableAddress),
+                                nameof(SpareNumberVariableAddress)));
+                }
+
+                leftSide = value;
+            }
+        }
 
         private CriteriaOperator operation = CriteriaOperator.Equal;
 
@@ -62,21 +100,8 @@ namespace WodiLib.Common
             }
         }
 
-        private int rightSide;
-
-        /// <summary>[Range(-999999～999999)] 右辺</summary>
-        /// <exception cref="PropertyOutOfRangeException">指定範囲外の値を設定した場合</exception>
-        public int RightSide
-        {
-            get => rightSide;
-            set
-            {
-                if (value < RightSide_Min || RightSide_Max < value)
-                    throw new PropertyOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(RightSide), RightSide_Min, RightSide_Max, value));
-                rightSide = value;
-            }
-        }
+        /// <summary>右辺</summary>
+        public ConditionRight RightSide { get; set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common

@@ -114,15 +114,12 @@ namespace WodiLib.Test.Common
             Assert.IsTrue(len == length);
         }
 
-        [TestCase(null, true)]
-        [TestCase("", false)]
-        [TestCase("abc", false)]
-        [TestCase("あいうえお", false)]
-        [TestCase("New\r\nLine\r\nCRLF", false)]
-        [TestCase("New\nLine\nLF", false)]
-        public static void NameTest(string name, bool isError)
+        [TestCase(false, false)]
+        [TestCase(true, true)]
+        public static void NameTest(bool isNull, bool isError)
         {
             var instance = new CommonEvent();
+            var name = isNull ? null : (CommonEventName) "test";
 
             var errorOccured = false;
             try
@@ -180,15 +177,13 @@ namespace WodiLib.Test.Common
             Assert.IsTrue(ReferenceEquals(setValue, list));
         }
 
-        [TestCase(null, true)]
-        [TestCase("", false)]
-        [TestCase("abc", false)]
-        [TestCase("あいうえお", false)]
-        [TestCase("New\r\nLine\r\nCRLF", false)]
-        [TestCase("New\nLine\nLF", false)]
-        public static void BeforeMemoTest(string str, bool isError)
+        [TestCase(false, false)]
+        [TestCase(true, true)]
+        public static void DescriptionTest(bool isNull, bool isError)
         {
             var instance = new CommonEvent();
+
+            var str = isNull ? null : (CommonEventDescription) "test";
 
             var errorOccured = false;
             try
@@ -209,18 +204,16 @@ namespace WodiLib.Test.Common
             var setValue = instance.Description;
 
             // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(str));
+            Assert.IsTrue(setValue?.Equals(str));
         }
 
-        [TestCase(null, true)]
-        [TestCase("", false)]
-        [TestCase("abc", false)]
-        [TestCase("あいうえお", false)]
-        [TestCase("New\r\nLine\r\nCRLF", false)]
-        [TestCase("New\nLine\nLF", false)]
-        public static void MemoTest(string str, bool isError)
+        [TestCase(false, false)]
+        [TestCase(true, true)]
+        public static void MemoTest(bool isNull, bool isError)
         {
             var instance = new CommonEvent();
+
+            var str = isNull ? null : (CommonEventMemo) "test";
 
             var errorOccured = false;
             try
@@ -241,7 +234,7 @@ namespace WodiLib.Test.Common
             var setValue = instance.Memo;
 
             // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(str));
+            Assert.IsTrue(setValue?.Equals(str));
         }
 
         private static readonly object[] LabelColorTestCaseSource =
@@ -277,15 +270,13 @@ namespace WodiLib.Test.Common
             Assert.IsTrue(setValue == color);
         }
 
-        [TestCase(null, true)]
-        [TestCase("", false)]
-        [TestCase("abc", false)]
-        [TestCase("あいうえお", false)]
-        [TestCase("New\r\nLine\r\nCRLF", false)]
-        [TestCase("New\nLine\nLF", false)]
-        public static void FooterStringTest(string str, bool isError)
+        [TestCase(false, false)]
+        [TestCase(true, false)]
+        public static void FooterStringTest(bool isNull, bool isError)
         {
             var instance = new CommonEvent();
+
+            var str = isNull ? null : (CommonEventFooterString) "test";
 
             var errorOccured = false;
             try
@@ -298,26 +289,22 @@ namespace WodiLib.Test.Common
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            if (errorOccured) return;
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
 
             var setValue = instance.FooterString;
 
             // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(str));
+            Assert.IsTrue(ReferenceEquals(setValue, str));
         }
 
-        [TestCase(null, true)]
-        [TestCase("", false)]
-        [TestCase("abc", false)]
-        [TestCase("あいうえお", false)]
-        [TestCase("New\r\nLine\r\nCRLF", false)]
-        [TestCase("New\nLine\nLF", false)]
-        public static void ReturnValueDescriptionTest(string str, bool isError)
+        [TestCase(false, false)]
+        [TestCase(true, true)]
+        public static void ReturnValueDescriptionTest(bool isNull, bool isError)
         {
             var instance = new CommonEvent();
+
+            var str = isNull ? null : (CommonEventResultDescription) "test";
 
             var errorOccured = false;
             try
@@ -338,25 +325,17 @@ namespace WodiLib.Test.Common
             var setValue = instance.ReturnValueDescription;
 
             // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(str));
+            Assert.IsTrue(setValue?.Equals(str));
         }
 
-        private static readonly object[] UpdateSpecialNumberArgDescTestCaseSource =
-        {
-            new object[] {-1, null, true},
-            new object[] {0, null, true},
-            new object[] {4, null, true},
-            new object[] {5, null, true},
-            new object[] {-1, new CommonEventSpecialNumberArgDesc(), true},
-            new object[] {0, new CommonEventSpecialNumberArgDesc(), false},
-            new object[] {4, new CommonEventSpecialNumberArgDesc(), false},
-            new object[] {5, new CommonEventSpecialNumberArgDesc(), true},
-        };
-
-        [TestCaseSource(nameof(UpdateSpecialNumberArgDescTestCaseSource))]
-        public static void UpdateSpecialNumberArgDescTest(int index, CommonEventSpecialNumberArgDesc desc, bool isError)
+        [TestCase(false, false)]
+        [TestCase(true, true)]
+        public static void UpdateSpecialNumberArgDescTest(bool isNull, bool isError)
         {
             var instance = new CommonEvent();
+
+            var index = (CommonEventNumberArgIndex) 1;
+            var desc = isNull ? null : new CommonEventSpecialNumberArgDesc();
 
             var errorOccured = false;
             try
@@ -373,13 +352,12 @@ namespace WodiLib.Test.Common
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(-1, true)]
-        [TestCase(0, false)]
-        [TestCase(4, false)]
-        [TestCase(5, true)]
-        public static void GetSpecialNumberArgDescTest(int index, bool isError)
+        [Test]
+        public static void GetSpecialNumberArgDescTest()
         {
             var instance = new CommonEvent();
+
+            var index = (CommonEventNumberArgIndex) 0;
 
             var errorOccured = false;
             try
@@ -392,26 +370,18 @@ namespace WodiLib.Test.Common
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
         }
 
-        private static readonly object[] UpdateSpecialStringArgDescTestCaseSource =
-        {
-            new object[] {-1, null, true},
-            new object[] {0, null, true},
-            new object[] {4, null, true},
-            new object[] {5, null, true},
-            new object[] {-1, new CommonEventSpecialStringArgDesc(), true},
-            new object[] {0, new CommonEventSpecialStringArgDesc(), false},
-            new object[] {4, new CommonEventSpecialStringArgDesc(), false},
-            new object[] {5, new CommonEventSpecialStringArgDesc(), true},
-        };
-
-        [TestCaseSource(nameof(UpdateSpecialStringArgDescTestCaseSource))]
-        public static void UpdateSpecialStringArgDescTest(int index, CommonEventSpecialStringArgDesc desc, bool isError)
+        [TestCase(false, false)]
+        [TestCase(true, true)]
+        public static void UpdateSpecialStringArgDescTest(bool isNull, bool isError)
         {
             var instance = new CommonEvent();
+
+            var index = (CommonEventStringArgIndex) 2;
+            var desc = isNull ? null : new CommonEventSpecialStringArgDesc();
 
             var errorOccured = false;
             try
@@ -428,13 +398,12 @@ namespace WodiLib.Test.Common
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(-1, true)]
-        [TestCase(0, false)]
-        [TestCase(4, false)]
-        [TestCase(5, true)]
-        public static void GetSpecialStringArgDescTest(int index, bool isError)
+        [Test]
+        public static void GetSpecialStringArgDescTest()
         {
             var instance = new CommonEvent();
+
+            var index = (CommonEventStringArgIndex) 1;
 
             var errorOccured = false;
             try
@@ -447,37 +416,18 @@ namespace WodiLib.Test.Common
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
         }
 
-        [TestCase(-1, null, true)]
-        [TestCase(-1, "", true)]
-        [TestCase(-1, "abc", true)]
-        [TestCase(-1, "あいうえお", true)]
-        [TestCase(-1, "New\r\nLine\r\nCRLF", true)]
-        [TestCase(-1, "New\nLine\nLF", true)]
-        [TestCase(0, null, true)]
-        [TestCase(0, "", false)]
-        [TestCase(0, "abc", false)]
-        [TestCase(0, "あいうえお", false)]
-        [TestCase(0, "New\r\nLine\r\nCRLF", false)]
-        [TestCase(0, "New\nLine\nLF", false)]
-        [TestCase(99, null, true)]
-        [TestCase(99, "", false)]
-        [TestCase(99, "abc", false)]
-        [TestCase(99, "あいうえお", false)]
-        [TestCase(99, "New\r\nLine\r\nCRLF", false)]
-        [TestCase(99, "New\nLine\nLF", false)]
-        [TestCase(100, null, true)]
-        [TestCase(100, "", true)]
-        [TestCase(100, "abc", true)]
-        [TestCase(100, "あいうえお", true)]
-        [TestCase(100, "New\r\nLine\r\nCRLF", true)]
-        [TestCase(100, "New\nLine\nLF", true)]
-        public static void UpdateVariableNameTest(int number, string variableName, bool isError)
+        [TestCase(false, false)]
+        [TestCase(true, true)]
+        public static void UpdateVariableNameTest(bool isNull, bool isError)
         {
             var instance = new CommonEvent();
+
+            var number = (CommonEventSelfVariableIndex) 30;
+            var variableName = isNull ? null : (CommonEventSelfVariableName) "test";
 
             var errorOccured = false;
             try
@@ -494,13 +444,12 @@ namespace WodiLib.Test.Common
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(-1, true)]
-        [TestCase(0, false)]
-        [TestCase(99, false)]
-        [TestCase(100, true)]
-        public static void GetVariableNameTest(int number, bool isError)
+        [Test]
+        public static void GetVariableNameTest()
         {
             var instance = new CommonEvent();
+
+            var number = (CommonEventSelfVariableIndex) 57;
 
             var errorOccured = false;
             try
@@ -513,8 +462,8 @@ namespace WodiLib.Test.Common
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
         }
 
         [TestCase(-1, true)]
@@ -525,13 +474,13 @@ namespace WodiLib.Test.Common
         public static void UpdateAllVariableNameTest(int argLength, bool isError)
         {
             // argLengthの要素数を持つ文字列リストを作成（ただしargLength=-1の場合null）
-            var nameList = new List<string>();
+            var nameList = new List<CommonEventSelfVariableName>();
             if (argLength == -1) nameList = null;
             else
             {
                 for (var i = 0; i < argLength; i++)
                 {
-                    nameList.Add("");
+                    nameList.Add((CommonEventSelfVariableName) "");
                 }
             }
 
@@ -572,14 +521,12 @@ namespace WodiLib.Test.Common
             Assert.AreEqual(errorOccured, false);
         }
 
-        [TestCase(-2, true)]
-        [TestCase(-1, false)]
-        [TestCase(0, false)]
-        [TestCase(99, false)]
-        [TestCase(100, true)]
-        public static void SetReturnVariableIndexTest(int commonVarAddress, bool isError)
+        [Test]
+        public static void SetReturnVariableIndexTest()
         {
             var instance = new CommonEvent();
+
+            var commonVarAddress = (CommonEventReturnVariableIndex) 10;
 
             var errorOccured = false;
             try
@@ -592,8 +539,8 @@ namespace WodiLib.Test.Common
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
         }
 
         [Test]

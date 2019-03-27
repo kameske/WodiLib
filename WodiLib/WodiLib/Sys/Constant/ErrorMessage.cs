@@ -80,5 +80,17 @@ namespace WodiLib.Sys
         {
             return $"{itemName}に改行を含むことはできません。（設定値：{value}）";
         }
+
+        /// <summary>
+        /// いずれの型にもキャスト不可能な場合のエラーメッセージ
+        /// </summary>
+        /// <param name="itemName">エラー項目名</param>
+        /// <param name="needCastClassNameList">キャスト可能であるべき型名リスト</param>
+        /// <returns></returns>
+        public static string InvalidAnyCast(string itemName, params string[] needCastClassNameList)
+        {
+            return $"{itemName}は{string.Join(", ", needCastClassNameList)}のいずれかに" +
+                   $"キャスト可能である必要があります。";
+        }
     }
 }

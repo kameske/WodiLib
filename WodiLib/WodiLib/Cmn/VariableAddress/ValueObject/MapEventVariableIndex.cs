@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : SpareNumberVariableIndex.cs
+// File Name    : MapEventVariableIndex.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -12,16 +12,16 @@ using WodiLib.Sys;
 namespace WodiLib.Cmn
 {
     /// <summary>
-    /// [Range(0, 99999)] 予備変数インデックス
+    /// [Range(0, 9)] マップイベントセルフ変数インデックス
     /// </summary>
-    public struct SpareNumberVariableIndex : IConvertibleInt, IEquatable<SpareNumberVariableIndex>
+    public struct MapEventVariableIndex : IConvertibleInt, IEquatable<MapEventVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>最大値</summary>
-        public static readonly int MaxValue = 99999;
+        public static readonly int MaxValue = 9;
 
         /// <summary>最小値</summary>
         public static readonly int MinValue = 0;
@@ -30,7 +30,7 @@ namespace WodiLib.Cmn
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>予備変数インデックス</summary>
+        /// <summary>マップイベントセルフ変数インデックス</summary>
         private int Value { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -40,9 +40,9 @@ namespace WodiLib.Cmn
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[Range(0, 99999)] 予備変数インデックス</param>
-        /// <exception cref="ArgumentOutOfRangeException">valueが予備変数インデックスとして不適切な場合</exception>
-        public SpareNumberVariableIndex(int value)
+        /// <param name="value">[Range(0, 9)] マップイベントセルフ変数インデックス</param>
+        /// <exception cref="ArgumentOutOfRangeException">valueがマップイベントセルフ変数インデックスとして不適切な場合</exception>
+        public MapEventVariableIndex(int value)
         {
             if (value < MinValue || MaxValue < value)
                 throw new ArgumentOutOfRangeException(
@@ -63,7 +63,7 @@ namespace WodiLib.Cmn
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is SpareNumberVariableIndex other && Equals(other);
+            return obj is MapEventVariableIndex other && Equals(other);
         }
 
         /// <inheritdoc />
@@ -87,7 +87,7 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(SpareNumberVariableIndex other)
+        public bool Equals(MapEventVariableIndex other)
         {
             return Value == other.Value;
         }
@@ -97,22 +97,22 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> SpareNumberVariableIndex への明示的な型変換
+        /// int -> MapEventVariableIndex への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator SpareNumberVariableIndex(int src)
+        public static explicit operator MapEventVariableIndex(int src)
         {
-            var result = new SpareNumberVariableIndex(src);
+            var result = new MapEventVariableIndex(src);
             return result;
         }
 
         /// <summary>
-        /// SpareNumberVariableIndex -> int への明示的な型変換
+        /// MapEventVariableIndex -> int への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(SpareNumberVariableIndex src)
+        public static explicit operator int(MapEventVariableIndex src)
         {
             return src.Value;
         }
@@ -127,7 +127,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(SpareNumberVariableIndex left, SpareNumberVariableIndex right)
+        public static bool operator ==(MapEventVariableIndex left, MapEventVariableIndex right)
         {
             return left.Value == right.Value;
         }
@@ -138,7 +138,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(SpareNumberVariableIndex left, SpareNumberVariableIndex right)
+        public static bool operator !=(MapEventVariableIndex left, MapEventVariableIndex right)
         {
             return !(left == right);
         }

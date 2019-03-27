@@ -92,33 +92,23 @@ namespace WodiLib.Test.Common.Internal
 
         private static readonly object[] SetDatabaseReferTestCaseSource =
         {
-            new object[] {DBKind.Changeable, -1, true},
             new object[] {DBKind.Changeable, 0, false},
-            new object[] {DBKind.Changeable, 99, false},
-            new object[] {DBKind.Changeable, 100, true},
-            new object[] {DBKind.User, -1, true},
-            new object[] {DBKind.User, 0, false},
             new object[] {DBKind.User, 99, false},
-            new object[] {DBKind.User, 100, true},
-            new object[] {DBKind.System, -1, true},
-            new object[] {DBKind.System, 0, false},
-            new object[] {DBKind.System, 99, false},
-            new object[] {DBKind.System, 100, true},
-            new object[] {null, -1, true},
-            new object[] {null, 0, true},
-            new object[] {null, 99, true},
-            new object[] {null, 100, true},
+            new object[] {DBKind.System, 30, false},
+            new object[] {null, 55, true},
         };
 
         [TestCaseSource(nameof(SetDatabaseReferTestCaseSource))]
         public static void SetDatabaseReferTest(DBKind dbKind, int dbTypeId, bool isError)
         {
+            var typeId = (TypeId) dbTypeId;
+
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescDatabase();
 
             var errorOccured = false;
             try
             {
-                instance.SetDatabaseRefer(dbKind, dbTypeId);
+                instance.SetDatabaseRefer(dbKind, typeId);
             }
             catch (Exception ex)
             {
@@ -189,7 +179,7 @@ namespace WodiLib.Test.Common.Internal
             int answerCaseNumberLength, int answerDbTypeCode, int answerUseAdditionValue)
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescDatabase();
-            instance.SetDatabaseRefer(dbKind, dbTypeId);
+            instance.SetDatabaseRefer(dbKind, (TypeId) dbTypeId);
             instance.SetDatabaseUseAdditionalItemsFlag(isUseAddition);
 
             var errorOccured = false;

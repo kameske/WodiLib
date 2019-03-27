@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using WodiLib.Common;
+using WodiLib.Database;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
@@ -79,6 +80,57 @@ namespace WodiLib.Test.Common.Internal
             try
             {
                 var _ = instance.DatabaseUseAdditionalItemsFlag;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生すること
+            Assert.IsTrue(errorOccured);
+        }
+
+        private static readonly object[] SetDatabaseReferTestCaseSource =
+        {
+            new object[] {DBKind.Changeable, 0},
+            new object[] {DBKind.User, 99},
+            new object[] {DBKind.System, 32},
+            new object[] {null, 85},
+        };
+
+        [TestCaseSource(nameof(SetDatabaseReferTestCaseSource))]
+        public static void SetDatabaseReferTest(DBKind dbKind, int dbTypeId)
+        {
+            var typeId = (TypeId) dbTypeId;
+
+            var instance = new CommonEventSpecialNumberArgDesc.InnerDescManual(null);
+
+            var errorOccured = false;
+            try
+            {
+                instance.SetDatabaseRefer(dbKind, typeId);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生すること
+            Assert.IsTrue(errorOccured);
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public static void SetDatabaseUseAdditionalItemsFlagTest(bool flag)
+        {
+            var instance = new CommonEventSpecialNumberArgDesc.InnerDescManual(null);
+
+            var errorOccured = false;
+            try
+            {
+                instance.SetDatabaseUseAdditionalItemsFlag(flag);
             }
             catch (Exception ex)
             {

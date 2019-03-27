@@ -1,5 +1,6 @@
 using System;
 using NUnit.Framework;
+using WodiLib.Cmn;
 using WodiLib.Common;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
@@ -51,17 +52,22 @@ namespace WodiLib.Test.Common
             Assert.IsTrue(getValue == type);
         }
 
-        [TestCase(-1, false)]
-        [TestCase(1600000, false)]
-        [TestCase(2000000, false)]
+        [TestCase(-1, true)] // null
+        [TestCase(1000000, true)] // MapEventSelfVariableAddress (Not NumberVariableAddress)
+        [TestCase(2000000, false)] // NormalNumberVariableAddress
+        [TestCase(2100000, false)] // SpareNumberVariableAddress
         public static void LeftSideTest(int leftSide, bool isError)
         {
             var instance = new CommonEventBootCondition();
 
+            var leftSideAddress = leftSide == -1
+                ? null
+                : VariableAddressFactory.Create(leftSide);
+
             var errorOccured = false;
             try
             {
-                instance.LeftSide = leftSide;
+                instance.LeftSide = leftSideAddress;
             }
             catch (Exception ex)
             {
@@ -77,18 +83,14 @@ namespace WodiLib.Test.Common
             var getValue = instance.LeftSide;
 
             // セットした値と取得した値が一致すること
-            Assert.IsTrue(getValue == leftSide);
+            Assert.IsTrue(getValue == leftSideAddress);
         }
 
-        [TestCase(-1000000, true)]
-        [TestCase(-999999, false)]
-        [TestCase(-1, false)]
-        [TestCase(0, false)]
-        [TestCase(999999, false)]
-        [TestCase(1000000, true)]
-        public static void RightSideTest(int rightSide, bool isError)
+        [Test]
+        public static void RightSideTest()
         {
             var instance = new CommonEventBootCondition();
+            var rightSide = (ConditionRight) 100;
 
             var errorOccured = false;
             try
@@ -101,10 +103,8 @@ namespace WodiLib.Test.Common
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            if (errorOccured) return;
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
 
             var getValue = instance.RightSide;
 

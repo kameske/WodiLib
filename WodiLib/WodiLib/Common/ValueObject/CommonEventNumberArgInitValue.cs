@@ -18,7 +18,7 @@ namespace WodiLib.Common
     ///     [SafetyRange(1400000000, -1400000000)]
     ///     コモンイベント数値引数初期値
     /// </summary>
-    public struct CommonEventNumberArgInitValue : IConvertibleInt
+    public struct CommonEventNumberArgInitValue : IConvertibleInt, IEquatable<CommonEventNumberArgInitValue>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -86,6 +86,18 @@ namespace WodiLib.Common
             return Value.ToString();
         }
 
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is CommonEventNumberArgInitValue other && Equals(other);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -102,6 +114,16 @@ namespace WodiLib.Common
         /// <param name="endian">エンディアン</param>
         /// <returns>byte配列</returns>
         public IEnumerable<byte> ToBytes(Endian endian) => Value.ToBytes(endian);
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(CommonEventNumberArgInitValue other)
+        {
+            return Value == other.Value;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
@@ -152,26 +174,6 @@ namespace WodiLib.Common
         public static bool operator !=(CommonEventNumberArgInitValue left, CommonEventNumberArgInitValue right)
         {
             return !(left == right);
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case int other:
-                    return other == Value;
-                case CommonEventNumberArgInitValue other:
-                    return this == other;
-                default:
-                    return false;
-            }
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return Value;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベント特殊指定選択肢
     /// </summary>
-    public class CommonEventSpecialArgCase
+    public class CommonEventSpecialArgCase : IEquatable<CommonEventSpecialArgCase>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -77,16 +77,10 @@ namespace WodiLib.Common
             return $"CaseNumber = {CaseNumber}, Description = {Description}";
         }
 
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is CommonEventSpecialArgCase other &&
-                   (CaseNumber == other.CaseNumber
-                    && Description.Equals(other.Description));
+            return obj is CommonEventSpecialArgCase other && Equals(other);
         }
 
         /// <inheritdoc />
@@ -96,6 +90,21 @@ namespace WodiLib.Common
             {
                 return (CaseNumber * 397) ^ (Description != null ? Description.GetHashCode() : 0);
             }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(CommonEventSpecialArgCase other)
+        {
+            return CaseNumber == other.CaseNumber
+                   && Description.Equals(other.Description);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -159,12 +168,7 @@ namespace WodiLib.Common
             if ((object) left == null || (object) right == null) return false;
 
             // 選択肢番号比較
-            if (left.CaseNumber != right.CaseNumber) return false;
-
-            // 文字列比較
-            if (!string.Equals(left.Description, right.Description)) return false;
-
-            return true;
+            return left.Equals(right);
         }
 
         /// <summary>

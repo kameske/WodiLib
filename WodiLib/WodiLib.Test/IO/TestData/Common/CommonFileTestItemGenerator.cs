@@ -68,7 +68,7 @@ namespace WodiLib.Test.IO
         /// <summary>テストファイルデータ</summary>
         public static readonly IEnumerable<(string, byte[])> TestFiles = new List<(string, byte[])>
         {
-            ("000_コモンイベント000.common", TestResources._000_コモンイベント000),
+            ("000_コモンイベント000.common", TestResources.c000_コモンイベント000),
             ("Common003to005_コモンイベント003.common", TestResources.Common003to005_コモンイベント003),
             ("Common005to006_コモンイベント005.common", TestResources.Common005to006_コモンイベント005),
         };

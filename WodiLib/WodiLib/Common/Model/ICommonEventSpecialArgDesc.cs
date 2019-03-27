@@ -19,7 +19,7 @@ namespace WodiLib.Common
         /// <summary>
         /// [NotNull] 引数名
         /// </summary>
-        string ArgName { get; }
+        CommonEventArgName ArgName { get; }
 
         /// <summary>
         /// 引数特殊指定タイプ
@@ -30,7 +30,7 @@ namespace WodiLib.Common
         /// 数値引数の初期値
         /// </summary>
         /// <exception cref="InvalidOperationException">文字列引数の場合</exception>
-        int InitValue { get; }
+        CommonEventNumberArgInitValue InitValue { get; }
 
         /// <summary>
         /// 引数種別によらずすべての選択肢を取得する。

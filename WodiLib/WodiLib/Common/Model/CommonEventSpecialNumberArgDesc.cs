@@ -24,13 +24,13 @@ namespace WodiLib.Common
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private string argName = "";
+        private CommonEventArgName argName = (CommonEventArgName) "";
 
         /// <summary>
         /// [NotNull] 引数名
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public string ArgName
+        public CommonEventArgName ArgName
         {
             get => argName;
             set
@@ -57,7 +57,7 @@ namespace WodiLib.Common
         /// DB参照時のタイプID
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
-        public int DatabaseDbTypeId => InnerDesc.DatabaseDbTypeId;
+        public TypeId DatabaseDbTypeId => InnerDesc.DatabaseDbTypeId;
 
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace WodiLib.Common
         /// <summary>
         /// 数値引数の初期値
         /// </summary>
-        public int InitValue { get; set; }
+        public CommonEventNumberArgInitValue InitValue { get; set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     private Property
@@ -107,11 +107,10 @@ namespace WodiLib.Common
         /// DB参照時の参照DBをセットする。
         /// </summary>
         /// <param name="dbKind">[NotNull] DB種別</param>
-        /// <param name="dbTypeId">[Range(0, 99)] タイプID</param>
+        /// <param name="dbTypeId">タイプID</param>
         /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
         /// <exception cref="ArgumentNullException">dbKingがnullの場合</exception>
-        /// <exception cref="ArgumentOutOfRangeException">dbTypeIdが指定範囲外の値の場合</exception>
-        public void SetDatabaseRefer(DBKind dbKind, int dbTypeId)
+        public void SetDatabaseRefer(DBKind dbKind, TypeId dbTypeId)
         {
             InnerDesc.SetDatabaseRefer(dbKind, dbTypeId);
         }

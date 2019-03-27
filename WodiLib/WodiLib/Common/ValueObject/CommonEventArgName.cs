@@ -15,7 +15,7 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベント引数名
     /// </summary>
-    public class CommonEventArgName : IConvertibleString
+    public class CommonEventArgName : IConvertibleString, IEquatable<CommonEventArgName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -47,7 +47,7 @@ namespace WodiLib.Common
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Method
+        //     Public Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
@@ -55,6 +55,22 @@ namespace WodiLib.Common
         /// </summary>
         /// <returns>string値</returns>
         public override string ToString() => (string) this;
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is CommonEventArgName other && Equals(other);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         /// ウディタ文字列のbyte配列に変換する。
@@ -75,17 +91,6 @@ namespace WodiLib.Common
         {
             if (other == null) return false;
             return Value.Equals(other.Value);
-        }
-
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool Equals(string other)
-        {
-            if (other == null) return false;
-            return Value.Equals(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -141,26 +146,6 @@ namespace WodiLib.Common
         public static bool operator !=(CommonEventArgName left, CommonEventArgName right)
         {
             return !(left == right);
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case string other:
-                    return other == Value;
-                case CommonEventArgName other:
-                    return this == other;
-                default:
-                    return false;
-            }
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode();
         }
     }
 }

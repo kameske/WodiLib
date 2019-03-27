@@ -108,5 +108,35 @@ namespace WodiLib.Test.Cmn
             // キャストした結果が一致すること
             Assert.AreEqual((string) instance, value);
         }
+
+        private static readonly object[] EqualTestCaseSource =
+        {
+            new object[] {"a", "a", true},
+            new object[] {"a", "b", false},
+        };
+
+        [TestCaseSource(nameof(EqualTestCaseSource))]
+        public static void OperatorEqualTest(string left, string right, bool isEqual)
+        {
+            var leftIndex = (CharaChipFileName) left;
+            var rightIndex = (CharaChipFileName) right;
+            Assert.AreEqual(leftIndex == rightIndex, isEqual);
+        }
+
+        [TestCaseSource(nameof(EqualTestCaseSource))]
+        public static void OperatorNotEqualTest(string left, string right, bool isEqual)
+        {
+            var leftIndex = (CharaChipFileName) left;
+            var rightIndex = (CharaChipFileName) right;
+            Assert.AreEqual(leftIndex != rightIndex, !isEqual);
+        }
+
+        [TestCaseSource(nameof(EqualTestCaseSource))]
+        public static void OperatorEqualsTest(string left, string right, bool isEqual)
+        {
+            var leftIndex = (CharaChipFileName) left;
+            var rightIndex = (CharaChipFileName) right;
+            Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
+        }
     }
 }

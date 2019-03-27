@@ -139,18 +139,11 @@ namespace WodiLib.Test.Common
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
-        public static void OperatorEqualsTestA(int left, int right, bool isEqual)
+        public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
             var leftIndex = (CommonEventNumberArgInitValue) left;
             var rightIndex = (CommonEventNumberArgInitValue) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
-        }
-
-        [TestCaseSource(nameof(EqualTestCaseSource))]
-        public static void OperatorEqualsTestB(int left, int right, bool isEqual)
-        {
-            var leftIndex = (CommonEventNumberArgInitValue) left;
-            Assert.AreEqual(leftIndex.Equals(right), isEqual);
         }
     }
 }

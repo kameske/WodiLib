@@ -15,7 +15,7 @@ namespace WodiLib.Common
     /// <summary>
     /// [Range(-1, 99)] コモンイベント返戻セルフ変数インデックス
     /// </summary>
-    public struct CommonEventReturnVariableIndex : IConvertibleInt
+    public struct CommonEventReturnVariableIndex : IConvertibleInt, IEquatable<CommonEventReturnVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -64,6 +64,18 @@ namespace WodiLib.Common
             return Value.ToString();
         }
 
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            return obj is CommonEventReturnVariableIndex other && Equals(other);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -80,6 +92,16 @@ namespace WodiLib.Common
         /// <param name="endian">エンディアン</param>
         /// <returns>byte配列</returns>
         public IEnumerable<byte> ToBytes(Endian endian) => Value.ToBytes(endian);
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(CommonEventReturnVariableIndex other)
+        {
+            return Value == other.Value;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
@@ -130,26 +152,6 @@ namespace WodiLib.Common
         public static bool operator !=(CommonEventReturnVariableIndex left, CommonEventReturnVariableIndex right)
         {
             return !(left == right);
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case int other:
-                    return other == Value;
-                case CommonEventReturnVariableIndex other:
-                    return this == other;
-                default:
-                    return false;
-            }
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return Value;
         }
     }
 }

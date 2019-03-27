@@ -19,12 +19,13 @@ namespace WodiLib.Test.Common.Internal
             logger = WodiLibLogger.GetInstance();
         }
 
+        [TestCase(-1, true)]
         [TestCase(99, true)]
         [TestCase(100, false)]
         [TestCase(101, true)]
         public static void ConstructorTest(int nameListLength, bool isError)
         {
-            var nameList = MakeStringList(nameListLength);
+            var nameList = nameListLength == -1 ? null : MakeStringList(nameListLength);
 
             var errorOccured = false;
             try
@@ -41,38 +42,19 @@ namespace WodiLib.Test.Common.Internal
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(-1, null, true)]
-        [TestCase(-1, "", true)]
-        [TestCase(-1, "abc", true)]
-        [TestCase(-1, "あいうえお", true)]
-        [TestCase(-1, "New\r\nLine\r\nCRLF", true)]
-        [TestCase(-1, "New\nLine\nLF", true)]
-        [TestCase(0, null, true)]
-        [TestCase(0, "", false)]
-        [TestCase(0, "abc", false)]
-        [TestCase(0, "あいうえお", false)]
-        [TestCase(0, "New\r\nLine\r\nCRLF", false)]
-        [TestCase(0, "New\nLine\nLF", false)]
-        [TestCase(99, null, true)]
-        [TestCase(99, "", false)]
-        [TestCase(99, "abc", false)]
-        [TestCase(99, "あいうえお", false)]
-        [TestCase(99, "New\r\nLine\r\nCRLF", false)]
-        [TestCase(99, "New\nLine\nLF", false)]
-        [TestCase(100, null, true)]
-        [TestCase(100, "", true)]
-        [TestCase(100, "abc", true)]
-        [TestCase(100, "あいうえお", true)]
-        [TestCase(100, "New\r\nLine\r\nCRLF", true)]
-        [TestCase(100, "New\nLine\nLF", true)]
-        public static void UpdateVariableNameTest(int number, string variableName, bool isError)
+        [TestCase(false, false)]
+        [TestCase(true, true)]
+        public static void UpdateVariableNameTest(bool isNameNull, bool isError)
         {
             var instance = new CommonEventSelfVariableNameList();
+
+            var index = (CommonEventSelfVariableIndex) 10;
+            var name = isNameNull ? null : (CommonEventSelfVariableName) "testName";
 
             var errorOccured = false;
             try
             {
-                instance.UpdateVariableName(number, variableName);
+                instance.UpdateVariableName(index, name);
             }
             catch (Exception ex)
             {
@@ -84,18 +66,16 @@ namespace WodiLib.Test.Common.Internal
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(-1, true)]
-        [TestCase(0, false)]
-        [TestCase(99, false)]
-        [TestCase(100, true)]
-        public static void GetVariableNameTest(int number, bool isError)
+        [Test]
+        public static void GetVariableNameTest()
         {
             var instance = new CommonEventSelfVariableNameList();
+            var index = (CommonEventSelfVariableIndex) 10;
 
             var errorOccured = false;
             try
             {
-                instance.GetVariableName(number);
+                instance.GetVariableName(index);
             }
             catch (Exception ex)
             {
@@ -103,8 +83,8 @@ namespace WodiLib.Test.Common.Internal
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
         }
 
         [Test]
@@ -128,13 +108,13 @@ namespace WodiLib.Test.Common.Internal
         }
 
 
-        private static List<string> MakeStringList(int length)
+        private static List<CommonEventSelfVariableName> MakeStringList(int length)
         {
-            var list = new List<string>();
+            var list = new List<CommonEventSelfVariableName>();
 
             for (var i = 0; i < length; i++)
             {
-                list.Add("");
+                list.Add((CommonEventSelfVariableName) "");
             }
 
             return list;

@@ -7,9 +7,9 @@ using WodiLib.Test.Tools;
 namespace WodiLib.Test.Cmn
 {
     [TestFixture]
-    public class NormalNumberVariableIndexTest
+    public class MapEventVariableIndexTest
     {
-        private static WodiLibLogger logger;
+                private static WodiLibLogger logger;
 
         [SetUp]
         public static void Setup()
@@ -20,14 +20,14 @@ namespace WodiLib.Test.Cmn
 
         [TestCase(-1, true)]
         [TestCase(0, false)]
-        [TestCase(99999, false)]
-        [TestCase(100000, true)]
+        [TestCase(9, false)]
+        [TestCase(10, true)]
         public static void ConstructorIntTest(int value, bool isError)
         {
             var errorOccured = false;
             try
             {
-                var _ = new NormalNumberVariableIndex(value);
+                var _ = new MapEventVariableIndex(value);
             }
             catch (Exception ex)
             {
@@ -40,10 +40,10 @@ namespace WodiLib.Test.Cmn
         }
 
         [TestCase(0)]
-        [TestCase(99999)]
+        [TestCase(9)]
         public static void ToIntTest(int value)
         {
-            var instance = new NormalNumberVariableIndex(value);
+            var instance = new MapEventVariableIndex(value);
 
             var intValue = instance.ToInt();
 
@@ -53,14 +53,14 @@ namespace WodiLib.Test.Cmn
 
         [TestCase(-1, true)]
         [TestCase(0, false)]
-        [TestCase(99999, false)]
-        [TestCase(100000, true)]
-        public static void CastIntToNormalNumberVariableIndexTest(int value, bool isError)
+        [TestCase(9, false)]
+        [TestCase(10, true)]
+        public static void CastIntToMapEventVariableIndexTest(int value, bool isError)
         {
             var errorOccured = false;
             try
             {
-                var _ = (NormalNumberVariableIndex) value;
+                var _ = (MapEventVariableIndex) value;
             }
             catch (Exception ex)
             {
@@ -73,12 +73,12 @@ namespace WodiLib.Test.Cmn
         }
 
         [TestCase(0)]
-        [TestCase(99999)]
-        public static void CastNormalNumberVariableIndexToIntTest(int value)
+        [TestCase(9)]
+        public static void CastMapEventVariableIndexToIntTest(int value)
         {
             var castValue = 0;
 
-            var instance = new NormalNumberVariableIndex(value);
+            var instance = new MapEventVariableIndex(value);
 
             var errorOccured = false;
             try
@@ -101,30 +101,30 @@ namespace WodiLib.Test.Cmn
         private static readonly object[] EqualTestCaseSource =
         {
             new object[] {0, 0, true},
-            new object[] {0, 243, false},
+            new object[] {0, 3, false},
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (NormalNumberVariableIndex) left;
-            var rightIndex = (NormalNumberVariableIndex) right;
+            var leftIndex = (MapEventVariableIndex) left;
+            var rightIndex = (MapEventVariableIndex) right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (NormalNumberVariableIndex) left;
-            var rightIndex = (NormalNumberVariableIndex) right;
+            var leftIndex = (MapEventVariableIndex) left;
+            var rightIndex = (MapEventVariableIndex) right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (NormalNumberVariableIndex) left;
-            var rightIndex = (NormalNumberVariableIndex) right;
+            var leftIndex = (MapEventVariableIndex) left;
+            var rightIndex = (MapEventVariableIndex) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

@@ -39,7 +39,7 @@ namespace WodiLib.Test.IO
                 reader.ReadSync();
                 readResult = true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 errorMessage = e.Message;
             }
@@ -51,6 +51,7 @@ namespace WodiLib.Test.IO
                 throw new InvalidOperationException(
                     $"Error Occured. Message : {errorMessage}");
             }
+
             Console.WriteLine("Write Test Clear.");
 
             var readResultDataBytes = reader.CommonEventData.ToBinary().ToArray();
@@ -58,7 +59,7 @@ namespace WodiLib.Test.IO
             // 元のデータと一致すること
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                var bufLength = (int)stream.Length;
+                var bufLength = (int) stream.Length;
                 var buf = new byte[bufLength];
                 stream.Read(buf, 0, bufLength);
 
@@ -78,7 +79,6 @@ namespace WodiLib.Test.IO
                             $" readResult: {readResultDataBytes[i]})");
                     }
                 }
-
             }
 
             // 意図したデータと一致すること
@@ -100,7 +100,6 @@ namespace WodiLib.Test.IO
                         $" readResult: {readResultDataBytes[i]})");
                 }
             }
-
         }
 
         [OneTimeTearDown]

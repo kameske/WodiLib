@@ -14,7 +14,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(8999999, 8000000)] ランダム変数アドレス値
     /// </summary>
-    public class RandomVariableAddress : VariableAddress
+    public class RandomVariableAddress : VariableAddress, IEquatable<RandomVariableAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -51,7 +51,7 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>ランダム量</summary>
-        public RandomVariableValue RandomValue => (RandomVariableValue) Value.SubInt(0, 6);
+        public RandomVariableValue RandomValue { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -64,6 +64,40 @@ namespace WodiLib.Cmn
         /// <exception cref="ArgumentOutOfRangeException">valueがランダム変数アドレス値として不適切な場合</exception>
         public RandomVariableAddress(int value) : base(value)
         {
+            RandomValue = (RandomVariableValue) Value.SubInt(0, 6);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj is VariableAddress other) return Equals(other);
+            return false;
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(RandomVariableAddress other)
+        {
+            return other != null && Value == other.Value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -150,6 +184,32 @@ namespace WodiLib.Cmn
         public static int operator -(RandomVariableAddress left, RandomVariableAddress right)
         {
             return left.Value - right.Value;
+        }
+
+        /// <summary>
+        /// ==
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺==右辺の場合true</returns>
+        public static bool operator ==(RandomVariableAddress left, RandomVariableAddress right)
+        {
+            if (ReferenceEquals(left, right)) return true;
+
+            if ((object) left == null || (object) right == null) return false;
+
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// !=
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺!=右辺の場合true</returns>
+        public static bool operator !=(RandomVariableAddress left, RandomVariableAddress right)
+        {
+            return !(left == right);
         }
 
         #endregion

@@ -22,16 +22,6 @@ namespace WodiLib.Common
         internal class InnerDescDatabase : IInnerDesc
         {
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-            //     Private Constant
-            // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-            /// <summary>インデックス最大値</summary>
-            private readonly int CaseNumberMax = -1;
-
-            /// <summary>インデックス最小値</summary>
-            private readonly int CaseNumberMin = -3;
-
-            // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Public Property
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -65,7 +55,7 @@ namespace WodiLib.Common
             /// DB参照時のタイプID
             /// </summary>
             /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
-            public int DatabaseDbTypeId { get; private set; }
+            public TypeId DatabaseDbTypeId { get; private set; }
 
             /// <inheritdoc />
             /// <summary>
@@ -99,21 +89,14 @@ namespace WodiLib.Common
             /// DB参照時の参照DBをセットする。
             /// </summary>
             /// <param name="dbKind">[NotNull] DB種別</param>
-            /// <param name="dbTypeId">[Range(0, 99)] タイプID</param>
+            /// <param name="dbTypeId">タイプID</param>
             /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
-            /// <exception cref="ArgumentNullException">dbKingがnullの場合</exception>
-            /// <exception cref="ArgumentOutOfRangeException">dbTypeIdが指定範囲外の値の場合</exception>
-            public void SetDatabaseRefer(DBKind dbKind, int dbTypeId)
+            /// <exception cref="ArgumentNullException">dbKindがnullの場合</exception>
+            public void SetDatabaseRefer(DBKind dbKind, TypeId dbTypeId)
             {
-                const int typeIdMax = 99;
-                const int typeIdMin = 0;
-
                 if (dbKind == null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(dbKind)));
-                if (dbTypeId < typeIdMin || typeIdMax < dbTypeId)
-                    throw new ArgumentOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(dbTypeId), typeIdMin, typeIdMax, dbTypeId));
 
                 DatabaseDbKind = dbKind;
                 DatabaseDbTypeId = dbTypeId;
@@ -152,7 +135,7 @@ namespace WodiLib.Common
                 return new List<int>
                 {
                     DatabaseDbKind.SpecialArgCode,
-                    DatabaseDbTypeId,
+                    (int) DatabaseDbTypeId,
                     DatabaseUseAdditionalItemsFlag ? 1 : 0
                 };
             }

@@ -23,21 +23,6 @@ namespace WodiLib.Common
     public class CommonEvent
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Constant
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        /// <summary>数値引数の数最大値</summary>
-        public static readonly int NumberArgsLengthMax = 4;
-
-        /// <summary>数値引数の数最小値</summary>
-        public static readonly int NumberArgsLengthMin = 0;
-
-        /// <summary>文字列引数の数最大値</summary>
-        public static readonly int StrArgsLengthMax = 4;
-
-        /// <summary>文字列引数の数最小値</summary>
-        public static readonly int StrArgsLengthMin = 0;
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Internal Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -94,7 +79,7 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>コモンイベントID</summary>
-        public int Id { get; set; }
+        public CommonEventId Id { get; set; }
 
         private CommonEventBootCondition condition = new CommonEventBootCondition();
 
@@ -114,7 +99,7 @@ namespace WodiLib.Common
             }
         }
 
-        private int numberArgsLength = NumberArgsLengthMin;
+        private int numberArgsLength = CommonEventNumberArgIndex.MinValue;
 
         /// <summary>
         /// [Range(0, 4)] 数値引数の数
@@ -125,15 +110,15 @@ namespace WodiLib.Common
             get => numberArgsLength;
             set
             {
-                if (value < NumberArgsLengthMin || NumberArgsLengthMax < value)
+                if (value < CommonEventNumberArgIndex.MinValue || CommonEventNumberArgIndex.MaxValue < value)
                     throw new PropertyOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(NumberArgsLength), NumberArgsLengthMin,
-                            NumberArgsLengthMax, value));
+                        ErrorMessage.OutOfRange(nameof(NumberArgsLength), CommonEventNumberArgIndex.MinValue,
+                            CommonEventNumberArgIndex.MaxValue, value));
                 numberArgsLength = value;
             }
         }
 
-        private int strArgsLength = StrArgsLengthMin;
+        private int strArgsLength = CommonEventStringArgIndex.MinValue;
 
         /// <summary>
         /// [Range(0, 4)] 文字列引数の数
@@ -144,21 +129,21 @@ namespace WodiLib.Common
             get => strArgsLength;
             set
             {
-                if (value < StrArgsLengthMin || StrArgsLengthMax < value)
+                if (value < CommonEventStringArgIndex.MinValue || CommonEventStringArgIndex.MaxValue < value)
                     throw new PropertyOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(StrArgsLength), StrArgsLengthMin,
-                            StrArgsLengthMax, value));
+                        ErrorMessage.OutOfRange(nameof(StrArgsLength), CommonEventStringArgIndex.MinValue,
+                            CommonEventStringArgIndex.MaxValue, value));
                 strArgsLength = value;
             }
         }
 
-        private String name = "";
+        private CommonEventName name = (CommonEventName) "";
 
         /// <summary>
         /// [NotNull] コモンイベント名
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public String Name
+        public CommonEventName Name
         {
             get => name;
             set
@@ -188,14 +173,13 @@ namespace WodiLib.Common
             }
         }
 
-        private string description = "";
+        private CommonEventDescription description = (CommonEventDescription) "";
 
         /// <summary>
         /// [NotNull] 説明文
         /// </summary>
-        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public string Description
+        public CommonEventDescription Description
         {
             get => description;
             set
@@ -207,13 +191,13 @@ namespace WodiLib.Common
             }
         }
 
-        private string memo = "";
+        private CommonEventMemo memo = (CommonEventMemo) "";
 
         /// <summary>
         /// [NotNull] メモ
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public string Memo
+        public CommonEventMemo Memo
         {
             get => memo;
             set
@@ -241,42 +225,24 @@ namespace WodiLib.Common
             }
         }
 
-        private string footerString = "";
-
         /// <summary>
-        /// [NotNull] フッタ文字列
+        /// フッタ文字列
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public string FooterString
-        {
-            get => footerString;
-            set
-            {
-                if (value == null)
-                    throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(FooterString)));
-                footerString = value;
-            }
-        }
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public CommonEventFooterString FooterString { get; set; }
 
         /// <summary>返戻アドレス情報（Ver2.00～）</summary>
         private readonly CommonEventReturnValue returnValueInfo = new CommonEventReturnValue();
 
         /// <summary>
-        /// [NotNull] 返戻値の意味（Ver2.00～）
+        /// 返戻値の意味（Ver2.00～）
         /// </summary>
         /// <exception cref="PropertyNullException">nullを設定した場合</exception>
-        public string ReturnValueDescription
+        public CommonEventResultDescription ReturnValueDescription
         {
             get => returnValueInfo.Description;
-            set
-            {
-                if (value == null)
-                    throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(ReturnValueDescription)));
-                returnValueInfo.Description = value;
-            }
+            set => returnValueInfo.Description = value;
         }
 
         /// <summary>
@@ -287,7 +253,7 @@ namespace WodiLib.Common
         /// <summary>
         /// セルフ変数インデックス（値を返さない場合-1）（Ver2.00～）
         /// </summary>
-        public int ReturnVariableIndex => returnValueInfo.ReturnVariableIndex;
+        public CommonEventReturnVariableIndex ReturnVariableIndex => returnValueInfo.ReturnVariableIndex;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
@@ -312,17 +278,11 @@ namespace WodiLib.Common
         /// <summary>
         /// 数値引数の情報を更新する。
         /// </summary>
-        /// <param name="index">[Range(0, 4)] インデックス</param>
+        /// <param name="index">インデックス</param>
         /// <param name="desc">[NotNull] 情報</param>
-        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
         /// <exception cref="ArgumentNullException">descがnullの場合</exception>
-        public void UpdateSpecialNumberArgDesc(int index, CommonEventSpecialNumberArgDesc desc)
+        public void UpdateSpecialNumberArgDesc(CommonEventNumberArgIndex index, CommonEventSpecialNumberArgDesc desc)
         {
-            if (index < CommonEventSpecialArgDescList.NumArgListIndexMin ||
-                CommonEventSpecialArgDescList.NumArgListIndexMax < index)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(index), CommonEventSpecialArgDescList.NumArgListIndexMin,
-                        CommonEventSpecialArgDescList.NumArgListIndexMax, index));
             if (desc == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
@@ -333,33 +293,21 @@ namespace WodiLib.Common
         /// <summary>
         /// 数値引数の情報を取得する。
         /// </summary>
-        /// <param name="index">[Range(0, 4)] インデックス</param>
+        /// <param name="index">インデックス</param>
         /// <returns>情報インスタンス</returns>
-        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
-        public CommonEventSpecialNumberArgDesc GetSpecialNumberArgDesc(int index)
+        public CommonEventSpecialNumberArgDesc GetSpecialNumberArgDesc(CommonEventNumberArgIndex index)
         {
-            if (index < CommonEventSpecialArgDescList.NumArgListIndexMin ||
-                CommonEventSpecialArgDescList.NumArgListIndexMax < index)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(index), CommonEventSpecialArgDescList.NumArgListIndexMin,
-                        CommonEventSpecialArgDescList.NumArgListIndexMax, index));
             return CommonEventSpecialArgDescList.GetSpecialNumberArgDesc(index);
         }
 
         /// <summary>
         /// 文字列引数の情報を更新する。
         /// </summary>
-        /// <param name="index">[Range(0, 4)] インデックス</param>
+        /// <param name="index">インデックス</param>
         /// <param name="desc">[NotNull] 情報</param>
-        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
         /// <exception cref="ArgumentNullException">descがnullの場合</exception>
-        public void UpdateSpecialStringArgDesc(int index, CommonEventSpecialStringArgDesc desc)
+        public void UpdateSpecialStringArgDesc(CommonEventStringArgIndex index, CommonEventSpecialStringArgDesc desc)
         {
-            if (index < CommonEventSpecialArgDescList.StrArgListIndexMin ||
-                CommonEventSpecialArgDescList.StrArgListIndexMax < index)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(index), CommonEventSpecialArgDescList.StrArgListIndexMin,
-                        CommonEventSpecialArgDescList.StrArgListIndexMax, index));
             if (desc == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
@@ -369,54 +317,30 @@ namespace WodiLib.Common
         /// <summary>
         /// 文字列引数の情報を取得する。
         /// </summary>
-        /// <param name="index">[Range(0, 4)] インデックス</param>
+        /// <param name="index">インデックス</param>
         /// <returns>情報インスタンス</returns>
-        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
-        public CommonEventSpecialStringArgDesc GetSpecialStringArgDesc(int index)
+        public CommonEventSpecialStringArgDesc GetSpecialStringArgDesc(CommonEventStringArgIndex index)
         {
-            if (index < CommonEventSpecialArgDescList.StrArgListIndexMin ||
-                CommonEventSpecialArgDescList.StrArgListIndexMax < index)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(index), CommonEventSpecialArgDescList.StrArgListIndexMin,
-                        CommonEventSpecialArgDescList.StrArgListIndexMax, index));
             return CommonEventSpecialArgDescList.GetSpecialStringArgDesc(index);
         }
 
         /// <summary>
         /// 変数名を更新する。
         /// </summary>
-        /// <param name="number">[Range(0, 99)] 変数番号</param>
-        /// <param name="variableName">[NotNull] 変数名</param>
-        /// <exception cref="ArgumentOutOfRangeException">numberが指定範囲以外の場合</exception>
-        /// <exception cref="ArgumentNullException">variableNameがnullの場合</exception>
-        public void UpdateVariableName(int number, string variableName)
+        /// <param name="number">変数番号</param>
+        /// <param name="variableName">変数名</param>
+        public void UpdateVariableName(CommonEventSelfVariableIndex number, CommonEventSelfVariableName variableName)
         {
-            var max = CommonEventSelfVariableNameList.ListMax;
-            var min = CommonEventSelfVariableNameList.ListMin;
-            if (number < min || max < number)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(number), min, max, number));
-            if (variableName == null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(variableName)));
-
             SelfVariableNameList.UpdateVariableName(number, variableName);
         }
 
         /// <summary>
         /// 変数名を取得する。
         /// </summary>
-        /// <param name="number">[Range(0, 99)] 変数番号</param>
+        /// <param name="number">変数番号</param>
         /// <returns>変数名</returns>
-        /// <exception cref="ArgumentOutOfRangeException">numberが指定範囲以外の場合</exception>
-        public string GetVariableName(int number)
+        public CommonEventSelfVariableName GetVariableName(CommonEventSelfVariableIndex number)
         {
-            var max = CommonEventSelfVariableNameList.ListMax;
-            var min = CommonEventSelfVariableNameList.ListMin;
-            if (number < min || max < number)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(number), min, max, number));
-
             return SelfVariableNameList.GetVariableName(number);
         }
 
@@ -426,7 +350,7 @@ namespace WodiLib.Common
         /// <param name="variableNameList">[NotNull] 変数名リスト</param>
         /// <exception cref="ArgumentNullException">variableNameListがnullの場合</exception>
         /// <exception cref="ArgumentException">variableNameListの要素数が100以外の場合</exception>
-        public void UpdateAllVariableName(IEnumerable<string> variableNameList)
+        public void UpdateAllVariableName(IEnumerable<CommonEventSelfVariableName> variableNameList)
         {
             var nameList = variableNameList.ToList();
 
@@ -446,7 +370,7 @@ namespace WodiLib.Common
         /// すべての変数名を取得する。
         /// </summary>
         /// <returns>変数名の集合</returns>
-        public IEnumerable<string> GetAllVariableName()
+        public IEnumerable<CommonEventSelfVariableName> GetAllVariableName()
         {
             return SelfVariableNameList.GetAllName();
         }
@@ -456,7 +380,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="commonVarAddress">[Range(-1, 99)] 返戻アドレス</param>
         /// <exception cref="ArgumentOutOfRangeException">commonVarAddressが指定範囲外の場合</exception>
-        public void SetReturnVariableIndex(int commonVarAddress)
+        public void SetReturnVariableIndex(CommonEventReturnVariableIndex commonVarAddress)
         {
             try
             {
@@ -504,7 +428,7 @@ namespace WodiLib.Common
             result.Add((byte) StrArgsLength);
 
             // コモンイベント名
-            result.AddRange(new WoditorString(Name).StringByte);
+            result.AddRange(Name.ToWoditorStringBytes());
 
             // イベントコマンド行数
             result.AddRange(EventCommands.Count.ToBytes(Endian.Woditor));
@@ -515,11 +439,11 @@ namespace WodiLib.Common
                 result.AddRange(command.ToBinary());
             }
 
-            // メモの前の文字列
-            result.AddRange(new WoditorString(Description).StringByte);
+            // コモンイベント説明
+            result.AddRange(Description.ToWoditorStringBytes());
 
             // メモ
-            result.AddRange(new WoditorString(Memo).StringByte);
+            result.AddRange(Memo.ToWoditorStringBytes());
 
             // 引数特殊指定
             result.AddRange(CommonEventSpecialArgDescList.ToBinary());
@@ -537,7 +461,7 @@ namespace WodiLib.Common
             result.AddRange(AfterMemoBytesSelfVariableNamesBytes);
 
             // フッタ文字列
-            result.AddRange(new WoditorString(FooterString).StringByte);
+            result.AddRange(FooterString.ToWoditorStringBytes());
 
             // コモンイベント末尾
             if (VersionConfig.IsUnderVersion(WoditorVersion.Ver2_00))

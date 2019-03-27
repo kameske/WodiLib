@@ -16,7 +16,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// 変数アドレス値基底クラス
     /// </summary>
-    public abstract class VariableAddress : IConvertibleInt
+    public abstract class VariableAddress : IConvertibleInt, IEquatable<VariableAddress>
     {
         /*
          * 演算子をオーバーロードしたいため、インタフェースは使用しない
@@ -88,12 +88,20 @@ namespace WodiLib.Cmn
             return Value.ToString();
         }
 
-        /// <summary>
-        /// byte配列に変換する。
-        /// </summary>
-        /// <param name="endian">エンディアン</param>
-        /// <returns>byte配列</returns>
-        public IEnumerable<byte> ToBytes(Endian endian) => Value.ToBytes(endian);
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((VariableAddress) obj);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
@@ -104,6 +112,24 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <returns>int値</returns>
         public virtual int ToInt() => (int) this;
+
+        /// <summary>
+        /// byte配列に変換する。
+        /// </summary>
+        /// <param name="endian">エンディアン</param>
+        /// <returns>byte配列</returns>
+        public IEnumerable<byte> ToBytes(Endian endian) => Value.ToBytes(endian);
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(VariableAddress other)
+        {
+            if (other == null) return false;
+            return Value == other.Value;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
@@ -188,6 +214,30 @@ namespace WodiLib.Cmn
         public static int operator -(VariableAddress left, VariableAddress right)
         {
             return left.Value - right.Value;
+        }
+
+        /// <summary>
+        /// ==
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺==右辺の場合true</returns>
+        public static bool operator ==(VariableAddress left, VariableAddress right)
+        {
+            if (ReferenceEquals(left, right)) return true;
+            if ((object) left == null || (object) right == null) return false;
+            return left.Value == right.Value;
+        }
+
+        /// <summary>
+        /// !=
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺!=右辺の場合true</returns>
+        public static bool operator !=(VariableAddress left, VariableAddress right)
+        {
+            return !(left == right);
         }
 
         #endregion

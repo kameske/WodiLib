@@ -15,7 +15,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(-999999, 999999)] 条件右辺
     /// </summary>
-    public struct ConditionRight : IConvertibleInt
+    public struct ConditionRight : IConvertibleInt, IEquatable<ConditionRight>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -45,9 +45,33 @@ namespace WodiLib.Cmn
         /// <exception cref="ArgumentOutOfRangeException">numberが変数アドレス値として不適切な場合</exception>
         public ConditionRight(int number)
         {
-            if(number < MinValue || MaxValue < number) throw new ArgumentOutOfRangeException(
-                ErrorMessage.OutOfRange(nameof(number), MaxValue, MinValue, number));
+            if (number < MinValue || MaxValue < number)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(number), MaxValue, MinValue, number));
             Value = number;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return Value.ToString();
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is ConditionRight other && Equals(other);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return Value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -66,6 +90,16 @@ namespace WodiLib.Cmn
         /// <param name="endian">エンディアン</param>
         /// <returns>byte配列</returns>
         public IEnumerable<byte> ToBytes(Endian endian) => Value.ToBytes(endian);
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(ConditionRight other)
+        {
+            return Value == other.Value;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
@@ -104,7 +138,7 @@ namespace WodiLib.Cmn
         /// <returns>左辺==右辺の場合true</returns>
         public static bool operator ==(ConditionRight left, ConditionRight right)
         {
-            return left.Value == right.Value;
+            return left.Equals(right);
         }
 
         /// <summary>
@@ -116,26 +150,6 @@ namespace WodiLib.Cmn
         public static bool operator !=(ConditionRight left, ConditionRight right)
         {
             return !(left == right);
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object obj)
-        {
-            switch (obj)
-            {
-                case int other:
-                    return other == Value;
-                case ConditionRight other:
-                    return this == other;
-                default:
-                    return false;
-            }
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return Value;
         }
     }
 }

@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using WodiLib.Cmn;
 using WodiLib.Common;
 using WodiLib.Database;
 using WodiLib.Event;
@@ -161,7 +162,7 @@ namespace WodiLib.IO
         /// <param name="commonEvent">結果格納インスタンス</param>
         private static void ReadCommonEventId(FileReadStatus status, CommonEvent commonEvent)
         {
-            commonEvent.Id = status.ReadInt();
+            commonEvent.Id = (CommonEventId) status.ReadInt();
             status.IncreaseIntOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
@@ -212,7 +213,7 @@ namespace WodiLib.IO
         private static void ReadBootConditionLeftSide(FileReadStatus status,
             CommonEventBootCondition condition)
         {
-            condition.LeftSide = status.ReadInt();
+            condition.LeftSide = (VariableAddress) status.ReadInt();
             status.IncreaseIntOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
@@ -227,7 +228,7 @@ namespace WodiLib.IO
         private static void ReadBootConditionRightSide(FileReadStatus status,
             CommonEventBootCondition condition)
         {
-            condition.RightSide = status.ReadInt();
+            condition.RightSide = (ConditionRight) status.ReadInt();
             status.IncreaseIntOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
@@ -270,7 +271,7 @@ namespace WodiLib.IO
         private static void ReadCommonEventName(FileReadStatus status, CommonEvent commonEvent)
         {
             var commonEventName = status.ReadString();
-            commonEvent.Name = commonEventName.String;
+            commonEvent.Name = (CommonEventName) commonEventName.String;
             status.AddOffset(commonEventName.ByteLength);
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
@@ -302,7 +303,7 @@ namespace WodiLib.IO
         private static void ReadBeforeMemoString(FileReadStatus status, CommonEvent commonEvent)
         {
             var str = status.ReadString();
-            commonEvent.Description = str.String;
+            commonEvent.Description = (CommonEventDescription) str.String;
             status.AddOffset(str.ByteLength);
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
@@ -317,7 +318,7 @@ namespace WodiLib.IO
         private static void ReadMemo(FileReadStatus status, CommonEvent commonEvent)
         {
             var str = status.ReadString();
-            commonEvent.Memo = str.String;
+            commonEvent.Memo = (CommonEventMemo) str.String;
             status.AddOffset(str.ByteLength);
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
@@ -388,7 +389,7 @@ namespace WodiLib.IO
                     : UpdateSpecialNumberArgDesc_MakeDescForElse(argTypeList[i], argNameList[i],
                         numberArgInitValueList[i], numberArgList, stringArgList);
 
-                commonEvent.UpdateSpecialNumberArgDesc(i, desc);
+                commonEvent.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) i, desc);
             }
         }
 
@@ -405,12 +406,12 @@ namespace WodiLib.IO
 
             var desc = new CommonEventSpecialNumberArgDesc
             {
-                ArgName = argName,
-                InitValue = initValue
+                ArgName = (CommonEventArgName) argName,
+                InitValue = (CommonEventNumberArgInitValue) initValue
             };
 
             desc.ChangeArgType(type, caseList);
-            desc.SetDatabaseRefer(DBKind.FromSpecialArgCode(numberArgList[0]), numberArgList[1]);
+            desc.SetDatabaseRefer(DBKind.FromSpecialArgCode(numberArgList[0]), (TypeId) numberArgList[1]);
             desc.SetDatabaseUseAdditionalItemsFlag(numberArgList[2] == 1);
 
             return desc;
@@ -434,8 +435,8 @@ namespace WodiLib.IO
 
             var desc = new CommonEventSpecialNumberArgDesc
             {
-                ArgName = argName,
-                InitValue = initValue
+                ArgName = (CommonEventArgName) argName,
+                InitValue = (CommonEventNumberArgInitValue) initValue
             };
 
             desc.ChangeArgType(type, caseList);
@@ -457,10 +458,10 @@ namespace WodiLib.IO
             {
                 var desc = new CommonEventSpecialStringArgDesc
                 {
-                    ArgName = argNameList[i]
+                    ArgName = (CommonEventArgName) argNameList[i]
                 };
 
-                commonEvent.UpdateSpecialStringArgDesc(i, desc);
+                commonEvent.UpdateSpecialStringArgDesc((CommonEventStringArgIndex) i, desc);
             }
         }
 
@@ -508,14 +509,14 @@ namespace WodiLib.IO
         {
             const int varNameLength = 100;
 
-            var varNameList = new List<string>();
+            var varNameList = new List<CommonEventSelfVariableName>();
 
             for (var i = 0; i < varNameLength; i++)
             {
                 var varName = status.ReadString();
                 status.AddOffset(varName.ByteLength);
 
-                varNameList.Add(varName.String);
+                varNameList.Add((CommonEventSelfVariableName) varName.String);
 
                 Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                     $"セルフ変数{i}名", varName.String));
@@ -553,7 +554,7 @@ namespace WodiLib.IO
             var footerString = status.ReadString();
             status.AddOffset(footerString.ByteLength);
 
-            commonEvent.FooterString = footerString.String;
+            commonEvent.FooterString = (CommonEventFooterString) footerString.String;
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "フッタ文字列", commonEvent.FooterString));
@@ -632,7 +633,7 @@ namespace WodiLib.IO
             var description = status.ReadString();
             status.AddOffset(description.ByteLength);
 
-            commonEvent.ReturnValueDescription = description.String;
+            commonEvent.ReturnValueDescription = (CommonEventResultDescription) description.String;
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "返戻値の意味", commonEvent.ReturnValueDescription));
@@ -648,7 +649,7 @@ namespace WodiLib.IO
             var index = status.ReadInt();
             status.IncreaseIntOffset();
 
-            commonEvent.SetReturnVariableIndex(index);
+            commonEvent.SetReturnVariableIndex((CommonEventReturnVariableIndex) index);
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "返戻セルフ変数インデックス", index));

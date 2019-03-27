@@ -18,17 +18,12 @@ namespace WodiLib.Test.Common.Internal
             logger = WodiLibLogger.GetInstance();
         }
 
-        [TestCase(-1, false, true)]
-        [TestCase(-1, true, true)]
-        [TestCase(0, false, false)]
-        [TestCase(0, true, true)]
-        [TestCase(4, false, false)]
-        [TestCase(4, true, true)]
-        [TestCase(5, false, true)]
-        [TestCase(5, true, true)]
-        public static void UpdateSpecialNumberArgDescTest(int index, bool isUpdateNull, bool isError)
+        [TestCase(false, false)]
+        [TestCase(true, true)]
+        public static void UpdateSpecialNumberArgDescTest(bool isUpdateNull, bool isError)
         {
             var item = isUpdateNull ? null : new CommonEventSpecialNumberArgDesc();
+            var index = (CommonEventNumberArgIndex) 3;
 
             var instance = new CommonEventSpecialArgDescList();
 
@@ -47,13 +42,12 @@ namespace WodiLib.Test.Common.Internal
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(-1, true)]
-        [TestCase(0, false)]
-        [TestCase(4, false)]
-        [TestCase(5, true)]
-        public static void GetSpecialNumberArgDescTest(int index, bool isError)
+        [Test]
+        public static void GetSpecialNumberArgDescTest()
         {
             var instance = new CommonEventSpecialArgDescList();
+
+            var index = (CommonEventNumberArgIndex) 0;
 
             var errorOccured = false;
             try
@@ -66,21 +60,16 @@ namespace WodiLib.Test.Common.Internal
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
         }
 
-        [TestCase(-1, false, true)]
-        [TestCase(-1, true, true)]
-        [TestCase(0, false, false)]
-        [TestCase(0, true, true)]
-        [TestCase(4, false, false)]
-        [TestCase(4, true, true)]
-        [TestCase(5, false, true)]
-        [TestCase(5, true, true)]
-        public static void UpdateSpecialStringArgDescTest(int index, bool isUpdateNull, bool isError)
+        [TestCase(false, false)]
+        [TestCase(true, true)]
+        public static void UpdateSpecialStringArgDescTest(bool isUpdateNull, bool isError)
         {
             var item = isUpdateNull ? null : new CommonEventSpecialStringArgDesc();
+            var index = (CommonEventStringArgIndex) 2;
 
             var instance = new CommonEventSpecialArgDescList();
 
@@ -99,13 +88,12 @@ namespace WodiLib.Test.Common.Internal
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(-1, true)]
-        [TestCase(0, false)]
-        [TestCase(4, false)]
-        [TestCase(5, true)]
-        public static void GetSpecialStringArgDescTest(int index, bool isError)
+        [Test]
+        public static void GetSpecialStringArgDescTest()
         {
             var instance = new CommonEventSpecialArgDescList();
+
+            var index = (CommonEventStringArgIndex) 1;
 
             var errorOccured = false;
             try
@@ -118,8 +106,8 @@ namespace WodiLib.Test.Common.Internal
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
         }
     }
 }
