@@ -6,11 +6,15 @@
 // see LICENSE file
 // ========================================
 
+using System;
+
 namespace WodiLib.Event
 {
     /// <summary>
     /// 変数アドレス値に関する定数クラス
+    /// （廃止予定）
     /// </summary>
+    [Obsolete]
     public static class VariableAddressConstant
     {
         /// <summary>マップイベントのセルフ変数最小値</summary>
@@ -92,27 +96,27 @@ namespace WodiLib.Event
         public static readonly int SystemStringVariableAddressMax = 9999999;
 
         /// <summary>ユーザDB変数最小値</summary>
-        public static readonly int UserDatabaseVariableAddressMin = 1000000000;
+        public static readonly int UserDatabaseAddressMin = 1000000000;
 
         /// <summary>ユーザDB変数最大値</summary>
-        public static readonly int UserDatabaseVariableAddressMax = 1099999999;
+        public static readonly int UserDatabaseAddressMax = 1099999999;
 
         /// <summary>可変DB変数最小値</summary>
-        public static readonly int ChangeableDatabaseVariableAddressMin = 1100000000;
+        public static readonly int ChangeableDatabaseAddressMin = 1100000000;
 
         /// <summary>可変DB変数最大値</summary>
-        public static readonly int ChangeableDatabaseVariableAddressMax = 1199999999;
+        public static readonly int ChangeableDatabaseAddressMax = 1199999999;
 
         /// <summary>システムDB変数最小値</summary>
-        public static readonly int SystemDatabaseVariableAddressMin = 1300000000;
+        public static readonly int SystemDatabaseAddressMin = 1300000000;
 
         /// <summary>システムDB変数最大値</summary>
-        public static readonly int SystemDatabaseVariableAddressMax = 1399999999;
+        public static readonly int SystemDatabaseAddressMax = 1399999999;
 
         /// <summary>変数アドレス値最小値</summary>
         public static int VariableAddressMin => MapEventVariableAddressMin;
 
         /// <summary>変数アドレス値最大値</summary>
-        public static int VariableAddressMax => SystemDatabaseVariableAddressMax;
+        public static int VariableAddressMax => SystemDatabaseAddressMax;
     }
 }

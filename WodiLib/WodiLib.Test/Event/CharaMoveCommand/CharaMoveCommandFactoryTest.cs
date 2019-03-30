@@ -1,10 +1,10 @@
 using System;
-using WodiLib.Event;
 using NUnit.Framework;
+using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
-namespace WodiLib.Test.Event
+namespace WodiLib.Test.Event.CharaMoveCommand
 {
     using Factory = CharaMoveCommandFactory;
 
@@ -82,7 +82,7 @@ namespace WodiLib.Test.Event
         };
 
         [TestCaseSource(nameof(TestCaseSource))]
-        public static void CreateRawTest(byte code)
+        public static void CreateRawTest(CharaMoveCommandCode code)
         {
             bool result;
             ICharaMoveCommand instance = null;

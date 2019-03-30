@@ -19,7 +19,7 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.MoveLeftDown;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.MoveLeftDown;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x00;

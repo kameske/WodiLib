@@ -42,7 +42,7 @@ namespace WodiLib.Event.EventCommand
             switch (index)
             {
                 case 0:
-                    return EventCommandCode;
+                    return EventCommandCode.Code;
 
                 case 1:
                     byte[] bytes =
@@ -69,8 +69,7 @@ namespace WodiLib.Event.EventCommand
         {
             if (index == 1)
             {
-                var bytes = value.ToBytes(Endian.Environment);
-                ChoiceCode = bytes[0];
+                // 選択肢種別コードなので何もしない
                 return;
             }
 
@@ -109,6 +108,6 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>選択肢コード</summary>
-        protected abstract byte ChoiceCode { get; set; }
+        protected abstract byte ChoiceCode { get; }
     }
 }

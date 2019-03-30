@@ -19,7 +19,7 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.ApproachEvent;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.ApproachEvent;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x01;
@@ -27,7 +27,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <summary>
         /// イベントID
         /// </summary>
-        public int EventId
+        public CharaMoveCommandValue EventId
         {
             get => GetNumberValue(0);
             set => SetNumberValue(0, value);

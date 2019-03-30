@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using WodiLib.Cmn;
 using WodiLib.Database;
 using WodiLib.Event;
 using WodiLib.Event.CharaMoveCommand;
@@ -16,6 +17,7 @@ namespace WodiLib.Test.IO
     public static class MapFileTestItemGenerator
     {
         #region CreateMapDataObject
+
         /** ========================================
          *  マップデータオブジェクト作成
          *  ======================================== */
@@ -375,27 +377,31 @@ namespace WodiLib.Test.IO
                                                 new MoveAwayFromHero(),
                                                 new Jump
                                                 {
-                                                    DownPoint = 2, RightPoint = 1
+                                                    DownPoint = (CharaMoveCommandValue) 2,
+                                                    RightPoint = (CharaMoveCommandValue) 1
                                                 },
                                                 new Jump
                                                 {
-                                                    DownPoint = 1100005, RightPoint = 1100001
+                                                    DownPoint = (CharaMoveCommandValue) 1100005,
+                                                    RightPoint = (CharaMoveCommandValue) 1100001
                                                 },
                                                 new ApproachEvent
                                                 {
-                                                    EventId = 4
+                                                    EventId = (CharaMoveCommandValue) 4
                                                 },
                                                 new ApproachEvent
                                                 {
-                                                    EventId = 2000003
+                                                    EventId = (CharaMoveCommandValue) 2000003
                                                 },
                                                 new ApproachPosition
                                                 {
-                                                    PositionX = 1, PositionY = 2
+                                                    PositionX = (CharaMoveCommandValue) 1,
+                                                    PositionY = (CharaMoveCommandValue) 2
                                                 },
                                                 new ApproachPosition
                                                 {
-                                                    PositionX = 1000024, PositionY = 1000025
+                                                    PositionX = (CharaMoveCommandValue) 1000024,
+                                                    PositionY = (CharaMoveCommandValue) 1000025
                                                 }
                                             },
                                         },
@@ -410,23 +416,23 @@ namespace WodiLib.Test.IO
                                             {
                                                 new ChangeGraphic
                                                 {
-                                                    GraphicId = 3
+                                                    GraphicId = (CharaMoveCommandValue) 3
                                                 },
                                                 new ChangePenetration
                                                 {
-                                                    Opacity = 4
+                                                    Opacity = (CharaMoveCommandValue) 4
                                                 },
                                                 new ChangeHeight
                                                 {
-                                                    Height = 5
+                                                    Height = (CharaMoveCommandValue) 5
                                                 },
                                                 new PlaySE
                                                 {
-                                                    SoundId = 6,
+                                                    SoundId = (CharaMoveCommandValue) 6
                                                 },
                                                 new WaitMoveCommand
                                                 {
-                                                    Frame = 7
+                                                    Frame = (CharaMoveCommandValue) 7
                                                 }
                                             },
                                             IsRepeatAction = false,
@@ -472,35 +478,35 @@ namespace WodiLib.Test.IO
                                             {
                                                 new AssignValue
                                                 {
-                                                    TargetAddress = 1100006,
-                                                    Value = 7
+                                                    TargetAddress = (VariableAddress) 1100006,
+                                                    Value = (CharaMoveCommandValue) 7
                                                 },
                                                 new AssignValue
                                                 {
-                                                    TargetAddress = 1100006,
-                                                    Value = 1100003
+                                                    TargetAddress = (VariableAddress) 1100006,
+                                                    Value = (CharaMoveCommandValue) 1100003
                                                 },
                                                 new AddValue
                                                 {
-                                                    TargetAddress = 1100007,
-                                                    Value = 7
+                                                    TargetAddress = (VariableAddress) 1100007,
+                                                    Value = (CharaMoveCommandValue) 7
                                                 },
                                                 new AddValue
                                                 {
-                                                    TargetAddress = 1100008,
-                                                    Value = 1100000
+                                                    TargetAddress = (VariableAddress) 1100008,
+                                                    Value = (CharaMoveCommandValue) 1100000
                                                 },
                                                 new SetMoveSpeed
                                                 {
-                                                    Value = 1
+                                                    Value = MoveSpeed.Slower
                                                 },
                                                 new SetMoveFrequency
                                                 {
-                                                    Value = 2,
+                                                    Value = MoveFrequency.Short,
                                                 },
                                                 new SetAnimateSpeed
                                                 {
-                                                    Value = 3,
+                                                    Value = AnimateSpeed.Middle,
                                                 },
                                                 new ValidReadinessAnimation(),
                                                 new ValidSnake(),
@@ -541,19 +547,19 @@ namespace WodiLib.Test.IO
                                         Indent = 1,
                                         Target = EventIdConstant.ThisEventId
                                     },
-                                    new Blank { Indent = 1 },
+                                    new Blank {Indent = 1},
                                     new ChoiceStartForkingNumber
                                     {
                                         CaseNumber = 1,
                                         Indent = 0
                                     },
-                                    new Blank { Indent = 1 },
+                                    new Blank {Indent = 1},
                                     new ChoiceStartForkingNumber
                                     {
                                         CaseNumber = 2,
                                         Indent = 0
                                     },
-                                    new Blank { Indent = 1 },
+                                    new Blank {Indent = 1},
                                     new ChoiceStartForkingNumber
                                     {
                                         CaseNumber = 3,
@@ -575,19 +581,19 @@ namespace WodiLib.Test.IO
                                         CaseNumber = 0,
                                         Indent = 1,
                                     },
-                                    new BreakChoiceForce { Indent = 2 },
-                                    new Blank { Indent = 2 },
+                                    new BreakChoiceForce {Indent = 2},
+                                    new Blank {Indent = 2},
                                     new ChoiceStartForkingNumber
                                     {
                                         CaseNumber = 1,
                                         Indent = 1
                                     },
-                                    new Blank { Indent = 2 },
-                                    new ChoiceStartForkingLeftKey { Indent = 1 },
-                                    new Blank { Indent = 2 },
-                                    new ChoiceStartForkingForceExit { Indent = 1 },
-                                    new Blank { Indent = 2 },
-                                    new ChoiceStartForkingCancel { Indent = 1 },
+                                    new Blank {Indent = 2},
+                                    new ChoiceStartForkingLeftKey {Indent = 1},
+                                    new Blank {Indent = 2},
+                                    new ChoiceStartForkingForceExit {Indent = 1},
+                                    new Blank {Indent = 2},
+                                    new ChoiceStartForkingCancel {Indent = 1},
                                     new CsvIO
                                     {
                                         Mode = CsvIOMode.Input,
@@ -614,21 +620,21 @@ namespace WodiLib.Test.IO
                                         FileName = "Data/db.csv",
                                         Indent = 2
                                     },
-                                    new Blank { Indent = 2 },
-                                    new ForkEnd { Indent = 1 },
-                                    new Blank { Indent = 1 },
+                                    new Blank {Indent = 2},
+                                    new ForkEnd {Indent = 1},
+                                    new Blank {Indent = 1},
                                     new ChoiceStartForkingNumber
                                     {
                                         Indent = 0,
                                         CaseNumber = 4
                                     },
-                                    new Blank { Indent = 1 },
-                                    new ChoiceStartForkingLeftKey { Indent = 0 },
-                                    new Blank { Indent = 1 },
-                                    new ChoiceStartForkingRightKey { Indent = 0},
-                                    new Blank { Indent = 1 },
-                                    new ForkEnd { Indent = 0 },
-                                    new Blank { Indent = 0 },
+                                    new Blank {Indent = 1},
+                                    new ChoiceStartForkingLeftKey {Indent = 0},
+                                    new Blank {Indent = 1},
+                                    new ChoiceStartForkingRightKey {Indent = 0},
+                                    new Blank {Indent = 1},
+                                    new ForkEnd {Indent = 0},
+                                    new Blank {Indent = 0},
                                 }),
                             },
                         })
@@ -702,9 +708,9 @@ namespace WodiLib.Test.IO
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
                                     MoveType = MoveType.Nearer,
-                                    MoveSpeed = MoveSpeed.Faster,
+                                    MoveSpeed = MoveSpeed.Slower,
                                     MoveFrequency = MoveFrequency.Short,
-                                    AnimateSpeed = AnimateSpeed.Longest,
+                                    AnimateSpeed = AnimateSpeed.Longer,
                                 },
                                 Option = new MapEventPageOption
                                 {
@@ -798,8 +804,8 @@ namespace WodiLib.Test.IO
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
                                     MoveType = MoveType.Not,
-                                    MoveSpeed = MoveSpeed.Fastest,
-                                    MoveFrequency = MoveFrequency.Longest,
+                                    MoveSpeed = MoveSpeed.Slowest,
+                                    MoveFrequency = MoveFrequency.Longer,
                                     AnimateSpeed = AnimateSpeed.Short,
                                 },
                                 Option = new MapEventPageOption
@@ -1062,7 +1068,7 @@ namespace WodiLib.Test.IO
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
                                     MoveType = MoveType.Not,
-                                    MoveSpeed = MoveSpeed.Fast,
+                                    MoveSpeed = MoveSpeed.Slow,
                                     MoveFrequency = MoveFrequency.Short,
                                     AnimateSpeed = AnimateSpeed.Long,
                                     CustomMoveRoute = null
@@ -1152,27 +1158,27 @@ namespace WodiLib.Test.IO
                                             new MoveTowardHero(),
                                             new StepBackward(),
                                             new MoveAwayFromHero(),
-                                            new ApproachEvent { EventId = 10 },
+                                            new ApproachEvent {EventId = (CharaMoveCommandValue) 10},
                                             new ApproachPosition
                                             {
-                                                PositionX = 5,
-                                                PositionY = 20
+                                                PositionX = (CharaMoveCommandValue) 5,
+                                                PositionY = (CharaMoveCommandValue) 20
                                             },
                                             new Jump
                                             {
-                                                RightPoint = 1,
-                                                DownPoint = 4
+                                                RightPoint = (CharaMoveCommandValue) 1,
+                                                DownPoint = (CharaMoveCommandValue) 4
                                             },
-                                            new ChangeGraphic{GraphicId = 5},
-                                            new ChangePenetration{Opacity = 6},
-                                            new ChangeHeight {Height = 7},
-                                            new PlaySE {SoundId = 8},
-                                            new WaitMoveCommand {Frame = 9},
-                                            new ApproachEvent {EventId = 1000020},
+                                            new ChangeGraphic {GraphicId = (CharaMoveCommandValue) 5},
+                                            new ChangePenetration {Opacity = (CharaMoveCommandValue) 6},
+                                            new ChangeHeight {Height = (CharaMoveCommandValue) 7},
+                                            new PlaySE {SoundId = (CharaMoveCommandValue) 8},
+                                            new WaitMoveCommand {Frame = (CharaMoveCommandValue) 9},
+                                            new ApproachEvent {EventId = (CharaMoveCommandValue) 1000020},
                                             new ApproachPosition
                                             {
-                                                PositionX = 1000030,
-                                                PositionY = 1000040,
+                                                PositionX = (CharaMoveCommandValue) 1000030,
+                                                PositionY = (CharaMoveCommandValue) 1000040,
                                             },
                                             new LookLeftUp(),
                                             new LookUp(),
@@ -1190,17 +1196,17 @@ namespace WodiLib.Test.IO
                                             new TurnTail(),
                                             new AssignValue
                                             {
-                                                TargetAddress = 1100003,
-                                                Value = 7
+                                                TargetAddress = (VariableAddress) 1100003,
+                                                Value = (CharaMoveCommandValue) 7
                                             },
                                             new AddValue
                                             {
-                                                TargetAddress = 1100003,
-                                                Value = 12
+                                                TargetAddress = (VariableAddress) 1100003,
+                                                Value = (CharaMoveCommandValue) 12
                                             },
-                                            new SetMoveSpeed {Value = 1},
-                                            new SetMoveFrequency{Value = 3},
-                                            new SetAnimateSpeed{Value = 6},
+                                            new SetMoveSpeed {Value = MoveSpeed.Slower},
+                                            new SetMoveFrequency {Value = MoveFrequency.Middle},
+                                            new SetAnimateSpeed {Value = AnimateSpeed.Longest},
                                             new ValidReadinessAnimation(),
                                             new ValidSnake(),
                                             new InvalidReadinessAnimation(),
@@ -1267,7 +1273,7 @@ namespace WodiLib.Test.IO
                                 },
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
-                                    MoveSpeed = MoveSpeed.Faster,
+                                    MoveSpeed = MoveSpeed.Slower,
                                     MoveFrequency = MoveFrequency.Long,
                                     AnimateSpeed = AnimateSpeed.Frame,
                                     MoveType = MoveType.Custom,

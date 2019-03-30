@@ -23,7 +23,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override int EventCommandCode => EventCommand.EventCommandCode.ConditionNumberStart;
+        public override EventCommandCode EventCommandCode => EventCommandCode.ConditionNumberStart;
 
         /// <inheritdoc />
         public override byte NumberVariableCount => (byte) (2 + CaseValue * 3);
@@ -44,7 +44,7 @@ namespace WodiLib.Event.EventCommand
             switch (index)
             {
                 case 0:
-                    return EventCommandCode;
+                    return EventCommandCode.Code;
 
                 case 1:
                     byte[] bytes =

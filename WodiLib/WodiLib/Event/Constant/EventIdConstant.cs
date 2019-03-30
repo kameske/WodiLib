@@ -6,11 +6,14 @@
 // see LICENSE file
 // ========================================
 
+using System;
+
 namespace WodiLib.Event
 {
     /// <summary>
     ///     イベントIDに関する定数クラス
     /// </summary>
+    [Obsolete]
     public static class EventIdConstant
     {
         /// <summary>「このイベント」を表す数値</summary>

@@ -1,17 +1,20 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : EventCommandCode.cs
+// File Name    : EventCommandCodeConstant.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
 // ========================================
+
+using System;
 
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
     /// イベントコマンドコード
     /// </summary>
-    public static class EventCommandCode
+    [Obsolete]
+    public static class EventCommandCodeConstant
     {
         ///<summary>空白行</summary>
         public static readonly int Blank = 0;

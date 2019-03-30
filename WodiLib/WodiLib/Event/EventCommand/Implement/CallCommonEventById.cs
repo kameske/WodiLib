@@ -19,7 +19,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override int EventCommandCode => EventCommand.EventCommandCode.CallCommonEventById;
+        public override EventCommandCode EventCommandCode => EventCommandCode.CallCommonEventById;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property

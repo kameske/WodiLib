@@ -19,13 +19,13 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.PlaySE;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.PlaySE;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x01;
 
         /// <summary>効果音ID</summary>
-        public int SoundId
+        public CharaMoveCommandValue SoundId
         {
             get => GetNumberValue(0);
             set => SetNumberValue(0, value);

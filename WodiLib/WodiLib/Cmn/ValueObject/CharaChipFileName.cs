@@ -31,8 +31,9 @@ namespace WodiLib.Cmn
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[NotNull] キャラチップファイル名</param>
+        /// <param name="value">[NotNull][NotNewLine] キャラチップファイル名</param>
         /// <exception cref="ArgumentNullException">valueがnullの場合</exception>
+        /// <exception cref="ArgumentNewLineException">valueに改行が含まれる場合</exception>
         public CharaChipFileName(string value)
         {
             if (value == null)

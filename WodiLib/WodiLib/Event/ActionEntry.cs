@@ -8,6 +8,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys;
 
 namespace WodiLib.Event

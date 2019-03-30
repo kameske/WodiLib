@@ -7,6 +7,7 @@
 // ========================================
 
 using System.ComponentModel;
+using WodiLib.Event.EventCommand;
 
 namespace WodiLib.Event
 {
@@ -19,7 +20,7 @@ namespace WodiLib.Event
         byte NumberVariableCount { get; }
 
         /// <summary>イベントコマンドコード</summary>
-        int EventCommandCode { get; }
+        EventCommandCode EventCommandCode { get; }
 
         /// <summary>インデントの深さ</summary>
         byte Indent { get; set; }

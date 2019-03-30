@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using WodiLib.Sys;
+
 namespace WodiLib.Event.CharaMoveCommand
 {
     /// <inheritdoc />
@@ -19,16 +21,37 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.SetMoveFrequency;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.SetMoveFrequency;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x01;
 
-        /// <summary>頻度</summary>
-        public int Value
+        private MoveFrequency moveFrequency = MoveFrequency.Frame;
+
+        /// <summary>[NotNull] 頻度</summary>
+        /// <exception cref="PropertyNullException">nullがセットされた場合</exception>
+        public MoveFrequency Value
         {
-            get => GetNumberValue(0);
-            set => SetNumberValue(0, value);
+            get => moveFrequency;
+            set
+            {
+                if(value == null) throw new PropertyNullException(
+                    ErrorMessage.NotNull(nameof(Value)));
+
+                moveFrequency = value;
+                var val = (int) moveFrequency.Code;
+                SetNumberValue(0, (CharaMoveCommandValue)val);
+            }
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public SetMoveFrequency()
+        {
+            // 引数0の初期値設定
+            var val = (int) moveFrequency.Code;
+            SetNumberValue(0, (CharaMoveCommandValue)val);
         }
     }
 }

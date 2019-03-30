@@ -19,13 +19,13 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.ChangePenetration;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.ChangePenetration;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x01;
 
         /// <summary>透過度</summary>
-        public int Opacity
+        public CharaMoveCommandValue Opacity
         {
             get => GetNumberValue(0);
             set => SetNumberValue(0, value);

@@ -8,7 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using WodiLib.Event;
+using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -71,7 +71,18 @@ namespace WodiLib.IO
         {
             // 動作指定コード
             var charaMoveCode = status.ReadByte();
-            var charaMoveCommand = CharaMoveCommandFactory.CreateRaw(charaMoveCode);
+            CharaMoveCommandCode commandCode;
+            try
+            {
+                commandCode = CharaMoveCommandCode.FromByte(charaMoveCode);
+            }
+            catch
+            {
+                throw new InvalidOperationException(
+                    $"存在しない動作指定コマンドコードが読み込まれました。" +
+                    $"（コマンドコード値：{charaMoveCode}, offset：{status.Offset}");
+            }
+            var charaMoveCommand = CharaMoveCommandFactory.CreateRaw(commandCode);
             status.IncreaseByteOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
@@ -87,16 +98,16 @@ namespace WodiLib.IO
             // 変数
             for (var i = 0; i < varLength; i++)
             {
-                var variable = status.ReadInt();
-                charaMoveCommand.SetNumberValue(i, variable);
+                var value = status.ReadInt();
+                charaMoveCommand.SetNumberValue(i, (CharaMoveCommandValue)value);
                 status.IncreaseIntOffset();
 
                 Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
-                    $"変数{i}", variable));
+                    $"変数{i}", value));
             }
 
             // 終端コードチェック
-            foreach (var b in Event.CharaMoveCommand.CharaMoveCommandBase.EndBlockCode)
+            foreach (var b in CharaMoveCommandBase.EndBlockCode)
             {
                 if (status.ReadByte() != b)
                 {

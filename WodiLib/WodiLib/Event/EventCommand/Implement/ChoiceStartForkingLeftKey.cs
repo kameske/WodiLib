@@ -19,7 +19,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override int EventCommandCode => EventCommand.EventCommandCode.ChoiceStartForkingEtc;
+        public override EventCommandCode EventCommandCode => EventCommandCode.ChoiceStartForkingEtc;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Abstract Property
@@ -27,10 +27,6 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         /// <summary>選択肢コード</summary>
-        protected override byte ChoiceCode
-        {
-            get => EventCommandConstant.ChoiceStartForkingEtc.ChoiceCode.LeftKey;
-            set { }
-        }
+        protected override byte ChoiceCode => EventCommandConstant.ChoiceStartForkingEtc.ChoiceCode.LeftKey;
     }
 }

@@ -27,7 +27,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override int EventCommandCode => EventCommand.EventCommandCode.ChoiceStartForkingNumber;
+        public override EventCommandCode EventCommandCode => EventCommandCode.ChoiceStartForkingNumber;
 
         /// <inheritdoc />
         /// <summary>[Range(0, 2)] 選択肢番号</summary>

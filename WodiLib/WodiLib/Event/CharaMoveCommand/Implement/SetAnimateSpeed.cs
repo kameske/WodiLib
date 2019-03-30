@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using WodiLib.Sys;
+
 namespace WodiLib.Event.CharaMoveCommand
 {
     /// <inheritdoc />
@@ -19,16 +21,37 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.SetAnimateSpeed;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.SetAnimateSpeed;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x01;
 
-        /// <summary>頻度</summary>
-        public int Value
+        private AnimateSpeed animateSpeed = AnimateSpeed.Frame;
+
+        /// <summary>[NotNull] 頻度</summary>
+        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
+        public AnimateSpeed Value
         {
-            get => GetNumberValue(0);
-            set => SetNumberValue(0, value);
+            get => animateSpeed;
+            set
+            {
+                if(value == null) throw new PropertyNullException(
+                    ErrorMessage.NotNull(nameof(Value)));
+
+                animateSpeed = value;
+                var val = (int)animateSpeed.Code;
+                SetNumberValue(0, (CharaMoveCommandValue)val);
+            }
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public SetAnimateSpeed()
+        {
+            // 引数0の初期値設定
+            var val = (int)animateSpeed.Code;
+            SetNumberValue(0, (CharaMoveCommandValue)val);
         }
     }
 }

@@ -8,7 +8,7 @@
 
 using System.ComponentModel;
 
-namespace WodiLib.Event
+namespace WodiLib.Event.CharaMoveCommand
 {
     /// <summary>
     /// キャラ動作指定コマンドインタフェース
@@ -16,9 +16,9 @@ namespace WodiLib.Event
     public interface ICharaMoveCommand
     {
         /// <summary>
-        /// 動作コマンドコード
+        /// 動作コマンド種別
         /// </summary>
-        byte CommandCode { get; }
+        CharaMoveCommandCode CommandCode { get; }
 
         /// <summary>変数の数（Byte）</summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -27,17 +27,17 @@ namespace WodiLib.Event
         /// <summary>変数の数</summary>
         int ValueLength { get; }
 
-        /// <summary>インデックスを指定して数値変数を取得する。</summary>
+        /// <summary>インデックスを指定して数値を取得する。</summary>
         /// <param name="index">インデックス</param>
         /// <returns>インデックスに対応した数値</returns>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        int GetNumberValue(int index);
+        CharaMoveCommandValue GetNumberValue(int index);
 
-        /// <summary>インデックスを指定して数値変数を設定する。</summary>
+        /// <summary>インデックスを指定して数値を設定する。</summary>
         /// <param name="index">インデックス</param>
         /// <param name="value">設定する値</param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        void SetNumberValue(int index, int value);
+        void SetNumberValue(int index, CharaMoveCommandValue value);
 
         /// <summary>
         /// VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、

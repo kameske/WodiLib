@@ -22,13 +22,13 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.ChangeHeight;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.ChangeHeight;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x01;
 
         /// <summary>高さ</summary>
-        public int Height
+        public CharaMoveCommandValue Height
         {
             get => GetNumberValue(0);
             set => SetNumberValue(0, value);

@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using WodiLib.Cmn;
+
 namespace WodiLib.Event.CharaMoveCommand
 {
     /// <inheritdoc />
@@ -19,27 +21,53 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.AddValue;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.AddValue;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x02;
 
+
+        private VariableAddress targetAddress = (NormalNumberVariableAddress)NormalNumberVariableAddress.MinValue;
+
         /// <summary>
-        /// 対象アドレス
+        ///     [Convertible(<see cref="NormalNumberVariableAddress"/>)]
+        ///     [Convertible(<see cref="CalledEventVariableAddress"/>)]
+        ///     対象アドレス
         /// </summary>
-        public int TargetAddress
+        public VariableAddress TargetAddress
         {
-            get => GetNumberValue(0);
-            set => SetNumberValue(0, value);
+            get => targetAddress;
+            set
+            {
+                switch (value)
+                {
+                    case NormalNumberVariableAddress val:
+                        targetAddress = val;
+                        break;
+                    case CalledEventVariableAddress val:
+                        targetAddress = val;
+                        break;
+                }
+                SetNumberValue(0, (CharaMoveCommandValue)value.ToInt());
+            }
         }
 
         /// <summary>
         /// 加算値
         /// </summary>
-        public int Value
+        public CharaMoveCommandValue Value
         {
             get => GetNumberValue(1);
             set => SetNumberValue(1, value);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public AddValue()
+        {
+            // 引数0の初期値設定
+            SetNumberValue(0, (CharaMoveCommandValue)targetAddress.ToInt());
         }
     }
 }

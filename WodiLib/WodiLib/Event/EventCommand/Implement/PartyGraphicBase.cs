@@ -27,7 +27,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override int EventCommandCode => EventCommand.EventCommandCode.PartyGraphic;
+        public override EventCommandCode EventCommandCode => EventCommandCode.PartyGraphic;
 
         /// <inheritdoc />
         /// <summary>
@@ -45,7 +45,7 @@ namespace WodiLib.Event.EventCommand
             switch (index)
             {
                 case 0:
-                    return EventCommandCode;
+                    return EventCommandCode.Code;
 
                 case 1:
                 {

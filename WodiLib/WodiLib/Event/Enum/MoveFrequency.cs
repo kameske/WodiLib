@@ -31,6 +31,9 @@ namespace WodiLib.Event
         public static readonly MoveFrequency Long;
 
         /// <summary>5:超大間隔</summary>
+        public static readonly MoveFrequency Longer;
+
+        /// <summary>6:頻度遅</summary>
         public static readonly MoveFrequency Longest;
 
         /// <summary>値</summary>
@@ -43,7 +46,8 @@ namespace WodiLib.Event
             Short = new MoveFrequency("Short", 0x02);
             Middle = new MoveFrequency("Middle", 0x03);
             Long = new MoveFrequency("Long", 0x04);
-            Longest = new MoveFrequency("Longest", 0x05);
+            Longer = new MoveFrequency("Longer", 0x05);
+            Longest = new MoveFrequency("Longest", 0x06);
         }
 
         private MoveFrequency(string id, byte code) : base(id)

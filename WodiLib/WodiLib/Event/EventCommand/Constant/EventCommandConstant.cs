@@ -19,6 +19,9 @@ namespace WodiLib.Event.EventCommand
             /// <summary>選択肢コード</summary>
             public static class ChoiceCode
             {
+                /// <summary>キャンセル</summary>
+                public static readonly byte Cancel = 0x00;
+
                 /// <summary>左キー</summary>
                 public static readonly byte LeftKey = 0x64;
 

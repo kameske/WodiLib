@@ -29,7 +29,7 @@ namespace WodiLib.Event.EventCommand
         public override byte StringVariableCount => 0x00;
 
         /// <inheritdoc />
-        public override int EventCommandCode => EventCommand.EventCommandCode.Blank;
+        public override EventCommandCode EventCommandCode => EventCommandCode.Blank;
 
         /// <inheritdoc />
         /// <summary>
@@ -41,7 +41,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override int GetNumberVariable(int index)
         {
-            if (index == 0) return EventCommandCode;
+            if (index == 0) return EventCommandCode.Code;
             throw new ArgumentOutOfRangeException(ErrorMessage.OutOfRange(nameof(index), 0, 0, index));
         }
 

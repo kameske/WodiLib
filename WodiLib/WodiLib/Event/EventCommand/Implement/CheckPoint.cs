@@ -23,7 +23,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override int EventCommandCode => EventCommand.EventCommandCode.CheckPoint;
+        public override EventCommandCode EventCommandCode => EventCommandCode.CheckPoint;
 
         /// <inheritdoc />
         public override byte NumberVariableCount
@@ -51,7 +51,7 @@ namespace WodiLib.Event.EventCommand
             switch (index)
             {
                 case 0:
-                    return EventCommandCode;
+                    return EventCommandCode.Code;
 
                 case 1:
                     return EventCommandConstant.CheckPoint.Type.Standard;

@@ -19,13 +19,13 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.Wait;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.Wait;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x01;
 
         /// <summary>待機時間</summary>
-        public int Frame
+        public CharaMoveCommandValue Frame
         {
             get => GetNumberValue(0);
             set => SetNumberValue(0, value);

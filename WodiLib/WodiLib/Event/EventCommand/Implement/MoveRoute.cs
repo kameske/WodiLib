@@ -23,7 +23,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override int EventCommandCode => EventCommand.EventCommandCode.MoveRoute;
+        public override EventCommandCode EventCommandCode => EventCommandCode.MoveRoute;
 
         /// <inheritdoc />
         public override bool HasActionEntry => true;
@@ -64,7 +64,7 @@ namespace WodiLib.Event.EventCommand
             switch (index)
             {
                 case 0:
-                    return EventCommandCode;
+                    return EventCommandCode.Code;
 
                 case 1:
                     return Target;

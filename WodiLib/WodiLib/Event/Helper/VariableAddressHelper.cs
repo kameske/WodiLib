@@ -61,9 +61,9 @@ namespace WodiLib.Event
             if (IsHeroPositionAddress(number)) return true;
             if (IsMemberPositionAddress(number)) return true;
             if (IsSystemStringVariableAddress(number)) return true;
-            if (IsUserDatabaseVariableAddress(number)) return true;
-            if (IsChangeableDatabaseVariableAddress(number)) return true;
-            if (IsSystemDatabaseVariableAddress(number)) return true;
+            if (IsUserDatabaseAddress(number)) return true;
+            if (IsChangeableDatabaseAddress(number)) return true;
+            if (IsSystemDatabaseAddress(number)) return true;
             return false;
         }
 
@@ -297,10 +297,10 @@ namespace WodiLib.Event
         ///     numberが1000000000～1099999999の場合、true。
         ///     それ以外の場合、false。
         /// </returns>
-        public static bool IsUserDatabaseVariableAddress(int number)
+        public static bool IsUserDatabaseAddress(int number)
         {
-            if (number < VariableAddressConstant.UserDatabaseVariableAddressMin) return false;
-            if (number > VariableAddressConstant.UserDatabaseVariableAddressMax) return false;
+            if (number < VariableAddressConstant.UserDatabaseAddressMin) return false;
+            if (number > VariableAddressConstant.UserDatabaseAddressMax) return false;
             return true;
         }
 
@@ -312,10 +312,10 @@ namespace WodiLib.Event
         ///     numberが1100000000～1199999999の場合、true。
         ///     それ以外の場合、false。
         /// </returns>
-        public static bool IsChangeableDatabaseVariableAddress(int number)
+        public static bool IsChangeableDatabaseAddress(int number)
         {
-            if (number < VariableAddressConstant.ChangeableDatabaseVariableAddressMin) return false;
-            if (number > VariableAddressConstant.ChangeableDatabaseVariableAddressMax) return false;
+            if (number < VariableAddressConstant.ChangeableDatabaseAddressMin) return false;
+            if (number > VariableAddressConstant.ChangeableDatabaseAddressMax) return false;
             return true;
         }
 
@@ -327,10 +327,10 @@ namespace WodiLib.Event
         ///     numberが1300000000～1399999999の場合、true。
         ///     それ以外の場合、false。
         /// </returns>
-        public static bool IsSystemDatabaseVariableAddress(int number)
+        public static bool IsSystemDatabaseAddress(int number)
         {
-            if (number < VariableAddressConstant.SystemDatabaseVariableAddressMin) return false;
-            if (number > VariableAddressConstant.SystemDatabaseVariableAddressMax) return false;
+            if (number < VariableAddressConstant.SystemDatabaseAddressMin) return false;
+            if (number > VariableAddressConstant.SystemDatabaseAddressMax) return false;
             return true;
         }
     }

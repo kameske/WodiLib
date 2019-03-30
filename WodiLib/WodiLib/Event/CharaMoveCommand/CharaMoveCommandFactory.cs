@@ -7,9 +7,9 @@
 // ========================================
 
 using System;
-using WodiLib.Event.CharaMoveCommand;
+using WodiLib.Sys;
 
-namespace WodiLib.Event
+namespace WodiLib.Event.CharaMoveCommand
 {
     /// <summary>
     /// キャラ動作指定コマンドFactory
@@ -19,11 +19,14 @@ namespace WodiLib.Event
         /// <summary>
         /// コード値から動作指定コマンドを返す。
         /// </summary>
-        /// <param name="code">コード値</param>
+        /// <param name="code">[NotNull] 動作指定コマンドコード</param>
         /// <returns>キャラ動作指定コマンドインスタンス</returns>
-        /// <exception cref="ArgumentException">コード値に対応する動作指定コマンドが存在しない場合</exception>
-        public static ICharaMoveCommand CreateRaw(byte code)
+        /// <exception cref="ArgumentNullException">codeがnullの場合</exception>
+        public static ICharaMoveCommand CreateRaw(CharaMoveCommandCode code)
         {
+            if(code==null) throw new ArgumentNullException(
+                ErrorMessage.NotNull(nameof(code)));
+
             if (code == CharaMoveCommandCode.MoveDown) return new MoveDown();
             if (code == CharaMoveCommandCode.MoveLeft) return new MoveLeft();
             if (code == CharaMoveCommandCode.MoveRight) return new MoveRight();
@@ -81,6 +84,8 @@ namespace WodiLib.Event
             if (code == CharaMoveCommandCode.ChangeHeight) return new ChangeHeight();
             if (code == CharaMoveCommandCode.PlaySE) return new PlaySE();
             if (code == CharaMoveCommandCode.Wait) return new WaitMoveCommand();
+
+            // 来ることはないはずだが念の為
             throw new ArgumentException();
         }
     }

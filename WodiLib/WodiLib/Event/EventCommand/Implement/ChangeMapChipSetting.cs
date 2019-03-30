@@ -29,7 +29,7 @@ namespace WodiLib.Event.EventCommand
         public override byte StringVariableCount => 0x00;
 
         /// <inheritdoc />
-        public override int EventCommandCode => EventCommand.EventCommandCode.ChangeMapChipSetting;
+        public override EventCommandCode EventCommandCode => EventCommandCode.ChangeMapChipSetting;
 
         /// <inheritdoc />
         /// <summary>
@@ -44,7 +44,7 @@ namespace WodiLib.Event.EventCommand
             switch (index)
             {
                 case 0:
-                    return EventCommandCode;
+                    return EventCommandCode.Code;
 
                 case 1:
                     return ChangeChipId;

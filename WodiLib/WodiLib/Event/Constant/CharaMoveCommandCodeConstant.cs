@@ -1,17 +1,20 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : CharaMoveCommandCode.cs
+// File Name    : CharaMoveCommandCodeConstant.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
 // ========================================
+
+using System;
 
 namespace WodiLib.Event
 {
     /// <summary>
     ///     動作指定コマンドコード
     /// </summary>
-    public static class CharaMoveCommandCode
+    [Obsolete]
+    public static class CharaMoveCommandCodeConstant
     {
         /// <summary>下に移動 </summary>
         public static readonly byte MoveDown = 0x00;

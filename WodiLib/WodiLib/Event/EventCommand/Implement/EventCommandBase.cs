@@ -29,7 +29,7 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         /// <summary>イベントコマンドコード</summary>
-        public abstract int EventCommandCode { get; }
+        public abstract EventCommandCode EventCommandCode { get; }
 
         /// <inheritdoc />
         /// <summary>インデントの深さ</summary>

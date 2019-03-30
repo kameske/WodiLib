@@ -19,20 +19,20 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.ApproachPosition;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.ApproachPosition;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x02;
 
         /// <summary>X座標</summary>
-        public int PositionX
+        public CharaMoveCommandValue PositionX
         {
             get => GetNumberValue(0);
             set => SetNumberValue(0, value);
         }
 
         /// <summary>Y座標</summary>
-        public int PositionY
+        public CharaMoveCommandValue PositionY
         {
             get => GetNumberValue(1);
             set => SetNumberValue(1, value);

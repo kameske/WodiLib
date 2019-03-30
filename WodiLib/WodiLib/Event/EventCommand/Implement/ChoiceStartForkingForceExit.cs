@@ -19,18 +19,10 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override int EventCommandCode => EventCommand.EventCommandCode.ChoiceStartForkingEtc;
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        public override EventCommandCode EventCommandCode => EventCommandCode.ChoiceStartForkingEtc;
 
         /// <inheritdoc />
         /// <summary>選択肢コード</summary>
-        protected override byte ChoiceCode
-        {
-            get => EventCommandConstant.ChoiceStartForkingEtc.ChoiceCode.ForceExit;
-            set { }
-        }
+        protected override byte ChoiceCode => EventCommandConstant.ChoiceStartForkingEtc.ChoiceCode.ForceExit;
     }
 }

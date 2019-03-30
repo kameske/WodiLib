@@ -19,20 +19,20 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.Jump;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.Jump;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x02;
 
         /// <summary>右</summary>
-        public int RightPoint
+        public CharaMoveCommandValue RightPoint
         {
             get => GetNumberValue(0);
             set => SetNumberValue(0, value);
         }
 
         /// <summary>下</summary>
-        public int DownPoint
+        public CharaMoveCommandValue DownPoint
         {
             get => GetNumberValue(1);
             set => SetNumberValue(1, value);

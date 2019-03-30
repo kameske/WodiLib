@@ -19,13 +19,13 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.ChangeGraphic;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.ChangeGraphic;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x01;
 
         /// <summary>画像ID</summary>
-        public int GraphicId
+        public CharaMoveCommandValue GraphicId
         {
             get => GetNumberValue(0);
             set => SetNumberValue(0, value);

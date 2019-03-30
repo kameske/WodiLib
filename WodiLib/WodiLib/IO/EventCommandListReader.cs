@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using WodiLib.Event;
+using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Event.EventCommand;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;

@@ -20,7 +20,7 @@ namespace WodiLib.Event.CharaMoveCommand
 
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.InvalidMoveAnimation;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.InvalidMoveAnimation;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x00;

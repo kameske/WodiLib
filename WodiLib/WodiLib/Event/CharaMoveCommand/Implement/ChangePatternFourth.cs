@@ -6,7 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using WodiLib.Event.EventCommand;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -23,7 +22,7 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.ChangePatternFourth;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.ChangePatternFourth;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x00;

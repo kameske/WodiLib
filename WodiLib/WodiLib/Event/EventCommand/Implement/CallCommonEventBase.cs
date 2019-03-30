@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Cmn;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -73,7 +74,7 @@ namespace WodiLib.Event.EventCommand
             switch (index)
             {
                 case 0:
-                    return EventCommandCode;
+                    return EventCommandCode.Code;
 
                 case 1:
                     if (!IsOrderByString) return EventIdOrName.ToInt();
@@ -81,8 +82,8 @@ namespace WodiLib.Event.EventCommand
 
                 case 2:
                     if (!IsOrderByString &&
-                        (EventIdHelper.IsMapEventId(EventIdOrName.ToInt())
-                         || VariableAddressHelper.IsVariableAddress(EventIdOrName.ToInt())))
+                        (EventIdOrName.ToInt().IsMapEventId()
+                         || EventIdOrName.ToInt().IsVariableAddress()))
                     {
                         // マップイベントID指定呼び出しの場合
                         return Page - 1;
@@ -157,8 +158,8 @@ namespace WodiLib.Event.EventCommand
 
                 case 2:
                     if (!IsOrderByString &&
-                        (EventIdHelper.IsMapEventId(EventIdOrName.ToInt())
-                         || VariableAddressHelper.IsVariableAddress(EventIdOrName.ToInt())))
+                        (EventIdOrName.ToInt().IsMapEventId()
+                         || EventIdOrName.ToInt().IsVariableAddress()))
                     {
                         // マップイベントの場合、ページ
                         Page = value + 1;

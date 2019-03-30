@@ -26,8 +26,8 @@ namespace WodiLib.Event.CharaMoveCommand
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>動作指定コマンドコード</summary>
-        public abstract byte CommandCode { get; }
+        /// <summary>動作指定コマンド種別</summary>
+        public abstract CharaMoveCommandCode CommandCode { get; }
 
         /// <summary>変数の数</summary>
         public abstract byte ValueLengthByte { get; }
@@ -47,7 +47,7 @@ namespace WodiLib.Event.CharaMoveCommand
         }
 
         /// <summary>変数リスト</summary>
-        protected int[] NumberValues { private get; set; }
+        protected CharaMoveCommandValue[] NumberValues { private get; set; }
 
         /// <summary>
         /// 数値変数の値を取得する。
@@ -55,7 +55,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <param name="index">[Range(0, 変数の数-1)] 変数インデックス</param>
         /// <returns>取得した数値</returns>
         /// <exception cref="ArgumentOutOfRangeException">インデックスが指定範囲以外の場合</exception>
-        public int GetNumberValue(int index)
+        public CharaMoveCommandValue GetNumberValue(int index)
         {
             if (index < 0 || ValueLength <= index)
                 throw new ArgumentOutOfRangeException($"存在しない変数を取得しようとしました。index: {index} maxLength: {ValueLength} ");
@@ -68,7 +68,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <param name="index">[Range(0, 変数の数-1)] 変数インデックス</param>
         /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">インデックスが指定範囲以外の場合</exception>
-        public void SetNumberValue(int index, int value)
+        public void SetNumberValue(int index, CharaMoveCommandValue value)
         {
             if (index < 0 || ValueLength <= index)
                 throw new ArgumentOutOfRangeException($"存在しない変数を取得しようとしました。index: {index} maxLength: {ValueLength} ");
@@ -92,7 +92,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// </summary>
         protected CharaMoveCommandBase()
         {
-            NumberValues = new int[ValueLength];
+            NumberValues = new CharaMoveCommandValue[ValueLength];
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -102,7 +102,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <inheritdoc />
         public byte[] ToBinary()
         {
-            var result = new List<byte> {CommandCode, ValueLengthByte};
+            var result = new List<byte> {CommandCode.Code, ValueLengthByte};
             // 動作コマンドコード
             // 変数の数
             // 変数

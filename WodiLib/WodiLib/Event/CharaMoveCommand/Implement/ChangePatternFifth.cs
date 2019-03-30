@@ -22,7 +22,7 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte CommandCode => CharaMoveCommandCode.ChangePatternFifth;
+        public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.ChangePatternFifth;
 
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x00;

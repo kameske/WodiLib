@@ -23,7 +23,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override int EventCommandCode => EventCommand.EventCommandCode.ChangeScreenColor;
+        public override EventCommandCode EventCommandCode => EventCommandCode.ChangeScreenColor;
 
         /// <inheritdoc />
         public override byte NumberVariableCount
@@ -58,7 +58,7 @@ namespace WodiLib.Event.EventCommand
             switch (index)
             {
                 case 0:
-                    return EventCommandCode;
+                    return EventCommandCode.Code;
 
                 case 1:
                     if (IsNeedExpandNumberArg())

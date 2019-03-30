@@ -24,7 +24,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override int EventCommandCode => EventCommand.EventCommandCode.DeviceInputControl;
+        public override EventCommandCode EventCommandCode => EventCommandCode.DeviceInputControl;
 
         /// <inheritdoc />
         public override byte NumberVariableCount =>
@@ -46,7 +46,7 @@ namespace WodiLib.Event.EventCommand
             switch (index)
             {
                 case 0:
-                    return EventCommandCode;
+                    return EventCommandCode.Code;
 
                 case 1:
                     var byte3 = EventCommandConstant.KeyInputControl.TargetCode.Device;

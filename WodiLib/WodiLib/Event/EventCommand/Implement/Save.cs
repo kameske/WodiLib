@@ -23,7 +23,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override int EventCommandCode => EventCommand.EventCommandCode.Save;
+        public override EventCommandCode EventCommandCode => EventCommandCode.Save;
 
         /// <inheritdoc />
         public override byte NumberVariableCount => 0x03;
@@ -44,7 +44,7 @@ namespace WodiLib.Event.EventCommand
             switch (index)
             {
                 case 0:
-                    return EventCommandCode;
+                    return EventCommandCode.Code;
 
                 case 1:
                     return EventCommandConstant.SaveLoad.ExecCode.Save;

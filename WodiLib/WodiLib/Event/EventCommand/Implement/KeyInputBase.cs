@@ -29,7 +29,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public sealed override int EventCommandCode => EventCommand.EventCommandCode.KeyInput;
+        public sealed override EventCommandCode EventCommandCode => EventCommandCode.KeyInput;
 
         /// <inheritdoc />
         /// <summary>
