@@ -31,24 +31,32 @@ namespace WodiLib.Event
         public static readonly AnimateSpeed Long;
 
         /// <summary>5:超大間隔</summary>
+        public static readonly AnimateSpeed Longer;
+
+        /// <summary>6:頻度遅</summary>
         public static readonly AnimateSpeed Longest;
 
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>マップイベント移動ルートに対する使用可能フラグ</summary>
+        public bool CanSetForMapEventMoveRoute { get; }
+
         static AnimateSpeed()
         {
-            Frame = new AnimateSpeed("Frame", 0x00);
-            Shortest = new AnimateSpeed("Shortest", 0x01);
-            Short = new AnimateSpeed("Short", 0x02);
-            Middle = new AnimateSpeed("Middle", 0x03);
-            Long = new AnimateSpeed("Long", 0x04);
-            Longest = new AnimateSpeed("Longest", 0x05);
+            Frame = new AnimateSpeed("Frame", 0x00, true);
+            Shortest = new AnimateSpeed("Shortest", 0x01, true);
+            Short = new AnimateSpeed("Short", 0x02, true);
+            Middle = new AnimateSpeed("Middle", 0x03, true);
+            Long = new AnimateSpeed("Long", 0x04, true);
+            Longer = new AnimateSpeed("Longer", 0x05, true);
+            Longest = new AnimateSpeed("Longest", 0x06, false);
         }
 
-        private AnimateSpeed(string id, byte code) : base(id)
+        private AnimateSpeed(string id, byte code, bool canSetForMapEventMoveRoute) : base(id)
         {
             Code = code;
+            CanSetForMapEventMoveRoute = canSetForMapEventMoveRoute;
         }
 
         /// <summary>
