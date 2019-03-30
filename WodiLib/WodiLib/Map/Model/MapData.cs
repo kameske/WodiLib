@@ -18,43 +18,27 @@ namespace WodiLib.Map
     public class MapData
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Constant
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>マップサイズ横最小値</summary>
-        public static readonly int MapWidthMin = 20;
-
-        /// <summary>マップサイズ横最大値</summary>
-        public static readonly int MapWidthMax = 999999;
-
-        /// <summary>マップサイズ縦最小値</summary>
-        public static readonly int MapHeightMin = 15;
-
-        /// <summary>マップサイズ縦最大値</summary>
-        public static readonly int MapHeightMax = 999999;
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private string memo = "";
+        private MapDataMemo memo = (MapDataMemo) "";
 
         /// <summary>[NotNull] メモ</summary>
         /// <exception cref="PropertyNullException">nullをセットしようとした場合</exception>
-        public string Memo
+        public MapDataMemo Memo
         {
             get => memo;
             set => memo = value ?? throw new PropertyNullException(ErrorMessage.NotNull(nameof(Memo)));
         }
 
         /// <summary>タイルセットID</summary>
-        public int TileSetId { get; set; }
+        public TileSetId TileSetId { get; set; }
 
         /// <summary>マップサイズ横</summary>
-        public int MapSizeWidth { get; set; }
+        public MapSizeWidth MapSizeWidth { get; set; }
 
         /// <summary>マップサイズ縦</summary>
-        public int MapSizeHeight { get; set; }
+        public MapSizeHeight MapSizeHeight { get; set; }
 
         private Layer layer1 = new Layer();
 
@@ -182,13 +166,13 @@ namespace WodiLib.Map
             // ヘッダ
             result.AddRange(HeaderBytes);
             // メモ
-            result.AddRange(new WoditorString(Memo).StringByte);
+            result.AddRange(Memo.ToWoditorStringBytes());
             // タイルセットID
-            result.AddRange(TileSetId.ToWoditorIntBytes());
+            result.AddRange(TileSetId.ToBytes(Endian.Woditor));
             // マップサイズ横
-            result.AddRange(MapSizeWidth.ToWoditorIntBytes());
+            result.AddRange(MapSizeWidth.ToBytes(Endian.Woditor));
             // マップサイズ縦
-            result.AddRange(MapSizeHeight.ToWoditorIntBytes());
+            result.AddRange(MapSizeHeight.ToBytes(Endian.Woditor));
             // イベント数
             result.AddRange(MapEvents.Count.ToBytes(Endian.Woditor));
             // レイヤー

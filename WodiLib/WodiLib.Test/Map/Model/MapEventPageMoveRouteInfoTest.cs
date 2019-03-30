@@ -47,7 +47,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                instance.MoveSpeed = isNull ? null : MoveSpeed.Fast;
+                instance.MoveSpeed = isNull ? null : MoveSpeed.Slow;
             }
             catch (Exception ex)
             {

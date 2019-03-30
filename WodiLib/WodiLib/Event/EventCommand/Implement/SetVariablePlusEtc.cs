@@ -109,14 +109,17 @@ namespace WodiLib.Event.EventCommand
         {
             if (InfoType == NumberPlusEtcInfoType.ActiveEventId)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusEtc)}.{nameof(InfoType)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetVariablePlusEtc)}.{nameof(InfoType)}",
                     $"{NumberPlusEtcInfoType.ActiveEventId}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (InfoType == NumberPlusEtcInfoType.ActiveEventLine)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusEtc)}.{nameof(InfoType)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetVariablePlusEtc)}.{nameof(InfoType)}",
                     $"{NumberPlusEtcInfoType.ActiveEventLine}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));

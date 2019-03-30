@@ -264,6 +264,5 @@ namespace WodiLib.Event.CharaMoveCommand
         {
             return _FindFirst(x => x.Code == code);
         }
-
     }
 }

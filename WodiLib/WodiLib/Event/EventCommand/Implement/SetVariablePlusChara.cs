@@ -111,14 +111,17 @@ namespace WodiLib.Event.EventCommand
         {
             if (InfoType == NumberPlusCharaInfoType.AnimationPattern)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusChara)}.{nameof(InfoType)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetVariablePlusChara)}.{nameof(InfoType)}",
                     $"{NumberPlusCharaInfoType.AnimationPattern}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_10));
             }
+
             if (InfoType == NumberPlusCharaInfoType.IsMoving)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusChara)}.{nameof(InfoType)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetVariablePlusChara)}.{nameof(InfoType)}",
                     $"{NumberPlusCharaInfoType.IsMoving}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_10));

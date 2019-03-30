@@ -692,7 +692,8 @@ namespace WodiLib.Event.EventCommand
         {
             if (_IsFreePosition)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(PictureDrawBase)}.{nameof(_IsFreePosition)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(PictureDrawBase)}.{nameof(_IsFreePosition)}",
                     $"{true}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));

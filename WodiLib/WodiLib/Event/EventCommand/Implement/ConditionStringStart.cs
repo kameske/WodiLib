@@ -315,12 +315,13 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         private void OutputVersionWarningLogIfNeed_UnderVer2_00()
         {
-            for (var i=0; i<conditionList.ConditionValue; i++ )
+            for (var i = 0; i < conditionList.ConditionValue; i++)
             {
                 var con = conditionList.Get(i);
                 if (con.Condition == StringConditionalOperator.StartWith)
                 {
-                    Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(ConditionStringStart)}.{nameof(conditionList)}[{i}]",
+                    Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                        $"{nameof(ConditionStringStart)}.{nameof(conditionList)}[{i}]",
                         $"{StringConditionalOperator.StartWith}",
                         VersionConfig.GetConfigWoditorVersion(),
                         WoditorVersion.Ver2_00));

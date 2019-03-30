@@ -29,12 +29,11 @@ namespace WodiLib.Test.Map
             MapFileTestItemGenerator.OutputMapFile();
         }
 
-        [TestCase("Test", false)]
-        [TestCase("", false)]
-        [TestCase(null, true)]
-        public static void SetMemoTest(string value, bool isError)
+        [Test]
+        public static void SetMemoTest()
         {
             var instance = new MapData();
+            var value = (MapDataMemo) "test";
             var errorOccured = false;
             try
             {
@@ -46,8 +45,8 @@ namespace WodiLib.Test.Map
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
         }
 
         [TestCase(-1, true)]

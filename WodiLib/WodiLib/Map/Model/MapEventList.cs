@@ -18,12 +18,6 @@ namespace WodiLib.Map
     /// </summary>
     public class MapEventList
     {
-        /// <summary>イベントID最大値</summary>
-        public static readonly int EventIdMax = 9999;
-
-        /// <summary>イベントID最小値</summary>
-        public static readonly int EventIdMin = 0;
-
         /// <summary>ページ数</summary>
         public int Count => eventList.Count;
 
@@ -102,15 +96,10 @@ namespace WodiLib.Map
         /// <summary>
         /// マップイベントを除去する。
         /// </summary>
-        /// <param name="mapEventId">[Range(0, 9999)] 削除マップイベントID</param>
-        /// <exception cref="ArgumentOutOfRangeException">mapEventIdが指定範囲以外の場合</exception>
+        /// <param name="mapEventId">削除マップイベントID</param>
         /// <exception cref="ArgumentException">指定されたマップイベントIDが存在しない場合</exception>
-        public void Remove(int mapEventId)
+        public void Remove(MapEventId mapEventId)
         {
-            if (mapEventId < EventIdMin || EventIdMax < mapEventId)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(mapEventId), EventIdMin, EventIdMax, mapEventId));
-
             var removeItem = eventList.FirstOrDefault(x => x.MapEventId == mapEventId);
 
             if (removeItem == null)
@@ -124,30 +113,26 @@ namespace WodiLib.Map
         /// <summary>
         /// マップイベントIDからマップイベントを取得する。
         /// </summary>
-        /// <param name="mapEventId">[Range(0, 9999)] インデックス</param>
+        /// <param name="mapEventId">マップイベントID</param>
         /// <returns>[Nullable] マップイベント</returns>
-        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
-        public MapEvent GetForMapEventId(int mapEventId)
+        public MapEvent GetForMapEventId(MapEventId mapEventId)
         {
-            if (mapEventId < EventIdMin || EventIdMax <= mapEventId)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(mapEventId), EventIdMin, EventIdMax, mapEventId));
-
             return eventList.FirstOrDefault(x => x.MapEventId == mapEventId);
         }
 
         /// <summary>
         /// 配列インデックスからマップイベントを取得する。
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
+        /// <param name="index">[Range(0, マップイベント数-1)] インデックス</param>
+        /// <returns>マップイベント</returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public MapEvent GetForIndex(int index)
         {
             const int min = 0;
             var max = eventList.Count - 1;
-            if(index < min || max <index) throw new ArgumentOutOfRangeException(
-                ErrorMessage.OutOfRange(nameof(index), min, max, index));
+            if (index < min || max < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), min, max, index));
             return eventList[index];
         }
 
@@ -165,11 +150,8 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="mapEventId">マップイベントID</param>
         /// <returns>イベント保持フラグ</returns>
-        public bool ContainsEventId(int mapEventId)
+        public bool ContainsEventId(MapEventId mapEventId)
         {
-            if (mapEventId < EventIdMin || EventIdMax < mapEventId)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(mapEventId), EventIdMin, EventIdMax, mapEventId));
             var searchEvent = eventList.FirstOrDefault(x => x.MapEventId == mapEventId);
             return searchEvent != null;
         }
@@ -177,7 +159,7 @@ namespace WodiLib.Map
         /// <summary>
         /// マップイベントIDの重複をチェックする。
         /// </summary>
-        /// <param name="mapEvents"></param>
+        /// <param name="mapEvents">マップイベントリスト</param>
         /// <returns>重複がない場合true</returns>
         private static bool ValidateDuplicateEventId(IEnumerable<MapEvent> mapEvents)
         {

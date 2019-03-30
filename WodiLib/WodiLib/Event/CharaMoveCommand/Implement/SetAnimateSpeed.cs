@@ -35,12 +35,13 @@ namespace WodiLib.Event.CharaMoveCommand
             get => animateSpeed;
             set
             {
-                if(value == null) throw new PropertyNullException(
-                    ErrorMessage.NotNull(nameof(Value)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(Value)));
 
                 animateSpeed = value;
-                var val = (int)animateSpeed.Code;
-                SetNumberValue(0, (CharaMoveCommandValue)val);
+                var val = (int) animateSpeed.Code;
+                SetNumberValue(0, (CharaMoveCommandValue) val);
             }
         }
 
@@ -50,8 +51,8 @@ namespace WodiLib.Event.CharaMoveCommand
         public SetAnimateSpeed()
         {
             // 引数0の初期値設定
-            var val = (int)animateSpeed.Code;
-            SetNumberValue(0, (CharaMoveCommandValue)val);
+            var val = (int) animateSpeed.Code;
+            SetNumberValue(0, (CharaMoveCommandValue) val);
         }
     }
 }

@@ -216,47 +216,57 @@ namespace WodiLib.Event.EventCommand
         {
             if (EffectType == PictureEffectType.SwitchFlicker)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(PictureEffect)}.{nameof(EffectType)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(PictureEffect)}.{nameof(EffectType)}",
                     $"{PictureEffectType.SwitchFlicker}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (EffectType == PictureEffectType.SwitchAutoFlush)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(PictureEffect)}.{nameof(EffectType)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(PictureEffect)}.{nameof(EffectType)}",
                     $"{PictureEffectType.SwitchAutoFlush}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (EffectType == PictureEffectType.AutoEnlarge)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(PictureEffect)}.{nameof(EffectType)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(PictureEffect)}.{nameof(EffectType)}",
                     $"{PictureEffectType.AutoEnlarge}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (EffectType == PictureEffectType.AutoPatternSwitchRoundTrip)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(PictureEffect)}.{nameof(EffectType)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(PictureEffect)}.{nameof(EffectType)}",
                     $"{PictureEffectType.AutoPatternSwitchRoundTrip}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (EffectType == PictureEffectType.AutoPatternSwitchOnce)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(PictureEffect)}.{nameof(EffectType)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(PictureEffect)}.{nameof(EffectType)}",
                     $"{PictureEffectType.AutoPatternSwitchOnce}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (EffectType == PictureEffectType.AutoPatternSwitchLoop)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(PictureEffect)}.{nameof(EffectType)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(PictureEffect)}.{nameof(EffectType)}",
                     $"{PictureEffectType.AutoPatternSwitchLoop}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
         }
-
     }
 }

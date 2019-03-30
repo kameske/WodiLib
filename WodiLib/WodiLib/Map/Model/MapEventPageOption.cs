@@ -14,7 +14,7 @@ namespace WodiLib.Map
     public class MapEventPageOption
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Constant
+        //     Public Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>待機時アニメONフラグ</summary>
@@ -38,6 +38,10 @@ namespace WodiLib.Map
         /// <summary>半歩上に設置ONフラグ</summary>
         public static readonly byte FlgPlaceHalfStepUp = 0x40;
 
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /// <summary>待機時アニメフラグ</summary>
         public bool IsWaitAnimationOn { get; set; }
 
@@ -58,6 +62,10 @@ namespace WodiLib.Map
 
         /// <summary>半歩上に設置フラグ</summary>
         public bool IsPlaceHalfStepUp { get; set; }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         /// 待機時アニメ～半歩上設置フラグをセットする。
@@ -104,6 +112,10 @@ namespace WodiLib.Map
             if (IsPlaceHalfStepUp) result += FlgPlaceHalfStepUp;
             return result;
         }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Common
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         /// バイナリ変換する。

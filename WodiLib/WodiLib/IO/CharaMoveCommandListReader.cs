@@ -82,6 +82,7 @@ namespace WodiLib.IO
                     $"存在しない動作指定コマンドコードが読み込まれました。" +
                     $"（コマンドコード値：{charaMoveCode}, offset：{status.Offset}");
             }
+
             var charaMoveCommand = CharaMoveCommandFactory.CreateRaw(commandCode);
             status.IncreaseByteOffset();
 
@@ -99,7 +100,7 @@ namespace WodiLib.IO
             for (var i = 0; i < varLength; i++)
             {
                 var value = status.ReadInt();
-                charaMoveCommand.SetNumberValue(i, (CharaMoveCommandValue)value);
+                charaMoveCommand.SetNumberValue(i, (CharaMoveCommandValue) value);
                 status.IncreaseIntOffset();
 
                 Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),

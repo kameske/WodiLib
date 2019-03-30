@@ -197,13 +197,15 @@ namespace WodiLib.Test.Map
             for (var i = 0; i < pages.Count; i++)
             {
                 pages[i].GraphicInfo.IsGraphicTileChip = true;
-                pages[i].GraphicInfo.GraphicTileId = i;
+                pages[i].GraphicInfo.GraphicTileId = (MapEventTileId) i;
             }
 
             var instance = new MapEventPageList(pages);
 
+            var graphicTileId = (MapEventTileId) 99;
+
             var errorOccured = false;
-            var removeTileId = -1;
+            var removeTileId = MapEventTileId.NotUse;
             var isSuccess = false;
             try
             {
@@ -213,7 +215,7 @@ namespace WodiLib.Test.Map
                     // 除去項目 = 追加していないインスタンス
                     removeItem = new MapEventPage
                     {
-                        GraphicInfo = {GraphicTileId = 99}
+                        GraphicInfo = {GraphicTileId = graphicTileId}
                     };
                 }
                 else if (removeNum >= 0)
@@ -233,17 +235,16 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (!isError)
+            if (errorOccured) return;
+            
+            // 成否フラグが正しいこと
+            Assert.AreEqual(isSuccess, result);
+            // 正しく除去されていること
+            Assert.AreEqual(instance.Count, length - 1);
+            for (var i = 0; i < instance.Count; i++)
             {
-                // 成否フラグが正しいこと
-                Assert.AreEqual(isSuccess, result);
-                // 正しく除去されていること
-                Assert.AreEqual(instance.Count, length - 1);
-                for (var i = 0; i < instance.Count; i++)
-                {
-                    Assert.AreNotEqual(instance.Get(i).GraphicInfo.GraphicTileId,
-                        removeTileId);
-                }
+                Assert.AreNotEqual(instance.Get(i).GraphicInfo.GraphicTileId,
+                    removeTileId);
             }
         }
 
@@ -339,7 +340,7 @@ namespace WodiLib.Test.Map
             for (var i = 0; i < pages.Count; i++)
             {
                 pages[i].GraphicInfo.IsGraphicTileChip = true;
-                pages[i].GraphicInfo.GraphicTileId = i;
+                pages[i].GraphicInfo.GraphicTileId = (MapEventTileId) i;
             }
 
             var instance = new MapEventPageList(pages);
@@ -363,7 +364,7 @@ namespace WodiLib.Test.Map
             {
                 // 取得した項目が正しいこと
                 Assert.NotNull(getResult);
-                Assert.AreEqual(getResult.GraphicInfo.GraphicTileId, index);
+                Assert.AreEqual((int) getResult.GraphicInfo.GraphicTileId, index);
             }
         }
 
@@ -423,7 +424,7 @@ namespace WodiLib.Test.Map
             for (var i = 0; i < pages.Count; i++)
             {
                 pages[i].GraphicInfo.IsGraphicTileChip = true;
-                pages[i].GraphicInfo.GraphicTileId = i;
+                pages[i].GraphicInfo.GraphicTileId = (MapEventTileId) i;
             }
 
             var instance = new MapEventPageList(pages);

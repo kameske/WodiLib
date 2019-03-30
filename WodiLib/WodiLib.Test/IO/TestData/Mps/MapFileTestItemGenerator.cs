@@ -25,25 +25,25 @@ namespace WodiLib.Test.IO
         public static MapData GenerateMap023Data()
         {
             // マップ情報
-            const string memo = "なし";
-            const int tileSetId = 1;
-            const int mapSizeWidth = 22;
-            const int mapSizeHeight = 20;
+            var memo = (MapDataMemo) "なし";
+            var tileSetId =  1;
+            var mapSizeWidth =  22;
+            var mapSizeHeight =  20;
 
             return new MapData
             {
                 Memo = memo,
-                TileSetId = tileSetId,
-                MapSizeWidth = mapSizeWidth,
-                MapSizeHeight = mapSizeHeight,
+                TileSetId = (TileSetId) tileSetId,
+                MapSizeWidth = (MapSizeWidth) mapSizeWidth,
+                MapSizeHeight = (MapSizeHeight) mapSizeHeight,
 
                 // レイヤー1
-                Layer1 = ((Func<Layer>)(() =>
+                Layer1 = ((Func<Layer>) (() =>
                 {
                     var chips = new List<IEnumerable<MapChip>>();
-                    for (var i = 0; i < mapSizeWidth; i++)
+                    for (var i = 0; i < (int) mapSizeWidth; i++)
                     {
-                        chips.Add(((Func<List<MapChip>>)(() =>
+                        chips.Add(((Func<List<MapChip>>) (() =>
                         {
                             var lineChips = new List<MapChip>();
                             lineChips.Add((MapChip) 0);
@@ -69,7 +69,7 @@ namespace WodiLib.Test.IO
                 }))(),
 
                 // レイヤー2
-                Layer2 = ((Func<Layer>)(() =>
+                Layer2 = ((Func<Layer>) (() =>
                 {
                     var layer = new Layer();
                     layer.SetChips(new List<IEnumerable<MapChip>>
@@ -227,7 +227,7 @@ namespace WodiLib.Test.IO
                 }))(),
 
                 // レイヤー3
-                Layer3 = GenerateEmptyLayer(mapSizeWidth, mapSizeHeight),
+                Layer3 = GenerateEmptyLayer( mapSizeWidth,  mapSizeHeight),
 
                 // マップイベント
                 MapEvents = new MapEventList(new List<MapEvent>
@@ -235,10 +235,9 @@ namespace WodiLib.Test.IO
                     // マップイベント00
                     new MapEvent
                     {
-                        EventName = "マップイベント",
-                        MapEventId = 0,
-                        PositionX = 1,
-                        PositionY = 1,
+                        EventName = (MapEventName) "マップイベント",
+                        MapEventId = (MapEventId) 0,
+                        Position = (Position) (1, 1),
                         MapEventPageList = new MapEventPageList(new List<MapEventPage>
                         {
                             // マップイベント00 - ページ1
@@ -247,8 +246,8 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "CharaChip/[Animal]Chicken.png",
-                                    CharaChipOpacity = 255,
+                                    CharaChipFileName = (CharaChipFileName) "CharaChip/[Animal]Chicken.png",
+                                    CharaChipOpacity =  (MapEventOpacity) 255,
                                     CharaChipDrawType = PictureDrawType.Normal
                                 },
                                 BootInfo = new MapEventPageBootInfo
@@ -257,23 +256,23 @@ namespace WodiLib.Test.IO
                                     MapEventBootCondition1 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = 1100000,
+                                        LeftSide = (VariableAddress) 1100000,
                                         Operation = CriteriaOperator.Equal,
-                                        RightSide = 22
+                                        RightSide = (ConditionRight) 22
                                     },
                                     MapEventBootCondition2 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = 1100003,
+                                        LeftSide = (VariableAddress) 1100003,
                                         Operation = CriteriaOperator.Not,
-                                        RightSide = 13002
+                                        RightSide = (ConditionRight) 13002
                                     },
                                     MapEventBootCondition3 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = 2200000,
+                                        LeftSide = (VariableAddress) 2200000,
                                         Operation = CriteriaOperator.Greater,
-                                        RightSide = -35
+                                        RightSide = (ConditionRight) (-35)
                                     },
                                     MapEventBootCondition4 = new MapEventBootCondition()
                                 },
@@ -295,9 +294,8 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = true
                                 },
-                                RangeWidth = 4,
-                                RangeHeight = 2,
-                                ShadowGraphicId = 1,
+                                HitExtendRange = (HitExtendRange) (4, 2),
+                                ShadowGraphicId = (ShadowGraphicId) 1,
                                 // イベントコマンド
                                 EventCommands = new EventCommandList(new List<IEventCommand>
                                 {
@@ -321,8 +319,8 @@ namespace WodiLib.Test.IO
                                         Text = "デバッグ文\r\n\\cdb[0:1:2]",
                                         Indent = 0
                                     },
-                                    new ClearDebugText { Indent = 0 },
-                                    new StopForceMessage { Indent = 0 },
+                                    new ClearDebugText {Indent = 0},
+                                    new StopForceMessage {Indent = 0},
                                     new ChoiceStart
                                     {
                                         CancelForkIndex = ChoiceCancelForkType.Case5,
@@ -647,10 +645,10 @@ namespace WodiLib.Test.IO
         {
             return new MapData
             {
-                Memo = "なし",
-                TileSetId = 0,
-                MapSizeWidth = 20,
-                MapSizeHeight = 15,
+                Memo = (MapDataMemo) "なし",
+                TileSetId = (TileSetId) 0,
+                MapSizeWidth = (MapSizeWidth) 20,
+                MapSizeHeight = (MapSizeHeight) 15,
                 Layer1 = GenerateEmptyLayer(20, 15),
                 Layer2 = GenerateEmptyLayer(20, 15),
                 Layer3 = GenerateEmptyLayer(20, 15),
@@ -658,10 +656,9 @@ namespace WodiLib.Test.IO
                 {
                     new MapEvent
                     {
-                        EventName = "テストイベント1",
-                        MapEventId = 0,
-                        PositionX = 3,
-                        PositionY = 1,
+                        EventName = (MapEventName) "テストイベント1",
+                        MapEventId = (MapEventId) 0,
+                        Position = (Position) (3, 1),
                         MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
@@ -669,9 +666,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "",
+                                    CharaChipFileName = (CharaChipFileName) "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = 255,
+                                    CharaChipOpacity =  (MapEventOpacity) 255,
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -679,29 +676,29 @@ namespace WodiLib.Test.IO
                                     MapEventBootCondition1 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = 1100001,
-                                        RightSide = 10,
+                                        LeftSide = (VariableAddress) 1100001,
+                                        RightSide = (ConditionRight) 10,
                                         Operation = CriteriaOperator.Above
                                     },
                                     MapEventBootCondition2 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = 1100002,
-                                        RightSide = 111,
+                                        LeftSide = (VariableAddress) 1100002,
+                                        RightSide = (ConditionRight) 111,
                                         Operation = CriteriaOperator.Greater
                                     },
                                     MapEventBootCondition3 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = 2000000,
-                                        RightSide = 30,
+                                        LeftSide = (VariableAddress) 2000000,
+                                        RightSide = (ConditionRight) 30,
                                         Operation = CriteriaOperator.Less
                                     },
                                     MapEventBootCondition4 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = 2000001,
-                                        RightSide = 220,
+                                        LeftSide = (VariableAddress) 2000001,
+                                        RightSide = (ConditionRight) 220,
                                         Operation = CriteriaOperator.Not
                                     },
                                 },
@@ -722,14 +719,16 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false,
                                 },
-                                RangeWidth = 1,
-                                RangeHeight = 3,
-                                ShadowGraphicId = 2,
-                                EventCommands = new EventCommandList(new []
+                                HitExtendRange = (HitExtendRange) (1, 3),
+                                ShadowGraphicId = (ShadowGraphicId) 2,
+                                EventCommands = new EventCommandList(new[]
                                 {
-                                    EventCommandFactory.CreateCommandString(@"[121][4,0]<0>(1000000,1025000,2000000,68)()"),
-                                    EventCommandFactory.CreateCommandString(@"[121][7,0]<0>(1100000000,1100006,2000000,4409,3,2,10)()"),
-                                    EventCommandFactory.CreateCommandString(@"[121][4,0]<0>(2000003,1100006,2000000,8778)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[121][4,0]<0>(1000000,1025000,2000000,68)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[121][7,0]<0>(1100000000,1100006,2000000,4409,3,2,10)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[121][4,0]<0>(2000003,1100006,2000000,8778)()"),
                                     EventCommandFactory.CreateCommandString(@"[121][4,0]<0>(2000003,30,400,17154)()"),
                                     EventCommandFactory.CreateCommandString(@"[121][5,0]<0>(2000004,30,400,87057,3)()"),
                                     EventCommandFactory.CreateCommandString(@"[121][4,0]<0>(2000004,30,400,25944)()"),
@@ -739,30 +738,54 @@ namespace WodiLib.Test.IO
                                     EventCommandFactory.CreateCommandString(@"[121][4,0]<0>(2000004,30,40,63744)()"),
                                     EventCommandFactory.CreateCommandString(@"[121][4,0]<0>(2000004,30,40,2560)()"),
                                     EventCommandFactory.CreateCommandString(@"[121][4,0]<0>(2000004,30,40,2816)()"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(3,4,5,0,220)("""","""","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(3,4,1,262160,220)("""","""","""",""メンバー1"")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(3,4,2000000,33,220)("""","""","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(3,0,1,131120,4)("""","""",""メイン設定"","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(3,1100006,2,64,1100001)("""","""","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(3,5,2,65617,1100000)("""",""パーティー情報"","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(1100002,5,2,96,1100000)("""","""","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(3,5,2,112,2700000)("""","""","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(3,5,-2,112,0)("""","""","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(1,-2,0,65648,0)("""",""┣ 技能習得Lv"","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(1,3,6,4096,1100000)("""","""","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(3,2,0,266241,1100001)("""","""","""",""所持金"")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(1,0,-1,4096,1100001)("""","""","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(1,-3,2,4096,1100001)("""","""","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(2,-3,0,266240,1100001)("""","""","""",""\udb[8:0]の残り歩数"")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(3,0,-3,200704,1100001)("""",""パーティー情報"",""メイン設定"","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(6,-1,0,69632,1100001)("""",""┗所持防具リスト"","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(2,0,-3,4096,1100001)("""","""","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(1,-3,-3,4096,1100001)("""","""","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(3,-3,-3,69632,1100001)("""",""パーティー情報"","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(2,1,0,332032,1100001)("""",""BGSリスト"","""",""ファイル名"")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(1,1,-3,135424,1100001)("""","""","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(2,-1,0,4608,1100001)("""","""","""","""")"),
-                                    EventCommandFactory.CreateCommandString(@"[250][5,4]<0>(3,2000002,2,332288,1100001)("""",""UDB3"","""",""項目"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(3,4,5,0,220)("""","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(3,4,1,262160,220)("""","""","""",""メンバー1"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(3,4,2000000,33,220)("""","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(3,0,1,131120,4)("""","""",""メイン設定"","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(3,1100006,2,64,1100001)("""","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(3,5,2,65617,1100000)("""",""パーティー情報"","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(1100002,5,2,96,1100000)("""","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(3,5,2,112,2700000)("""","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(3,5,-2,112,0)("""","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(1,-2,0,65648,0)("""",""┣ 技能習得Lv"","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(1,3,6,4096,1100000)("""","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(3,2,0,266241,1100001)("""","""","""",""所持金"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(1,0,-1,4096,1100001)("""","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(1,-3,2,4096,1100001)("""","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(2,-3,0,266240,1100001)("""","""","""",""\udb[8:0]の残り歩数"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(3,0,-3,200704,1100001)("""",""パーティー情報"",""メイン設定"","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(6,-1,0,69632,1100001)("""",""┗所持防具リスト"","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(2,0,-3,4096,1100001)("""","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(1,-3,-3,4096,1100001)("""","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(3,-3,-3,69632,1100001)("""",""パーティー情報"","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(2,1,0,332032,1100001)("""",""BGSリスト"","""",""ファイル名"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(1,1,-3,135424,1100001)("""","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(2,-1,0,4608,1100001)("""","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[250][5,4]<0>(3,2000002,2,332288,1100001)("""",""UDB3"","""",""項目"")"),
                                     EventCommandFactory.CreateCommandString(@"[122][2,1]<0>(9900000,0)(""文字列入力"")"),
                                     EventCommandFactory.CreateCommandString(@"[122][3,0]<0>(2000002,273,9900000)()"),
                                     EventCommandFactory.CreateCommandString(@"[122][3,0]<0>(9900002,4611,15)()"),
@@ -772,7 +795,8 @@ namespace WodiLib.Test.IO
                                     EventCommandFactory.CreateCommandString(@"[122][3,0]<0>(3000002,1537,9900000)()"),
                                     EventCommandFactory.CreateCommandString(@"[122][3,0]<0>(3000002,1793,9900000)()"),
                                     EventCommandFactory.CreateCommandString(@"[122][3,0]<0>(3000002,2049,9900000)()"),
-                                    EventCommandFactory.CreateCommandString(@"[122][2,2]<0>(3000002,2304)(""文字列入力"",""置換先"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[122][2,2]<0>(3000002,2304)(""文字列入力"",""置換先"")"),
                                     EventCommandFactory.CreateCommandString(@"[122][2,1]<0>(3000002,2560)(""文字列入力"")"),
                                     EventCommandFactory.CreateCommandString(@"[122][2,1]<0>(3000002,2816)(""文字列入力"")"),
                                     EventCommandFactory.CreateCommandString(@"[0][0,0]<0>()()")
@@ -782,20 +806,19 @@ namespace WodiLib.Test.IO
                     },
                     new MapEvent
                     {
-                        EventName = "テストイベント2",
-                        MapEventId = 1,
-                        PositionX = 4,
-                        PositionY = 8,
-                        MapEventPageList = new MapEventPageList(new []
+                        EventName = (MapEventName) "テストイベント2",
+                        MapEventId = (MapEventId) 1,
+                        Position = (Position) (4, 8),
+                        MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
                             {
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "",
+                                    CharaChipFileName = (CharaChipFileName) "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = 255,
+                                    CharaChipOpacity = (MapEventOpacity) 255,
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -818,14 +841,15 @@ namespace WodiLib.Test.IO
                                     IsHitBox = false,
                                     IsPlaceHalfStepUp = true,
                                 },
-                                RangeWidth = 0,
-                                RangeHeight = 0,
-                                ShadowGraphicId = 0,
-                                EventCommands = new EventCommandList(new []
+                                HitExtendRange = (HitExtendRange) (0, 0),
+                                ShadowGraphicId = (ShadowGraphicId) 0,
+                                EventCommands = new EventCommandList(new[]
                                 {
-                                    EventCommandFactory.CreateCommandString(@"[111][10,0]<0>(3,1100000,20,2,1000000,1024000000,0,1000014,2900034,20)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[111][10,0]<0>(3,1100000,20,2,1000000,1024000000,0,1000014,2900034,20)()"),
                                     EventCommandFactory.CreateCommandString(@"[401][1,0]<0>(1)()"),
-                                    EventCommandFactory.CreateCommandString(@"[111][7,0]<1>(18,1130001004,180,3,2000000,22,4)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[111][7,0]<1>(18,1130001004,180,3,2000000,22,4)()"),
                                     EventCommandFactory.CreateCommandString(@"[401][1,0]<1>(1)()"),
                                     EventCommandFactory.CreateCommandString(@"[0][0,0]<2>()()"),
                                     EventCommandFactory.CreateCommandString(@"[401][1,0]<1>(2)()"),
@@ -856,31 +880,30 @@ namespace WodiLib.Test.IO
         {
             return new MapData
             {
-                Memo = "なし",
-                TileSetId = 1,
-                MapSizeWidth = 20,
-                MapSizeHeight = 15,
+                Memo = (MapDataMemo) "なし",
+                TileSetId = (TileSetId) 1,
+                MapSizeWidth = (MapSizeWidth) 20,
+                MapSizeHeight = (MapSizeHeight) 15,
                 Layer1 = GenerateEmptyLayer(20, 15),
                 Layer2 = GenerateEmptyLayer(20, 15),
                 Layer3 = GenerateEmptyLayer(20, 15),
-                MapEvents = new MapEventList(new []
+                MapEvents = new MapEventList(new[]
                 {
                     new MapEvent
                     {
-                        EventName = "CharaChip",
-                        MapEventId = 0,
-                        PositionX = 4,
-                        PositionY = 2,
-                        MapEventPageList = new MapEventPageList(new []
+                        EventName = (MapEventName) "CharaChip",
+                        MapEventId = (MapEventId) 0,
+                        Position = (Position) (4, 2),
+                        MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
                             {
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "CharaChip/[Special]Edy.png",
+                                    CharaChipFileName = (CharaChipFileName) "CharaChip/[Special]Edy.png",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = 255
+                                    CharaChipOpacity = (MapEventOpacity) 255
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -893,22 +916,24 @@ namespace WodiLib.Test.IO
                                     MoveFrequency = MoveFrequency.Middle,
                                     AnimateSpeed = AnimateSpeed.Middle,
                                 },
-                                RangeWidth = 4,
-                                RangeHeight = 4,
-                                ShadowGraphicId = 0,
-                                EventCommands = new EventCommandList(new []
+                                HitExtendRange = (HitExtendRange) (4, 4),
+                                ShadowGraphicId = (ShadowGraphicId) 0,
+                                EventCommands = new EventCommandList(new[]
                                 {
-                                    EventCommandFactory.CreateCommandString(@"[112][7,4]<0>(4,3000000,288212672,539870912,808306368,0,3000004)(""条件1"","""",""条件3"",""条件4"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[112][7,4]<0>(4,3000000,288212672,539870912,808306368,0,3000004)(""条件1"","""",""条件3"",""条件4"")"),
                                     EventCommandFactory.CreateCommandString(@"[401][1,0]<0>(1)()"),
                                     EventCommandFactory.CreateCommandString(@"[0][0,0]<1>()()"),
                                     EventCommandFactory.CreateCommandString(@"[401][1,0]<0>(2)()"),
-                                    EventCommandFactory.CreateCommandString(@"[112][9,4]<1>(20,3000000,288212672,556648128,825083584,0,3000000,3000010,3000020)(""条件1"","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[112][9,4]<1>(20,3000000,288212672,556648128,825083584,0,3000000,3000010,3000020)(""条件1"","""","""","""")"),
                                     EventCommandFactory.CreateCommandString(@"[401][1,0]<1>(1)()"),
                                     EventCommandFactory.CreateCommandString(@"[0][0,0]<2>()()"),
                                     EventCommandFactory.CreateCommandString(@"[401][1,0]<1>(2)()"),
                                     EventCommandFactory.CreateCommandString(@"[0][0,0]<2>()()"),
                                     EventCommandFactory.CreateCommandString(@"[401][1,0]<1>(3)()"),
-                                    EventCommandFactory.CreateCommandString(@"[112][5,4]<2>(18,539870912,19777216,0,3000000)(""条件1"","""","""","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[112][5,4]<2>(18,539870912,19777216,0,3000000)(""条件1"","""","""","""")"),
                                     EventCommandFactory.CreateCommandString(@"[401][1,0]<2>(1)()"),
                                     EventCommandFactory.CreateCommandString(@"[0][0,0]<3>()()"),
                                     EventCommandFactory.CreateCommandString(@"[401][1,0]<2>(2)()"),
@@ -936,9 +961,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = true,
-                                    GraphicTileId = 11,
+                                    GraphicTileId = (MapEventTileId) 11,
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = 255
+                                    CharaChipOpacity = (MapEventOpacity) 255
                                 },
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
@@ -958,9 +983,8 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                RangeWidth = 0,
-                                RangeHeight = 0,
-                                EventCommands = new EventCommandList(new []
+                                HitExtendRange = (HitExtendRange) (0,0),
+                                EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(@"[123][2,0]<0>(2000000,241)()"),
                                     EventCommandFactory.CreateCommandString(@"[123][2,0]<0>(2000000,4)()"),
@@ -993,9 +1017,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = true,
-                                    GraphicTileId = 8,
+                                    GraphicTileId = (MapEventTileId) 8,
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = 255
+                                    CharaChipOpacity = (MapEventOpacity) 255
                                 },
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
@@ -1015,17 +1039,23 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                RangeWidth = 0,
-                                RangeHeight = 0,
-                                EventCommands = new EventCommandList(new []
+                                HitExtendRange = (HitExtendRange) (0,0),
+                                EventCommands = new EventCommandList(new[]
                                 {
-                                    EventCommandFactory.CreateCommandString(@"[150][18,1]<0>(0,120,20,4,3,1,255,200,300,95,18,0,33554432,30,0,101,102,103)(""CharaChip/[Animal]Chicken.png"")"),
-                                    EventCommandFactory.CreateCommandString(@"[150][19,0]<0>(19996944,120,1000030,1,10,1000010,1000020,1000000,1000001,1000060,1000050,3000020,33554432,1000040,123,1000080,1000081,1000082,1000070)()"),
-                                    EventCommandFactory.CreateCommandString(@"[150][15,1]<0>(54533920,120,11,1,10,-1000000,-1000000,10,20,-1000000,-1000000,0,16777216,22,123)(""表示文字列"")"),
-                                    EventCommandFactory.CreateCommandString(@"[150][18,1]<0>(33567280,120,11,4,4,3,65,10,20,1000060,4000,0,33554432,22,0,70,80,90)(""SystemGraphic/Text_Pause.png"")"),
-                                    EventCommandFactory.CreateCommandString(@"[150][18,0]<0>(33571392,120,11,4,4,3,65,10,20,1000060,4000,3000015,33554432,22,0,70,80,90)()"),
-                                    EventCommandFactory.CreateCommandString(@"[150][25,1]<0>(100667904,120,11,4,4,3,65,1,2,1000060,4000,0,33554432,22,0,70,80,90,0,3,4,5,6,7,8)(""3000015"")"),
-                                    EventCommandFactory.CreateCommandString(@"[150][18,0]<0>(33559041,100,11,0,0,3,65,30,32,110,4000,0,33554432,22,0,70,80,90)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[150][18,1]<0>(0,120,20,4,3,1,255,200,300,95,18,0,33554432,30,0,101,102,103)(""CharaChip/[Animal]Chicken.png"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[150][19,0]<0>(19996944,120,1000030,1,10,1000010,1000020,1000000,1000001,1000060,1000050,3000020,33554432,1000040,123,1000080,1000081,1000082,1000070)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[150][15,1]<0>(54533920,120,11,1,10,-1000000,-1000000,10,20,-1000000,-1000000,0,16777216,22,123)(""表示文字列"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[150][18,1]<0>(33567280,120,11,4,4,3,65,10,20,1000060,4000,0,33554432,22,0,70,80,90)(""SystemGraphic/Text_Pause.png"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[150][18,0]<0>(33571392,120,11,4,4,3,65,10,20,1000060,4000,3000015,33554432,22,0,70,80,90)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[150][25,1]<0>(100667904,120,11,4,4,3,65,1,2,1000060,4000,0,33554432,22,0,70,80,90,0,3,4,5,6,7,8)(""3000015"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[150][18,0]<0>(33559041,100,11,0,0,3,65,30,32,110,4000,0,33554432,22,0,70,80,90)()"),
                                     EventCommandFactory.CreateCommandString(@"[150][4,0]<0>(33559042,100,11,22)()"),
                                     EventCommandFactory.CreateCommandString(@"[150][2,0]<0>(33559043,100)()"),
                                     EventCommandFactory.CreateCommandString(@"[0][0,0]<0>()()"),
@@ -1036,9 +1066,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "",
+                                    CharaChipFileName = (CharaChipFileName) "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = 255
+                                    CharaChipOpacity = (MapEventOpacity) 255
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -1046,22 +1076,22 @@ namespace WodiLib.Test.IO
                                     MapEventBootCondition1 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = 1000000, // ウディタ上で無編集のため、初期値のままのはず
-                                        RightSide = 0,
+                                        LeftSide = (VariableAddress) 1000000, // ウディタ上で無編集のため、初期値のままのはず
+                                        RightSide = (ConditionRight) 0,
                                         Operation = CriteriaOperator.Equal
                                     },
                                     MapEventBootCondition2 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = 1100001,
-                                        RightSide = 1,
+                                        LeftSide = (VariableAddress) 1100001,
+                                        RightSide = (ConditionRight) 1,
                                         Operation = CriteriaOperator.Less
                                     },
                                     MapEventBootCondition3 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = 1100002,
-                                        RightSide = 2,
+                                        LeftSide = (VariableAddress) 1100002,
+                                        RightSide = (ConditionRight) 2,
                                         Operation = CriteriaOperator.Less
                                     },
                                 },
@@ -1083,14 +1113,14 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                RangeWidth = 1,
-                                RangeHeight = 4,
-                                ShadowGraphicId = 1,
-                                EventCommands = new EventCommandList(new []
+                                HitExtendRange = (HitExtendRange) (1,4),
+                                ShadowGraphicId = (ShadowGraphicId) 1,
+                                EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(@"[290][7,0]<0>(0,10,10,10,40,50,60)()"),
                                     EventCommandFactory.CreateCommandString(@"[290][7,0]<0>(16,10,10,20,40,50,60)()"),
-                                    EventCommandFactory.CreateCommandString(@"[290][7,0]<0>(32,1100003,2000000,2000001,1100000,1100001,1100002)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[290][7,0]<0>(32,1100003,2000000,2000001,1100000,1100001,1100002)()"),
                                     EventCommandFactory.CreateCommandString(@"[290][7,0]<0>(48,40,3,3,10,20,30)()"),
                                     EventCommandFactory.CreateCommandString(@"[290][7,0]<0>(64,40,3,3,10,20,30)()"),
                                     EventCommandFactory.CreateCommandString(@"[290][7,0]<0>(80,40,3,3,10,20,30)()"),
@@ -1105,7 +1135,8 @@ namespace WodiLib.Test.IO
                                     EventCommandFactory.CreateCommandString(@"[281][3,0]<0>(275,2,3)()"),
                                     EventCommandFactory.CreateCommandString(@"[281][3,0]<0>(864,5,1)()"),
                                     EventCommandFactory.CreateCommandString(@"[151][2,0]<0>(3942420,10)()"),
-                                    EventCommandFactory.CreateCommandString(@"[151][5,0]<0>(16777216,1100003,1100000,1100001,1100002)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[151][5,0]<0>(16777216,1100003,1100000,1100001,1100002)()"),
                                     EventCommandFactory.CreateCommandString(@"[0][0,0]<0>()()"),
                                 })
                             }
@@ -1113,20 +1144,20 @@ namespace WodiLib.Test.IO
                     },
                     new MapEvent
                     {
-                        EventName = "",
-                        MapEventId = 1,
-                        PositionX = 6,
-                        PositionY = 8,
-                        MapEventPageList = new MapEventPageList(new []
+                        EventName = (MapEventName) "",
+                        MapEventId = (MapEventId) 1,
+                        Position = (Position)(6,
+                        8),
+                        MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
                             {
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "",
+                                    CharaChipFileName = (CharaChipFileName) "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity =255
+                                    CharaChipOpacity = (MapEventOpacity) 255
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -1237,24 +1268,28 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                RangeWidth = 0,
-                                RangeHeight = 0,
-                                ShadowGraphicId = 0,
-                                EventCommands = new EventCommandList(new []
+                                HitExtendRange = (HitExtendRange) (0,0),
+                                ShadowGraphicId = (ShadowGraphicId) 0,
+                                EventCommands = new EventCommandList(new[]
                                 {
-                                    EventCommandFactory.CreateCommandString(@"[140][7,1]<0>(33554432,3,0,4,100,105,20)(""BGM/bgm.mp3"")"),
-                                    EventCommandFactory.CreateCommandString(@"[140][7,1]<0>(33554448,3,0,4,100,105,20)(""BGS/音楽.mp3"")"),
-                                    EventCommandFactory.CreateCommandString(@"[140][6,1]<0>(33554464,3,0,4,105,100)(""SE/サウンド.wav"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[140][7,1]<0>(33554432,3,0,4,100,105,20)(""BGM/bgm.mp3"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[140][7,1]<0>(33554448,3,0,4,100,105,20)(""BGS/音楽.mp3"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[140][6,1]<0>(33554464,3,0,4,105,100)(""SE/サウンド.wav"")"),
                                     EventCommandFactory.CreateCommandString(@"[140][4,0]<0>(512,1,0,4)()"),
                                     EventCommandFactory.CreateCommandString(@"[140][4,0]<0>(784,5,0,2)()"),
                                     EventCommandFactory.CreateCommandString(@"[140][4,0]<0>(288,5,0,2)()"),
                                     EventCommandFactory.CreateCommandString(@"[140][4,0]<0>(16777216,5,2000040,2)()"),
                                     EventCommandFactory.CreateCommandString(@"[140][4,0]<0>(16777232,5,2000002,2)()"),
                                     EventCommandFactory.CreateCommandString(@"[140][4,0]<0>(16777248,5,1100003,2)()"),
-                                    EventCommandFactory.CreateCommandString(@"[140][7,1]<0>(33554433,0,0,0,105,100,20)(""BGM/bgm.mp3"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[140][7,1]<0>(33554433,0,0,0,105,100,20)(""BGM/bgm.mp3"")"),
                                     EventCommandFactory.CreateCommandString(@"[140][4,0]<0>(16776960,0,0,0)()"),
                                     EventCommandFactory.CreateCommandString(@"[140][1,0]<0>(16776961)()"),
-                                    EventCommandFactory.CreateCommandString(@"[140][7,1]<0>(33554435,0,0,0,105,100,20)(""BGM/bgm.mp3"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[140][7,1]<0>(33554435,0,0,0,105,100,20)(""BGM/bgm.mp3"")"),
                                     EventCommandFactory.CreateCommandString(@"[0][0,0]<0>()()"),
                                 })
                             },
@@ -1263,9 +1298,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "",
+                                    CharaChipFileName = (CharaChipFileName) "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = 255
+                                    CharaChipOpacity = (MapEventOpacity) 255
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -1305,10 +1340,9 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                RangeWidth = 0,
-                                RangeHeight = 0,
-                                ShadowGraphicId = 0,
-                                EventCommands = new EventCommandList(new []
+                                HitExtendRange = (HitExtendRange) (0,0),
+                                ShadowGraphicId = (ShadowGraphicId) 0,
+                                EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(@"[220][2,0]<0>(0,5)()"),
                                     EventCommandFactory.CreateCommandString(@"[220][2,0]<0>(1,9)()"),
@@ -1323,20 +1357,20 @@ namespace WodiLib.Test.IO
                     },
                     new MapEvent
                     {
-                        EventName = "CharaChip/[Animal]Chicken.png",
-                        MapEventId = 2,
-                        PositionX = 8,
-                        PositionY = 2,
-                        MapEventPageList = new MapEventPageList(new []
+                        EventName = (MapEventName) "CharaChip/[Animal]Chicken.png",
+                        MapEventId = (MapEventId) 2,
+                        Position = (Position)(8,
+                        2),
+                        MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
                             {
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "CharaChip/[Animal]Chicken.png",
+                                    CharaChipFileName = (CharaChipFileName) "CharaChip/[Animal]Chicken.png",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = 255
+                                    CharaChipOpacity = (MapEventOpacity) 255
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -1359,17 +1393,19 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                RangeWidth = 1,
-                                RangeHeight = 0,
-                                ShadowGraphicId = 2,
-                                EventCommands = new EventCommandList(new []
+                                HitExtendRange = (HitExtendRange) (1,0),
+                                ShadowGraphicId = (ShadowGraphicId) 2,
+                                EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(@"[270][2,0]<0>(0,4)()"),
-                                    EventCommandFactory.CreateCommandString(@"[270][2,1]<0>(1,2)(""CharaChip/[Special]Edy.png"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[270][2,1]<0>(1,2)(""CharaChip/[Special]Edy.png"")"),
                                     EventCommandFactory.CreateCommandString(@"[270][3,0]<0>(257,4,1000019)()"),
-                                    EventCommandFactory.CreateCommandString(@"[270][2,1]<0>(2,2)(""CharaChip/[Special]Edy.png"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[270][2,1]<0>(2,2)(""CharaChip/[Special]Edy.png"")"),
                                     EventCommandFactory.CreateCommandString(@"[270][3,0]<0>(258,2,1000016)()"),
-                                    EventCommandFactory.CreateCommandString(@"[270][1,1]<0>(3)(""CharaChip/[Special]Edy.png"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[270][1,1]<0>(3)(""CharaChip/[Special]Edy.png"")"),
                                     EventCommandFactory.CreateCommandString(@"[270][3,0]<0>(259,0,1000016)()"),
                                     EventCommandFactory.CreateCommandString(@"[270][1,0]<0>(4)()"),
                                     EventCommandFactory.CreateCommandString(@"[270][1,0]<0>(20)()"),
@@ -1389,20 +1425,20 @@ namespace WodiLib.Test.IO
                     },
                     new MapEvent
                     {
-                        EventName = "イベント",
-                        MapEventId = 3,
-                        PositionX = 10,
-                        PositionY = 6,
-                        MapEventPageList = new MapEventPageList(new []
+                        EventName = (MapEventName) "イベント",
+                        MapEventId = (MapEventId) 3,
+                        Position = (Position)(10,
+                        6),
+                        MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
                             {
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "",
+                                    CharaChipFileName = (CharaChipFileName) "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = 255
+                                    CharaChipOpacity = (MapEventOpacity) 255
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -1425,10 +1461,9 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                RangeWidth = 0,
-                                RangeHeight = 0,
-                                ShadowGraphicId = 0,
-                                EventCommands = new EventCommandList(new []
+                                HitExtendRange = (HitExtendRange) (0,0),
+                                ShadowGraphicId = (ShadowGraphicId) 0,
+                                EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(@"[240][2,0]<0>(-1000000,0)()"),
                                     EventCommandFactory.CreateCommandString(@"[240][2,0]<0>(-12,538)()"),
@@ -1437,7 +1472,8 @@ namespace WodiLib.Test.IO
                                     EventCommandFactory.CreateCommandString(@"[241][1,0]<0>(2)()"),
                                     EventCommandFactory.CreateCommandString(@"[241][1,0]<0>(1100004)()"),
                                     EventCommandFactory.CreateCommandString(@"[242][6,0]<0>(1,4,6,20,21,-13)()"),
-                                    EventCommandFactory.CreateCommandString(@"[242][6,0]<0>(1100000,1100001,1100002,1100004,1100005,1100003)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[242][6,0]<0>(1100000,1100001,1100002,1100004,1100005,1100003)()"),
                                     EventCommandFactory.CreateCommandString(@"[130][5,0]<0>(-1,3,5,1,0)()"),
                                     EventCommandFactory.CreateCommandString(@"[130][5,0]<0>(-1,6,8,-1,17)()"),
                                     EventCommandFactory.CreateCommandString(@"[130][5,0]<0>(-10001,5,0,0,33)()"),
@@ -1451,20 +1487,20 @@ namespace WodiLib.Test.IO
                     },
                     new MapEvent
                     {
-                        EventName = "イベント制御",
-                        MapEventId = 4,
-                        PositionX = 11,
-                        PositionY = 8,
-                        MapEventPageList = new MapEventPageList(new []
+                        EventName = (MapEventName) "イベント制御",
+                        MapEventId = (MapEventId) 4,
+                        Position = (Position)(11,
+                        8),
+                        MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
                             {
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "",
+                                    CharaChipFileName = (CharaChipFileName) "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = 255
+                                    CharaChipOpacity = (MapEventOpacity) 255
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -1487,10 +1523,9 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                RangeWidth = 2,
-                                RangeHeight = 2,
-                                ShadowGraphicId = 0,
-                                EventCommands = new EventCommandList(new []
+                                HitExtendRange = (HitExtendRange) (2,2),
+                                ShadowGraphicId = (ShadowGraphicId) 0,
+                                EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(@"[170][0,0]<0>()()"),
                                     EventCommandFactory.CreateCommandString(@"[171][0,0]<1>()()"),
@@ -1519,11 +1554,15 @@ namespace WodiLib.Test.IO
                                     EventCommandFactory.CreateCommandString(@"[0][0,0]<3>()()"),
                                     EventCommandFactory.CreateCommandString(@"[498][0,0]<2>()()"),
                                     EventCommandFactory.CreateCommandString(@"[210][2,0]<2>(500000,0)()"),
-                                    EventCommandFactory.CreateCommandString(@"[210][10,0]<2>(500001,68,1,2,-2,4,3000000,3000001,3000002,3000003)()"),
-                                    EventCommandFactory.CreateCommandString(@"[210][10,0]<2>(500005,68,0,1,2,3,3000000,3000001,3000002,3000003)()"),
-                                    EventCommandFactory.CreateCommandString(@"[210][10,5]<2>(500005,61508,0,1,2,3,0,0,0,0)("""",""0"",""1"",""2"",""3"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[210][10,0]<2>(500001,68,1,2,-2,4,3000000,3000001,3000002,3000003)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[210][10,0]<2>(500005,68,0,1,2,3,3000000,3000001,3000002,3000003)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[210][10,5]<2>(500005,61508,0,1,2,3,0,0,0,0)("""",""0"",""1"",""2"",""3"")"),
                                     EventCommandFactory.CreateCommandString(@"[210][2,0]<2>(500002,0)()"),
-                                    EventCommandFactory.CreateCommandString(@"[210][3,0]<2>(500002,16777216,1100001)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[210][3,0]<2>(500002,16777216,1100001)()"),
                                     EventCommandFactory.CreateCommandString(@"[210][2,0]<2>(1,0)()"),
                                     EventCommandFactory.CreateCommandString(@"[210][2,0]<2>(3,9)()"),
                                     EventCommandFactory.CreateCommandString(@"[210][2,0]<2>(2100000,5)()"),
@@ -1531,12 +1570,16 @@ namespace WodiLib.Test.IO
                                     EventCommandFactory.CreateCommandString(@"[211][2,0]<2>(1,0)()"),
                                     EventCommandFactory.CreateCommandString(@"[211][2,0]<2>(1100001,5)()"),
                                     EventCommandFactory.CreateCommandString(@"[211][2,0]<2>(2000003,5)()"),
-                                    EventCommandFactory.CreateCommandString(@"[300][10,1]<2>(0,68,0,1,0,3,3000000,3000001,3000002,3000003)(""コモンイベント001"")"),
-                                    EventCommandFactory.CreateCommandString(@"[300][9,3]<2>(0,16781348,0,2,4,3,0,3000001,1100002)(""コモンイベント004"",""aaaaa"","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[300][10,1]<2>(0,68,0,1,0,3,3000000,3000001,3000002,3000003)(""コモンイベント001"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[300][9,3]<2>(0,16781348,0,2,4,3,0,3000001,1100002)(""コモンイベント004"",""aaaaa"","""")"),
                                     EventCommandFactory.CreateCommandString(@"[0][0,0]<2>()()"),
                                     EventCommandFactory.CreateCommandString(@"[498][0,0]<1>()()"),
-                                    EventCommandFactory.CreateCommandString(@"[260][2,2]<1>(0,3000003)(""http://DownloadURL.jp"",""Data/save.dat"")"),
-                                    EventCommandFactory.CreateCommandString(@"[260][2,2]<1>(3,0)(""http://DownloadURL.jp"","""")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[260][2,2]<1>(0,3000003)(""http://DownloadURL.jp"",""Data/save.dat"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[260][2,2]<1>(3,0)(""http://DownloadURL.jp"","""")"),
                                     EventCommandFactory.CreateCommandString(@"[0][0,0]<1>()()"),
                                     EventCommandFactory.CreateCommandString(@"[498][0,0]<0>()()"),
                                     EventCommandFactory.CreateCommandString(@"[0][0,0]<0>()()"),
@@ -1556,10 +1599,12 @@ namespace WodiLib.Test.IO
                 var lineChips = new List<MapChip>();
                 for (var j = 0; j < height; j++)
                 {
-                    lineChips.Add((MapChip)100000);
+                    lineChips.Add((MapChip) 100000);
                 }
+
                 chips.Add(lineChips);
             }
+
             var layer = new Layer();
             layer.SetChips(chips);
             return layer;
@@ -1568,6 +1613,7 @@ namespace WodiLib.Test.IO
         #endregion
 
         #region OutputTestFile
+
         /** ========================================
          *  テスト用ファイル出力
          *  ======================================== */

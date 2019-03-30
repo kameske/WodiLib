@@ -17,29 +17,14 @@ namespace WodiLib.Map
     /// </summary>
     public class MapEvent
     {
-        private int mapEventId;
-
-        /// <summary>[Range(0, 99)] マップイベントID</summary>
-        public int MapEventId
-        {
-            get => mapEventId;
-            set
-            {
-                if (value < 0 || 99 < value)
-                    throw new PropertyOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(MapEventId), 0, 99, value));
-                mapEventId = value;
-            }
-        }
+        /// <summary>マップイベントID</summary>
+        public MapEventId MapEventId { get; set; }
 
         /// <summary>マップイベント名</summary>
-        public string EventName { get; set; } = "";
+        public MapEventName EventName { get; set; } = (MapEventName) "";
 
-        /// <summary>X座標</summary>
-        public int PositionX { get; set; }
-
-        /// <summary>Y座標</summary>
-        public int PositionY { get; set; }
+        /// <summary>X標</summary>
+        public Position Position { get; set; }
 
         /// <summary>ページ数</summary>
         public int PageValue => MapEventPageList.Count;
@@ -80,11 +65,11 @@ namespace WodiLib.Map
             // マップイベントID
             result.AddRange(MapEventId.ToBytes(Endian.Woditor));
             // イベント名
-            result.AddRange(new WoditorString(EventName).StringByte);
+            result.AddRange(EventName.ToWoditorStringBytes());
             // X座標
-            result.AddRange(PositionX.ToBytes(Endian.Woditor));
+            result.AddRange(Position.X.ToBytes(Endian.Woditor));
             // Y座標
-            result.AddRange(PositionY.ToBytes(Endian.Woditor));
+            result.AddRange(Position.Y.ToBytes(Endian.Woditor));
             // イベントページ数
             result.AddRange(PageValue.ToBytes(Endian.Woditor));
             // 0パディング（4バイト）

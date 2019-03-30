@@ -303,6 +303,7 @@ namespace WodiLib.Event.EventCommand
                 throw new InvalidOperationException(
                     "コマンド末尾は「空白行」である必要があります。");
             }
+
             var result = new List<byte>();
 
             // イベント行数

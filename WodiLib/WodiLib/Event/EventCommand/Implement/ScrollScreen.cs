@@ -214,6 +214,7 @@ namespace WodiLib.Event.EventCommand
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_20));
             }
+
             if (Speed == ScrollSpeed.Speed64)
             {
                 Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(ScrollScreen)}.{nameof(Speed)}",

@@ -116,70 +116,89 @@ namespace WodiLib.Event.EventCommand
         {
             if (TargetDetailCode == NumberPlusPictureInfoType.ZoomWidth.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.ZoomWidth}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (TargetDetailCode == NumberPlusPictureInfoType.ZoomWidth.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.ZoomHeight}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeLeftUpX.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeLeftUpX}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeLeftUpY.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeLeftUpY}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeLeftDownX.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeLeftDownX}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeLeftDownY.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeLeftDownY}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeRightDownX.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeRightDownX}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeRightDownY.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeRightDownY}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeRightDownX.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeRightDownX}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
             }
+
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeRightDownY.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeRightDownY}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));
@@ -190,7 +209,8 @@ namespace WodiLib.Event.EventCommand
         {
             if (TargetDetailCode == NumberPlusPictureInfoType.Zoom.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotGreaterInCommandSetting($"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
+                Logger.Warning(VersionWarningMessage.NotGreaterInCommandSetting(
+                    $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.Zoom}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_00));

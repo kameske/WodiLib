@@ -6,11 +6,14 @@
 // see LICENSE file
 // ========================================
 
+using System;
+
 namespace WodiLib.Map
 {
     /// <summary>
     /// マップサイズに関する定数クラス
     /// </summary>
+    [Obsolete]
     public static class MapSizeConstant
     {
         /// <summary>横最小値</summary>
@@ -24,6 +27,5 @@ namespace WodiLib.Map
 
         /// <summary>縦最大値</summary>
         public static readonly int HeightMax = 999999;
-
     }
 }

@@ -6,11 +6,14 @@
 // see LICENSE file
 // ========================================
 
+using System;
+
 namespace WodiLib.Map
 {
     /// <summary>
     /// マップイベントページオプション定数クラス
     /// </summary>
+    [Obsolete]
     public static class MapEventPageOptionConstant
     {
         /// <summary>待機時アニメONフラグ</summary>

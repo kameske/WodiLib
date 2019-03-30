@@ -27,7 +27,7 @@ namespace WodiLib.Event.CharaMoveCommand
         public override byte ValueLengthByte => 0x02;
 
 
-        private VariableAddress targetAddress = (NormalNumberVariableAddress)NormalNumberVariableAddress.MinValue;
+        private VariableAddress targetAddress = (NormalNumberVariableAddress) NormalNumberVariableAddress.MinValue;
 
         /// <summary>
         ///     [Convertible(<see cref="NormalNumberVariableAddress"/>)]
@@ -48,7 +48,8 @@ namespace WodiLib.Event.CharaMoveCommand
                         targetAddress = val;
                         break;
                 }
-                SetNumberValue(0, (CharaMoveCommandValue)value.ToInt());
+
+                SetNumberValue(0, (CharaMoveCommandValue) value.ToInt());
             }
         }
 
@@ -67,7 +68,7 @@ namespace WodiLib.Event.CharaMoveCommand
         public AddValue()
         {
             // 引数0の初期値設定
-            SetNumberValue(0, (CharaMoveCommandValue)targetAddress.ToInt());
+            SetNumberValue(0, (CharaMoveCommandValue) targetAddress.ToInt());
         }
     }
 }

@@ -95,14 +95,11 @@ namespace WodiLib.Map
             }
         }
 
-        /// <summary>接触範囲拡張X</summary>
-        public byte RangeWidth { get; set; }
-
-        /// <summary>接触範囲拡張Y</summary>
-        public byte RangeHeight { get; set; }
+        /// <summary>接触範囲拡張</summary>
+        public HitExtendRange HitExtendRange { get; set; }
 
         /// <summary>影グラフィック番号</summary>
-        public byte ShadowGraphicId { get; set; }
+        public ShadowGraphicId ShadowGraphicId { get; set; }
 
         private EventCommandList eventCommands = new EventCommandList(new[] {new Blank()});
 
@@ -148,11 +145,11 @@ namespace WodiLib.Map
             // イベントコマンド
             result.AddRange(EventCommands.ToBinary());
             // 影グラフィック番号
-            result.Add(ShadowGraphicId);
+            result.Add((byte) ShadowGraphicId);
             // 接触範囲拡張X
-            result.Add(RangeWidth);
+            result.Add(HitExtendRange.Width);
             // 接触範囲拡張Y
-            result.Add(RangeHeight);
+            result.Add(HitExtendRange.Height);
             // イベントページ終端
             result.AddRange(Footer);
 

@@ -202,21 +202,21 @@ namespace WodiLib.Map
             // 条件4演算子 & 使用フラグ
             result.Add(MapEventBootCondition4.MakeEventBootConditionByte());
             // 条件1左辺
-            result.AddRange(MapEventBootCondition1.LeftSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition1.LeftSide.ToBytes(Endian.Woditor));
             // 条件2左辺
-            result.AddRange(MapEventBootCondition2.LeftSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition2.LeftSide.ToBytes(Endian.Woditor));
             // 条件3左辺
-            result.AddRange(MapEventBootCondition3.LeftSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition3.LeftSide.ToBytes(Endian.Woditor));
             // 条件4左辺
-            result.AddRange(MapEventBootCondition4.LeftSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition4.LeftSide.ToBytes(Endian.Woditor));
             // 条件1右辺
-            result.AddRange(MapEventBootCondition1.RightSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition1.RightSide.ToBytes(Endian.Woditor));
             // 条件2右辺
-            result.AddRange(MapEventBootCondition2.RightSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition2.RightSide.ToBytes(Endian.Woditor));
             // 条件3右辺
-            result.AddRange(MapEventBootCondition3.RightSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition3.RightSide.ToBytes(Endian.Woditor));
             // 条件4右辺
-            result.AddRange(MapEventBootCondition4.RightSide.ToWoditorIntBytes());
+            result.AddRange(MapEventBootCondition4.RightSide.ToBytes(Endian.Woditor));
 
             return result.ToArray();
         }

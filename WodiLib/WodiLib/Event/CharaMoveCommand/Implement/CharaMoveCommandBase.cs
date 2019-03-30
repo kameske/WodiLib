@@ -124,6 +124,5 @@ namespace WodiLib.Event.CharaMoveCommand
         public virtual void OutputVersionWarningLogIfNeed()
         {
         }
-
     }
 }

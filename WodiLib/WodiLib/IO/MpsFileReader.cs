@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WodiLib.Cmn;
 using WodiLib.Event;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Event.EventCommand;
@@ -148,7 +149,7 @@ namespace WodiLib.IO
         private static void ReadHeaderMemo(FileReadStatus status, MapData mapData)
         {
             var woditorString = status.ReadString();
-            mapData.Memo = woditorString.String;
+            mapData.Memo = (MapDataMemo) woditorString.String;
             status.AddOffset(woditorString.ByteLength);
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
@@ -162,7 +163,7 @@ namespace WodiLib.IO
         /// <param name="mapData">データ格納マップデータインスタンス</param>
         private static void ReadTileSetId(FileReadStatus status, MapData mapData)
         {
-            mapData.TileSetId = status.ReadInt();
+            mapData.TileSetId = (TileSetId) status.ReadInt();
             status.IncreaseIntOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
@@ -176,7 +177,7 @@ namespace WodiLib.IO
         /// <param name="mapData">データ格納マップデータインスタンス</param>
         private static void ReadMapSizeWidth(FileReadStatus status, MapData mapData)
         {
-            mapData.MapSizeWidth = status.ReadInt();
+            mapData.MapSizeWidth = (MapSizeWidth) status.ReadInt();
             status.IncreaseIntOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
@@ -190,7 +191,7 @@ namespace WodiLib.IO
         /// <param name="mapData">データ格納マップデータインスタンス</param>
         private static void ReadMapSizeHeight(FileReadStatus status, MapData mapData)
         {
-            mapData.MapSizeHeight = status.ReadInt();
+            mapData.MapSizeHeight = (MapSizeHeight) status.ReadInt();
             status.IncreaseIntOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
@@ -246,7 +247,7 @@ namespace WodiLib.IO
         private static void ReadOneLayer(FileReadStatus status, MapData mapData, int layerNo)
         {
             var chips = new List<IEnumerable<MapChip>>();
-            for (var x = 0; x < mapData.MapSizeWidth; x++)
+            for (var x = 0; x < (int) mapData.MapSizeWidth; x++)
             {
                 Logger.Debug(FileIOMessage.StartCommonRead(typeof(MpsFileReader),
                     $"列{x}"));
@@ -268,11 +269,11 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapSizeHeight">マップ高さ</param>
         /// <param name="chipList">格納先リスト</param>
-        private static void ReadLayerOneLine(FileReadStatus status, int mapSizeHeight,
+        private static void ReadLayerOneLine(FileReadStatus status, MapSizeHeight mapSizeHeight,
             ICollection<IEnumerable<MapChip>> chipList)
         {
             var lineChips = new List<MapChip>();
-            for (var y = 0; y < mapSizeHeight; y++)
+            for (var y = 0; y < (int) mapSizeHeight; y++)
             {
                 var chip = (MapChip) status.ReadInt();
                 lineChips.Add(chip);
@@ -318,7 +319,7 @@ namespace WodiLib.IO
                 var mapEvent = new MapEvent();
 
                 // マップイベントID
-                mapEvent.MapEventId = status.ReadInt();
+                mapEvent.MapEventId = (MapEventId) status.ReadInt();
                 status.IncreaseIntOffset();
 
                 Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
@@ -326,25 +327,27 @@ namespace WodiLib.IO
 
                 // イベント名
                 var woditorString = status.ReadString();
-                mapEvent.EventName = woditorString.String;
+                mapEvent.EventName = (MapEventName) woditorString.String;
                 status.AddOffset(woditorString.ByteLength);
 
                 Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
                     "イベント名", mapEvent.EventName));
 
                 // X座標
-                mapEvent.PositionX = status.ReadInt();
+                var posX = status.ReadInt();
                 status.IncreaseIntOffset();
 
                 Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
-                    "X座標", mapEvent.PositionX));
+                    "X座標", posX));
 
                 // Y座標
-                mapEvent.PositionY = status.ReadInt();
+                var posY = status.ReadInt();
                 status.IncreaseIntOffset();
 
                 Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
-                    "Y座標", mapEvent.PositionY));
+                    "Y座標", posY));
+
+                mapEvent.Position = (Position) (posX, posY);
 
                 // イベントページ数
                 var pageLength = status.ReadInt();
@@ -442,12 +445,12 @@ namespace WodiLib.IO
             var graphicInfo = new MapEventPageGraphicInfo();
 
             // タイル画像ID
-            var graphicTileId = status.ReadInt();
+            var graphicTileId = (MapEventTileId) status.ReadInt();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
                 "マップイベントページタイル画像ID", graphicTileId));
 
-            if (graphicTileId != MapEventPageGraphicInfo.GraphicNotUseTileId)
+            if (graphicTileId != MapEventTileId.NotUse)
             {
                 graphicInfo.IsGraphicTileChip = true;
                 graphicInfo.GraphicTileId = graphicTileId;
@@ -463,27 +466,28 @@ namespace WodiLib.IO
 
             if (!graphicInfo.IsGraphicTileChip)
             {
-                graphicInfo.CharaChipFileName = charaChipString.String;
+                graphicInfo.CharaChipFileName = (CharaChipFileName) charaChipString.String;
             }
 
             status.AddOffset(charaChipString.ByteLength);
 
             // 初期キャラ向き
-            graphicInfo.InitDirection = status.ReadByte();
+            var initDirection = status.ReadByte();
+            graphicInfo.InitDirection = CharaChipDirection.FromByte(initDirection);
             status.IncreaseByteOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
                 "マップイベントページ初期キャラ向き", graphicInfo.InitDirection));
 
             // 初期アニメーション番号
-            graphicInfo.InitAnimationId = status.ReadByte();
+            graphicInfo.InitAnimationId = (AnimationId) status.ReadByte();
             status.IncreaseByteOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
                 "マップイベントページ初期アニメーション番号", graphicInfo.InitAnimationId));
 
             // キャラチップ透過度
-            graphicInfo.CharaChipOpacity = status.ReadByte();
+            graphicInfo.CharaChipOpacity = (MapEventOpacity) status.ReadByte();
             status.IncreaseByteOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
@@ -530,7 +534,7 @@ namespace WodiLib.IO
             // 条件1～4左辺
             for (var i = 0; i < 4; i++)
             {
-                conditions[i].LeftSide = status.ReadInt();
+                conditions[i].LeftSide = (VariableAddress) status.ReadInt();
                 status.IncreaseIntOffset();
 
                 Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
@@ -540,7 +544,7 @@ namespace WodiLib.IO
             // 条件1～4右辺
             for (var i = 0; i < 4; i++)
             {
-                conditions[i].RightSide = status.ReadInt();
+                conditions[i].RightSide = (ConditionRight) status.ReadInt();
                 status.IncreaseIntOffset();
                 bootInfo.SetEventBootCondition(i, conditions[i]);
 
@@ -635,25 +639,27 @@ namespace WodiLib.IO
                 "マップイベントページイベントコマンド終端"));
 
             // 影グラフィック番号
-            result.ShadowGraphicId = status.ReadByte();
+            result.ShadowGraphicId = (ShadowGraphicId) status.ReadByte();
             status.IncreaseByteOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
                 "マップイベントページ影グラフィック番号", result.ShadowGraphicId));
 
             // 接触範囲拡張X
-            result.RangeWidth = status.ReadByte();
+            var rangeWidth = status.ReadByte();
             status.IncreaseByteOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
-                "マップイベントページ接触範囲拡張X", result.RangeWidth));
+                "マップイベントページ接触範囲拡張X", rangeWidth));
 
             // 接触範囲拡張Y
-            result.RangeHeight = status.ReadByte();
+            var rangeHeight = status.ReadByte();
             status.IncreaseByteOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
-                "マップイベントページ接触範囲拡張Y", result.RangeHeight));
+                "マップイベントページ接触範囲拡張Y", rangeHeight));
+
+            result.HitExtendRange = (HitExtendRange) (rangeWidth, rangeHeight);
 
             // イベントページ末尾チェック
             foreach (var b in MapEventPage.Footer)

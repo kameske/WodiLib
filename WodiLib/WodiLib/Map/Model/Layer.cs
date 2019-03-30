@@ -39,14 +39,14 @@ namespace WodiLib.Map
             var valList = mapChipList.Select(x => x.ToList()).ToList();
 
             if (value == null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(Chips)));
-            if (valList.Count < MapData.MapWidthMin)
-                throw new ArgumentException($"マップサイズ横は{MapData.MapWidthMin}以上である必要があります。");
+            if (valList.Count < MapSizeWidth.MinValue)
+                throw new ArgumentException($"マップサイズ横は{MapSizeWidth.MinValue}以上である必要があります。");
             var height = valList.First().Count;
             var h = 0;
             foreach (var line in valList)
             {
-                if (line.Count < MapData.MapHeightMin)
-                    throw new ArgumentException($"マップサイズ縦は{MapData.MapHeightMin}以上である必要があります。");
+                if (line.Count < MapSizeHeight.MinValue)
+                    throw new ArgumentException($"マップサイズ縦は{MapSizeHeight.MinValue}以上である必要があります。");
                 if (line.Count != height)
                     throw new ArgumentException($"{h}行目の縦幅が他の行と異なります。（マップ縦幅はすべての行で同じにする必要があります。）");
                 h++;
@@ -55,41 +55,28 @@ namespace WodiLib.Map
             chips = new MapChipList(mapChipList);
         }
 
-        /// <summary>[Range(20, 999999)] サイズ横</summary>
-        public int Width => chips.Width;
+        /// <summary>サイズ横</summary>
+        public MapSizeWidth Width => chips.Width;
 
         /// <summary>
-        /// サイズ横を更新する。
+        /// マップサイズ横を更新する。
         /// </summary>
-        /// <param name="value">[Range[20, 999999] サイズ横</param>
+        /// <param name="value">サイズ横</param>
         /// <exception cref="ArgumentOutOfRangeException">valueが0～999999以外の場合</exception>
-        public void UpdateWidth(int value)
+        public void UpdateWidth(MapSizeWidth value)
         {
-            if (value < MapData.MapWidthMin || MapData.MapWidthMax < value)
-            {
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(value), MapData.MapWidthMin, MapData.MapWidthMax, value));
-            }
-
             chips.UpdateWidth(value);
         }
 
         /// <summary>[Range(15, 9999999)] サイズ縦</summary>
-        public int Height => chips.Height;
+        public MapSizeHeight Height => chips.Height;
 
         /// <summary>
         /// マップサイズ縦を更新する。
         /// </summary>
-        /// <param name="value">[Range(15, 999999)] マップサイズ縦</param>
-        /// <exception cref="ArgumentOutOfRangeException">valueが15～999999以外の場合</exception>
-        public void UpdateHeight(int value)
+        /// <param name="value">マップサイズ縦</param>
+        public void UpdateHeight(MapSizeHeight value)
         {
-            if (value < MapData.MapHeightMin || MapData.MapHeightMax < value)
-            {
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(value), MapData.MapHeightMin, MapData.MapHeightMax, value));
-            }
-
             chips.UpdateHeight(value);
         }
 
@@ -106,13 +93,6 @@ namespace WodiLib.Map
         /// <exception cref="ArgumentOutOfRangeException">x, yが範囲外の場合</exception>
         public void SetChip(int x, int y, MapChip chipId)
         {
-            if (x < 0 || Width < x)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(x), 0, Width - 1, x));
-            if (y < 0 || Height < y)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(y), 0, Height - 1, y));
-
             chips.UpdateChip(x, y, chipId);
         }
 
@@ -125,12 +105,6 @@ namespace WodiLib.Map
         /// <exception cref="ArgumentOutOfRangeException">x, yが範囲外の場合</exception>
         public MapChip GetChip(int x, int y)
         {
-            if (x < 0 || Width < x)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(x), 0, Width - 1, x));
-            if (y < 0 || Height < y)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(y), 0, Height - 1, y));
             return chips.GetChip(x, y);
         }
 

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using WodiLib.Event;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Map
 {
@@ -18,10 +19,13 @@ namespace WodiLib.Map
     /// </summary>
     public class MapEventPageMoveRouteInfo
     {
+        private static WodiLibLogger Logger = WodiLibLogger.GetInstance();
+
         private AnimateSpeed animateSpeed = AnimateSpeed.Middle;
 
         /// <summary>[NotNull] アニメ速度</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
+        /// <exception cref="ArgumentException">マップイベントでは設定できない値を指定した場合</exception>
         public AnimateSpeed AnimateSpeed
         {
             get => animateSpeed;
@@ -30,6 +34,10 @@ namespace WodiLib.Map
                 if (value == null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(AnimateSpeed)));
+
+                if (!value.CanSetForMapEventMoveRoute)
+                    Logger.Warning(WarningMessage.CannotSetValue(nameof(AnimateSpeed), value));
+
                 animateSpeed = value;
             }
         }
@@ -46,6 +54,10 @@ namespace WodiLib.Map
                 if (value == null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MoveSpeed)));
+
+                if (!value.CanSetForMapEventMoveRoute)
+                    Logger.Warning(WarningMessage.CannotSetValue(nameof(AnimateSpeed), value));
+
                 moveSpeed = value;
             }
         }

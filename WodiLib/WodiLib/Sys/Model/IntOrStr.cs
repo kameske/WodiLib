@@ -12,9 +12,12 @@ namespace WodiLib.Sys
 {
     /// <summary>
     ///     int、またはstringのどちらかを持つクラス
+    ///     (internal化予定）
     /// </summary>
-    public class IntOrStr
+    public class IntOrStr : IEquatable<IntOrStr>
     {
+        private readonly Guid guidForHash = Guid.NewGuid();
+
         private int numValue;
         private string strValue;
 
@@ -194,5 +197,38 @@ namespace WodiLib.Sys
         {
             return $"Type: {InstanceIntOrStrType}, Value: \"{ToValueString()}\"";
         }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((IntOrStr) obj);
+        }
+
+        /// <inheritdoc />
+        public override int GetHashCode()
+        {
+            return guidForHash.GetHashCode();
+        }
+
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(IntOrStr other)
+        {
+            if (other == null) return false;
+
+            if (InstanceIntOrStrType != other.InstanceIntOrStrType) return false;
+            if (HasInt && numValue != other.numValue) return false;
+            if (HasStr && !strValue.Equals(other.strValue)) return false;
+
+            return true;
+        }
+
     }
 }

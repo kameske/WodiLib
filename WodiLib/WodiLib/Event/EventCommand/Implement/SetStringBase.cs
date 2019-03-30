@@ -237,14 +237,17 @@ namespace WodiLib.Event.EventCommand
         {
             if (AssignmentOperator == StringAssignmentOperator.CutUp)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetStringBase)}.{nameof(AssignmentOperator)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetStringBase)}.{nameof(AssignmentOperator)}",
                     $"{StringAssignmentOperator.CutUp}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_02));
             }
+
             if (AssignmentOperator == StringAssignmentOperator.CutAfter)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(SetStringBase)}.{nameof(AssignmentOperator)}",
+                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    $"{nameof(SetStringBase)}.{nameof(AssignmentOperator)}",
                     $"{StringAssignmentOperator.CutAfter}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_02));

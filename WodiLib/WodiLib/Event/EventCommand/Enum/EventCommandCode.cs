@@ -1,3 +1,11 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : EventCommandCode.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -300,6 +308,5 @@ namespace WodiLib.Event.EventCommand
         {
             return _FindFirst(x => x.Code == code);
         }
-
     }
 }

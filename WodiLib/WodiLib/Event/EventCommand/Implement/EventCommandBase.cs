@@ -84,7 +84,9 @@ namespace WodiLib.Event.EventCommand
         /// VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、
         /// イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
         /// </summary>
-        public virtual void OutputVersionWarningLogIfNeed() { }
+        public virtual void OutputVersionWarningLogIfNeed()
+        {
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common

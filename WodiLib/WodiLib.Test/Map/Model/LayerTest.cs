@@ -30,19 +30,18 @@ namespace WodiLib.Test.Map
             Assert.True(true);
 
             // 幅、高さが正しく取得できること
-            Assert.AreEqual(layer.Width, 20);
-            Assert.AreEqual(layer.Height, 15);
+            Assert.AreEqual((int)layer.Width, 20);
+            Assert.AreEqual((int)layer.Height, 15);
         }
 
-        [TestCase(-1, true)]
-        [TestCase(19, true)]
-        [TestCase(20, false)]
-        [TestCase(30, false)]
-        [TestCase(35, false)]
-        public static void SetWidthTest(int width, bool isError)
+        [TestCase(20)]
+        [TestCase(30)]
+        [TestCase(40)]
+        public static void UpdateWidthTest(int sizeWidth)
         {
             var layer = new Layer();
             layer.SetChips(GenerateTestChipsData(30, 15));
+            var width = (MapSizeWidth) sizeWidth;
 
             var errorOccured = false;
             try
@@ -55,25 +54,21 @@ namespace WodiLib.Test.Map
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
 
-            if (!errorOccured)
-            {
-                // プロパティのマップサイズ横が一致すること
-                Assert.AreEqual(layer.Width, width);
-            }
+            // プロパティのマップサイズ横が一致すること
+            Assert.AreEqual(layer.Width, width);
         }
 
-        [TestCase(-1, true)]
-        [TestCase(14, true)]
-        [TestCase(15, false)]
-        [TestCase(20, false)]
-        [TestCase(30, false)]
-        public static void SetHeightTest(int height, bool isError)
+        [TestCase(15)]
+        [TestCase(20)]
+        [TestCase(30)]
+        public static void SetHeightTest(int heightSize)
         {
             var layer = new Layer();
             layer.SetChips(GenerateTestChipsData(20, 20));
+            var height = (MapSizeHeight) heightSize;
 
             var errorOccured = false;
             try
@@ -86,14 +81,11 @@ namespace WodiLib.Test.Map
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
 
-            if (!errorOccured)
-            {
-                // プロパティのマップサイズ横が一致すること
-                Assert.AreEqual(layer.Height, height);
-            }
+            // プロパティのマップサイズ横が一致すること
+            Assert.AreEqual(layer.Height, height);
         }
 
         private static readonly object[] SetChipTestCaseSource =
@@ -126,12 +118,11 @@ namespace WodiLib.Test.Map
             // エラー発生フラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (!errorOccured)
-            {
-                // チップ番号値が指定した値になっていること
-                var result = layer.GetChip(x, y);
-                Assert.AreEqual((int) result, (int) chip);
-            }
+            if (errorOccured) return;
+
+            // チップ番号値が指定した値になっていること
+            var result = layer.GetChip(x, y);
+            Assert.AreEqual((int) result, (int) chip);
         }
 
         [TestCase(4, 2, false)]
@@ -145,7 +136,7 @@ namespace WodiLib.Test.Map
             layer.SetChips(GenerateTestChipsData(20, 15));
 
             var errorOccured = false;
-            MapChip getChip = MapChip.Default;
+            var getChip = MapChip.Default;
             try
             {
                 getChip = layer.GetChip(x, y);
@@ -159,11 +150,10 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (!errorOccured)
-            {
-                // 座標の値が初期化した値になっていること
-                Assert.AreEqual((int) getChip, x * 10 + y);
-            }
+            if (errorOccured) return;
+            
+            // 座標の値が初期化した値になっていること
+            Assert.AreEqual((int) getChip, x * 10 + y);
         }
 
 

@@ -65,11 +65,13 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <exception cref="ArgumentOutOfRangeException">valueがキャラ動作指定コマンド設定値として不適切な場合</exception>
         public CharaMoveCommandValue(int value)
         {
-            if(value < MinValue || MaxValue < value) throw new ArgumentOutOfRangeException(
-                ErrorMessage.OutOfRange(nameof(value), MaxValue, MinValue, value));
+            if (value < MinValue || MaxValue < value)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(value), MaxValue, MinValue, value));
 
-            if( value < SafetyMinValue || SafetyMaxValue < value) Logger.Warning(
-                WarningMessage.OutOfRange(nameof(value), SafetyMinValue, SafetyMaxValue, value));
+            if (value < SafetyMinValue || SafetyMaxValue < value)
+                Logger.Warning(
+                    WarningMessage.OutOfRange(nameof(value), SafetyMinValue, SafetyMaxValue, value));
 
             Value = value;
         }

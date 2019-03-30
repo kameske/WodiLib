@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Map
 {
     /// <summary>
-    /// [Range(0, 99)] マップイベントID
+    /// [Range(-7, 99)] マップイベントID
     /// </summary>
-    public struct MapEventId : IConvertibleInt, IEquatable<MapEventId>
+    public struct MapEventId : IConvertibleInt, IEquatable<MapEventId>, IComparable<MapEventId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -121,6 +121,20 @@ namespace WodiLib.Map
             return Value == other.Value;
         }
 
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>
+        ///     このインスタンスが<paramref name="other"/>より小さい場合：0より小さい値
+        ///     このインスタンスが<paramref name="other"/>と同等の場合：0
+        ///     このインスタンスが<paramref name="other"/>より大きい場合：0より大きい値
+        /// </returns>
+        public int CompareTo(MapEventId other)
+        {
+            return Value - other.Value;
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -170,6 +184,50 @@ namespace WodiLib.Map
         public static bool operator !=(MapEventId left, MapEventId right)
         {
             return !(left == right);
+        }
+
+        /// <summary>
+        /// &lt;
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺&lt;右辺の場合true</returns>
+        public static bool operator <(MapEventId left, MapEventId right)
+        {
+            return left.CompareTo(right) < 0;
+        }
+
+        /// <summary>
+        /// &lt;=
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺&lt;=右辺の場合true</returns>
+        public static bool operator <=(MapEventId left, MapEventId right)
+        {
+            return left.CompareTo(right) <= 0;
+        }
+
+        /// <summary>
+        /// &gt;=
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺&gt;=右辺の場合true</returns>
+        public static bool operator >=(MapEventId left, MapEventId right)
+        {
+            return left.CompareTo(right) >= 0;
+        }
+
+        /// <summary>
+        /// &gt;
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺&gt;右辺の場合true</returns>
+        public static bool operator >(MapEventId left, MapEventId right)
+        {
+            return left.CompareTo(right) > 0;
         }
     }
 }
