@@ -80,7 +80,7 @@ namespace WodiLib.Map
         /// byte に変換する。
         /// </summary>
         /// <returns>byte値</returns>
-        public byte ToByte() => (byte) this;
+        public byte ToByte() => this;
 
         /// <summary>
         /// 値を比較する。
@@ -97,22 +97,22 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// byte -> AnimationId への明示的な型変換
+        /// byte -> AnimationId への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator AnimationId(byte src)
+        public static implicit operator AnimationId(byte src)
         {
             var result = new AnimationId(src);
             return result;
         }
 
         /// <summary>
-        /// AnimationId -> byte への明示的な型変換
+        /// AnimationId -> byte への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator byte(AnimationId src)
+        public static implicit operator byte(AnimationId src)
         {
             return src.Value;
         }

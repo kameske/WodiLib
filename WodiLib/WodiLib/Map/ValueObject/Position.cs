@@ -95,7 +95,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator Position(Tuple<int, int> tuple)
+        public static implicit operator Position(Tuple<int, int> tuple)
         {
             return new Position(tuple.Item1, tuple.Item2);
         }
@@ -105,7 +105,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator Position(ValueTuple<int, int> tuple)
+        public static implicit operator Position(ValueTuple<int, int> tuple)
         {
             return new Position(tuple.Item1, tuple.Item2);
         }
@@ -115,7 +115,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator Tuple<int, int>(Position src)
+        public static implicit operator Tuple<int, int>(Position src)
         {
             return new Tuple<int, int>(src.X, src.Y);
         }
@@ -125,7 +125,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator ValueTuple<int, int>(Position src)
+        public static implicit operator ValueTuple<int, int>(Position src)
         {
             return (src.X, src.Y);
         }

@@ -114,7 +114,7 @@ namespace WodiLib.Test.Common.Internal
 
             for (var i = 0; i < length; i++)
             {
-                list.Add((CommonEventSelfVariableName) "");
+                list.Add( "");
             }
 
             return list;

@@ -7,9 +7,8 @@
 // ========================================
 
 using System.ComponentModel;
-using WodiLib.Event.EventCommand;
 
-namespace WodiLib.Event
+namespace WodiLib.Event.EventCommand
 {
     /// <summary>
     /// イベントコマンドインタフェース

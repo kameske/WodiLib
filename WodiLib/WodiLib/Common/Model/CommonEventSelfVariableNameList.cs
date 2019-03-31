@@ -48,7 +48,7 @@ namespace WodiLib.Common
             VariableNameList = new List<CommonEventSelfVariableName>();
             for (var i = ListMin; i < ListMax; i++)
             {
-                VariableNameList.Add((CommonEventSelfVariableName) "");
+                VariableNameList.Add("");
             }
         }
 
@@ -88,7 +88,7 @@ namespace WodiLib.Common
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(variableName)));
 
-            VariableNameList[(int) number] = variableName;
+            VariableNameList[number] = variableName;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace WodiLib.Common
         /// <returns>変数名</returns>
         public CommonEventSelfVariableName GetVariableName(CommonEventSelfVariableIndex number)
         {
-            return VariableNameList[(int) number];
+            return VariableNameList[number];
         }
 
         /// <summary>

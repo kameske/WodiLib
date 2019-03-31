@@ -54,7 +54,7 @@ namespace WodiLib.Cmn
         /// string に変換する。
         /// </summary>
         /// <returns>string値</returns>
-        public override string ToString() => (string) this;
+        public override string ToString() => this;
 
         /// <inheritdoc />
         public override bool Equals(object obj)
@@ -101,22 +101,22 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// string -> CharaChipFileName への明示的な型変換
+        /// string -> CharaChipFileName への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator CharaChipFileName(string src)
+        public static implicit operator CharaChipFileName(string src)
         {
             var result = new CharaChipFileName(src);
             return result;
         }
 
         /// <summary>
-        /// CharaChipFileName -> string への明示的な型変換
+        /// CharaChipFileName -> string への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator string(CharaChipFileName src)
+        public static implicit operator string(CharaChipFileName src)
         {
             return src.Value;
         }

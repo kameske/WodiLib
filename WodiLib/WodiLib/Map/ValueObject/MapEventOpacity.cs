@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using System.Collections.Generic;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -69,29 +68,29 @@ namespace WodiLib.Map
         /// byte に変換する。
         /// </summary>
         /// <returns>int値</returns>
-        public byte ToByte() => (byte) this;
+        public byte ToByte() => this;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Explicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> MapEventOpacity への明示的な型変換
+        /// int -> MapEventOpacity への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator MapEventOpacity(byte src)
+        public static implicit operator MapEventOpacity(byte src)
         {
             var result = new MapEventOpacity(src);
             return result;
         }
 
         /// <summary>
-        /// MapEventOpacity -> int への明示的な型変換
+        /// MapEventOpacity -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator byte(MapEventOpacity src)
+        public static implicit operator byte(MapEventOpacity src)
         {
             return src.Value;
         }

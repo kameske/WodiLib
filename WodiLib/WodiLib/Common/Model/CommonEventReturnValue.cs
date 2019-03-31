@@ -20,7 +20,7 @@ namespace WodiLib.Common
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private CommonEventResultDescription description = (CommonEventResultDescription) "";
+        private CommonEventResultDescription description = "";
 
         /// <summary>
         /// [NotNull] 返戻値の意味

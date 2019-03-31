@@ -135,7 +135,7 @@ namespace WodiLib.Common
                 return new List<int>
                 {
                     DatabaseDbKind.SpecialArgCode,
-                    (int) DatabaseDbTypeId,
+                    DatabaseDbTypeId,
                     DatabaseUseAdditionalItemsFlag ? 1 : 0
                 };
             }

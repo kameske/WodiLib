@@ -80,7 +80,7 @@ namespace WodiLib.Map
         /// byte に変換する。
         /// </summary>
         /// <returns>byte値</returns>
-        public byte ToByte() => (byte) this;
+        public byte ToByte() => this;
 
         /// <summary>
         /// 値を比較する。
@@ -97,22 +97,22 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// byte -> ShadowGraphicId への明示的な型変換
+        /// byte -> ShadowGraphicId への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator ShadowGraphicId(byte src)
+        public static implicit operator ShadowGraphicId(byte src)
         {
             var result = new ShadowGraphicId(src);
             return result;
         }
 
         /// <summary>
-        /// ShadowGraphicId -> byte への明示的な型変換
+        /// ShadowGraphicId -> byte への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator byte(ShadowGraphicId src)
+        public static implicit operator byte(ShadowGraphicId src)
         {
             return src.Value;
         }

@@ -80,7 +80,7 @@ namespace WodiLib.Cmn
         /// int に変換する。
         /// </summary>
         /// <returns>int値</returns>
-        public int ToInt() => (int) this;
+        public int ToInt() => this;
 
         /// <summary>
         /// 値を比較する。
@@ -97,22 +97,22 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> SpareNumberVariableNumber への明示的な型変換
+        /// int -> SpareNumberVariableNumber への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator SpareNumberVariableNumber(int src)
+        public static implicit operator SpareNumberVariableNumber(int src)
         {
             var result = new SpareNumberVariableNumber(src);
             return result;
         }
 
         /// <summary>
-        /// SpareNumberVariableNumber -> int への明示的な型変換
+        /// SpareNumberVariableNumber -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(SpareNumberVariableNumber src)
+        public static implicit operator int(SpareNumberVariableNumber src)
         {
             return src.Value;
         }

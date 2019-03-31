@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using WodiLib.Cmn;
 using WodiLib.Common;
 using WodiLib.Database;
 using WodiLib.Event;
@@ -16,17 +15,17 @@ namespace WodiLib.Test.IO
             {
                 var result = new CommonEvent
                 {
-                    Id = (CommonEventId) 0,
+                    Id =  0,
                     BootCondition = new CommonEventBootCondition
                     {
                         CommonEventBootType = CommonEventBootType.OnlyCall,
-                        LeftSide = (VariableAddress) 2000000,
+                        LeftSide =  2000000,
                         Operation = CriteriaOperator.Equal,
-                        RightSide = (ConditionRight) 0
+                        RightSide =  0
                     },
                     NumberArgsLength = 0,
                     StrArgsLength = 0,
-                    Name = (CommonEventName) "コモンイベント000",
+                    Name =  "コモンイベント000",
                     EventCommands = new EventCommandList(
                         new List<IEventCommand>
                         {
@@ -40,19 +39,19 @@ namespace WodiLib.Test.IO
                                 Indent = 0
                             }
                         }),
-                    Description = (CommonEventDescription) "",
-                    Memo = (CommonEventMemo) "",
+                    Description =  "",
+                    Memo =  "",
                     LabelColor = CommonEventLabelColor.Black,
-                    FooterString = (CommonEventFooterString) "",
+                    FooterString =  "",
                 };
 
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 0,
-                    (CommonEventSelfVariableName) "cself0");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 99,
-                    (CommonEventSelfVariableName) "cself99");
+                result.UpdateVariableName( 0,
+                     "cself0");
+                result.UpdateVariableName( 99,
+                     "cself99");
 
-                result.SetReturnVariableIndex((CommonEventReturnVariableIndex) 99);
-                result.ReturnValueDescription = (CommonEventResultDescription) "てすと";
+                result.SetReturnVariableIndex( 99);
+                result.ReturnValueDescription =  "てすと";
 
                 return result;
             }
@@ -61,17 +60,17 @@ namespace WodiLib.Test.IO
             {
                 var result = new CommonEvent
                 {
-                    Id = (CommonEventId) 1,
+                    Id =  1,
                     BootCondition = new CommonEventBootCondition
                     {
                         CommonEventBootType = CommonEventBootType.OnlyCall,
-                        LeftSide = (VariableAddress) 2000000,
+                        LeftSide =  2000000,
                         Operation = CriteriaOperator.Equal,
-                        RightSide = (ConditionRight) 0
+                        RightSide =  0
                     },
                     NumberArgsLength = 3,
                     StrArgsLength = 4,
-                    Name = (CommonEventName) "コモンイベント001",
+                    Name =  "コモンイベント001",
                     EventCommands = new EventCommandList(
                         new List<IEventCommand>
                         {
@@ -85,33 +84,33 @@ namespace WodiLib.Test.IO
                                 Indent = 0
                             }
                         }),
-                    Description = (CommonEventDescription) "",
-                    Memo = (CommonEventMemo) "Memo",
+                    Description =  "",
+                    Memo =  "Memo",
                     LabelColor = CommonEventLabelColor.Blue,
-                    FooterString = (CommonEventFooterString) "",
+                    FooterString =  "",
                 };
 
                 /* ---------- セルフ変数名 ---------- */
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 0, (CommonEventSelfVariableName) "cself0");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 1, (CommonEventSelfVariableName) "数値変数2");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 2, (CommonEventSelfVariableName) "数値変数3");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 3, (CommonEventSelfVariableName) "数値変数4");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 5, (CommonEventSelfVariableName) "文字列変数1");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 6, (CommonEventSelfVariableName) "文字列変数2");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 7, (CommonEventSelfVariableName) "文字列変数3");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 8, (CommonEventSelfVariableName) "文字列変数4");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 89, (CommonEventSelfVariableName) "返戻");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 90, (CommonEventSelfVariableName) "CSelf90");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 99, (CommonEventSelfVariableName) "cself99");
+                result.UpdateVariableName(0, "cself0");
+                result.UpdateVariableName(1, "数値変数2");
+                result.UpdateVariableName(2, "数値変数3");
+                result.UpdateVariableName(3, "数値変数4");
+                result.UpdateVariableName(5, "文字列変数1");
+                result.UpdateVariableName(6, "文字列変数2");
+                result.UpdateVariableName(7, "文字列変数3");
+                result.UpdateVariableName(8, "文字列変数4");
+                result.UpdateVariableName(89, "返戻");
+                result.UpdateVariableName(90, "CSelf90");
+                result.UpdateVariableName(99, "cself99");
 
                 /* ---------- 数値引数 ---------- */
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 0,
+                result.UpdateSpecialNumberArgDesc(0,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "数値変数1",
-                            InitValue = (CommonEventNumberArgInitValue) 128
+                            ArgName = "数値変数1",
+                            InitValue = 128
                         };
                         desc.ChangeArgType(CommonEventArgType.Manual, new List<CommonEventSpecialArgCase>
                         {
@@ -121,13 +120,13 @@ namespace WodiLib.Test.IO
                         });
                         return desc;
                     }))());
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 1,
+                result.UpdateSpecialNumberArgDesc(1,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "数値変数2",
-                            InitValue = (CommonEventNumberArgInitValue) 2
+                            ArgName = "数値変数2",
+                            InitValue = 2
                         };
                         desc.ChangeArgType(CommonEventArgType.Manual, new List<CommonEventSpecialArgCase>
                         {
@@ -137,27 +136,27 @@ namespace WodiLib.Test.IO
                         });
                         return desc;
                     }))());
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 2,
+                result.UpdateSpecialNumberArgDesc(2,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "数値変数3",
-                            InitValue = (CommonEventNumberArgInitValue) 127
+                            ArgName = "数値変数3",
+                            InitValue = 127
                         };
                         desc.ChangeArgType(CommonEventArgType.ReferDatabase, null);
-                        desc.SetDatabaseRefer(DBKind.Changeable, (TypeId) 5);
+                        desc.SetDatabaseRefer(DBKind.Changeable, 5);
                         desc.SetDatabaseUseAdditionalItemsFlag(false);
                         return desc;
                     }))());
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 3,
+                result.UpdateSpecialNumberArgDesc(3,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         /* 数値変数4は実際には設定されていないが、一度でも設定されたことがある場合そのデータが残っている。 */
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "数値変数4",
-                            InitValue = (CommonEventNumberArgInitValue) 255
+                            ArgName = "数値変数4",
+                            InitValue = 255
                         };
                         desc.ChangeArgType(CommonEventArgType.ReferDatabase, new[]
                         {
@@ -165,38 +164,38 @@ namespace WodiLib.Test.IO
                             new CommonEventSpecialArgCase(-2, ""),
                             new CommonEventSpecialArgCase(-3, "End"),
                         });
-                        desc.SetDatabaseRefer(DBKind.System, (TypeId) 0);
+                        desc.SetDatabaseRefer(DBKind.System, 0);
                         desc.SetDatabaseUseAdditionalItemsFlag(true);
                         return desc;
                     }))());
 
                 /* ---------- 文字列引数1 ---------- */
-                result.UpdateSpecialStringArgDesc((CommonEventStringArgIndex) 0,
+                result.UpdateSpecialStringArgDesc(0,
                     new CommonEventSpecialStringArgDesc
                     {
-                        ArgName = (CommonEventArgName) "文字列引数1"
+                        ArgName = "文字列引数1"
                     });
                 /* ---------- 文字列引数2 ---------- */
-                result.UpdateSpecialStringArgDesc((CommonEventStringArgIndex) 1,
+                result.UpdateSpecialStringArgDesc(1,
                     new CommonEventSpecialStringArgDesc
                     {
-                        ArgName = (CommonEventArgName) "文字列引数2"
+                        ArgName = "文字列引数2"
                     });
                 /* ---------- 文字列引数3 ---------- */
-                result.UpdateSpecialStringArgDesc((CommonEventStringArgIndex) 2,
+                result.UpdateSpecialStringArgDesc(2,
                     new CommonEventSpecialStringArgDesc
                     {
-                        ArgName = (CommonEventArgName) "文字列引数3"
+                        ArgName = "文字列引数3"
                     });
                 /* ---------- 文字列引数4 ---------- */
-                result.UpdateSpecialStringArgDesc((CommonEventStringArgIndex) 3,
+                result.UpdateSpecialStringArgDesc(3,
                     new CommonEventSpecialStringArgDesc
                     {
-                        ArgName = (CommonEventArgName) "文字列引数4"
+                        ArgName = "文字列引数4"
                     });
 
-                result.SetReturnVariableIndex((CommonEventReturnVariableIndex) 90);
-                result.ReturnValueDescription = (CommonEventResultDescription) "返戻";
+                result.SetReturnVariableIndex(90);
+                result.ReturnValueDescription = "返戻";
 
                 return result;
             }
@@ -205,17 +204,17 @@ namespace WodiLib.Test.IO
             {
                 var result = new CommonEvent
                 {
-                    Id = (CommonEventId) 2,
+                    Id = 2,
                     BootCondition = new CommonEventBootCondition
                     {
                         CommonEventBootType = CommonEventBootType.OnlyCall,
-                        LeftSide = (VariableAddress) 2000000,
+                        LeftSide = 2000000,
                         Operation = CriteriaOperator.Equal,
-                        RightSide = (ConditionRight) 0
+                        RightSide =  0
                     },
                     NumberArgsLength = 0,
                     StrArgsLength = 0,
-                    Name = (CommonEventName) "コモンイベント002",
+                    Name = "コモンイベント002",
                     EventCommands = new EventCommandList(
                         new List<IEventCommand>
                         {
@@ -223,30 +222,30 @@ namespace WodiLib.Test.IO
                                 "[300][10,1]<0>(0,68,128,2,127,255,1600005,1600005,1600005,1600005)(\"コモンイベント001\")"),
                             EventCommandFactory.CreateCommandString("[0][0,0]<0>()()")
                         }),
-                    Description = (CommonEventDescription) "",
-                    Memo = (CommonEventMemo) "",
+                    Description = "",
+                    Memo =  "",
                     LabelColor = CommonEventLabelColor.Black,
-                    FooterString = (CommonEventFooterString) "",
+                    FooterString = "",
                 };
 
                 /* ---------- 数値引数 ---------- */
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 0,
+                result.UpdateSpecialNumberArgDesc(0,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         /* 画面では見えないが、一度設定したことがあるためデータ内に存在する。*/
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "テスト",
-                            InitValue = (CommonEventNumberArgInitValue) 0
+                            ArgName = "テスト",
+                            InitValue = 0
                         };
                         desc.ChangeArgType(CommonEventArgType.Normal, null);
                         return desc;
                     }))());
 
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 0, (CommonEventSelfVariableName) "テスト");
+                result.UpdateVariableName(0, "テスト");
 
-                result.SetReturnVariableIndex((CommonEventReturnVariableIndex) 0);
-                result.ReturnValueDescription = (CommonEventResultDescription) "";
+                result.SetReturnVariableIndex(0);
+                result.ReturnValueDescription = "";
 
                 return result;
             }
@@ -255,17 +254,17 @@ namespace WodiLib.Test.IO
             {
                 var result = new CommonEvent
                 {
-                    Id = (CommonEventId) 3,
+                    Id = 3,
                     BootCondition = new CommonEventBootCondition
                     {
                         CommonEventBootType = CommonEventBootType.Parallel,
-                        LeftSide = (VariableAddress) 2300002,
+                        LeftSide =  2300002,
                         Operation = CriteriaOperator.Below,
-                        RightSide = (ConditionRight) (-13)
+                        RightSide =  (-13)
                     },
                     NumberArgsLength = 4,
                     StrArgsLength = 2,
-                    Name = (CommonEventName) "コモンイベント003",
+                    Name = "コモンイベント003",
                     EventCommands = new EventCommandList(
                         new List<IEventCommand>
                         {
@@ -273,50 +272,50 @@ namespace WodiLib.Test.IO
                             EventCommandFactory.CreateCommandString("[210][3,0]<0>(600099,16777216,1600000)()"),
                             EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
                         }),
-                    Description = (CommonEventDescription) "",
-                    Memo = (CommonEventMemo) "Memo",
+                    Description = "",
+                    Memo =  "Memo",
                     LabelColor = CommonEventLabelColor.Purple,
-                    FooterString = (CommonEventFooterString) "",
+                    FooterString = "",
                 };
 
                 /* ---------- セルフ変数名 ---------- */
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 0, (CommonEventSelfVariableName) "Summary1");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 3, (CommonEventSelfVariableName) "Summary4");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 50, (CommonEventSelfVariableName) "Test");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 51, (CommonEventSelfVariableName) "てすと");
+                result.UpdateVariableName(0, "Summary1");
+                result.UpdateVariableName(3, "Summary4");
+                result.UpdateVariableName(50, "Test");
+                result.UpdateVariableName(51, "てすと");
 
                 /* ---------- 数値引数 ---------- */
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 0,
+                result.UpdateSpecialNumberArgDesc(0,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "Summary1",
-                            InitValue = (CommonEventNumberArgInitValue) 0
+                            ArgName = "Summary1",
+                            InitValue = 0
                         };
                         desc.ChangeArgType(CommonEventArgType.Normal, null);
                         return desc;
                     }))());
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 1,
+                result.UpdateSpecialNumberArgDesc(1,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "引数2",
-                            InitValue = (CommonEventNumberArgInitValue) 0
+                            ArgName = "引数2",
+                            InitValue = 0
                         };
                         desc.ChangeArgType(CommonEventArgType.ReferDatabase, null);
-                        desc.SetDatabaseRefer(DBKind.System, (TypeId) 10);
+                        desc.SetDatabaseRefer(DBKind.System, 10);
                         desc.SetDatabaseUseAdditionalItemsFlag(false);
                         return desc;
                     }))());
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 2,
+                result.UpdateSpecialNumberArgDesc(2,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "引数3",
-                            InitValue = (CommonEventNumberArgInitValue) 0
+                            ArgName = "引数3",
+                            InitValue = 0
                         };
                         desc.ChangeArgType(CommonEventArgType.ReferDatabase, new[]
                         {
@@ -324,17 +323,17 @@ namespace WodiLib.Test.IO
                             new CommonEventSpecialArgCase(-2, "Value-2"),
                             new CommonEventSpecialArgCase(-3, "Value-3"),
                         });
-                        desc.SetDatabaseRefer(DBKind.Changeable, (TypeId) 10);
+                        desc.SetDatabaseRefer(DBKind.Changeable, 10);
                         desc.SetDatabaseUseAdditionalItemsFlag(true);
                         return desc;
                     }))());
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 3,
+                result.UpdateSpecialNumberArgDesc(3,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "Summary4",
-                            InitValue = (CommonEventNumberArgInitValue) 0
+                            ArgName = "Summary4",
+                            InitValue = 0
                         };
                         desc.ChangeArgType(CommonEventArgType.Manual, new[]
                         {
@@ -347,24 +346,24 @@ namespace WodiLib.Test.IO
                     }))());
 
                 /* ---------- 文字列引数 ---------- */
-                result.UpdateSpecialStringArgDesc((CommonEventStringArgIndex) 0,
+                result.UpdateSpecialStringArgDesc(0,
                     new CommonEventSpecialStringArgDesc
                     {
-                        ArgName = (CommonEventArgName) ""
+                        ArgName = ""
                     });
-                result.UpdateSpecialStringArgDesc((CommonEventStringArgIndex) 1,
+                result.UpdateSpecialStringArgDesc(1,
                     new CommonEventSpecialStringArgDesc
                     {
-                        ArgName = (CommonEventArgName) ""
+                        ArgName = ""
                     });
 
                 /* ---------- セルフ変数名 ---------- */
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 0, (CommonEventSelfVariableName) "Summary1");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 1, (CommonEventSelfVariableName) "引数2");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 2, (CommonEventSelfVariableName) "引数3");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 3, (CommonEventSelfVariableName) "Summary4");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 50, (CommonEventSelfVariableName) "Test");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 51, (CommonEventSelfVariableName) "てすと");
+                result.UpdateVariableName(0, "Summary1");
+                result.UpdateVariableName(1, "引数2");
+                result.UpdateVariableName(2, "引数3");
+                result.UpdateVariableName(3, "Summary4");
+                result.UpdateVariableName(50, "Test");
+                result.UpdateVariableName(51, "てすと");
 
                 result.SetReturnValueNone();
 
@@ -375,26 +374,26 @@ namespace WodiLib.Test.IO
             {
                 var result = new CommonEvent
                 {
-                    Id = (CommonEventId) 4,
+                    Id = 4,
                     BootCondition = new CommonEventBootCondition
                     {
                         CommonEventBootType = CommonEventBootType.Auto,
-                        LeftSide = (VariableAddress) 2000000,
+                        LeftSide =  2000000,
                         Operation = CriteriaOperator.Equal,
-                        RightSide = (ConditionRight) 10
+                        RightSide =  10
                     },
                     NumberArgsLength = 0,
                     StrArgsLength = 0,
-                    Name = (CommonEventName) "コモンイベント004",
+                    Name = "コモンイベント004",
                     EventCommands = new EventCommandList(
                         new List<IEventCommand>
                         {
                             EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
                         }),
-                    Description = (CommonEventDescription) "",
-                    Memo = (CommonEventMemo) "",
+                    Description = "",
+                    Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
-                    FooterString = (CommonEventFooterString) "",
+                    FooterString = "",
                 };
 
                 return result;
@@ -404,26 +403,26 @@ namespace WodiLib.Test.IO
             {
                 var result = new CommonEvent
                 {
-                    Id = (CommonEventId) 5,
+                    Id = 5,
                     BootCondition = new CommonEventBootCondition
                     {
                         CommonEventBootType = CommonEventBootType.Auto,
-                        LeftSide = (VariableAddress) 2000004,
+                        LeftSide =  2000004,
                         Operation = CriteriaOperator.Above,
-                        RightSide = (ConditionRight) 10
+                        RightSide =  10
                     },
                     NumberArgsLength = 0,
                     StrArgsLength = 0,
-                    Name = (CommonEventName) "コモンイベント005",
+                    Name = "コモンイベント005",
                     EventCommands = new EventCommandList(
                         new List<IEventCommand>
                         {
                             EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
                         }),
-                    Description = (CommonEventDescription) "",
-                    Memo = (CommonEventMemo) "",
+                    Description = "",
+                    Memo = "",
                     LabelColor = CommonEventLabelColor.Green,
-                    FooterString = (CommonEventFooterString) "",
+                    FooterString = "",
                 };
 
                 return result;
@@ -433,128 +432,128 @@ namespace WodiLib.Test.IO
             {
                 var result = new CommonEvent
                 {
-                    Id = (CommonEventId) 6,
+                    Id = 6,
                     BootCondition = new CommonEventBootCondition
                     {
                         CommonEventBootType = CommonEventBootType.ParallelAlways,
-                        LeftSide = (VariableAddress) 2000000,
+                        LeftSide = 2000000,
                         Operation = CriteriaOperator.Above,
-                        RightSide = (ConditionRight) 10
+                        RightSide = 10
                     },
                     NumberArgsLength = 4,
                     StrArgsLength = 4,
-                    Name = (CommonEventName) "コモンイベント006",
+                    Name = "コモンイベント006",
                     EventCommands = new EventCommandList(
                         new List<IEventCommand>
                         {
                             EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
                         }),
-                    Description = (CommonEventDescription) "",
-                    Memo = (CommonEventMemo) "",
+                    Description = "",
+                    Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
-                    FooterString = (CommonEventFooterString) "",
+                    FooterString = "",
                 };
 
                 /* ---------- セルフ変数名 ---------- */
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 0,
-                    (CommonEventSelfVariableName) "NumArg1Name");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 1,
-                    (CommonEventSelfVariableName) "NumArg2Name");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 2,
-                    (CommonEventSelfVariableName) "NumArg3Name");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 3,
-                    (CommonEventSelfVariableName) "NumArg4Name");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 5,
-                    (CommonEventSelfVariableName) "StrArg1Name");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 6,
-                    (CommonEventSelfVariableName) "StrArg2Name");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 7,
-                    (CommonEventSelfVariableName) "StrArg3Name");
-                result.UpdateVariableName((CommonEventSelfVariableIndex) 8,
-                    (CommonEventSelfVariableName) "StrArg4Name");
+                result.UpdateVariableName(0,
+                    "NumArg1Name");
+                result.UpdateVariableName(1,
+                    "NumArg2Name");
+                result.UpdateVariableName(2,
+                    "NumArg3Name");
+                result.UpdateVariableName(3,
+                    "NumArg4Name");
+                result.UpdateVariableName(5,
+                    "StrArg1Name");
+                result.UpdateVariableName(6,
+                    "StrArg2Name");
+                result.UpdateVariableName(7,
+                    "StrArg3Name");
+                result.UpdateVariableName(8,
+                    "StrArg4Name");
 
                 /* ---------- 数値引数 ---------- */
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 0,
+                result.UpdateSpecialNumberArgDesc(0,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "NumArg1Name",
-                            InitValue = (CommonEventNumberArgInitValue) 0
+                            ArgName = "NumArg1Name",
+                            InitValue = 0
                         };
                         desc.ChangeArgType(CommonEventArgType.Normal, null);
                         return desc;
                     }))());
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 1,
+                result.UpdateSpecialNumberArgDesc(1,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "NumArg2Name",
-                            InitValue = (CommonEventNumberArgInitValue) 0
+                            ArgName = "NumArg2Name",
+                            InitValue = 0
                         };
                         desc.ChangeArgType(CommonEventArgType.Normal, null);
                         return desc;
                     }))());
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 2,
+                result.UpdateSpecialNumberArgDesc(2,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "NumArg3Name",
-                            InitValue = (CommonEventNumberArgInitValue) 0
+                            ArgName = "NumArg3Name",
+                            InitValue = 0
                         };
                         desc.ChangeArgType(CommonEventArgType.Normal, null);
                         return desc;
                     }))());
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 3,
+                result.UpdateSpecialNumberArgDesc(3,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "NumArg4Name",
-                            InitValue = (CommonEventNumberArgInitValue) 0
+                            ArgName = "NumArg4Name",
+                            InitValue = 0
                         };
                         desc.ChangeArgType(CommonEventArgType.Normal, null);
                         return desc;
                     }))());
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 4,
+                result.UpdateSpecialNumberArgDesc(4,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "N",
-                            InitValue = (CommonEventNumberArgInitValue) 0
+                            ArgName = "N",
+                            InitValue = 0
                         };
                         desc.ChangeArgType(CommonEventArgType.Normal, null);
                         return desc;
                     }))());
 
                 /* ---------- 文字列引数 ---------- */
-                result.UpdateSpecialStringArgDesc((CommonEventStringArgIndex) 0,
+                result.UpdateSpecialStringArgDesc(0,
                     new CommonEventSpecialStringArgDesc
                     {
-                        ArgName = (CommonEventArgName) "StrArg1Name"
+                        ArgName = "StrArg1Name"
                     });
-                result.UpdateSpecialStringArgDesc((CommonEventStringArgIndex) 1,
+                result.UpdateSpecialStringArgDesc(1,
                     new CommonEventSpecialStringArgDesc
                     {
-                        ArgName = (CommonEventArgName) "StrArg2Name"
+                        ArgName = "StrArg2Name"
                     });
-                result.UpdateSpecialStringArgDesc((CommonEventStringArgIndex) 2,
+                result.UpdateSpecialStringArgDesc(2,
                     new CommonEventSpecialStringArgDesc
                     {
-                        ArgName = (CommonEventArgName) "StrArg3Name"
+                        ArgName = "StrArg3Name"
                     });
-                result.UpdateSpecialStringArgDesc((CommonEventStringArgIndex) 3,
+                result.UpdateSpecialStringArgDesc(3,
                     new CommonEventSpecialStringArgDesc
                     {
-                        ArgName = (CommonEventArgName) "StrArg4Name"
+                        ArgName = "StrArg4Name"
                     });
-                result.UpdateSpecialStringArgDesc((CommonEventStringArgIndex) 4,
+                result.UpdateSpecialStringArgDesc(4,
                     new CommonEventSpecialStringArgDesc
                     {
-                        ArgName = (CommonEventArgName) "U"
+                        ArgName = "U"
                     });
 
                 result.SetReturnValueNone();
@@ -566,45 +565,45 @@ namespace WodiLib.Test.IO
             {
                 var result = new CommonEvent
                 {
-                    Id = (CommonEventId) 7,
+                    Id = 7,
                     BootCondition = new CommonEventBootCondition
                     {
                         CommonEventBootType = CommonEventBootType.ParallelAlways,
-                        LeftSide = (VariableAddress) 2000000,
+                        LeftSide = 2000000,
                         Operation = CriteriaOperator.Equal,
-                        RightSide = (ConditionRight) 0
+                        RightSide = 0
                     },
                     NumberArgsLength = 1,
                     StrArgsLength = 0,
-                    Name = (CommonEventName) "コモンイベント007",
+                    Name = "コモンイベント007",
                     EventCommands = new EventCommandList(
                         new List<IEventCommand>
                         {
                             EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
                         }),
-                    Description = (CommonEventDescription) "",
-                    Memo = (CommonEventMemo) "",
+                    Description = "",
+                    Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
-                    FooterString = (CommonEventFooterString) "",
+                    FooterString = "",
                 };
 
                 /* ---------- 数値引数 ---------- */
-                result.UpdateSpecialNumberArgDesc((CommonEventNumberArgIndex) 0,
+                result.UpdateSpecialNumberArgDesc(0,
                     ((Func<CommonEventSpecialNumberArgDesc>) (() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
-                            ArgName = (CommonEventArgName) "",
-                            InitValue = (CommonEventNumberArgInitValue) 0
+                            ArgName = "",
+                            InitValue = 0
                         };
                         desc.ChangeArgType(CommonEventArgType.ReferDatabase, null);
-                        desc.SetDatabaseRefer(DBKind.System, (TypeId) 0);
+                        desc.SetDatabaseRefer(DBKind.System, 0);
                         desc.SetDatabaseUseAdditionalItemsFlag(false);
                         return desc;
                     }))());
 
-                result.SetReturnVariableIndex((CommonEventReturnVariableIndex) 41);
-                result.ReturnValueDescription = (CommonEventResultDescription) "Return";
+                result.SetReturnVariableIndex(41);
+                result.ReturnValueDescription = "Return";
 
                 return result;
             }

@@ -54,7 +54,7 @@ namespace WodiLib.Common
         /// string に変換する。
         /// </summary>
         /// <returns>string値</returns>
-        public override string ToString() => (string) this;
+        public override string ToString() => this;
 
         /// <inheritdoc />
         public override bool Equals(object obj)
@@ -98,22 +98,22 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// string -> CommonEventDescription への明示的な型変換
+        /// string -> CommonEventDescription への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator CommonEventDescription(string src)
+        public static implicit operator CommonEventDescription(string src)
         {
             var result = new CommonEventDescription(src);
             return result;
         }
 
         /// <summary>
-        /// CommonEventDescription -> string への明示的な型変換
+        /// CommonEventDescription -> string への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator string(CommonEventDescription src)
+        public static implicit operator string(CommonEventDescription src)
         {
             return src.Value;
         }

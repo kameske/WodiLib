@@ -95,7 +95,7 @@ namespace WodiLib.Cmn
         /// int に変換する。
         /// </summary>
         /// <returns>int値</returns>
-        public int ToInt() => (int) this;
+        public int ToInt() => this;
 
         /// <summary>
         /// 値を比較する。
@@ -112,22 +112,22 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> CommonEventVariableIndex への明示的な型変換
+        /// int -> CommonEventVariableIndex への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator CommonEventVariableIndex(int src)
+        public static implicit operator CommonEventVariableIndex(int src)
         {
             var result = new CommonEventVariableIndex(src);
             return result;
         }
 
         /// <summary>
-        /// CommonEventVariableIndex -> int への明示的な型変換
+        /// CommonEventVariableIndex -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(CommonEventVariableIndex src)
+        public static implicit operator int(CommonEventVariableIndex src)
         {
             return src.Value;
         }

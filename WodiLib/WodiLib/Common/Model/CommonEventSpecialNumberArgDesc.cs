@@ -24,7 +24,7 @@ namespace WodiLib.Common
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private CommonEventArgName argName = (CommonEventArgName) "";
+        private CommonEventArgName argName = "";
 
         /// <summary>
         /// [NotNull] 引数名

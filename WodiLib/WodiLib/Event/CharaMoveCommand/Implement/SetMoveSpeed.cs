@@ -39,8 +39,8 @@ namespace WodiLib.Event.CharaMoveCommand
                         ErrorMessage.NotNull(nameof(Value)));
 
                 moveSpeed = value;
-                var val = (int) moveSpeed.Code;
-                SetNumberValue(0, (CharaMoveCommandValue) val);
+                var val = moveSpeed.Code;
+                SetNumberValue(0, val);
             }
         }
 
@@ -50,8 +50,8 @@ namespace WodiLib.Event.CharaMoveCommand
         public SetMoveSpeed()
         {
             // 引数0の初期値設定
-            var val = (int) moveSpeed.Code;
-            SetNumberValue(0, (CharaMoveCommandValue) val);
+            var val = moveSpeed.Code;
+            SetNumberValue(0, val);
         }
     }
 }

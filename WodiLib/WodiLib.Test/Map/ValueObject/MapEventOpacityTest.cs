@@ -81,7 +81,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                castValue = (byte) instance;
+                castValue =  instance;
             }
             catch (Exception ex)
             {

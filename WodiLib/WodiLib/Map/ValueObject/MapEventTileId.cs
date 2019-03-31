@@ -28,7 +28,7 @@ namespace WodiLib.Map
         public static readonly int MinValue = -1;
 
         /// <summary>使用しない</summary>
-        public static readonly MapEventTileId NotUse = (MapEventTileId) (-1);
+        public static readonly MapEventTileId NotUse = (-1);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
@@ -84,7 +84,7 @@ namespace WodiLib.Map
         /// int に変換する。
         /// </summary>
         /// <returns>int値</returns>
-        public int ToInt() => (int) this;
+        public int ToInt() => this;
 
         /// <summary>
         /// byte配列に変換する。
@@ -108,22 +108,22 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> MapEventTileId への明示的な型変換
+        /// int -> MapEventTileId への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator MapEventTileId(int src)
+        public static implicit operator MapEventTileId(int src)
         {
             var result = new MapEventTileId(src);
             return result;
         }
 
         /// <summary>
-        /// MapEventTileId -> int への明示的な型変換
+        /// MapEventTileId -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(MapEventTileId src)
+        public static implicit operator int(MapEventTileId src)
         {
             return src.Value;
         }

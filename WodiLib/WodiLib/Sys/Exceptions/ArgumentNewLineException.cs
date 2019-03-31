@@ -19,6 +19,8 @@ namespace WodiLib.Sys
         /// コンストラクタ
         /// </summary>
         /// <param name="message">エラーメッセージ</param>
-        public ArgumentNewLineException(string message) : base(message) { }
+        public ArgumentNewLineException(string message) : base(message)
+        {
+        }
     }
 }

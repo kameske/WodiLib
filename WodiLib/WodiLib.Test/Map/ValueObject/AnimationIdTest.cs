@@ -82,7 +82,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                castValue = (int) instance;
+                castValue =  instance;
             }
             catch (Exception ex)
             {

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Common;
-using WodiLib.Event;
 using WodiLib.Event.EventCommand;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
@@ -480,7 +479,7 @@ namespace WodiLib.Test.Common
             {
                 for (var i = 0; i < argLength; i++)
                 {
-                    nameList.Add((CommonEventSelfVariableName) "");
+                    nameList.Add( "");
                 }
             }
 

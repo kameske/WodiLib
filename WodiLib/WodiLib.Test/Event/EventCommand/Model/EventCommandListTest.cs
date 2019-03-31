@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using WodiLib.Event;
 using WodiLib.Event.EventCommand;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;

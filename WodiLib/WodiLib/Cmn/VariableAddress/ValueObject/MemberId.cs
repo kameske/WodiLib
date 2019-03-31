@@ -93,7 +93,7 @@ namespace WodiLib.Cmn
         /// int に変換する。
         /// </summary>
         /// <returns>int値</returns>
-        public int ToInt() => (int) this;
+        public int ToInt() => this;
 
         /// <summary>
         /// 値を比較する。
@@ -110,22 +110,22 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> MemberId への明示的な型変換
+        /// int -> MemberId への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator MemberId(int src)
+        public static implicit operator MemberId(int src)
         {
             var result = new MemberId(src);
             return result;
         }
 
         /// <summary>
-        /// MemberId -> int への明示的な型変換
+        /// MemberId -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(MemberId src)
+        public static implicit operator int(MemberId src)
         {
             return src.Value;
         }

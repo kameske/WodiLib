@@ -40,7 +40,7 @@ namespace WodiLib.Event.EventCommand
         public MapChipSettings(int? flags = null)
         {
             if (!flags.HasValue) return;
-            var tmpFlags = (int) flags;
+            var tmpFlags = flags;
             IsNoDown = (tmpFlags & NoDownFlg) != 0;
             IsNoLeft = (tmpFlags & NoLeftFlg) != 0;
             IsNoRight = (tmpFlags & NoRightFlg) != 0;

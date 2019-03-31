@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using WodiLib.Cmn;
 using WodiLib.Database;
 using WodiLib.Event;
 using WodiLib.Event.CharaMoveCommand;
@@ -25,7 +24,7 @@ namespace WodiLib.Test.IO
         public static MapData GenerateMap023Data()
         {
             // マップ情報
-            var memo = (MapDataMemo) "なし";
+            var memo = "なし";
             var tileSetId =  1;
             var mapSizeWidth =  22;
             var mapSizeHeight =  20;
@@ -33,30 +32,30 @@ namespace WodiLib.Test.IO
             return new MapData
             {
                 Memo = memo,
-                TileSetId = (TileSetId) tileSetId,
-                MapSizeWidth = (MapSizeWidth) mapSizeWidth,
-                MapSizeHeight = (MapSizeHeight) mapSizeHeight,
+                TileSetId = tileSetId,
+                MapSizeWidth = mapSizeWidth,
+                MapSizeHeight = mapSizeHeight,
 
                 // レイヤー1
                 Layer1 = ((Func<Layer>) (() =>
                 {
                     var chips = new List<IEnumerable<MapChip>>();
-                    for (var i = 0; i < (int) mapSizeWidth; i++)
+                    for (var i = 0; i < mapSizeWidth; i++)
                     {
                         chips.Add(((Func<List<MapChip>>) (() =>
                         {
                             var lineChips = new List<MapChip>();
-                            lineChips.Add((MapChip) 0);
-                            lineChips.Add((MapChip) 1);
-                            lineChips.Add((MapChip) 2);
+                            lineChips.Add(0);
+                            lineChips.Add(1);
+                            lineChips.Add(2);
                             for (var j = 0; j < 3; j++)
                             {
-                                lineChips.Add((MapChip) 3);
+                                lineChips.Add(3);
                             }
 
                             for (var j = 0; j < 14; j++)
                             {
-                                lineChips.Add((MapChip) 0);
+                                lineChips.Add(0);
                             }
 
                             return lineChips;
@@ -77,150 +76,150 @@ namespace WodiLib.Test.IO
                         Enumerable.Range(1, 20).Select(_ => (MapChip) 204444),
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204443, (MapChip) 204141, (MapChip) 204343, (MapChip) 204141,
-                            (MapChip) 204141, (MapChip) 204343, (MapChip) 204141, (MapChip) 204141, (MapChip) 204141,
-                            (MapChip) 204343, (MapChip) 204141, (MapChip) 204141, (MapChip) 204141, (MapChip) 204141,
-                            (MapChip) 204344, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204443, 204141, 204343, 204141,
+                            204141, 204343, 204141, 204141, 204141,
+                            204343, 204141, 204141, 204141, 204141,
+                            204344, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204422, (MapChip) 300000, (MapChip) 202222, (MapChip) 300011,
-                            (MapChip) 301100, (MapChip) 202222, (MapChip) 300213, (MapChip) 301111, (MapChip) 301100,
-                            (MapChip) 202222, (MapChip) 300214, (MapChip) 301414, (MapChip) 301414, (MapChip) 301402,
-                            (MapChip) 202244, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204422, 300000, 202222, 300011,
+                            301100, 202222, 300213, 301111, 301100,
+                            202222, 300214, 301414, 301414, 301402,
+                            202244, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204433, (MapChip) 201111, (MapChip) 203333, (MapChip) 201111,
-                            (MapChip) 201111, (MapChip) 203322, (MapChip) 302222, (MapChip) 200214, (MapChip) 201414,
-                            (MapChip) 203422, (MapChip) 302244, (MapChip) 304444, (MapChip) 304444, (MapChip) 304422,
-                            (MapChip) 202244, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204433, 201111, 203333, 201111,
+                            201111, 203322, 302222, 200214, 201414,
+                            203422, 302244, 304444, 304444, 304422,
+                            202244, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204422, (MapChip) 300202, (MapChip) 202222, (MapChip) 300214,
-                            (MapChip) 301402, (MapChip) 202222, (MapChip) 302020, (MapChip) 202244, (MapChip) 204444,
-                            (MapChip) 204422, (MapChip) 302244, (MapChip) 304444, (MapChip) 304443, (MapChip) 304120,
-                            (MapChip) 202244, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204422, 300202, 202222, 300214,
+                            301402, 202222, 302020, 202244, 204444,
+                            204422, 302244, 304444, 304443, 304120,
+                            202244, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204422, (MapChip) 302020, (MapChip) 202222, (MapChip) 302041,
-                            (MapChip) 304120, (MapChip) 202233, (MapChip) 201111, (MapChip) 203141, (MapChip) 204141,
-                            (MapChip) 204322, (MapChip) 302041, (MapChip) 304141, (MapChip) 304120, (MapChip) 200214,
-                            (MapChip) 203444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204422, 302020, 202222, 302041,
+                            304120, 202233, 201111, 203141, 204141,
+                            204322, 302041, 304141, 304120, 200214,
+                            203444, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204434, (MapChip) 201413, (MapChip) 203131, (MapChip) 201314,
-                            (MapChip) 201414, (MapChip) 203422, (MapChip) 300011, (MapChip) 301313, (MapChip) 301100,
-                            (MapChip) 202234, (MapChip) 201414, (MapChip) 201413, (MapChip) 201111, (MapChip) 203344,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204434, 201413, 203131, 201314,
+                            201414, 203422, 300011, 301313, 301100,
+                            202234, 201414, 201413, 201111, 203344,
+                            204444, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204443, (MapChip) 204120, (MapChip) 300202, (MapChip) 202041,
-                            (MapChip) 204344, (MapChip) 204433, (MapChip) 201100, (MapChip) 302222, (MapChip) 200011,
-                            (MapChip) 203343, (MapChip) 204141, (MapChip) 204120, (MapChip) 300202, (MapChip) 202244,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204443, 204120, 300202, 202041,
+                            204344, 204433, 201100, 302222, 200011,
+                            203343, 204141, 204120, 300202, 202244,
+                            204444, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204422, (MapChip) 300011, (MapChip) 303333, (MapChip) 301100,
-                            (MapChip) 202244, (MapChip) 204422, (MapChip) 300011, (MapChip) 303131, (MapChip) 301100,
-                            (MapChip) 202222, (MapChip) 300214, (MapChip) 301414, (MapChip) 303422, (MapChip) 202244,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204422, 300011, 303333, 301100,
+                            202244, 204422, 300011, 303131, 301100,
+                            202222, 300214, 301414, 303422, 202244,
+                            204444, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204434, (MapChip) 201402, (MapChip) 302020, (MapChip) 200214,
-                            (MapChip) 203443, (MapChip) 204131, (MapChip) 201313, (MapChip) 201111, (MapChip) 201314,
-                            (MapChip) 203422, (MapChip) 302243, (MapChip) 304141, (MapChip) 304120, (MapChip) 202244,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204434, 201402, 302020, 200214,
+                            203443, 204131, 201313, 201111, 201314,
+                            203422, 302243, 304141, 304120, 202244,
+                            204444, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204443, (MapChip) 204131, (MapChip) 201111, (MapChip) 203141,
-                            (MapChip) 204322, (MapChip) 300202, (MapChip) 202020, (MapChip) 300202, (MapChip) 202244,
-                            (MapChip) 204422, (MapChip) 302020, (MapChip) 200214, (MapChip) 201414, (MapChip) 203444,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204443, 204131, 201111, 203141,
+                            204322, 300202, 202020, 300202, 202244,
+                            204422, 302020, 200214, 201414, 203444,
+                            204444, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204422, (MapChip) 300213, (MapChip) 301111, (MapChip) 301302,
-                            (MapChip) 202222, (MapChip) 302233, (MapChip) 301111, (MapChip) 303322, (MapChip) 202243,
-                            (MapChip) 204131, (MapChip) 201111, (MapChip) 203141, (MapChip) 204344, (MapChip) 204444,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204422, 300213, 301111, 301302,
+                            202222, 302233, 301111, 303322, 202243,
+                            204131, 201111, 203141, 204344, 204444,
+                            204444, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204422, (MapChip) 302222, (MapChip) 200000, (MapChip) 302222,
-                            (MapChip) 202222, (MapChip) 302020, (MapChip) 200202, (MapChip) 302020, (MapChip) 202222,
-                            (MapChip) 300011, (MapChip) 301314, (MapChip) 301402, (MapChip) 202041, (MapChip) 204344,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204422, 302222, 200000, 302222,
+                            202222, 302020, 200202, 302020, 202222,
+                            300011, 301314, 301402, 202041, 204344,
+                            204444, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204422, (MapChip) 302031, (MapChip) 301111, (MapChip) 303120,
-                            (MapChip) 202233, (MapChip) 201111, (MapChip) 203131, (MapChip) 201314, (MapChip) 203434,
-                            (MapChip) 201402, (MapChip) 302041, (MapChip) 304131, (MapChip) 301100, (MapChip) 202244,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204422, 302031, 301111, 303120,
+                            202233, 201111, 203131, 201314, 203434,
+                            201402, 302041, 304131, 301100, 202244,
+                            204444, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204434, (MapChip) 201413, (MapChip) 201111, (MapChip) 201314,
-                            (MapChip) 203422, (MapChip) 300214, (MapChip) 301402, (MapChip) 202041, (MapChip) 204343,
-                            (MapChip) 204131, (MapChip) 201111, (MapChip) 201313, (MapChip) 201111, (MapChip) 203344,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204434, 201413, 201111, 201314,
+                            203422, 300214, 301402, 202041, 204343,
+                            204131, 201111, 201313, 201111, 203344,
+                            204444, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204443, (MapChip) 204120, (MapChip) 300202, (MapChip) 202041,
-                            (MapChip) 204322, (MapChip) 302041, (MapChip) 304334, (MapChip) 301402, (MapChip) 202222,
-                            (MapChip) 300214, (MapChip) 301402, (MapChip) 202020, (MapChip) 300202, (MapChip) 202041,
-                            (MapChip) 204344, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204443, 204120, 300202, 202041,
+                            204322, 302041, 304334, 301402, 202222,
+                            300214, 301402, 202020, 300202, 202041,
+                            204344, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204422, (MapChip) 300214, (MapChip) 303434, (MapChip) 301402,
-                            (MapChip) 202234, (MapChip) 201402, (MapChip) 302041, (MapChip) 304120, (MapChip) 202222,
-                            (MapChip) 302041, (MapChip) 304333, (MapChip) 301111, (MapChip) 303334, (MapChip) 301402,
-                            (MapChip) 202244, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204422, 300214, 303434, 301402,
+                            202234, 201402, 302041, 304120, 202222,
+                            302041, 304333, 301111, 303334, 301402,
+                            202244, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204422, (MapChip) 302041, (MapChip) 304343, (MapChip) 304120,
-                            (MapChip) 202244, (MapChip) 204434, (MapChip) 201414, (MapChip) 201414, (MapChip) 203434,
-                            (MapChip) 201402, (MapChip) 302020, (MapChip) 200202, (MapChip) 302041, (MapChip) 304120,
-                            (MapChip) 202244, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204422, 302041, 304343, 304120,
+                            202244, 204434, 201414, 201414, 203434,
+                            201402, 302020, 200202, 302041, 304120,
+                            202244, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204434, (MapChip) 201402, (MapChip) 302020, (MapChip) 200214,
-                            (MapChip) 203444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444,
-                            (MapChip) 204434, (MapChip) 201414, (MapChip) 203434, (MapChip) 201414, (MapChip) 201414,
-                            (MapChip) 203444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204434, 201402, 302020, 200214,
+                            203444, 204444, 204444, 204444, 204444,
+                            204434, 201414, 203434, 201414, 201414,
+                            203444, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204434, (MapChip) 201414, (MapChip) 203444,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204444, 204434, 201414, 203444,
+                            204444, 204444, 204444, 204444, 204444,
+                            204444, 204444, 204444, 204444, 204444,
+                            204444, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204444, 204444, 204444, 204444,
+                            204444, 204444, 204444, 204444, 204444,
+                            204444, 204444, 204444, 204444, 204444,
+                            204444, 204444, 204444, 204444, 204444
                         },
                         new List<MapChip>
                         {
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444,
-                            (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444, (MapChip) 204444
+                            204444, 204444, 204444, 204444, 204444,
+                            204444, 204444, 204444, 204444, 204444,
+                            204444, 204444, 204444, 204444, 204444,
+                            204444, 204444, 204444, 204444, 204444
                         },
                     });
                     return layer;
@@ -235,9 +234,9 @@ namespace WodiLib.Test.IO
                     // マップイベント00
                     new MapEvent
                     {
-                        EventName = (MapEventName) "マップイベント",
-                        MapEventId = (MapEventId) 0,
-                        Position = (Position) (1, 1),
+                        EventName = "マップイベント",
+                        MapEventId = 0,
+                        Position =  (1, 1),
                         MapEventPageList = new MapEventPageList(new List<MapEventPage>
                         {
                             // マップイベント00 - ページ1
@@ -246,8 +245,8 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = (CharaChipFileName) "CharaChip/[Animal]Chicken.png",
-                                    CharaChipOpacity =  (MapEventOpacity) 255,
+                                    CharaChipFileName = "CharaChip/[Animal]Chicken.png",
+                                    CharaChipOpacity =  255,
                                     CharaChipDrawType = PictureDrawType.Normal
                                 },
                                 BootInfo = new MapEventPageBootInfo
@@ -256,23 +255,23 @@ namespace WodiLib.Test.IO
                                     MapEventBootCondition1 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = (VariableAddress) 1100000,
+                                        LeftSide = 1100000,
                                         Operation = CriteriaOperator.Equal,
-                                        RightSide = (ConditionRight) 22
+                                        RightSide = 22
                                     },
                                     MapEventBootCondition2 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = (VariableAddress) 1100003,
+                                        LeftSide = 1100003,
                                         Operation = CriteriaOperator.Not,
-                                        RightSide = (ConditionRight) 13002
+                                        RightSide = 13002
                                     },
                                     MapEventBootCondition3 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = (VariableAddress) 2200000,
+                                        LeftSide = 2200000,
                                         Operation = CriteriaOperator.Greater,
-                                        RightSide = (ConditionRight) (-35)
+                                        RightSide = (-35)
                                     },
                                     MapEventBootCondition4 = new MapEventBootCondition()
                                 },
@@ -294,8 +293,8 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = true
                                 },
-                                HitExtendRange = (HitExtendRange) (4, 2),
-                                ShadowGraphicId = (ShadowGraphicId) 1,
+                                HitExtendRange = (4, 2),
+                                ShadowGraphicId = 1,
                                 // イベントコマンド
                                 EventCommands = new EventCommandList(new List<IEventCommand>
                                 {
@@ -360,7 +359,7 @@ namespace WodiLib.Test.IO
                                             IsWaitForComplete = false,
                                         },
                                         Indent = 1,
-                                        Target = EventIdConstant.ThisEventId
+                                        Target = MapEventId.ThisEventId
                                     },
                                     new MoveRoute
                                     {
@@ -375,36 +374,36 @@ namespace WodiLib.Test.IO
                                                 new MoveAwayFromHero(),
                                                 new Jump
                                                 {
-                                                    DownPoint = (CharaMoveCommandValue) 2,
-                                                    RightPoint = (CharaMoveCommandValue) 1
+                                                    DownPoint = 2,
+                                                    RightPoint = 1
                                                 },
                                                 new Jump
                                                 {
-                                                    DownPoint = (CharaMoveCommandValue) 1100005,
-                                                    RightPoint = (CharaMoveCommandValue) 1100001
+                                                    DownPoint = 1100005,
+                                                    RightPoint = 1100001
                                                 },
                                                 new ApproachEvent
                                                 {
-                                                    EventId = (CharaMoveCommandValue) 4
+                                                    EventId = 4
                                                 },
                                                 new ApproachEvent
                                                 {
-                                                    EventId = (CharaMoveCommandValue) 2000003
+                                                    EventId = 2000003
                                                 },
                                                 new ApproachPosition
                                                 {
-                                                    PositionX = (CharaMoveCommandValue) 1,
-                                                    PositionY = (CharaMoveCommandValue) 2
+                                                    PositionX = 1,
+                                                    PositionY = 2
                                                 },
                                                 new ApproachPosition
                                                 {
-                                                    PositionX = (CharaMoveCommandValue) 1000024,
-                                                    PositionY = (CharaMoveCommandValue) 1000025
+                                                    PositionX = 1000024,
+                                                    PositionY = 1000025
                                                 }
                                             },
                                         },
                                         Indent = 1,
-                                        Target = EventIdConstant.Hero
+                                        Target = MapEventId.Hero
                                     },
                                     new MoveRoute
                                     {
@@ -414,23 +413,23 @@ namespace WodiLib.Test.IO
                                             {
                                                 new ChangeGraphic
                                                 {
-                                                    GraphicId = (CharaMoveCommandValue) 3
+                                                    GraphicId = 3
                                                 },
                                                 new ChangePenetration
                                                 {
-                                                    Opacity = (CharaMoveCommandValue) 4
+                                                    Opacity = 4
                                                 },
                                                 new ChangeHeight
                                                 {
-                                                    Height = (CharaMoveCommandValue) 5
+                                                    Height = 5
                                                 },
                                                 new PlaySE
                                                 {
-                                                    SoundId = (CharaMoveCommandValue) 6
+                                                    SoundId = 6
                                                 },
                                                 new WaitMoveCommand
                                                 {
-                                                    Frame = (CharaMoveCommandValue) 7
+                                                    Frame = 7
                                                 }
                                             },
                                             IsRepeatAction = false,
@@ -438,7 +437,7 @@ namespace WodiLib.Test.IO
                                             IsWaitForComplete = false
                                         },
                                         Indent = 1,
-                                        Target = EventIdConstant.Member2
+                                        Target = MapEventId.Member2
                                     },
                                     new MoveRoute
                                     {
@@ -476,23 +475,23 @@ namespace WodiLib.Test.IO
                                             {
                                                 new AssignValue
                                                 {
-                                                    TargetAddress = (VariableAddress) 1100006,
-                                                    Value = (CharaMoveCommandValue) 7
+                                                    TargetAddress = 1100006,
+                                                    Value = 7
                                                 },
                                                 new AssignValue
                                                 {
-                                                    TargetAddress = (VariableAddress) 1100006,
-                                                    Value = (CharaMoveCommandValue) 1100003
+                                                    TargetAddress = 1100006,
+                                                    Value = 1100003
                                                 },
                                                 new AddValue
                                                 {
-                                                    TargetAddress = (VariableAddress) 1100007,
-                                                    Value = (CharaMoveCommandValue) 7
+                                                    TargetAddress = 1100007,
+                                                    Value = 7
                                                 },
                                                 new AddValue
                                                 {
-                                                    TargetAddress = (VariableAddress) 1100008,
-                                                    Value = (CharaMoveCommandValue) 1100000
+                                                    TargetAddress = 1100008,
+                                                    Value = 1100000
                                                 },
                                                 new SetMoveSpeed
                                                 {
@@ -543,7 +542,7 @@ namespace WodiLib.Test.IO
                                             IsWaitForComplete = false
                                         },
                                         Indent = 1,
-                                        Target = EventIdConstant.ThisEventId
+                                        Target = MapEventId.ThisEventId
                                     },
                                     new Blank {Indent = 1},
                                     new ChoiceStartForkingNumber
@@ -645,10 +644,10 @@ namespace WodiLib.Test.IO
         {
             return new MapData
             {
-                Memo = (MapDataMemo) "なし",
-                TileSetId = (TileSetId) 0,
-                MapSizeWidth = (MapSizeWidth) 20,
-                MapSizeHeight = (MapSizeHeight) 15,
+                Memo = "なし",
+                TileSetId = 0,
+                MapSizeWidth = 20,
+                MapSizeHeight = 15,
                 Layer1 = GenerateEmptyLayer(20, 15),
                 Layer2 = GenerateEmptyLayer(20, 15),
                 Layer3 = GenerateEmptyLayer(20, 15),
@@ -656,9 +655,9 @@ namespace WodiLib.Test.IO
                 {
                     new MapEvent
                     {
-                        EventName = (MapEventName) "テストイベント1",
-                        MapEventId = (MapEventId) 0,
-                        Position = (Position) (3, 1),
+                        EventName = "テストイベント1",
+                        MapEventId = 0,
+                        Position =  (3, 1),
                         MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
@@ -666,9 +665,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = (CharaChipFileName) "",
+                                    CharaChipFileName = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity =  (MapEventOpacity) 255,
+                                    CharaChipOpacity =  255,
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -676,29 +675,29 @@ namespace WodiLib.Test.IO
                                     MapEventBootCondition1 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = (VariableAddress) 1100001,
-                                        RightSide = (ConditionRight) 10,
+                                        LeftSide = 1100001,
+                                        RightSide = 10,
                                         Operation = CriteriaOperator.Above
                                     },
                                     MapEventBootCondition2 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = (VariableAddress) 1100002,
-                                        RightSide = (ConditionRight) 111,
+                                        LeftSide = 1100002,
+                                        RightSide = 111,
                                         Operation = CriteriaOperator.Greater
                                     },
                                     MapEventBootCondition3 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = (VariableAddress) 2000000,
-                                        RightSide = (ConditionRight) 30,
+                                        LeftSide = 2000000,
+                                        RightSide = 30,
                                         Operation = CriteriaOperator.Less
                                     },
                                     MapEventBootCondition4 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = (VariableAddress) 2000001,
-                                        RightSide = (ConditionRight) 220,
+                                        LeftSide = 2000001,
+                                        RightSide = 220,
                                         Operation = CriteriaOperator.Not
                                     },
                                 },
@@ -719,8 +718,8 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false,
                                 },
-                                HitExtendRange = (HitExtendRange) (1, 3),
-                                ShadowGraphicId = (ShadowGraphicId) 2,
+                                HitExtendRange = (1, 3),
+                                ShadowGraphicId = 2,
                                 EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(
@@ -806,9 +805,9 @@ namespace WodiLib.Test.IO
                     },
                     new MapEvent
                     {
-                        EventName = (MapEventName) "テストイベント2",
-                        MapEventId = (MapEventId) 1,
-                        Position = (Position) (4, 8),
+                        EventName = "テストイベント2",
+                        MapEventId = 1,
+                        Position =  (4, 8),
                         MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
@@ -816,9 +815,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = (CharaChipFileName) "",
+                                    CharaChipFileName = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = (MapEventOpacity) 255,
+                                    CharaChipOpacity = 255,
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -841,8 +840,8 @@ namespace WodiLib.Test.IO
                                     IsHitBox = false,
                                     IsPlaceHalfStepUp = true,
                                 },
-                                HitExtendRange = (HitExtendRange) (0, 0),
-                                ShadowGraphicId = (ShadowGraphicId) 0,
+                                HitExtendRange = (0, 0),
+                                ShadowGraphicId = 0,
                                 EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(
@@ -880,10 +879,10 @@ namespace WodiLib.Test.IO
         {
             return new MapData
             {
-                Memo = (MapDataMemo) "なし",
-                TileSetId = (TileSetId) 1,
-                MapSizeWidth = (MapSizeWidth) 20,
-                MapSizeHeight = (MapSizeHeight) 15,
+                Memo = "なし",
+                TileSetId = 1,
+                MapSizeWidth = 20,
+                MapSizeHeight = 15,
                 Layer1 = GenerateEmptyLayer(20, 15),
                 Layer2 = GenerateEmptyLayer(20, 15),
                 Layer3 = GenerateEmptyLayer(20, 15),
@@ -891,9 +890,9 @@ namespace WodiLib.Test.IO
                 {
                     new MapEvent
                     {
-                        EventName = (MapEventName) "CharaChip",
-                        MapEventId = (MapEventId) 0,
-                        Position = (Position) (4, 2),
+                        EventName = "CharaChip",
+                        MapEventId = 0,
+                        Position =  (4, 2),
                         MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
@@ -901,9 +900,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = (CharaChipFileName) "CharaChip/[Special]Edy.png",
+                                    CharaChipFileName = "CharaChip/[Special]Edy.png",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = (MapEventOpacity) 255
+                                    CharaChipOpacity = 255
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -916,8 +915,8 @@ namespace WodiLib.Test.IO
                                     MoveFrequency = MoveFrequency.Middle,
                                     AnimateSpeed = AnimateSpeed.Middle,
                                 },
-                                HitExtendRange = (HitExtendRange) (4, 4),
-                                ShadowGraphicId = (ShadowGraphicId) 0,
+                                HitExtendRange = (4, 4),
+                                ShadowGraphicId = 0,
                                 EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(
@@ -961,9 +960,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = true,
-                                    GraphicTileId = (MapEventTileId) 11,
+                                    GraphicTileId = 11,
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = (MapEventOpacity) 255
+                                    CharaChipOpacity = 255
                                 },
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
@@ -983,7 +982,7 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (HitExtendRange) (0,0),
+                                HitExtendRange = (0,0),
                                 EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(@"[123][2,0]<0>(2000000,241)()"),
@@ -1017,9 +1016,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = true,
-                                    GraphicTileId = (MapEventTileId) 8,
+                                    GraphicTileId = 8,
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = (MapEventOpacity) 255
+                                    CharaChipOpacity = 255
                                 },
                                 MoveRouteInfo = new MapEventPageMoveRouteInfo
                                 {
@@ -1039,7 +1038,7 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (HitExtendRange) (0,0),
+                                HitExtendRange = (0,0),
                                 EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(
@@ -1066,9 +1065,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = (CharaChipFileName) "",
+                                    CharaChipFileName = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = (MapEventOpacity) 255
+                                    CharaChipOpacity = 255
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -1076,22 +1075,22 @@ namespace WodiLib.Test.IO
                                     MapEventBootCondition1 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = (VariableAddress) 1000000, // ウディタ上で無編集のため、初期値のままのはず
-                                        RightSide = (ConditionRight) 0,
+                                        LeftSide = 1000000, // ウディタ上で無編集のため、初期値のままのはず
+                                        RightSide = 0,
                                         Operation = CriteriaOperator.Equal
                                     },
                                     MapEventBootCondition2 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = (VariableAddress) 1100001,
-                                        RightSide = (ConditionRight) 1,
+                                        LeftSide = 1100001,
+                                        RightSide = 1,
                                         Operation = CriteriaOperator.Less
                                     },
                                     MapEventBootCondition3 = new MapEventBootCondition
                                     {
                                         UseCondition = true,
-                                        LeftSide = (VariableAddress) 1100002,
-                                        RightSide = (ConditionRight) 2,
+                                        LeftSide = 1100002,
+                                        RightSide = 2,
                                         Operation = CriteriaOperator.Less
                                     },
                                 },
@@ -1113,8 +1112,8 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (HitExtendRange) (1,4),
-                                ShadowGraphicId = (ShadowGraphicId) 1,
+                                HitExtendRange = (1,4),
+                                ShadowGraphicId = 1,
                                 EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(@"[290][7,0]<0>(0,10,10,10,40,50,60)()"),
@@ -1144,10 +1143,9 @@ namespace WodiLib.Test.IO
                     },
                     new MapEvent
                     {
-                        EventName = (MapEventName) "",
-                        MapEventId = (MapEventId) 1,
-                        Position = (Position)(6,
-                        8),
+                        EventName = "",
+                        MapEventId = 1,
+                        Position = (6,8),
                         MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
@@ -1155,9 +1153,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = (CharaChipFileName) "",
+                                    CharaChipFileName = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = (MapEventOpacity) 255
+                                    CharaChipOpacity = 255
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -1189,27 +1187,27 @@ namespace WodiLib.Test.IO
                                             new MoveTowardHero(),
                                             new StepBackward(),
                                             new MoveAwayFromHero(),
-                                            new ApproachEvent {EventId = (CharaMoveCommandValue) 10},
+                                            new ApproachEvent {EventId = 10},
                                             new ApproachPosition
                                             {
-                                                PositionX = (CharaMoveCommandValue) 5,
-                                                PositionY = (CharaMoveCommandValue) 20
+                                                PositionX = 5,
+                                                PositionY = 20
                                             },
                                             new Jump
                                             {
-                                                RightPoint = (CharaMoveCommandValue) 1,
-                                                DownPoint = (CharaMoveCommandValue) 4
+                                                RightPoint = 1,
+                                                DownPoint = 4
                                             },
-                                            new ChangeGraphic {GraphicId = (CharaMoveCommandValue) 5},
-                                            new ChangePenetration {Opacity = (CharaMoveCommandValue) 6},
-                                            new ChangeHeight {Height = (CharaMoveCommandValue) 7},
-                                            new PlaySE {SoundId = (CharaMoveCommandValue) 8},
-                                            new WaitMoveCommand {Frame = (CharaMoveCommandValue) 9},
-                                            new ApproachEvent {EventId = (CharaMoveCommandValue) 1000020},
+                                            new ChangeGraphic {GraphicId = 5},
+                                            new ChangePenetration {Opacity = 6},
+                                            new ChangeHeight {Height = 7},
+                                            new PlaySE {SoundId = 8},
+                                            new WaitMoveCommand {Frame = 9},
+                                            new ApproachEvent {EventId = 1000020},
                                             new ApproachPosition
                                             {
-                                                PositionX = (CharaMoveCommandValue) 1000030,
-                                                PositionY = (CharaMoveCommandValue) 1000040,
+                                                PositionX = 1000030,
+                                                PositionY = 1000040,
                                             },
                                             new LookLeftUp(),
                                             new LookUp(),
@@ -1227,13 +1225,13 @@ namespace WodiLib.Test.IO
                                             new TurnTail(),
                                             new AssignValue
                                             {
-                                                TargetAddress = (VariableAddress) 1100003,
-                                                Value = (CharaMoveCommandValue) 7
+                                                TargetAddress = 1100003,
+                                                Value = 7
                                             },
                                             new AddValue
                                             {
-                                                TargetAddress = (VariableAddress) 1100003,
-                                                Value = (CharaMoveCommandValue) 12
+                                                TargetAddress = 1100003,
+                                                Value = 12
                                             },
                                             new SetMoveSpeed {Value = MoveSpeed.Slower},
                                             new SetMoveFrequency {Value = MoveFrequency.Middle},
@@ -1268,8 +1266,8 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (HitExtendRange) (0,0),
-                                ShadowGraphicId = (ShadowGraphicId) 0,
+                                HitExtendRange = (0,0),
+                                ShadowGraphicId = 0,
                                 EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(
@@ -1298,9 +1296,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = (CharaChipFileName) "",
+                                    CharaChipFileName = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = (MapEventOpacity) 255
+                                    CharaChipOpacity = 255
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -1340,8 +1338,8 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (HitExtendRange) (0,0),
-                                ShadowGraphicId = (ShadowGraphicId) 0,
+                                HitExtendRange = (0,0),
+                                ShadowGraphicId = 0,
                                 EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(@"[220][2,0]<0>(0,5)()"),
@@ -1357,9 +1355,9 @@ namespace WodiLib.Test.IO
                     },
                     new MapEvent
                     {
-                        EventName = (MapEventName) "CharaChip/[Animal]Chicken.png",
-                        MapEventId = (MapEventId) 2,
-                        Position = (Position)(8,
+                        EventName = "CharaChip/[Animal]Chicken.png",
+                        MapEventId = 2,
+                        Position = (8,
                         2),
                         MapEventPageList = new MapEventPageList(new[]
                         {
@@ -1368,9 +1366,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = (CharaChipFileName) "CharaChip/[Animal]Chicken.png",
+                                    CharaChipFileName = "CharaChip/[Animal]Chicken.png",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = (MapEventOpacity) 255
+                                    CharaChipOpacity = 255
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -1393,8 +1391,8 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (HitExtendRange) (1,0),
-                                ShadowGraphicId = (ShadowGraphicId) 2,
+                                HitExtendRange = (1,0),
+                                ShadowGraphicId = 2,
                                 EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(@"[270][2,0]<0>(0,4)()"),
@@ -1425,10 +1423,9 @@ namespace WodiLib.Test.IO
                     },
                     new MapEvent
                     {
-                        EventName = (MapEventName) "イベント",
-                        MapEventId = (MapEventId) 3,
-                        Position = (Position)(10,
-                        6),
+                        EventName = "イベント",
+                        MapEventId = 3,
+                        Position = (10,6),
                         MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
@@ -1436,9 +1433,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = (CharaChipFileName) "",
+                                    CharaChipFileName = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = (MapEventOpacity) 255
+                                    CharaChipOpacity = 255
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -1461,8 +1458,8 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (HitExtendRange) (0,0),
-                                ShadowGraphicId = (ShadowGraphicId) 0,
+                                HitExtendRange = (0,0),
+                                ShadowGraphicId = 0,
                                 EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(@"[240][2,0]<0>(-1000000,0)()"),
@@ -1487,10 +1484,9 @@ namespace WodiLib.Test.IO
                     },
                     new MapEvent
                     {
-                        EventName = (MapEventName) "イベント制御",
-                        MapEventId = (MapEventId) 4,
-                        Position = (Position)(11,
-                        8),
+                        EventName = "イベント制御",
+                        MapEventId = 4,
+                        Position = (11,8),
                         MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
@@ -1498,9 +1494,9 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = (CharaChipFileName) "",
+                                    CharaChipFileName = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity = (MapEventOpacity) 255
+                                    CharaChipOpacity = 255
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -1523,8 +1519,8 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (HitExtendRange) (2,2),
-                                ShadowGraphicId = (ShadowGraphicId) 0,
+                                HitExtendRange = (2,2),
+                                ShadowGraphicId = 0,
                                 EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(@"[170][0,0]<0>()()"),
@@ -1599,7 +1595,7 @@ namespace WodiLib.Test.IO
                 var lineChips = new List<MapChip>();
                 for (var j = 0; j < height; j++)
                 {
-                    lineChips.Add((MapChip) 100000);
+                    lineChips.Add(100000);
                 }
 
                 chips.Add(lineChips);

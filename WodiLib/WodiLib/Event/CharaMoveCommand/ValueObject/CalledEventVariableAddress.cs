@@ -120,22 +120,22 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> CalledEventVariableAddress への明示的な型変換
+        /// int -> CalledEventVariableAddress への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator CalledEventVariableAddress(int src)
+        public static implicit operator CalledEventVariableAddress(int src)
         {
             var result = new CalledEventVariableAddress(src);
             return result;
         }
 
         /// <summary>
-        /// CalledEventVariableAddress -> int への明示的な型変換
+        /// CalledEventVariableAddress -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(CalledEventVariableAddress src)
+        public static implicit operator int(CalledEventVariableAddress src)
         {
             return src.Value;
         }
@@ -154,7 +154,7 @@ namespace WodiLib.Event.CharaMoveCommand
         {
             if (ReferenceEquals(left, right)) return true;
 
-            if ((object) left == null || (object) right == null) return false;
+            if (left is null || right is null) return false;
 
             return left.Equals(right);
         }

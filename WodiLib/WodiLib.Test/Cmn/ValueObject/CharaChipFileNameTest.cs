@@ -92,7 +92,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                instance = (CharaChipFileName) value;
+                instance =  value;
             }
             catch (Exception ex)
             {

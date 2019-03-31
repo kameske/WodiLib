@@ -126,7 +126,7 @@ namespace WodiLib.Common
             if (desc == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
-            argTypeList[(int) index] = desc;
+            argTypeList[index] = desc;
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace WodiLib.Common
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
         public CommonEventSpecialNumberArgDesc GetSpecialNumberArgDesc(CommonEventNumberArgIndex index)
         {
-            return (CommonEventSpecialNumberArgDesc) argTypeList[(int) index];
+            return (CommonEventSpecialNumberArgDesc) argTypeList[index];
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace WodiLib.Common
             if (desc == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
-            argTypeList[(int) index + StrArgListOffset] = desc;
+            argTypeList[index + StrArgListOffset] = desc;
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace WodiLib.Common
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
         public CommonEventSpecialStringArgDesc GetSpecialStringArgDesc(CommonEventStringArgIndex index)
         {
-            return (CommonEventSpecialStringArgDesc) argTypeList[(int) index + StrArgListOffset];
+            return (CommonEventSpecialStringArgDesc) argTypeList[index + StrArgListOffset];
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

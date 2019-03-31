@@ -80,7 +80,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator MapSize(Tuple<MapSizeWidth, MapSizeHeight> tuple)
+        public static implicit operator MapSize(Tuple<MapSizeWidth, MapSizeHeight> tuple)
         {
             return new MapSize(tuple.Item1, tuple.Item2);
         }
@@ -90,7 +90,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator MapSize(ValueTuple<MapSizeWidth, MapSizeHeight> tuple)
+        public static implicit operator MapSize(ValueTuple<MapSizeWidth, MapSizeHeight> tuple)
         {
             return new MapSize(tuple.Item1, tuple.Item2);
         }
@@ -100,7 +100,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator Tuple<MapSizeWidth, MapSizeHeight>(MapSize src)
+        public static implicit operator Tuple<MapSizeWidth, MapSizeHeight>(MapSize src)
         {
             return new Tuple<MapSizeWidth, MapSizeHeight>(src.Width, src.Height);
         }
@@ -110,7 +110,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator ValueTuple<MapSizeWidth, MapSizeHeight>(MapSize src)
+        public static implicit operator ValueTuple<MapSizeWidth, MapSizeHeight>(MapSize src)
         {
             return (src.Width, src.Height);
         }

@@ -99,7 +99,7 @@ namespace WodiLib.Test.Event.CharaMoveCommand
             var errorOccured = false;
             try
             {
-                castValue = (int) instance;
+                castValue =  instance;
             }
             catch (Exception ex)
             {

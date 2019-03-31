@@ -21,7 +21,7 @@ namespace WodiLib.Map
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private MapDataMemo memo = (MapDataMemo) "";
+        private MapDataMemo memo = "";
 
         /// <summary>[NotNull] メモ</summary>
         /// <exception cref="PropertyNullException">nullをセットしようとした場合</exception>

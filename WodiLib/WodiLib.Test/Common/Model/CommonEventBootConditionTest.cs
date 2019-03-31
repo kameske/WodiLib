@@ -83,7 +83,8 @@ namespace WodiLib.Test.Common
             var getValue = instance.LeftSide;
 
             // セットした値と取得した値が一致すること
-            Assert.IsTrue(getValue == leftSideAddress);
+            Assert.NotNull(getValue);
+            Assert.IsTrue(getValue.Equals(leftSideAddress));
         }
 
         [Test]

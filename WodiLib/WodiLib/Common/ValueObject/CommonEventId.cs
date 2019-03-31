@@ -93,7 +93,7 @@ namespace WodiLib.Common
         /// int に変換する。
         /// </summary>
         /// <returns>int値</returns>
-        public int ToInt() => (int) this;
+        public int ToInt() => this;
 
         /// <summary>
         /// byte配列に変換する。
@@ -117,22 +117,22 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> CommonEventId への明示的な型変換
+        /// int -> CommonEventId への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator CommonEventId(int src)
+        public static implicit operator CommonEventId(int src)
         {
             var result = new CommonEventId(src);
             return result;
         }
 
         /// <summary>
-        /// CommonEventId -> int への明示的な型変換
+        /// CommonEventId -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(CommonEventId src)
+        public static implicit operator int(CommonEventId src)
         {
             return src.Value;
         }

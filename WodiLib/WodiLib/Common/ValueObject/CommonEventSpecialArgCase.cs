@@ -103,6 +103,7 @@ namespace WodiLib.Common
         /// <returns>一致する場合、true</returns>
         public bool Equals(CommonEventSpecialArgCase other)
         {
+            if (other is null) return false;
             return CaseNumber == other.CaseNumber
                    && Description.Equals(other.Description);
         }
@@ -116,7 +117,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator CommonEventSpecialArgCase(Tuple<int, string> tuple)
+        public static implicit operator CommonEventSpecialArgCase(Tuple<int, string> tuple)
         {
             return new CommonEventSpecialArgCase(tuple.Item1, tuple.Item2);
         }
@@ -126,7 +127,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator CommonEventSpecialArgCase(ValueTuple<int, string> tuple)
+        public static implicit operator CommonEventSpecialArgCase(ValueTuple<int, string> tuple)
         {
             return new CommonEventSpecialArgCase(tuple.Item1, tuple.Item2);
         }
@@ -136,7 +137,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator Tuple<int, string>(CommonEventSpecialArgCase src)
+        public static implicit operator Tuple<int, string>(CommonEventSpecialArgCase src)
         {
             return new Tuple<int, string>(src.CaseNumber, src.Description);
         }
@@ -146,7 +147,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator ValueTuple<int, string>(CommonEventSpecialArgCase src)
+        public static implicit operator ValueTuple<int, string>(CommonEventSpecialArgCase src)
         {
             return (src.CaseNumber, src.Description);
         }
@@ -165,9 +166,8 @@ namespace WodiLib.Common
         {
             if (ReferenceEquals(left, right)) return true;
 
-            if ((object) left == null || (object) right == null) return false;
+            if (left is null || right is null) return false;
 
-            // 選択肢番号比較
             return left.Equals(right);
         }
 

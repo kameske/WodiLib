@@ -22,7 +22,8 @@ namespace WodiLib.Sys
         /// <param name="currentVersion">設定バージョン</param>
         /// <param name="targetVersion">要求バージョン</param>
         /// <returns>メッセージ</returns>
-        public static string NotUnderInCommand(string itemName, WoditorVersion currentVersion, WoditorVersion targetVersion)
+        public static string NotUnderInCommand(string itemName, WoditorVersion currentVersion,
+            WoditorVersion targetVersion)
         {
             return $"{itemName}は現在の設定バージョン（{currentVersion.VersionName}）では使用できないコマンドです。" +
                    $"(必要バージョン：{targetVersion.VersionName}）";
@@ -36,7 +37,8 @@ namespace WodiLib.Sys
         /// <param name="currentVersion">設定バージョン</param>
         /// <param name="targetVersion">要求バージョン</param>
         /// <returns>メッセージ</returns>
-        public static string NotUnderInCommandSetting(string itemName, string targetName, WoditorVersion currentVersion, WoditorVersion targetVersion)
+        public static string NotUnderInCommandSetting(string itemName, string targetName, WoditorVersion currentVersion,
+            WoditorVersion targetVersion)
         {
             return $"{itemName} {targetName}は現在の設定バージョン（{currentVersion.VersionName}）では使用できない設定です。" +
                    $"(必要バージョン：{targetVersion.VersionName}）";
@@ -49,7 +51,8 @@ namespace WodiLib.Sys
         /// <param name="currentVersion">設定バージョン</param>
         /// <param name="targetVersion">要求バージョン</param>
         /// <returns>メッセージ</returns>
-        public static string NotGreaterInCommand(string itemName, WoditorVersion currentVersion, WoditorVersion targetVersion)
+        public static string NotGreaterInCommand(string itemName, WoditorVersion currentVersion,
+            WoditorVersion targetVersion)
         {
             return $"{itemName}は {targetVersion.VersionName} 以上のバージョンでは使用できないコマンドです。" +
                    $"（現在の設定バージョン：{currentVersion.VersionName}";
@@ -67,7 +70,8 @@ namespace WodiLib.Sys
         /// <param name="currentVersion">設定バージョン</param>
         /// <param name="targetVersion">要求バージョン</param>
         /// <returns>メッセージ</returns>
-        public static string NotGreaterInCommandSetting(string itemName, string targetName, WoditorVersion currentVersion, WoditorVersion targetVersion)
+        public static string NotGreaterInCommandSetting(string itemName, string targetName,
+            WoditorVersion currentVersion, WoditorVersion targetVersion)
         {
             return $"{itemName} {targetName}は {targetVersion.VersionName} 以上のバージョンでは使用できないコマンドです。" +
                    $"（現在の設定バージョン：{currentVersion.VersionName}";
@@ -84,7 +88,8 @@ namespace WodiLib.Sys
         /// <param name="currentVersion">設定バージョン</param>
         /// <param name="targetVersion">要求バージョン</param>
         /// <returns>メッセージ</returns>
-        public static string NotUnderInCharaMoveCommand(string itemName, WoditorVersion currentVersion, WoditorVersion targetVersion)
+        public static string NotUnderInCharaMoveCommand(string itemName, WoditorVersion currentVersion,
+            WoditorVersion targetVersion)
         {
             return $"{itemName}は現在の設定バージョン（{currentVersion.VersionName}）では使用できない動作指定コマンドです。" +
                    $"(必要バージョン：{targetVersion.VersionName}）";
@@ -101,7 +106,8 @@ namespace WodiLib.Sys
         /// <param name="currentVersion">設定バージョン</param>
         /// <param name="targetVersion">要求バージョン</param>
         /// <returns>メッセージ</returns>
-        public static string NotUnderInVariableAddress(int value, WoditorVersion currentVersion, WoditorVersion targetVersion)
+        public static string NotUnderInVariableAddress(int value, WoditorVersion currentVersion,
+            WoditorVersion targetVersion)
         {
             return $"変数アドレス {value}は現在の設定バージョン（{currentVersion.VersionName}）では定義されていない値です。" +
                    $"(必要バージョン：{targetVersion.VersionName}）";
@@ -115,8 +121,8 @@ namespace WodiLib.Sys
         public static string NotUsingVariableAddress(int value)
         {
             return $"変数アドレス {value}は定義されていない値です。";
-
         }
+
         #endregion
     }
 }

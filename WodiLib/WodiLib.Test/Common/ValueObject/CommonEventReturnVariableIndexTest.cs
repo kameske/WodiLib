@@ -61,7 +61,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                instance = (CommonEventReturnVariableIndex) value;
+                instance =  value;
             }
             catch (Exception ex)
             {
@@ -89,7 +89,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                castValue = (int) instance;
+                castValue =  instance;
             }
             catch (Exception ex)
             {

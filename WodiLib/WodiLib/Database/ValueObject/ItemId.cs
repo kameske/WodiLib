@@ -81,7 +81,7 @@ namespace WodiLib.Database
         /// int に変換する。
         /// </summary>
         /// <returns>int値</returns>
-        public int ToInt() => (int) this;
+        public int ToInt() => this;
 
         /// <summary>
         /// byte配列に変換する。
@@ -105,22 +105,22 @@ namespace WodiLib.Database
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> ItemId への明示的な型変換
+        /// int -> ItemId への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator ItemId(int src)
+        public static implicit operator ItemId(int src)
         {
             var result = new ItemId(src);
             return result;
         }
 
         /// <summary>
-        /// ItemId -> int への明示的な型変換
+        /// ItemId -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(ItemId src)
+        public static implicit operator int(ItemId src)
         {
             return src.Value;
         }

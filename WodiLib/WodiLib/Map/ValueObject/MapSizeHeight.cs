@@ -81,7 +81,7 @@ namespace WodiLib.Map
         /// int に変換する。
         /// </summary>
         /// <returns>int値</returns>
-        public int ToInt() => (int) this;
+        public int ToInt() => this;
 
         /// <summary>
         /// byte配列に変換する。
@@ -105,22 +105,22 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> MapSizeHeight への明示的な型変換
+        /// int -> MapSizeHeight への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator MapSizeHeight(int src)
+        public static implicit operator MapSizeHeight(int src)
         {
             var result = new MapSizeHeight(src);
             return result;
         }
 
         /// <summary>
-        /// MapSizeHeight -> int への明示的な型変換
+        /// MapSizeHeight -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(MapSizeHeight src)
+        public static implicit operator int(MapSizeHeight src)
         {
             return src.Value;
         }

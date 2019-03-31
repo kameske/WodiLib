@@ -179,7 +179,7 @@ namespace WodiLib.Test.Common.Internal
             int answerCaseNumberLength, int answerDbTypeCode, int answerUseAdditionValue)
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescDatabase();
-            instance.SetDatabaseRefer(dbKind, (TypeId) dbTypeId);
+            instance.SetDatabaseRefer(dbKind,  dbTypeId);
             instance.SetDatabaseUseAdditionalItemsFlag(isUseAddition);
 
             var errorOccured = false;

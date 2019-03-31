@@ -67,7 +67,7 @@ namespace WodiLib.Cmn
         /// <exception cref="ArgumentOutOfRangeException">valueが仲間座標アドレス値として不適切な場合</exception>
         public MemberInfoAddress(int value) : base(value)
         {
-            MemberId = (MemberId) Value.SubInt(1, 1);
+            MemberId = Value.SubInt(1, 1);
             InfoType = InfoAddressInfoType.FromCode(Value.SubInt(0, 1));
         }
 
@@ -109,22 +109,22 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> MemberPositionAddress への明示的な型変換
+        /// int -> MemberPositionAddress への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator MemberInfoAddress(int src)
+        public static implicit operator MemberInfoAddress(int src)
         {
             var result = new MemberInfoAddress(src);
             return result;
         }
 
         /// <summary>
-        /// MemberPositionAddress -> int への明示的な型変換
+        /// MemberPositionAddress -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(MemberInfoAddress src)
+        public static implicit operator int(MemberInfoAddress src)
         {
             return src.Value;
         }
@@ -175,6 +175,51 @@ namespace WodiLib.Cmn
             }
         }
 
+        #endregion
+
+        #region VariableAddress
+
+        /// <summary>
+        /// アドレス値 - アドレス値 を計算し、アドレス値の差を返す。
+        /// </summary>
+        /// <param name="left">アドレス左辺</param>
+        /// <param name="right">アドレス右辺</param>
+        /// <returns>アドレス値の差</returns>
+        public static int operator -(MemberInfoAddress left, VariableAddress right)
+        {
+            return left.Value - right;
+        }
+
+        /// <summary>
+        /// ==
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺==右辺の場合true</returns>
+        public static bool operator ==(MemberInfoAddress left, VariableAddress right)
+        {
+            if (ReferenceEquals(left, right)) return true;
+
+            if (left is null || right is null) return false;
+
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// !=
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺!=右辺の場合true</returns>
+        public static bool operator !=(MemberInfoAddress left, VariableAddress right)
+        {
+            return !(left == right);
+        }
+
+        #endregion
+
+        #region MemberInfoAddress
+
         /// <summary>
         /// ==
         /// </summary>
@@ -185,7 +230,7 @@ namespace WodiLib.Cmn
         {
             if (ReferenceEquals(left, right)) return true;
 
-            if ((object) left == null || (object) right == null) return false;
+            if (left is null || right is null) return false;
 
             return left.Equals(right);
         }

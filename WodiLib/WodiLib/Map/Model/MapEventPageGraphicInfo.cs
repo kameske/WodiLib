@@ -45,7 +45,7 @@ namespace WodiLib.Map
             }
         }
 
-        private CharaChipFileName charaChipFileName = (CharaChipFileName) "";
+        private CharaChipFileName charaChipFileName = "";
 
         /// <summary>[NotNull] キャラチップファイル名</summary>
         /// <exception cref="PropertyAccessException">IsGraphicTileChip = true のときにセットした場合</exception>
@@ -118,7 +118,7 @@ namespace WodiLib.Map
             }
 
             IsGraphicTileChip = false;
-            charaChipFileName = (CharaChipFileName) "";
+            charaChipFileName = "";
         }
 
         /// <summary>

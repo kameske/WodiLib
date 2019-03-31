@@ -31,12 +31,13 @@ namespace WodiLib.Sys
         /// <summary>
         /// 特殊変換文字群
         /// </summary>
-        private static readonly List<Tuple<string, string>> SpecialConversionStringList = new List<Tuple<string, string>>
-        {
-            new Tuple<string, string>("\n", "<\\n>"),
-            new Tuple<string, string>("\r\n", "<\\n>"),
-            new Tuple<string, string>("\"", "<dqrt>")
-        };
+        private static readonly List<Tuple<string, string>> SpecialConversionStringList =
+            new List<Tuple<string, string>>
+            {
+                new Tuple<string, string>("\n", "<\\n>"),
+                new Tuple<string, string>("\r\n", "<\\n>"),
+                new Tuple<string, string>("\"", "<dqrt>")
+            };
 
         /// <summary>文字列</summary>
         public string String { get; }

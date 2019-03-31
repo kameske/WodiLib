@@ -23,7 +23,7 @@ namespace WodiLib.Map
 
         private static int DefaultValue => 1000000;
 
-        private VariableAddress leftSide = (VariableAddress) DefaultValue;
+        private VariableAddress leftSide = DefaultValue;
 
         /// <summary>
         ///     [Convertible(ThisMapEventVariableAddress)]
@@ -48,25 +48,17 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(LeftSide)));
 
-                switch (value)
+                if (!(value is ThisMapEventVariableAddress)
+                    && !(value is NormalNumberVariableAddress)
+                    && !(value is SpareNumberVariableAddress)
+                    && (int) value != DefaultValue)
                 {
-                    case ThisMapEventVariableAddress _:
-                    case NormalNumberVariableAddress _:
-                    case SpareNumberVariableAddress _:
-                        break;
-
-                    default:
-                        if ((int) value != DefaultValue)
-                        {
-                            throw new InvalidCastException(
-                                ErrorMessage.InvalidAnyCast(nameof(LeftSide),
-                                    nameof(ThisMapEventVariableAddress),
-                                    nameof(NormalNumberVariableAddress),
-                                    nameof(SpareNumberVariableAddress),
-                                    $"{DefaultValue}"));
-                        }
-
-                        break;
+                    throw new InvalidCastException(
+                        ErrorMessage.InvalidAnyCast(nameof(LeftSide),
+                            nameof(ThisMapEventVariableAddress),
+                            nameof(NormalNumberVariableAddress),
+                            nameof(SpareNumberVariableAddress),
+                            $"{DefaultValue}"));
                 }
 
                 leftSide = value;

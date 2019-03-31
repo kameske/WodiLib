@@ -30,8 +30,9 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentNullException">keyがnullの場合</exception>
         public static bool HasCreateMethod<T>(string key = "default")
         {
-            if(key == null) throw new ArgumentNullException(
-                ErrorMessage.NotNull(nameof(key)));
+            if (key == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(key)));
 
             // キー名のコンテナ存在チェック
             var containerKv = ContainerDic.FirstOrDefault(kv => kv.Key.Equals(key));
@@ -84,7 +85,7 @@ namespace WodiLib.Sys
         public static T Resolve<T>(string key = "default")
         {
             // コンテナ取得
-            if(!ContainerDic.ContainsKey(key)) throw new ContainerNotRegistrationException();
+            if (!ContainerDic.ContainsKey(key)) throw new ContainerNotRegistrationException();
             var container = ContainerDic.First(kv => kv.Key.Equals(key)).Value;
 
             // インスタンス生成情報取得
@@ -129,6 +130,7 @@ namespace WodiLib.Sys
         {
             /// <summary>コンテナで一意</summary>
             public static readonly Lifetime Container;
+
             /// <summary>呼び出し毎に生成</summary>
             public static readonly Lifetime Transient;
 
@@ -180,6 +182,5 @@ namespace WodiLib.Sys
                 throw new InvalidOperationException();
             }
         }
-
     }
 }

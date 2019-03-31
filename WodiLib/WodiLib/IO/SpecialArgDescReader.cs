@@ -210,7 +210,7 @@ namespace WodiLib.IO
                     caseDescriptionList.Add(caseDescription.String);
 
                     Logger.Debug(FileIOMessage.SuccessRead(typeof(SpecialArgDescReader),
-                        "引数{i} {j}番目の文字列", caseDescription.String));
+                        $"引数{i} {j}番目の文字列", caseDescription.String));
                 }
 
                 result.Add(caseDescriptionList);

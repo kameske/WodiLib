@@ -28,7 +28,7 @@ namespace WodiLib.Common
         public static readonly int MinValue = -1;
 
         /// <summary>値を返さない場合のインデックス値</summary>
-        public static readonly CommonEventReturnVariableIndex NotReturn = (CommonEventReturnVariableIndex) (-1);
+        public static readonly CommonEventReturnVariableIndex NotReturn = (-1);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
@@ -84,7 +84,7 @@ namespace WodiLib.Common
         /// int に変換する。
         /// </summary>
         /// <returns>int値</returns>
-        public int ToInt() => (int) this;
+        public int ToInt() => this;
 
         /// <summary>
         /// byte配列に変換する。
@@ -108,22 +108,22 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> CommonEventReturnVariableIndex への明示的な型変換
+        /// int -> CommonEventReturnVariableIndex への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator CommonEventReturnVariableIndex(int src)
+        public static implicit operator CommonEventReturnVariableIndex(int src)
         {
             var result = new CommonEventReturnVariableIndex(src);
             return result;
         }
 
         /// <summary>
-        /// CommonEventReturnVariableIndex -> int への明示的な型変換
+        /// CommonEventReturnVariableIndex -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(CommonEventReturnVariableIndex src)
+        public static implicit operator int(CommonEventReturnVariableIndex src)
         {
             return src.Value;
         }

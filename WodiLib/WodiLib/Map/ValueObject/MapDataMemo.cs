@@ -50,7 +50,7 @@ namespace WodiLib.Map
         /// string に変換する。
         /// </summary>
         /// <returns>string値</returns>
-        public override string ToString() => (string) this;
+        public override string ToString() => this;
 
         /// <summary>
         /// ウディタ文字列のbyte配列に変換する。
@@ -89,22 +89,22 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// string -> MapDataMemo への明示的な型変換
+        /// string -> MapDataMemo への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator MapDataMemo(string src)
+        public static implicit operator MapDataMemo(string src)
         {
             var result = new MapDataMemo(src);
             return result;
         }
 
         /// <summary>
-        /// MapDataMemo -> string への明示的な型変換
+        /// MapDataMemo -> string への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator string(MapDataMemo src)
+        public static implicit operator string(MapDataMemo src)
         {
             return src.Value;
         }

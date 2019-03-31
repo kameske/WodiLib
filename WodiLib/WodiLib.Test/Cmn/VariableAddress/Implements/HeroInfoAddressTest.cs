@@ -193,7 +193,7 @@ namespace WodiLib.Test.Cmn
 
         [TestCase(9180003, 9180000)]
         [TestCase(9180000, 1000000)]
-        public static void OperatorMinusVariableAddressTestA(int srcVariableAddress, int dstVariableAddress)
+        public static void OperatorMinusVariableAddressTest(int srcVariableAddress, int dstVariableAddress)
         {
             var instance = new HeroInfoAddress(srcVariableAddress);
             var dstInstance = VariableAddressFactory.Create(dstVariableAddress);
@@ -203,34 +203,6 @@ namespace WodiLib.Test.Cmn
             try
             {
                 result = instance - dstInstance;
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生しないこと
-            Assert.IsFalse(errorOccured);
-
-            // 意図した値と一致すること
-            Assert.AreEqual(result, srcVariableAddress - dstVariableAddress);
-
-            // もとの値が変化していないこと
-            Assert.AreEqual((int) instance, srcVariableAddress);
-        }
-
-        [TestCase(9180003, 9180000)]
-        [TestCase(9180000, 9180009)]
-        public static void OperatorMinusVariableAddressTestB(int srcVariableAddress, int dstVariableAddress)
-        {
-            var instance = new HeroInfoAddress(srcVariableAddress);
-            var result = 0;
-
-            var errorOccured = false;
-            try
-            {
-                result = instance - (HeroInfoAddress) dstVariableAddress;
             }
             catch (Exception ex)
             {

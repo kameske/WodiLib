@@ -26,6 +26,5 @@ namespace WodiLib.Sys
 
             return result.ToArray();
         }
-
     }
 }

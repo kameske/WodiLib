@@ -147,22 +147,22 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> EventPositionAddress への明示的な型変換
+        /// int -> EventPositionAddress への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator EventInfoAddress(int src)
+        public static implicit operator EventInfoAddress(int src)
         {
             var result = new EventInfoAddress(src);
             return result;
         }
 
         /// <summary>
-        /// EventPositionAddress -> int への明示的な型変換
+        /// EventPositionAddress -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(EventInfoAddress src)
+        public static implicit operator int(EventInfoAddress src)
         {
             return src.Value;
         }
@@ -215,6 +215,47 @@ namespace WodiLib.Cmn
 
         #endregion
 
+        #region VariableAddress
+
+        /// <summary>
+        /// アドレス値 - アドレス値 を計算し、アドレス値の差を返す。
+        /// </summary>
+        /// <param name="left">アドレス左辺</param>
+        /// <param name="right">アドレス右辺</param>
+        /// <returns>アドレス値の差</returns>
+        public static int operator -(EventInfoAddress left, VariableAddress right)
+        {
+            return left.Value - right;
+        }
+
+        /// <summary>
+        /// ==
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺==右辺の場合true</returns>
+        public static bool operator ==(EventInfoAddress left, VariableAddress right)
+        {
+            if (ReferenceEquals(left, right)) return true;
+
+            if (left is null || right is null) return false;
+
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// !=
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺!=右辺の場合true</returns>
+        public static bool operator !=(EventInfoAddress left, VariableAddress right)
+        {
+            return !(left == right);
+        }
+
+        #endregion
+
         #region EventPositionAddress
 
         /// <summary>
@@ -238,7 +279,7 @@ namespace WodiLib.Cmn
         {
             if (ReferenceEquals(left, right)) return true;
 
-            if ((object) left == null || (object) right == null) return false;
+            if (left is null || right is null) return false;
 
             return left.Equals(right);
         }

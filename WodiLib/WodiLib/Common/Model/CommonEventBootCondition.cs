@@ -67,17 +67,13 @@ namespace WodiLib.Common
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(LeftSide)));
 
-                switch (value)
+                if (!(value is NormalNumberVariableAddress)
+                    && !(value is SpareNumberVariableAddress))
                 {
-                    case NormalNumberVariableAddress _:
-                    case SpareNumberVariableAddress _:
-                        // 許容
-                        break;
-                    default:
-                        throw new InvalidCastException(
-                            ErrorMessage.InvalidAnyCast(nameof(LeftSide),
-                                nameof(NormalNumberVariableAddress),
-                                nameof(SpareNumberVariableAddress)));
+                    throw new InvalidCastException(
+                        ErrorMessage.InvalidAnyCast(nameof(LeftSide),
+                            nameof(NormalNumberVariableAddress),
+                            nameof(SpareNumberVariableAddress)));
                 }
 
                 leftSide = value;

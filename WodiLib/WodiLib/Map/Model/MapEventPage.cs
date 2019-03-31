@@ -145,7 +145,7 @@ namespace WodiLib.Map
             // イベントコマンド
             result.AddRange(EventCommands.ToBinary());
             // 影グラフィック番号
-            result.Add((byte) ShadowGraphicId);
+            result.Add(ShadowGraphicId);
             // 接触範囲拡張X
             result.Add(HitExtendRange.Width);
             // 接触範囲拡張Y

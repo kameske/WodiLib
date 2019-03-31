@@ -93,7 +93,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                instance = (MapEventName) value;
+                instance =  value;
             }
             catch (Exception ex)
             {

@@ -1,4 +1,3 @@
-using WodiLib.Event;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
 

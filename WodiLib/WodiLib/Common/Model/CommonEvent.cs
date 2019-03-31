@@ -137,7 +137,7 @@ namespace WodiLib.Common
             }
         }
 
-        private CommonEventName name = (CommonEventName) "";
+        private CommonEventName name = "";
 
         /// <summary>
         /// [NotNull] コモンイベント名
@@ -173,7 +173,7 @@ namespace WodiLib.Common
             }
         }
 
-        private CommonEventDescription description = (CommonEventDescription) "";
+        private CommonEventDescription description = "";
 
         /// <summary>
         /// [NotNull] 説明文
@@ -191,7 +191,7 @@ namespace WodiLib.Common
             }
         }
 
-        private CommonEventMemo memo = (CommonEventMemo) "";
+        private CommonEventMemo memo = "";
 
         /// <summary>
         /// [NotNull] メモ

@@ -1,7 +1,6 @@
 using NUnit.Framework;
 using WodiLib.Cmn;
 using WodiLib.Database;
-using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Database.Extension
@@ -9,13 +8,10 @@ namespace WodiLib.Test.Database.Extension
     [TestFixture]
     public class UserDatabaseAddressExtensionTest
     {
-        private static WodiLibLogger logger;
-
         [SetUp]
         public static void Setup()
         {
             LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
         }
 
         [TestCase(1000000000, 0)]

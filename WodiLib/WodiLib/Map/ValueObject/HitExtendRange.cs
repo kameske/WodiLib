@@ -148,7 +148,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator HitExtendRange(Tuple<byte, byte> tuple)
+        public static implicit operator HitExtendRange(Tuple<byte, byte> tuple)
         {
             return new HitExtendRange(tuple.Item1, tuple.Item2);
         }
@@ -158,7 +158,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator HitExtendRange(ValueTuple<byte, byte> tuple)
+        public static implicit operator HitExtendRange(ValueTuple<byte, byte> tuple)
         {
             return new HitExtendRange(tuple.Item1, tuple.Item2);
         }
@@ -168,7 +168,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator Tuple<byte, byte>(HitExtendRange src)
+        public static implicit operator Tuple<byte, byte>(HitExtendRange src)
         {
             return new Tuple<byte, byte>(src.Width, src.Height);
         }
@@ -178,7 +178,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
-        public static explicit operator ValueTuple<byte, byte>(HitExtendRange src)
+        public static implicit operator ValueTuple<byte, byte>(HitExtendRange src)
         {
             return (src.Width, src.Height);
         }

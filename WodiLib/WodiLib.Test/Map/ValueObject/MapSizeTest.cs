@@ -29,7 +29,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                instance = new MapSize((MapSizeWidth)width, (MapSizeHeight)height);
+                instance = new MapSize(width, height);
             }
             catch (Exception ex)
             {

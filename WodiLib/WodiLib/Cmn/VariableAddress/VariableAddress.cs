@@ -111,7 +111,7 @@ namespace WodiLib.Cmn
         /// int に変換する。
         /// </summary>
         /// <returns>int値</returns>
-        public virtual int ToInt() => (int) this;
+        public virtual int ToInt() => this;
 
         /// <summary>
         /// byte配列に変換する。
@@ -136,21 +136,21 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> VariableAddress への明示的な型変換
+        /// int -> VariableAddress への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator VariableAddress(int src)
+        public static implicit operator VariableAddress(int src)
         {
             return VariableAddressFactory.Create(src);
         }
 
         /// <summary>
-        /// VariableAddress -> int への明示的な型変換
+        /// VariableAddress -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(VariableAddress src)
+        public static implicit operator int(VariableAddress src)
         {
             return src.Value;
         }
@@ -159,87 +159,56 @@ namespace WodiLib.Cmn
         //     Operator
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        #region int
-
         /// <summary>
-        /// 可変DBアドレス値 + int を計算し、構造体を返す。
+        /// アドレス値 - アドレス値 を計算し、アドレス値の差を返す。
         /// </summary>
-        /// <param name="src">変数アドレス</param>
-        /// <param name="value">加算値</param>
-        /// <returns>加算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">加算後の値が可変DBアドレス値として不適切な場合</exception>
-        public static VariableAddress operator +(VariableAddress src, int value)
-        {
-            try
-            {
-                return (VariableAddress) (src.Value + value);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw new InvalidOperationException(
-                    $"可変DBアドレス値として不適切な値です。(value = {src.Value + value})", ex);
-            }
-        }
-
-        /// <summary>
-        /// 可変DBアドレス値 - int を計算し、構造体を返す。
-        /// </summary>
-        /// <param name="src">変数アドレス</param>
-        /// <param name="value">減算値</param>
-        /// <returns>減算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">減算後の値が可変DBアドレス値値として不適切な場合</exception>
-        public static VariableAddress operator -(VariableAddress src, int value)
-        {
-            try
-            {
-                return (VariableAddress) (src.Value - value);
-            }
-            catch (ArgumentOutOfRangeException ex)
-            {
-                throw new InvalidOperationException(
-                    $"可変DBアドレス値として不適切な値です。(value = {src.Value - value})", ex);
-            }
-        }
-
-        #endregion
-
-        #region VariableAddress
-
-        /// <summary>
-        /// 可変DBアドレス値 - 可変DBアドレス値 を計算し、アドレス値の差を返す。
-        /// </summary>
-        /// <param name="left">可変DB変数アドレス左辺</param>
-        /// <param name="right">可変DB変数アドレス右辺</param>
-        /// <returns>可変DBアドレス値の差</returns>
+        /// <param name="left">右辺</param>
+        /// <param name="right">左辺</param>
+        /// <returns>アドレス値の差</returns>
+        /// <exception cref="InvalidOperationException">減算後の値がアドレス値値として不適切な場合</exception>
         public static int operator -(VariableAddress left, VariableAddress right)
         {
             return left.Value - right.Value;
         }
 
         /// <summary>
-        /// ==
+        /// アドレス値 + int を計算し、構造体を返す。
         /// </summary>
-        /// <param name="left">左辺</param>
-        /// <param name="right">右辺</param>
-        /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(VariableAddress left, VariableAddress right)
+        /// <param name="src">変数アドレス</param>
+        /// <param name="value">加算値</param>
+        /// <returns>加算後のインスタンス</returns>
+        /// <exception cref="InvalidOperationException">加算後の値がアドレス値として不適切な場合</exception>
+        public static VariableAddress operator +(VariableAddress src, int value)
         {
-            if (ReferenceEquals(left, right)) return true;
-            if ((object) left == null || (object) right == null) return false;
-            return left.Value == right.Value;
+            try
+            {
+                return src.Value + value;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                throw new InvalidOperationException(
+                    $"アドレス値として不適切な値です。(value = {src.Value + value})", ex);
+            }
         }
 
         /// <summary>
-        /// !=
+        /// アドレス値 - int を計算し、構造体を返す。
         /// </summary>
-        /// <param name="left">左辺</param>
-        /// <param name="right">右辺</param>
-        /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(VariableAddress left, VariableAddress right)
+        /// <param name="src">変数アドレス</param>
+        /// <param name="value">減算値</param>
+        /// <returns>減算後のインスタンス</returns>
+        /// <exception cref="InvalidOperationException">減算後の値がアドレス値値として不適切な場合</exception>
+        public static VariableAddress operator -(VariableAddress src, int value)
         {
-            return !(left == right);
+            try
+            {
+                return src.Value - value;
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                throw new InvalidOperationException(
+                    $"アドレス値として不適切な値です。(value = {src.Value - value})", ex);
+            }
         }
-
-        #endregion
     }
 }

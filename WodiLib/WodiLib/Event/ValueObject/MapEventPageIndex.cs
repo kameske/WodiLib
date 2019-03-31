@@ -81,7 +81,7 @@ namespace WodiLib.Event
         /// int に変換する。
         /// </summary>
         /// <returns>int値</returns>
-        public int ToInt() => (int) this;
+        public int ToInt() => this;
 
         /// <summary>
         /// byte配列に変換する。
@@ -105,22 +105,22 @@ namespace WodiLib.Event
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> MapEventPageIndex への明示的な型変換
+        /// int -> MapEventPageIndex への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator MapEventPageIndex(int src)
+        public static implicit operator MapEventPageIndex(int src)
         {
             var result = new MapEventPageIndex(src);
             return result;
         }
 
         /// <summary>
-        /// MapEventPageIndex -> int への明示的な型変換
+        /// MapEventPageIndex -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(MapEventPageIndex src)
+        public static implicit operator int(MapEventPageIndex src)
         {
             return src.Value;
         }

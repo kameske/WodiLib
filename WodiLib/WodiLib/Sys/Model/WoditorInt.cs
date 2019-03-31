@@ -37,8 +37,9 @@ namespace WodiLib.Sys
 
         public WoditorInt(int value)
         {
-            if(value < MinValue || MaxValue < value) throw new ArgumentOutOfRangeException(
-                ErrorMessage.OutOfRange(nameof(value), MinValue, MaxValue, value));
+            if (value < MinValue || MaxValue < value)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(value), MinValue, MaxValue, value));
 
             Value = value;
         }
@@ -115,7 +116,5 @@ namespace WodiLib.Sys
         }
 
         #endregion
-
-
     }
 }

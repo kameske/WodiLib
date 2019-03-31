@@ -67,8 +67,8 @@ namespace WodiLib.Cmn
         /// <exception cref="ArgumentOutOfRangeException">valueが予備変数アドレス値として不適切な場合</exception>
         public SpareNumberVariableAddress(int value) : base(value)
         {
-            VariableNumber = (SpareNumberVariableNumber) Value.SubInt(5, 1);
-            VariableIndex = (SpareNumberVariableIndex) Value.SubInt(0, 5);
+            VariableNumber = Value.SubInt(5, 1);
+            VariableIndex = Value.SubInt(0, 5);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -109,22 +109,22 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> SpareNumberVariableAddress への明示的な型変換
+        /// int -> SpareNumberVariableAddress への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator SpareNumberVariableAddress(int src)
+        public static implicit operator SpareNumberVariableAddress(int src)
         {
             var result = new SpareNumberVariableAddress(src);
             return result;
         }
 
         /// <summary>
-        /// SpareNumberVariableAddress -> int への明示的な型変換
+        /// SpareNumberVariableAddress -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(SpareNumberVariableAddress src)
+        public static implicit operator int(SpareNumberVariableAddress src)
         {
             return src.Value;
         }
@@ -177,6 +177,47 @@ namespace WodiLib.Cmn
 
         #endregion
 
+        #region VariableAddress
+
+        /// <summary>
+        /// アドレス値 - アドレス値 を計算し、アドレス値の差を返す。
+        /// </summary>
+        /// <param name="left">アドレス左辺</param>
+        /// <param name="right">アドレス右辺</param>
+        /// <returns>アドレス値の差</returns>
+        public static int operator -(SpareNumberVariableAddress left, VariableAddress right)
+        {
+            return left.Value - right;
+        }
+
+        /// <summary>
+        /// ==
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺==右辺の場合true</returns>
+        public static bool operator ==(SpareNumberVariableAddress left, VariableAddress right)
+        {
+            if (ReferenceEquals(left, right)) return true;
+
+            if (left is null || right is null) return false;
+
+            return left.Equals(right);
+        }
+
+        /// <summary>
+        /// !=
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺!=右辺の場合true</returns>
+        public static bool operator !=(SpareNumberVariableAddress left, VariableAddress right)
+        {
+            return !(left == right);
+        }
+
+        #endregion
+
         #region SpareNumberVariableAddress
 
         /// <summary>
@@ -200,7 +241,7 @@ namespace WodiLib.Cmn
         {
             if (ReferenceEquals(left, right)) return true;
 
-            if ((object) left == null || (object) right == null) return false;
+            if (left is null || right is null) return false;
 
             return left.Equals(right);
         }

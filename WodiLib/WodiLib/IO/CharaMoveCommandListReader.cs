@@ -100,7 +100,7 @@ namespace WodiLib.IO
             for (var i = 0; i < varLength; i++)
             {
                 var value = status.ReadInt();
-                charaMoveCommand.SetNumberValue(i, (CharaMoveCommandValue) value);
+                charaMoveCommand.SetNumberValue(i, value);
                 status.IncreaseIntOffset();
 
                 Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),

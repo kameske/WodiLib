@@ -40,8 +40,8 @@ namespace WodiLib.Event.CharaMoveCommand
                         ErrorMessage.NotNull(nameof(Value)));
 
                 moveFrequency = value;
-                var val = (int) moveFrequency.Code;
-                SetNumberValue(0, (CharaMoveCommandValue) val);
+                var val = moveFrequency.Code;
+                SetNumberValue(0, val);
             }
         }
 
@@ -51,8 +51,8 @@ namespace WodiLib.Event.CharaMoveCommand
         public SetMoveFrequency()
         {
             // 引数0の初期値設定
-            var val = (int) moveFrequency.Code;
-            SetNumberValue(0, (CharaMoveCommandValue) val);
+            var val = moveFrequency.Code;
+            SetNumberValue(0, val);
         }
     }
 }

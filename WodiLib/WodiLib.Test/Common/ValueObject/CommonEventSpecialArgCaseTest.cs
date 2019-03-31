@@ -77,7 +77,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                castValue = (Tuple<int, string>) instance;
+                castValue = instance;
             }
             catch (Exception ex)
             {
@@ -107,7 +107,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                instance = (CommonEventSpecialArgCase) src;
+                instance =  src;
             }
             catch (Exception ex)
             {
@@ -166,7 +166,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                instance = (CommonEventSpecialArgCase) src;
+                instance =  src;
             }
             catch (Exception ex)
             {

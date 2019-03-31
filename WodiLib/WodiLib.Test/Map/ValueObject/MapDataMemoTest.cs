@@ -91,7 +91,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                instance = (MapDataMemo) value;
+                instance =  value;
             }
             catch (Exception ex)
             {

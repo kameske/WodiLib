@@ -38,17 +38,13 @@ namespace WodiLib.Event.CharaMoveCommand
             get => targetAddress;
             set
             {
-                switch (value)
+                if (value is NormalNumberVariableAddress
+                    || value is CalledEventVariableAddress)
                 {
-                    case NormalNumberVariableAddress val:
-                        targetAddress = val;
-                        break;
-                    case CalledEventVariableAddress val:
-                        targetAddress = val;
-                        break;
+                    targetAddress = value;
                 }
 
-                SetNumberValue(0, (CharaMoveCommandValue) value.ToInt());
+                SetNumberValue(0, value.ToInt());
             }
         }
 
