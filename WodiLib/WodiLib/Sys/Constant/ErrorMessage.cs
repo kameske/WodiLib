@@ -24,6 +24,16 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
+        /// List中にnull項目がある場合のエラーメッセージ
+        /// </summary>
+        /// <param name="listName">エラー項目名</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string NotNullInList(string listName)
+        {
+            return $"{listName}中にnull項目が含まれているため、処理できません。";
+        }
+
+        /// <summary>
         /// NotEmptyエラーメッセージ
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
@@ -31,6 +41,11 @@ namespace WodiLib.Sys
         public static string NotEmpty(string itemName)
         {
             return $"{itemName}にEmptyを設定できません。";
+        }
+
+        public static string GreaterOrEqual(string itemName, IntOrStr limit, int value)
+        {
+            return $"{itemName}は{limit}以上である必要があります。";
         }
 
         /// <summary>
@@ -44,6 +59,38 @@ namespace WodiLib.Sys
         public static string OutOfRange(string itemName, IntOrStr min, IntOrStr max, int setValue)
         {
             return $"{itemName}は{min.ToValueString()}～{max.ToValueString()}のみ設定できます。(設定値：{setValue})";
+        }
+
+        /// <summary>
+        /// 項目数エラーメッセージ
+        /// </summary>
+        /// <param name="itemName">エラー項目名</param>
+        /// <param name="allowSize">許容サイズ</param>
+        /// <param name="size">項目数</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string LengthRange(string itemName, IntOrStr allowSize, int size)
+        {
+            return $"{itemName}のサイズは{allowSize}にする必要があります。(サイズ：{size})";
+        }
+
+        /// <summary>
+        /// リスト要素数が不足する場合のエラーメッセージ
+        /// </summary>
+        /// <param name="limit">要素数下限</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string UnderListLength(int limit)
+        {
+            return $"要素数が{limit}を下回るため、処理できません。";
+        }
+
+        /// <summary>
+        /// リスト要素数が超過する場合のエラーメッセージ
+        /// </summary>
+        /// <param name="limit">要素数上限</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string OverListLength(int limit)
+        {
+            return $"要素数が{limit}を上回るため、処理できません。";
         }
 
         /// <summary>
@@ -86,7 +133,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
         /// <param name="needCastClassNameList">キャスト可能であるべき型名リスト</param>
-        /// <returns></returns>
+        /// <returns>エラーメッセージ</returns>
         public static string InvalidAnyCast(string itemName, params string[] needCastClassNameList)
         {
             return $"{itemName}は{string.Join(", ", needCastClassNameList)}のいずれかに" +
