@@ -25,7 +25,7 @@ namespace WodiLib.IO
         /// <summary>
         /// ファイル名
         /// </summary>
-        public string FileName { get; }
+        public MpsFilePath FilePath { get; }
 
         /// <summary>
         /// [Nullable] 読み取り/書き出しマップデータ
@@ -39,44 +39,44 @@ namespace WodiLib.IO
         /// <summary>
         /// ファイル書き出しクラスを生成する。
         /// </summary>
-        /// <param name="fileName">[NotNullOrEmpty] 書き出しファイル名</param>
+        /// <param name="filePath">[NotNullOrEmpty] 書き出しファイル名</param>
         /// <param name="mapData">[NotNull] 書き出しマップデータ</param>
         /// <returns>ライターインスタンス</returns>
-        /// <exception cref="ArgumentNullException">fileName, mapData がnullの場合</exception>
-        /// <exception cref="ArgumentException">fileNameが空文字の場合</exception>
-        private static MpsFileWriter BuildMpsFileWriter(string fileName, MapData mapData)
+        /// <exception cref="ArgumentNullException">filePath, mapData がnullの場合</exception>
+        /// <exception cref="ArgumentException">filePathが空文字の場合</exception>
+        private static MpsFileWriter BuildMpsFileWriter(string filePath, MapData mapData)
         {
             if (mapData == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(mapData)));
-            if (fileName == null)
+            if (filePath == null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(fileName)));
-            if (fileName.IsEmpty())
+                    ErrorMessage.NotNull(nameof(filePath)));
+            if (filePath.IsEmpty())
                 throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(fileName)));
+                    ErrorMessage.NotEmpty(nameof(filePath)));
 
-            var writer = new MpsFileWriter(mapData, fileName);
+            var writer = new MpsFileWriter(mapData, filePath);
             return writer;
         }
 
         /// <summary>
         /// ファイル読み込みクラスを生成する。
         /// </summary>
-        /// <param name="fileName">[NotNullOrEmpty] 読み込みファイル名</param>
+        /// <param name="filePath">[NotNullOrEmpty] 読み込みファイル名</param>
         /// <returns>リーダーインスタンス</returns>
-        /// <exception cref="ArgumentNullException">fileNameがnullの場合</exception>
-        /// <exception cref="ArgumentException">fileNameが空文字の場合</exception>
-        private static MpsFileReader BuildMpsFileReader(string fileName)
+        /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
+        /// <exception cref="ArgumentException">filePathが空文字の場合</exception>
+        private static MpsFileReader BuildMpsFileReader(string filePath)
         {
-            if (fileName == null)
+            if (filePath == null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(fileName)));
-            if (fileName.IsEmpty())
+                    ErrorMessage.NotNull(nameof(filePath)));
+            if (filePath.IsEmpty())
                 throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(fileName)));
+                    ErrorMessage.NotEmpty(nameof(filePath)));
 
-            var reader = new MpsFileReader(fileName);
+            var reader = new MpsFileReader(filePath);
             return reader;
         }
 
@@ -87,19 +87,19 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="fileName">[NotNullOrEmpty] ファイル名</param>
-        /// <exception cref="ArgumentNullException">fileNameがnullの場合</exception>
-        /// <exception cref="ArgumentException">fileNameが空の場合</exception>
-        public MpsFile(string fileName)
+        /// <param name="filePath">[NotNullOrEmpty] ファイル名</param>
+        /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
+        /// <exception cref="ArgumentException">filePathが空の場合</exception>
+        public MpsFile(string filePath)
         {
-            if (fileName == null)
+            if (filePath == null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(fileName)));
-            if (fileName.IsEmpty())
+                    ErrorMessage.NotNull(nameof(filePath)));
+            if (filePath.IsEmpty())
                 throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(fileName)));
+                    ErrorMessage.NotEmpty(nameof(filePath)));
 
-            FileName = fileName;
+            FilePath = filePath;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -119,7 +119,7 @@ namespace WodiLib.IO
 
             MapData = mapData;
 
-            var writer = BuildMpsFileWriter(FileName, MapData);
+            var writer = BuildMpsFileWriter(FilePath, MapData);
             writer.WriteSync();
         }
 
@@ -137,7 +137,7 @@ namespace WodiLib.IO
 
             MapData = mapData;
 
-            var writer = BuildMpsFileWriter(FileName, MapData);
+            var writer = BuildMpsFileWriter(FilePath, MapData);
             await writer.WriteAsync();
         }
 
@@ -147,7 +147,7 @@ namespace WodiLib.IO
         /// <returns>読み込みデータ</returns>
         public MapData ReadSync()
         {
-            var reader = BuildMpsFileReader(FileName);
+            var reader = BuildMpsFileReader(FilePath);
             MapData = reader.ReadSync();
             return MapData;
         }
@@ -158,7 +158,7 @@ namespace WodiLib.IO
         /// <returns>読み込みデータを返すタスク</returns>
         public async Task<MapData> ReadASync()
         {
-            var reader = BuildMpsFileReader(FileName);
+            var reader = BuildMpsFileReader(FilePath);
             await reader.ReadAsync();
             MapData = reader.MapData;
             return MapData;

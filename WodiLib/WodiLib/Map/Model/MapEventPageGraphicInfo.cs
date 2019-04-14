@@ -45,14 +45,14 @@ namespace WodiLib.Map
             }
         }
 
-        private CharaChipFileName charaChipFileName = "";
+        private CharaChipFilePath charaChipFilePath = "";
 
         /// <summary>[NotNull] キャラチップファイル名</summary>
         /// <exception cref="PropertyAccessException">IsGraphicTileChip = true のときにセットした場合</exception>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public CharaChipFileName CharaChipFileName
+        public CharaChipFilePath CharaChipFilePath
         {
-            get => charaChipFileName;
+            get => charaChipFilePath;
             set
             {
                 if (IsGraphicTileChip)
@@ -60,8 +60,8 @@ namespace WodiLib.Map
                         $"{nameof(IsGraphicTileChip)}がfalseの場合のみセットできます。");
                 if (value == null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(CharaChipFileName)));
-                charaChipFileName = value;
+                        ErrorMessage.NotNull(nameof(CharaChipFilePath)));
+                charaChipFilePath = value;
             }
         }
 
@@ -118,23 +118,23 @@ namespace WodiLib.Map
             }
 
             IsGraphicTileChip = false;
-            charaChipFileName = "";
+            charaChipFilePath = "";
         }
 
         /// <summary>
         /// キャラ画像ファイル名をセットする。
         /// （タイルID使用フラグをfalseに強制更新する）
         /// </summary>
-        /// <param name="fileName">[NotNull] 画像ファイル名</param>
+        /// <param name="filePath">[NotNull] 画像ファイル名</param>
         /// <returns>キャラ画像ファイル名</returns>
-        public void SetGraphicFileName(CharaChipFileName fileName)
+        public void SetGraphicFileName(CharaChipFilePath filePath)
         {
-            if (fileName == null)
+            if (filePath == null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(fileName)));
+                    ErrorMessage.NotNull(nameof(filePath)));
 
             IsGraphicTileChip = false;
-            CharaChipFileName = fileName;
+            CharaChipFilePath = filePath;
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace WodiLib.Map
             // キャラ画像タイルセットID
             result.AddRange(GraphicTileId.ToBytes(Endian.Woditor));
             // キャラチップ名
-            result.AddRange(CharaChipFileName.ToWoditorStringBytes());
+            result.AddRange(CharaChipFilePath.ToWoditorStringBytes());
             // 初期向き
             result.Add(InitDirection.Code);
             // 初期アニメーション番号

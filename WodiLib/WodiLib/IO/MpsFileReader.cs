@@ -465,7 +465,7 @@ namespace WodiLib.IO
 
             if (!graphicInfo.IsGraphicTileChip)
             {
-                graphicInfo.CharaChipFileName = charaChipString.String;
+                graphicInfo.CharaChipFilePath = charaChipString.String;
             }
 
             status.AddOffset(charaChipString.ByteLength);

@@ -67,7 +67,7 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessWrite);
 
-            Console.WriteLine($@"Written FileName : {MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+            Console.WriteLine($@"Written FilePath : {MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
         }
 
         [Test]
@@ -107,7 +107,7 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessWrite);
 
-            Console.WriteLine($@"Written FileName : {MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+            Console.WriteLine($@"Written FilePath : {MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
         }
 
         [Test]

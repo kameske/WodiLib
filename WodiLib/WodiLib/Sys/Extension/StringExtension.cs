@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using System.Text.RegularExpressions;
+
 namespace WodiLib.Sys
 {
     /// <summary>
@@ -31,6 +33,23 @@ namespace WodiLib.Sys
         public static bool HasNewLine(this string src)
         {
             return src.Contains("\n") || src.Contains("\r\n");
+        }
+
+        /// <summary>
+        /// ファイル名に使用不可能な文字列を含むかどうかを返す。
+        /// </summary>
+        /// <param name="src">対象</param>
+        /// <returns>使用不可能な文字列を含む場合、true</returns>
+        public static bool HasInvalidFileNameChars(this string src)
+        {
+            // "COM0", "LPT0" は作成可能
+
+            var regex = new Regex(
+                "[\\x00-\\x1f<>:\"/\\\\|?*]|^(CON|COM[1-9]|NUL|PRN|AUX|LPT[1-9])(\\.|$)|[\\. ]$",
+                RegexOptions.IgnoreCase
+            );
+
+            return regex.IsMatch(src);
         }
     }
 }

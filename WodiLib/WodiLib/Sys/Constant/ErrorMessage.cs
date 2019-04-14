@@ -139,5 +139,15 @@ namespace WodiLib.Sys
             return $"{itemName}は{string.Join(", ", needCastClassNameList)}のいずれかに" +
                    $"キャスト可能である必要があります。";
         }
+
+        /// <summary>
+        /// データサイズが超過する場合のエラーメッセージ
+        /// </summary>
+        /// <param name="maxByte">データ最大バイト数</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string OverDataSize(int maxByte)
+        {
+            return $"{maxByte}byte を超えるため、処理できません。";
+        }
     }
 }

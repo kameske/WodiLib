@@ -23,9 +23,9 @@ namespace WodiLib.IO
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// ファイル名
+        /// ファイルパス
         /// </summary>
-        public string FileName { get; }
+        public CommonFilePath FilePath { get; }
 
         /// <summary>
         /// [Nullable] 読み取り/書き出しコモンイベントデータ
@@ -39,44 +39,44 @@ namespace WodiLib.IO
         /// <summary>
         /// ファイル書き出しクラスを生成する。
         /// </summary>
-        /// <param name="fileName">[NotNullOrEmpty] 書き出しファイル名</param>
+        /// <param name="filePath">[NotNullOrEmpty] 書き出しファイル名</param>
         /// <param name="data">[NotNull] 書き出しコモンイベントデータ</param>
         /// <returns>ライターインスタンス</returns>
-        /// <exception cref="ArgumentNullException">fileName, data がnullの場合</exception>
-        /// <exception cref="ArgumentException">fileNameが空文字の場合</exception>
-        private static CommonFileWriter BuildFileWriter(string fileName, CommonFileData data)
+        /// <exception cref="ArgumentNullException">filePath, data がnullの場合</exception>
+        /// <exception cref="ArgumentException">filePathが空文字の場合</exception>
+        private static CommonFileWriter BuildFileWriter(string filePath, CommonFileData data)
         {
-            if (fileName == null)
+            if (filePath == null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(fileName)));
-            if (fileName.IsEmpty())
+                    ErrorMessage.NotNull(nameof(filePath)));
+            if (filePath.IsEmpty())
                 throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(fileName)));
+                    ErrorMessage.NotEmpty(nameof(filePath)));
             if (data == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 
-            var writer = new CommonFileWriter(data, fileName);
+            var writer = new CommonFileWriter(data, filePath);
             return writer;
         }
 
         /// <summary>
         /// ファイル読み込みクラスを生成する。
         /// </summary>
-        /// <param name="fileName">[NotNullOrEmpty] 読み込みファイル名</param>
+        /// <param name="filePath">[NotNullOrEmpty] 読み込みファイル名</param>
         /// <returns>リーダーインスタンス</returns>
-        /// <exception cref="ArgumentNullException">fileNameがnullの場合</exception>
-        /// <exception cref="ArgumentException">fileNameが空文字の場合</exception>
-        private static CommonFileReader BuildFileReader(string fileName)
+        /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
+        /// <exception cref="ArgumentException">filePathが空文字の場合</exception>
+        private static CommonFileReader BuildFileReader(string filePath)
         {
-            if (fileName == null)
+            if (filePath == null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(fileName)));
-            if (fileName.IsEmpty())
+                    ErrorMessage.NotNull(nameof(filePath)));
+            if (filePath.IsEmpty())
                 throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(fileName)));
+                    ErrorMessage.NotEmpty(nameof(filePath)));
 
-            var reader = new CommonFileReader(fileName);
+            var reader = new CommonFileReader(filePath);
             return reader;
         }
 
@@ -87,19 +87,19 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="fileName">[NotNullOrEmpty] ファイル名</param>
-        /// <exception cref="ArgumentNullException">fileNameがnullの場合</exception>
-        /// <exception cref="ArgumentException">fileNameが空の場合</exception>
-        public CommonFile(string fileName)
+        /// <param name="filePath">[NotNullOrEmpty] ファイル名</param>
+        /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
+        /// <exception cref="ArgumentException">filePathが空の場合</exception>
+        public CommonFile(string filePath)
         {
-            if (fileName == null)
+            if (filePath == null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(fileName)));
-            if (fileName.IsEmpty())
+                    ErrorMessage.NotNull(nameof(filePath)));
+            if (filePath.IsEmpty())
                 throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(fileName)));
+                    ErrorMessage.NotEmpty(nameof(filePath)));
 
-            FileName = fileName;
+            FilePath = filePath;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -119,7 +119,7 @@ namespace WodiLib.IO
 
             CommonFileData = data;
 
-            var writer = BuildFileWriter(FileName, CommonFileData);
+            var writer = BuildFileWriter(FilePath, CommonFileData);
             writer.WriteSync();
         }
 
@@ -137,7 +137,7 @@ namespace WodiLib.IO
 
             CommonFileData = data;
 
-            var writer = BuildFileWriter(FileName, CommonFileData);
+            var writer = BuildFileWriter(FilePath, CommonFileData);
             await writer.WriteAsync();
         }
 
@@ -147,7 +147,7 @@ namespace WodiLib.IO
         /// <returns>読み込みデータ</returns>
         public CommonFileData ReadSync()
         {
-            var reader = BuildFileReader(FileName);
+            var reader = BuildFileReader(FilePath);
             CommonFileData = reader.ReadSync();
             return CommonFileData;
         }
@@ -158,7 +158,7 @@ namespace WodiLib.IO
         /// <returns>読み込みデータを返すタスク</returns>
         public async Task<CommonFileData> ReadASync()
         {
-            var reader = BuildFileReader(FileName);
+            var reader = BuildFileReader(FilePath);
             await reader.ReadAsync();
             CommonFileData = reader.CommonFileData;
             return CommonFileData;

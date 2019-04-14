@@ -69,7 +69,7 @@ namespace WodiLib.Test.IO
             Assert.IsTrue(isSuccessWrite);
 
             Console.WriteLine(
-                $@"Written FileName : {CommonEventDataFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+                $@"Written FilePath : {CommonEventDataFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
         }
 
         [Test]
@@ -111,7 +111,7 @@ namespace WodiLib.Test.IO
             Assert.IsTrue(isSuccessWrite);
 
             Console.WriteLine(
-                $@"Written FileName : {CommonEventDataFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+                $@"Written FilePath : {CommonEventDataFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
         }
 
         [Test]

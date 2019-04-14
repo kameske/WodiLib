@@ -50,11 +50,11 @@ namespace WodiLib.Test.Map
         {
             var instance = new MapEventPageGraphicInfo();
             var errorOccured = false;
-            var charaChipName = (CharaChipFileName) fileName;
+            var charaChipName = (CharaChipFilePath) fileName;
             try
             {
                 instance.IsGraphicTileChip = isGraphicTileChip;
-                instance.CharaChipFileName = charaChipName;
+                instance.CharaChipFilePath = charaChipName;
             }
             catch (Exception ex)
             {
@@ -119,7 +119,7 @@ namespace WodiLib.Test.Map
         {
             var instance = new MapEventPageGraphicInfo();
             instance.IsGraphicTileChip = beforeIsGraphicTileChip;
-            var charaChipFileName = (CharaChipFileName) fileName;
+            var charaChipFileName = (CharaChipFilePath) fileName;
             var errorOccured = false;
             try
             {

@@ -245,7 +245,7 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "CharaChip/[Animal]Chicken.png",
+                                    CharaChipFilePath = "CharaChip/[Animal]Chicken.png",
                                     CharaChipOpacity =  255,
                                     CharaChipDrawType = PictureDrawType.Normal
                                 },
@@ -665,7 +665,7 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "",
+                                    CharaChipFilePath = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
                                     CharaChipOpacity =  255,
                                 },
@@ -815,7 +815,7 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "",
+                                    CharaChipFilePath = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
                                     CharaChipOpacity = 255,
                                 },
@@ -900,7 +900,7 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "CharaChip/[Special]Edy.png",
+                                    CharaChipFilePath = "CharaChip/[Special]Edy.png",
                                     CharaChipDrawType = PictureDrawType.Normal,
                                     CharaChipOpacity = 255
                                 },
@@ -1065,7 +1065,7 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "",
+                                    CharaChipFilePath = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
                                     CharaChipOpacity = 255
                                 },
@@ -1153,7 +1153,7 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "",
+                                    CharaChipFilePath = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
                                     CharaChipOpacity = 255
                                 },
@@ -1296,7 +1296,7 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "",
+                                    CharaChipFilePath = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
                                     CharaChipOpacity = 255
                                 },
@@ -1366,7 +1366,7 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "CharaChip/[Animal]Chicken.png",
+                                    CharaChipFilePath = "CharaChip/[Animal]Chicken.png",
                                     CharaChipDrawType = PictureDrawType.Normal,
                                     CharaChipOpacity = 255
                                 },
@@ -1433,7 +1433,7 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "",
+                                    CharaChipFilePath = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
                                     CharaChipOpacity = 255
                                 },
@@ -1494,7 +1494,7 @@ namespace WodiLib.Test.IO
                                 GraphicInfo = new MapEventPageGraphicInfo
                                 {
                                     IsGraphicTileChip = false,
-                                    CharaChipFileName = "",
+                                    CharaChipFilePath = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
                                     CharaChipOpacity = 255
                                 },

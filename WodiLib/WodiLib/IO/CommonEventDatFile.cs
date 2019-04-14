@@ -23,9 +23,9 @@ namespace WodiLib.IO
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// ファイル名
+        /// ファイルパス
         /// </summary>
-        public string FileName { get; }
+        public CommonEventDatFilePath FilePath { get; }
 
         /// <summary>
         /// [Nullable] 読み取り/書き出しコモンイベントデータ
@@ -42,7 +42,7 @@ namespace WodiLib.IO
         /// <param name="fileName">[NotNullOrEmpty] 書き出しファイル名</param>
         /// <param name="data">[NotNull] 書き出しコモンイベントデータ</param>
         /// <returns>ライターインスタンス</returns>
-        /// <exception cref="ArgumentNullException">fileName, data がnullの場合</exception>
+        /// <exception cref="ArgumentNullException">filePath, data がnullの場合</exception>
         /// <exception cref="ArgumentException">fileNameが空文字の場合</exception>
         private static CommonEventDatFileWriter BuildFileWriter(string fileName, CommonEventData data)
         {
@@ -87,19 +87,19 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="fileName">[NotNullOrEmpty] ファイル名</param>
-        /// <exception cref="ArgumentNullException">fileNameがnullの場合</exception>
+        /// <param name="filePath">[NotNullOrEmpty] ファイル名</param>
+        /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         /// <exception cref="ArgumentException">fileNameが空の場合</exception>
-        public CommonEventDatFile(string fileName)
+        public CommonEventDatFile(CommonEventDatFilePath filePath)
         {
-            if (fileName == null)
+            if (filePath == null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(fileName)));
-            if (fileName.IsEmpty())
+                    ErrorMessage.NotNull(nameof(filePath)));
+            if (((string)filePath).IsEmpty())
                 throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(fileName)));
+                    ErrorMessage.NotEmpty(nameof(filePath)));
 
-            FileName = fileName;
+            FilePath = filePath;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -119,7 +119,7 @@ namespace WodiLib.IO
 
             CommonEventData = data;
 
-            var writer = BuildFileWriter(FileName, CommonEventData);
+            var writer = BuildFileWriter(FilePath, CommonEventData);
             writer.WriteSync();
         }
 
@@ -137,7 +137,7 @@ namespace WodiLib.IO
 
             CommonEventData = data;
 
-            var writer = BuildFileWriter(FileName, CommonEventData);
+            var writer = BuildFileWriter(FilePath, CommonEventData);
             await writer.WriteAsync();
         }
 
@@ -147,7 +147,7 @@ namespace WodiLib.IO
         /// <returns>読み込みデータ</returns>
         public CommonEventData ReadSync()
         {
-            var reader = BuildFileReader(FileName);
+            var reader = BuildFileReader(FilePath);
             CommonEventData = reader.ReadSync();
             return CommonEventData;
         }
@@ -158,7 +158,7 @@ namespace WodiLib.IO
         /// <returns>読み込みデータを返すタスク</returns>
         public async Task<CommonEventData> ReadASync()
         {
-            var reader = BuildFileReader(FileName);
+            var reader = BuildFileReader(FilePath);
             await reader.ReadAsync();
             CommonEventData = reader.CommonEventData;
             return CommonEventData;

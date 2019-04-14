@@ -7,7 +7,7 @@ using WodiLib.Test.Tools;
 namespace WodiLib.Test.Cmn
 {
     [TestFixture]
-    public class CharaChipFileNameTest
+    public class CharaChipFilePathTest
     {
         private static WodiLibLogger logger;
 
@@ -29,7 +29,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                var _ = new CharaChipFileName(value);
+                var _ = new CharaChipFilePath(value);
             }
             catch (Exception ex)
             {
@@ -46,7 +46,7 @@ namespace WodiLib.Test.Cmn
         [TestCase("あいうえお")]
         public static void ToStringTest(string value)
         {
-            var instance = new CharaChipFileName(value);
+            var instance = new CharaChipFilePath(value);
 
             var strValue = instance.ToString();
 
@@ -59,7 +59,7 @@ namespace WodiLib.Test.Cmn
         [TestCase("あいうえお")]
         public static void CastToStringTest(string value)
         {
-            var instance = new CharaChipFileName(value);
+            var instance = new CharaChipFilePath(value);
 
             var errorOccured = false;
             try
@@ -87,7 +87,7 @@ namespace WodiLib.Test.Cmn
         [TestCase("Wolf\nRPG\nEditor.", true)]
         public static void CastFromStringTest(string value, bool isError)
         {
-            CharaChipFileName instance = null;
+            CharaChipFilePath instance = null;
 
             var errorOccured = false;
             try
@@ -118,24 +118,24 @@ namespace WodiLib.Test.Cmn
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(string left, string right, bool isEqual)
         {
-            var leftIndex = (CharaChipFileName) left;
-            var rightIndex = (CharaChipFileName) right;
+            var leftIndex = (CharaChipFilePath) left;
+            var rightIndex = (CharaChipFilePath) right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(string left, string right, bool isEqual)
         {
-            var leftIndex = (CharaChipFileName) left;
-            var rightIndex = (CharaChipFileName) right;
+            var leftIndex = (CharaChipFilePath) left;
+            var rightIndex = (CharaChipFilePath) right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(string left, string right, bool isEqual)
         {
-            var leftIndex = (CharaChipFileName) left;
-            var rightIndex = (CharaChipFileName) right;
+            var leftIndex = (CharaChipFilePath) left;
+            var rightIndex = (CharaChipFilePath) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }
