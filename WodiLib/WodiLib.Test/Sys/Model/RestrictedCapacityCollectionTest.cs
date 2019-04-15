@@ -753,6 +753,86 @@ namespace WodiLib.Test.Sys
             }
         }
 
+        [TestCase(TestClassType.Type1, 8, -1, true)]
+        [TestCase(TestClassType.Type1, 8, 0, false)]
+        [TestCase(TestClassType.Type1, 8, 10, false)]
+        [TestCase(TestClassType.Type1, 8, 11, true)]
+        [TestCase(TestClassType.Type2, 8, -1, true)]
+        [TestCase(TestClassType.Type2, 8, 4, true)]
+        [TestCase(TestClassType.Type2, 8, 5, false)]
+        [TestCase(TestClassType.Type2, 8, 10, false)]
+        [TestCase(TestClassType.Type2, 8, 11, true)]
+        public static void AdjustLengthTest(TestClassType classType, int initLength,
+            int adjustLength, bool isError)
+        {
+            var initList = MakeStringList(initLength);
+
+            AbsCollectionTest instance = null;
+            Dictionary<string, int> countDic = null;
+            switch (classType)
+            {
+                case TestClassType.Type1:
+                    instance = MakeCollectionForMethodTest(initLength, out countDic);
+                    break;
+                case TestClassType.Type2:
+                    instance = MakeCollection2ForMethodTest(initList, initLength, out countDic);
+                    break;
+                default:
+                    Assert.Fail();
+                    break;
+            }
+
+            var errorOccured = false;
+            try
+            {
+                instance.AdjustLength(adjustLength);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            // 各Virtualメソッドが意図した回数呼ばれていること
+            Assert.AreEqual(countDic[nameof(CollectionTest1.OnSetItemCalled)], 0);
+            var insertedCnt = errorOccured
+                ? 0
+                : initLength < adjustLength
+                    ? adjustLength - initLength
+                    : 0;
+            Assert.AreEqual(countDic[nameof(CollectionTest1.OnInsertItemCalled)], insertedCnt);
+            var removedCnt = errorOccured
+                ? 0
+                : initLength > adjustLength
+                    ? initLength - adjustLength
+                    : 0;
+            Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], removedCnt);
+            Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
+
+            if (errorOccured) return;
+
+            // 要素数が調整サイズと一致すること
+            Assert.AreEqual(instance.Count, adjustLength);
+
+            // 操作前の要素（要素追加した場合は初期要素、要素削除した場合はすべての要素）が変化していないこと
+            var nonChangedCnt = initLength < adjustLength
+                ? initLength
+                : adjustLength;
+            var i = 0;
+            for (; i < nonChangedCnt; i++)
+            {
+                Assert.AreEqual(instance[i], i.ToString());
+            }
+            // 追加した要素がデフォルト要素と一致すること
+            for (; i < instance.Count; i++)
+            {
+                Assert.AreEqual(instance[i], "test");
+            }
+        }
+
         [TestCase(TestClassType.Type1, 0)]
         [TestCase(TestClassType.Type1, 10)]
         [TestCase(TestClassType.Type2, 5)]
@@ -1056,7 +1136,7 @@ namespace WodiLib.Test.Sys
 
             public override int GetMinCapacity() => MinCapacity;
 
-            protected override string MakeDefaultItem() => Default;
+            protected override string MakeDefaultItem(int index) => Default;
 
             public CollectionTest1() { }
 
@@ -1107,7 +1187,7 @@ namespace WodiLib.Test.Sys
 
             public override int GetMinCapacity() => MinCapacity;
 
-            protected override string MakeDefaultItem() => Default;
+            protected override string MakeDefaultItem(int index) => Default;
 
             public CollectionTest2() { }
 
@@ -1154,7 +1234,7 @@ namespace WodiLib.Test.Sys
 
             public override int GetMinCapacity() => MinCapacity;
 
-            protected override string MakeDefaultItem() => Default;
+            protected override string MakeDefaultItem(int index) => Default;
 
             public CollectionTest3() { }
 
@@ -1175,7 +1255,7 @@ namespace WodiLib.Test.Sys
 
             public override int GetMinCapacity() => MinCapacity;
 
-            protected override string MakeDefaultItem() => Default;
+            protected override string MakeDefaultItem(int index) => Default;
 
             public CollectionTest4() { }
 
@@ -1196,7 +1276,7 @@ namespace WodiLib.Test.Sys
 
             public override int GetMinCapacity() => MinCapacity;
 
-            protected override string MakeDefaultItem() => Default;
+            protected override string MakeDefaultItem(int index) => Default;
 
             public CollectionTest5() { }
 
@@ -1216,7 +1296,7 @@ namespace WodiLib.Test.Sys
 
             public override int GetMinCapacity() => MinCapacity;
 
-            protected override string MakeDefaultItem() => Default;
+            protected override string MakeDefaultItem(int index) => Default;
 
             public CollectionTest6() { }
 

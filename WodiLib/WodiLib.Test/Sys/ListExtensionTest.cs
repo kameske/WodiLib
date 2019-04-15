@@ -19,18 +19,26 @@ namespace WodiLib.Test.Sys
             logger = WodiLibLogger.GetInstance();
         }
 
-        [TestCase(3, 1, 10)]
-        [TestCase(4, 4, 10)]
-        [TestCase(2, 5, 10)]
-        public static void AdjustLengthTest(int initLength, int adjustLength, int defaultValue)
+        [TestCase(3, 1, -1, true)]
+        [TestCase(4, 4, -1, true)]
+        [TestCase(2, 5, -1, true)]
+        [TestCase(3, 1, 10, false)]
+        [TestCase(4, 4, 10, false)]
+        [TestCase(2, 5, 10, false)]
+        public static void AdjustLengthTest(int initLength, int adjustLength, int defaultValue, bool isError)
         {
             var list = new List<int>();
-            for(var i=0; i<initLength; i++) list.Add(i);
+            for (var i = 0; i < initLength; i++) list.Add(i);
+
+
+            var makeDefaultValueFunc = defaultValue == -1
+                ? null
+                : new Func<int, int>(i => defaultValue);
 
             var errorOccured = false;
             try
             {
-                list.AdjustLength(adjustLength, defaultValue);
+                list.AdjustLength(adjustLength, makeDefaultValueFunc);
             }
             catch (Exception ex)
             {
@@ -38,8 +46,10 @@ namespace WodiLib.Test.Sys
                 errorOccured = true;
             }
 
-            // エラーが発生しないこと
-            Assert.IsFalse(errorOccured);
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (errorOccured) return;
 
             // 長さが意図した値であること
             Assert.AreEqual(list.Count, adjustLength);

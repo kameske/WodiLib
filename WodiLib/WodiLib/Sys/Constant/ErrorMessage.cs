@@ -141,6 +141,16 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
+        /// 処理不可能な場合のエラーメッセージ
+        /// </summary>
+        /// <param name="reason">処理できない理由</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string NotExecute(string reason)
+        {
+            return $"{reason}処理できません。";
+        }
+
+        /// <summary>
         /// データサイズが超過する場合のエラーメッセージ
         /// </summary>
         /// <param name="maxByte">データ最大バイト数</param>

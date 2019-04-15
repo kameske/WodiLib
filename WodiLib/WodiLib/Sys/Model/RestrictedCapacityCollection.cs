@@ -31,13 +31,15 @@ namespace WodiLib.Sys
             get => Items[index];
             set
             {
-                if (value == null) throw new ArgumentNullException(
-                     ErrorMessage.NotNull(nameof(value)));
+                if (value == null)
+                    throw new ArgumentNullException(
+                        ErrorMessage.NotNull(nameof(value)));
 
                 var max = Count - 1;
                 const int min = 0;
-                if (index < min || max < index) throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(index), min, max, index));
+                if (index < min || max < index)
+                    throw new ArgumentOutOfRangeException(
+                        ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
                 SetItem(index, value);
             }
@@ -95,17 +97,21 @@ namespace WodiLib.Sys
                 throw new InitializationException(ex);
             }
 
-            if (list == null) throw new ArgumentNullException(
-                 ErrorMessage.NotNull(nameof(list)));
+            if (list == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(list)));
 
-            if (list.HasNullItem()) throw new ArgumentNullException(
-                ErrorMessage.NotNullInList(nameof(list)));
+            if (list.HasNullItem())
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNullInList(nameof(list)));
 
             var cnt = list.Count;
-            if (cnt < GetMinCapacity()) throw new InvalidOperationException(
-                 ErrorMessage.UnderListLength(GetMinCapacity()));
-            if (cnt > GetMaxCapacity()) throw new InvalidOperationException(
-                 ErrorMessage.OverListLength(GetMaxCapacity()));
+            if (cnt < GetMinCapacity())
+                throw new InvalidOperationException(
+                    ErrorMessage.UnderListLength(GetMinCapacity()));
+            if (cnt > GetMaxCapacity())
+                throw new InvalidOperationException(
+                    ErrorMessage.OverListLength(GetMaxCapacity()));
 
             var insertIndex = 0;
             foreach (var item in list)
@@ -152,15 +158,18 @@ namespace WodiLib.Sys
         {
             var indexMax = Count - 1;
             const int min = 0;
-            if (index < min || indexMax < index) throw new ArgumentOutOfRangeException(
-                ErrorMessage.OutOfRange(nameof(index), min, indexMax, index));
+            if (index < min || indexMax < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), min, indexMax, index));
 
             var countMax = Count;
-            if (count < min || countMax < count) throw new ArgumentOutOfRangeException(
-                ErrorMessage.OutOfRange(nameof(count), min, countMax, count));
+            if (count < min || countMax < count)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(count), min, countMax, count));
 
-            if (Count - index < count) throw new ArgumentException(
-                $"{nameof(index)}および{nameof(count)}が有効な範囲を示していません。");
+            if (Count - index < count)
+                throw new ArgumentException(
+                    $"{nameof(index)}および{nameof(count)}が有効な範囲を示していません。");
 
             return Items.GetRange(index, count);
         }
@@ -176,8 +185,9 @@ namespace WodiLib.Sys
             if (item == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(item)));
 
             var addedLength = Count + 1;
-            if (addedLength > GetMaxCapacity()) throw new InvalidOperationException(
-                ErrorMessage.OverListLength(GetMaxCapacity()));
+            if (addedLength > GetMaxCapacity())
+                throw new InvalidOperationException(
+                    ErrorMessage.OverListLength(GetMaxCapacity()));
 
             var index = Count;
             InsertItem(index, item);
@@ -196,12 +206,14 @@ namespace WodiLib.Sys
         {
             if (items == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
 
-            if (items.HasNullItem()) throw new ArgumentNullException(
-                ErrorMessage.NotNullInList(nameof(items)));
+            if (items.HasNullItem())
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNullInList(nameof(items)));
 
             var addedLength = Count + items.Count;
-            if (addedLength > GetMaxCapacity()) throw new InvalidOperationException(
-                ErrorMessage.OverListLength(GetMaxCapacity()));
+            if (addedLength > GetMaxCapacity())
+                throw new InvalidOperationException(
+                    ErrorMessage.OverListLength(GetMaxCapacity()));
 
             var insertIndex = Count;
             foreach (var item in items)
@@ -223,15 +235,18 @@ namespace WodiLib.Sys
         {
             var max = Count;
             const int min = 0;
-            if (index < min || max < index) throw new ArgumentOutOfRangeException(
-                 ErrorMessage.OutOfRange(nameof(index), min, max, index));
+            if (index < min || max < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
-            if (item == null) throw new ArgumentNullException(
-                ErrorMessage.NotNull(nameof(item)));
+            if (item == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(item)));
 
             var insertedLength = Count + 1;
-            if (insertedLength > GetMaxCapacity()) throw new InvalidOperationException(
-                ErrorMessage.OverListLength(GetMaxCapacity()));
+            if (insertedLength > GetMaxCapacity())
+                throw new InvalidOperationException(
+                    ErrorMessage.OverListLength(GetMaxCapacity()));
 
             InsertItem(index, item);
         }
@@ -251,17 +266,20 @@ namespace WodiLib.Sys
         {
             var max = Count;
             const int min = 0;
-            if (index < min || max < index) throw new ArgumentOutOfRangeException(
-                 ErrorMessage.OutOfRange(nameof(index), min, max, index));
+            if (index < min || max < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
             if (items == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
 
-            if (items.HasNullItem()) throw new ArgumentNullException(
-                ErrorMessage.NotNullInList(nameof(items)));
+            if (items.HasNullItem())
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNullInList(nameof(items)));
 
             var addedLength = Count + items.Count;
-            if (addedLength > GetMaxCapacity()) throw new InvalidOperationException(
-                ErrorMessage.OverListLength(GetMaxCapacity()));
+            if (addedLength > GetMaxCapacity())
+                throw new InvalidOperationException(
+                    ErrorMessage.OverListLength(GetMaxCapacity()));
 
             var insertIndex = index;
 
@@ -286,8 +304,9 @@ namespace WodiLib.Sys
             if (index < 0) return false;
 
             var removedLength = Count - 1;
-            if (removedLength < GetMinCapacity()) throw new InvalidOperationException(
-                ErrorMessage.UnderListLength(GetMinCapacity()));
+            if (removedLength < GetMinCapacity())
+                throw new InvalidOperationException(
+                    ErrorMessage.UnderListLength(GetMinCapacity()));
 
             RemoveItem(index);
 
@@ -304,12 +323,14 @@ namespace WodiLib.Sys
         {
             var max = Count - 1;
             const int min = 0;
-            if (index < min || max < index) throw new ArgumentOutOfRangeException(
-                 ErrorMessage.OutOfRange(nameof(index), min, max, index));
+            if (index < min || max < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
             var removedLength = Count - 1;
-            if (removedLength < GetMinCapacity()) throw new InvalidOperationException(
-                ErrorMessage.UnderListLength(GetMinCapacity()));
+            if (removedLength < GetMinCapacity())
+                throw new InvalidOperationException(
+                    ErrorMessage.UnderListLength(GetMinCapacity()));
 
             RemoveItem(index);
         }
@@ -318,32 +339,84 @@ namespace WodiLib.Sys
         /// 要素の範囲を削除する。
         /// </summary>
         /// <param name="index">[Range(0, Count - 1)] インデックス</param>
-        /// <param name="count">[Range(0, Count - 1)] 削除する要素数</param>
+        /// <param name="count">[Range(0, Count)] 削除する要素数</param>
         /// <exception cref="ArgumentOutOfRangeException">index, countが指定範囲外の場合</exception>
         /// <exception cref="ArgumentException">有効な範囲外の要素を削除しようとした場合</exception>
         public void RemoveRange(int index, int count)
         {
-            var max = Count - 1;
+            var indexMax = Count - 1;
             const int min = 0;
 
-            if (index < min || max < index) throw new ArgumentOutOfRangeException(
-                ErrorMessage.OutOfRange(nameof(index), min, max, index));
+            if (index < min || indexMax < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), min, indexMax, index));
 
-            if (count < min || max < count) throw new ArgumentOutOfRangeException(
-                ErrorMessage.OutOfRange(nameof(count), min, max, count));
+            var countMax = Count;
 
-            if (Count - index < count) throw new ArgumentException(
-                $"{nameof(index)}および{nameof(count)}が有効な範囲を示していません。");
+            if (count < min || countMax < count)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(count), min, countMax, count));
+
+            if (Count - index < count)
+                throw new ArgumentException(
+                    $"{nameof(index)}および{nameof(count)}が有効な範囲を示していません。");
 
             var removedLength = Count - count;
-            if(removedLength < GetMinCapacity())
-                if (removedLength < GetMinCapacity()) throw new InvalidOperationException(
-                    ErrorMessage.UnderListLength(GetMinCapacity()));
+            if (removedLength < GetMinCapacity())
+                if (removedLength < GetMinCapacity())
+                    throw new InvalidOperationException(
+                        ErrorMessage.UnderListLength(GetMinCapacity()));
 
-            for(var i=0; i<count; i++)
+            for (var i = 0; i < count; i++)
             {
                 RemoveItem(index);
             }
+        }
+
+        /// <summary>
+        /// 要素数を指定の数に合わせる。
+        /// </summary>
+        /// <param name="length">[Range(GetMinCapacity() - 1, GetMaxCapacity() - 1)] 調整する要素数</param>
+        /// <exception cref="ArgumentOutOfRangeException">lengthが指定範囲外の場合</exception>
+        /// <exception cref="ArgumentException">要素を追加した際にnullがセットされた場合</exception>
+        public void AdjustLength(int length)
+        {
+            if (length < GetMinCapacity())
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.UnderListLength(GetMinCapacity()));
+            if (length > GetMaxCapacity())
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OverListLength(GetMaxCapacity()));
+
+
+            var count = Items.Count;
+
+            if (count == length) return;
+
+            if (count < length)
+            {
+                // 長さが足りないので追加
+                //   途中でMakeDefaultItemの結果がnullとなった場合に備え、予めすべてのデフォルト要素を取得してから処理する
+
+                var addItemList = new List<T>();
+
+                for (var i = Items.Count; i < length; i++)
+                {
+                    var addItem = MakeDefaultItem(i);
+                    if (addItem == null)
+                        throw new ArgumentException(
+                            ErrorMessage.NotExecute($"{nameof(MakeDefaultItem)}({i})の結果がnullのため、"));
+
+                    addItemList.Add(addItem);
+                }
+
+                AddRange(addItemList);
+
+                return;
+            }
+
+            // 長すぎるので除去
+            RemoveRange(length, Items.Count - length);
         }
 
         /// <summary>
@@ -392,7 +465,7 @@ namespace WodiLib.Sys
 
         bool ICollection<T>.IsReadOnly => false;
 
-        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)Items).GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable) Items).GetEnumerator();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Protected Virtual Method
@@ -467,8 +540,9 @@ namespace WodiLib.Sys
         /// <summary>
         /// 格納対象のデフォルトインスタンスを生成する。
         /// </summary>
+        /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
-        protected abstract T MakeDefaultItem();
+        protected abstract T MakeDefaultItem(int index);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Private Method
@@ -486,11 +560,13 @@ namespace WodiLib.Sys
             var maxCapacity = GetMaxCapacity();
             var minCapacity = GetMinCapacity();
 
-            if (minCapacity < 0) throw new InvalidOperationException(
-                 ErrorMessage.GreaterOrEqual("最小容量", 0, maxCapacity));
+            if (minCapacity < 0)
+                throw new InvalidOperationException(
+                    ErrorMessage.GreaterOrEqual("最小容量", 0, maxCapacity));
 
-            if (maxCapacity < minCapacity) throw new InvalidOperationException(
-                 ErrorMessage.GreaterOrEqual("最大容量", $"最小容量（{minCapacity}）", maxCapacity));
+            if (maxCapacity < minCapacity)
+                throw new InvalidOperationException(
+                    ErrorMessage.GreaterOrEqual("最大容量", $"最小容量（{minCapacity}）", maxCapacity));
         }
 
         /// <summary>
@@ -499,9 +575,10 @@ namespace WodiLib.Sys
         /// <exception cref="InvalidOperationException"><see cref="MakeDefaultItem"/>がnullを返却する場合</exception>
         private void ValidateDefaultItem()
         {
-            var value = MakeDefaultItem();
-            if(value == null) throw new InvalidOperationException(
-                ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}メソッドの返戻値"));
+            var value = MakeDefaultItem(0);
+            if (value == null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}メソッドの返戻値"));
         }
 
         /// <summary>
@@ -510,12 +587,12 @@ namespace WodiLib.Sys
         private void FillMinCapacity()
         {
             var shortage = GetMinCapacity() - Items.Count;
-            if ( shortage < 0 ) return;
+            if (shortage < 0) return;
 
             var insertIndex = Count;
             for (var i = 0; i < shortage; i++)
             {
-                InsertItem(insertIndex, MakeDefaultItem());
+                InsertItem(insertIndex, MakeDefaultItem(insertIndex));
                 insertIndex++;
             }
         }
