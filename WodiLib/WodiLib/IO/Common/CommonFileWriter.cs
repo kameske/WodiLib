@@ -22,7 +22,7 @@ namespace WodiLib.IO
     internal class CommonFileWriter
     {
         /// <summary>書き出しファイルパス</summary>
-        public string FilePath { get; }
+        public CommonFilePath FilePath { get; }
 
         /// <summary>書き出すコモンイベントデータ</summary>
         public CommonFileData CommonFileData { get; }
@@ -37,7 +37,7 @@ namespace WodiLib.IO
         /// <param name="filePath">[NotNullOrEmpty] 書き出しファイルパス</param>
         /// <exception cref="ArgumentNullException">outputData, filePathがnullの場合</exception>
         /// <exception cref="ArgumentException">filePathが空文字の場合</exception>
-        public CommonFileWriter(CommonFileData outputData, string filePath)
+        public CommonFileWriter(CommonFileData outputData, CommonFilePath filePath)
         {
             if (outputData == null)
                 throw new ArgumentNullException(
@@ -45,9 +45,7 @@ namespace WodiLib.IO
             if (filePath == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
-            if (filePath.IsEmpty())
-                throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(filePath)));
+
             CommonFileData = outputData;
             FilePath = filePath;
         }
@@ -83,7 +81,7 @@ namespace WodiLib.IO
         /// </exception>
         public async Task WriteAsync()
         {
-            await Task.Run(() => WriteSync());
+            await Task.Run(WriteSync);
         }
     }
 }

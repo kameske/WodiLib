@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : MpsFileWriter.cs
+// File Name    : CommonEventDatFileWriter.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -10,22 +10,22 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using WodiLib.Map;
+using WodiLib.Common;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
     /// <summary>
-    /// マップファイル書き出しクラス
+    /// コモンイベントデータファイル書き出しクラス
     /// </summary>
-    internal class MpsFileWriter
+    internal class CommonEventDatFileWriter
     {
         /// <summary>書き出しファイルパス</summary>
         public string FilePath { get; }
 
-        /// <summary>書き出すマップデータ</summary>
-        public MapData MapData { get; }
+        /// <summary>書き出すコモンイベントデータ</summary>
+        public CommonEventData CommonEventData { get; }
 
         /// <summary>ロガー</summary>
         private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
@@ -33,11 +33,10 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="outputData">[NotNull] 書き出しマップデータ</param>
+        /// <param name="outputData">[NotNull] 書き出しコモンイベントデータ</param>
         /// <param name="filePath">[NotNullOrEmpty] 書き出しファイルパス</param>
         /// <exception cref="ArgumentNullException">outputData, filePathがnullの場合</exception>
-        /// <exception cref="ArgumentException">filePathが空文字の場合</exception>
-        public MpsFileWriter(MapData outputData, string filePath)
+        public CommonEventDatFileWriter(CommonEventData outputData, string filePath)
         {
             if (outputData == null)
                 throw new ArgumentNullException(
@@ -45,15 +44,13 @@ namespace WodiLib.IO
             if (filePath == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
-            if (filePath.IsEmpty())
-                throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(filePath)));
-            MapData = outputData;
+
+            CommonEventData = outputData;
             FilePath = filePath;
         }
 
         /// <summary>
-        /// マップデータを同期的に書き出す。
+        /// コモンイベントデータを同期的に書き出す。
         /// </summary>
         /// <exception cref="ArgumentException">
         ///     ファイル名が正しくない場合、
@@ -63,7 +60,7 @@ namespace WodiLib.IO
         {
             Logger.Info(FileIOMessage.StartFileWrite(GetType()));
 
-            var bin = MapData.ToBinary().ToArray();
+            var bin = CommonEventData.ToBinary().ToArray();
             using (var stream = new FileStream(FilePath, FileMode.Create))
             {
                 stream.Write(bin, 0, bin.Length);
@@ -74,7 +71,7 @@ namespace WodiLib.IO
 
 
         /// <summary>
-        /// マップデータを非同期的に書き出す。
+        /// コモンイベントデータを非同期的に書き出す。
         /// </summary>
         /// <returns>書き出しTask</returns>
         /// <exception cref="ArgumentException">
@@ -83,7 +80,7 @@ namespace WodiLib.IO
         /// </exception>
         public async Task WriteAsync()
         {
-            await Task.Run(() => WriteSync());
+            await Task.Run(WriteSync);
         }
     }
 }

@@ -20,6 +20,7 @@ namespace WodiLib.IO
     internal class CommonEventDatFileReader
     {
         /// <summary>読み込みファイルパス</summary>
+        // テストを考慮してstring型で管理する
         public string FilePath { get; }
 
         /// <summary>[Nullable] 読み込んだコモンイベントデータ</summary>
@@ -40,9 +41,7 @@ namespace WodiLib.IO
             if (filePath == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
-            if (filePath.IsEmpty())
-                throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(filePath)));
+
             FilePath = filePath;
         }
 
@@ -89,7 +88,7 @@ namespace WodiLib.IO
         /// </exception>
         public async Task ReadAsync()
         {
-            await Task.Run(() => ReadSync());
+            await Task.Run(ReadSync);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -160,7 +159,7 @@ namespace WodiLib.IO
             var reader = new CommonEventReader(status, length);
 
             var commonEventList = reader.Read();
-            data.SetCommonEventList(commonEventList);
+            data.CommonEventList = new CommonEventList(commonEventList);
         }
 
         /// <summary>

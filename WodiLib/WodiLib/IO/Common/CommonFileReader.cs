@@ -20,7 +20,7 @@ namespace WodiLib.IO
     internal class CommonFileReader
     {
         /// <summary>読み込みファイルパス</summary>
-        public string FilePath { get; }
+        public CommonFilePath FilePath { get; }
 
         /// <summary>[Nullable] 読み込んだコモンイベントデータ</summary>
         public CommonFileData CommonFileData { get; private set; }
@@ -36,14 +36,12 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="filePath">[NotNull] 読み込みファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        public CommonFileReader(string filePath)
+        public CommonFileReader(CommonFilePath filePath)
         {
             if (filePath == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
-            if (filePath.IsEmpty())
-                throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(filePath)));
+
             FilePath = filePath;
         }
 
@@ -61,7 +59,7 @@ namespace WodiLib.IO
 
             if (CommonFileData != null)
                 throw new InvalidOperationException(
-                    $"すでに読み込み完了しています。");
+                    "すでに読み込み完了しています。");
 
             ReadStatus = new FileReadStatus(FilePath);
             CommonFileData = new CommonFileData();
@@ -87,7 +85,7 @@ namespace WodiLib.IO
         /// </exception>
         public async Task ReadAsync()
         {
-            await Task.Run(() => ReadSync());
+            await Task.Run(ReadSync);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

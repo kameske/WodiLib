@@ -16,17 +16,26 @@ namespace WodiLib.Map
     /// <summary>
     /// マップイベントリストクラス
     /// </summary>
-    public class MapEventList
+    public class MapEventList : RestrictedCapacityCollection<MapEvent>
     {
-        /// <summary>ページ数</summary>
-        public int Count => eventList.Count;
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private readonly List<MapEvent> eventList;
+        /// <summary>リスト最大数</summary>
+        public static int MaxCapacity => 9999;
+
+        /// <summary>リスト最小数</summary>
+        public static int MinCapacity => 1;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public MapEventList() : this(new MapEvent[0])
+        public MapEventList()
         {
         }
 
@@ -36,7 +45,7 @@ namespace WodiLib.Map
         /// <param name="events">[NotNull] 1ページ毎のマップイベント</param>
         /// <exception cref="ArgumentException">events内のイベントIDが重複している場合</exception>
         /// <exception cref="ArgumentNullException">eventsがnullの場合</exception>
-        public MapEventList(IEnumerable<MapEvent> events)
+        public MapEventList(IReadOnlyList<MapEvent> events) : base(events)
         {
             if (events == null)
                 throw new ArgumentNullException(
@@ -49,100 +58,88 @@ namespace WodiLib.Map
                 throw new ArgumentException(
                     $"イベントIDが重複しています。");
 
-            eventList = mapEvents;
         }
 
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
         /// <summary>
-        /// マップイベントクラスを追加する。
+        /// 容量最大値を返す。
         /// </summary>
-        /// <param name="mapEvent">[NotNull] マップイベント</param>
-        /// <exception cref="ArgumentNullException">mapEventがnullの場合</exception>
-        /// <exception cref="ArgumentException">イベントIDが重複する場合</exception>
-        public void Add(MapEvent mapEvent)
+        /// <returns>容量最大値</returns>
+        public override int GetMaxCapacity() => MaxCapacity;
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 容量最小値を返す。
+        /// </summary>
+        /// <returns>容量最小値</returns>
+        public override int GetMinCapacity() => MinCapacity;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 指定したインデックス位置にある要素を置き換える。
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        protected override void SetItem(int index, MapEvent item)
         {
-            if (mapEvent == null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(mapEvent)));
-            if (ContainsEventId(mapEvent.MapEventId))
+            var baseMapId = Items[index].MapEventId;
+            if (baseMapId == item.MapEventId)
+            {
+                // マップイベントIDが同じならチェック無しで上書き
+                base.SetItem(index, item);
+                return;
+            }
+
+            // マップIDが重複する場合エラー
+            if (ContainsEventId(item.MapEventId))
                 throw new ArgumentException(
                     $"マップイベントIDが重複するため追加できません。" +
-                    $"（マップイベントID: {mapEvent.MapEventId}）");
+                    $"（マップイベントID: {item.MapEventId}）");
 
-            eventList.Add(mapEvent);
+            base.SetItem(index, item);
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// マップイベントクラスを追加する。
+        /// 指定したインデックスの位置に要素を挿入する。
         /// </summary>
-        /// <param name="mapEvents">[NotNull] マップイベントリスト</param>
-        /// <exception cref="ArgumentNullException">mapEventがnullの場合</exception>
-        /// <exception cref="ArgumentException">イベントIDが重複する場合</exception>
-        public void AddRange(IEnumerable<MapEvent> mapEvents)
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        protected override void InsertItem(int index, MapEvent item)
         {
-            if (mapEvents == null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(mapEvents)));
-
-            var selfPages = eventList.ToList();
-
-            var mapEventArray = mapEvents as MapEvent[] ?? mapEvents.ToArray();
-            if (!ValidateDuplicateEventId(mapEventArray))
+            // マップIDが重複する場合エラー
+            if (ContainsEventId(item.MapEventId))
                 throw new ArgumentException(
-                    $"マップイベントIDが重複するため追加できません。");
+                    $"マップイベントIDが重複するため追加できません。" +
+                    $"（マップイベントID: {item.MapEventId}）");
 
-            selfPages.AddRange(mapEventArray);
+            base.InsertItem(index, item);
         }
 
+        /// <inheritdoc />
         /// <summary>
-        /// マップイベントを除去する。
+        /// 格納対象のデフォルトインスタンスを生成する。
         /// </summary>
-        /// <param name="mapEventId">削除マップイベントID</param>
-        /// <exception cref="ArgumentException">指定されたマップイベントIDが存在しない場合</exception>
-        public void Remove(MapEventId mapEventId)
-        {
-            var removeItem = eventList.FirstOrDefault(x => x.MapEventId == mapEventId);
-
-            if (removeItem == null)
-                throw new ArgumentException(
-                    $"指定されたマップイベントIDが存在しません。" +
-                    $"({nameof(mapEventId)}: {mapEventId}");
-
-            eventList.Remove(removeItem);
-        }
+        /// <param name="index">挿入インデックス</param>
+        /// <returns>デフォルトインスタンス</returns>
+        protected override MapEvent MakeDefaultItem(int index) => new MapEvent();
 
         /// <summary>
         /// マップイベントIDからマップイベントを取得する。
         /// </summary>
         /// <param name="mapEventId">マップイベントID</param>
-        /// <returns>[Nullable] マップイベント</returns>
+        /// <returns>マップイベント（取得できない場合null）</returns>
         public MapEvent GetForMapEventId(MapEventId mapEventId)
         {
-            return eventList.FirstOrDefault(x => x.MapEventId == mapEventId);
-        }
-
-        /// <summary>
-        /// 配列インデックスからマップイベントを取得する。
-        /// </summary>
-        /// <param name="index">[Range(0, マップイベント数-1)] インデックス</param>
-        /// <returns>マップイベント</returns>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public MapEvent GetForIndex(int index)
-        {
-            const int min = 0;
-            var max = eventList.Count - 1;
-            if (index < min || max < index)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(index), min, max, index));
-            return eventList[index];
-        }
-
-        /// <summary>
-        /// MapEventの集合に変換する
-        /// </summary>
-        /// <returns>MapEvent集合</returns>
-        public IEnumerable<MapEvent> ToEnumerable()
-        {
-            return eventList;
+            return Items.FirstOrDefault(x => x.MapEventId == mapEventId);
         }
 
         /// <summary>
@@ -152,7 +149,7 @@ namespace WodiLib.Map
         /// <returns>イベント保持フラグ</returns>
         public bool ContainsEventId(MapEventId mapEventId)
         {
-            var searchEvent = eventList.FirstOrDefault(x => x.MapEventId == mapEventId);
+            var searchEvent = Items.FirstOrDefault(x => x.MapEventId == mapEventId);
             return searchEvent != null;
         }
 
@@ -181,7 +178,7 @@ namespace WodiLib.Map
         {
             var result = new List<byte>();
 
-            foreach (var mapEvent in eventList)
+            foreach (var mapEvent in Items)
             {
                 result.AddRange(mapEvent.ToBinary());
             }

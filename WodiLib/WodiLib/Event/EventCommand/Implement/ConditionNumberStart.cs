@@ -26,7 +26,7 @@ namespace WodiLib.Event.EventCommand
         public override EventCommandCode EventCommandCode => EventCommandCode.ConditionNumberStart;
 
         /// <inheritdoc />
-        public override byte NumberVariableCount => (byte) (2 + CaseValue * 3);
+        public override byte NumberVariableCount => (byte) (2 + ConditionList.Count * 3);
 
         /// <inheritdoc />
         public override byte StringVariableCount => 0x00;
@@ -49,37 +49,37 @@ namespace WodiLib.Event.EventCommand
                 case 1:
                     byte[] bytes =
                     {
-                        (byte) CaseValue, 0x00, 0x00, 0x00
+                        (byte) ConditionList.Count, 0x00, 0x00, 0x00
                     };
                     if (IsElseCase) bytes[0] += 0x10;
                     return bytes.ToInt32(Endian.Environment);
 
                 case 2:
-                    return conditionList.Get(0).LeftSide;
+                    return ConditionList[0].LeftSide;
 
                 case 3:
-                    return conditionList.Get(0).RightSide;
+                    return ConditionList[0].RightSide;
 
                 case 4:
-                    return conditionList.Get(0).ToConditionFlag();
+                    return ConditionList[0].ToConditionFlag();
 
                 case 5:
-                    return conditionList.Get(1).LeftSide;
+                    return ConditionList[1].LeftSide;
 
                 case 6:
-                    return conditionList.Get(1).RightSide;
+                    return ConditionList[1].RightSide;
 
                 case 7:
-                    return conditionList.Get(1).ToConditionFlag();
+                    return ConditionList[1].ToConditionFlag();
 
                 case 8:
-                    return conditionList.Get(2).LeftSide;
+                    return ConditionList[2].LeftSide;
 
                 case 9:
-                    return conditionList.Get(2).RightSide;
+                    return ConditionList[2].RightSide;
 
                 case 10:
-                    return conditionList.Get(2).ToConditionFlag();
+                    return ConditionList[2].ToConditionFlag();
 
                 default:
                     throw new ArgumentOutOfRangeException(
@@ -103,55 +103,55 @@ namespace WodiLib.Event.EventCommand
                 {
                     var bytes = value.ToBytes(Endian.Environment);
                     IsElseCase = (bytes[0] & 0xF0) != 0;
-                    CaseValue = bytes[0] & 0x0F;
+                    ConditionList.AdjustLength(bytes[0] & 0x0F);
                     return;
                 }
 
                 case 2:
-                    Case1.LeftSide = value;
+                    ConditionList[0].LeftSide = value;
                     return;
 
                 case 3:
-                    Case1.RightSide = value;
+                    ConditionList[0].RightSide = value;
                     return;
 
                 case 4:
                 {
                     var bytes = value.ToBytes(Endian.Environment);
-                    Case1.IsNotReferX = (bytes[0] & 0xF0) != 0;
-                    Case1.Condition = NumberConditionalOperator.FromByte((byte) (bytes[0] & 0x0F));
+                    ConditionList[0].IsNotReferX = (bytes[0] & 0xF0) != 0;
+                    ConditionList[0].Condition = NumberConditionalOperator.FromByte((byte) (bytes[0] & 0x0F));
                     return;
                 }
 
                 case 5:
-                    Case2.LeftSide = value;
+                    ConditionList[1].LeftSide = value;
                     return;
 
                 case 6:
-                    Case2.RightSide = value;
+                    ConditionList[1].RightSide = value;
                     return;
 
                 case 7:
                 {
                     var bytes = value.ToBytes(Endian.Environment);
-                    Case2.IsNotReferX = (bytes[0] & 0xF0) != 0;
-                    Case2.Condition = NumberConditionalOperator.FromByte((byte) (bytes[0] & 0x0F));
+                    ConditionList[1].IsNotReferX = (bytes[0] & 0xF0) != 0;
+                    ConditionList[1].Condition = NumberConditionalOperator.FromByte((byte) (bytes[0] & 0x0F));
                     return;
                 }
 
                 case 8:
-                    Case3.LeftSide = value;
+                    ConditionList[2].LeftSide = value;
                     return;
 
                 case 9:
-                    Case3.RightSide = value;
+                    ConditionList[2].RightSide = value;
                     return;
 
                 case 10:
                 {
                     var bytes = value.ToBytes(Endian.Environment);
-                    Case3.IsNotReferX = (bytes[0] & 0xF0) != 0;
-                    Case3.Condition = NumberConditionalOperator.FromByte((byte) (bytes[0] & 0x0F));
+                    ConditionList[2].IsNotReferX = (bytes[0] & 0xF0) != 0;
+                    ConditionList[2].Condition = NumberConditionalOperator.FromByte((byte) (bytes[0] & 0x0F));
                     return;
                 }
 
@@ -194,62 +194,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>「上記以外」分岐フラグ</summary>
         public bool IsElseCase { get; set; }
 
-        private readonly ConditionNumberList conditionList = new ConditionNumberList();
-
-        /// <summary>[Range(1, 3)] 分岐数</summary>
-        /// <exception cref="PropertyOutOfRangeException">指定範囲以外の値をセットした場合</exception>
-        public int CaseValue
-        {
-            get => conditionList.ConditionValue;
-            set
-            {
-                if (value < 1 || 3 < value)
-                    throw new PropertyOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(CaseValue), 1, 3, value));
-                conditionList.ConditionValue = value;
-            }
-        }
-
-        /// <summary>[NotNull] 条件1</summary>
-        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public ConditionNumberDesc Case1
-        {
-            get => conditionList.Get(0);
-            set
-            {
-                if (value == null)
-                    throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Case1)));
-                conditionList.Set(0, value);
-            }
-        }
-
-        /// <summary>[NotNull] 条件2</summary>
-        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public ConditionNumberDesc Case2
-        {
-            get => conditionList.Get(1);
-            set
-            {
-                if (value == null)
-                    throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Case2)));
-                conditionList.Set(1, value);
-            }
-        }
-
-        /// <summary>[NotNull] 条件3</summary>
-        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public ConditionNumberDesc Case3
-        {
-            get => conditionList.Get(2);
-            set
-            {
-                if (value == null)
-                    throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Case3)));
-                conditionList.Set(2, value);
-            }
-        }
+        /// <summary>分岐リスト</summary>
+        public ConditionNumberList ConditionList { get; } = new ConditionNumberList();
     }
 }

@@ -122,7 +122,7 @@ namespace WodiLib.Common
             {
                 // -1～-3を使用しない場合は空リストで良い
                 if (!DatabaseUseAdditionalItemsFlag) return new List<CommonEventSpecialArgCase>();
-                return ArgCaseList.GetAllCase();
+                return ArgCaseList.ToList();
             }
 
             /// <inheritdoc />
@@ -149,8 +149,7 @@ namespace WodiLib.Common
             {
                 if (!DatabaseUseAdditionalItemsFlag) return new List<string>();
 
-                return ArgCaseList.GetAllCase()
-                    .Select(x => x.Description).ToList();
+                return ArgCaseList.Select(x => x.Description).ToList();
             }
 
             /// <summary>
@@ -219,7 +218,7 @@ namespace WodiLib.Common
                 var argCase = new CommonEventSpecialArgCase(caseNumber, description);
                 var innerCaseNumber = caseNumber * -1 - 1;
 
-                ArgCaseList.Update(innerCaseNumber, argCase);
+                ArgCaseList[innerCaseNumber] = argCase;
             }
 
             /// <summary>
@@ -282,11 +281,12 @@ namespace WodiLib.Common
             /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
             private void ClearDatabaseSpecialCase()
             {
-                ArgCaseList = new CommonEventSpecialArgCaseList(
+                ArgCaseList = new CommonEventSpecialArgCaseList(new[]
+                {
                     new CommonEventSpecialArgCase(-1, ""),
                     new CommonEventSpecialArgCase(-2, ""),
                     new CommonEventSpecialArgCase(-3, "")
-                );
+                });
             }
         }
     }

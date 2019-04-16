@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// 選択肢リスト
     /// </summary>
-    public class ChoiceCaseList
+    internal class ChoiceCaseList
     {
         private readonly List<string> caseList = new List<string>
         {

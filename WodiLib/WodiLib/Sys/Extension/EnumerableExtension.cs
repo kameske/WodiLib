@@ -1,3 +1,11 @@
+﻿// ========================================
+// Project Name : WodiLib
+// File Name    : EnumerableExtension.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 ﻿using System.Collections.Generic;
 using System.Linq;
 

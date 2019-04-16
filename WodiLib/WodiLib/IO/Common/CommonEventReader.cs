@@ -521,7 +521,7 @@ namespace WodiLib.IO
                     $"セルフ変数{i}名", varName.String));
             }
 
-            commonEvent.UpdateAllVariableName(varNameList);
+            commonEvent.SelfVariableNameList = new CommonEventSelfVariableNameList(varNameList);
         }
 
         /// <summary>

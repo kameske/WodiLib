@@ -108,7 +108,7 @@ namespace WodiLib.Test.Map
         };
 
         [TestCaseSource(nameof(EventCommandsSetTestCaseSource))]
-        public static void EventCommandsSetTest(IEnumerable<IEventCommand> commands, bool isError)
+        public static void EventCommandsSetTest(IReadOnlyList<IEventCommand> commands, bool isError)
         {
             var instance = new MapEventPage();
             var errorOccured = false;

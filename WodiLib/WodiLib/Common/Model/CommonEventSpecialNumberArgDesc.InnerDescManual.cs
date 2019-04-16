@@ -115,7 +115,7 @@ namespace WodiLib.Common
             /// <returns>すべての選択肢リスト</returns>
             public List<CommonEventSpecialArgCase> GetAllSpecialCase()
             {
-                return ArgCaseList.GetAllCase();
+                return ArgCaseList.ToList();
             }
 
             /// <inheritdoc />
@@ -163,7 +163,7 @@ namespace WodiLib.Common
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(argCases)));
 
-                ArgCaseList.AddRange(argCases);
+                ArgCaseList.AddRange(argCases.ToList());
             }
 
             /// <summary>
@@ -207,7 +207,7 @@ namespace WodiLib.Common
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(argCases)));
 
-                ArgCaseList.InsertRange(index, argCases);
+                ArgCaseList.InsertRange(index, argCases.ToList());
             }
 
             /// <summary>
@@ -244,7 +244,7 @@ namespace WodiLib.Common
                     throw new ArgumentNullException(
                         ErrorMessage.NotEmpty(nameof(argCase)));
 
-                ArgCaseList.Update(index, argCase);
+                ArgCaseList[index] = argCase;
             }
 
             /// <summary>
@@ -313,7 +313,7 @@ namespace WodiLib.Common
             /// <exception cref="InvalidOperationException">特殊指定が「選択肢手動生成」以外の場合</exception>
             private IEnumerable<CommonEventSpecialArgCase> GetAllManualCase()
             {
-                return ArgCaseList.GetAllCase();
+                return ArgCaseList.ToList();
             }
         }
     }

@@ -329,6 +329,29 @@ namespace WodiLib.Test.Common
 
         [TestCase(false, false)]
         [TestCase(true, true)]
+        public static void SelfVariableNameListTest(bool isNull, bool isError)
+        {
+            var instance = new CommonEvent();
+
+            var nameList = isNull ? null : new CommonEventSelfVariableNameList();
+
+            var errorOccured = false;
+            try
+            {
+                instance.SelfVariableNameList = nameList;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+        }
+
+        [TestCase(false, false)]
+        [TestCase(true, true)]
         public static void UpdateSpecialNumberArgDescTest(bool isNull, bool isError)
         {
             var instance = new CommonEvent();
@@ -417,107 +440,6 @@ namespace WodiLib.Test.Common
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
-        }
-
-        [TestCase(false, false)]
-        [TestCase(true, true)]
-        public static void UpdateVariableNameTest(bool isNull, bool isError)
-        {
-            var instance = new CommonEvent();
-
-            var number = (CommonEventSelfVariableIndex) 30;
-            var variableName = isNull ? null : (CommonEventSelfVariableName) "test";
-
-            var errorOccured = false;
-            try
-            {
-                instance.UpdateVariableName(number, variableName);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        [Test]
-        public static void GetVariableNameTest()
-        {
-            var instance = new CommonEvent();
-
-            var number = (CommonEventSelfVariableIndex) 57;
-
-            var errorOccured = false;
-            try
-            {
-                instance.GetVariableName(number);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生しないこと
-            Assert.IsFalse(errorOccured);
-        }
-
-        [TestCase(-1, true)]
-        [TestCase(0, true)]
-        [TestCase(99, true)]
-        [TestCase(100, false)]
-        [TestCase(101, true)]
-        public static void UpdateAllVariableNameTest(int argLength, bool isError)
-        {
-            // argLengthの要素数を持つ文字列リストを作成（ただしargLength=-1の場合null）
-            var nameList = new List<CommonEventSelfVariableName>();
-            if (argLength == -1) nameList = null;
-            else
-            {
-                for (var i = 0; i < argLength; i++)
-                {
-                    nameList.Add( "");
-                }
-            }
-
-            var instance = new CommonEvent();
-
-            var errorOccured = false;
-            try
-            {
-                instance.UpdateAllVariableName(nameList);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        [Test]
-        public static void GetAllVariableNameTest()
-        {
-            var instance = new CommonEvent();
-
-            var errorOccured = false;
-            try
-            {
-                instance.GetAllVariableName();
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生しないこと
-            Assert.AreEqual(errorOccured, false);
         }
 
         [Test]

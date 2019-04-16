@@ -29,7 +29,7 @@ namespace WodiLib.Test.IO
 
             var result = new CommonEventData();
 
-            result.SetCommonEventList(commonEventList);
+            result.CommonEventList = new CommonEventList(commonEventList);
 
             return result;
         }

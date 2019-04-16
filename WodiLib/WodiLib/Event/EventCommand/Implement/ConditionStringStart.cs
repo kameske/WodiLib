@@ -19,12 +19,6 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class ConditionStringStart : EventCommandBase
     {
-        /// <summary>条件最小数</summary>
-        public static readonly int ConditionLengthMin = 1;
-
-        /// <summary>条件最大数</summary>
-        public static readonly int ConditionLengthMax = 4;
-
         /// <summary>数値変数の数最大値</summary>
         private static readonly int NumberVariableCountMax = 10;
 

@@ -255,6 +255,24 @@ namespace WodiLib.Common
         /// </summary>
         public CommonEventReturnVariableIndex ReturnVariableIndex => returnValueInfo.ReturnVariableIndex;
 
+        private CommonEventSelfVariableNameList selfVariableNameList = new CommonEventSelfVariableNameList();
+
+        /// <summary>
+        /// [NotNull] 変数名リスト
+        /// </summary>
+        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
+        public CommonEventSelfVariableNameList SelfVariableNameList
+        {
+            get => selfVariableNameList;
+            set
+            {
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(SelfVariableNameList)));
+
+                selfVariableNameList = value;
+            }
+        }
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -264,12 +282,6 @@ namespace WodiLib.Common
         /// </summary>
         private CommonEventSpecialArgDescList CommonEventSpecialArgDescList { get; } =
             new CommonEventSpecialArgDescList();
-
-        /// <summary>
-        /// 変数名リスト
-        /// </summary>
-        private CommonEventSelfVariableNameList SelfVariableNameList { get; set; } =
-            new CommonEventSelfVariableNameList();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
@@ -322,57 +334,6 @@ namespace WodiLib.Common
         public CommonEventSpecialStringArgDesc GetSpecialStringArgDesc(CommonEventStringArgIndex index)
         {
             return CommonEventSpecialArgDescList.GetSpecialStringArgDesc(index);
-        }
-
-        /// <summary>
-        /// 変数名を更新する。
-        /// </summary>
-        /// <param name="number">変数番号</param>
-        /// <param name="variableName">変数名</param>
-        public void UpdateVariableName(CommonEventSelfVariableIndex number, CommonEventSelfVariableName variableName)
-        {
-            SelfVariableNameList.UpdateVariableName(number, variableName);
-        }
-
-        /// <summary>
-        /// 変数名を取得する。
-        /// </summary>
-        /// <param name="number">変数番号</param>
-        /// <returns>変数名</returns>
-        public CommonEventSelfVariableName GetVariableName(CommonEventSelfVariableIndex number)
-        {
-            return SelfVariableNameList.GetVariableName(number);
-        }
-
-        /// <summary>
-        /// すべての変数名を更新する。
-        /// </summary>
-        /// <param name="variableNameList">[NotNull] 変数名リスト</param>
-        /// <exception cref="ArgumentNullException">variableNameListがnullの場合</exception>
-        /// <exception cref="ArgumentException">variableNameListの要素数が100以外の場合</exception>
-        public void UpdateAllVariableName(IEnumerable<CommonEventSelfVariableName> variableNameList)
-        {
-            var nameList = variableNameList.ToList();
-
-            if (variableNameList == null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(variableNameList)));
-
-            var count = CommonEventSelfVariableNameList.ListMax;
-            if (nameList.Count != count)
-                throw new ArgumentException(
-                    $"{nameof(variableNameList)}の要素数は{count}である必要があります。");
-
-            SelfVariableNameList = new CommonEventSelfVariableNameList(nameList);
-        }
-
-        /// <summary>
-        /// すべての変数名を取得する。
-        /// </summary>
-        /// <returns>変数名の集合</returns>
-        public IEnumerable<CommonEventSelfVariableName> GetAllVariableName()
-        {
-            return SelfVariableNameList.GetAllName();
         }
 
         /// <summary>
@@ -434,7 +395,7 @@ namespace WodiLib.Common
             result.AddRange(EventCommands.Count.ToBytes(Endian.Woditor));
 
             // イベントコマンド
-            foreach (var command in EventCommands.GetAll())
+            foreach (var command in EventCommands.ToList())
             {
                 result.AddRange(command.ToBinary());
             }

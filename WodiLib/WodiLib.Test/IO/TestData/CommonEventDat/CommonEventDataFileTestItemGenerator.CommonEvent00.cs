@@ -45,10 +45,8 @@ namespace WodiLib.Test.IO
                     FooterString =  "",
                 };
 
-                result.UpdateVariableName( 0,
-                     "cself0");
-                result.UpdateVariableName( 99,
-                     "cself99");
+                result.SelfVariableNameList[0] = "cself0";
+                result.SelfVariableNameList[99] = "cself99";
 
                 result.SetReturnVariableIndex( 99);
                 result.ReturnValueDescription =  "てすと";
@@ -91,17 +89,17 @@ namespace WodiLib.Test.IO
                 };
 
                 /* ---------- セルフ変数名 ---------- */
-                result.UpdateVariableName(0, "cself0");
-                result.UpdateVariableName(1, "数値変数2");
-                result.UpdateVariableName(2, "数値変数3");
-                result.UpdateVariableName(3, "数値変数4");
-                result.UpdateVariableName(5, "文字列変数1");
-                result.UpdateVariableName(6, "文字列変数2");
-                result.UpdateVariableName(7, "文字列変数3");
-                result.UpdateVariableName(8, "文字列変数4");
-                result.UpdateVariableName(89, "返戻");
-                result.UpdateVariableName(90, "CSelf90");
-                result.UpdateVariableName(99, "cself99");
+                result.SelfVariableNameList[0] = "cself0";
+                result.SelfVariableNameList[1] = "数値変数2";
+                result.SelfVariableNameList[2] = "数値変数3";
+                result.SelfVariableNameList[3] = "数値変数4";
+                result.SelfVariableNameList[5] = "文字列変数1";
+                result.SelfVariableNameList[6] = "文字列変数2";
+                result.SelfVariableNameList[7] = "文字列変数3";
+                result.SelfVariableNameList[8] = "文字列変数4";
+                result.SelfVariableNameList[89] = "返戻";
+                result.SelfVariableNameList[90] = "CSelf90";
+                result.SelfVariableNameList[99] = "cself99";
 
                 /* ---------- 数値引数 ---------- */
                 result.UpdateSpecialNumberArgDesc(0,
@@ -242,7 +240,7 @@ namespace WodiLib.Test.IO
                         return desc;
                     }))());
 
-                result.UpdateVariableName(0, "テスト");
+                result.SelfVariableNameList[0] = "テスト";
 
                 result.SetReturnVariableIndex(0);
                 result.ReturnValueDescription = "";
@@ -279,10 +277,10 @@ namespace WodiLib.Test.IO
                 };
 
                 /* ---------- セルフ変数名 ---------- */
-                result.UpdateVariableName(0, "Summary1");
-                result.UpdateVariableName(3, "Summary4");
-                result.UpdateVariableName(50, "Test");
-                result.UpdateVariableName(51, "てすと");
+                result.SelfVariableNameList[0] = "Summary1";
+                result.SelfVariableNameList[3] = "Summary4";
+                result.SelfVariableNameList[50] = "Test";
+                result.SelfVariableNameList[51] = "てすと";
 
                 /* ---------- 数値引数 ---------- */
                 result.UpdateSpecialNumberArgDesc(0,
@@ -358,12 +356,12 @@ namespace WodiLib.Test.IO
                     });
 
                 /* ---------- セルフ変数名 ---------- */
-                result.UpdateVariableName(0, "Summary1");
-                result.UpdateVariableName(1, "引数2");
-                result.UpdateVariableName(2, "引数3");
-                result.UpdateVariableName(3, "Summary4");
-                result.UpdateVariableName(50, "Test");
-                result.UpdateVariableName(51, "てすと");
+                result.SelfVariableNameList[0] = "Summary1";
+                result.SelfVariableNameList[1] = "引数2";
+                result.SelfVariableNameList[2] = "引数3";
+                result.SelfVariableNameList[3] = "Summary4";
+                result.SelfVariableNameList[50] = "Test";
+                result.SelfVariableNameList[51] = "てすと";
 
                 result.SetReturnValueNone();
 
@@ -455,22 +453,14 @@ namespace WodiLib.Test.IO
                 };
 
                 /* ---------- セルフ変数名 ---------- */
-                result.UpdateVariableName(0,
-                    "NumArg1Name");
-                result.UpdateVariableName(1,
-                    "NumArg2Name");
-                result.UpdateVariableName(2,
-                    "NumArg3Name");
-                result.UpdateVariableName(3,
-                    "NumArg4Name");
-                result.UpdateVariableName(5,
-                    "StrArg1Name");
-                result.UpdateVariableName(6,
-                    "StrArg2Name");
-                result.UpdateVariableName(7,
-                    "StrArg3Name");
-                result.UpdateVariableName(8,
-                    "StrArg4Name");
+                result.SelfVariableNameList[0] = "NumArg1Name";
+                result.SelfVariableNameList[1] = "NumArg2Name";
+                result.SelfVariableNameList[2] = "NumArg3Name";
+                result.SelfVariableNameList[3] = "NumArg4Name";
+                result.SelfVariableNameList[5] = "StrArg1Name";
+                result.SelfVariableNameList[6] = "StrArg2Name";
+                result.SelfVariableNameList[7] = "StrArg3Name";
+                result.SelfVariableNameList[8] = "StrArg4Name";
 
                 /* ---------- 数値引数 ---------- */
                 result.UpdateSpecialNumberArgDesc(0,

@@ -24,7 +24,7 @@ namespace WodiLib.IO
     internal class MpsFileReader
     {
         /// <summary>読み込みファイルパス</summary>
-        public string FilePath { get; }
+        public MpsFilePath FilePath { get; }
 
         /// <summary>[Nullable] 読み込んだマップデータ</summary>
         public MapData MapData { get; private set; }
@@ -39,14 +39,12 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="filePath">[NotNull] 読み込みファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        public MpsFileReader(string filePath)
+        public MpsFileReader(MpsFilePath filePath)
         {
             if (filePath == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
-            if (filePath.IsEmpty())
-                throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(filePath)));
+
             FilePath = filePath;
         }
 
@@ -62,7 +60,7 @@ namespace WodiLib.IO
         {
             if (MapData != null)
                 throw new InvalidOperationException(
-                    $"すでに読み込み完了しています。");
+                    "すでに読み込み完了しています。");
 
             Logger.Info(FileIOMessage.StartFileRead(GetType()));
 

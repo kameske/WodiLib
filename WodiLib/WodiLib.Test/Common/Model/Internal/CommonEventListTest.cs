@@ -19,17 +19,15 @@ namespace WodiLib.Test.Common.Internal
             logger = WodiLibLogger.GetInstance();
         }
 
-        [TestCase(-1, true)]
-        [TestCase(0, true)]
-        [TestCase(1, false)]
-        public static void ConstructorTest(int listLength, bool isError)
+        [Test]
+        public static void ConstructorTestA()
         {
-            var list = MakeCommonEventList(listLength);
+            CommonEventList instance = null;
 
             var errorOccured = false;
             try
             {
-                var _ = new CommonEventList(list);
+                instance = new CommonEventList();
             }
             catch (Exception ex)
             {
@@ -37,23 +35,30 @@ namespace WodiLib.Test.Common.Internal
                 errorOccured = true;
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
+
+            // 件数が1件であること
+            Assert.AreEqual(instance.Count, 1);
         }
 
-        [TestCase(false, false)]
-        [TestCase(true, true)]
-        public static void AddTest(bool isNull, bool isError)
+        [TestCase(-1, false, true)]
+        [TestCase(1, false, false)]
+        [TestCase(2, false, false)]
+        [TestCase(2, true, true)]
+        [TestCase(10000, false, false)]
+        [TestCase(10000, true, true)]
+        [TestCase(10001, false, true)]
+        [TestCase(10001, true, true)]
+        public static void ConstructorTestB(int initLength, bool hasNullItem, bool isError)
         {
-            var list = MakeCommonEventList(1);
-            var instance = new CommonEventList(list);
-
-            var item = isNull ? null : new CommonEvent();
+            var initItemList = MakeInitList(initLength, hasNullItem);
+            CommonEventList instance = null;
 
             var errorOccured = false;
             try
             {
-                instance.Add(item);
+                instance = new CommonEventList(initItemList);
             }
             catch (Exception ex)
             {
@@ -63,328 +68,52 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-        }
 
-        [TestCase(false, false)]
-        [TestCase(true, true)]
-        public static void AddRangeTest(bool isNull, bool isError)
-        {
-            var list = MakeCommonEventList(1);
-            var instance = new CommonEventList(list);
+            if (errorOccured) return;
 
-            var items = isNull ? null : MakeCommonEventList(1);
-
-            var errorOccured = false;
-            try
-            {
-                instance.AddRange(items);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        [TestCase(1, -1, false, true)]
-        [TestCase(1, -1, true, true)]
-        [TestCase(1, 0, false, false)]
-        [TestCase(1, 0, true, true)]
-        [TestCase(1, 1, false, false)]
-        [TestCase(1, 1, true, true)]
-        [TestCase(1, 2, false, true)]
-        [TestCase(1, 2, true, true)]
-        [TestCase(3, -1, false, true)]
-        [TestCase(3, -1, true, true)]
-        [TestCase(3, 0, false, false)]
-        [TestCase(3, 0, true, true)]
-        [TestCase(3, 3, false, false)]
-        [TestCase(3, 3, true, true)]
-        [TestCase(3, 4, false, true)]
-        [TestCase(3, 4, true, true)]
-        public static void InsertTest(int defaultLength, int index, bool isNull, bool isError)
-        {
-            var list = MakeCommonEventList(defaultLength);
-            var instance = new CommonEventList(list);
-
-            var item = isNull ? null : new CommonEvent();
-
-            var errorOccured = false;
-            try
-            {
-                instance.Insert(index, item);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        [TestCase(1, -1, false, true)]
-        [TestCase(1, -1, true, true)]
-        [TestCase(1, 0, false, false)]
-        [TestCase(1, 0, true, true)]
-        [TestCase(1, 1, false, false)]
-        [TestCase(1, 1, true, true)]
-        [TestCase(1, 2, false, true)]
-        [TestCase(1, 2, true, true)]
-        [TestCase(3, -1, false, true)]
-        [TestCase(3, -1, true, true)]
-        [TestCase(3, 0, false, false)]
-        [TestCase(3, 0, true, true)]
-        [TestCase(3, 3, false, false)]
-        [TestCase(3, 3, true, true)]
-        [TestCase(3, 4, false, true)]
-        [TestCase(3, 4, true, true)]
-        public static void InsertRangeTest(int defaultLength, int index, bool isNull, bool isError)
-        {
-            var list = MakeCommonEventList(defaultLength);
-            var instance = new CommonEventList(list);
-
-            var items = isNull ? null : MakeCommonEventList(1);
-
-            var errorOccured = false;
-            try
-            {
-                instance.InsertRange(index, items);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        [TestCase(1, -1, true)]
-        [TestCase(1, 0, true)]
-        [TestCase(1, 1, true)]
-        [TestCase(4, -1, true)]
-        [TestCase(4, 0, false)]
-        [TestCase(4, 3, false)]
-        [TestCase(4, 4, true)]
-        public static void RemoveAtTest(int defaultLength, int index, bool isError)
-        {
-            var list = MakeCommonEventList(defaultLength);
-            var instance = new CommonEventList(list);
-
-            var errorOccured = false;
-            try
-            {
-                instance.RemoveAt(index);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        [TestCase(1, -1, -1, true)]
-        [TestCase(1, -1, 0, true)]
-        [TestCase(1, -1, 1, true)]
-        [TestCase(1, 0, -1, true)]
-        [TestCase(1, 0, 0, false)]
-        [TestCase(1, 0, 1, true)]
-        [TestCase(1, 1, -1, true)]
-        [TestCase(1, 1, 0, true)]
-        [TestCase(1, 1, 1, true)]
-        [TestCase(4, -1, -1, true)]
-        [TestCase(4, -1, 0, true)]
-        [TestCase(4, -1, 3, true)]
-        [TestCase(4, -1, 4, true)]
-        [TestCase(4, 0, -1, true)]
-        [TestCase(4, 0, 0, false)]
-        [TestCase(4, 0, 3, false)]
-        [TestCase(4, 0, 4, true)]
-        [TestCase(4, 1, -1, true)]
-        [TestCase(4, 1, 0, false)]
-        [TestCase(4, 1, 1, false)]
-        [TestCase(4, 1, 3, false)]
-        [TestCase(4, 1, 4, true)]
-        [TestCase(4, 3, -1, true)]
-        [TestCase(4, 3, 0, false)]
-        [TestCase(4, 3, 1, false)]
-        [TestCase(4, 3, 2, true)]
-        [TestCase(4, 4, -1, true)]
-        [TestCase(4, 4, 0, true)]
-        [TestCase(4, 4, 1, true)]
-        public static void RemoveRangeTest(int defaultLength, int index, int count, bool isError)
-        {
-            var list = MakeCommonEventList(defaultLength);
-            var instance = new CommonEventList(list);
-
-            var errorOccured = false;
-            try
-            {
-                instance.RemoveRange(index, count);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        [TestCase(1, -1, true)]
-        [TestCase(1, 0, false)]
-        [TestCase(1, 1, true)]
-        [TestCase(4, -1, true)]
-        [TestCase(4, 0, false)]
-        [TestCase(4, 3, false)]
-        [TestCase(4, 4, true)]
-        public static void GetTest(int defaultLength, int index, bool isError)
-        {
-            var list = MakeCommonEventList(defaultLength);
-
-            var instance = new CommonEventList(list);
-
-            var errorOccured = false;
-            try
-            {
-                instance.Get(index);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        [TestCase(1, -1, -1, true)]
-        [TestCase(1, -1, 0, true)]
-        [TestCase(1, -1, 1, true)]
-        [TestCase(1, 0, -1, true)]
-        [TestCase(1, 0, 0, false)]
-        [TestCase(1, 0, 1, false)]
-        [TestCase(1, 0, 2, true)]
-        [TestCase(1, 1, -1, true)]
-        [TestCase(1, 1, 0, true)]
-        [TestCase(1, 1, 1, true)]
-        [TestCase(4, -1, -1, true)]
-        [TestCase(4, -1, 0, true)]
-        [TestCase(4, -1, 4, true)]
-        [TestCase(4, 0, -1, true)]
-        [TestCase(4, 0, 0, false)]
-        [TestCase(4, 0, 4, false)]
-        [TestCase(4, 0, 5, true)]
-        [TestCase(4, 3, -1, true)]
-        [TestCase(4, 3, 0, false)]
-        [TestCase(4, 3, 1, false)]
-        [TestCase(4, 3, 2, true)]
-        [TestCase(4, 4, -1, true)]
-        [TestCase(4, 4, 0, true)]
-        [TestCase(4, 4, 1, true)]
-        public static void GetRangeTest(int defaultLength, int index, int count, bool isError)
-        {
-            var list = MakeCommonEventList(defaultLength);
-
-            var instance = new CommonEventList(list);
-
-            var errorOccured = false;
-            try
-            {
-                instance.GetRange(index, count);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            // 選択肢が意図した数であること
+            var answerResultLength = initLength != -1
+                ? initLength
+                : 0;
+            Assert.AreEqual(instance.Count, answerResultLength);
         }
 
         [Test]
-        public static void GetAllTest()
+        public static void GetMaxCapacityTest()
         {
-            var list = MakeCommonEventList(1);
+            var instance = new CommonEventList();
+            var maxCapacity = instance.GetMaxCapacity();
 
-            var instance = new CommonEventList(list);
-
-            var errorOccured = false;
-            try
-            {
-                instance.GetAll();
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, false);
+            // 取得した値が容量最大値と一致すること
+            Assert.AreEqual(maxCapacity, CommonEventList.MaxCapacity);
         }
 
-        [TestCase(1, -1, false, true)]
-        [TestCase(1, -1, true, true)]
-        [TestCase(1, 0, false, false)]
-        [TestCase(1, 0, true, true)]
-        [TestCase(1, 1, false, true)]
-        [TestCase(1, 1, true, true)]
-        [TestCase(4, -1, false, true)]
-        [TestCase(4, -1, true, true)]
-        [TestCase(4, 0, false, false)]
-        [TestCase(4, 0, true, true)]
-        [TestCase(4, 3, false, false)]
-        [TestCase(4, 3, true, true)]
-        [TestCase(4, 4, false, true)]
-        [TestCase(4, 4, true, true)]
-        public static void UpdateTest(int defaultLength, int index, bool isNull, bool isError)
+        [Test]
+        public static void GetMinCapacityTest()
         {
-            var list = MakeCommonEventList(defaultLength);
+            var instance = new CommonEventList();
+            var maxCapacity = instance.GetMinCapacity();
 
-            var updateItem = isNull ? null : new CommonEvent();
-
-            var instance = new CommonEventList(list);
-
-            var errorOccured = false;
-            try
-            {
-                instance.Update(index, updateItem);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            // 取得した値が容量最大値と一致すること
+            Assert.AreEqual(maxCapacity, CommonEventList.MinCapacity);
         }
 
 
-        private static List<CommonEvent> MakeCommonEventList(int length)
+        private static List<CommonEvent> MakeInitList(int length, bool hasNullItem)
         {
             if (length == -1) return null;
 
-            var list = new List<CommonEvent>();
+            var result = new List<CommonEvent>();
             for (var i = 0; i < length; i++)
             {
-                list.Add(new CommonEvent());
+                result.Add(hasNullItem && i == length / 2
+                    ? null
+                    : new CommonEvent()
+                );
             }
 
-            return list;
+            return result;
         }
+
     }
 }

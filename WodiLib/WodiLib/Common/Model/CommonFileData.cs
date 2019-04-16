@@ -65,7 +65,7 @@ namespace WodiLib.Common
         /// <returns>コモンイベント</returns>
         public IEnumerable<CommonEvent> GetAllCommonEvent()
         {
-            return CommonEventList.GetAll();
+            return CommonEventList.ToList();
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

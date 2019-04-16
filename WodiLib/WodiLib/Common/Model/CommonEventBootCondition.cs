@@ -20,15 +20,6 @@ namespace WodiLib.Common
     public class CommonEventBootCondition
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Constant
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        /// <summary>右辺最大値</summary>
-        public static int RightSide_Max => 999999;
-
-        /// <summary>右辺最小値</summary>
-        public static int RightSide_Min => -999999;
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         private CommonEventBootType commonEventBootType = CommonEventBootType.OnlyCall;

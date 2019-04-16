@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
 using WodiLib.Sys.Cmn;
@@ -18,237 +19,100 @@ namespace WodiLib.Test.Event.EventCommand
             logger = WodiLibLogger.GetInstance();
         }
 
-        private static readonly object[] SetConditionValueOutOfRangeTestCaseSource =
+        [Test]
+        public static void ConstructorTestA()
         {
-            new object[] {-1, true},
-            new object[] {0, true},
-            new object[] {1, false},
-            new object[] {3, false},
-            new object[] {4, true}
-        };
+            ConditionNumberList instance = null;
 
-        [TestCaseSource(nameof(SetConditionValueOutOfRangeTestCaseSource))]
-        public static void SetConditionValueOutOfRangeTest(int value, bool error)
-        {
-            var instance = new ConditionNumberList();
-            bool isError;
+            var errorOccured = false;
             try
             {
-                instance.ConditionValue = value;
-                isError = false;
+                instance = new ConditionNumberList();
             }
             catch (Exception ex)
             {
                 logger.Exception(ex);
-                isError = true;
+                errorOccured = true;
             }
 
-            Assert.AreEqual(isError, error);
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
+
+            // 件数が1件であること
+            Assert.AreEqual(instance.Count, 1);
         }
 
-        private static readonly object[] AccessorOutOfRangeTestCaseSource =
+        [TestCase(-1, false, true)]
+        [TestCase(0, false, true)]
+        [TestCase(1, false, false)]
+        [TestCase(1, true, true)]
+        [TestCase(3, false, false)]
+        [TestCase(3, true, true)]
+        [TestCase(4, false, true)]
+        [TestCase(4, true, true)]
+        public static void ConstructorTestB(int initLength, bool hasNullItem, bool isError)
         {
-            new object[] {1, -1, true},
-            new object[] {1, 0, false},
-            new object[] {1, 1, true},
-            new object[] {2, -1, true},
-            new object[] {2, 0, false},
-            new object[] {2, 1, false},
-            new object[] {2, 2, true},
-            new object[] {3, -1, true},
-            new object[] {3, 0, false},
-            new object[] {3, 2, false},
-            new object[] {3, 3, true}
-        };
+            var initItemList = MakeInitList(initLength, hasNullItem);
+            ConditionNumberList instance = null;
 
-        [TestCaseSource(nameof(AccessorOutOfRangeTestCaseSource))]
-        public static void SetOutOfRangeTest(int conditionValue, int setIndex, bool error)
-        {
-            var instance = new ConditionNumberList();
-            bool isError;
+            var errorOccured = false;
             try
             {
-                instance.ConditionValue = conditionValue;
-                instance.Set(setIndex, new ConditionNumberDesc());
-                isError = false;
+                instance = new ConditionNumberList(initItemList);
             }
             catch (Exception ex)
             {
                 logger.Exception(ex);
-                isError = true;
+                errorOccured = true;
             }
 
-            Assert.AreEqual(isError, error);
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (errorOccured) return;
+
+            // 選択肢が意図した数であること
+            var answerResultLength = initLength != -1
+                ? initLength
+                : 0;
+            Assert.AreEqual(instance.Count, answerResultLength);
         }
 
         [Test]
-        public static void SetNullTest()
-        {
-            var instance = new ConditionNumberList {ConditionValue = 3};
-            var isError = false;
-            try
-            {
-                instance.Set(0, null);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                isError = true;
-            }
-
-            Assert.IsTrue(isError);
-        }
-
-        [TestCaseSource(nameof(AccessorOutOfRangeTestCaseSource))]
-        public static void GetOutOfRangeTest(int conditionValue, int getIndex, bool error)
+        public static void GetMaxCapacityTest()
         {
             var instance = new ConditionNumberList();
-            bool isError;
-            try
-            {
-                instance.ConditionValue = conditionValue;
-                var _ = instance.Get(getIndex);
-                isError = false;
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                isError = true;
-            }
+            var maxCapacity = instance.GetMaxCapacity();
 
-            Assert.AreEqual(isError, error);
+            // 取得した値が容量最大値と一致すること
+            Assert.AreEqual(maxCapacity, ConditionNumberList.MaxCapacity);
         }
 
-        private static readonly object[] SetLeftSideTestCaseSource =
+        [Test]
+        public static void GetMinCapacityTest()
         {
-            new object[] {1, 0, 2000000, false},
-            new object[] {1, 1, 2000000, true},
-            new object[] {3, -1, 2000000, true},
-            new object[] {3, 0, 2000000, false},
-            new object[] {3, 2, 2000000, false},
-            new object[] {3, 3, 2000000, true},
-        };
+            var instance = new ConditionNumberList();
+            var maxCapacity = instance.GetMinCapacity();
 
-        [TestCaseSource(nameof(SetLeftSideTestCaseSource))]
-        public static void SetLeftSideTest(int length, int index, int setValue, bool isError)
-        {
-            var instance = new ConditionNumberList
-            {
-                ConditionValue = length
-            };
-
-            var errorOccured = false;
-            try
-            {
-                instance.SetLeftSide(index, setValue);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            // 取得した値が容量最大値と一致すること
+            Assert.AreEqual(maxCapacity, ConditionNumberList.MinCapacity);
         }
 
-        private static readonly object[] SetRightSideTestCaseSource =
-        {
-            new object[] {1, 0, 2000000, false},
-            new object[] {1, 1, 2000000, true},
-            new object[] {3, -1, 2000000, true},
-            new object[] {3, 0, 2000000, false},
-            new object[] {3, 2, 2000000, false},
-            new object[] {3, 3, 2000000, true},
-        };
 
-        [TestCaseSource(nameof(SetRightSideTestCaseSource))]
-        public static void SetRightSideTest(int length, int index, int setValue, bool isError)
+        private static IReadOnlyList<ConditionNumberDesc> MakeInitList(int length, bool hasNullItem)
         {
-            var instance = new ConditionNumberList
-            {
-                ConditionValue = length
-            };
+            if (length == -1) return null;
 
-            var errorOccured = false;
-            try
+            var result = new List<ConditionNumberDesc>();
+            for (var i = 0; i < length; i++)
             {
-                instance.SetRightSide(index, setValue);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
+                result.Add(hasNullItem && i == length / 2
+                    ? null
+                    : new ConditionNumberDesc()
+                );
             }
 
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        private static readonly object[] SetConditionTestCaseSource =
-        {
-            new object[] {1, 0, NumberConditionalOperator.Not, false},
-            new object[] {1, 1, NumberConditionalOperator.Not, true},
-            new object[] {3, -1, NumberConditionalOperator.Not, true},
-            new object[] {3, 0, NumberConditionalOperator.Not, false},
-            new object[] {3, 2, NumberConditionalOperator.Not, false},
-            new object[] {3, 3, NumberConditionalOperator.Not, true},
-        };
-
-        [TestCaseSource(nameof(SetConditionTestCaseSource))]
-        public static void SetConditionTest(int length, int index, NumberConditionalOperator setValue, bool isError)
-        {
-            var instance = new ConditionNumberList
-            {
-                ConditionValue = length
-            };
-
-            var errorOccured = false;
-            try
-            {
-                instance.SetCondition(index, setValue);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        private static readonly object[] SetIsNotReferXTestCaseSource =
-        {
-            new object[] {1, 0, true, false},
-            new object[] {1, 1, true, true},
-            new object[] {3, -1, true, true},
-            new object[] {3, 0, true, false},
-            new object[] {3, 2, true, false},
-            new object[] {3, 3, true, true},
-        };
-
-        [TestCaseSource(nameof(SetIsNotReferXTestCaseSource))]
-        public static void SetIsNotReferXTest(int length, int index, bool setValue, bool isError)
-        {
-            var instance = new ConditionNumberList
-            {
-                ConditionValue = length
-            };
-
-            var errorOccured = false;
-            try
-            {
-                instance.SetIsNotReferX(index, setValue);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
+            return result;
         }
     }
 }
