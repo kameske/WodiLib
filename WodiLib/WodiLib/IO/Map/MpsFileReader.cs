@@ -682,7 +682,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
-        private static List<ICharaMoveCommand> ReadCharaMoveCommand(FileReadStatus status)
+        private static CharaMoveCommandList ReadCharaMoveCommand(FileReadStatus status)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
                 "マップイベントページ動作コマンドリスト"));
@@ -701,7 +701,7 @@ namespace WodiLib.IO
             Logger.Debug(FileIOMessage.EndCommonRead(typeof(EventCommandListReader),
                 "マップイベントページ動作コマンドリスト"));
 
-            return result;
+            return new CharaMoveCommandList(result);
         }
 
         /// <summary>

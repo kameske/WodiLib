@@ -343,7 +343,7 @@ namespace WodiLib.Test.IO
                                     {
                                         ActionEntry = new ActionEntry
                                         {
-                                            CommandList = new List<ICharaMoveCommand>
+                                            CommandList = new CharaMoveCommandList
                                             {
                                                 new MoveLeftUp(),
                                                 new MoveUp(),
@@ -365,7 +365,7 @@ namespace WodiLib.Test.IO
                                     {
                                         ActionEntry = new ActionEntry
                                         {
-                                            CommandList = new List<ICharaMoveCommand>
+                                            CommandList = new CharaMoveCommandList
                                             {
                                                 new MoveRandom(),
                                                 new StepForward(),
@@ -409,7 +409,7 @@ namespace WodiLib.Test.IO
                                     {
                                         ActionEntry = new ActionEntry
                                         {
-                                            CommandList = new List<ICharaMoveCommand>
+                                            CommandList = new CharaMoveCommandList
                                             {
                                                 new ChangeGraphic
                                                 {
@@ -443,7 +443,7 @@ namespace WodiLib.Test.IO
                                     {
                                         ActionEntry = new ActionEntry
                                         {
-                                            CommandList = new List<ICharaMoveCommand>
+                                            CommandList = new CharaMoveCommandList
                                             {
                                                 new LookLeftUp(),
                                                 new LookUp(),
@@ -471,7 +471,7 @@ namespace WodiLib.Test.IO
                                     {
                                         ActionEntry = new ActionEntry
                                         {
-                                            CommandList = new List<ICharaMoveCommand>
+                                            CommandList = new CharaMoveCommandList
                                             {
                                                 new AssignValue
                                                 {
@@ -527,7 +527,7 @@ namespace WodiLib.Test.IO
                                     {
                                         ActionEntry = new ActionEntry
                                         {
-                                            CommandList = new List<ICharaMoveCommand>
+                                            CommandList = new CharaMoveCommandList
                                             {
                                                 new SetStepHalf(),
                                                 new SetStepFull(),
@@ -1172,7 +1172,7 @@ namespace WodiLib.Test.IO
                                         IsWaitForComplete = true,
                                         IsRepeatAction = false,
                                         IsSkipIfCannotMove = true,
-                                        CommandList = new List<ICharaMoveCommand>
+                                        CommandList = new CharaMoveCommandList
                                         {
                                             new MoveLeftUp(),
                                             new MoveUp(),
@@ -1315,7 +1315,7 @@ namespace WodiLib.Test.IO
                                         IsWaitForComplete = true,
                                         IsRepeatAction = true,
                                         IsSkipIfCannotMove = false,
-                                        CommandList = new List<ICharaMoveCommand>
+                                        CommandList = new CharaMoveCommandList
                                         {
                                             new MoveLeftUp(),
                                             new MoveUp(),

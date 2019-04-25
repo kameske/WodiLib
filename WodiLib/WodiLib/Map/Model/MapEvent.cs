@@ -20,7 +20,7 @@ namespace WodiLib.Map
         /// <summary>マップイベントID</summary>
         public MapEventId MapEventId { get; set; }
 
-        private MapEventName eventName = (MapEventName)"";
+        private MapEventName eventName = "";
         /// <summary>[NotNull] マップイベント名</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MapEventName EventName

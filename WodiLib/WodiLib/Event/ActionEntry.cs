@@ -61,8 +61,21 @@ namespace WodiLib.Event
             IsSkipIfCannotMove = (flag & FlgSkipIfCannotMove) != 0;
         }
 
-        /// <summary>動作指定コマンドリスト</summary>
-        public List<ICharaMoveCommand> CommandList { get; set; }
+        private CharaMoveCommandList commandList = new CharaMoveCommandList();
+
+        /// <summary>[NotNull] 動作指定コマンドリスト</summary>
+        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
+        public CharaMoveCommandList CommandList
+        {
+            get => commandList;
+            set
+            {
+                if(value == null) throw new PropertyNullException(
+                    ErrorMessage.NotNull(nameof(CommandList)));
+
+                commandList = value;
+            }
+        }
 
         /// <summary>
         /// コンストラクタ
@@ -70,7 +83,10 @@ namespace WodiLib.Event
         /// <param name="commands">動作指定コマンド</param>
         public ActionEntry(IEnumerable<ICharaMoveCommand> commands = null)
         {
-            CommandList = commands == null ? new List<ICharaMoveCommand>() : commands.ToList();
+            if (commands == null) return;
+
+            var charaMoveCommands = commands as ICharaMoveCommand[] ?? commands.ToArray();
+            CommandList = new CharaMoveCommandList(charaMoveCommands);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
