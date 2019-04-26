@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using WodiLib.Event;
+using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Map;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
@@ -120,6 +121,55 @@ namespace WodiLib.Test.Map
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+        }
+
+        [Test]
+        public static void CharaMoveCommandOwnerTest()
+        {
+            var assignValue = new AssignValue();
+            var assignValue2 = new AssignValue();
+            var addValue = new AddValue();
+            var addValue2 = new AddValue();
+
+            // この時点で EventCommand の Owner が null であることを確認
+            Assert.IsNull(assignValue.Owner);
+            Assert.IsNull(assignValue2.Owner);
+            Assert.IsNull(addValue.Owner);
+            Assert.IsNull(addValue2.Owner);
+
+            var actionEntry = new ActionEntry();
+
+            actionEntry.CommandList.Add(assignValue);
+            actionEntry.CommandList.Add(addValue);
+
+            // この時点で ActionEntry, EventCommand の Owner が null であることを確認
+            Assert.IsNull(actionEntry.Owner);
+            Assert.IsNull(assignValue.Owner);
+            Assert.IsNull(assignValue2.Owner);
+            Assert.IsNull(addValue.Owner);
+            Assert.IsNull(addValue2.Owner);
+
+            var instance = new MapEventPageMoveRouteInfo
+            {
+                CustomMoveRoute = actionEntry
+            };
+
+            // この時点で ActionEntry, セット済みのEventCommand の Owner がセットされていることを確認
+            Assert.AreEqual(actionEntry.Owner, TargetAddressOwner.MapEvent);
+            Assert.AreEqual(assignValue.Owner, TargetAddressOwner.MapEvent);
+            Assert.AreEqual(addValue.Owner, TargetAddressOwner.MapEvent);
+            Assert.IsNull(assignValue2.Owner);
+            Assert.IsNull(addValue2.Owner);
+
+            actionEntry.CommandList.Add(assignValue2);
+            actionEntry.CommandList.Add(addValue2);
+
+            // EventCommand の Owner に適切な値が設定されること
+            Assert.AreEqual(assignValue2.Owner, TargetAddressOwner.MapEvent);
+            Assert.AreEqual(addValue2.Owner, TargetAddressOwner.MapEvent);
+
+            // instance をここまで開放したくないので無駄な処理を入れる
+            instance.MoveSpeed = MoveSpeed.Fast;
         }
     }
 }

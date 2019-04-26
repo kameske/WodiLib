@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Common;
+using WodiLib.Event;
+using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Event.EventCommand;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
@@ -482,6 +484,69 @@ namespace WodiLib.Test.Common
 
             // エラーが発生しないこと
             Assert.AreEqual(errorOccured, false);
+        }
+
+        [Test]
+        public static void EventCommandsOwnerTest()
+        {
+            var assignValue = new AssignValue();
+            var assignValue2 = new AssignValue();
+            var addValue = new AddValue();
+            var addValue2 = new AddValue();
+
+            // この時点で EventCommand の Owner が null であることを確認
+            Assert.IsNull(assignValue.Owner);
+            Assert.IsNull(assignValue2.Owner);
+            Assert.IsNull(addValue.Owner);
+            Assert.IsNull(addValue2.Owner);
+
+            var commonEvent = new CommonEvent();
+
+            var list = new EventCommandList();
+
+            var moveRoute = new MoveRoute();
+
+            var actionEntry = new ActionEntry();
+
+            actionEntry.CommandList.Add(assignValue);
+            actionEntry.CommandList.Add(addValue);
+
+            // この時点で EventCommandList, MoveRoute, ActionEntry, EventCommand の Owner が null であることを確認
+            Assert.IsNull(list.Owner);
+            Assert.IsNull(moveRoute.Owner);
+            Assert.IsNull(actionEntry.Owner);
+            Assert.IsNull(assignValue.Owner);
+            Assert.IsNull(assignValue2.Owner);
+            Assert.IsNull(addValue.Owner);
+            Assert.IsNull(addValue2.Owner);
+
+            moveRoute.ActionEntry = actionEntry;
+            list.Add(moveRoute);
+
+            // この時点で EventCommand の Owner が null であることを確認
+            Assert.IsNull(assignValue.Owner);
+            Assert.IsNull(assignValue2.Owner);
+            Assert.IsNull(addValue.Owner);
+            Assert.IsNull(addValue2.Owner);
+
+            commonEvent.EventCommands = list;
+
+            // この時点で EventCommandList, MoveRoute, ActionEntry, セット済みのEventCommand の
+            // Owner がセットされていることを確認
+            Assert.AreEqual(list.Owner, TargetAddressOwner.CommonEvent);
+            Assert.AreEqual(moveRoute.Owner, TargetAddressOwner.CommonEvent);
+            Assert.AreEqual(assignValue.Owner, TargetAddressOwner.CommonEvent);
+            Assert.AreEqual(addValue.Owner, TargetAddressOwner.CommonEvent);
+
+            actionEntry.CommandList.Add(assignValue2);
+            moveRoute.ActionEntry.CommandList.Add(addValue2);
+
+            // EventCommand の Owner に適切な値が設定されること
+            Assert.AreEqual(assignValue2.Owner, TargetAddressOwner.CommonEvent);
+            Assert.AreEqual(addValue2.Owner, TargetAddressOwner.CommonEvent);
+
+            // commonEvent をここまで開放したくないので無駄な処理を入れる
+            commonEvent.Memo = "";
         }
     }
 }

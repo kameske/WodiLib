@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -30,6 +31,10 @@ namespace WodiLib.Event.EventCommand
 
         private ActionEntry actionEntry = new ActionEntry();
 
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /// <inheritdoc />
         /// <summary>[NotNull] 動作指定</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
@@ -42,8 +47,33 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ActionEntry)));
                 actionEntry = value;
+                actionEntry.Owner = Owner;
             }
         }
+
+        /// <summary>対象イベントID</summary>
+        public int Target { get; set; }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Internal Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private TargetAddressOwner owner;
+
+        /// <summary>[Nullable] 所有イベント種別</summary>
+        internal TargetAddressOwner Owner
+        {
+            get => owner;
+            set
+            {
+                owner = value;
+                actionEntry.Owner = value;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
         public override byte NumberVariableCount => 0x02;
@@ -120,11 +150,5 @@ namespace WodiLib.Event.EventCommand
         {
             throw new ArgumentOutOfRangeException();
         }
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>対象イベントID</summary>
-        public int Target { get; set; }
     }
 }

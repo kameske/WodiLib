@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -30,6 +31,24 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>イベントコマンド終端</summary>
         public static readonly byte[] EndEventCommand = {0x03, 0x00, 0x00, 0x00};
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Internal Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private TargetAddressOwner owner;
+
+        /// <summary>[Nullable] 所有イベント種別</summary>
+        internal TargetAddressOwner Owner
+        {
+            get => owner;
+            set
+            {
+                owner = value;
+                Items.OfType<MoveRoute>().ToList()
+                    .ForEach(x => x.Owner = value);
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Constructor
@@ -103,6 +122,16 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        protected override void InsertItem(int index, IEventCommand item)
+        {
+            base.InsertItem(index, item);
+            if (item is MoveRoute moveRoute)
+            {
+                moveRoute.Owner = Owner;
+            }
+        }
 
         /// <inheritdoc />
         /// <summary>
