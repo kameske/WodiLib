@@ -6,7 +6,7 @@
 // see LICENSE file
 // ========================================
 
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -77,7 +77,7 @@ namespace WodiLib.Sys
             }
             catch (Exception ex)
             {
-                throw new InitializationException(ex);
+                throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
             }
 
             FillMinCapacity();
@@ -102,7 +102,7 @@ namespace WodiLib.Sys
             }
             catch (Exception ex)
             {
-                throw new InitializationException(ex);
+                throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
             }
 
             if (list == null)
@@ -187,7 +187,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="item">[NotNull] 追加する要素</param>
         /// <exception cref="ArgumentNullException">itemがnullの場合</exception>
-        /// <exception cref="InvalidOperationException">要素数がMaxLengthを超える場合</exception>
+        /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
         public void Add(T item)
         {
             if (item == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(item)));
@@ -209,7 +209,7 @@ namespace WodiLib.Sys
         ///     itemsがnullの場合、
         ///     またはitemsにnull要素が含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">要素数がMaxLengthを超える場合</exception>
+        /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
         public void AddRange(IReadOnlyCollection<T> items)
         {
             if (items == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
@@ -238,7 +238,7 @@ namespace WodiLib.Sys
         /// <param name="item">[NotNull] 挿入する要素</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">itemがnullの場合</exception>
-        /// <exception cref="InvalidOperationException">要素数がMaxLengthを超える場合</exception>
+        /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
         public void Insert(int index, T item)
         {
             var max = Count;
@@ -269,7 +269,7 @@ namespace WodiLib.Sys
         ///     itemsがnullの場合、
         ///     またはitemsにnull要素が含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">要素数がMaxLengthを超える場合</exception>
+        /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
         public void InsertRange(int index, IReadOnlyCollection<T> items)
         {
             var max = Count;
@@ -350,6 +350,7 @@ namespace WodiLib.Sys
         /// <param name="count">[Range(0, Count)] 削除する要素数</param>
         /// <exception cref="ArgumentOutOfRangeException">index, countが指定範囲外の場合</exception>
         /// <exception cref="ArgumentException">有効な範囲外の要素を削除しようとした場合</exception>
+        /// <exception cref="InvalidOperationException">削除した結果要素数がMinValue未満になる場合</exception>
         public void RemoveRange(int index, int count)
         {
             var indexMax = Count - 1;
@@ -371,9 +372,8 @@ namespace WodiLib.Sys
 
             var removedLength = Count - count;
             if (removedLength < GetMinCapacity())
-                if (removedLength < GetMinCapacity())
-                    throw new InvalidOperationException(
-                        ErrorMessage.UnderListLength(GetMinCapacity()));
+                throw new InvalidOperationException(
+                    ErrorMessage.UnderListLength(GetMinCapacity()));
 
             for (var i = 0; i < count; i++)
             {
@@ -541,21 +541,6 @@ namespace WodiLib.Sys
              */
         }
 
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Protected Abstract Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// 格納対象のデフォルトインスタンスを生成する。
-        /// </summary>
-        /// <param name="index">挿入インデックス</param>
-        /// <returns>デフォルトインスタンス</returns>
-        protected abstract T MakeDefaultItem(int index);
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Private Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
         /// <summary>
         /// 容量上下限チェック
         /// </summary>
@@ -563,7 +548,7 @@ namespace WodiLib.Sys
         ///     容量下限が 0 未満の場合、
         ///     または容量上限が容量下限未満の場合
         /// </exception>
-        private void ValidateCapacity()
+        protected void ValidateCapacity()
         {
             var maxCapacity = GetMaxCapacity();
             var minCapacity = GetMinCapacity();
@@ -581,7 +566,7 @@ namespace WodiLib.Sys
         /// デフォルト値チェック
         /// </summary>
         /// <exception cref="InvalidOperationException"><see cref="MakeDefaultItem"/>がnullを返却する場合</exception>
-        private void ValidateDefaultItem()
+        protected void ValidateDefaultItem()
         {
             var value = MakeDefaultItem(0);
             if (value == null)
@@ -592,7 +577,7 @@ namespace WodiLib.Sys
         /// <summary>
         /// 要素最小数に充足するまでデフォルト要素を追加する。
         /// </summary>
-        private void FillMinCapacity()
+        protected void FillMinCapacity()
         {
             var shortage = GetMinCapacity() - Items.Count;
             if (shortage < 0) return;
@@ -606,15 +591,14 @@ namespace WodiLib.Sys
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Exception
+        //      Protected Abstract Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private class InitializationException : Exception
-        {
-            public InitializationException(Exception ex)
-                : base($"{nameof(RestrictedCapacityCollection<T>)}のコンストラクタで例外が発生しました。", ex)
-            {
-            }
-        }
+        /// <summary>
+        /// 格納対象のデフォルトインスタンスを生成する。
+        /// </summary>
+        /// <param name="index">挿入インデックス</param>
+        /// <returns>デフォルトインスタンス</returns>
+        protected abstract T MakeDefaultItem(int index);
     }
 }
