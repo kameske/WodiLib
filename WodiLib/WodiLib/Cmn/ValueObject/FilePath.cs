@@ -61,8 +61,9 @@ namespace WodiLib.Cmn
             // 空文字チェック
             if (value.IsEmpty())
             {
-                if(!IsAllowEmptyString) throw new ArgumentException(
-                    ErrorMessage.Unsuitable("ファイル名", $"（パス：{value}）"));
+                if (!IsAllowEmptyString)
+                    throw new ArgumentException(
+                        ErrorMessage.Unsuitable("ファイル名", $"（パス：{value}）"));
 
                 // 空文字許可の場合、これ以上のチェック不要
                 Value = value;
@@ -71,14 +72,16 @@ namespace WodiLib.Cmn
 
             var woditorString = new WoditorString(value);
 
-            if(woditorString.ByteLength > MaxLength ) throw new ArgumentException(
-                ErrorMessage.OverDataSize(MaxLength));
+            if (woditorString.ByteLength > MaxLength)
+                throw new ArgumentException(
+                    ErrorMessage.OverDataSize(MaxLength));
 
             // フルパスチェック
             try
             {
                 var _ = Path.GetFullPath(value);
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw new ArgumentException(
                     ErrorMessage.Unsuitable("ファイル名", $"（パス：{value}）"), ex);

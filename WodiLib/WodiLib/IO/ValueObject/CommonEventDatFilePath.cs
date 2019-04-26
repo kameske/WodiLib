@@ -1,3 +1,11 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : CommonEventDatFilePath.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -45,8 +53,9 @@ namespace WodiLib.IO
         public CommonEventDatFilePath(string value) : base(value)
         {
             var fileName = Path.GetFileName(value);
-            if(fileName == null) throw new ArgumentException(
-                ErrorMessage.Unsuitable("ファイルパス", $"（パス：{value}）"));
+            if (fileName == null)
+                throw new ArgumentException(
+                    ErrorMessage.Unsuitable("ファイルパス", $"（パス：{value}）"));
 
             if (!FilePathRegex.IsMatch(fileName))
             {
@@ -149,6 +158,5 @@ namespace WodiLib.IO
         {
             return !(left == right);
         }
-
     }
 }

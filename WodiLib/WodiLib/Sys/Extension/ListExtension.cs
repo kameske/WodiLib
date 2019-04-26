@@ -26,8 +26,9 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentException">makeDefaultItemFuncがnullを返却する場合</exception>
         public static void AdjustLength<T>(this List<T> target, int length, Func<int, T> makeDefaultItemFunc)
         {
-            if(makeDefaultItemFunc == null) throw new ArgumentNullException(
-                ErrorMessage.NotNull(nameof(makeDefaultItemFunc)));
+            if (makeDefaultItemFunc == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(makeDefaultItemFunc)));
 
             var count = target.Count;
 

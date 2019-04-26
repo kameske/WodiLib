@@ -95,7 +95,7 @@ namespace WodiLib.IO
             if (filePath == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
-            if (((string)filePath).IsEmpty())
+            if (((string) filePath).IsEmpty())
                 throw new ArgumentException(
                     ErrorMessage.NotEmpty(nameof(filePath)));
 

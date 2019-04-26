@@ -6,7 +6,7 @@
 // see LICENSE file
 // ========================================
 
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace WodiLib.Sys

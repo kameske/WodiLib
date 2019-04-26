@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WodiLib.Event;
-using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Event.EventCommand;
 using WodiLib.Map;
 using WodiLib.Sys;
