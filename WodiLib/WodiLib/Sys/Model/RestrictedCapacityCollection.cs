@@ -18,7 +18,7 @@ namespace WodiLib.Sys
     /// </summary>
     [Serializable]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class RestrictedCapacityCollection<T> : IList<T>, IReadOnlyList<T>
+    public abstract class RestrictedCapacityCollection<T> : IList<T>, IReadOnlyRestrictedCapacityCollection<T>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Public Property
@@ -49,9 +49,29 @@ namespace WodiLib.Sys
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
-                SetItem(index, value);
+                PrivateSetItem(index, value);
             }
         }
+
+        /// <summary>
+        /// SetItemイベントハンドラリスト
+        /// </summary>
+        public SetItemHandlerList<T> SetItemHandlerList { get; } = new SetItemHandlerList<T>();
+
+        /// <summary>
+        /// InsertItemイベントハンドラリスト
+        /// </summary>
+        public InsertItemHandlerList<T> InsertItemHandlerList { get; } = new InsertItemHandlerList<T>();
+
+        /// <summary>
+        /// RemoveItemイベントハンドラリスト
+        /// </summary>
+        public RemoveItemHandlerList<T> RemoveItemHandlerList { get; } = new RemoveItemHandlerList<T>();
+
+        /// <summary>
+        /// ClearItemイベントハンドラリスト
+        /// </summary>
+        public ClearItemHandlerList<T> ClearItemHandlerList { get; } = new ClearItemHandlerList<T>();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Protected Property
@@ -124,7 +144,7 @@ namespace WodiLib.Sys
             var insertIndex = 0;
             foreach (var item in list)
             {
-                InsertItem(insertIndex, item);
+                PrivateInsertItem(insertIndex, item);
                 insertIndex++;
             }
         }
@@ -198,7 +218,7 @@ namespace WodiLib.Sys
                     ErrorMessage.OverListLength(GetMaxCapacity()));
 
             var index = Count;
-            InsertItem(index, item);
+            PrivateInsertItem(index, item);
         }
 
         /// <summary>
@@ -226,7 +246,7 @@ namespace WodiLib.Sys
             var insertIndex = Count;
             foreach (var item in items)
             {
-                InsertItem(insertIndex, item);
+                PrivateInsertItem(insertIndex, item);
                 insertIndex++;
             }
         }
@@ -256,7 +276,7 @@ namespace WodiLib.Sys
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(GetMaxCapacity()));
 
-            InsertItem(index, item);
+            PrivateInsertItem(index, item);
         }
 
         /// <summary>
@@ -316,7 +336,7 @@ namespace WodiLib.Sys
                 throw new InvalidOperationException(
                     ErrorMessage.UnderListLength(GetMinCapacity()));
 
-            RemoveItem(index);
+            PrivateRemoveItem(index);
 
             return true;
         }
@@ -340,7 +360,7 @@ namespace WodiLib.Sys
                 throw new InvalidOperationException(
                     ErrorMessage.UnderListLength(GetMinCapacity()));
 
-            RemoveItem(index);
+            PrivateRemoveItem(index);
         }
 
         /// <summary>
@@ -377,7 +397,7 @@ namespace WodiLib.Sys
 
             for (var i = 0; i < count; i++)
             {
-                RemoveItem(index);
+                PrivateRemoveItem(index);
             }
         }
 
@@ -432,7 +452,7 @@ namespace WodiLib.Sys
         /// </summary>
         public void Clear()
         {
-            ClearItems();
+            PrivateClearItems();
 
             FillMinCapacity();
         }
@@ -493,6 +513,9 @@ namespace WodiLib.Sys
              * を実施済み。
              */
             Items[index] = item;
+            /*
+             * 呼び出し元でイベントハンドラを実行する。
+             */
         }
 
         /// <summary>
@@ -510,10 +533,13 @@ namespace WodiLib.Sys
              * を実施済み。
              */
             Items.Insert(index, item);
+            /*
+             * 呼び出し元でイベントハンドラを実行する。
+             */
         }
 
         /// <summary>
-        /// 指定したインデックスにある要素を削除する。。
+        /// 指定したインデックスにある要素を削除する。
         /// </summary>
         /// <param name="index">インデックス</param>
         protected virtual void RemoveItem(int index)
@@ -525,6 +551,9 @@ namespace WodiLib.Sys
              * を実施済み。
              */
             Items.RemoveAt(index);
+            /*
+             * 呼び出し元でイベントハンドラを実行する。
+             */
         }
 
         /// <summary>
@@ -535,6 +564,8 @@ namespace WodiLib.Sys
         {
             Items.Clear();
             /*
+             * 呼び出し元でイベントハンドラを実行する。
+             *
              * 呼び出し元で
              * ・最小要素数リストの再作成
              * を実施する。
@@ -585,7 +616,7 @@ namespace WodiLib.Sys
             var insertIndex = Count;
             for (var i = 0; i < shortage; i++)
             {
-                InsertItem(insertIndex, MakeDefaultItem(insertIndex));
+                PrivateInsertItem(insertIndex, MakeDefaultItem(insertIndex));
                 insertIndex++;
             }
         }
@@ -600,5 +631,77 @@ namespace WodiLib.Sys
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected abstract T MakeDefaultItem(int index);
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Private Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 指定したインデックス位置にある要素を置き換える。
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        private void PrivateSetItem(int index, T item)
+        {
+            /*
+             * 呼び出し元で
+             * ・indexの範囲チェック
+             * ・itemのnullチェック
+             * を実施済み。
+             */
+            SetItem(index, item);
+            SetItemHandlerList.Execute(index, item);
+        }
+
+        /// <summary>
+        /// 指定したインデックスの位置に要素を挿入する。
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        private void PrivateInsertItem(int index, T item)
+        {
+            /*
+             * 呼び出し元で
+             * ・indexの範囲チェック
+             * ・追加後の要素数チェック
+             * ・itemのnullチェック
+             * を実施済み。
+             */
+            InsertItem(index, item);
+            InsertItemHandlerList.Execute(index, item);
+        }
+
+
+        /// <summary>
+        /// 指定したインデックスにある要素を削除する。
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        private void PrivateRemoveItem(int index)
+        {
+            /*
+             * 呼び出し元で
+             * ・indexの範囲チェック
+             * ・削除後の要素数チェック
+             * を実施済み。
+             */
+            RemoveItem(index);
+            RemoveItemHandlerList.Execute(index);
+        }
+
+        /// <summary>
+        /// 要素をすべて除去したあと、
+        /// 必要に応じて最小限の要素を新たに設定する。
+        /// </summary>
+        private void PrivateClearItems()
+        {
+            ClearItems();
+            ClearItemHandlerList.Execute();
+            /*
+             * 呼び出し元で
+             * ・最小要素数リストの再作成
+             * を実施する。
+             */
+        }
+
     }
 }
