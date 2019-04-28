@@ -27,8 +27,22 @@ namespace WodiLib.Sys
         /// <summary>削除可否フラグ</summary>
         public bool CanDelete { get; }
 
+        private bool enabled;
+
         /// <summary>ハンドラ有効フラグ</summary>
-        public bool Enabled { get; set; }
+        public bool Enabled
+        {
+            get => enabled;
+            set
+            {
+                if(!CanChangeEnabled) throw new PropertyException(
+                    $"{nameof(CanChangeEnabled)}がfalseのため、{nameof(Enabled)}を変更することはできません。");
+                enabled = value;
+            }
+        }
+
+        /// <summary>ハンドラ有効フラグ変更可否フラグ</summary>
+        public bool CanChangeEnabled { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Internal Property
@@ -37,7 +51,7 @@ namespace WodiLib.Sys
         /// <summary>
         /// 実行アクション
         /// </summary>
-        internal AnyAction<T> AnyAction { get; protected private set; }
+        internal AnyAction<T> AnyAction { get; private protected set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -49,8 +63,9 @@ namespace WodiLib.Sys
         /// <param name="tag">[NotNull] イベントハンドラタグ</param>
         /// <param name="canDelete">削除可否フラグ</param>
         /// <param name="enabled">ハンドラ有効フラグ</param>
+        /// <param name="canChangeEnabled">ハンドラ有効フラグ変更可否フラグ</param>
         /// <exception cref="ArgumentNullException">tag にnullが設定された場合</exception>
-        public RestrictedCapacityCollectionHandler(string tag, bool canDelete, bool enabled)
+        public RestrictedCapacityCollectionHandler(string tag, bool canDelete, bool enabled, bool canChangeEnabled)
         {
             if (tag == null)
                 throw new ArgumentNullException(
@@ -58,7 +73,8 @@ namespace WodiLib.Sys
 
             Tag = tag;
             CanDelete = canDelete;
-            Enabled = enabled;
+            this.enabled = enabled;
+            CanChangeEnabled = canChangeEnabled;
         }
     }
 }

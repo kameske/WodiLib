@@ -33,9 +33,11 @@ namespace WodiLib.Sys
         /// <param name="tag">[NotNull] イベントハンドラタグ</param>
         /// <param name="canDelete">削除可否フラグ</param>
         /// <param name="enabled">ハンドラ有効フラグ</param>
+        /// <param name="canChangeEnabled">ハンドラ有効フラグ変更可否フラグ</param>
         /// <exception cref="ArgumentNullException">handler, tag にnullが設定された場合</exception>
         public OnClearItemHandler(Action handler, string tag = "",
-            bool canDelete = true, bool enabled = true) : base(tag, canDelete, enabled)
+            bool canDelete = true, bool enabled = true,
+            bool canChangeEnabled = true) : base(tag, canDelete, enabled, canChangeEnabled)
         {
             if (handler == null)
                 throw new ArgumentNullException(

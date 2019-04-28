@@ -18,18 +18,22 @@ namespace WodiLib.Test.Sys
             logger = WodiLibLogger.GetInstance();
         }
 
-        [TestCase(false, false, true)]
-        [TestCase(false, true, true)]
-        [TestCase(true, false, false)]
-        [TestCase(true, true, false)]
-        public static void SetTest(bool canDelete, bool enabled, bool isError)
+        [TestCase(false, false, true, true)]
+        [TestCase(false, false, false, true)]
+        [TestCase(false, true, true, true)]
+        [TestCase(false, true, false, true)]
+        [TestCase(true, false, true, false)]
+        [TestCase(true, false, false, false)]
+        [TestCase(true, true, true, false)]
+        [TestCase(true, true, false, false)]
+        public static void SetTest(bool canDelete, bool enabled, bool canChangeEnabled, bool isError)
         {
             var instance = new TestHandlerList
             {
-                MakeTestHandler("", canDelete, enabled)
+                MakeTestHandler("", canDelete, enabled, canChangeEnabled)
             };
 
-            var setItem = MakeTestHandler("", true, true);
+            var setItem = MakeTestHandler("", true, true, true);
 
             var errorOccured = false;
             try
@@ -46,15 +50,20 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(false, true, true, 1)]
-        [TestCase(false, false, true, 1)]
-        [TestCase(true, true, false, 0)]
-        [TestCase(true, false, false, 0)]
-        public static void RemoveTest(bool canDelete, bool enabled, bool isError, int lengthAfterRemove)
+        [TestCase(false, true, true, true, 1)]
+        [TestCase(false, true, false, true, 1)]
+        [TestCase(false, false, true, true, 1)]
+        [TestCase(false, false, false, true, 1)]
+        [TestCase(true, true, true, false, 0)]
+        [TestCase(true, true, false, false, 0)]
+        [TestCase(true, false, true, false, 0)]
+        [TestCase(true, false, false, false, 0)]
+        public static void RemoveTest(bool canDelete, bool enabled, bool canChangeEnabled,
+            bool isError, int lengthAfterRemove)
         {
             var instance = new TestHandlerList
             {
-                MakeTestHandler("", canDelete, enabled)
+                MakeTestHandler("", canDelete, enabled, canChangeEnabled)
             };
 
             var errorOccured = false;
@@ -75,15 +84,19 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(instance.Count, lengthAfterRemove);
         }
 
-        [TestCase(false, true, 1)]
-        [TestCase(false, false, 1)]
-        [TestCase(true, true, 0)]
-        [TestCase(true, false, 0)]
-        public static void ClearTest(bool canDelete, bool enabled, int lengthAfterClear)
+        [TestCase(false, true, true, 1)]
+        [TestCase(false, true, false, 1)]
+        [TestCase(false, false, true, 1)]
+        [TestCase(false, false, false, 1)]
+        [TestCase(true, true, true, 0)]
+        [TestCase(true, true, false, 0)]
+        [TestCase(true, false, true, 0)]
+        [TestCase(true, false, false, 0)]
+        public static void ClearTest(bool canDelete, bool enabled, bool canChangeEnabled, int lengthAfterClear)
         {
             var instance = new TestHandlerList
             {
-                MakeTestHandler("", canDelete, enabled)
+                MakeTestHandler("", canDelete, enabled, canChangeEnabled)
             };
 
             var errorOccured = false;
@@ -104,9 +117,9 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(instance.Count, lengthAfterClear);
         }
 
-        private static TestHandler<int> MakeTestHandler(string tag, bool canDelete, bool enabled)
+        private static TestHandler<int> MakeTestHandler(string tag, bool canDelete, bool enabled, bool canChangeEnabled)
         {
-            return new TestHandler<int>(tag, canDelete, enabled);
+            return new TestHandler<int>(tag, canDelete, enabled, canChangeEnabled);
         }
 
         /// <summary>
@@ -121,7 +134,8 @@ namespace WodiLib.Test.Sys
         /// </summary>
         public class TestHandler<T> : RestrictedCapacityCollectionHandler<T>
         {
-            public TestHandler(string tag, bool canDelete, bool enabled) : base(tag, canDelete, enabled)
+            public TestHandler(string tag, bool canDelete, bool enabled,
+                bool canChangeEnabled) : base(tag, canDelete, enabled, canChangeEnabled)
             {
             }
         }
