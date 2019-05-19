@@ -115,8 +115,11 @@ namespace WodiLib.Event.EventCommand
         private static bool CheckLastCommand(IEnumerable<IEventCommand> commands)
         {
             var lastCommand = commands.LastOrDefault();
-            if (lastCommand == null) return false;
-            return lastCommand is Blank;
+            if (!(lastCommand is Blank castedCommand)) return false;
+
+            if (castedCommand.Indent != 0) return false;
+
+            return true;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
