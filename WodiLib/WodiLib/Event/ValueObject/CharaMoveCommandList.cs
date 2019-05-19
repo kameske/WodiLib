@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys;
 
@@ -27,6 +28,26 @@ namespace WodiLib.Event
 
         /// <summary>最小容量</summary>
         public static int MinCapacity => 0;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Internal Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private TargetAddressOwner owner;
+
+        /// <summary>[Nullable] 所有イベント種別</summary>
+        internal TargetAddressOwner Owner
+        {
+            get => owner;
+            set
+            {
+                owner = value;
+                Items.OfType<AddValue>().ToList()
+                    .ForEach(x => x.Owner = value);
+                Items.OfType<AssignValue>().ToList()
+                    .ForEach(x => x.Owner = value);
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -69,6 +90,27 @@ namespace WodiLib.Event
         /// </summary>
         /// <returns>容量最小値</returns>
         public override int GetMinCapacity() => MinCapacity;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        protected override void InsertItem(int index, ICharaMoveCommand item)
+        {
+            base.InsertItem(index, item);
+
+            // AddValue, AssignValueの値を保有イベントによって変化させるための設定
+            switch (item)
+            {
+                case AddValue addValue:
+                    addValue.Owner = Owner;
+                    break;
+                case AssignValue assignValue:
+                    assignValue.Owner = Owner;
+                    break;
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method

@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using WodiLib.Event;
+using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -99,7 +100,10 @@ namespace WodiLib.Map
             }
         }
 
-        private ActionEntry customMoveRoute = new ActionEntry();
+        private ActionEntry customMoveRoute = new ActionEntry
+        {
+            Owner = TargetAddressOwner.MapEvent
+        };
 
         /// <summary><para>[CanBeNull] カスタム移動ルート</para>
         /// <para>移動ルート＝カスタムの場合、必須</para></summary>
@@ -115,6 +119,8 @@ namespace WodiLib.Map
 
                 // nullをセットした場合、内部的には ActionEntryの初期値を扱う
                 customMoveRoute = value ?? new ActionEntry();
+
+                customMoveRoute.Owner = TargetAddressOwner.MapEvent;
             }
         }
 

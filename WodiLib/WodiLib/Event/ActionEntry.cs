@@ -70,12 +70,35 @@ namespace WodiLib.Event
             get => commandList;
             set
             {
-                if(value == null) throw new PropertyNullException(
-                    ErrorMessage.NotNull(nameof(CommandList)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(CommandList)));
 
                 commandList = value;
+                commandList.Owner = Owner;
             }
         }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Internal Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private TargetAddressOwner owner;
+
+        /// <summary>[Nullable] 所有イベント種別</summary>
+        internal TargetAddressOwner Owner
+        {
+            get => owner;
+            set
+            {
+                owner = value;
+                CommandList.Owner = value;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         /// コンストラクタ
@@ -90,7 +113,7 @@ namespace WodiLib.Event
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Method
+        //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>

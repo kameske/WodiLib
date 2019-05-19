@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using WodiLib.Event;
+using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Event.EventCommand;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
@@ -170,6 +171,7 @@ namespace WodiLib.Common
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(EventCommands)));
                 eventCommands = value;
+                eventCommands.Owner = TargetAddressOwner.CommonEvent;
             }
         }
 
@@ -273,6 +275,7 @@ namespace WodiLib.Common
                 selfVariableNameList = value;
             }
         }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

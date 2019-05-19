@@ -7,6 +7,7 @@
 // ========================================
 
 using WodiLib.Cmn;
+using WodiLib.Sys;
 
 namespace WodiLib.Event.CharaMoveCommand
 {
@@ -17,7 +18,7 @@ namespace WodiLib.Event.CharaMoveCommand
     public class AddValue : CharaMoveCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     OverrideMethod
+        //     Override Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
@@ -26,6 +27,9 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <inheritdoc />
         public override byte ValueLengthByte => 0x02;
 
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         private VariableAddress targetAddress = (NormalNumberVariableAddress) NormalNumberVariableAddress.MinValue;
 
@@ -34,17 +38,43 @@ namespace WodiLib.Event.CharaMoveCommand
         ///     [Convertible(<see cref="CalledEventVariableAddress"/>)]
         ///     対象アドレス
         /// </summary>
+        /// <exception cref="PropertyOutOfRangeException">指定範囲外の値をセットしたとき</exception>
         public VariableAddress TargetAddress
         {
-            get => targetAddress;
+            get
+            {
+                if (targetAddress is NormalNumberVariableAddress) return targetAddress;
+
+                if (Owner == null) return targetAddress;
+
+                return Owner.ConvertVariableAddress((int) targetAddress);
+            }
             set
             {
-                if (value is NormalNumberVariableAddress
-                    || value is CalledEventVariableAddress)
+                var hasError = false;
+                try
                 {
-                    targetAddress = value;
+                    var _ = (NormalNumberVariableAddress) (int) value;
+                }
+                catch
+                {
+                    try
+                    {
+                        var _ = (CalledEventVariableAddress) (int) value;
+                    }
+                    catch
+                    {
+                        hasError = true;
+                    }
                 }
 
+                if (hasError)
+                {
+                    throw new PropertyOutOfRangeException(
+                        ErrorMessage.Unsuitable(nameof(TargetAddress), $"値：{value}"));
+                }
+
+                targetAddress = value;
                 SetNumberValue(0, value.ToInt());
             }
         }
@@ -57,6 +87,17 @@ namespace WodiLib.Event.CharaMoveCommand
             get => GetNumberValue(1);
             set => SetNumberValue(1, value);
         }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Internal Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>[Nullable] 所有イベント種別</summary>
+        internal TargetAddressOwner Owner { get; set; }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         /// コンストラクタ
