@@ -1,4 +1,4 @@
-﻿// ========================================
+// ========================================
 // Project Name : WodiLib
 // File Name    : RestrictedCapacityCollection.cs
 //
@@ -10,22 +10,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace WodiLib.Sys
 {
     /// <summary>
     /// 容量制限のあるList基底クラス
     /// </summary>
+    /// <typeparam name="T">リスト内包クラス</typeparam>
     [Serializable]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class RestrictedCapacityCollection<T> : IList<T>, IReadOnlyRestrictedCapacityCollection<T>
+    public abstract class RestrictedCapacityCollection<T> : IRestrictedCapacityCollection<T>, IReadOnlyList<T>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        /*
+         * 継承先のクラスで内部的に独自リストを使用したい場合、
+         * Countプロパティを継承して独自リストの要素数を返すこと。
+         */
         /// <summary>要素数</summary>
-        public int Count => Items.Count;
+        public virtual int Count => Items.Count;
 
         /// <summary>
         /// インデクサによるアクセス
@@ -53,25 +59,35 @@ namespace WodiLib.Sys
             }
         }
 
+        [NonSerialized] private readonly SetItemHandlerList<T> setItemHandlerList = new SetItemHandlerList<T>();
+
         /// <summary>
         /// SetItemイベントハンドラリスト
         /// </summary>
-        public SetItemHandlerList<T> SetItemHandlerList { get; } = new SetItemHandlerList<T>();
+        public SetItemHandlerList<T> SetItemHandlerList => setItemHandlerList;
+
+        [NonSerialized]
+        private readonly InsertItemHandlerList<T> insertItemHandlerList = new InsertItemHandlerList<T>();
 
         /// <summary>
         /// InsertItemイベントハンドラリスト
         /// </summary>
-        public InsertItemHandlerList<T> InsertItemHandlerList { get; } = new InsertItemHandlerList<T>();
+        public InsertItemHandlerList<T> InsertItemHandlerList => insertItemHandlerList;
+
+        [NonSerialized]
+        private readonly RemoveItemHandlerList<T> removeItemHandlerList = new RemoveItemHandlerList<T>();
 
         /// <summary>
         /// RemoveItemイベントハンドラリスト
         /// </summary>
-        public RemoveItemHandlerList<T> RemoveItemHandlerList { get; } = new RemoveItemHandlerList<T>();
+        public RemoveItemHandlerList<T> RemoveItemHandlerList => removeItemHandlerList;
+
+        [NonSerialized] private readonly ClearItemHandlerList<T> clearItemHandlerList = new ClearItemHandlerList<T>();
 
         /// <summary>
         /// ClearItemイベントハンドラリスト
         /// </summary>
-        public ClearItemHandlerList<T> ClearItemHandlerList { get; } = new ClearItemHandlerList<T>();
+        public ClearItemHandlerList<T> ClearItemHandlerList => clearItemHandlerList;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Protected Property
@@ -319,6 +335,61 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
+        /// 指定したインデックスを起点として、要素の上書き/追加を行う。
+        /// </summary>
+        /// <param name="index">[Range(0, Count)] インデックス</param>
+        /// <param name="list">[NotNull] 上書き/追加リスト</param>
+        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
+        /// <exception cref="ArgumentNullException">listがnullの場合</exception>
+        /// <exception cref="ArgumentException">list中にnull要素が含まれる場合</exception>
+        /// <exception cref="InvalidOperationException">追加操作によって要素数がMaxCapacityを超える場合</exception>
+        /// <example>
+        ///     <code>
+        ///     var target = new List&lt;int&gt; { 0, 1, 2, 3 };
+        ///     var dst = new List&lt;int&gt; { 10, 11, 12 };
+        ///     target.Overwrite(2, dst);
+        ///     // target is { 0, 1, 10, 11, 12 }
+        ///     </code>
+        ///     <code>
+        ///     var target = new List&lt;int&gt; { 0, 1, 2, 3 };
+        ///     var dst = new List&lt;int&gt; { 10 };
+        ///     target.Overwrite(2, dst);
+        ///     // target is { 0, 1, 10, 3 }
+        ///     </code>
+        /// </example>
+        public void Overwrite(int index, IReadOnlyList<T> list)
+        {
+            var indexMax = Count;
+            const int indexMin = 0;
+            if (index < indexMin || indexMax < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), indexMin, indexMax, index));
+
+            if (list == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(list)));
+            if (list.HasNullItem())
+                throw new ArgumentException(
+                    ErrorMessage.NotNullInList(nameof(list)));
+
+            var updateCnt = list.Count;
+            if (updateCnt + index > Count) updateCnt = Count - index;
+            var insertCnt = list.Count - updateCnt;
+
+            if (insertCnt > 0 && Count + insertCnt > GetMaxCapacity())
+                throw new InvalidOperationException(
+                    ErrorMessage.OverListLength(GetMaxCapacity()));
+
+            for (var i = 0; i < updateCnt; i++)
+            {
+                this[index + i] = list[i];
+            }
+
+            var addList = list.Skip(updateCnt);
+            AddRange(addList.ToList());
+        }
+
+        /// <summary>
         /// 特定のオブジェクトを要素として持つとき、最初に出現したものを削除する。
         /// </summary>
         /// <param name="item">[Nullable] 削除する要素</param>
@@ -417,7 +488,7 @@ namespace WodiLib.Sys
                     ErrorMessage.OverListLength(GetMaxCapacity()));
 
 
-            var count = Items.Count;
+            var count = Count;
 
             if (count == length) return;
 
@@ -428,7 +499,7 @@ namespace WodiLib.Sys
 
                 var addItemList = new List<T>();
 
-                for (var i = Items.Count; i < length; i++)
+                for (var i = Count; i < length; i++)
                 {
                     var addItem = MakeDefaultItem(i);
                     if (addItem == null)
@@ -444,7 +515,7 @@ namespace WodiLib.Sys
             }
 
             // 長すぎるので除去
-            RemoveRange(length, Items.Count - length);
+            RemoveRange(length, Count - length);
         }
 
         /// <summary>
@@ -610,8 +681,8 @@ namespace WodiLib.Sys
         /// </summary>
         protected void FillMinCapacity()
         {
-            var shortage = GetMinCapacity() - Items.Count;
-            if (shortage < 0) return;
+            var shortage = GetMinCapacity() - Count;
+            if (shortage <= 0) return;
 
             var insertIndex = Count;
             for (var i = 0; i < shortage; i++)
@@ -702,6 +773,5 @@ namespace WodiLib.Sys
              * を実施する。
              */
         }
-
     }
 }

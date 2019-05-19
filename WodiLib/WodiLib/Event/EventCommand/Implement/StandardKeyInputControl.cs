@@ -55,6 +55,7 @@ namespace WodiLib.Event.EventCommand
                     bytes[3] = EventCommandConstant.KeyInputControl.TargetCode.Basic;
                     return bytes.ToInt32(Endian.Little);
                 }
+
                 default:
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), 0, 1, index));
@@ -80,6 +81,7 @@ namespace WodiLib.Event.EventCommand
                     KeyType = StandardKeyInputControlType.ForByte(bytes[1]);
                     break;
                 }
+
                 default:
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), 1, 1, index));

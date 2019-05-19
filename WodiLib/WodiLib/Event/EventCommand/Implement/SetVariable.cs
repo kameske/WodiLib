@@ -125,6 +125,7 @@ namespace WodiLib.Event.EventCommand
 
                     return;
                 }
+
                 case 5:
                     OperationSeqValue = value;
                     return;

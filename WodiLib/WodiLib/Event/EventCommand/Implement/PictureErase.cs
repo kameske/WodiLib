@@ -62,6 +62,7 @@ namespace WodiLib.Event.EventCommand
                     var byte3 = (byte) ((byte) (IsMultiTarget ? 0x01 : 0x00) + intValue1_3EtcCode);
                     return new[] {byte0, byte1, byte2, byte3}.ToInt32(Endian.Environment);
                 }
+
                 case 2:
                     return PictureNumber;
 
@@ -105,6 +106,7 @@ namespace WodiLib.Event.EventCommand
                     intValue1_3EtcCode = (byte) (bytes[3] - (byte) (IsMultiTarget ? FlagMultiTarget : 0));
                     return;
                 }
+
                 case 2:
                     PictureNumber = value;
                     return;

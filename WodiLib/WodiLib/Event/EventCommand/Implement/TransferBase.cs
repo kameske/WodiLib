@@ -63,6 +63,7 @@ namespace WodiLib.Event.EventCommand
                     byte0 += _TransferOption.Code;
                     return new byte[] {byte0, 0x00, 0x00, 0x00}.ToInt32(Endian.Little);
                 }
+
                 default:
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), 0, 5, index));
@@ -105,6 +106,7 @@ namespace WodiLib.Event.EventCommand
                     _IsPreciseCoordinates = (bytes[0] & FlgPreciseCoordinates) != 0;
                     return;
                 }
+
                 default:
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), 1, 5, index));

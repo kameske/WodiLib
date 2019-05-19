@@ -25,9 +25,9 @@ namespace WodiLib.Test.IO
         {
             // マップ情報
             var memo = "なし";
-            var tileSetId =  1;
-            var mapSizeWidth =  22;
-            var mapSizeHeight =  20;
+            var tileSetId = 1;
+            var mapSizeWidth = 22;
+            var mapSizeHeight = 20;
 
             return new MapData
             {
@@ -226,7 +226,7 @@ namespace WodiLib.Test.IO
                 }))(),
 
                 // レイヤー3
-                Layer3 = GenerateEmptyLayer( mapSizeWidth,  mapSizeHeight),
+                Layer3 = GenerateEmptyLayer(mapSizeWidth, mapSizeHeight),
 
                 // マップイベント
                 MapEvents = new MapEventList(new List<MapEvent>
@@ -236,7 +236,7 @@ namespace WodiLib.Test.IO
                     {
                         EventName = "マップイベント",
                         MapEventId = 0,
-                        Position =  (1, 1),
+                        Position = (1, 1),
                         MapEventPageList = new MapEventPageList(new List<MapEventPage>
                         {
                             // マップイベント00 - ページ1
@@ -246,7 +246,7 @@ namespace WodiLib.Test.IO
                                 {
                                     IsGraphicTileChip = false,
                                     CharaChipFilePath = "CharaChip/[Animal]Chicken.png",
-                                    CharaChipOpacity =  255,
+                                    CharaChipOpacity = 255,
                                     CharaChipDrawType = PictureDrawType.Normal
                                 },
                                 BootInfo = new MapEventPageBootInfo
@@ -657,7 +657,7 @@ namespace WodiLib.Test.IO
                     {
                         EventName = "テストイベント1",
                         MapEventId = 0,
-                        Position =  (3, 1),
+                        Position = (3, 1),
                         MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
@@ -667,7 +667,7 @@ namespace WodiLib.Test.IO
                                     IsGraphicTileChip = false,
                                     CharaChipFilePath = "",
                                     CharaChipDrawType = PictureDrawType.Normal,
-                                    CharaChipOpacity =  255,
+                                    CharaChipOpacity = 255,
                                 },
                                 BootInfo = new MapEventPageBootInfo
                                 {
@@ -807,7 +807,7 @@ namespace WodiLib.Test.IO
                     {
                         EventName = "テストイベント2",
                         MapEventId = 1,
-                        Position =  (4, 8),
+                        Position = (4, 8),
                         MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
@@ -892,7 +892,7 @@ namespace WodiLib.Test.IO
                     {
                         EventName = "CharaChip",
                         MapEventId = 0,
-                        Position =  (4, 2),
+                        Position = (4, 2),
                         MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
@@ -982,7 +982,7 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (0,0),
+                                HitExtendRange = (0, 0),
                                 EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(@"[123][2,0]<0>(2000000,241)()"),
@@ -1038,7 +1038,7 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (0,0),
+                                HitExtendRange = (0, 0),
                                 EventCommands = new EventCommandList(new[]
                                 {
                                     EventCommandFactory.CreateCommandString(
@@ -1112,7 +1112,7 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (1,4),
+                                HitExtendRange = (1, 4),
                                 ShadowGraphicId = 1,
                                 EventCommands = new EventCommandList(new[]
                                 {
@@ -1145,7 +1145,7 @@ namespace WodiLib.Test.IO
                     {
                         EventName = "",
                         MapEventId = 1,
-                        Position = (6,8),
+                        Position = (6, 8),
                         MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
@@ -1266,7 +1266,7 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (0,0),
+                                HitExtendRange = (0, 0),
                                 ShadowGraphicId = 0,
                                 EventCommands = new EventCommandList(new[]
                                 {
@@ -1338,7 +1338,7 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (0,0),
+                                HitExtendRange = (0, 0),
                                 ShadowGraphicId = 0,
                                 EventCommands = new EventCommandList(new[]
                                 {
@@ -1358,7 +1358,7 @@ namespace WodiLib.Test.IO
                         EventName = "CharaChip/[Animal]Chicken.png",
                         MapEventId = 2,
                         Position = (8,
-                        2),
+                            2),
                         MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
@@ -1391,7 +1391,7 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (1,0),
+                                HitExtendRange = (1, 0),
                                 ShadowGraphicId = 2,
                                 EventCommands = new EventCommandList(new[]
                                 {
@@ -1425,7 +1425,7 @@ namespace WodiLib.Test.IO
                     {
                         EventName = "イベント",
                         MapEventId = 3,
-                        Position = (10,6),
+                        Position = (10, 6),
                         MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
@@ -1458,7 +1458,7 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (0,0),
+                                HitExtendRange = (0, 0),
                                 ShadowGraphicId = 0,
                                 EventCommands = new EventCommandList(new[]
                                 {
@@ -1486,7 +1486,7 @@ namespace WodiLib.Test.IO
                     {
                         EventName = "イベント制御",
                         MapEventId = 4,
-                        Position = (11,8),
+                        Position = (11, 8),
                         MapEventPageList = new MapEventPageList(new[]
                         {
                             new MapEventPage
@@ -1519,7 +1519,7 @@ namespace WodiLib.Test.IO
                                     IsHitBox = true,
                                     IsPlaceHalfStepUp = false
                                 },
-                                HitExtendRange = (2,2),
+                                HitExtendRange = (2, 2),
                                 ShadowGraphicId = 0,
                                 EventCommands = new EventCommandList(new[]
                                 {

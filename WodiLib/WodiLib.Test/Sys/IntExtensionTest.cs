@@ -144,7 +144,7 @@ namespace WodiLib.Test.Sys
         }
 
         [TestCase(0, -1, -1, true, null)]
-        [TestCase(0,-1, 0, true, null)]
+        [TestCase(0, -1, 0, true, null)]
         [TestCase(0, -1, 1, true, null)]
         [TestCase(0, -1, 2, true, null)]
         [TestCase(0, 0, -1, true, null)]
@@ -190,19 +190,22 @@ namespace WodiLib.Test.Sys
         [TestCase(123456, 6, 0, true, null)]
         [TestCase(123456, 6, 1, true, null)]
         [TestCase(123456, 6, 2, true, null)]
-        public static void SubIntTest(int value, int beginColumn, int length, bool isError, int answer) {
-
+        public static void SubIntTest(int value, int beginColumn, int length, bool isError, int answer)
+        {
             var errorOccured = false;
             var result = 0;
-            try {
+            try
+            {
                 result = value.SubInt(beginColumn, length);
-            } catch {
+            }
+            catch
+            {
                 errorOccured = true;
             }
 
             Assert.AreEqual(errorOccured, isError);
 
-            if( errorOccured ) return;
+            if (errorOccured) return;
 
             Assert.AreEqual(result, answer);
         }

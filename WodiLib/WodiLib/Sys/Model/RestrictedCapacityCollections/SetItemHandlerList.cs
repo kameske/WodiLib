@@ -11,6 +11,7 @@ namespace WodiLib.Sys
     /// <summary>
     /// RestrictedCapacityCollection.SetItemイベントハンドラリスト
     /// </summary>
+    /// <typeparam name="T">リスト内包クラス</typeparam>
     public class SetItemHandlerList<T> : RestrictedCapacityCollectionHandlerList<T, OnSetItemHandler<T>>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

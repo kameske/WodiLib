@@ -41,8 +41,8 @@ namespace WodiLib.Test.Map
             Assert.IsFalse(errorOccured);
 
             // セットした値と一致すること
-            Assert.AreEqual((int)instance.Width, width);
-            Assert.AreEqual((int)instance.Height, height);
+            Assert.AreEqual((int) instance.Width, width);
+            Assert.AreEqual((int) instance.Height, height);
         }
     }
 }

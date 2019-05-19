@@ -107,7 +107,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                instance =  src;
+                instance = src;
             }
             catch (Exception ex)
             {
@@ -166,7 +166,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                instance =  src;
+                instance = src;
             }
             catch (Exception ex)
             {

@@ -57,6 +57,7 @@ namespace WodiLib.Event.EventCommand
                     byte1 += FlgKeyInputType;
                     return new byte[] {byte0, byte1, 0x00, 0x00}.ToInt32(Endian.Environment);
                 }
+
                 case 3:
                     return SpecificKeyCode;
 
@@ -90,6 +91,7 @@ namespace WodiLib.Event.EventCommand
                     IsOnlySpecificKey = (byte) (bytes[1] - FlgKeyInputType) != 0;
                     return;
                 }
+
                 case 3:
                     SpecificKeyCode = value;
                     return;

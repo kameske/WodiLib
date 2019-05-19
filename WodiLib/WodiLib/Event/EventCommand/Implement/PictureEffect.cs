@@ -93,6 +93,7 @@ namespace WodiLib.Event.EventCommand
                     EffectType = PictureEffectType.FromByte(bytes[0]);
                     return;
                 }
+
                 case 2:
                     ProcessTime = value;
                     return;

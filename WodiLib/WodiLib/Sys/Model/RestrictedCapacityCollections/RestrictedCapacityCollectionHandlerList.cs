@@ -17,6 +17,8 @@ namespace WodiLib.Sys
     /// <summary>
     /// RestrictedCapacityCollectionイベントハンドラリスト基底クラス
     /// </summary>
+    /// <typeparam name="TItem">リスト内包クラス</typeparam>
+    /// <typeparam name="THandler">ハンドラクラス</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class
         RestrictedCapacityCollectionHandlerList<TItem, THandler> : Collection<THandler>
@@ -73,8 +75,9 @@ namespace WodiLib.Sys
         /// <inheritdoc />
         protected override void SetItem(int index, THandler item)
         {
-            if(item == null) throw new ArgumentNullException(
-                ErrorMessage.NotNull(nameof(item)));
+            if (item == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(item)));
 
             if (!Items[index].CanDelete)
                 throw new InvalidOperationException(
@@ -86,8 +89,9 @@ namespace WodiLib.Sys
         /// <inheritdoc />
         protected override void InsertItem(int index, THandler item)
         {
-            if(item == null) throw new ArgumentNullException(
-                ErrorMessage.NotNull(nameof(item)));
+            if (item == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(item)));
 
             base.InsertItem(index, item);
         }
@@ -106,7 +110,7 @@ namespace WodiLib.Sys
         protected override void ClearItems()
         {
             // 削除不可のイベントハンドラは削除しない
-            ((List<THandler>)Items).RemoveAll(x => x.CanDelete);
+            ((List<THandler>) Items).RemoveAll(x => x.CanDelete);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

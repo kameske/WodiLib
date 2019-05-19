@@ -419,7 +419,7 @@ namespace WodiLib.Test.Sys
 
             // 各有効イベントハンドラが意図した回数呼ばれていること
             Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString], 
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString],
                 isError ? 0 : addLength);
             Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
             Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
@@ -631,6 +631,120 @@ namespace WodiLib.Test.Sys
             for (var i = index + addLength; i < initLength + addLength; i++)
             {
                 Assert.AreEqual(instance[i], (i - addLength).ToString());
+            }
+        }
+
+        [TestCase(0, -1, -1, false, true)]
+        [TestCase(0, -1, 0, false, true)]
+        [TestCase(0, -1, 1, false, true)]
+        [TestCase(0, -1, 1, true, true)]
+        [TestCase(0, 0, -1, false, true)]
+        [TestCase(0, 0, 0, false, false)]
+        [TestCase(0, 0, 1, false, false)]
+        [TestCase(0, 0, 1, true, true)]
+        [TestCase(0, 0, 10, false, false)]
+        [TestCase(0, 0, 10, true, true)]
+        [TestCase(0, 0, 11, false, true)]
+        [TestCase(0, 0, 11, true, true)]
+        [TestCase(0, 1, -1, false, true)]
+        [TestCase(0, 1, 0, false, true)]
+        [TestCase(0, 1, 1, false, true)]
+        [TestCase(0, 1, 1, true, true)]
+        [TestCase(0, 1, 10, false, true)]
+        [TestCase(0, 1, 10, true, true)]
+        [TestCase(0, 1, 11, false, true)]
+        [TestCase(0, 1, 11, true, true)]
+        [TestCase(10, -1, -1, false, true)]
+        [TestCase(10, -1, 0, false, true)]
+        [TestCase(10, -1, 1, false, true)]
+        [TestCase(10, -1, 1, true, true)]
+        [TestCase(10, 0, -1, false, true)]
+        [TestCase(10, 0, 0, false, false)]
+        [TestCase(10, 0, 1, false, false)]
+        [TestCase(10, 0, 1, true, true)]
+        [TestCase(10, 0, 10, false, false)]
+        [TestCase(10, 0, 10, true, true)]
+        [TestCase(10, 0, 11, false, true)]
+        [TestCase(10, 0, 11, true, true)]
+        [TestCase(10, 10, -1, false, true)]
+        [TestCase(10, 10, 0, false, false)]
+        [TestCase(10, 10, 1, false, true)]
+        [TestCase(10, 10, 1, true, true)]
+        [TestCase(10, 11, -1, false, true)]
+        [TestCase(10, 11, 0, false, true)]
+        [TestCase(10, 11, 1, false, true)]
+        [TestCase(10, 11, 1, true, true)]
+        public static void OverwriteTest(int initLength, int index, int overwriteLength, bool hasNullInAddLength,
+            bool isError)
+        {
+            var instance = MakeCollectionForMethodTest(initLength, out var countDic, out var handlerCalledCount);
+            var addList = MakeStringList2(overwriteLength, hasNullInAddLength);
+            var errorOccured = false;
+
+            try
+            {
+                instance.Overwrite(index, addList);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            // 各Virtualメソッドが意図した回数呼ばれていること
+            var answerSetCount = initLength - index;
+            if (answerSetCount > overwriteLength) answerSetCount = overwriteLength;
+            var answerInsertCount = overwriteLength - answerSetCount;
+            if (answerInsertCount < 0) answerInsertCount = 0;
+            Assert.AreEqual(countDic[nameof(CollectionTest1.OnSetItemCalled)], isError ? 0 : answerSetCount);
+            Assert.AreEqual(countDic[nameof(CollectionTest1.OnInsertItemCalled)], isError ? 0 : answerInsertCount);
+            Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
+            Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
+
+            // 各有効イベントハンドラが意図した回数呼ばれていること
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString],
+                isError ? 0 : answerSetCount);
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString],
+                isError ? 0 : answerInsertCount);
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
+
+            // 各無効イベントハンドラが一度も呼ばれていないこと
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
+
+            if (errorOccured) return;
+
+            // 追加後の要素数が元の要素数+追加した要素数であること
+            Assert.AreEqual(instance.Count, initLength + answerInsertCount);
+
+            // 初期要素（上書き位置より前）が変化していないこと
+            for (var i = 0; i < index; i++)
+            {
+                Assert.AreEqual(instance[i], i.ToString());
+            }
+
+            // 上書きが反映されていること
+            for (var i = 0; i < answerSetCount; i++)
+            {
+                Assert.AreEqual(instance[i + index], (i * 100).ToString());
+            }
+
+            // 初期要素（上書き位置より後）が変化していないこと
+            for (var i = index + answerSetCount; i < initLength; i++)
+            {
+                Assert.AreEqual(instance[i], i.ToString());
+            }
+
+            // 追加要素が反映されていること
+            for (var i = initLength; i < instance.Count; i++)
+            {
+                Assert.AreEqual(instance[i], (i * 100).ToString());
             }
         }
 
@@ -1303,7 +1417,7 @@ namespace WodiLib.Test.Sys
             result.InsertItemHandlerList.Add(
                 new OnInsertItemHandler<string>(
                     (i, s) => { hccs[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString]++; },
-                    bool.TrueString,false
+                    bool.TrueString, false
                 )
             );
             result.InsertItemHandlerList.Add(
@@ -1315,7 +1429,7 @@ namespace WodiLib.Test.Sys
             result.RemoveItemHandlerList.Add(
                 new OnRemoveItemHandler<string>(
                     i => { hccs[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString]++; },
-                    bool.TrueString,false
+                    bool.TrueString, false
                 )
             );
             result.RemoveItemHandlerList.Add(
@@ -1411,7 +1525,7 @@ namespace WodiLib.Test.Sys
             result.InsertItemHandlerList.Add(
                 new OnInsertItemHandler<string>(
                     (i, s) => { hccs[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString]++; },
-                    bool.TrueString,false
+                    bool.TrueString, false
                 )
             );
             result.InsertItemHandlerList.Add(
@@ -1423,7 +1537,7 @@ namespace WodiLib.Test.Sys
             result.RemoveItemHandlerList.Add(
                 new OnRemoveItemHandler<string>(
                     i => { hccs[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString]++; },
-                    bool.TrueString,false
+                    bool.TrueString, false
                 )
             );
             result.RemoveItemHandlerList.Add(

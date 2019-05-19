@@ -30,8 +30,8 @@ namespace WodiLib.Test.Map
             Assert.True(true);
 
             // 幅、高さが正しく取得できること
-            Assert.AreEqual((int)layer.Width, 20);
-            Assert.AreEqual((int)layer.Height, 15);
+            Assert.AreEqual((int) layer.Width, 20);
+            Assert.AreEqual((int) layer.Height, 15);
         }
 
         [TestCase(20)]
@@ -151,7 +151,7 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(errorOccured, isError);
 
             if (errorOccured) return;
-            
+
             // 座標の値が初期化した値になっていること
             Assert.AreEqual((int) getChip, x * 10 + y);
         }

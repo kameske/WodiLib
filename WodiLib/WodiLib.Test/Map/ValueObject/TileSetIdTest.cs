@@ -24,7 +24,6 @@ namespace WodiLib.Test.Map
         [TestCase(10001, true)]
         public static void ConstructorTest(int value, bool isError)
         {
-
             var errorOccured = false;
             try
             {
@@ -84,7 +83,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                castValue =  instance;
+                castValue = instance;
             }
             catch (Exception ex)
             {

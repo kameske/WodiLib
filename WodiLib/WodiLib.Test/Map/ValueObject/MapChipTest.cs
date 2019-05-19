@@ -59,7 +59,7 @@ namespace WodiLib.Test.Map
             MapChip instance = MapChip.Default;
             try
             {
-                instance =  id;
+                instance = id;
             }
             catch (Exception ex)
             {

@@ -61,7 +61,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance =  value;
+                instance = value;
             }
             catch (Exception ex)
             {
@@ -89,7 +89,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                castedValue =  instance;
+                castedValue = instance;
             }
             catch (Exception ex)
             {

@@ -8,14 +8,14 @@ namespace WodiLib.Test.Event.EventCommand
     {
         private static readonly object[] TestCaseSource =
         {
-            new object[] {new[] {false, false, false}, (byte)0},
-            new object[] {new[] {false, false, true}, (byte)4},
-            new object[] {new[] {false, true, false}, (byte)2},
-            new object[] {new[] {false, true, true}, (byte)6},
-            new object[] {new[] {true, false, false}, (byte)1},
-            new object[] {new[] {true, false, true}, (byte)5},
-            new object[] {new[] {true, true, false}, (byte)3},
-            new object[] {new[] {true, true, true}, (byte)7}
+            new object[] {new[] {false, false, false}, (byte) 0},
+            new object[] {new[] {false, false, true}, (byte) 4},
+            new object[] {new[] {false, true, false}, (byte) 2},
+            new object[] {new[] {false, true, true}, (byte) 6},
+            new object[] {new[] {true, false, false}, (byte) 1},
+            new object[] {new[] {true, false, true}, (byte) 5},
+            new object[] {new[] {true, true, false}, (byte) 3},
+            new object[] {new[] {true, true, true}, (byte) 7}
         };
 
         [TestCaseSource(nameof(TestCaseSource))]

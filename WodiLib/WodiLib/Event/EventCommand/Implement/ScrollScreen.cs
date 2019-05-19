@@ -58,6 +58,7 @@ namespace WodiLib.Event.EventCommand
                     }
                     return new byte[] {byte0, byte1, 0x00, 0x00}.ToInt32(Endian.Environment);
                 }
+
                 case 2:
                     return X;
 
@@ -91,6 +92,7 @@ namespace WodiLib.Event.EventCommand
                     IsPixel = (bytes[1] & FlgPixel) != 0;
                     return;
                 }
+
                 case 2:
                     X = value;
                     return;

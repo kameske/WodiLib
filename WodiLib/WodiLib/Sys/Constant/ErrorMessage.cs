@@ -43,6 +43,11 @@ namespace WodiLib.Sys
             return $"{itemName}にEmptyを設定できません。";
         }
 
+        public static string NotEqual(string itemLeft, string itemRight)
+        {
+            return $"{itemLeft}と{itemRight}が異なるため、処理できません。";
+        }
+
         public static string GreaterOrEqual(string itemName, IntOrStr limit, int value)
         {
             return $"{itemName}は{limit}以上である必要があります。";
@@ -138,6 +143,26 @@ namespace WodiLib.Sys
         {
             return $"{itemName}は{string.Join(", ", needCastClassNameList)}のいずれかに" +
                    $"キャスト可能である必要があります。";
+        }
+
+        /// <summary>
+        /// アクセスできない場合のエラーメッセージ
+        /// </summary>
+        /// <param name="reason">アクセスできない理由</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string NotAccess(string reason)
+        {
+            return $"{reason}アクセスできません。";
+        }
+
+        /// <summary>
+        /// キャスト不可能な場合のエラーメッセージ
+        /// </summary>
+        /// <param name="reason">キャストできない理由</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string NotCast(string reason)
+        {
+            return $"{reason}変換できません。";
         }
 
         /// <summary>

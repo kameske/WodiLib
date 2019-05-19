@@ -76,6 +76,7 @@ namespace WodiLib.Event.EventCommand
                     var byte3 = Specification.Code;
                     return new[] {byte0, byte1, byte2, byte3}.ToInt32(Endian.Little);
                 }
+
                 case 2:
                     return FadeTime;
 
@@ -130,6 +131,7 @@ namespace WodiLib.Event.EventCommand
                     Specification = AudioSpecification.FromByte(bytes[3]);
                     return;
                 }
+
                 case 2:
                     FadeTime = value;
                     return;

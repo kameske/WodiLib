@@ -57,7 +57,6 @@ namespace WodiLib.Map
             if (!ValidateDuplicateEventId(mapEvents))
                 throw new ArgumentException(
                     $"イベントIDが重複しています。");
-
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

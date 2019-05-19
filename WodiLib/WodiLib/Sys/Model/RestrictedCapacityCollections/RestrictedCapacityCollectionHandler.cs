@@ -14,6 +14,7 @@ namespace WodiLib.Sys
     /// <summary>
     /// RestrictedCapacityCollection イベントハンドラ基底クラス
     /// </summary>
+    /// <typeparam name="T">リスト内包クラス</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class RestrictedCapacityCollectionHandler<T>
     {
@@ -35,8 +36,9 @@ namespace WodiLib.Sys
             get => enabled;
             set
             {
-                if(!CanChangeEnabled) throw new PropertyException(
-                    $"{nameof(CanChangeEnabled)}がfalseのため、{nameof(Enabled)}を変更することはできません。");
+                if (!CanChangeEnabled)
+                    throw new PropertyException(
+                        $"{nameof(CanChangeEnabled)}がfalseのため、{nameof(Enabled)}を変更することはできません。");
                 enabled = value;
             }
         }

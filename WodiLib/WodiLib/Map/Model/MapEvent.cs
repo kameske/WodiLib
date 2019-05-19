@@ -21,6 +21,7 @@ namespace WodiLib.Map
         public MapEventId MapEventId { get; set; }
 
         private MapEventName eventName = "";
+
         /// <summary>[NotNull] マップイベント名</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MapEventName EventName
@@ -28,8 +29,9 @@ namespace WodiLib.Map
             get => eventName;
             set
             {
-                if (value == null) throw new PropertyNullException(
-                     ErrorMessage.NotNull(nameof(EventName)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(EventName)));
                 eventName = value;
             }
         }

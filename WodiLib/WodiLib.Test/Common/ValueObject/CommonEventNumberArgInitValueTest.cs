@@ -69,7 +69,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                instance =  value;
+                instance = value;
             }
             catch (Exception ex)
             {
@@ -101,7 +101,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                castValue =  instance;
+                castValue = instance;
             }
             catch (Exception ex)
             {

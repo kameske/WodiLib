@@ -83,7 +83,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                castValue =  instance;
+                castValue = instance;
             }
             catch (Exception ex)
             {

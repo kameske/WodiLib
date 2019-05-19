@@ -197,7 +197,7 @@ namespace WodiLib.Test.Map
             for (var i = 0; i < pages.Count; i++)
             {
                 pages[i].GraphicInfo.IsGraphicTileChip = true;
-                pages[i].GraphicInfo.GraphicTileId =  i;
+                pages[i].GraphicInfo.GraphicTileId = i;
             }
 
             var instance = new MapEventPageList(pages);
@@ -340,7 +340,7 @@ namespace WodiLib.Test.Map
             for (var i = 0; i < pages.Count; i++)
             {
                 pages[i].GraphicInfo.IsGraphicTileChip = true;
-                pages[i].GraphicInfo.GraphicTileId =  i;
+                pages[i].GraphicInfo.GraphicTileId = i;
             }
 
             var instance = new MapEventPageList(pages);
@@ -424,7 +424,7 @@ namespace WodiLib.Test.Map
             for (var i = 0; i < pages.Count; i++)
             {
                 pages[i].GraphicInfo.IsGraphicTileChip = true;
-                pages[i].GraphicInfo.GraphicTileId =  i;
+                pages[i].GraphicInfo.GraphicTileId = i;
             }
 
             var instance = new MapEventPageList(pages);

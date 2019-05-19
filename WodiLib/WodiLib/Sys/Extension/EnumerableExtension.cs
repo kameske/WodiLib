@@ -21,6 +21,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <typeparam name="T">対象リスト内の型</typeparam>
         /// <param name="src">対象</param>
+        /// <returns>null項目がある場合、true</returns>
         public static bool HasNullItem<T>(this IEnumerable<T> src)
         {
             return src.Any(x => x == null);

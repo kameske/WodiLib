@@ -123,5 +123,8 @@ namespace WodiLib.Sys
             // 長さ
             ByteLength = strBytes.Count;
         }
+
+        /// <inheritdoc />
+        public override string ToString() => String;
     }
 }

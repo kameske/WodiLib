@@ -1,0 +1,52 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : InsertItemHandler.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
+using System;
+using WodiLib.Sys;
+
+namespace WodiLib.Database.DatabaseTypeDescHandler.DataDescList.DataName
+{
+    /// <summary>
+    /// DatabaseItemDescList.InsertItemのイベントハンドラ
+    /// </summary>
+    internal class InsertItemHandler : OnInsertItemHandler<Database.DataName>
+    {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// リストイベントハンドラにつけるタグ
+        /// </summary>
+        public static readonly string HandlerTag = ItemDescList.ItemDesc.SetItemHandler.HandlerTag;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        public InsertItemHandler(DatabaseTypeDesc outer)
+            : base(MakeHandler(outer), HandlerTag, false, canChangeEnabled: false)
+        {
+        }
+
+        /// <summary>
+        /// DatabaseItemDescList.InsertItemのイベントを生成する。
+        /// </summary>
+        /// <param name="outer">連係外部クラスインスタンス</param>
+        /// <returns>InsertItemイベント</returns>
+        private static Action<int, Database.DataName> MakeHandler(DatabaseTypeDesc outer)
+        {
+            return (i, name) =>
+            {
+                var valuesList = outer.WritableItemValuesList.CreateValueListInstance();
+                outer.DataDescList.Insert(i, new DatabaseDataDesc(name, (DBItemValueList) valuesList));
+                outer.WritableItemValuesList.Insert(i, valuesList);
+            };
+        }
+    }
+}

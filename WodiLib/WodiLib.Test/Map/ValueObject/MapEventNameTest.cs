@@ -26,7 +26,6 @@ namespace WodiLib.Test.Map
         [TestCase("Wolf\nRPG\nEditor.", true)]
         public static void ConstructorTest(string value, bool isError)
         {
-
             var errorOccured = false;
             try
             {
@@ -93,7 +92,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                instance =  value;
+                instance = value;
             }
             catch (Exception ex)
             {

@@ -131,6 +131,7 @@ namespace WodiLib.Event.EventCommand
                     CaseValue = bytes[0] & 0x0F;
                     return;
                 }
+
                 default:
                 {
                     var tmpIndex = index - 2;

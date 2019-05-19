@@ -9,7 +9,7 @@ namespace WodiLib.Test.Cmn
     [TestFixture]
     public class MemberIdTest
     {
-                private static WodiLibLogger logger;
+        private static WodiLibLogger logger;
 
         [SetUp]
         public static void Setup()
@@ -83,7 +83,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                castValue =  instance;
+                castValue = instance;
             }
             catch (Exception ex)
             {

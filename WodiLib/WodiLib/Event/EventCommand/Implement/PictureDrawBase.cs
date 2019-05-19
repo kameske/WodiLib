@@ -152,6 +152,7 @@ namespace WodiLib.Event.EventCommand
                     var byte3 = IsSameColor ? FlgSameColor : FlgDifferColor;
                     return new byte[] {0x00, 0x00, 0x00, byte3}.ToInt32(Endian.Little);
                 }
+
                 case 14:
                     return Delay;
 
@@ -280,6 +281,7 @@ namespace WodiLib.Event.EventCommand
                     IsSameColor = bytes[3] == FlgSameColor;
                     return;
                 }
+
                 case 14:
                     Delay = value;
                     return;

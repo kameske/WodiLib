@@ -36,7 +36,6 @@ namespace WodiLib.Test.IO.ValueObject
             try
             {
                 instance = new CommonFilePath(path);
-
             }
             catch (Exception ex)
             {
@@ -50,7 +49,7 @@ namespace WodiLib.Test.IO.ValueObject
             if (errorOccured) return;
 
             // 内容が一致すること
-            Assert.AreEqual((string)instance, path);
+            Assert.AreEqual((string) instance, path);
         }
     }
 }

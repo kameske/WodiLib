@@ -11,6 +11,7 @@ namespace WodiLib.Sys
     /// <summary>
     /// RestrictedCapacityCollection.RemoveItemイベントハンドラリスト
     /// </summary>
+    /// <typeparam name="T">リスト内包クラス</typeparam>
     public class RemoveItemHandlerList<T> : RestrictedCapacityCollectionHandlerList<T, OnRemoveItemHandler<T>>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

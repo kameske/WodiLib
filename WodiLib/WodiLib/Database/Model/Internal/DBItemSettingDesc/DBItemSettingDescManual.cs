@@ -1,0 +1,291 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : DBItemSettingDescManual.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using WodiLib.Sys;
+
+namespace WodiLib.Database
+{
+    /// <summary>
+    /// データベース設定値特殊指定・選択肢手動生成
+    /// </summary>
+    [Serializable]
+    internal class DBItemSettingDescManual : DBItemSettingDescBase
+    {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 値特殊指定タイプ
+        /// </summary>
+        public override DBItemSpecialSettingType SettingType => DBItemSpecialSettingType.Manual;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>選択肢リスト</summary>
+        private DatabaseValueCaseList ArgCaseList { get; } = new DatabaseValueCaseList();
+
+        /// <summary>
+        /// デフォルト設定値種別
+        /// </summary>
+        public override DBItemType DefaultType => DBItemType.Int;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="argCaseList">[Nullable] 選択肢とその文字列リスト</param>
+        public DBItemSettingDescManual(DatabaseValueCaseList argCaseList = null)
+        {
+            if (argCaseList != null)
+            {
+                ArgCaseList = argCaseList;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 引数種別によらずすべての選択肢を取得する。
+        /// </summary>
+        /// <returns>すべての選択肢リスト</returns>
+        public override List<DatabaseValueCase> GetAllSpecialCase()
+        {
+            return ArgCaseList.ToList();
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// すべての選択肢番号を取得する。
+        /// </summary>
+        /// <returns>すべての選択肢リスト</returns>
+        public override List<DatabaseValueCaseNumber> GetAllSpecialCaseNumber()
+        {
+            return GetAllManualCase().Select(x => x.CaseNumber).ToList();
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// すべての選択肢文字列を取得する。
+        /// </summary>
+        /// <returns>すべての選択肢リスト</returns>
+        public override List<DatabaseValueCaseDescription> GetAllSpecialCaseDescription()
+        {
+            return GetAllManualCase().Select(x => x.Description).ToList();
+        }
+
+        /// <summary>
+        /// 選択肢を追加する。
+        /// </summary>
+        /// <param name="argCase">[NotNull] 選択肢情報</param>
+        /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
+        public override void AddSpecialCase(DatabaseValueCase argCase)
+        {
+            if (argCase == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(argCase)));
+
+            ArgCaseList.Add(argCase);
+        }
+
+        /// <summary>
+        /// 選択肢を追加する。
+        /// </summary>
+        /// <param name="argCases">[NotNull] 選択肢</param>
+        /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
+        public override void AddRangeSpecialCase(IReadOnlyCollection<DatabaseValueCase> argCases)
+        {
+            if (argCases == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(argCases)));
+
+            ArgCaseList.AddRange(argCases);
+        }
+
+        /// <summary>
+        /// 選択肢を挿入する。
+        /// </summary>
+        /// <param name="index">[Range(0, ManualCaseLength)] インデックス</param>
+        /// <param name="argCase">[NotNull] 選択肢情報</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        public override void InsertSpecialCase(int index, DatabaseValueCase argCase)
+        {
+            var max = ArgCaseList.Count;
+            const int min = 0;
+            if (index < min || max < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), min, max, index));
+
+            if (argCase == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(argCase)));
+
+            ArgCaseList.Insert(index, argCase);
+        }
+
+        /// <summary>
+        /// 選択肢を挿入する。
+        /// </summary>
+        /// <param name="index">[Range(0, ManualCaseLength)] インデックス</param>
+        /// <param name="argCases">[NotNull] 選択肢</param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        public override void InsertRangeSpecialCase(int index, IReadOnlyCollection<DatabaseValueCase> argCases)
+        {
+            var max = ArgCaseList.Count;
+            const int min = 0;
+            if (index < min || max < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), min, max, index));
+
+            if (argCases == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(argCases)));
+
+            ArgCaseList.InsertRange(index, argCases);
+        }
+
+        /// <summary>
+        /// 選択肢を更新する。
+        /// </summary>
+        /// <param name="index">[Range(0, 選択肢数-1)] 更新する選択肢</param>
+        /// <param name="argCase">[NotNull] 更新する選択肢内容</param>
+        /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
+        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
+        /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
+        public override void UpdateManualSpecialCase(int index, DatabaseValueCase argCase)
+        {
+            var max = ArgCaseList.Count;
+            const int min = 0;
+            if (index < min || max < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), min, max, index));
+            if (argCase == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotEmpty(nameof(argCase)));
+
+            ArgCaseList[index] = argCase;
+        }
+
+        /// <summary>
+        /// 選択肢を削除する。
+        /// </summary>
+        /// <param name="index">[Range(0, ManualCaseLength - 1)] インデックス</param>
+        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
+        public override void RemoveSpecialCaseAt(int index)
+        {
+            var max = ArgCaseList.Count - 1;
+            const int min = 0;
+            if (index < min || max < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), min, max, index));
+
+            ArgCaseList.RemoveAt(index);
+        }
+
+        /// <summary>
+        /// 選択肢を範囲削除する。
+        /// </summary>
+        /// <param name="index">[Range(0, ManualCaseLength - 1)] インデックス</param>
+        /// <param name="count">[Range(0, ManualCaseLength)] 削除数</param>
+        /// <exception cref="ArgumentOutOfRangeException">index、またはcountが指定範囲以外の場合</exception>
+        /// <exception cref="ArgumentException">リストの範囲を超えて削除しようとする場合</exception>
+        public override void RemoveSpecialCaseRange(int index, int count)
+        {
+            var allLength = ArgCaseList.Count;
+
+            var indexMax = allLength - 1;
+            const int min = 0;
+            if (index < min || indexMax < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), min, indexMax, index));
+            var countMax = allLength;
+            if (count < min || countMax < count)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(count), min, countMax, count));
+
+            const int listLengthMin = 0;
+            if (allLength - index < count + listLengthMin)
+                throw new ArgumentException(
+                    $"リストの範囲を超えて削除しようとしています。" +
+                    $"{nameof(index)}:{index}, {nameof(count)}:{count}");
+
+            ArgCaseList.RemoveRange(index, count);
+        }
+
+        /// <summary>
+        /// 選択肢をクリアする。
+        /// </summary>
+        /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
+        public override void ClearSpecialCase()
+        {
+            ArgCaseList.Clear();
+        }
+
+        /// <summary>
+        /// 指定した値種別が設定可能かどうかを判定する。
+        /// </summary>
+        /// <param name="type">[NotNull] 値種別</param>
+        /// <returns>設定可能な場合true</returns>
+        /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
+        public override bool CanSetItemType(DBItemType type)
+        {
+            if (type == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(type)));
+
+            return type == DBItemType.Int;
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public override bool Equals(IDBItemSettingDesc other)
+        {
+            if (other == null) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            if (!(other is DBItemSettingDescManual)) return false;
+
+            var casted = (DBItemSettingDescManual) other;
+
+            if (!ArgCaseList.SequenceEqual(casted.ArgCaseList)) return false;
+
+            return true;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 選択肢手動生成時のすべての選択肢を取得する。
+        /// </summary>
+        /// <returns>すべての選択肢情報</returns>
+        /// <exception cref="InvalidOperationException">特殊指定が「選択肢手動生成」以外の場合</exception>
+        private IEnumerable<DatabaseValueCase> GetAllManualCase()
+        {
+            return ArgCaseList.ToList();
+        }
+    }
+}

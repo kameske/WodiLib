@@ -15,17 +15,17 @@ namespace WodiLib.Test.IO
             {
                 var result = new CommonEvent
                 {
-                    Id =  0,
+                    Id = 0,
                     BootCondition = new CommonEventBootCondition
                     {
                         CommonEventBootType = CommonEventBootType.OnlyCall,
-                        LeftSide =  2000000,
+                        LeftSide = 2000000,
                         Operation = CriteriaOperator.Equal,
-                        RightSide =  0
+                        RightSide = 0
                     },
                     NumberArgsLength = 0,
                     StrArgsLength = 0,
-                    Name =  "コモンイベント000",
+                    Name = "コモンイベント000",
                     EventCommands = new EventCommandList(
                         new List<IEventCommand>
                         {
@@ -39,17 +39,17 @@ namespace WodiLib.Test.IO
                                 Indent = 0
                             }
                         }),
-                    Description =  "",
-                    Memo =  "",
+                    Description = "",
+                    Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
-                    FooterString =  "",
+                    FooterString = "",
                 };
 
                 result.SelfVariableNameList[0] = "cself0";
                 result.SelfVariableNameList[99] = "cself99";
 
-                result.SetReturnVariableIndex( 99);
-                result.ReturnValueDescription =  "てすと";
+                result.SetReturnVariableIndex(99);
+                result.ReturnValueDescription = "てすと";
 
                 return result;
             }
@@ -58,17 +58,17 @@ namespace WodiLib.Test.IO
             {
                 var result = new CommonEvent
                 {
-                    Id =  1,
+                    Id = 1,
                     BootCondition = new CommonEventBootCondition
                     {
                         CommonEventBootType = CommonEventBootType.OnlyCall,
-                        LeftSide =  2000000,
+                        LeftSide = 2000000,
                         Operation = CriteriaOperator.Equal,
-                        RightSide =  0
+                        RightSide = 0
                     },
                     NumberArgsLength = 3,
                     StrArgsLength = 4,
-                    Name =  "コモンイベント001",
+                    Name = "コモンイベント001",
                     EventCommands = new EventCommandList(
                         new List<IEventCommand>
                         {
@@ -82,10 +82,10 @@ namespace WodiLib.Test.IO
                                 Indent = 0
                             }
                         }),
-                    Description =  "",
-                    Memo =  "Memo",
+                    Description = "",
+                    Memo = "Memo",
                     LabelColor = CommonEventLabelColor.Blue,
-                    FooterString =  "",
+                    FooterString = "",
                 };
 
                 /* ---------- セルフ変数名 ---------- */
@@ -208,7 +208,7 @@ namespace WodiLib.Test.IO
                         CommonEventBootType = CommonEventBootType.OnlyCall,
                         LeftSide = 2000000,
                         Operation = CriteriaOperator.Equal,
-                        RightSide =  0
+                        RightSide = 0
                     },
                     NumberArgsLength = 0,
                     StrArgsLength = 0,
@@ -221,7 +221,7 @@ namespace WodiLib.Test.IO
                             EventCommandFactory.CreateCommandString("[0][0,0]<0>()()")
                         }),
                     Description = "",
-                    Memo =  "",
+                    Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
                     FooterString = "",
                 };
@@ -256,9 +256,9 @@ namespace WodiLib.Test.IO
                     BootCondition = new CommonEventBootCondition
                     {
                         CommonEventBootType = CommonEventBootType.Parallel,
-                        LeftSide =  2300002,
+                        LeftSide = 2300002,
                         Operation = CriteriaOperator.Below,
-                        RightSide =  (-13)
+                        RightSide = (-13)
                     },
                     NumberArgsLength = 4,
                     StrArgsLength = 2,
@@ -271,7 +271,7 @@ namespace WodiLib.Test.IO
                             EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
                         }),
                     Description = "",
-                    Memo =  "Memo",
+                    Memo = "Memo",
                     LabelColor = CommonEventLabelColor.Purple,
                     FooterString = "",
                 };
@@ -376,9 +376,9 @@ namespace WodiLib.Test.IO
                     BootCondition = new CommonEventBootCondition
                     {
                         CommonEventBootType = CommonEventBootType.Auto,
-                        LeftSide =  2000000,
+                        LeftSide = 2000000,
                         Operation = CriteriaOperator.Equal,
-                        RightSide =  10
+                        RightSide = 10
                     },
                     NumberArgsLength = 0,
                     StrArgsLength = 0,
@@ -405,9 +405,9 @@ namespace WodiLib.Test.IO
                     BootCondition = new CommonEventBootCondition
                     {
                         CommonEventBootType = CommonEventBootType.Auto,
-                        LeftSide =  2000004,
+                        LeftSide = 2000004,
                         Operation = CriteriaOperator.Above,
-                        RightSide =  10
+                        RightSide = 10
                     },
                     NumberArgsLength = 0,
                     StrArgsLength = 0,

@@ -13,6 +13,7 @@ namespace WodiLib.Sys
     /// <summary>
     /// RestrictedCapacityCollection.InsertItemイベントハンドラ
     /// </summary>
+    /// <typeparam name="T">リスト内包クラス</typeparam>
     public class OnInsertItemHandler<T> : RestrictedCapacityCollectionHandler<T>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

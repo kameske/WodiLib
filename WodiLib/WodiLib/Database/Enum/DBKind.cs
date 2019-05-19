@@ -27,16 +27,17 @@ namespace WodiLib.Database
 
         static DBKind()
         {
-            Changeable = new DBKind(nameof(Changeable), 0x00, 10, 2);
-            User = new DBKind(nameof(User), 0x02, 11, 1);
-            System = new DBKind(nameof(System), 0x01, 13, 0);
+            Changeable = new DBKind(nameof(Changeable), 0x00, 10, 2, 3);
+            User = new DBKind(nameof(User), 0x02, 11, 1, 2);
+            System = new DBKind(nameof(System), 0x01, 13, 0, 1);
         }
 
-        private DBKind(string id, byte code, int targetCode, int specialArgCode) : base(id)
+        private DBKind(string id, byte code, int targetCode, int specialArgCode, int dBDataSettingTypeCode) : base(id)
         {
             Code = code;
             TargetCode = targetCode;
             SpecialArgCode = specialArgCode;
+            DBDataSettingTypeCode = dBDataSettingTypeCode;
         }
 
         /// <summary>対象DBコード</summary>
@@ -48,11 +49,14 @@ namespace WodiLib.Database
         /// <summary>引数特殊指定DBコード</summary>
         public int SpecialArgCode { get; }
 
+        /// <summary>DBデータ設定種別コード</summary>
+        public int DBDataSettingTypeCode { get; }
+
         /// <summary>
         ///     DB値からオブジェクトを取得する。
         /// </summary>
         /// <param name="num">DB値</param>
-        /// <returns>DBType</returns>
+        /// <returns>DBKind</returns>
         /// <exception cref="ArgumentException">存在しない値の場合</exception>
         public static DBKind FromTargetCode(int num)
         {
@@ -89,7 +93,7 @@ namespace WodiLib.Database
         /// <summary>
         ///     引数特殊指定値からオブジェクトを取得する。
         /// </summary>
-        /// <param name="num">引数特殊指定値から</param>
+        /// <param name="num">引数特殊指定値</param>
         /// <returns>DBKind</returns>
         /// <exception cref="ArgumentException">存在しない値の場合</exception>
         public static DBKind FromSpecialArgCode(int num)
@@ -102,6 +106,24 @@ namespace WodiLib.Database
             {
                 var exception = new ArgumentException($"DBKindの取得に失敗しました。条件値：{num}");
                 throw exception;
+            }
+        }
+
+        /// <summary>
+        ///     DBデータ種別設定コードからオブジェクトを取得する。
+        /// </summary>
+        /// <param name="num">引数特殊指定値</param>
+        /// <returns>DBKind</returns>
+        /// <exception cref="ArgumentException">存在しない値の場合</exception>
+        public static DBKind FromDBDataSettingTypeCode(int num)
+        {
+            try
+            {
+                return _FindFirst(x => x.DBDataSettingTypeCode == num);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException($"DBKindの取得に失敗しました。条件値：{num}");
             }
         }
     }

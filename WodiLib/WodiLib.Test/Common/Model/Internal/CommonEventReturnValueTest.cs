@@ -90,7 +90,7 @@ namespace WodiLib.Test.Common.Internal
             Assert.AreEqual(instance.IsReturnValue, false);
 
             // 返戻アドレスが-1であること
-            Assert.AreEqual((int)instance.ReturnVariableIndex, -1);
+            Assert.AreEqual((int) instance.ReturnVariableIndex, -1);
         }
     }
 }

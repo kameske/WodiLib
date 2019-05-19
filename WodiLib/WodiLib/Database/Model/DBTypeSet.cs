@@ -1,0 +1,109 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : DBTypeSet.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
+using System;
+using System.Collections.Generic;
+using WodiLib.Sys;
+
+namespace WodiLib.Database
+{
+    /// <summary>
+    /// DBタイプセット（XXX.dbtypeset）
+    /// </summary>
+    [Serializable]
+    public class DBTypeSet
+    {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// ファイルヘッダ
+        /// </summary>
+        public static readonly byte[] Header =
+        {
+            0xB9, 0x22, 0x2D, 0x02
+        };
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>[NotNull] DBタイプ名</summary>
+        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
+        public TypeName TypeName
+        {
+            get => TypeDesc.TypeName;
+            set => TypeDesc.TypeName = value;
+        }
+
+        /// <summary>項目設定リスト</summary>
+        public DBItemSettingList ItemSettingList => TypeDesc.WritableItemSettingList;
+
+        /// <summary>[NotNull] メモ</summary>
+        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
+        public DatabaseMemo Memo
+        {
+            get => TypeDesc.Memo;
+            set => TypeDesc.Memo = value;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private DatabaseTypeDesc TypeDesc { get; } = DatabaseTypeDesc.Factory.CreateForDBTypeSet();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public DBTypeSet()
+        {
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="itemSettingList">[NotNull] 初期項目設定リスト</param>
+        /// <exception cref="ArgumentNullException">dataNameList, itemSettingList が null の場合</exception>
+        /// <exception cref="ArgumentException">dataNameList, itemSettingList に null 要素が含まれる場合</exception>
+        public DBTypeSet(DBItemSettingList itemSettingList)
+        {
+            if (itemSettingList == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(itemSettingList)));
+
+            TypeDesc = DatabaseTypeDesc.Factory.CreateForDBTypeSet(itemSettingList);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Common
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// バイナリ変換する。
+        /// </summary>
+        /// <returns>バイナリデータ</returns>
+        public byte[] ToBinary()
+        {
+            var result = new List<byte>();
+
+            // ヘッダ
+            result.AddRange(Header);
+
+            // 要素
+            result.AddRange(TypeDesc.ToBinaryForDBTypeSet());
+
+            return result.ToArray();
+        }
+    }
+}

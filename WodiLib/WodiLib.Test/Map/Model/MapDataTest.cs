@@ -25,7 +25,7 @@ namespace WodiLib.Test.Map
         [OneTimeSetUp]
         public static void OneTimeSetUp()
         {
-            // テスト用マップファイル出力
+            // テスト用ファイル出力
             MapFileTestItemGenerator.OutputMapFile();
         }
 
@@ -341,7 +341,7 @@ namespace WodiLib.Test.Map
         [OneTimeTearDown]
         public static void TearDown()
         {
-            // テスト用マップファイル削除
+            // テスト用ファイル削除
             MapFileTestItemGenerator.DeleteMapFile();
         }
     }

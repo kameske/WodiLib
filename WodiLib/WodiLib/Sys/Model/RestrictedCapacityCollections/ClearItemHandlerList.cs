@@ -11,6 +11,7 @@ namespace WodiLib.Sys
     /// <summary>
     /// RestrictedCapacityCollection.ClearItemイベントハンドラリスト
     /// </summary>
+    /// <typeparam name="T">リスト内包クラス</typeparam>
     public class ClearItemHandlerList<T> : RestrictedCapacityCollectionHandlerList<T, OnClearItemHandler<T>>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

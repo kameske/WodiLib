@@ -85,6 +85,7 @@ namespace WodiLib.Event.EventCommand
                     ControlType = DeviceKeyInputControlType.FromByte(bytes[1]);
                     return;
                 }
+
                 case 2:
                 {
                     if (keyType != DeviceInputControlType.KeyboardKey)
@@ -93,6 +94,7 @@ namespace WodiLib.Event.EventCommand
                     KeyCode = value;
                     return;
                 }
+
                 default:
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), 1, NumberVariableCount, index));

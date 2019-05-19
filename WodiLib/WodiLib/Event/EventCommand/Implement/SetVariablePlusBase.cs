@@ -107,6 +107,7 @@ namespace WodiLib.Event.EventCommand
 
                     return;
                 }
+
                 case 3:
                     TargetCode = value;
                     return;

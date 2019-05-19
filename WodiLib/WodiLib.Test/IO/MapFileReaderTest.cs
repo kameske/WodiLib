@@ -12,7 +12,7 @@ namespace WodiLib.Test.IO
         [OneTimeSetUp]
         public static void OneTimeSetUp()
         {
-            // テスト用マップファイル出力
+            // テスト用ファイル出力
             MapFileTestItemGenerator.OutputMapFile();
         }
 
@@ -57,7 +57,7 @@ namespace WodiLib.Test.IO
                 reader.ReadSync();
                 readResult = true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 errorMessage = e.Message;
             }
@@ -69,6 +69,7 @@ namespace WodiLib.Test.IO
                 throw new InvalidOperationException(
                     $"Error Occured. Message : {errorMessage}");
             }
+
             Console.WriteLine("Write Test Clear.");
 
             // 意図したデータと一致すること
@@ -91,13 +92,12 @@ namespace WodiLib.Test.IO
                         $" readResult: {readResultDataBytes[i]})");
                 }
             }
-
         }
 
         [OneTimeTearDown]
         public static void TearDown()
         {
-            // テスト用マップファイル削除
+            // テスト用ファイル削除
             MapFileTestItemGenerator.DeleteMapFile();
         }
     }

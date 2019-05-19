@@ -2,19 +2,20 @@
   <PropertyGroup>
     <RootNamespace>WodiLib</RootNamespace>
     <TargetFrameworks>net461;netstandard2.0;netcoreapp2.1</TargetFrameworks>
-    <PackageVersion>0.2.0</PackageVersion>
+    <PackageVersion>0.3.0</PackageVersion>
     <Title>WodiLib</Title>
     <Authors>kameske</Authors>
     <Copyright>MIT License Copyright(c) 2019 kameske</Copyright>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
+    <PackageProjectUrl>https://github.com/kameske/WodiLib</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/kameske/WodiLib/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/kameske/WodiLib.git</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DocumentationFile>bin\Debug\netstandard2.0\WodiLib.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1-servicing-27114-05" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="IO\Database" />
   </ItemGroup>
 </Project>

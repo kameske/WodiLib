@@ -14,7 +14,7 @@ namespace WodiLib.Sys
     /// <summary>
     /// 【読み取り専用】容量制限のあるList基底クラス
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">要素の型</typeparam>
     public interface IReadOnlyRestrictedCapacityCollection<out T> : IReadOnlyCollection<T>
     {
         /// <summary>
