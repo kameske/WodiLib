@@ -933,10 +933,7 @@
   <HelpKINode Title="CheckPoint.SetStringVariable メソッド" Url="html/M_WodiLib_Event_EventCommand_CheckPoint_SetStringVariable.htm" />
   <HelpKINode Title="CheckPoint.StringVariableCount プロパティ" Url="html/P_WodiLib_Event_EventCommand_CheckPoint_StringVariableCount.htm" />
   <HelpKINode Title="ChipId プロパティ" Url="html/P_WodiLib_Event_EventCommand_OverwriteMapChips_ChipId.htm" />
-  <HelpKINode Title="Chips プロパティ">
-    <HelpKINode Title="Layer.Chips プロパティ " Url="html/P_WodiLib_Map_Layer_Chips.htm" />
-    <HelpKINode Title="MapChipList.Chips プロパティ " Url="html/P_WodiLib_Map_MapChipList_Chips.htm" />
-  </HelpKINode>
+  <HelpKINode Title="Chips プロパティ" Url="html/P_WodiLib_Map_Layer_Chips.htm" />
   <HelpKINode Title="ChipSetId プロパティ" Url="html/P_WodiLib_Event_EventCommand_SwitchChipSet_ChipSetId.htm" />
   <HelpKINode Title="ChoiceCancelForkType クラス" Url="html/T_WodiLib_Event_EventCommand_ChoiceCancelForkType.htm" />
   <HelpKINode Title="ChoiceCancelForkType クラス、フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_ChoiceCancelForkType.htm" />
@@ -3883,8 +3880,8 @@
   <HelpKINode Title="EventPositionAddressMax フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_EventPositionAddressMax.htm" />
   <HelpKINode Title="EventPositionAddressMin フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_EventPositionAddressMin.htm" />
   <HelpKINode Title="ExecCode クラス、フィールド">
-    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Sound_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SetVariablePlus_ExecCode.htm" />
+    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Sound_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SaveLoad_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PictureShow_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PartyGraphic_ExecCode.htm" />
@@ -4217,10 +4214,6 @@
     <HelpKINode Title="CommonEventSpecialStringArgDesc.GetAllSpecialCaseNumber メソッド " Url="html/M_WodiLib_Common_CommonEventSpecialStringArgDesc_GetAllSpecialCaseNumber.htm" />
     <HelpKINode Title="DBItemSpecialSettingDesc.GetAllSpecialCaseNumber メソッド " Url="html/M_WodiLib_Database_DBItemSpecialSettingDesc_GetAllSpecialCaseNumber.htm" />
   </HelpKINode>
-  <HelpKINode Title="GetChip メソッド">
-    <HelpKINode Title="Layer.GetChip メソッド " Url="html/M_WodiLib_Map_Layer_GetChip.htm" />
-    <HelpKINode Title="MapChipList.GetChip メソッド " Url="html/M_WodiLib_Map_MapChipList_GetChip.htm" />
-  </HelpKINode>
   <HelpKINode Title="GetCommonEventId メソッド" Url="html/M_WodiLib_Common_CommonEventVariableAddressExtension_GetCommonEventId.htm" />
   <HelpKINode Title="GetConfigWoditorVersion メソッド" Url="html/M_WodiLib_Sys_Cmn_VersionConfig_GetConfigWoditorVersion.htm" />
   <HelpKINode Title="GetDataId メソッド">
@@ -4356,6 +4349,8 @@
     <HelpKINode Title="DBItemValuesList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Database_DBItemValuesList_GetMaxCapacity.htm" />
     <HelpKINode Title="DBTypeSettingList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Database_DBTypeSettingList_GetMaxCapacity.htm" />
     <HelpKINode Title="EventCommandList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Event_EventCommand_EventCommandList_GetMaxCapacity.htm" />
+    <HelpKINode Title="MapChipColumns.GetMaxCapacity メソッド " Url="html/M_WodiLib_Map_MapChipColumns_GetMaxCapacity.htm" />
+    <HelpKINode Title="MapChipList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Map_MapChipList_GetMaxCapacity.htm" />
     <HelpKINode Title="MapEventList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Map_MapEventList_GetMaxCapacity.htm" />
     <HelpKINode Title="ReadOnlyDBItemValuesList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Database_ReadOnlyDBItemValuesList_GetMaxCapacity.htm" />
     <HelpKINode Title="RestrictedCapacityCollection(T).GetMaxCapacity メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_GetMaxCapacity.htm" />
@@ -4375,6 +4370,8 @@
     <HelpKINode Title="DBItemValuesList.GetMinCapacity メソッド " Url="html/M_WodiLib_Database_DBItemValuesList_GetMinCapacity.htm" />
     <HelpKINode Title="DBTypeSettingList.GetMinCapacity メソッド " Url="html/M_WodiLib_Database_DBTypeSettingList_GetMinCapacity.htm" />
     <HelpKINode Title="EventCommandList.GetMinCapacity メソッド " Url="html/M_WodiLib_Event_EventCommand_EventCommandList_GetMinCapacity.htm" />
+    <HelpKINode Title="MapChipColumns.GetMinCapacity メソッド " Url="html/M_WodiLib_Map_MapChipColumns_GetMinCapacity.htm" />
+    <HelpKINode Title="MapChipList.GetMinCapacity メソッド " Url="html/M_WodiLib_Map_MapChipList_GetMinCapacity.htm" />
     <HelpKINode Title="MapEventList.GetMinCapacity メソッド " Url="html/M_WodiLib_Map_MapEventList_GetMinCapacity.htm" />
     <HelpKINode Title="ReadOnlyDBItemValuesList.GetMinCapacity メソッド " Url="html/M_WodiLib_Database_ReadOnlyDBItemValuesList_GetMinCapacity.htm" />
     <HelpKINode Title="RestrictedCapacityCollection(T).GetMinCapacity メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_GetMinCapacity.htm" />
@@ -4763,6 +4760,11 @@
   <HelpKINode Title="IFixedLengthDBItemValueList インターフェイス、プロパティ" Url="html/Properties_T_WodiLib_Database_IFixedLengthDBItemValueList.htm" />
   <HelpKINode Title="IFixedLengthDBItemValueList インターフェイス、メソッド" Url="html/Methods_T_WodiLib_Database_IFixedLengthDBItemValueList.htm" />
   <HelpKINode Title="IFixedLengthDBItemValueList.ToLengthChangeableItemValueList メソッド" Url="html/M_WodiLib_Database_IFixedLengthDBItemValueList_ToLengthChangeableItemValueList.htm" />
+  <HelpKINode Title="IFixedLengthMapChipColumns インターフェイス" Url="html/T_WodiLib_Map_IFixedLengthMapChipColumns.htm" />
+  <HelpKINode Title="IFixedLengthMapChipColumns インターフェイス、プロパティ" Url="html/Properties_T_WodiLib_Map_IFixedLengthMapChipColumns.htm" />
+  <HelpKINode Title="IFixedLengthMapChipColumns インターフェイス、メソッド" Url="html/Methods_T_WodiLib_Map_IFixedLengthMapChipColumns.htm" />
+  <HelpKINode Title="IFixedLengthMapChipColumns.InitializeChips メソッド" Url="html/M_WodiLib_Map_IFixedLengthMapChipColumns_InitializeChips.htm" />
+  <HelpKINode Title="IFixedLengthMapChipColumns.ToBinary メソッド" Url="html/M_WodiLib_Map_IFixedLengthMapChipColumns_ToBinary.htm" />
   <HelpKINode Title="ImageSizeHeight フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusPictureInfoType_ImageSizeHeight.htm" />
   <HelpKINode Title="ImageSizeWidth フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusPictureInfoType_ImageSizeWidth.htm" />
   <HelpKINode Title="Indent プロパティ">
@@ -4908,7 +4910,11 @@
   </HelpKINode>
   <HelpKINode Title="InitAnimationId プロパティ" Url="html/P_WodiLib_Map_MapEventPageGraphicInfo_InitAnimationId.htm" />
   <HelpKINode Title="InitDirection プロパティ" Url="html/P_WodiLib_Map_MapEventPageGraphicInfo_InitDirection.htm" />
-  <HelpKINode Title="InitializeChips メソッド" Url="html/M_WodiLib_Map_MapChipList_InitializeChips.htm" />
+  <HelpKINode Title="InitializeChips メソッド">
+    <HelpKINode Title="IFixedLengthMapChipColumns.InitializeChips メソッド " Url="html/M_WodiLib_Map_IFixedLengthMapChipColumns_InitializeChips.htm" />
+    <HelpKINode Title="MapChipColumns.InitializeChips メソッド " Url="html/Overload_WodiLib_Map_MapChipColumns_InitializeChips.htm" />
+    <HelpKINode Title="MapChipList.InitializeChips メソッド " Url="html/Overload_WodiLib_Map_MapChipList_InitializeChips.htm" />
+  </HelpKINode>
   <HelpKINode Title="InitValue プロパティ">
     <HelpKINode Title="CommonEventSpecialNumberArgDesc.InitValue プロパティ " Url="html/P_WodiLib_Common_CommonEventSpecialNumberArgDesc_InitValue.htm" />
     <HelpKINode Title="CommonEventSpecialStringArgDesc.InitValue プロパティ " Url="html/P_WodiLib_Common_CommonEventSpecialStringArgDesc_InitValue.htm" />
@@ -5673,13 +5679,11 @@
   <HelpKINode Title="Layer クラス、メソッド" Url="html/Methods_T_WodiLib_Map_Layer.htm" />
   <HelpKINode Title="Layer プロパティ" Url="html/P_WodiLib_Event_EventCommand_OverwriteMapChips_Layer.htm" />
   <HelpKINode Title="Layer.Chips プロパティ" Url="html/P_WodiLib_Map_Layer_Chips.htm" />
-  <HelpKINode Title="Layer.GetChip メソッド" Url="html/M_WodiLib_Map_Layer_GetChip.htm" />
   <HelpKINode Title="Layer.Height プロパティ" Url="html/P_WodiLib_Map_Layer_Height.htm" />
   <HelpKINode Title="Layer.Layer コンストラクター" Url="html/M_WodiLib_Map_Layer__ctor.htm" />
-  <HelpKINode Title="Layer.SetChip メソッド" Url="html/M_WodiLib_Map_Layer_SetChip.htm" />
-  <HelpKINode Title="Layer.SetChips メソッド" Url="html/M_WodiLib_Map_Layer_SetChips.htm" />
   <HelpKINode Title="Layer.ToBinary メソッド" Url="html/M_WodiLib_Map_Layer_ToBinary.htm" />
   <HelpKINode Title="Layer.UpdateHeight メソッド" Url="html/M_WodiLib_Map_Layer_UpdateHeight.htm" />
+  <HelpKINode Title="Layer.UpdateSize メソッド" Url="html/M_WodiLib_Map_Layer_UpdateSize.htm" />
   <HelpKINode Title="Layer.UpdateWidth メソッド" Url="html/M_WodiLib_Map_Layer_UpdateWidth.htm" />
   <HelpKINode Title="Layer.Width プロパティ" Url="html/P_WodiLib_Map_Layer_Width.htm" />
   <HelpKINode Title="Layer1 プロパティ" Url="html/P_WodiLib_Map_MapData_Layer1.htm" />
@@ -5990,6 +5994,8 @@
     <HelpKINode Title="DBItemValuesList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Database_DBItemValuesList_MakeDefaultItem.htm" />
     <HelpKINode Title="DBTypeSettingList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Database_DBTypeSettingList_MakeDefaultItem.htm" />
     <HelpKINode Title="EventCommandList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Event_EventCommand_EventCommandList_MakeDefaultItem.htm" />
+    <HelpKINode Title="MapChipColumns.MakeDefaultItem メソッド " Url="html/M_WodiLib_Map_MapChipColumns_MakeDefaultItem.htm" />
+    <HelpKINode Title="MapChipList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Map_MapChipList_MakeDefaultItem.htm" />
     <HelpKINode Title="MapEventList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Map_MapEventList_MakeDefaultItem.htm" />
     <HelpKINode Title="ReadOnlyDBItemValuesList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Database_ReadOnlyDBItemValuesList_MakeDefaultItem.htm" />
     <HelpKINode Title="RestrictedCapacityCollection(T).MakeDefaultItem メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_MakeDefaultItem.htm" />
@@ -6032,18 +6038,36 @@
   <HelpKINode Title="MapChip.ToBytes メソッド" Url="html/M_WodiLib_Map_MapChip_ToBytes.htm" />
   <HelpKINode Title="MapChip.ToInt メソッド" Url="html/M_WodiLib_Map_MapChip_ToInt.htm" />
   <HelpKINode Title="MapChip.ToString メソッド" Url="html/M_WodiLib_Map_MapChip_ToString.htm" />
+  <HelpKINode Title="MapChipColumns クラス" Url="html/T_WodiLib_Map_MapChipColumns.htm" />
+  <HelpKINode Title="MapChipColumns クラス、コンストラクター" Url="html/Overload_WodiLib_Map_MapChipColumns__ctor.htm" />
+  <HelpKINode Title="MapChipColumns クラス、フィールド" Url="html/Fields_T_WodiLib_Map_MapChipColumns.htm" />
+  <HelpKINode Title="MapChipColumns クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_MapChipColumns.htm" />
+  <HelpKINode Title="MapChipColumns クラス、メソッド" Url="html/Methods_T_WodiLib_Map_MapChipColumns.htm" />
+  <HelpKINode Title="MapChipColumns.GetMaxCapacity メソッド" Url="html/M_WodiLib_Map_MapChipColumns_GetMaxCapacity.htm" />
+  <HelpKINode Title="MapChipColumns.GetMinCapacity メソッド" Url="html/M_WodiLib_Map_MapChipColumns_GetMinCapacity.htm" />
+  <HelpKINode Title="MapChipColumns.InitializeChips メソッド" Url="html/Overload_WodiLib_Map_MapChipColumns_InitializeChips.htm" />
+  <HelpKINode Title="MapChipColumns.MakeDefaultItem メソッド" Url="html/M_WodiLib_Map_MapChipColumns_MakeDefaultItem.htm" />
+  <HelpKINode Title="MapChipColumns.MapChipColumns コンストラクター" Url="html/Overload_WodiLib_Map_MapChipColumns__ctor.htm" />
+  <HelpKINode Title="MapChipColumns.MaxCapacity フィールド" Url="html/F_WodiLib_Map_MapChipColumns_MaxCapacity.htm" />
+  <HelpKINode Title="MapChipColumns.MinCapacity フィールド" Url="html/F_WodiLib_Map_MapChipColumns_MinCapacity.htm" />
+  <HelpKINode Title="MapChipColumns.ToBinary メソッド" Url="html/M_WodiLib_Map_MapChipColumns_ToBinary.htm" />
+  <HelpKINode Title="MapChipColumns.UpdateSize メソッド" Url="html/M_WodiLib_Map_MapChipColumns_UpdateSize.htm" />
   <HelpKINode Title="MapChipList クラス" Url="html/T_WodiLib_Map_MapChipList.htm" />
   <HelpKINode Title="MapChipList クラス、コンストラクター" Url="html/Overload_WodiLib_Map_MapChipList__ctor.htm" />
+  <HelpKINode Title="MapChipList クラス、フィールド" Url="html/Fields_T_WodiLib_Map_MapChipList.htm" />
   <HelpKINode Title="MapChipList クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_MapChipList.htm" />
   <HelpKINode Title="MapChipList クラス、メソッド" Url="html/Methods_T_WodiLib_Map_MapChipList.htm" />
-  <HelpKINode Title="MapChipList.Chips プロパティ" Url="html/P_WodiLib_Map_MapChipList_Chips.htm" />
-  <HelpKINode Title="MapChipList.GetChip メソッド" Url="html/M_WodiLib_Map_MapChipList_GetChip.htm" />
+  <HelpKINode Title="MapChipList.GetMaxCapacity メソッド" Url="html/M_WodiLib_Map_MapChipList_GetMaxCapacity.htm" />
+  <HelpKINode Title="MapChipList.GetMinCapacity メソッド" Url="html/M_WodiLib_Map_MapChipList_GetMinCapacity.htm" />
   <HelpKINode Title="MapChipList.Height プロパティ" Url="html/P_WodiLib_Map_MapChipList_Height.htm" />
-  <HelpKINode Title="MapChipList.InitializeChips メソッド" Url="html/M_WodiLib_Map_MapChipList_InitializeChips.htm" />
+  <HelpKINode Title="MapChipList.InitializeChips メソッド" Url="html/Overload_WodiLib_Map_MapChipList_InitializeChips.htm" />
+  <HelpKINode Title="MapChipList.MakeDefaultItem メソッド" Url="html/M_WodiLib_Map_MapChipList_MakeDefaultItem.htm" />
   <HelpKINode Title="MapChipList.MapChipList コンストラクター" Url="html/Overload_WodiLib_Map_MapChipList__ctor.htm" />
+  <HelpKINode Title="MapChipList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_MapChipList_MaxCapacity.htm" />
+  <HelpKINode Title="MapChipList.MinCapacity フィールド" Url="html/F_WodiLib_Map_MapChipList_MinCapacity.htm" />
   <HelpKINode Title="MapChipList.ToBinary メソッド" Url="html/M_WodiLib_Map_MapChipList_ToBinary.htm" />
-  <HelpKINode Title="MapChipList.UpdateChip メソッド" Url="html/M_WodiLib_Map_MapChipList_UpdateChip.htm" />
   <HelpKINode Title="MapChipList.UpdateHeight メソッド" Url="html/M_WodiLib_Map_MapChipList_UpdateHeight.htm" />
+  <HelpKINode Title="MapChipList.UpdateSize メソッド" Url="html/M_WodiLib_Map_MapChipList_UpdateSize.htm" />
   <HelpKINode Title="MapChipList.UpdateWidth メソッド" Url="html/M_WodiLib_Map_MapChipList_UpdateWidth.htm" />
   <HelpKINode Title="MapChipList.Width プロパティ" Url="html/P_WodiLib_Map_MapChipList_Width.htm" />
   <HelpKINode Title="MapData クラス" Url="html/T_WodiLib_Map_MapData.htm" />
@@ -6066,6 +6090,9 @@
   <HelpKINode Title="MapData.SetLayer メソッド" Url="html/M_WodiLib_Map_MapData_SetLayer.htm" />
   <HelpKINode Title="MapData.TileSetId プロパティ" Url="html/P_WodiLib_Map_MapData_TileSetId.htm" />
   <HelpKINode Title="MapData.ToBinary メソッド" Url="html/M_WodiLib_Map_MapData_ToBinary.htm" />
+  <HelpKINode Title="MapData.UpdateMapSize メソッド" Url="html/M_WodiLib_Map_MapData_UpdateMapSize.htm" />
+  <HelpKINode Title="MapData.UpdateMapSizeHeight メソッド" Url="html/M_WodiLib_Map_MapData_UpdateMapSizeHeight.htm" />
+  <HelpKINode Title="MapData.UpdateMapSizeWidth メソッド" Url="html/M_WodiLib_Map_MapData_UpdateMapSizeWidth.htm" />
   <HelpKINode Title="MapDataMemo to String 変換" Url="html/M_WodiLib_Map_MapDataMemo_op_Implicit_1.htm" />
   <HelpKINode Title="MapDataMemo クラス" Url="html/T_WodiLib_Map_MapDataMemo.htm" />
   <HelpKINode Title="MapDataMemo クラス、コンストラクター" Url="html/M_WodiLib_Map_MapDataMemo__ctor.htm" />
@@ -6490,6 +6517,10 @@
   <HelpKINode Title="MapSizeWidth.ToInt メソッド" Url="html/M_WodiLib_Map_MapSizeWidth_ToInt.htm" />
   <HelpKINode Title="MapSizeWidth.ToString メソッド" Url="html/M_WodiLib_Map_MapSizeWidth_ToString.htm" />
   <HelpKINode Title="MapWidth フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusEtcInfoType_MapWidth.htm" />
+  <HelpKINode Title="MaxCapacity フィールド">
+    <HelpKINode Title="MapChipColumns.MaxCapacity フィールド" Url="html/F_WodiLib_Map_MapChipColumns_MaxCapacity.htm" />
+    <HelpKINode Title="MapChipList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_MapChipList_MaxCapacity.htm" />
+  </HelpKINode>
   <HelpKINode Title="MaxCapacity プロパティ">
     <HelpKINode Title="CharaMoveCommandList.MaxCapacity プロパティ " Url="html/P_WodiLib_Event_CharaMoveCommandList_MaxCapacity.htm" />
     <HelpKINode Title="CommonEventList.MaxCapacity プロパティ " Url="html/P_WodiLib_Common_CommonEventList_MaxCapacity.htm" />
@@ -6661,6 +6692,10 @@
   <HelpKINode Title="Middle フィールド">
     <HelpKINode Title="AnimateSpeed.Middle フィールド" Url="html/F_WodiLib_Event_AnimateSpeed_Middle.htm" />
     <HelpKINode Title="MoveFrequency.Middle フィールド" Url="html/F_WodiLib_Event_MoveFrequency_Middle.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MinCapacity フィールド">
+    <HelpKINode Title="MapChipColumns.MinCapacity フィールド" Url="html/F_WodiLib_Map_MapChipColumns_MinCapacity.htm" />
+    <HelpKINode Title="MapChipList.MinCapacity フィールド" Url="html/F_WodiLib_Map_MapChipList_MinCapacity.htm" />
   </HelpKINode>
   <HelpKINode Title="MinCapacity プロパティ">
     <HelpKINode Title="CharaMoveCommandList.MinCapacity プロパティ " Url="html/P_WodiLib_Event_CharaMoveCommandList_MinCapacity.htm" />
@@ -8037,7 +8072,6 @@
   <HelpKINode Title="RateHeight プロパティ" Url="html/P_WodiLib_Event_EventCommand_ZoomRate_RateHeight.htm" />
   <HelpKINode Title="RateWidth プロパティ" Url="html/P_WodiLib_Event_EventCommand_ZoomRate_RateWidth.htm" />
   <HelpKINode Title="Read フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IoMode_Read.htm" />
-  <HelpKINode Title="ReadAsync メソッド" Url="html/M_WodiLib_IO_DatabaseMergedDataReader_ReadAsync.htm" />
   <HelpKINode Title="ReadASync メソッド">
     <HelpKINode Title="CommonEventDatFile.ReadASync メソッド " Url="html/M_WodiLib_IO_CommonEventDatFile_ReadASync.htm" />
     <HelpKINode Title="CommonFile.ReadASync メソッド " Url="html/M_WodiLib_IO_CommonFile_ReadASync.htm" />
@@ -8047,6 +8081,7 @@
     <HelpKINode Title="DBTypeSetFile.ReadASync メソッド " Url="html/M_WodiLib_IO_DBTypeSetFile_ReadASync.htm" />
     <HelpKINode Title="MpsFile.ReadASync メソッド " Url="html/M_WodiLib_IO_MpsFile_ReadASync.htm" />
   </HelpKINode>
+  <HelpKINode Title="ReadAsync メソッド" Url="html/M_WodiLib_IO_DatabaseMergedDataReader_ReadAsync.htm" />
   <HelpKINode Title="ReadOnlyDBItemValuesList クラス" Url="html/T_WodiLib_Database_ReadOnlyDBItemValuesList.htm" />
   <HelpKINode Title="ReadOnlyDBItemValuesList クラス、プロパティ" Url="html/Properties_T_WodiLib_Database_ReadOnlyDBItemValuesList.htm" />
   <HelpKINode Title="ReadOnlyDBItemValuesList クラス、メソッド" Url="html/Methods_T_WodiLib_Database_ReadOnlyDBItemValuesList.htm" />
@@ -8508,8 +8543,6 @@
   <HelpKINode Title="SetAnimateSpeed.SetAnimateSpeed コンストラクター" Url="html/M_WodiLib_Event_CharaMoveCommand_SetAnimateSpeed__ctor.htm" />
   <HelpKINode Title="SetAnimateSpeed.Value プロパティ" Url="html/P_WodiLib_Event_CharaMoveCommand_SetAnimateSpeed_Value.htm" />
   <HelpKINode Title="SetAnimateSpeed.ValueLengthByte プロパティ" Url="html/P_WodiLib_Event_CharaMoveCommand_SetAnimateSpeed_ValueLengthByte.htm" />
-  <HelpKINode Title="SetChip メソッド" Url="html/M_WodiLib_Map_Layer_SetChip.htm" />
-  <HelpKINode Title="SetChips メソッド" Url="html/M_WodiLib_Map_Layer_SetChips.htm" />
   <HelpKINode Title="SetCommonEventList メソッド" Url="html/M_WodiLib_Common_CommonFileData_SetCommonEventList.htm" />
   <HelpKINode Title="SetCondition メソッド" Url="html/M_WodiLib_Event_EventCommand_ConditionStringList_SetCondition.htm" />
   <HelpKINode Title="SetConfigWoditorVersion メソッド" Url="html/M_WodiLib_Sys_Cmn_VersionConfig_SetConfigWoditorVersion.htm" />
@@ -9708,8 +9741,8 @@
   </HelpKINode>
   <HelpKINode Title="TargetCharacterId プロパティ" Url="html/P_WodiLib_Event_EventCommand_CharacterEffect_TargetCharacterId.htm" />
   <HelpKINode Title="TargetCode クラス、フィールド">
-    <HelpKINode Title="TargetCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInputControl_TargetCode.htm" />
     <HelpKINode Title="TargetCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Effect_TargetCode.htm" />
+    <HelpKINode Title="TargetCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInputControl_TargetCode.htm" />
   </HelpKINode>
   <HelpKINode Title="TargetCode プロパティ">
     <HelpKINode Title="DBKind.TargetCode プロパティ " Url="html/P_WodiLib_Database_DBKind_TargetCode.htm" />
@@ -9855,7 +9888,9 @@
     <HelpKINode Title="EventCommandList.ToBinary メソッド " Url="html/M_WodiLib_Event_EventCommand_EventCommandList_ToBinary.htm" />
     <HelpKINode Title="ICharaMoveCommand.ToBinary メソッド " Url="html/M_WodiLib_Event_CharaMoveCommand_ICharaMoveCommand_ToBinary.htm" />
     <HelpKINode Title="IEventCommand.ToBinary メソッド " Url="html/M_WodiLib_Event_EventCommand_IEventCommand_ToBinary.htm" />
+    <HelpKINode Title="IFixedLengthMapChipColumns.ToBinary メソッド " Url="html/M_WodiLib_Map_IFixedLengthMapChipColumns_ToBinary.htm" />
     <HelpKINode Title="Layer.ToBinary メソッド " Url="html/M_WodiLib_Map_Layer_ToBinary.htm" />
+    <HelpKINode Title="MapChipColumns.ToBinary メソッド " Url="html/M_WodiLib_Map_MapChipColumns_ToBinary.htm" />
     <HelpKINode Title="MapChipList.ToBinary メソッド " Url="html/M_WodiLib_Map_MapChipList_ToBinary.htm" />
     <HelpKINode Title="MapData.ToBinary メソッド " Url="html/M_WodiLib_Map_MapData_ToBinary.htm" />
     <HelpKINode Title="MapEvent.ToBinary メソッド " Url="html/M_WodiLib_Map_MapEvent_ToBinary.htm" />
@@ -10225,9 +10260,9 @@
   <HelpKINode Title="TurnTail.TurnTail コンストラクター" Url="html/M_WodiLib_Event_CharaMoveCommand_TurnTail__ctor.htm" />
   <HelpKINode Title="TurnTail.ValueLengthByte プロパティ" Url="html/P_WodiLib_Event_CharaMoveCommand_TurnTail_ValueLengthByte.htm" />
   <HelpKINode Title="Type クラス、フィールド">
-    <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInput_Type.htm" />
     <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInputAuto_Type.htm" />
     <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_CheckPoint_Type.htm" />
+    <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInput_Type.htm" />
   </HelpKINode>
   <HelpKINode Title="Type プロパティ" Url="html/P_WodiLib_Database_DBItemValue_Type.htm" />
   <HelpKINode Title="TypeDescList プロパティ" Url="html/P_WodiLib_Database_DatabaseMergedData_TypeDescList.htm" />
@@ -10302,7 +10337,6 @@
     <HelpKINode Title="CharaChipDirection.Up フィールド" Url="html/F_WodiLib_Map_CharaChipDirection_Up.htm" />
     <HelpKINode Title="DirectionKeyType.Up フィールド" Url="html/F_WodiLib_Event_EventCommand_DirectionKeyType_Up.htm" />
   </HelpKINode>
-  <HelpKINode Title="UpdateChip メソッド" Url="html/M_WodiLib_Map_MapChipList_UpdateChip.htm" />
   <HelpKINode Title="UpdateDatabaseSpecialCase メソッド">
     <HelpKINode Title="CommonEventSpecialNumberArgDesc.UpdateDatabaseSpecialCase メソッド " Url="html/M_WodiLib_Common_CommonEventSpecialNumberArgDesc_UpdateDatabaseSpecialCase.htm" />
     <HelpKINode Title="DBItemSpecialSettingDesc.UpdateDatabaseSpecialCase メソッド " Url="html/M_WodiLib_Database_DBItemSpecialSettingDesc_UpdateDatabaseSpecialCase.htm" />
@@ -10314,6 +10348,14 @@
   <HelpKINode Title="UpdateManualSpecialCase メソッド">
     <HelpKINode Title="CommonEventSpecialNumberArgDesc.UpdateManualSpecialCase メソッド " Url="html/M_WodiLib_Common_CommonEventSpecialNumberArgDesc_UpdateManualSpecialCase.htm" />
     <HelpKINode Title="DBItemSpecialSettingDesc.UpdateManualSpecialCase メソッド " Url="html/M_WodiLib_Database_DBItemSpecialSettingDesc_UpdateManualSpecialCase.htm" />
+  </HelpKINode>
+  <HelpKINode Title="UpdateMapSize メソッド" Url="html/M_WodiLib_Map_MapData_UpdateMapSize.htm" />
+  <HelpKINode Title="UpdateMapSizeHeight メソッド" Url="html/M_WodiLib_Map_MapData_UpdateMapSizeHeight.htm" />
+  <HelpKINode Title="UpdateMapSizeWidth メソッド" Url="html/M_WodiLib_Map_MapData_UpdateMapSizeWidth.htm" />
+  <HelpKINode Title="UpdateSize メソッド">
+    <HelpKINode Title="Layer.UpdateSize メソッド " Url="html/M_WodiLib_Map_Layer_UpdateSize.htm" />
+    <HelpKINode Title="MapChipColumns.UpdateSize メソッド " Url="html/M_WodiLib_Map_MapChipColumns_UpdateSize.htm" />
+    <HelpKINode Title="MapChipList.UpdateSize メソッド " Url="html/M_WodiLib_Map_MapChipList_UpdateSize.htm" />
   </HelpKINode>
   <HelpKINode Title="UpdateSpecialNumberArgDesc メソッド" Url="html/M_WodiLib_Common_CommonEvent_UpdateSpecialNumberArgDesc.htm" />
   <HelpKINode Title="UpdateSpecialStringArgDesc メソッド" Url="html/M_WodiLib_Common_CommonEvent_UpdateSpecialStringArgDesc.htm" />
@@ -11158,8 +11200,10 @@
   <HelpKINode Title="WodiLib.Map.AutoTilePartType クラス" Url="html/T_WodiLib_Map_AutoTilePartType.htm" />
   <HelpKINode Title="WodiLib.Map.CharaChipDirection クラス" Url="html/T_WodiLib_Map_CharaChipDirection.htm" />
   <HelpKINode Title="WodiLib.Map.HitExtendRange 構造体" Url="html/T_WodiLib_Map_HitExtendRange.htm" />
+  <HelpKINode Title="WodiLib.Map.IFixedLengthMapChipColumns インターフェイス" Url="html/T_WodiLib_Map_IFixedLengthMapChipColumns.htm" />
   <HelpKINode Title="WodiLib.Map.Layer クラス" Url="html/T_WodiLib_Map_Layer.htm" />
   <HelpKINode Title="WodiLib.Map.MapChip 構造体" Url="html/T_WodiLib_Map_MapChip.htm" />
+  <HelpKINode Title="WodiLib.Map.MapChipColumns クラス" Url="html/T_WodiLib_Map_MapChipColumns.htm" />
   <HelpKINode Title="WodiLib.Map.MapChipList クラス" Url="html/T_WodiLib_Map_MapChipList.htm" />
   <HelpKINode Title="WodiLib.Map.MapData クラス" Url="html/T_WodiLib_Map_MapData.htm" />
   <HelpKINode Title="WodiLib.Map.MapDataMemo クラス" Url="html/T_WodiLib_Map_MapDataMemo.htm" />
