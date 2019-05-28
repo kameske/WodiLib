@@ -183,6 +183,198 @@ namespace WodiLib.Test.Map
         }
 
         [Test]
+        public static void SetLayer1Test()
+        {
+            var instance = new MapData();
+
+            var width = (MapSizeWidth) 30;
+            var height = (MapSizeHeight) 24;
+
+            var setLayer = new Layer();
+            setLayer.UpdateSize(width, height);
+
+            var errorOccured = false;
+            try
+            {
+                instance.Layer1 = setLayer;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
+
+            // マップサイズが変化していること
+            Assert.AreEqual(instance.MapSizeWidth, width);
+            Assert.AreEqual(instance.MapSizeHeight, height);
+
+            // レイヤーのサイズも変化していること
+            Assert.AreEqual(instance.Layer1.Width, width);
+            Assert.AreEqual(instance.Layer1.Height, height);
+            Assert.AreEqual(instance.Layer2.Width, width);
+            Assert.AreEqual(instance.Layer2.Height, height);
+            Assert.AreEqual(instance.Layer3.Width, width);
+            Assert.AreEqual(instance.Layer3.Height, height);
+        }
+
+        [TestCase(true, true, false)]
+        [TestCase(false, true, true)]
+        [TestCase(true, false, true)]
+        [TestCase(false, false, true)]
+        public static void SetLayer2Test(bool isEqualWidth, bool isEqualHeight, bool isError)
+        {
+            var instance = new MapData();
+
+            var width = (MapSizeWidth) 30;
+            var height = (MapSizeHeight) 24;
+
+            instance.UpdateMapSize(width, height);
+
+            var layerWidth = isEqualWidth ? width : (MapSizeWidth) (width + 1);
+            var layerHeight = isEqualHeight ? height : (MapSizeHeight) (height + 1);
+
+            var setLayer = new Layer();
+            setLayer.UpdateSize(layerWidth, layerHeight);
+
+            var errorOccured = false;
+            try
+            {
+                instance.Layer2 = setLayer;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (errorOccured) return;
+
+            // マップサイズが変化していないこと
+            Assert.AreEqual(instance.MapSizeWidth, width);
+            Assert.AreEqual(instance.MapSizeHeight, height);
+
+            // レイヤーのサイズも変化していないこと
+            Assert.AreEqual(instance.Layer1.Width, width);
+            Assert.AreEqual(instance.Layer1.Height, height);
+            Assert.AreEqual(instance.Layer2.Width, width);
+            Assert.AreEqual(instance.Layer2.Height, height);
+            Assert.AreEqual(instance.Layer3.Width, width);
+            Assert.AreEqual(instance.Layer3.Height, height);
+        }
+
+        [TestCase(true, true, false)]
+        [TestCase(false, true, true)]
+        [TestCase(true, false, true)]
+        [TestCase(false, false, true)]
+        public static void SetLayer3Test(bool isEqualWidth, bool isEqualHeight, bool isError)
+        {
+            var instance = new MapData();
+
+            var width = (MapSizeWidth) 30;
+            var height = (MapSizeHeight) 24;
+
+            instance.UpdateMapSize(width, height);
+
+            var layerWidth = isEqualWidth ? width : (MapSizeWidth) (width + 1);
+            var layerHeight = isEqualHeight ? height : (MapSizeHeight) (height + 1);
+
+            var setLayer = new Layer();
+            setLayer.UpdateSize(layerWidth, layerHeight);
+
+            var errorOccured = false;
+            try
+            {
+                instance.Layer3 = setLayer;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (errorOccured) return;
+
+            // マップサイズが変化していないこと
+            Assert.AreEqual(instance.MapSizeWidth, width);
+            Assert.AreEqual(instance.MapSizeHeight, height);
+
+            // レイヤーのサイズも変化していないこと
+            Assert.AreEqual(instance.Layer1.Width, width);
+            Assert.AreEqual(instance.Layer1.Height, height);
+            Assert.AreEqual(instance.Layer2.Width, width);
+            Assert.AreEqual(instance.Layer2.Height, height);
+            Assert.AreEqual(instance.Layer3.Width, width);
+            Assert.AreEqual(instance.Layer3.Height, height);
+        }
+
+        [Test]
+        public static void UpdateMapSizeWidthTest()
+        {
+            var instance = new MapData();
+            var width = (MapSizeWidth) 30;
+
+            var errorOccured = false;
+            try
+            {
+                instance.UpdateMapSizeWidth(width);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
+
+            // マップサイズ横が設定した値であること
+            Assert.AreEqual(instance.MapSizeWidth, width);
+
+            // 各レイヤのマップサイズ横が設定した値であること
+            Assert.AreEqual(instance.Layer1.Width, width);
+            Assert.AreEqual(instance.Layer2.Width, width);
+            Assert.AreEqual(instance.Layer3.Width, width);
+        }
+
+        [Test]
+        public static void UpdateMapSizeHeightTest()
+        {
+            var instance = new MapData();
+            var height = (MapSizeHeight) 30;
+
+            var errorOccured = false;
+            try
+            {
+                instance.UpdateMapSizeHeight(height);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
+
+            // マップサイズ縦が設定した値であること
+            Assert.AreEqual(instance.MapSizeHeight, height);
+
+            // 各レイヤのマップサイズ縦が設定した値であること
+            Assert.AreEqual(instance.Layer1.Height, height);
+            Assert.AreEqual(instance.Layer2.Height, height);
+            Assert.AreEqual(instance.Layer3.Height, height);
+        }
+
+        [Test]
         public static void ToBinaryMap023Test()
         {
             MapFileTestItemGenerator.OutputMapFile();

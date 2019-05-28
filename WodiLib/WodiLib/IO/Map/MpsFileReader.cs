@@ -173,7 +173,7 @@ namespace WodiLib.IO
         /// <param name="mapData">データ格納マップデータインスタンス</param>
         private static void ReadMapSizeWidth(FileReadStatus status, MapData mapData)
         {
-            mapData.MapSizeWidth = status.ReadInt();
+            mapData.UpdateMapSizeWidth(status.ReadInt());
             status.IncreaseIntOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
@@ -187,7 +187,7 @@ namespace WodiLib.IO
         /// <param name="mapData">データ格納マップデータインスタンス</param>
         private static void ReadMapSizeHeight(FileReadStatus status, MapData mapData)
         {
-            mapData.MapSizeHeight = status.ReadInt();
+            mapData.UpdateMapSizeHeight(status.ReadInt());
             status.IncreaseIntOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
@@ -242,7 +242,7 @@ namespace WodiLib.IO
         /// <param name="layerNo">レイヤー番号</param>
         private static void ReadOneLayer(FileReadStatus status, MapData mapData, int layerNo)
         {
-            var chips = new List<IEnumerable<MapChip>>();
+            var chips = new List<List<MapChip>>();
             for (var x = 0; x < (int) mapData.MapSizeWidth; x++)
             {
                 Logger.Debug(FileIOMessage.StartCommonRead(typeof(MpsFileReader),
@@ -254,8 +254,10 @@ namespace WodiLib.IO
                     "列{x}"));
             }
 
-            var layer = new Layer();
-            layer.SetChips(chips);
+            var layer = new Layer
+            {
+                Chips = new MapChipList(chips)
+            };
             mapData.SetLayer(layerNo, layer);
         }
 
@@ -266,7 +268,7 @@ namespace WodiLib.IO
         /// <param name="mapSizeHeight">マップ高さ</param>
         /// <param name="chipList">格納先リスト</param>
         private static void ReadLayerOneLine(FileReadStatus status, MapSizeHeight mapSizeHeight,
-            ICollection<IEnumerable<MapChip>> chipList)
+            ICollection<List<MapChip>> chipList)
         {
             var lineChips = new List<MapChip>();
             for (var y = 0; y < (int) mapSizeHeight; y++)

@@ -94,7 +94,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>リスト</summary>
-        protected List<T> Items { get; } = new List<T>();
+        protected virtual List<T> Items { get; } = new List<T>();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Constructor

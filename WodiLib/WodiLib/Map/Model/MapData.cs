@@ -32,13 +32,13 @@ namespace WodiLib.Map
         }
 
         /// <summary>タイルセットID</summary>
-        public TileSetId TileSetId { get; set; }
+        public TileSetId TileSetId { get; set; } = 0;
 
         /// <summary>マップサイズ横</summary>
-        public MapSizeWidth MapSizeWidth { get; set; }
+        public MapSizeWidth MapSizeWidth => Layer1.Width;
 
         /// <summary>マップサイズ縦</summary>
-        public MapSizeHeight MapSizeHeight { get; set; }
+        public MapSizeHeight MapSizeHeight => Layer1.Height;
 
         private Layer layer1 = new Layer();
 
@@ -47,27 +47,51 @@ namespace WodiLib.Map
         public Layer Layer1
         {
             get => layer1;
-            set => layer1 = value ?? throw new PropertyNullException(ErrorMessage.NotNull(nameof(Layer1)));
+            set
+            {
+                layer1 = value ?? throw new PropertyNullException(ErrorMessage.NotNull(nameof(Layer1)));
+
+                Layer2.UpdateWidth(value.Width);
+                Layer2.UpdateHeight(value.Height);
+                Layer3.UpdateWidth(value.Width);
+                Layer3.UpdateHeight(value.Height);
+            }
         }
 
         private Layer layer2 = new Layer();
 
         /// <summary>[NotNull] レイヤー2</summary>
         /// <exception cref="PropertyNullException">nullをセットしようとした場合</exception>
+        /// <exception cref="PropertyException">Layer1と異なるマップサイズのインスタンスをセットしようとした場合</exception>
         public Layer Layer2
         {
             get => layer2;
-            set => layer2 = value ?? throw new PropertyNullException(ErrorMessage.NotNull(nameof(Layer2)));
+            set
+            {
+                if (value == null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(Layer2)));
+                if (value.Width != Layer1.Width || value.Height != Layer1.Height)
+                    throw new PropertyException(
+                        $"{nameof(Layer2)}のマップサイズは{nameof(Layer1)}のマップサイズと同じサイズである必要があります。");
+                layer2 = value;
+            }
         }
 
         private Layer layer3 = new Layer();
 
         /// <summary>[NotNull] レイヤー3</summary>
         /// <exception cref="PropertyNullException">nullをセットしようとした場合</exception>
+        /// <exception cref="PropertyException">Layer1と異なるマップサイズのインスタンスをセットしようとした場合</exception>
         public Layer Layer3
         {
             get => layer3;
-            set => layer3 = value ?? throw new PropertyNullException(ErrorMessage.NotNull(nameof(Layer3)));
+            set
+            {
+                if (value == null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(Layer3)));
+                if (value.Width != Layer1.Width || value.Height != Layer1.Height)
+                    throw new PropertyException(
+                        $"{nameof(Layer3)}のマップサイズは{nameof(Layer1)}のマップサイズと同じサイズである必要があります。");
+                layer3 = value;
+            }
         }
 
         private MapEventList mapEvents = new MapEventList();
@@ -148,6 +172,45 @@ namespace WodiLib.Map
 
         /// <summary>フッタ</summary>
         public static readonly byte[] Footer = {0x66};
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// マップサイズ横を更新する。
+        /// レイヤ情報もともに更新される。
+        /// </summary>
+        /// <param name="width">マップサイズ横</param>
+        public void UpdateMapSizeWidth(MapSizeWidth width)
+        {
+            Layer1.UpdateWidth(width);
+            Layer2.UpdateWidth(width);
+            Layer3.UpdateWidth(width);
+        }
+
+        /// <summary>
+        /// マップサイズ縦を更新する。
+        /// レイヤ情報もともに更新される。
+        /// </summary>
+        /// <param name="height">マップサイズ縦</param>
+        public void UpdateMapSizeHeight(MapSizeHeight height)
+        {
+            Layer1.UpdateHeight(height);
+            Layer2.UpdateHeight(height);
+            Layer3.UpdateHeight(height);
+        }
+
+        /// <summary>
+        /// マップサイズ縦を更新する。
+        /// </summary>
+        /// <param name="width">サイズ横</param>
+        /// <param name="height">マップサイズ縦</param>
+        public void UpdateMapSize(MapSizeWidth width, MapSizeHeight height)
+        {
+            UpdateMapSizeWidth(width);
+            UpdateMapSizeHeight(height);
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common

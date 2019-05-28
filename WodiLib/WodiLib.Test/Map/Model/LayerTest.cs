@@ -22,8 +22,10 @@ namespace WodiLib.Test.Map
         [Test]
         public static void PropertyTest()
         {
-            var layer = new Layer();
-            layer.SetChips(GenerateTestChipsData(20, 15));
+            var layer = new Layer
+            {
+                Chips = new MapChipList(GenerateTestChipsData(20, 15))
+            };
 
             var _ = layer.Chips;
             // ここまでの処理でエラーにならないこと
@@ -39,8 +41,10 @@ namespace WodiLib.Test.Map
         [TestCase(40)]
         public static void UpdateWidthTest(int sizeWidth)
         {
-            var layer = new Layer();
-            layer.SetChips(GenerateTestChipsData(30, 15));
+            var layer = new Layer
+            {
+                Chips = new MapChipList(GenerateTestChipsData(30, 15))
+            };
             var width = (MapSizeWidth) sizeWidth;
 
             var errorOccured = false;
@@ -66,8 +70,10 @@ namespace WodiLib.Test.Map
         [TestCase(30)]
         public static void SetHeightTest(int heightSize)
         {
-            var layer = new Layer();
-            layer.SetChips(GenerateTestChipsData(20, 20));
+            var layer = new Layer
+            {
+                Chips = new MapChipList(GenerateTestChipsData(20, 20))
+            };
             var height = (MapSizeHeight) heightSize;
 
             var errorOccured = false;
@@ -88,6 +94,33 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(layer.Height, height);
         }
 
+        [Test]
+        public static void UpdateSizeTest()
+        {
+            var instance = new MapChipList(GenerateTestChipsData(20, 20));
+
+            var width = (MapSizeWidth) 30;
+            var height = (MapSizeHeight) 24;
+
+            var errorOccured = false;
+            try
+            {
+                instance.UpdateSize(width, height);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
+
+            // サイズが変化していること
+            Assert.AreEqual(instance.Width, width);
+            Assert.AreEqual(instance.Height, height);
+        }
+
         private static readonly object[] SetChipTestCaseSource =
         {
             new object[] {2, 4, (MapChip) 322, false},
@@ -101,13 +134,15 @@ namespace WodiLib.Test.Map
         [TestCaseSource(nameof(SetChipTestCaseSource))]
         public static void SetChipTest(int x, int y, MapChip chip, bool isError)
         {
-            var layer = new Layer();
-            layer.SetChips(GenerateTestChipsData(20, 15));
+            var layer = new Layer
+            {
+                Chips = new MapChipList(GenerateTestChipsData(20, 15))
+            };
 
             var errorOccured = false;
             try
             {
-                layer.SetChip(x, y, chip);
+                layer.Chips[x][y] = chip;
             }
             catch (Exception ex)
             {
@@ -121,7 +156,7 @@ namespace WodiLib.Test.Map
             if (errorOccured) return;
 
             // チップ番号値が指定した値になっていること
-            var result = layer.GetChip(x, y);
+            var result = layer.Chips[x][y];
             Assert.AreEqual((int) result, (int) chip);
         }
 
@@ -132,14 +167,16 @@ namespace WodiLib.Test.Map
         [TestCase(4, 15, true)]
         public static void GetChipTest(int x, int y, bool isError)
         {
-            var layer = new Layer();
-            layer.SetChips(GenerateTestChipsData(20, 15));
+            var layer = new Layer
+            {
+                Chips = new MapChipList(GenerateTestChipsData(20, 15))
+            };
 
             var errorOccured = false;
             var getChip = MapChip.Default;
             try
             {
-                getChip = layer.GetChip(x, y);
+                getChip = layer.Chips[x][y];
             }
             catch (Exception ex)
             {
