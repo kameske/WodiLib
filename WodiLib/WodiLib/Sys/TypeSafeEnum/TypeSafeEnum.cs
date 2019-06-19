@@ -109,8 +109,9 @@ namespace WodiLib.Sys
         public static bool operator ==(TypeSafeEnum<T> left, TypeSafeEnum<T> right)
         {
             if (ReferenceEquals(left, right)) return true;
-
             if ((object) left == null || (object) right == null) return false;
+
+
             return left.Id == right.Id;
         }
 
@@ -122,9 +123,7 @@ namespace WodiLib.Sys
         /// <returns>一致しない場合true</returns>
         public static bool operator !=(TypeSafeEnum<T> left, TypeSafeEnum<T> right)
         {
-            if (ReferenceEquals(left, right)) return false;
-            if ((object) left == null || (object) right == null) return false;
-            return left.Id != right.Id;
+            return !(left == right);
         }
 
         /// <summary>
@@ -134,6 +133,7 @@ namespace WodiLib.Sys
         /// <returns>一致する場合true</returns>
         public bool Equals(TypeSafeEnum<T> other)
         {
+            if(other == null) return false;
             return Id.Equals(other.Id);
         }
 
