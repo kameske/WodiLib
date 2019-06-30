@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using WodiLib.Database;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.IO
 {
@@ -108,10 +109,7 @@ namespace WodiLib.Test.IO
         /// </summary>
         public static void OutputFile()
         {
-            if (!Directory.Exists(TestWorkRootDir))
-            {
-                Directory.CreateDirectory(TestWorkRootDir);
-            }
+            TestWorkRootDir.CreateDirectoryIfNeed();
 
             foreach (var (fileName, bytes) in TestFiles)
             {

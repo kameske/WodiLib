@@ -133,7 +133,7 @@ namespace WodiLib.Sys
         /// <returns>一致する場合true</returns>
         public bool Equals(TypeSafeEnum<T> other)
         {
-            if(other == null) return false;
+            if (other == null) return false;
             return Id.Equals(other.Id);
         }
 

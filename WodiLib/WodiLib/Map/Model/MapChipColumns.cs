@@ -1,3 +1,11 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : MapChipColumns.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 using System;
 using System.Collections.Generic;
 using WodiLib.Sys;

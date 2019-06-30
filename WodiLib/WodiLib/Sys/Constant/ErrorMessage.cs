@@ -43,11 +43,35 @@ namespace WodiLib.Sys
             return $"{itemName}にEmptyを設定できません。";
         }
 
+        /// <summary>
+        /// Denyエラーメッセージ
+        /// </summary>
+        /// <param name="itemName">項目名</param>
+        /// <param name="value">設定値</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string Deny(string itemName, IntOrStr value)
+        {
+            return $"{itemName}に{value}を設定できません。";
+        }
+
+        /// <summary>
+        /// NotEqualエラーメッセージ
+        /// </summary>
+        /// <param name="itemLeft">右辺項目名</param>
+        /// <param name="itemRight">左辺項目名</param>
+        /// <returns>エラーメッセージ</returns>
         public static string NotEqual(string itemLeft, string itemRight)
         {
             return $"{itemLeft}と{itemRight}が異なるため、処理できません。";
         }
 
+        /// <summary>
+        /// GreaterOrEqualエラーメッセージ
+        /// </summary>
+        /// <param name="itemName">項目名</param>
+        /// <param name="limit">上限値</param>
+        /// <param name="value">設定値</param>
+        /// <returns>エラーメッセージ</returns>
         public static string GreaterOrEqual(string itemName, IntOrStr limit, int value)
         {
             return $"{itemName}は{limit}以上である必要があります。";

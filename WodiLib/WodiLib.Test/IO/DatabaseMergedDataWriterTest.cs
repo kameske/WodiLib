@@ -1,8 +1,8 @@
 using System;
-using System.IO;
 using NUnit.Framework;
 using WodiLib.Database;
 using WodiLib.IO;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.IO
 {
@@ -14,10 +14,7 @@ namespace WodiLib.Test.IO
         {
             var outputDir = $@"{DatabaseMergedDataTestItemGenerator.TestWorkRootDir}\DatabaseMergedDataWriterTest";
             // テスト用ファイル出力
-            if (!Directory.Exists(outputDir))
-            {
-                Directory.CreateDirectory(outputDir);
-            }
+            outputDir.CreateDirectoryIfNeed();
         }
 
         private static readonly object[] WriteSyncTestCaseSource =

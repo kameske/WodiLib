@@ -313,6 +313,46 @@ namespace WodiLib.Test {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] MapTree0 {
+            get {
+                object obj = ResourceManager.GetObject("MapTree0", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] MapTree1 {
+            get {
+                object obj = ResourceManager.GetObject("MapTree1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] MapTreeOpenStatus0 {
+            get {
+                object obj = ResourceManager.GetObject("MapTreeOpenStatus0", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] MapTreeOpenStatus1 {
+            get {
+                object obj = ResourceManager.GetObject("MapTreeOpenStatus1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] SysDatabase1Dat {
             get {
                 object obj = ResourceManager.GetObject("SysDatabase1Dat", resourceCulture);
@@ -326,6 +366,56 @@ namespace WodiLib.Test {
         internal static byte[] SysDatabase1Project {
             get {
                 object obj = ResourceManager.GetObject("SysDatabase1Project", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TileSetData0 {
+            get {
+                object obj = ResourceManager.GetObject("TileSetData0", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TileSetData1 {
+            get {
+                object obj = ResourceManager.GetObject("TileSetData1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] title000_街 {
+            get {
+                object obj = ResourceManager.GetObject("title000_街", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] title000_設定名 {
+            get {
+                object obj = ResourceManager.GetObject("title000_設定名", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] title001_aaa {
+            get {
+                object obj = ResourceManager.GetObject("title001_aaa", resourceCulture);
                 return ((byte[])(obj));
             }
         }

@@ -124,5 +124,23 @@ namespace WodiLib.Sys
         }
 
         #endregion
+
+        #region Setting
+
+        /// <summary>
+        /// 指定バージョン未満のバージョンを指定できないコマンドの警告メッセージ
+        /// </summary>
+        /// <param name="itemName">項目名</param>
+        /// <param name="currentVersion">設定バージョン</param>
+        /// <param name="targetVersion">要求バージョン</param>
+        /// <returns>メッセージ</returns>
+        public static string NotUnderInSetting(string itemName, WoditorVersion currentVersion,
+            WoditorVersion targetVersion)
+        {
+            return $"{itemName}は現在の設定バージョン（{currentVersion.VersionName}）では使用できない設定です。" +
+                   $"(必要バージョン：{targetVersion.VersionName}）";
+        }
+
+        #endregion
     }
 }

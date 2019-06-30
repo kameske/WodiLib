@@ -156,5 +156,25 @@ namespace WodiLib.Sys
         {
             return left.VersionCode <= right.VersionCode;
         }
+
+        /// <summary>
+        /// バージョンコードを指定してインスタンスを取得する。
+        /// </summary>
+        /// <param name="versionCode">バージョンコード</param>
+        /// <returns>バージョンインスタンス</returns>
+        public static WoditorVersion FromCode(int versionCode)
+        {
+            return _FindFirst(x => x.VersionCode == versionCode);
+        }
+
+        /// <summary>
+        /// バージョン名を指定してインスタンスを取得する。
+        /// </summary>
+        /// <param name="versionName">バージョン名</param>
+        /// <returns>バージョンインスタンス</returns>
+        public static WoditorVersion FromName(string versionName)
+        {
+            return _FindFirst(x => x.VersionName.Equals(versionName));
+        }
     }
 }

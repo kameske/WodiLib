@@ -217,4 +217,31 @@
   <data name="UDB8DBType" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\タイプ(データ含む)_008_状態設定.dbtype;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="MapTree0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\Dir0\MapTree.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MapTree1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\Dir1\MapTree.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MapTreeOpenStatus0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\Dir0\MapTreeOpenStatus.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="MapTreeOpenStatus1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\Dir1\MapTreeOpenStatus.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="title000_設定名" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\000_設定名.tile;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="title001_aaa" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\001_aaa.tile;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="title000_街" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\000_街.tile;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TileSetData0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\Dir0\TileSetData.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TileSetData1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\Dir1\TileSetData.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

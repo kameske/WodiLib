@@ -1,3 +1,11 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : IFixedLengthMapChipColumns.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 using WodiLib.Sys;
 
 namespace WodiLib.Map

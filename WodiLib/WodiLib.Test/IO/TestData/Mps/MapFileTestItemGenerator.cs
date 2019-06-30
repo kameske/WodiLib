@@ -7,6 +7,7 @@ using WodiLib.Event;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Event.EventCommand;
 using WodiLib.Map;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.IO
 {
@@ -1633,10 +1634,7 @@ namespace WodiLib.Test.IO
         /// </summary>
         public static void OutputMapFile()
         {
-            if (!Directory.Exists(TestWorkRootDir))
-            {
-                Directory.CreateDirectory(TestWorkRootDir);
-            }
+            TestWorkRootDir.CreateDirectoryIfNeed();
 
             foreach (var (fileName, bytes) in TestFiles)
             {
