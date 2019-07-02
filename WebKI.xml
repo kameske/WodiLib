@@ -4,6 +4,7 @@
     <HelpKINode Title="CriteriaOperator.Above フィールド" Url="html/F_WodiLib_Event_CriteriaOperator_Above.htm" />
     <HelpKINode Title="NumberConditionalOperator.Above フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberConditionalOperator_Above.htm" />
   </HelpKINode>
+  <HelpKINode Title="AboveCharacter フィールド" Url="html/F_WodiLib_Map_TilePathOption_AboveCharacter.htm" />
   <HelpKINode Title="Absolute フィールド">
     <HelpKINode Title="NumberAssignmentOperator.Absolute フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberAssignmentOperator_Absolute.htm" />
     <HelpKINode Title="NumberPlusAssignmentOperator.Absolute フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusAssignmentOperator_Absolute.htm" />
@@ -107,7 +108,10 @@
   </HelpKINode>
   <HelpKINode Title="AllDevices フィールド" Url="html/F_WodiLib_Event_EventCommand_DeviceInputControlType_AllDevices.htm" />
   <HelpKINode Title="AllMouseInput フィールド" Url="html/F_WodiLib_Event_EventCommand_DeviceInputControlType_AllMouseInput.htm" />
-  <HelpKINode Title="Allow フィールド" Url="html/F_WodiLib_Event_EventCommand_DeviceKeyInputControlType_Allow.htm" />
+  <HelpKINode Title="Allow フィールド">
+    <HelpKINode Title="DeviceKeyInputControlType.Allow フィールド" Url="html/F_WodiLib_Event_EventCommand_DeviceKeyInputControlType_Allow.htm" />
+    <HelpKINode Title="TilePathPermission.Allow フィールド" Url="html/F_WodiLib_Map_TilePathPermission_Allow.htm" />
+  </HelpKINode>
   <HelpKINode Title="AllPadInput フィールド" Url="html/F_WodiLib_Event_EventCommand_DeviceInputControlType_AllPadInput.htm" />
   <HelpKINode Title="AnchorPosition プロパティ" Url="html/P_WodiLib_Event_EventCommand_PictureShowBase_AnchorPosition.htm" />
   <HelpKINode Title="AnchorPositionCode プロパティ">
@@ -246,6 +250,31 @@
   <HelpKINode Title="AutoPatternSwitchLoop フィールド" Url="html/F_WodiLib_Event_EventCommand_PictureEffectType_AutoPatternSwitchLoop.htm" />
   <HelpKINode Title="AutoPatternSwitchOnce フィールド" Url="html/F_WodiLib_Event_EventCommand_PictureEffectType_AutoPatternSwitchOnce.htm" />
   <HelpKINode Title="AutoPatternSwitchRoundTrip フィールド" Url="html/F_WodiLib_Event_EventCommand_PictureEffectType_AutoPatternSwitchRoundTrip.htm" />
+  <HelpKINode Title="AutoTileFileName to String 変換" Url="html/M_WodiLib_Map_AutoTileFileName_op_Implicit_1.htm" />
+  <HelpKINode Title="AutoTileFileName クラス" Url="html/T_WodiLib_Map_AutoTileFileName.htm" />
+  <HelpKINode Title="AutoTileFileName クラス、コンストラクター" Url="html/M_WodiLib_Map_AutoTileFileName__ctor.htm" />
+  <HelpKINode Title="AutoTileFileName クラス、メソッド" Url="html/Methods_T_WodiLib_Map_AutoTileFileName.htm" />
+  <HelpKINode Title="AutoTileFileName クラス、演算子と型変換" Url="html/Operators_T_WodiLib_Map_AutoTileFileName.htm" />
+  <HelpKINode Title="AutoTileFileName.AutoTileFileName コンストラクター" Url="html/M_WodiLib_Map_AutoTileFileName__ctor.htm" />
+  <HelpKINode Title="AutoTileFileName.Equality 演算子" Url="html/M_WodiLib_Map_AutoTileFileName_op_Equality.htm" />
+  <HelpKINode Title="AutoTileFileName.Equals メソッド" Url="html/Overload_WodiLib_Map_AutoTileFileName_Equals.htm" />
+  <HelpKINode Title="AutoTileFileName.GetHashCode メソッド" Url="html/M_WodiLib_Map_AutoTileFileName_GetHashCode.htm" />
+  <HelpKINode Title="AutoTileFileName.Inequality 演算子" Url="html/M_WodiLib_Map_AutoTileFileName_op_Inequality.htm" />
+  <HelpKINode Title="AutoTileFileName.ToString メソッド" Url="html/M_WodiLib_Map_AutoTileFileName_ToString.htm" />
+  <HelpKINode Title="AutoTileFileName.ToWoditorStringBytes メソッド" Url="html/M_WodiLib_Map_AutoTileFileName_ToWoditorStringBytes.htm" />
+  <HelpKINode Title="AutoTileFileNameList クラス" Url="html/T_WodiLib_Map_AutoTileFileNameList.htm" />
+  <HelpKINode Title="AutoTileFileNameList クラス、コンストラクター" Url="html/Overload_WodiLib_Map_AutoTileFileNameList__ctor.htm" />
+  <HelpKINode Title="AutoTileFileNameList クラス、フィールド" Url="html/Fields_T_WodiLib_Map_AutoTileFileNameList.htm" />
+  <HelpKINode Title="AutoTileFileNameList クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_AutoTileFileNameList.htm" />
+  <HelpKINode Title="AutoTileFileNameList クラス、メソッド" Url="html/Methods_T_WodiLib_Map_AutoTileFileNameList.htm" />
+  <HelpKINode Title="AutoTileFileNameList プロパティ" Url="html/P_WodiLib_Map_TileSetSetting_AutoTileFileNameList.htm" />
+  <HelpKINode Title="AutoTileFileNameList.AutoTileFileNameList コンストラクター" Url="html/Overload_WodiLib_Map_AutoTileFileNameList__ctor.htm" />
+  <HelpKINode Title="AutoTileFileNameList.GetMaxCapacity メソッド" Url="html/M_WodiLib_Map_AutoTileFileNameList_GetMaxCapacity.htm" />
+  <HelpKINode Title="AutoTileFileNameList.GetMinCapacity メソッド" Url="html/M_WodiLib_Map_AutoTileFileNameList_GetMinCapacity.htm" />
+  <HelpKINode Title="AutoTileFileNameList.MakeDefaultItem メソッド" Url="html/M_WodiLib_Map_AutoTileFileNameList_MakeDefaultItem.htm" />
+  <HelpKINode Title="AutoTileFileNameList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_AutoTileFileNameList_MaxCapacity.htm" />
+  <HelpKINode Title="AutoTileFileNameList.MinCapacity フィールド" Url="html/F_WodiLib_Map_AutoTileFileNameList_MinCapacity.htm" />
+  <HelpKINode Title="AutoTileFileNameList.ToBinary メソッド" Url="html/M_WodiLib_Map_AutoTileFileNameList_ToBinary.htm" />
   <HelpKINode Title="AutoTileMax プロパティ" Url="html/P_WodiLib_Map_MapChip_AutoTileMax.htm" />
   <HelpKINode Title="AutoTileMin プロパティ" Url="html/P_WodiLib_Map_MapChip_AutoTileMin.htm" />
   <HelpKINode Title="AutoTilePartType クラス" Url="html/T_WodiLib_Map_AutoTilePartType.htm" />
@@ -261,6 +290,19 @@
   <HelpKINode Title="AutoTilePartType.SurroundingFilled フィールド" Url="html/F_WodiLib_Map_AutoTilePartType_SurroundingFilled.htm" />
   <HelpKINode Title="B プロパティ" Url="html/P_WodiLib_Event_EventCommand_Color_B.htm" />
   <HelpKINode Title="BackToHero フィールド" Url="html/F_WodiLib_Event_EventCommand_ScrollScreenType_BackToHero.htm" />
+  <HelpKINode Title="BaseTileSetFileName to String 変換" Url="html/M_WodiLib_Map_BaseTileSetFileName_op_Implicit_1.htm" />
+  <HelpKINode Title="BaseTileSetFileName クラス" Url="html/T_WodiLib_Map_BaseTileSetFileName.htm" />
+  <HelpKINode Title="BaseTileSetFileName クラス、コンストラクター" Url="html/M_WodiLib_Map_BaseTileSetFileName__ctor.htm" />
+  <HelpKINode Title="BaseTileSetFileName クラス、メソッド" Url="html/Methods_T_WodiLib_Map_BaseTileSetFileName.htm" />
+  <HelpKINode Title="BaseTileSetFileName クラス、演算子と型変換" Url="html/Operators_T_WodiLib_Map_BaseTileSetFileName.htm" />
+  <HelpKINode Title="BaseTileSetFileName プロパティ" Url="html/P_WodiLib_Map_TileSetSetting_BaseTileSetFileName.htm" />
+  <HelpKINode Title="BaseTileSetFileName.BaseTileSetFileName コンストラクター" Url="html/M_WodiLib_Map_BaseTileSetFileName__ctor.htm" />
+  <HelpKINode Title="BaseTileSetFileName.Equality 演算子" Url="html/M_WodiLib_Map_BaseTileSetFileName_op_Equality.htm" />
+  <HelpKINode Title="BaseTileSetFileName.Equals メソッド" Url="html/Overload_WodiLib_Map_BaseTileSetFileName_Equals.htm" />
+  <HelpKINode Title="BaseTileSetFileName.GetHashCode メソッド" Url="html/M_WodiLib_Map_BaseTileSetFileName_GetHashCode.htm" />
+  <HelpKINode Title="BaseTileSetFileName.Inequality 演算子" Url="html/M_WodiLib_Map_BaseTileSetFileName_op_Inequality.htm" />
+  <HelpKINode Title="BaseTileSetFileName.ToString メソッド" Url="html/M_WodiLib_Map_BaseTileSetFileName_ToString.htm" />
+  <HelpKINode Title="BaseTileSetFileName.ToWoditorStringBytes メソッド" Url="html/M_WodiLib_Map_BaseTileSetFileName_ToWoditorStringBytes.htm" />
   <HelpKINode Title="Basic フィールド">
     <HelpKINode Title="EventCommandConstant.KeyInput.Type.Basic フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_KeyInput_Type_Basic.htm" />
     <HelpKINode Title="EventCommandConstant.KeyInputAuto.Type.Basic フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_KeyInputAuto_Type_Basic.htm" />
@@ -320,6 +362,7 @@
   <HelpKINode Title="Byte to AnimationId 変換" Url="html/M_WodiLib_Map_AnimationId_op_Implicit.htm" />
   <HelpKINode Title="Byte to MapEventOpacity 変換" Url="html/M_WodiLib_Map_MapEventOpacity_op_Implicit.htm" />
   <HelpKINode Title="Byte to ShadowGraphicId 変換" Url="html/M_WodiLib_Map_ShadowGraphicId_op_Implicit.htm" />
+  <HelpKINode Title="Byte to TileTagNumber 変換" Url="html/M_WodiLib_Map_TileTagNumber_op_Implicit.htm" />
   <HelpKINode Title="ByteB プロパティ" Url="html/P_WodiLib_Event_EventCommand_Color_ByteB.htm" />
   <HelpKINode Title="ByteG プロパティ" Url="html/P_WodiLib_Event_EventCommand_Color_ByteG.htm" />
   <HelpKINode Title="ByteR プロパティ" Url="html/P_WodiLib_Event_EventCommand_Color_ByteR.htm" />
@@ -414,6 +457,7 @@
   <HelpKINode Title="CanChangeEnabled プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollectionHandler_1_CanChangeEnabled.htm" />
   <HelpKINode Title="CanDelete プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollectionHandler_1_CanDelete.htm" />
   <HelpKINode Title="Cannot フィールド" Url="html/F_WodiLib_Event_EventCommand_ChoiceCancelForkType_Cannot.htm" />
+  <HelpKINode Title="CannotPassingFlags プロパティ" Url="html/P_WodiLib_Map_TilePathSetting_CannotPassingFlags.htm" />
   <HelpKINode Title="CanSetForMapEventMoveRoute プロパティ">
     <HelpKINode Title="AnimateSpeed.CanSetForMapEventMoveRoute プロパティ " Url="html/P_WodiLib_Event_AnimateSpeed_CanSetForMapEventMoveRoute.htm" />
     <HelpKINode Title="MoveSpeed.CanSetForMapEventMoveRoute プロパティ " Url="html/P_WodiLib_Event_MoveSpeed_CanSetForMapEventMoveRoute.htm" />
@@ -587,6 +631,10 @@
   <HelpKINode Title="ChangeMapChipSetting.SetNumberVariable メソッド" Url="html/M_WodiLib_Event_EventCommand_ChangeMapChipSetting_SetNumberVariable.htm" />
   <HelpKINode Title="ChangeMapChipSetting.SetStringVariable メソッド" Url="html/M_WodiLib_Event_EventCommand_ChangeMapChipSetting_SetStringVariable.htm" />
   <HelpKINode Title="ChangeMapChipSetting.StringVariableCount プロパティ" Url="html/P_WodiLib_Event_EventCommand_ChangeMapChipSetting_StringVariableCount.htm" />
+  <HelpKINode Title="ChangePathPermissionAllow メソッド" Url="html/M_WodiLib_Map_TilePathSetting_ChangePathPermissionAllow.htm" />
+  <HelpKINode Title="ChangePathPermissionDeny メソッド" Url="html/M_WodiLib_Map_TilePathSetting_ChangePathPermissionDeny.htm" />
+  <HelpKINode Title="ChangePathPermissionDependent メソッド" Url="html/M_WodiLib_Map_TilePathSetting_ChangePathPermissionDependent.htm" />
+  <HelpKINode Title="ChangePathPermissionPartialDeny メソッド" Url="html/M_WodiLib_Map_TilePathSetting_ChangePathPermissionPartialDeny.htm" />
   <HelpKINode Title="ChangePatternFifth クラス" Url="html/T_WodiLib_Event_CharaMoveCommand_ChangePatternFifth.htm" />
   <HelpKINode Title="ChangePatternFifth クラス、コンストラクター" Url="html/M_WodiLib_Event_CharaMoveCommand_ChangePatternFifth__ctor.htm" />
   <HelpKINode Title="ChangePatternFifth クラス、プロパティ" Url="html/Properties_T_WodiLib_Event_CharaMoveCommand_ChangePatternFifth.htm" />
@@ -675,6 +723,7 @@
   <HelpKINode Title="ChangeScreenColor.SetNumberVariable メソッド" Url="html/M_WodiLib_Event_EventCommand_ChangeScreenColor_SetNumberVariable.htm" />
   <HelpKINode Title="ChangeScreenColor.SetStringVariable メソッド" Url="html/M_WodiLib_Event_EventCommand_ChangeScreenColor_SetStringVariable.htm" />
   <HelpKINode Title="ChangeScreenColor.StringVariableCount プロパティ" Url="html/P_WodiLib_Event_EventCommand_ChangeScreenColor_StringVariableCount.htm" />
+  <HelpKINode Title="ChangeSettingLength メソッド" Url="html/M_WodiLib_Map_TileSetSetting_ChangeSettingLength.htm" />
   <HelpKINode Title="ChangeTargetKey メソッド">
     <HelpKINode Title="VersionConfig.ChangeTargetKey メソッド " Url="html/M_WodiLib_Sys_Cmn_VersionConfig_ChangeTargetKey.htm" />
     <HelpKINode Title="WodiLibLogger.ChangeTargetKey メソッド " Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_ChangeTargetKey.htm" />
@@ -1105,6 +1154,7 @@
     <HelpKINode Title="RestrictedCapacityCollectionHandlerList(TItem, THandler).ClearItems メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_ClearItems.htm" />
   </HelpKINode>
   <HelpKINode Title="ClickState フィールド" Url="html/F_WodiLib_Event_EventCommand_KeyInputMouseTarget_ClickState.htm" />
+  <HelpKINode Title="Close フィールド" Url="html/F_WodiLib_Map_MapTreeOpenState_Close.htm" />
   <HelpKINode Title="Code プロパティ">
     <HelpKINode Title="AnimateSpeed.Code プロパティ " Url="html/P_WodiLib_Event_AnimateSpeed_Code.htm" />
     <HelpKINode Title="AudioSpecification.Code プロパティ " Url="html/P_WodiLib_Event_EventCommand_AudioSpecification_Code.htm" />
@@ -1138,6 +1188,7 @@
     <HelpKINode Title="MapEffectShakeSpeed.Code プロパティ " Url="html/P_WodiLib_Event_EventCommand_MapEffectShakeSpeed_Code.htm" />
     <HelpKINode Title="MapEffectShakeType.Code プロパティ " Url="html/P_WodiLib_Event_EventCommand_MapEffectShakeType_Code.htm" />
     <HelpKINode Title="MapEventBootType.Code プロパティ " Url="html/P_WodiLib_Map_MapEventBootType_Code.htm" />
+    <HelpKINode Title="MapTreeOpenState.Code プロパティ " Url="html/P_WodiLib_Map_MapTreeOpenState_Code.htm" />
     <HelpKINode Title="MoveFrequency.Code プロパティ " Url="html/P_WodiLib_Event_MoveFrequency_Code.htm" />
     <HelpKINode Title="MoveSpeed.Code プロパティ " Url="html/P_WodiLib_Event_MoveSpeed_Code.htm" />
     <HelpKINode Title="MoveType.Code プロパティ " Url="html/P_WodiLib_Event_MoveType_Code.htm" />
@@ -1157,6 +1208,8 @@
     <HelpKINode Title="StandardKeyInputControlType.Code プロパティ " Url="html/P_WodiLib_Event_EventCommand_StandardKeyInputControlType_Code.htm" />
     <HelpKINode Title="StringAssignmentOperator.Code プロパティ " Url="html/P_WodiLib_Event_EventCommand_StringAssignmentOperator_Code.htm" />
     <HelpKINode Title="StringConditionalOperator.Code プロパティ " Url="html/P_WodiLib_Event_EventCommand_StringConditionalOperator_Code.htm" />
+    <HelpKINode Title="TilePathOption.Code プロパティ " Url="html/P_WodiLib_Map_TilePathOption_Code.htm" />
+    <HelpKINode Title="TilePathPermission.Code プロパティ " Url="html/P_WodiLib_Map_TilePathPermission_Code.htm" />
     <HelpKINode Title="TransferOption.Code プロパティ " Url="html/P_WodiLib_Event_EventCommand_TransferOption_Code.htm" />
     <HelpKINode Title="ZoomRateType.Code プロパティ " Url="html/P_WodiLib_Event_EventCommand_ZoomRateType_Code.htm" />
   </HelpKINode>
@@ -1741,7 +1794,10 @@
   <HelpKINode Title="CommonFilePath.Inequality 演算子" Url="html/M_WodiLib_IO_CommonFilePath_op_Inequality.htm" />
   <HelpKINode Title="CommonFilePath.IsAllowEmptyString プロパティ" Url="html/P_WodiLib_IO_CommonFilePath_IsAllowEmptyString.htm" />
   <HelpKINode Title="CommonFilePath.ToString メソッド" Url="html/M_WodiLib_IO_CommonFilePath_ToString.htm" />
-  <HelpKINode Title="CompareTo メソッド" Url="html/M_WodiLib_Map_MapEventId_CompareTo.htm" />
+  <HelpKINode Title="CompareTo メソッド">
+    <HelpKINode Title="MapEventId.CompareTo メソッド " Url="html/M_WodiLib_Map_MapEventId_CompareTo.htm" />
+    <HelpKINode Title="MapId.CompareTo メソッド " Url="html/M_WodiLib_Map_MapId_CompareTo.htm" />
+  </HelpKINode>
   <HelpKINode Title="Condition プロパティ">
     <HelpKINode Title="ConditionNumberDesc.Condition プロパティ " Url="html/P_WodiLib_Event_EventCommand_ConditionNumberDesc_Condition.htm" />
     <HelpKINode Title="ConditionStringDesc.Condition プロパティ " Url="html/P_WodiLib_Event_EventCommand_ConditionStringDesc_Condition.htm" />
@@ -2280,6 +2336,7 @@
   <HelpKINode Title="DataNameList.MaxCapacity プロパティ" Url="html/P_WodiLib_Database_DataNameList_MaxCapacity.htm" />
   <HelpKINode Title="DataNameList.MinCapacity プロパティ" Url="html/P_WodiLib_Database_DataNameList_MinCapacity.htm" />
   <HelpKINode Title="DataNameList.ToBinary メソッド" Url="html/M_WodiLib_Database_DataNameList_ToBinary.htm" />
+  <HelpKINode Title="DataSeparator フィールド" Url="html/F_WodiLib_Map_TileSetSetting_DataSeparator.htm" />
   <HelpKINode Title="DataSettingType プロパティ">
     <HelpKINode Title="DatabaseTypeDesc.DataSettingType プロパティ " Url="html/P_WodiLib_Database_DatabaseTypeDesc_DataSettingType.htm" />
     <HelpKINode Title="DBDataSetting.DataSettingType プロパティ " Url="html/P_WodiLib_Database_DBDataSetting_DataSettingType.htm" />
@@ -2545,8 +2602,8 @@
     <HelpKINode Title="DBManagementGetDataId.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetDataId_DBKind.htm" />
     <HelpKINode Title="DBManagementGetDataLength.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetDataLength_DBKind.htm" />
     <HelpKINode Title="DBManagementGetDataName.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetDataName_DBKind.htm" />
-    <HelpKINode Title="DBManagementGetItemId.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetItemId_DBKind.htm" />
     <HelpKINode Title="DBManagementGetItemLength.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetItemLength_DBKind.htm" />
+    <HelpKINode Title="DBManagementGetItemId.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetItemId_DBKind.htm" />
     <HelpKINode Title="DBManagementGetItemName.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetItemName_DBKind.htm" />
     <HelpKINode Title="DBManagementGetTypeId.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetTypeId_DBKind.htm" />
     <HelpKINode Title="DBManagementGetTypeName.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetTypeName_DBKind.htm" />
@@ -3029,7 +3086,11 @@
     <HelpKINode Title="SyntheticVoice.Delay プロパティ " Url="html/P_WodiLib_Event_EventCommand_SyntheticVoice_Delay.htm" />
   </HelpKINode>
   <HelpKINode Title="DelayReset フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_PictureShow_ExecCode_DelayReset.htm" />
-  <HelpKINode Title="Deny フィールド" Url="html/F_WodiLib_Event_EventCommand_DeviceKeyInputControlType_Deny.htm" />
+  <HelpKINode Title="Deny フィールド">
+    <HelpKINode Title="DeviceKeyInputControlType.Deny フィールド" Url="html/F_WodiLib_Event_EventCommand_DeviceKeyInputControlType_Deny.htm" />
+    <HelpKINode Title="TilePathPermission.Deny フィールド" Url="html/F_WodiLib_Map_TilePathPermission_Deny.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Dependent フィールド" Url="html/F_WodiLib_Map_TilePathPermission_Dependent.htm" />
   <HelpKINode Title="Description プロパティ">
     <HelpKINode Title="CommonEvent.Description プロパティ " Url="html/P_WodiLib_Common_CommonEvent_Description.htm" />
     <HelpKINode Title="CommonEventSpecialArgCase.Description プロパティ " Url="html/P_WodiLib_Common_CommonEventSpecialArgCase_Description.htm" />
@@ -3136,6 +3197,7 @@
     <HelpKINode Title="CharaChipDirection.Down フィールド" Url="html/F_WodiLib_Map_CharaChipDirection_Down.htm" />
     <HelpKINode Title="DirectionKeyType.Down フィールド" Url="html/F_WodiLib_Event_EventCommand_DirectionKeyType_Down.htm" />
   </HelpKINode>
+  <HelpKINode Title="Down プロパティ" Url="html/P_WodiLib_Map_TileCannotPassingFlags_Down.htm" />
   <HelpKINode Title="Download クラス" Url="html/T_WodiLib_Event_EventCommand_Download.htm" />
   <HelpKINode Title="Download クラス、コンストラクター" Url="html/M_WodiLib_Event_EventCommand_Download__ctor.htm" />
   <HelpKINode Title="Download クラス、プロパティ" Url="html/Properties_T_WodiLib_Event_EventCommand_Download.htm" />
@@ -3210,6 +3272,8 @@
   <HelpKINode Title="EqualBefore フィールド" Url="html/F_WodiLib_Database_DBDataSettingType_EqualBefore.htm" />
   <HelpKINode Title="Equality 演算子">
     <HelpKINode Title="AnimationId.Equality 演算子 " Url="html/M_WodiLib_Map_AnimationId_op_Equality.htm" />
+    <HelpKINode Title="AutoTileFileName.Equality 演算子 " Url="html/M_WodiLib_Map_AutoTileFileName_op_Equality.htm" />
+    <HelpKINode Title="BaseTileSetFileName.Equality 演算子 " Url="html/M_WodiLib_Map_BaseTileSetFileName_op_Equality.htm" />
     <HelpKINode Title="CalledEventVariableAddress.Equality 演算子 " Url="html/M_WodiLib_Event_CharaMoveCommand_CalledEventVariableAddress_op_Equality.htm" />
     <HelpKINode Title="ChangeableDatabaseAddress.Equality 演算子 " Url="html/Overload_WodiLib_Cmn_ChangeableDatabaseAddress_op_Equality.htm" />
     <HelpKINode Title="ChangeableDatabaseDatFilePath.Equality 演算子 " Url="html/M_WodiLib_IO_ChangeableDatabaseDatFilePath_op_Equality.htm" />
@@ -3267,8 +3331,12 @@
     <HelpKINode Title="MapEventTileId.Equality 演算子 " Url="html/M_WodiLib_Map_MapEventTileId_op_Equality.htm" />
     <HelpKINode Title="MapEventVariableAddress.Equality 演算子 " Url="html/Overload_WodiLib_Cmn_MapEventVariableAddress_op_Equality.htm" />
     <HelpKINode Title="MapEventVariableIndex.Equality 演算子 " Url="html/M_WodiLib_Cmn_MapEventVariableIndex_op_Equality.htm" />
+    <HelpKINode Title="MapId.Equality 演算子 " Url="html/M_WodiLib_Map_MapId_op_Equality.htm" />
     <HelpKINode Title="MapSizeHeight.Equality 演算子 " Url="html/M_WodiLib_Map_MapSizeHeight_op_Equality.htm" />
     <HelpKINode Title="MapSizeWidth.Equality 演算子 " Url="html/M_WodiLib_Map_MapSizeWidth_op_Equality.htm" />
+    <HelpKINode Title="MapTreeDataFilePath.Equality 演算子 " Url="html/M_WodiLib_IO_MapTreeDataFilePath_op_Equality.htm" />
+    <HelpKINode Title="MapTreeNode.Equality 演算子 " Url="html/M_WodiLib_Map_MapTreeNode_op_Equality.htm" />
+    <HelpKINode Title="MapTreeOpenStatusDataFilePath.Equality 演算子 " Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFilePath_op_Equality.htm" />
     <HelpKINode Title="MemberId.Equality 演算子 " Url="html/M_WodiLib_Cmn_MemberId_op_Equality.htm" />
     <HelpKINode Title="MemberInfoAddress.Equality 演算子 " Url="html/Overload_WodiLib_Cmn_MemberInfoAddress_op_Equality.htm" />
     <HelpKINode Title="MpsFilePath.Equality 演算子 " Url="html/M_WodiLib_IO_MpsFilePath_op_Equality.htm" />
@@ -3293,7 +3361,11 @@
     <HelpKINode Title="ThisCommonEventVariableAddress.Equality 演算子 " Url="html/Overload_WodiLib_Cmn_ThisCommonEventVariableAddress_op_Equality.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress.Equality 演算子 " Url="html/Overload_WodiLib_Cmn_ThisMapEventVariableAddress_op_Equality.htm" />
     <HelpKINode Title="TileId.Equality 演算子 " Url="html/M_WodiLib_Map_TileId_op_Equality.htm" />
+    <HelpKINode Title="TileSetDataFilePath.Equality 演算子 " Url="html/M_WodiLib_IO_TileSetDataFilePath_op_Equality.htm" />
+    <HelpKINode Title="TileSetFilePath.Equality 演算子 " Url="html/M_WodiLib_IO_TileSetFilePath_op_Equality.htm" />
     <HelpKINode Title="TileSetId.Equality 演算子 " Url="html/M_WodiLib_Map_TileSetId_op_Equality.htm" />
+    <HelpKINode Title="TileSetName.Equality 演算子 " Url="html/M_WodiLib_Map_TileSetName_op_Equality.htm" />
+    <HelpKINode Title="TileTagNumber.Equality 演算子 " Url="html/M_WodiLib_Map_TileTagNumber_op_Equality.htm" />
     <HelpKINode Title="TypeId.Equality 演算子 " Url="html/M_WodiLib_Database_TypeId_op_Equality.htm" />
     <HelpKINode Title="TypeName.Equality 演算子 " Url="html/M_WodiLib_Database_TypeName_op_Equality.htm" />
     <HelpKINode Title="TypeSafeEnum(T).Equality 演算子 " Url="html/M_WodiLib_Sys_TypeSafeEnum_1_op_Equality.htm" />
@@ -3303,6 +3375,8 @@
   </HelpKINode>
   <HelpKINode Title="Equals メソッド">
     <HelpKINode Title="AnimationId.Equals メソッド " Url="html/Overload_WodiLib_Map_AnimationId_Equals.htm" />
+    <HelpKINode Title="AutoTileFileName.Equals メソッド " Url="html/Overload_WodiLib_Map_AutoTileFileName_Equals.htm" />
+    <HelpKINode Title="BaseTileSetFileName.Equals メソッド " Url="html/Overload_WodiLib_Map_BaseTileSetFileName_Equals.htm" />
     <HelpKINode Title="CalledEventVariableAddress.Equals メソッド " Url="html/Overload_WodiLib_Event_CharaMoveCommand_CalledEventVariableAddress_Equals.htm" />
     <HelpKINode Title="ChangeableDatabaseAddress.Equals メソッド " Url="html/Overload_WodiLib_Cmn_ChangeableDatabaseAddress_Equals.htm" />
     <HelpKINode Title="ChangeableDatabaseDatFilePath.Equals メソッド " Url="html/Overload_WodiLib_IO_ChangeableDatabaseDatFilePath_Equals.htm" />
@@ -3363,8 +3437,12 @@
     <HelpKINode Title="MapEventTileId.Equals メソッド " Url="html/Overload_WodiLib_Map_MapEventTileId_Equals.htm" />
     <HelpKINode Title="MapEventVariableAddress.Equals メソッド " Url="html/Overload_WodiLib_Cmn_MapEventVariableAddress_Equals.htm" />
     <HelpKINode Title="MapEventVariableIndex.Equals メソッド " Url="html/Overload_WodiLib_Cmn_MapEventVariableIndex_Equals.htm" />
+    <HelpKINode Title="MapId.Equals メソッド " Url="html/Overload_WodiLib_Map_MapId_Equals.htm" />
     <HelpKINode Title="MapSizeHeight.Equals メソッド " Url="html/Overload_WodiLib_Map_MapSizeHeight_Equals.htm" />
     <HelpKINode Title="MapSizeWidth.Equals メソッド " Url="html/Overload_WodiLib_Map_MapSizeWidth_Equals.htm" />
+    <HelpKINode Title="MapTreeDataFilePath.Equals メソッド " Url="html/Overload_WodiLib_IO_MapTreeDataFilePath_Equals.htm" />
+    <HelpKINode Title="MapTreeNode.Equals メソッド " Url="html/Overload_WodiLib_Map_MapTreeNode_Equals.htm" />
+    <HelpKINode Title="MapTreeOpenStatusDataFilePath.Equals メソッド " Url="html/Overload_WodiLib_IO_MapTreeOpenStatusDataFilePath_Equals.htm" />
     <HelpKINode Title="MemberId.Equals メソッド " Url="html/Overload_WodiLib_Cmn_MemberId_Equals.htm" />
     <HelpKINode Title="MemberInfoAddress.Equals メソッド " Url="html/Overload_WodiLib_Cmn_MemberInfoAddress_Equals.htm" />
     <HelpKINode Title="MpsFilePath.Equals メソッド " Url="html/Overload_WodiLib_IO_MpsFilePath_Equals.htm" />
@@ -3388,8 +3466,14 @@
     <HelpKINode Title="SystemVariableIndex.Equals メソッド " Url="html/Overload_WodiLib_Cmn_SystemVariableIndex_Equals.htm" />
     <HelpKINode Title="ThisCommonEventVariableAddress.Equals メソッド " Url="html/Overload_WodiLib_Cmn_ThisCommonEventVariableAddress_Equals.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress.Equals メソッド " Url="html/Overload_WodiLib_Cmn_ThisMapEventVariableAddress_Equals.htm" />
+    <HelpKINode Title="TileCannotPassingFlags.Equals メソッド " Url="html/Overload_WodiLib_Map_TileCannotPassingFlags_Equals.htm" />
     <HelpKINode Title="TileId.Equals メソッド " Url="html/Overload_WodiLib_Map_TileId_Equals.htm" />
+    <HelpKINode Title="TileImpassableFlags.Equals メソッド " Url="html/Overload_WodiLib_Map_TileImpassableFlags_Equals.htm" />
+    <HelpKINode Title="TileSetDataFilePath.Equals メソッド " Url="html/Overload_WodiLib_IO_TileSetDataFilePath_Equals.htm" />
+    <HelpKINode Title="TileSetFilePath.Equals メソッド " Url="html/Overload_WodiLib_IO_TileSetFilePath_Equals.htm" />
     <HelpKINode Title="TileSetId.Equals メソッド " Url="html/Overload_WodiLib_Map_TileSetId_Equals.htm" />
+    <HelpKINode Title="TileSetName.Equals メソッド " Url="html/Overload_WodiLib_Map_TileSetName_Equals.htm" />
+    <HelpKINode Title="TileTagNumber.Equals メソッド " Url="html/Overload_WodiLib_Map_TileTagNumber_Equals.htm" />
     <HelpKINode Title="TypeId.Equals メソッド " Url="html/Overload_WodiLib_Database_TypeId_Equals.htm" />
     <HelpKINode Title="TypeName.Equals メソッド " Url="html/Overload_WodiLib_Database_TypeName_Equals.htm" />
     <HelpKINode Title="TypeSafeEnum(T).Equals メソッド " Url="html/Overload_WodiLib_Sys_TypeSafeEnum_1_Equals.htm" />
@@ -3880,11 +3964,11 @@
   <HelpKINode Title="EventPositionAddressMax フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_EventPositionAddressMax.htm" />
   <HelpKINode Title="EventPositionAddressMin フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_EventPositionAddressMin.htm" />
   <HelpKINode Title="ExecCode クラス、フィールド">
-    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SetVariablePlus_ExecCode.htm" />
-    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Sound_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SaveLoad_ExecCode.htm" />
-    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PictureShow_ExecCode.htm" />
+    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Sound_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PartyGraphic_ExecCode.htm" />
+    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PictureShow_ExecCode.htm" />
+    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SetVariablePlus_ExecCode.htm" />
   </HelpKINode>
   <HelpKINode Title="ExecCode プロパティ">
     <HelpKINode Title="PartyGraphicBase.ExecCode プロパティ " Url="html/P_WodiLib_Event_EventCommand_PartyGraphicBase_ExecCode.htm" />
@@ -3952,7 +4036,11 @@
   <HelpKINode Title="FilePath プロパティ">
     <HelpKINode Title="CommonEventDatFile.FilePath プロパティ " Url="html/P_WodiLib_IO_CommonEventDatFile_FilePath.htm" />
     <HelpKINode Title="CommonFile.FilePath プロパティ " Url="html/P_WodiLib_IO_CommonFile_FilePath.htm" />
+    <HelpKINode Title="MapTreeDataFile.FilePath プロパティ " Url="html/P_WodiLib_IO_MapTreeDataFile_FilePath.htm" />
+    <HelpKINode Title="MapTreeOpenStatusDataFile.FilePath プロパティ " Url="html/P_WodiLib_IO_MapTreeOpenStatusDataFile_FilePath.htm" />
     <HelpKINode Title="MpsFile.FilePath プロパティ " Url="html/P_WodiLib_IO_MpsFile_FilePath.htm" />
+    <HelpKINode Title="TileSetDataFile.FilePath プロパティ " Url="html/P_WodiLib_IO_TileSetDataFile_FilePath.htm" />
+    <HelpKINode Title="TileSetFile.FilePath プロパティ " Url="html/P_WodiLib_IO_TileSetFile_FilePath.htm" />
   </HelpKINode>
   <HelpKINode Title="FilePath.Equality 演算子" Url="html/M_WodiLib_Cmn_FilePath_op_Equality.htm" />
   <HelpKINode Title="FilePath.Equals メソッド" Url="html/Overload_WodiLib_Cmn_FilePath_Equals.htm" />
@@ -3972,9 +4060,13 @@
     <HelpKINode Title="DBDataFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_DBDataFilePath_FilePathRegex.htm" />
     <HelpKINode Title="DBTypeFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_DBTypeFilePath_FilePathRegex.htm" />
     <HelpKINode Title="DBTypeSetFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_DBTypeSetFilePath_FilePathRegex.htm" />
+    <HelpKINode Title="MapTreeDataFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_MapTreeDataFilePath_FilePathRegex.htm" />
+    <HelpKINode Title="MapTreeOpenStatusDataFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_MapTreeOpenStatusDataFilePath_FilePathRegex.htm" />
     <HelpKINode Title="MpsFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_MpsFilePath_FilePathRegex.htm" />
     <HelpKINode Title="SystemDatabaseDatFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_SystemDatabaseDatFilePath_FilePathRegex.htm" />
     <HelpKINode Title="SystemDatabaseProjectFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_SystemDatabaseProjectFilePath_FilePathRegex.htm" />
+    <HelpKINode Title="TileSetDataFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_TileSetDataFilePath_FilePathRegex.htm" />
+    <HelpKINode Title="TileSetFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_TileSetFilePath_FilePathRegex.htm" />
     <HelpKINode Title="UserDatabaseDatFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_UserDatabaseDatFilePath_FilePathRegex.htm" />
     <HelpKINode Title="UserDatabaseProjectFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_UserDatabaseProjectFilePath_FilePathRegex.htm" />
   </HelpKINode>
@@ -4025,6 +4117,10 @@
     <HelpKINode Title="MapData.Footer フィールド" Url="html/F_WodiLib_Map_MapData_Footer.htm" />
     <HelpKINode Title="MapEvent.Footer フィールド" Url="html/F_WodiLib_Map_MapEvent_Footer.htm" />
     <HelpKINode Title="MapEventPage.Footer フィールド" Url="html/F_WodiLib_Map_MapEventPage_Footer.htm" />
+    <HelpKINode Title="MapTreeData.Footer フィールド" Url="html/F_WodiLib_Map_MapTreeData_Footer.htm" />
+    <HelpKINode Title="MapTreeOpenStatusData.Footer フィールド" Url="html/F_WodiLib_Map_MapTreeOpenStatusData_Footer.htm" />
+    <HelpKINode Title="TileSetData.Footer フィールド" Url="html/F_WodiLib_Map_TileSetData_Footer.htm" />
+    <HelpKINode Title="TileSetFileData.Footer フィールド" Url="html/F_WodiLib_Map_TileSetFileData_Footer.htm" />
   </HelpKINode>
   <HelpKINode Title="FooterString プロパティ" Url="html/P_WodiLib_Common_CommonEvent_FooterString.htm" />
   <HelpKINode Title="ForByte メソッド">
@@ -4150,9 +4246,14 @@
     <HelpKINode Title="DBReferType.FromCode メソッド " Url="html/M_WodiLib_Database_DBReferType_FromCode.htm" />
     <HelpKINode Title="EventCommandCode.FromCode メソッド " Url="html/M_WodiLib_Event_EventCommand_EventCommandCode_FromCode.htm" />
     <HelpKINode Title="InfoAddressInfoType.FromCode メソッド " Url="html/M_WodiLib_Cmn_InfoAddressInfoType_FromCode.htm" />
+    <HelpKINode Title="MapTreeOpenState.FromCode メソッド " Url="html/M_WodiLib_Map_MapTreeOpenState_FromCode.htm" />
+    <HelpKINode Title="TilePathOption.FromCode メソッド " Url="html/M_WodiLib_Map_TilePathOption_FromCode.htm" />
+    <HelpKINode Title="TilePathPermission.FromCode メソッド " Url="html/M_WodiLib_Map_TilePathPermission_FromCode.htm" />
+    <HelpKINode Title="WoditorVersion.FromCode メソッド " Url="html/M_WodiLib_Sys_WoditorVersion_FromCode.htm" />
   </HelpKINode>
   <HelpKINode Title="FromDBDataSettingTypeCode メソッド" Url="html/M_WodiLib_Database_DBKind_FromDBDataSettingTypeCode.htm" />
   <HelpKINode Title="FromInt メソッド" Url="html/M_WodiLib_Common_CommonEventLabelColor_FromInt.htm" />
+  <HelpKINode Title="FromName メソッド" Url="html/M_WodiLib_Sys_WoditorVersion_FromName.htm" />
   <HelpKINode Title="FromSpecialArgCode メソッド" Url="html/M_WodiLib_Database_DBKind_FromSpecialArgCode.htm" />
   <HelpKINode Title="FromTargetCode メソッド" Url="html/M_WodiLib_Database_DBKind_FromTargetCode.htm" />
   <HelpKINode Title="FromValue メソッド">
@@ -4228,6 +4329,8 @@
   <HelpKINode Title="GetForMapEventId メソッド" Url="html/M_WodiLib_Map_MapEventList_GetForMapEventId.htm" />
   <HelpKINode Title="GetHashCode メソッド">
     <HelpKINode Title="AnimationId.GetHashCode メソッド " Url="html/M_WodiLib_Map_AnimationId_GetHashCode.htm" />
+    <HelpKINode Title="AutoTileFileName.GetHashCode メソッド " Url="html/M_WodiLib_Map_AutoTileFileName_GetHashCode.htm" />
+    <HelpKINode Title="BaseTileSetFileName.GetHashCode メソッド " Url="html/M_WodiLib_Map_BaseTileSetFileName_GetHashCode.htm" />
     <HelpKINode Title="CalledEventVariableAddress.GetHashCode メソッド " Url="html/M_WodiLib_Event_CharaMoveCommand_CalledEventVariableAddress_GetHashCode.htm" />
     <HelpKINode Title="ChangeableDatabaseAddress.GetHashCode メソッド " Url="html/M_WodiLib_Cmn_ChangeableDatabaseAddress_GetHashCode.htm" />
     <HelpKINode Title="ChangeableDatabaseDatFilePath.GetHashCode メソッド " Url="html/M_WodiLib_IO_ChangeableDatabaseDatFilePath_GetHashCode.htm" />
@@ -4286,8 +4389,12 @@
     <HelpKINode Title="MapEventTileId.GetHashCode メソッド " Url="html/M_WodiLib_Map_MapEventTileId_GetHashCode.htm" />
     <HelpKINode Title="MapEventVariableAddress.GetHashCode メソッド " Url="html/M_WodiLib_Cmn_MapEventVariableAddress_GetHashCode.htm" />
     <HelpKINode Title="MapEventVariableIndex.GetHashCode メソッド " Url="html/M_WodiLib_Cmn_MapEventVariableIndex_GetHashCode.htm" />
+    <HelpKINode Title="MapId.GetHashCode メソッド " Url="html/M_WodiLib_Map_MapId_GetHashCode.htm" />
     <HelpKINode Title="MapSizeHeight.GetHashCode メソッド " Url="html/M_WodiLib_Map_MapSizeHeight_GetHashCode.htm" />
     <HelpKINode Title="MapSizeWidth.GetHashCode メソッド " Url="html/M_WodiLib_Map_MapSizeWidth_GetHashCode.htm" />
+    <HelpKINode Title="MapTreeDataFilePath.GetHashCode メソッド " Url="html/M_WodiLib_IO_MapTreeDataFilePath_GetHashCode.htm" />
+    <HelpKINode Title="MapTreeNode.GetHashCode メソッド " Url="html/M_WodiLib_Map_MapTreeNode_GetHashCode.htm" />
+    <HelpKINode Title="MapTreeOpenStatusDataFilePath.GetHashCode メソッド " Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFilePath_GetHashCode.htm" />
     <HelpKINode Title="MemberId.GetHashCode メソッド " Url="html/M_WodiLib_Cmn_MemberId_GetHashCode.htm" />
     <HelpKINode Title="MemberInfoAddress.GetHashCode メソッド " Url="html/M_WodiLib_Cmn_MemberInfoAddress_GetHashCode.htm" />
     <HelpKINode Title="MpsFilePath.GetHashCode メソッド " Url="html/M_WodiLib_IO_MpsFilePath_GetHashCode.htm" />
@@ -4312,7 +4419,11 @@
     <HelpKINode Title="ThisCommonEventVariableAddress.GetHashCode メソッド " Url="html/M_WodiLib_Cmn_ThisCommonEventVariableAddress_GetHashCode.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress.GetHashCode メソッド " Url="html/M_WodiLib_Cmn_ThisMapEventVariableAddress_GetHashCode.htm" />
     <HelpKINode Title="TileId.GetHashCode メソッド " Url="html/M_WodiLib_Map_TileId_GetHashCode.htm" />
+    <HelpKINode Title="TileSetDataFilePath.GetHashCode メソッド " Url="html/M_WodiLib_IO_TileSetDataFilePath_GetHashCode.htm" />
+    <HelpKINode Title="TileSetFilePath.GetHashCode メソッド " Url="html/M_WodiLib_IO_TileSetFilePath_GetHashCode.htm" />
     <HelpKINode Title="TileSetId.GetHashCode メソッド " Url="html/M_WodiLib_Map_TileSetId_GetHashCode.htm" />
+    <HelpKINode Title="TileSetName.GetHashCode メソッド " Url="html/M_WodiLib_Map_TileSetName_GetHashCode.htm" />
+    <HelpKINode Title="TileTagNumber.GetHashCode メソッド " Url="html/M_WodiLib_Map_TileTagNumber_GetHashCode.htm" />
     <HelpKINode Title="TypeId.GetHashCode メソッド " Url="html/M_WodiLib_Database_TypeId_GetHashCode.htm" />
     <HelpKINode Title="TypeName.GetHashCode メソッド " Url="html/M_WodiLib_Database_TypeName_GetHashCode.htm" />
     <HelpKINode Title="TypeSafeEnum(T).GetHashCode メソッド " Url="html/M_WodiLib_Sys_TypeSafeEnum_1_GetHashCode.htm" />
@@ -4335,6 +4446,7 @@
   <HelpKINode Title="GetItemX クラス、フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IdSet_GetItemX.htm" />
   <HelpKINode Title="GetLayer メソッド" Url="html/M_WodiLib_Map_MapData_GetLayer.htm" />
   <HelpKINode Title="GetMaxCapacity メソッド">
+    <HelpKINode Title="AutoTileFileNameList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Map_AutoTileFileNameList_GetMaxCapacity.htm" />
     <HelpKINode Title="CharaMoveCommandList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Event_CharaMoveCommandList_GetMaxCapacity.htm" />
     <HelpKINode Title="CommonEventList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Common_CommonEventList_GetMaxCapacity.htm" />
     <HelpKINode Title="CommonEventSelfVariableNameList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Common_CommonEventSelfVariableNameList_GetMaxCapacity.htm" />
@@ -4352,10 +4464,16 @@
     <HelpKINode Title="MapChipColumns.GetMaxCapacity メソッド " Url="html/M_WodiLib_Map_MapChipColumns_GetMaxCapacity.htm" />
     <HelpKINode Title="MapChipList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Map_MapChipList_GetMaxCapacity.htm" />
     <HelpKINode Title="MapEventList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Map_MapEventList_GetMaxCapacity.htm" />
+    <HelpKINode Title="MapTreeNodeList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Map_MapTreeNodeList_GetMaxCapacity.htm" />
+    <HelpKINode Title="MapTreeOpenStatusList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Map_MapTreeOpenStatusList_GetMaxCapacity.htm" />
     <HelpKINode Title="ReadOnlyDBItemValuesList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Database_ReadOnlyDBItemValuesList_GetMaxCapacity.htm" />
     <HelpKINode Title="RestrictedCapacityCollection(T).GetMaxCapacity メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_GetMaxCapacity.htm" />
+    <HelpKINode Title="TilePathSettingList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Map_TilePathSettingList_GetMaxCapacity.htm" />
+    <HelpKINode Title="TileSetSettingList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Map_TileSetSettingList_GetMaxCapacity.htm" />
+    <HelpKINode Title="TileTagNumberList.GetMaxCapacity メソッド " Url="html/M_WodiLib_Map_TileTagNumberList_GetMaxCapacity.htm" />
   </HelpKINode>
   <HelpKINode Title="GetMinCapacity メソッド">
+    <HelpKINode Title="AutoTileFileNameList.GetMinCapacity メソッド " Url="html/M_WodiLib_Map_AutoTileFileNameList_GetMinCapacity.htm" />
     <HelpKINode Title="CharaMoveCommandList.GetMinCapacity メソッド " Url="html/M_WodiLib_Event_CharaMoveCommandList_GetMinCapacity.htm" />
     <HelpKINode Title="CommonEventList.GetMinCapacity メソッド " Url="html/M_WodiLib_Common_CommonEventList_GetMinCapacity.htm" />
     <HelpKINode Title="CommonEventSelfVariableNameList.GetMinCapacity メソッド " Url="html/M_WodiLib_Common_CommonEventSelfVariableNameList_GetMinCapacity.htm" />
@@ -4373,8 +4491,13 @@
     <HelpKINode Title="MapChipColumns.GetMinCapacity メソッド " Url="html/M_WodiLib_Map_MapChipColumns_GetMinCapacity.htm" />
     <HelpKINode Title="MapChipList.GetMinCapacity メソッド " Url="html/M_WodiLib_Map_MapChipList_GetMinCapacity.htm" />
     <HelpKINode Title="MapEventList.GetMinCapacity メソッド " Url="html/M_WodiLib_Map_MapEventList_GetMinCapacity.htm" />
+    <HelpKINode Title="MapTreeNodeList.GetMinCapacity メソッド " Url="html/M_WodiLib_Map_MapTreeNodeList_GetMinCapacity.htm" />
+    <HelpKINode Title="MapTreeOpenStatusList.GetMinCapacity メソッド " Url="html/M_WodiLib_Map_MapTreeOpenStatusList_GetMinCapacity.htm" />
     <HelpKINode Title="ReadOnlyDBItemValuesList.GetMinCapacity メソッド " Url="html/M_WodiLib_Database_ReadOnlyDBItemValuesList_GetMinCapacity.htm" />
     <HelpKINode Title="RestrictedCapacityCollection(T).GetMinCapacity メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_GetMinCapacity.htm" />
+    <HelpKINode Title="TilePathSettingList.GetMinCapacity メソッド " Url="html/M_WodiLib_Map_TilePathSettingList_GetMinCapacity.htm" />
+    <HelpKINode Title="TileSetSettingList.GetMinCapacity メソッド " Url="html/M_WodiLib_Map_TileSetSettingList_GetMinCapacity.htm" />
+    <HelpKINode Title="TileTagNumberList.GetMinCapacity メソッド " Url="html/M_WodiLib_Map_TileTagNumberList_GetMinCapacity.htm" />
   </HelpKINode>
   <HelpKINode Title="GetNumberValue メソッド">
     <HelpKINode Title="CharaMoveCommandBase.GetNumberValue メソッド " Url="html/M_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_GetNumberValue.htm" />
@@ -4575,10 +4698,12 @@
   </HelpKINode>
   <HelpKINode Title="GreaterThan 演算子">
     <HelpKINode Title="MapEventId.GreaterThan 演算子 " Url="html/M_WodiLib_Map_MapEventId_op_GreaterThan.htm" />
+    <HelpKINode Title="MapId.GreaterThan 演算子 " Url="html/M_WodiLib_Map_MapId_op_GreaterThan.htm" />
     <HelpKINode Title="WoditorVersion.GreaterThan 演算子 " Url="html/M_WodiLib_Sys_WoditorVersion_op_GreaterThan.htm" />
   </HelpKINode>
   <HelpKINode Title="GreaterThanOrEqual 演算子">
     <HelpKINode Title="MapEventId.GreaterThanOrEqual 演算子 " Url="html/M_WodiLib_Map_MapEventId_op_GreaterThanOrEqual.htm" />
+    <HelpKINode Title="MapId.GreaterThanOrEqual 演算子 " Url="html/M_WodiLib_Map_MapId_op_GreaterThanOrEqual.htm" />
     <HelpKINode Title="WoditorVersion.GreaterThanOrEqual 演算子 " Url="html/M_WodiLib_Sys_WoditorVersion_op_GreaterThanOrEqual.htm" />
   </HelpKINode>
   <HelpKINode Title="Green フィールド" Url="html/F_WodiLib_Common_CommonEventLabelColor_Green.htm" />
@@ -4627,6 +4752,10 @@
     <HelpKINode Title="DBTypeSet.Header フィールド" Url="html/F_WodiLib_Database_DBTypeSet_Header.htm" />
     <HelpKINode Title="MapEvent.Header フィールド" Url="html/F_WodiLib_Map_MapEvent_Header.htm" />
     <HelpKINode Title="MapEventPage.Header フィールド" Url="html/F_WodiLib_Map_MapEventPage_Header.htm" />
+    <HelpKINode Title="MapTreeData.Header フィールド" Url="html/F_WodiLib_Map_MapTreeData_Header.htm" />
+    <HelpKINode Title="MapTreeOpenStatusData.Header フィールド" Url="html/F_WodiLib_Map_MapTreeOpenStatusData_Header.htm" />
+    <HelpKINode Title="TileSetData.Header フィールド" Url="html/F_WodiLib_Map_TileSetData_Header.htm" />
+    <HelpKINode Title="TileSetFileData.Header フィールド" Url="html/F_WodiLib_Map_TileSetFileData_Header.htm" />
   </HelpKINode>
   <HelpKINode Title="HeaderBytes フィールド">
     <HelpKINode Title="ActionEntry.HeaderBytes フィールド" Url="html/F_WodiLib_Event_ActionEntry_HeaderBytes.htm" />
@@ -4667,6 +4796,7 @@
   <HelpKINode Title="HeroInfoAddress._SafetyMinValue プロパティ" Url="html/P_WodiLib_Cmn_HeroInfoAddress__SafetyMinValue.htm" />
   <HelpKINode Title="HeroPositionAddressMax フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_HeroPositionAddressMax.htm" />
   <HelpKINode Title="HeroPositionAddressMin フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_HeroPositionAddressMin.htm" />
+  <HelpKINode Title="Hide フィールド" Url="html/F_WodiLib_Map_TilePathOption_Hide.htm" />
   <HelpKINode Title="HitEvent フィールド" Url="html/F_WodiLib_Event_EventBootType_HitEvent.htm" />
   <HelpKINode Title="HitExtendRange to Tuple(Of Byte, ) 変換" Url="html/M_WodiLib_Map_HitExtendRange_op_Implicit_2.htm" />
   <HelpKINode Title="HitExtendRange to Tuple&lt;Byte, &gt; 変換" Url="html/M_WodiLib_Map_HitExtendRange_op_Implicit_2.htm" />
@@ -4746,6 +4876,9 @@
   <HelpKINode Title="IEventCommand.SetStringVariable メソッド" Url="html/M_WodiLib_Event_EventCommand_IEventCommand_SetStringVariable.htm" />
   <HelpKINode Title="IEventCommand.StringVariableCount プロパティ" Url="html/P_WodiLib_Event_EventCommand_IEventCommand_StringVariableCount.htm" />
   <HelpKINode Title="IEventCommand.ToBinary メソッド" Url="html/M_WodiLib_Event_EventCommand_IEventCommand_ToBinary.htm" />
+  <HelpKINode Title="IFixedLengthAutoTileFileNameList インターフェイス" Url="html/T_WodiLib_Map_IFixedLengthAutoTileFileNameList.htm" />
+  <HelpKINode Title="IFixedLengthAutoTileFileNameList インターフェイス、プロパティ" Url="html/Properties_T_WodiLib_Map_IFixedLengthAutoTileFileNameList.htm" />
+  <HelpKINode Title="IFixedLengthAutoTileFileNameList インターフェイス、メソッド" Url="html/Methods_T_WodiLib_Map_IFixedLengthAutoTileFileNameList.htm" />
   <HelpKINode Title="IFixedLengthCollection(Of T) インターフェイス" Url="html/T_WodiLib_Sys_IFixedLengthCollection_1.htm" />
   <HelpKINode Title="IFixedLengthCollection(Of T) インターフェイス、プロパティ" Url="html/Properties_T_WodiLib_Sys_IFixedLengthCollection_1.htm" />
   <HelpKINode Title="IFixedLengthCollection(Of T) インターフェイス、メソッド" Url="html/Methods_T_WodiLib_Sys_IFixedLengthCollection_1.htm" />
@@ -4765,8 +4898,15 @@
   <HelpKINode Title="IFixedLengthMapChipColumns インターフェイス、メソッド" Url="html/Methods_T_WodiLib_Map_IFixedLengthMapChipColumns.htm" />
   <HelpKINode Title="IFixedLengthMapChipColumns.InitializeChips メソッド" Url="html/M_WodiLib_Map_IFixedLengthMapChipColumns_InitializeChips.htm" />
   <HelpKINode Title="IFixedLengthMapChipColumns.ToBinary メソッド" Url="html/M_WodiLib_Map_IFixedLengthMapChipColumns_ToBinary.htm" />
+  <HelpKINode Title="IFixedLengthTilePathSettingList インターフェイス" Url="html/T_WodiLib_Map_IFixedLengthTilePathSettingList.htm" />
+  <HelpKINode Title="IFixedLengthTilePathSettingList インターフェイス、プロパティ" Url="html/Properties_T_WodiLib_Map_IFixedLengthTilePathSettingList.htm" />
+  <HelpKINode Title="IFixedLengthTilePathSettingList インターフェイス、メソッド" Url="html/Methods_T_WodiLib_Map_IFixedLengthTilePathSettingList.htm" />
+  <HelpKINode Title="IFixedLengthTileTagNumberList インターフェイス" Url="html/T_WodiLib_Map_IFixedLengthTileTagNumberList.htm" />
+  <HelpKINode Title="IFixedLengthTileTagNumberList インターフェイス、プロパティ" Url="html/Properties_T_WodiLib_Map_IFixedLengthTileTagNumberList.htm" />
+  <HelpKINode Title="IFixedLengthTileTagNumberList インターフェイス、メソッド" Url="html/Methods_T_WodiLib_Map_IFixedLengthTileTagNumberList.htm" />
   <HelpKINode Title="ImageSizeHeight フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusPictureInfoType_ImageSizeHeight.htm" />
   <HelpKINode Title="ImageSizeWidth フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusPictureInfoType_ImageSizeWidth.htm" />
+  <HelpKINode Title="ImpassableFlags プロパティ" Url="html/P_WodiLib_Map_TilePathSetting_ImpassableFlags.htm" />
   <HelpKINode Title="Indent プロパティ">
     <HelpKINode Title="EventCommandBase.Indent プロパティ " Url="html/P_WodiLib_Event_EventCommand_EventCommandBase_Indent.htm" />
     <HelpKINode Title="IEventCommand.Indent プロパティ " Url="html/P_WodiLib_Event_EventCommand_IEventCommand_Indent.htm" />
@@ -4778,6 +4918,8 @@
   <HelpKINode Title="IndexOf メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_IndexOf.htm" />
   <HelpKINode Title="Inequality 演算子">
     <HelpKINode Title="AnimationId.Inequality 演算子 " Url="html/M_WodiLib_Map_AnimationId_op_Inequality.htm" />
+    <HelpKINode Title="AutoTileFileName.Inequality 演算子 " Url="html/M_WodiLib_Map_AutoTileFileName_op_Inequality.htm" />
+    <HelpKINode Title="BaseTileSetFileName.Inequality 演算子 " Url="html/M_WodiLib_Map_BaseTileSetFileName_op_Inequality.htm" />
     <HelpKINode Title="CalledEventVariableAddress.Inequality 演算子 " Url="html/M_WodiLib_Event_CharaMoveCommand_CalledEventVariableAddress_op_Inequality.htm" />
     <HelpKINode Title="ChangeableDatabaseAddress.Inequality 演算子 " Url="html/Overload_WodiLib_Cmn_ChangeableDatabaseAddress_op_Inequality.htm" />
     <HelpKINode Title="ChangeableDatabaseDatFilePath.Inequality 演算子 " Url="html/M_WodiLib_IO_ChangeableDatabaseDatFilePath_op_Inequality.htm" />
@@ -4835,8 +4977,12 @@
     <HelpKINode Title="MapEventTileId.Inequality 演算子 " Url="html/M_WodiLib_Map_MapEventTileId_op_Inequality.htm" />
     <HelpKINode Title="MapEventVariableAddress.Inequality 演算子 " Url="html/Overload_WodiLib_Cmn_MapEventVariableAddress_op_Inequality.htm" />
     <HelpKINode Title="MapEventVariableIndex.Inequality 演算子 " Url="html/M_WodiLib_Cmn_MapEventVariableIndex_op_Inequality.htm" />
+    <HelpKINode Title="MapId.Inequality 演算子 " Url="html/M_WodiLib_Map_MapId_op_Inequality.htm" />
     <HelpKINode Title="MapSizeHeight.Inequality 演算子 " Url="html/M_WodiLib_Map_MapSizeHeight_op_Inequality.htm" />
     <HelpKINode Title="MapSizeWidth.Inequality 演算子 " Url="html/M_WodiLib_Map_MapSizeWidth_op_Inequality.htm" />
+    <HelpKINode Title="MapTreeDataFilePath.Inequality 演算子 " Url="html/M_WodiLib_IO_MapTreeDataFilePath_op_Inequality.htm" />
+    <HelpKINode Title="MapTreeNode.Inequality 演算子 " Url="html/M_WodiLib_Map_MapTreeNode_op_Inequality.htm" />
+    <HelpKINode Title="MapTreeOpenStatusDataFilePath.Inequality 演算子 " Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFilePath_op_Inequality.htm" />
     <HelpKINode Title="MemberId.Inequality 演算子 " Url="html/M_WodiLib_Cmn_MemberId_op_Inequality.htm" />
     <HelpKINode Title="MemberInfoAddress.Inequality 演算子 " Url="html/Overload_WodiLib_Cmn_MemberInfoAddress_op_Inequality.htm" />
     <HelpKINode Title="MpsFilePath.Inequality 演算子 " Url="html/M_WodiLib_IO_MpsFilePath_op_Inequality.htm" />
@@ -4861,7 +5007,11 @@
     <HelpKINode Title="ThisCommonEventVariableAddress.Inequality 演算子 " Url="html/Overload_WodiLib_Cmn_ThisCommonEventVariableAddress_op_Inequality.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress.Inequality 演算子 " Url="html/Overload_WodiLib_Cmn_ThisMapEventVariableAddress_op_Inequality.htm" />
     <HelpKINode Title="TileId.Inequality 演算子 " Url="html/M_WodiLib_Map_TileId_op_Inequality.htm" />
+    <HelpKINode Title="TileSetDataFilePath.Inequality 演算子 " Url="html/M_WodiLib_IO_TileSetDataFilePath_op_Inequality.htm" />
+    <HelpKINode Title="TileSetFilePath.Inequality 演算子 " Url="html/M_WodiLib_IO_TileSetFilePath_op_Inequality.htm" />
     <HelpKINode Title="TileSetId.Inequality 演算子 " Url="html/M_WodiLib_Map_TileSetId_op_Inequality.htm" />
+    <HelpKINode Title="TileSetName.Inequality 演算子 " Url="html/M_WodiLib_Map_TileSetName_op_Inequality.htm" />
+    <HelpKINode Title="TileTagNumber.Inequality 演算子 " Url="html/M_WodiLib_Map_TileTagNumber_op_Inequality.htm" />
     <HelpKINode Title="TypeId.Inequality 演算子 " Url="html/M_WodiLib_Database_TypeId_op_Inequality.htm" />
     <HelpKINode Title="TypeName.Inequality 演算子 " Url="html/M_WodiLib_Database_TypeName_op_Inequality.htm" />
     <HelpKINode Title="TypeSafeEnum(T).Inequality 演算子 " Url="html/M_WodiLib_Sys_TypeSafeEnum_1_op_Inequality.htm" />
@@ -5001,6 +5151,7 @@
   <HelpKINode Title="Int32 to MapEventTileId 変換" Url="html/M_WodiLib_Map_MapEventTileId_op_Implicit.htm" />
   <HelpKINode Title="Int32 to MapEventVariableAddress 変換" Url="html/M_WodiLib_Cmn_MapEventVariableAddress_op_Implicit.htm" />
   <HelpKINode Title="Int32 to MapEventVariableIndex 変換" Url="html/M_WodiLib_Cmn_MapEventVariableIndex_op_Implicit.htm" />
+  <HelpKINode Title="Int32 to MapId 変換" Url="html/M_WodiLib_Map_MapId_op_Implicit.htm" />
   <HelpKINode Title="Int32 to MapSizeHeight 変換" Url="html/M_WodiLib_Map_MapSizeHeight_op_Implicit.htm" />
   <HelpKINode Title="Int32 to MapSizeWidth 変換" Url="html/M_WodiLib_Map_MapSizeWidth_op_Implicit.htm" />
   <HelpKINode Title="Int32 to MemberId 変換" Url="html/M_WodiLib_Cmn_MemberId_op_Implicit.htm" />
@@ -5174,7 +5325,11 @@
     <HelpKINode Title="DBTypeFilePath.IsAllowEmptyString プロパティ " Url="html/P_WodiLib_IO_DBTypeFilePath_IsAllowEmptyString.htm" />
     <HelpKINode Title="DBTypeSetFilePath.IsAllowEmptyString プロパティ " Url="html/P_WodiLib_IO_DBTypeSetFilePath_IsAllowEmptyString.htm" />
     <HelpKINode Title="FilePath.IsAllowEmptyString プロパティ " Url="html/P_WodiLib_Cmn_FilePath_IsAllowEmptyString.htm" />
+    <HelpKINode Title="MapTreeDataFilePath.IsAllowEmptyString プロパティ " Url="html/P_WodiLib_IO_MapTreeDataFilePath_IsAllowEmptyString.htm" />
+    <HelpKINode Title="MapTreeOpenStatusDataFilePath.IsAllowEmptyString プロパティ " Url="html/P_WodiLib_IO_MapTreeOpenStatusDataFilePath_IsAllowEmptyString.htm" />
     <HelpKINode Title="MpsFilePath.IsAllowEmptyString プロパティ " Url="html/P_WodiLib_IO_MpsFilePath_IsAllowEmptyString.htm" />
+    <HelpKINode Title="TileSetDataFilePath.IsAllowEmptyString プロパティ " Url="html/P_WodiLib_IO_TileSetDataFilePath_IsAllowEmptyString.htm" />
+    <HelpKINode Title="TileSetFilePath.IsAllowEmptyString プロパティ " Url="html/P_WodiLib_IO_TileSetFilePath_IsAllowEmptyString.htm" />
   </HelpKINode>
   <HelpKINode Title="IsAutoTile プロパティ" Url="html/P_WodiLib_Map_MapChip_IsAutoTile.htm" />
   <HelpKINode Title="IsAutoTileNumber メソッド" Url="html/M_WodiLib_Map_MapChip_IsAutoTileNumber.htm" />
@@ -5192,7 +5347,10 @@
   <HelpKINode Title="IsControlRight プロパティ" Url="html/P_WodiLib_Event_EventCommand_StandardKeyInputControl_IsControlRight.htm" />
   <HelpKINode Title="IsControlSub プロパティ" Url="html/P_WodiLib_Event_EventCommand_StandardKeyInputControl_IsControlSub.htm" />
   <HelpKINode Title="IsControlUp プロパティ" Url="html/P_WodiLib_Event_EventCommand_StandardKeyInputControl_IsControlUp.htm" />
-  <HelpKINode Title="IsCounter プロパティ" Url="html/P_WodiLib_Event_EventCommand_ChangeMapChipSetting_IsCounter.htm" />
+  <HelpKINode Title="IsCounter プロパティ">
+    <HelpKINode Title="ChangeMapChipSetting.IsCounter プロパティ " Url="html/P_WodiLib_Event_EventCommand_ChangeMapChipSetting_IsCounter.htm" />
+    <HelpKINode Title="TilePathSetting.IsCounter プロパティ " Url="html/P_WodiLib_Map_TilePathSetting_IsCounter.htm" />
+  </HelpKINode>
   <HelpKINode Title="IsDataIdUseStr プロパティ">
     <HelpKINode Title="CsvIO.IsDataIdUseStr プロパティ " Url="html/P_WodiLib_Event_EventCommand_CsvIO_IsDataIdUseStr.htm" />
     <HelpKINode Title="DBManagementClearField.IsDataIdUseStr プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementClearField_IsDataIdUseStr.htm" />
@@ -5699,10 +5857,12 @@
     <HelpKINode Title="CharaChipDirection.Left フィールド" Url="html/F_WodiLib_Map_CharaChipDirection_Left.htm" />
     <HelpKINode Title="DirectionKeyType.Left フィールド" Url="html/F_WodiLib_Event_EventCommand_DirectionKeyType_Left.htm" />
   </HelpKINode>
+  <HelpKINode Title="Left プロパティ" Url="html/P_WodiLib_Map_TileCannotPassingFlags_Left.htm" />
   <HelpKINode Title="LeftDown フィールド">
     <HelpKINode Title="CharaChipDirection.LeftDown フィールド" Url="html/F_WodiLib_Map_CharaChipDirection_LeftDown.htm" />
     <HelpKINode Title="PictureAnchorPosition.LeftDown フィールド" Url="html/F_WodiLib_Event_EventCommand_PictureAnchorPosition_LeftDown.htm" />
   </HelpKINode>
+  <HelpKINode Title="LeftDown プロパティ" Url="html/P_WodiLib_Map_TileImpassableFlags_LeftDown.htm" />
   <HelpKINode Title="LeftDownAutoTile プロパティ" Url="html/P_WodiLib_Map_MapChip_LeftDownAutoTile.htm" />
   <HelpKINode Title="LeftKey フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_ChoiceStartForkingEtc_ChoiceCode_LeftKey.htm" />
   <HelpKINode Title="LeftRight フィールド" Url="html/F_WodiLib_Event_EventCommand_DirectionKeyType_LeftRight.htm" />
@@ -5721,6 +5881,7 @@
     <HelpKINode Title="CharaChipDirection.LeftUp フィールド" Url="html/F_WodiLib_Map_CharaChipDirection_LeftUp.htm" />
     <HelpKINode Title="PictureAnchorPosition.LeftUp フィールド" Url="html/F_WodiLib_Event_EventCommand_PictureAnchorPosition_LeftUp.htm" />
   </HelpKINode>
+  <HelpKINode Title="LeftUp プロパティ" Url="html/P_WodiLib_Map_TileImpassableFlags_LeftUp.htm" />
   <HelpKINode Title="LeftUpAutoTile プロパティ" Url="html/P_WodiLib_Map_MapChip_LeftUpAutoTile.htm" />
   <HelpKINode Title="Length プロパティ" Url="html/P_WodiLib_Event_EventCommand_SetStringKeyboardInput_Length.htm" />
   <HelpKINode Title="LengthMax プロパティ" Url="html/P_WodiLib_Event_EventCommand_ConditionStringList_LengthMax.htm" />
@@ -5730,10 +5891,12 @@
   </HelpKINode>
   <HelpKINode Title="LessThan 演算子">
     <HelpKINode Title="MapEventId.LessThan 演算子 " Url="html/M_WodiLib_Map_MapEventId_op_LessThan.htm" />
+    <HelpKINode Title="MapId.LessThan 演算子 " Url="html/M_WodiLib_Map_MapId_op_LessThan.htm" />
     <HelpKINode Title="WoditorVersion.LessThan 演算子 " Url="html/M_WodiLib_Sys_WoditorVersion_op_LessThan.htm" />
   </HelpKINode>
   <HelpKINode Title="LessThanOrEqual 演算子">
     <HelpKINode Title="MapEventId.LessThanOrEqual 演算子 " Url="html/M_WodiLib_Map_MapEventId_op_LessThanOrEqual.htm" />
+    <HelpKINode Title="MapId.LessThanOrEqual 演算子 " Url="html/M_WodiLib_Map_MapId_op_LessThanOrEqual.htm" />
     <HelpKINode Title="WoditorVersion.LessThanOrEqual 演算子 " Url="html/M_WodiLib_Sys_WoditorVersion_op_LessThanOrEqual.htm" />
   </HelpKINode>
   <HelpKINode Title="Little フィールド" Url="html/F_WodiLib_Sys_Endian_Little.htm" />
@@ -5980,6 +6143,7 @@
     <HelpKINode Title="NumberPlusAssignmentOperator.LowerBound フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusAssignmentOperator_LowerBound.htm" />
   </HelpKINode>
   <HelpKINode Title="MakeDefaultItem メソッド">
+    <HelpKINode Title="AutoTileFileNameList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Map_AutoTileFileNameList_MakeDefaultItem.htm" />
     <HelpKINode Title="CharaMoveCommandList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Event_CharaMoveCommandList_MakeDefaultItem.htm" />
     <HelpKINode Title="CommonEventList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Common_CommonEventList_MakeDefaultItem.htm" />
     <HelpKINode Title="CommonEventSelfVariableNameList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Common_CommonEventSelfVariableNameList_MakeDefaultItem.htm" />
@@ -5997,8 +6161,13 @@
     <HelpKINode Title="MapChipColumns.MakeDefaultItem メソッド " Url="html/M_WodiLib_Map_MapChipColumns_MakeDefaultItem.htm" />
     <HelpKINode Title="MapChipList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Map_MapChipList_MakeDefaultItem.htm" />
     <HelpKINode Title="MapEventList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Map_MapEventList_MakeDefaultItem.htm" />
+    <HelpKINode Title="MapTreeNodeList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Map_MapTreeNodeList_MakeDefaultItem.htm" />
+    <HelpKINode Title="MapTreeOpenStatusList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Map_MapTreeOpenStatusList_MakeDefaultItem.htm" />
     <HelpKINode Title="ReadOnlyDBItemValuesList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Database_ReadOnlyDBItemValuesList_MakeDefaultItem.htm" />
     <HelpKINode Title="RestrictedCapacityCollection(T).MakeDefaultItem メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_MakeDefaultItem.htm" />
+    <HelpKINode Title="TilePathSettingList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Map_TilePathSettingList_MakeDefaultItem.htm" />
+    <HelpKINode Title="TileSetSettingList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Map_TileSetSettingList_MakeDefaultItem.htm" />
+    <HelpKINode Title="TileTagNumberList.MakeDefaultItem メソッド " Url="html/M_WodiLib_Map_TileTagNumberList_MakeDefaultItem.htm" />
   </HelpKINode>
   <HelpKINode Title="MakeEventBootConditionByte メソッド" Url="html/M_WodiLib_Map_MapEventBootCondition_MakeEventBootConditionByte.htm" />
   <HelpKINode Title="MakeMoveRouteByte メソッド" Url="html/M_WodiLib_Event_ActionEntry_MakeMoveRouteByte.htm" />
@@ -6476,6 +6645,28 @@
   <HelpKINode Title="MapEventVariableIndex.ToInt メソッド" Url="html/M_WodiLib_Cmn_MapEventVariableIndex_ToInt.htm" />
   <HelpKINode Title="MapEventVariableIndex.ToString メソッド" Url="html/M_WodiLib_Cmn_MapEventVariableIndex_ToString.htm" />
   <HelpKINode Title="MapHeight フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusEtcInfoType_MapHeight.htm" />
+  <HelpKINode Title="MapId to Int32 変換" Url="html/M_WodiLib_Map_MapId_op_Implicit_1.htm" />
+  <HelpKINode Title="MapId 構造体" Url="html/T_WodiLib_Map_MapId.htm" />
+  <HelpKINode Title="MapId 構造体、コンストラクター" Url="html/M_WodiLib_Map_MapId__ctor.htm" />
+  <HelpKINode Title="MapId 構造体、フィールド" Url="html/Fields_T_WodiLib_Map_MapId.htm" />
+  <HelpKINode Title="MapId 構造体、メソッド" Url="html/Methods_T_WodiLib_Map_MapId.htm" />
+  <HelpKINode Title="MapId 構造体、演算子と型変換" Url="html/Operators_T_WodiLib_Map_MapId.htm" />
+  <HelpKINode Title="MapId.CompareTo メソッド" Url="html/M_WodiLib_Map_MapId_CompareTo.htm" />
+  <HelpKINode Title="MapId.Equality 演算子" Url="html/M_WodiLib_Map_MapId_op_Equality.htm" />
+  <HelpKINode Title="MapId.Equals メソッド" Url="html/Overload_WodiLib_Map_MapId_Equals.htm" />
+  <HelpKINode Title="MapId.GetHashCode メソッド" Url="html/M_WodiLib_Map_MapId_GetHashCode.htm" />
+  <HelpKINode Title="MapId.GreaterThan 演算子" Url="html/M_WodiLib_Map_MapId_op_GreaterThan.htm" />
+  <HelpKINode Title="MapId.GreaterThanOrEqual 演算子" Url="html/M_WodiLib_Map_MapId_op_GreaterThanOrEqual.htm" />
+  <HelpKINode Title="MapId.Inequality 演算子" Url="html/M_WodiLib_Map_MapId_op_Inequality.htm" />
+  <HelpKINode Title="MapId.LessThan 演算子" Url="html/M_WodiLib_Map_MapId_op_LessThan.htm" />
+  <HelpKINode Title="MapId.LessThanOrEqual 演算子" Url="html/M_WodiLib_Map_MapId_op_LessThanOrEqual.htm" />
+  <HelpKINode Title="MapId.MapId コンストラクター" Url="html/M_WodiLib_Map_MapId__ctor.htm" />
+  <HelpKINode Title="MapId.MapTreeRoot フィールド" Url="html/F_WodiLib_Map_MapId_MapTreeRoot.htm" />
+  <HelpKINode Title="MapId.MaxValue フィールド" Url="html/F_WodiLib_Map_MapId_MaxValue.htm" />
+  <HelpKINode Title="MapId.MinValue フィールド" Url="html/F_WodiLib_Map_MapId_MinValue.htm" />
+  <HelpKINode Title="MapId.ToBytes メソッド" Url="html/M_WodiLib_Map_MapId_ToBytes.htm" />
+  <HelpKINode Title="MapId.ToInt メソッド" Url="html/M_WodiLib_Map_MapId_ToInt.htm" />
+  <HelpKINode Title="MapId.ToString メソッド" Url="html/M_WodiLib_Map_MapId_ToString.htm" />
   <HelpKINode Title="MapSizeConstant クラス" Url="html/T_WodiLib_Map_MapSizeConstant.htm" />
   <HelpKINode Title="MapSizeConstant クラス、フィールド" Url="html/Fields_T_WodiLib_Map_MapSizeConstant.htm" />
   <HelpKINode Title="MapSizeConstant.HeightMax フィールド" Url="html/F_WodiLib_Map_MapSizeConstant_HeightMax.htm" />
@@ -6516,10 +6707,137 @@
   <HelpKINode Title="MapSizeWidth.ToBytes メソッド" Url="html/M_WodiLib_Map_MapSizeWidth_ToBytes.htm" />
   <HelpKINode Title="MapSizeWidth.ToInt メソッド" Url="html/M_WodiLib_Map_MapSizeWidth_ToInt.htm" />
   <HelpKINode Title="MapSizeWidth.ToString メソッド" Url="html/M_WodiLib_Map_MapSizeWidth_ToString.htm" />
+  <HelpKINode Title="MapTreeData クラス" Url="html/T_WodiLib_Map_MapTreeData.htm" />
+  <HelpKINode Title="MapTreeData クラス、コンストラクター" Url="html/M_WodiLib_Map_MapTreeData__ctor.htm" />
+  <HelpKINode Title="MapTreeData クラス、フィールド" Url="html/Fields_T_WodiLib_Map_MapTreeData.htm" />
+  <HelpKINode Title="MapTreeData クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_MapTreeData.htm" />
+  <HelpKINode Title="MapTreeData クラス、メソッド" Url="html/Methods_T_WodiLib_Map_MapTreeData.htm" />
+  <HelpKINode Title="MapTreeData プロパティ" Url="html/P_WodiLib_IO_MapTreeDataFile_MapTreeData.htm" />
+  <HelpKINode Title="MapTreeData.Footer フィールド" Url="html/F_WodiLib_Map_MapTreeData_Footer.htm" />
+  <HelpKINode Title="MapTreeData.Header フィールド" Url="html/F_WodiLib_Map_MapTreeData_Header.htm" />
+  <HelpKINode Title="MapTreeData.MapTreeData コンストラクター" Url="html/M_WodiLib_Map_MapTreeData__ctor.htm" />
+  <HelpKINode Title="MapTreeData.ToBinary メソッド" Url="html/M_WodiLib_Map_MapTreeData_ToBinary.htm" />
+  <HelpKINode Title="MapTreeData.TreeNodeList プロパティ" Url="html/P_WodiLib_Map_MapTreeData_TreeNodeList.htm" />
+  <HelpKINode Title="MapTreeDataFile クラス" Url="html/T_WodiLib_IO_MapTreeDataFile.htm" />
+  <HelpKINode Title="MapTreeDataFile クラス、コンストラクター" Url="html/M_WodiLib_IO_MapTreeDataFile__ctor.htm" />
+  <HelpKINode Title="MapTreeDataFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_MapTreeDataFile.htm" />
+  <HelpKINode Title="MapTreeDataFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_MapTreeDataFile.htm" />
+  <HelpKINode Title="MapTreeDataFile.FilePath プロパティ" Url="html/P_WodiLib_IO_MapTreeDataFile_FilePath.htm" />
+  <HelpKINode Title="MapTreeDataFile.MapTreeData プロパティ" Url="html/P_WodiLib_IO_MapTreeDataFile_MapTreeData.htm" />
+  <HelpKINode Title="MapTreeDataFile.MapTreeDataFile コンストラクター" Url="html/M_WodiLib_IO_MapTreeDataFile__ctor.htm" />
+  <HelpKINode Title="MapTreeDataFile.ReadASync メソッド" Url="html/M_WodiLib_IO_MapTreeDataFile_ReadASync.htm" />
+  <HelpKINode Title="MapTreeDataFile.ReadSync メソッド" Url="html/M_WodiLib_IO_MapTreeDataFile_ReadSync.htm" />
+  <HelpKINode Title="MapTreeDataFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_MapTreeDataFile_WriteAsync.htm" />
+  <HelpKINode Title="MapTreeDataFile.WriteSync メソッド" Url="html/M_WodiLib_IO_MapTreeDataFile_WriteSync.htm" />
+  <HelpKINode Title="MapTreeDataFilePath to String 変換" Url="html/M_WodiLib_IO_MapTreeDataFilePath_op_Implicit_1.htm" />
+  <HelpKINode Title="MapTreeDataFilePath クラス" Url="html/T_WodiLib_IO_MapTreeDataFilePath.htm" />
+  <HelpKINode Title="MapTreeDataFilePath クラス、コンストラクター" Url="html/M_WodiLib_IO_MapTreeDataFilePath__ctor.htm" />
+  <HelpKINode Title="MapTreeDataFilePath クラス、フィールド" Url="html/Fields_T_WodiLib_IO_MapTreeDataFilePath.htm" />
+  <HelpKINode Title="MapTreeDataFilePath クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_MapTreeDataFilePath.htm" />
+  <HelpKINode Title="MapTreeDataFilePath クラス、メソッド" Url="html/Methods_T_WodiLib_IO_MapTreeDataFilePath.htm" />
+  <HelpKINode Title="MapTreeDataFilePath クラス、演算子と型変換" Url="html/Operators_T_WodiLib_IO_MapTreeDataFilePath.htm" />
+  <HelpKINode Title="MapTreeDataFilePath.Equality 演算子" Url="html/M_WodiLib_IO_MapTreeDataFilePath_op_Equality.htm" />
+  <HelpKINode Title="MapTreeDataFilePath.Equals メソッド" Url="html/Overload_WodiLib_IO_MapTreeDataFilePath_Equals.htm" />
+  <HelpKINode Title="MapTreeDataFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_MapTreeDataFilePath_FilePathRegex.htm" />
+  <HelpKINode Title="MapTreeDataFilePath.GetHashCode メソッド" Url="html/M_WodiLib_IO_MapTreeDataFilePath_GetHashCode.htm" />
+  <HelpKINode Title="MapTreeDataFilePath.Inequality 演算子" Url="html/M_WodiLib_IO_MapTreeDataFilePath_op_Inequality.htm" />
+  <HelpKINode Title="MapTreeDataFilePath.IsAllowEmptyString プロパティ" Url="html/P_WodiLib_IO_MapTreeDataFilePath_IsAllowEmptyString.htm" />
+  <HelpKINode Title="MapTreeDataFilePath.MapTreeDataFilePath コンストラクター" Url="html/M_WodiLib_IO_MapTreeDataFilePath__ctor.htm" />
+  <HelpKINode Title="MapTreeDataFilePath.ToString メソッド" Url="html/M_WodiLib_IO_MapTreeDataFilePath_ToString.htm" />
+  <HelpKINode Title="MapTreeNode 構造体" Url="html/T_WodiLib_Map_MapTreeNode.htm" />
+  <HelpKINode Title="MapTreeNode 構造体、コンストラクター" Url="html/M_WodiLib_Map_MapTreeNode__ctor.htm" />
+  <HelpKINode Title="MapTreeNode 構造体、プロパティ" Url="html/Properties_T_WodiLib_Map_MapTreeNode.htm" />
+  <HelpKINode Title="MapTreeNode 構造体、メソッド" Url="html/Methods_T_WodiLib_Map_MapTreeNode.htm" />
+  <HelpKINode Title="MapTreeNode 構造体、演算子" Url="html/Operators_T_WodiLib_Map_MapTreeNode.htm" />
+  <HelpKINode Title="MapTreeNode.Equality 演算子" Url="html/M_WodiLib_Map_MapTreeNode_op_Equality.htm" />
+  <HelpKINode Title="MapTreeNode.Equals メソッド" Url="html/Overload_WodiLib_Map_MapTreeNode_Equals.htm" />
+  <HelpKINode Title="MapTreeNode.GetHashCode メソッド" Url="html/M_WodiLib_Map_MapTreeNode_GetHashCode.htm" />
+  <HelpKINode Title="MapTreeNode.Inequality 演算子" Url="html/M_WodiLib_Map_MapTreeNode_op_Inequality.htm" />
+  <HelpKINode Title="MapTreeNode.MapTreeNode コンストラクター" Url="html/M_WodiLib_Map_MapTreeNode__ctor.htm" />
+  <HelpKINode Title="MapTreeNode.MyMapId プロパティ" Url="html/P_WodiLib_Map_MapTreeNode_MyMapId.htm" />
+  <HelpKINode Title="MapTreeNode.ParentMapId プロパティ" Url="html/P_WodiLib_Map_MapTreeNode_ParentMapId.htm" />
+  <HelpKINode Title="MapTreeNode.ToBytes メソッド" Url="html/M_WodiLib_Map_MapTreeNode_ToBytes.htm" />
+  <HelpKINode Title="MapTreeNode.ToString メソッド" Url="html/M_WodiLib_Map_MapTreeNode_ToString.htm" />
+  <HelpKINode Title="MapTreeNodeList クラス" Url="html/T_WodiLib_Map_MapTreeNodeList.htm" />
+  <HelpKINode Title="MapTreeNodeList クラス、コンストラクター" Url="html/Overload_WodiLib_Map_MapTreeNodeList__ctor.htm" />
+  <HelpKINode Title="MapTreeNodeList クラス、フィールド" Url="html/Fields_T_WodiLib_Map_MapTreeNodeList.htm" />
+  <HelpKINode Title="MapTreeNodeList クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_MapTreeNodeList.htm" />
+  <HelpKINode Title="MapTreeNodeList クラス、メソッド" Url="html/Methods_T_WodiLib_Map_MapTreeNodeList.htm" />
+  <HelpKINode Title="MapTreeNodeList.GetMaxCapacity メソッド" Url="html/M_WodiLib_Map_MapTreeNodeList_GetMaxCapacity.htm" />
+  <HelpKINode Title="MapTreeNodeList.GetMinCapacity メソッド" Url="html/M_WodiLib_Map_MapTreeNodeList_GetMinCapacity.htm" />
+  <HelpKINode Title="MapTreeNodeList.MakeDefaultItem メソッド" Url="html/M_WodiLib_Map_MapTreeNodeList_MakeDefaultItem.htm" />
+  <HelpKINode Title="MapTreeNodeList.MapTreeNodeList コンストラクター" Url="html/Overload_WodiLib_Map_MapTreeNodeList__ctor.htm" />
+  <HelpKINode Title="MapTreeNodeList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_MapTreeNodeList_MaxCapacity.htm" />
+  <HelpKINode Title="MapTreeNodeList.MinCapacity フィールド" Url="html/F_WodiLib_Map_MapTreeNodeList_MinCapacity.htm" />
+  <HelpKINode Title="MapTreeNodeList.ToBinary メソッド" Url="html/M_WodiLib_Map_MapTreeNodeList_ToBinary.htm" />
+  <HelpKINode Title="MapTreeOpenState クラス" Url="html/T_WodiLib_Map_MapTreeOpenState.htm" />
+  <HelpKINode Title="MapTreeOpenState クラス、フィールド" Url="html/Fields_T_WodiLib_Map_MapTreeOpenState.htm" />
+  <HelpKINode Title="MapTreeOpenState クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_MapTreeOpenState.htm" />
+  <HelpKINode Title="MapTreeOpenState クラス、メソッド" Url="html/Methods_T_WodiLib_Map_MapTreeOpenState.htm" />
+  <HelpKINode Title="MapTreeOpenState.Close フィールド" Url="html/F_WodiLib_Map_MapTreeOpenState_Close.htm" />
+  <HelpKINode Title="MapTreeOpenState.Code プロパティ" Url="html/P_WodiLib_Map_MapTreeOpenState_Code.htm" />
+  <HelpKINode Title="MapTreeOpenState.FromCode メソッド" Url="html/M_WodiLib_Map_MapTreeOpenState_FromCode.htm" />
+  <HelpKINode Title="MapTreeOpenState.Open フィールド" Url="html/F_WodiLib_Map_MapTreeOpenState_Open.htm" />
+  <HelpKINode Title="MapTreeOpenStatusData クラス" Url="html/T_WodiLib_Map_MapTreeOpenStatusData.htm" />
+  <HelpKINode Title="MapTreeOpenStatusData クラス、コンストラクター" Url="html/M_WodiLib_Map_MapTreeOpenStatusData__ctor.htm" />
+  <HelpKINode Title="MapTreeOpenStatusData クラス、フィールド" Url="html/Fields_T_WodiLib_Map_MapTreeOpenStatusData.htm" />
+  <HelpKINode Title="MapTreeOpenStatusData クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_MapTreeOpenStatusData.htm" />
+  <HelpKINode Title="MapTreeOpenStatusData クラス、メソッド" Url="html/Methods_T_WodiLib_Map_MapTreeOpenStatusData.htm" />
+  <HelpKINode Title="MapTreeOpenStatusData プロパティ" Url="html/P_WodiLib_IO_MapTreeOpenStatusDataFile_MapTreeOpenStatusData.htm" />
+  <HelpKINode Title="MapTreeOpenStatusData.Footer フィールド" Url="html/F_WodiLib_Map_MapTreeOpenStatusData_Footer.htm" />
+  <HelpKINode Title="MapTreeOpenStatusData.Header フィールド" Url="html/F_WodiLib_Map_MapTreeOpenStatusData_Header.htm" />
+  <HelpKINode Title="MapTreeOpenStatusData.MapTreeOpenStatusData コンストラクター" Url="html/M_WodiLib_Map_MapTreeOpenStatusData__ctor.htm" />
+  <HelpKINode Title="MapTreeOpenStatusData.StatusList プロパティ" Url="html/P_WodiLib_Map_MapTreeOpenStatusData_StatusList.htm" />
+  <HelpKINode Title="MapTreeOpenStatusData.ToBinary メソッド" Url="html/M_WodiLib_Map_MapTreeOpenStatusData_ToBinary.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFile クラス" Url="html/T_WodiLib_IO_MapTreeOpenStatusDataFile.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFile クラス、コンストラクター" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile__ctor.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_MapTreeOpenStatusDataFile.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_MapTreeOpenStatusDataFile.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFile.FilePath プロパティ" Url="html/P_WodiLib_IO_MapTreeOpenStatusDataFile_FilePath.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFile.MapTreeOpenStatusData プロパティ" Url="html/P_WodiLib_IO_MapTreeOpenStatusDataFile_MapTreeOpenStatusData.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFile.MapTreeOpenStatusDataFile コンストラクター" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile__ctor.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFile.ReadASync メソッド" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_ReadASync.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFile.ReadSync メソッド" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_ReadSync.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_WriteAsync.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFile.WriteSync メソッド" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_WriteSync.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath to String 変換" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFilePath_op_Implicit_1.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath クラス" Url="html/T_WodiLib_IO_MapTreeOpenStatusDataFilePath.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath クラス、コンストラクター" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFilePath__ctor.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath クラス、フィールド" Url="html/Fields_T_WodiLib_IO_MapTreeOpenStatusDataFilePath.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_MapTreeOpenStatusDataFilePath.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath クラス、メソッド" Url="html/Methods_T_WodiLib_IO_MapTreeOpenStatusDataFilePath.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath クラス、演算子と型変換" Url="html/Operators_T_WodiLib_IO_MapTreeOpenStatusDataFilePath.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath.Equality 演算子" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFilePath_op_Equality.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath.Equals メソッド" Url="html/Overload_WodiLib_IO_MapTreeOpenStatusDataFilePath_Equals.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_MapTreeOpenStatusDataFilePath_FilePathRegex.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath.GetHashCode メソッド" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFilePath_GetHashCode.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath.Inequality 演算子" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFilePath_op_Inequality.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath.IsAllowEmptyString プロパティ" Url="html/P_WodiLib_IO_MapTreeOpenStatusDataFilePath_IsAllowEmptyString.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath.MapTreeOpenStatusDataFilePath コンストラクター" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFilePath__ctor.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFilePath.ToString メソッド" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFilePath_ToString.htm" />
+  <HelpKINode Title="MapTreeOpenStatusList クラス" Url="html/T_WodiLib_Map_MapTreeOpenStatusList.htm" />
+  <HelpKINode Title="MapTreeOpenStatusList クラス、コンストラクター" Url="html/Overload_WodiLib_Map_MapTreeOpenStatusList__ctor.htm" />
+  <HelpKINode Title="MapTreeOpenStatusList クラス、フィールド" Url="html/Fields_T_WodiLib_Map_MapTreeOpenStatusList.htm" />
+  <HelpKINode Title="MapTreeOpenStatusList クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_MapTreeOpenStatusList.htm" />
+  <HelpKINode Title="MapTreeOpenStatusList クラス、メソッド" Url="html/Methods_T_WodiLib_Map_MapTreeOpenStatusList.htm" />
+  <HelpKINode Title="MapTreeOpenStatusList.GetMaxCapacity メソッド" Url="html/M_WodiLib_Map_MapTreeOpenStatusList_GetMaxCapacity.htm" />
+  <HelpKINode Title="MapTreeOpenStatusList.GetMinCapacity メソッド" Url="html/M_WodiLib_Map_MapTreeOpenStatusList_GetMinCapacity.htm" />
+  <HelpKINode Title="MapTreeOpenStatusList.MakeDefaultItem メソッド" Url="html/M_WodiLib_Map_MapTreeOpenStatusList_MakeDefaultItem.htm" />
+  <HelpKINode Title="MapTreeOpenStatusList.MapTreeOpenStatusList コンストラクター" Url="html/Overload_WodiLib_Map_MapTreeOpenStatusList__ctor.htm" />
+  <HelpKINode Title="MapTreeOpenStatusList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_MapTreeOpenStatusList_MaxCapacity.htm" />
+  <HelpKINode Title="MapTreeOpenStatusList.MinCapacity フィールド" Url="html/F_WodiLib_Map_MapTreeOpenStatusList_MinCapacity.htm" />
+  <HelpKINode Title="MapTreeOpenStatusList.ToBinary メソッド" Url="html/M_WodiLib_Map_MapTreeOpenStatusList_ToBinary.htm" />
+  <HelpKINode Title="MapTreeRoot フィールド" Url="html/F_WodiLib_Map_MapId_MapTreeRoot.htm" />
   <HelpKINode Title="MapWidth フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusEtcInfoType_MapWidth.htm" />
   <HelpKINode Title="MaxCapacity フィールド">
+    <HelpKINode Title="AutoTileFileNameList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_AutoTileFileNameList_MaxCapacity.htm" />
     <HelpKINode Title="MapChipColumns.MaxCapacity フィールド" Url="html/F_WodiLib_Map_MapChipColumns_MaxCapacity.htm" />
     <HelpKINode Title="MapChipList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_MapChipList_MaxCapacity.htm" />
+    <HelpKINode Title="MapTreeNodeList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_MapTreeNodeList_MaxCapacity.htm" />
+    <HelpKINode Title="MapTreeOpenStatusList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_MapTreeOpenStatusList_MaxCapacity.htm" />
+    <HelpKINode Title="TilePathSettingList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_TilePathSettingList_MaxCapacity.htm" />
+    <HelpKINode Title="TileSetSettingList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_TileSetSettingList_MaxCapacity.htm" />
+    <HelpKINode Title="TileTagNumberList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_TileTagNumberList_MaxCapacity.htm" />
   </HelpKINode>
   <HelpKINode Title="MaxCapacity プロパティ">
     <HelpKINode Title="CharaMoveCommandList.MaxCapacity プロパティ " Url="html/P_WodiLib_Event_CharaMoveCommandList_MaxCapacity.htm" />
@@ -6560,6 +6878,7 @@
     <HelpKINode Title="MapEventPageIndex.MaxValue フィールド" Url="html/F_WodiLib_Event_MapEventPageIndex_MaxValue.htm" />
     <HelpKINode Title="MapEventTileId.MaxValue フィールド" Url="html/F_WodiLib_Map_MapEventTileId_MaxValue.htm" />
     <HelpKINode Title="MapEventVariableIndex.MaxValue フィールド" Url="html/F_WodiLib_Cmn_MapEventVariableIndex_MaxValue.htm" />
+    <HelpKINode Title="MapId.MaxValue フィールド" Url="html/F_WodiLib_Map_MapId_MaxValue.htm" />
     <HelpKINode Title="MapSizeHeight.MaxValue フィールド" Url="html/F_WodiLib_Map_MapSizeHeight_MaxValue.htm" />
     <HelpKINode Title="MapSizeWidth.MaxValue フィールド" Url="html/F_WodiLib_Map_MapSizeWidth_MaxValue.htm" />
     <HelpKINode Title="MemberId.MaxValue フィールド" Url="html/F_WodiLib_Cmn_MemberId_MaxValue.htm" />
@@ -6573,6 +6892,7 @@
     <HelpKINode Title="SystemVariableIndex.MaxValue フィールド" Url="html/F_WodiLib_Cmn_SystemVariableIndex_MaxValue.htm" />
     <HelpKINode Title="TileId.MaxValue フィールド" Url="html/F_WodiLib_Map_TileId_MaxValue.htm" />
     <HelpKINode Title="TileSetId.MaxValue フィールド" Url="html/F_WodiLib_Map_TileSetId_MaxValue.htm" />
+    <HelpKINode Title="TileTagNumber.MaxValue フィールド" Url="html/F_WodiLib_Map_TileTagNumber_MaxValue.htm" />
     <HelpKINode Title="TypeId.MaxValue フィールド" Url="html/F_WodiLib_Database_TypeId_MaxValue.htm" />
   </HelpKINode>
   <HelpKINode Title="MaxValue プロパティ">
@@ -6694,8 +7014,14 @@
     <HelpKINode Title="MoveFrequency.Middle フィールド" Url="html/F_WodiLib_Event_MoveFrequency_Middle.htm" />
   </HelpKINode>
   <HelpKINode Title="MinCapacity フィールド">
+    <HelpKINode Title="AutoTileFileNameList.MinCapacity フィールド" Url="html/F_WodiLib_Map_AutoTileFileNameList_MinCapacity.htm" />
     <HelpKINode Title="MapChipColumns.MinCapacity フィールド" Url="html/F_WodiLib_Map_MapChipColumns_MinCapacity.htm" />
     <HelpKINode Title="MapChipList.MinCapacity フィールド" Url="html/F_WodiLib_Map_MapChipList_MinCapacity.htm" />
+    <HelpKINode Title="MapTreeNodeList.MinCapacity フィールド" Url="html/F_WodiLib_Map_MapTreeNodeList_MinCapacity.htm" />
+    <HelpKINode Title="MapTreeOpenStatusList.MinCapacity フィールド" Url="html/F_WodiLib_Map_MapTreeOpenStatusList_MinCapacity.htm" />
+    <HelpKINode Title="TilePathSettingList.MinCapacity フィールド" Url="html/F_WodiLib_Map_TilePathSettingList_MinCapacity.htm" />
+    <HelpKINode Title="TileSetSettingList.MinCapacity フィールド" Url="html/F_WodiLib_Map_TileSetSettingList_MinCapacity.htm" />
+    <HelpKINode Title="TileTagNumberList.MinCapacity フィールド" Url="html/F_WodiLib_Map_TileTagNumberList_MinCapacity.htm" />
   </HelpKINode>
   <HelpKINode Title="MinCapacity プロパティ">
     <HelpKINode Title="CharaMoveCommandList.MinCapacity プロパティ " Url="html/P_WodiLib_Event_CharaMoveCommandList_MinCapacity.htm" />
@@ -6735,6 +7061,7 @@
     <HelpKINode Title="MapEventPageIndex.MinValue フィールド" Url="html/F_WodiLib_Event_MapEventPageIndex_MinValue.htm" />
     <HelpKINode Title="MapEventTileId.MinValue フィールド" Url="html/F_WodiLib_Map_MapEventTileId_MinValue.htm" />
     <HelpKINode Title="MapEventVariableIndex.MinValue フィールド" Url="html/F_WodiLib_Cmn_MapEventVariableIndex_MinValue.htm" />
+    <HelpKINode Title="MapId.MinValue フィールド" Url="html/F_WodiLib_Map_MapId_MinValue.htm" />
     <HelpKINode Title="MapSizeHeight.MinValue フィールド" Url="html/F_WodiLib_Map_MapSizeHeight_MinValue.htm" />
     <HelpKINode Title="MapSizeWidth.MinValue フィールド" Url="html/F_WodiLib_Map_MapSizeWidth_MinValue.htm" />
     <HelpKINode Title="MemberId.MinValue フィールド" Url="html/F_WodiLib_Cmn_MemberId_MinValue.htm" />
@@ -6748,6 +7075,7 @@
     <HelpKINode Title="SystemVariableIndex.MinValue フィールド" Url="html/F_WodiLib_Cmn_SystemVariableIndex_MinValue.htm" />
     <HelpKINode Title="TileId.MinValue フィールド" Url="html/F_WodiLib_Map_TileId_MinValue.htm" />
     <HelpKINode Title="TileSetId.MinValue フィールド" Url="html/F_WodiLib_Map_TileSetId_MinValue.htm" />
+    <HelpKINode Title="TileTagNumber.MinValue フィールド" Url="html/F_WodiLib_Map_TileTagNumber_MinValue.htm" />
     <HelpKINode Title="TypeId.MinValue フィールド" Url="html/F_WodiLib_Database_TypeId_MinValue.htm" />
   </HelpKINode>
   <HelpKINode Title="MinValue プロパティ">
@@ -7042,7 +7370,11 @@
     <HelpKINode Title="NumberAssignmentOperator.Multiplication フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberAssignmentOperator_Multiplication.htm" />
     <HelpKINode Title="NumberPlusAssignmentOperator.Multiplication フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusAssignmentOperator_Multiplication.htm" />
   </HelpKINode>
-  <HelpKINode Title="Name プロパティ" Url="html/P_WodiLib_Common_CommonEvent_Name.htm" />
+  <HelpKINode Title="MyMapId プロパティ" Url="html/P_WodiLib_Map_MapTreeNode_MyMapId.htm" />
+  <HelpKINode Title="Name プロパティ">
+    <HelpKINode Title="CommonEvent.Name プロパティ " Url="html/P_WodiLib_Common_CommonEvent_Name.htm" />
+    <HelpKINode Title="TileSetSetting.Name プロパティ " Url="html/P_WodiLib_Map_TileSetSetting_Name.htm" />
+  </HelpKINode>
   <HelpKINode Title="Nearer フィールド" Url="html/F_WodiLib_Event_MoveType_Nearer.htm" />
   <HelpKINode Title="NgMoveNgInput フィールド" Url="html/F_WodiLib_Event_EventCommand_StandardKeyInputControlType_NgMoveNgInput.htm" />
   <HelpKINode Title="NgMoveOkInput フィールド" Url="html/F_WodiLib_Event_EventCommand_StandardKeyInputControlType_NgMoveOkInput.htm" />
@@ -7115,6 +7447,7 @@
     <HelpKINode Title="StringConditionalOperator.Not フィールド" Url="html/F_WodiLib_Event_EventCommand_StringConditionalOperator_Not.htm" />
   </HelpKINode>
   <HelpKINode Title="NotAccept フィールド" Url="html/F_WodiLib_Event_EventCommand_DirectionKeyType_NotAccept.htm" />
+  <HelpKINode Title="Nothing フィールド" Url="html/F_WodiLib_Map_TilePathOption_Nothing.htm" />
   <HelpKINode Title="NoTransition フィールド" Url="html/F_WodiLib_Event_EventCommand_TransferOption_NoTransition.htm" />
   <HelpKINode Title="NoTransitionFade フィールド" Url="html/F_WodiLib_Event_EventCommand_TransferOption_NoTransitionFade.htm" />
   <HelpKINode Title="NotReturn フィールド" Url="html/F_WodiLib_Common_CommonEventReturnVariableIndex_NotReturn.htm" />
@@ -7438,6 +7771,7 @@
     <HelpKINode Title="ChangePenetration.Opacity プロパティ " Url="html/P_WodiLib_Event_CharaMoveCommand_ChangePenetration_Opacity.htm" />
     <HelpKINode Title="PictureDrawBase.Opacity プロパティ " Url="html/P_WodiLib_Event_EventCommand_PictureDrawBase_Opacity.htm" />
   </HelpKINode>
+  <HelpKINode Title="Open フィールド" Url="html/F_WodiLib_Map_MapTreeOpenState_Open.htm" />
   <HelpKINode Title="Operation プロパティ">
     <HelpKINode Title="CommonEventBootCondition.Operation プロパティ " Url="html/P_WodiLib_Common_CommonEventBootCondition_Operation.htm" />
     <HelpKINode Title="MapEventBootCondition.Operation プロパティ " Url="html/P_WodiLib_Map_MapEventBootCondition_Operation.htm" />
@@ -7480,6 +7814,7 @@
     <HelpKINode Title="SpecialCheckPoint.OutputVersionWarningLogIfNeed メソッド " Url="html/M_WodiLib_Event_EventCommand_SpecialCheckPoint_OutputVersionWarningLogIfNeed.htm" />
     <HelpKINode Title="StandardKeyInputControl.OutputVersionWarningLogIfNeed メソッド " Url="html/M_WodiLib_Event_EventCommand_StandardKeyInputControl_OutputVersionWarningLogIfNeed.htm" />
     <HelpKINode Title="SyntheticVoice.OutputVersionWarningLogIfNeed メソッド " Url="html/M_WodiLib_Event_EventCommand_SyntheticVoice_OutputVersionWarningLogIfNeed.htm" />
+    <HelpKINode Title="TilePathPermission.OutputVersionWarningLogIfNeed メソッド " Url="html/M_WodiLib_Map_TilePathPermission_OutputVersionWarningLogIfNeed.htm" />
     <HelpKINode Title="TransferBase.OutputVersionWarningLogIfNeed メソッド " Url="html/M_WodiLib_Event_EventCommand_TransferBase_OutputVersionWarningLogIfNeed.htm" />
   </HelpKINode>
   <HelpKINode Title="Overwrite メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_Overwrite.htm" />
@@ -7514,6 +7849,8 @@
     <HelpKINode Title="MapEventBootType.Parallel フィールド" Url="html/F_WodiLib_Map_MapEventBootType_Parallel.htm" />
   </HelpKINode>
   <HelpKINode Title="ParallelAlways フィールド" Url="html/F_WodiLib_Common_CommonEventBootType_ParallelAlways.htm" />
+  <HelpKINode Title="ParentMapId プロパティ" Url="html/P_WodiLib_Map_MapTreeNode_ParentMapId.htm" />
+  <HelpKINode Title="PartialDeny フィールド" Url="html/F_WodiLib_Map_TilePathPermission_PartialDeny.htm" />
   <HelpKINode Title="PartyGraphic フィールド">
     <HelpKINode Title="EventCommandCode.PartyGraphic フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandCode_PartyGraphic.htm" />
     <HelpKINode Title="EventCommandCodeConstant.PartyGraphic フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandCodeConstant_PartyGraphic.htm" />
@@ -7613,6 +7950,8 @@
   <HelpKINode Title="PartyGraphicSpecialType.WrapPartyToHero フィールド" Url="html/F_WodiLib_Event_EventCommand_PartyGraphicSpecialType_WrapPartyToHero.htm" />
   <HelpKINode Title="PassableTile フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusPositionInfoType_PassableTile.htm" />
   <HelpKINode Title="PassableTileAndEvent フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusPositionInfoType_PassableTileAndEvent.htm" />
+  <HelpKINode Title="PathOption プロパティ" Url="html/P_WodiLib_Map_TilePathSetting_PathOption.htm" />
+  <HelpKINode Title="PathPermission プロパティ" Url="html/P_WodiLib_Map_TilePathSetting_PathPermission.htm" />
   <HelpKINode Title="PathStringVar プロパティ" Url="html/P_WodiLib_Event_EventCommand_Download_PathStringVar.htm" />
   <HelpKINode Title="Pattern プロパティ" Url="html/P_WodiLib_Event_EventCommand_PictureDrawBase_Pattern.htm" />
   <HelpKINode Title="PatternNumber フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusPictureInfoType_PatternNumber.htm" />
@@ -8079,7 +8418,11 @@
     <HelpKINode Title="DatabaseProjectFile.ReadASync メソッド " Url="html/M_WodiLib_IO_DatabaseProjectFile_ReadASync.htm" />
     <HelpKINode Title="DBDataFile.ReadASync メソッド " Url="html/M_WodiLib_IO_DBDataFile_ReadASync.htm" />
     <HelpKINode Title="DBTypeSetFile.ReadASync メソッド " Url="html/M_WodiLib_IO_DBTypeSetFile_ReadASync.htm" />
+    <HelpKINode Title="MapTreeDataFile.ReadASync メソッド " Url="html/M_WodiLib_IO_MapTreeDataFile_ReadASync.htm" />
+    <HelpKINode Title="TileSetFile.ReadASync メソッド " Url="html/M_WodiLib_IO_TileSetFile_ReadASync.htm" />
+    <HelpKINode Title="MapTreeOpenStatusDataFile.ReadASync メソッド " Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_ReadASync.htm" />
     <HelpKINode Title="MpsFile.ReadASync メソッド " Url="html/M_WodiLib_IO_MpsFile_ReadASync.htm" />
+    <HelpKINode Title="TileSetDataFile.ReadASync メソッド " Url="html/M_WodiLib_IO_TileSetDataFile_ReadASync.htm" />
   </HelpKINode>
   <HelpKINode Title="ReadAsync メソッド" Url="html/M_WodiLib_IO_DatabaseMergedDataReader_ReadAsync.htm" />
   <HelpKINode Title="ReadOnlyDBItemValuesList クラス" Url="html/T_WodiLib_Database_ReadOnlyDBItemValuesList.htm" />
@@ -8123,7 +8466,11 @@
     <HelpKINode Title="DatabaseProjectFile.ReadSync メソッド " Url="html/M_WodiLib_IO_DatabaseProjectFile_ReadSync.htm" />
     <HelpKINode Title="DBDataFile.ReadSync メソッド " Url="html/M_WodiLib_IO_DBDataFile_ReadSync.htm" />
     <HelpKINode Title="DBTypeSetFile.ReadSync メソッド " Url="html/M_WodiLib_IO_DBTypeSetFile_ReadSync.htm" />
+    <HelpKINode Title="MapTreeDataFile.ReadSync メソッド " Url="html/M_WodiLib_IO_MapTreeDataFile_ReadSync.htm" />
+    <HelpKINode Title="MapTreeOpenStatusDataFile.ReadSync メソッド " Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_ReadSync.htm" />
     <HelpKINode Title="MpsFile.ReadSync メソッド " Url="html/M_WodiLib_IO_MpsFile_ReadSync.htm" />
+    <HelpKINode Title="TileSetDataFile.ReadSync メソッド " Url="html/M_WodiLib_IO_TileSetDataFile_ReadSync.htm" />
+    <HelpKINode Title="TileSetFile.ReadSync メソッド " Url="html/M_WodiLib_IO_TileSetFile_ReadSync.htm" />
   </HelpKINode>
   <HelpKINode Title="Red フィールド" Url="html/F_WodiLib_Common_CommonEventLabelColor_Red.htm" />
   <HelpKINode Title="ReferDatabase フィールド">
@@ -8317,10 +8664,12 @@
     <HelpKINode Title="CharaChipDirection.Right フィールド" Url="html/F_WodiLib_Map_CharaChipDirection_Right.htm" />
     <HelpKINode Title="DirectionKeyType.Right フィールド" Url="html/F_WodiLib_Event_EventCommand_DirectionKeyType_Right.htm" />
   </HelpKINode>
+  <HelpKINode Title="Right プロパティ" Url="html/P_WodiLib_Map_TileCannotPassingFlags_Right.htm" />
   <HelpKINode Title="RightDown フィールド">
     <HelpKINode Title="CharaChipDirection.RightDown フィールド" Url="html/F_WodiLib_Map_CharaChipDirection_RightDown.htm" />
     <HelpKINode Title="PictureAnchorPosition.RightDown フィールド" Url="html/F_WodiLib_Event_EventCommand_PictureAnchorPosition_RightDown.htm" />
   </HelpKINode>
+  <HelpKINode Title="RightDown プロパティ" Url="html/P_WodiLib_Map_TileImpassableFlags_RightDown.htm" />
   <HelpKINode Title="RightDownAutoTile プロパティ" Url="html/P_WodiLib_Map_MapChip_RightDownAutoTile.htm" />
   <HelpKINode Title="RightKey フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_ChoiceStartForkingEtc_ChoiceCode_RightKey.htm" />
   <HelpKINode Title="RightPoint プロパティ" Url="html/P_WodiLib_Event_CharaMoveCommand_Jump_RightPoint.htm" />
@@ -8394,6 +8743,7 @@
     <HelpKINode Title="CharaChipDirection.RightUp フィールド" Url="html/F_WodiLib_Map_CharaChipDirection_RightUp.htm" />
     <HelpKINode Title="PictureAnchorPosition.RightUp フィールド" Url="html/F_WodiLib_Event_EventCommand_PictureAnchorPosition_RightUp.htm" />
   </HelpKINode>
+  <HelpKINode Title="RightUp プロパティ" Url="html/P_WodiLib_Map_TileImpassableFlags_RightUp.htm" />
   <HelpKINode Title="RightUpAutoTile プロパティ" Url="html/P_WodiLib_Map_MapChip_RightUpAutoTile.htm" />
   <HelpKINode Title="RunCondition フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusCharaInfoType_RunCondition.htm" />
   <HelpKINode Title="SafetyMaxValue フィールド">
@@ -8885,6 +9235,9 @@
     <HelpKINode Title="WaitEventCommand.SetStringVariable メソッド " Url="html/M_WodiLib_Event_EventCommand_WaitEventCommand_SetStringVariable.htm" />
     <HelpKINode Title="WaitForMovement.SetStringVariable メソッド " Url="html/M_WodiLib_Event_EventCommand_WaitForMovement_SetStringVariable.htm" />
   </HelpKINode>
+  <HelpKINode Title="SettingLength プロパティ" Url="html/P_WodiLib_Map_TileSetSetting_SettingLength.htm" />
+  <HelpKINode Title="SettingLengthMax フィールド" Url="html/F_WodiLib_Map_TileSetSetting_SettingLengthMax.htm" />
+  <HelpKINode Title="SettingLengthMin フィールド" Url="html/F_WodiLib_Map_TileSetSetting_SettingLengthMin.htm" />
   <HelpKINode Title="SettingList プロパティ" Url="html/P_WodiLib_Database_DatabaseDat_SettingList.htm" />
   <HelpKINode Title="SettingType プロパティ" Url="html/P_WodiLib_Database_DBItemSpecialSettingDesc_SettingType.htm" />
   <HelpKINode Title="SettingValuesList プロパティ" Url="html/P_WodiLib_Database_DBDataSetting_SettingValuesList.htm" />
@@ -9267,6 +9620,7 @@
   <HelpKINode Title="StartHeroPartySynchro フィールド" Url="html/F_WodiLib_Event_EventCommand_PartyGraphicSpecialType_StartHeroPartySynchro.htm" />
   <HelpKINode Title="StartTime プロパティ" Url="html/P_WodiLib_Event_EventCommand_SoundBase_StartTime.htm" />
   <HelpKINode Title="StartWith フィールド" Url="html/F_WodiLib_Event_EventCommand_StringConditionalOperator_StartWith.htm" />
+  <HelpKINode Title="StatusList プロパティ" Url="html/P_WodiLib_Map_MapTreeOpenStatusData_StatusList.htm" />
   <HelpKINode Title="StepBackward クラス" Url="html/T_WodiLib_Event_CharaMoveCommand_StepBackward.htm" />
   <HelpKINode Title="StepBackward クラス、コンストラクター" Url="html/M_WodiLib_Event_CharaMoveCommand_StepBackward__ctor.htm" />
   <HelpKINode Title="StepBackward クラス、プロパティ" Url="html/Properties_T_WodiLib_Event_CharaMoveCommand_StepBackward.htm" />
@@ -9310,6 +9664,8 @@
   <HelpKINode Title="Str フィールド" Url="html/F_WodiLib_Sys_IntOrStrType_Str.htm" />
   <HelpKINode Title="StrArgsLength プロパティ" Url="html/P_WodiLib_Common_CommonEvent_StrArgsLength.htm" />
   <HelpKINode Title="StrArgValue プロパティ" Url="html/P_WodiLib_Event_EventCommand_CallCommonEventBase_StrArgValue.htm" />
+  <HelpKINode Title="String to AutoTileFileName 変換" Url="html/M_WodiLib_Map_AutoTileFileName_op_Implicit.htm" />
+  <HelpKINode Title="String to BaseTileSetFileName 変換" Url="html/M_WodiLib_Map_BaseTileSetFileName_op_Implicit.htm" />
   <HelpKINode Title="String to ChangeableDatabaseDatFilePath 変換" Url="html/M_WodiLib_IO_ChangeableDatabaseDatFilePath_op_Implicit.htm" />
   <HelpKINode Title="String to ChangeableDatabaseProjectFilePath 変換" Url="html/M_WodiLib_IO_ChangeableDatabaseProjectFilePath_op_Implicit.htm" />
   <HelpKINode Title="String to CharaChipFilePath 変換" Url="html/M_WodiLib_Cmn_CharaChipFilePath_op_Implicit.htm" />
@@ -9336,9 +9692,14 @@
   <HelpKINode Title="String to ItemName 変換" Url="html/M_WodiLib_Database_ItemName_op_Implicit.htm" />
   <HelpKINode Title="String to MapDataMemo 変換" Url="html/M_WodiLib_Map_MapDataMemo_op_Implicit.htm" />
   <HelpKINode Title="String to MapEventName 変換" Url="html/M_WodiLib_Map_MapEventName_op_Implicit.htm" />
+  <HelpKINode Title="String to MapTreeDataFilePath 変換" Url="html/M_WodiLib_IO_MapTreeDataFilePath_op_Implicit.htm" />
+  <HelpKINode Title="String to MapTreeOpenStatusDataFilePath 変換" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFilePath_op_Implicit.htm" />
   <HelpKINode Title="String to MpsFilePath 変換" Url="html/M_WodiLib_IO_MpsFilePath_op_Implicit.htm" />
   <HelpKINode Title="String to SystemDatabaseDatFilePath 変換" Url="html/M_WodiLib_IO_SystemDatabaseDatFilePath_op_Implicit.htm" />
   <HelpKINode Title="String to SystemDatabaseProjectFilePath 変換" Url="html/M_WodiLib_IO_SystemDatabaseProjectFilePath_op_Implicit.htm" />
+  <HelpKINode Title="String to TileSetDataFilePath 変換" Url="html/M_WodiLib_IO_TileSetDataFilePath_op_Implicit.htm" />
+  <HelpKINode Title="String to TileSetFilePath 変換" Url="html/M_WodiLib_IO_TileSetFilePath_op_Implicit.htm" />
+  <HelpKINode Title="String to TileSetName 変換" Url="html/M_WodiLib_Map_TileSetName_op_Implicit.htm" />
   <HelpKINode Title="String to TypeName 変換" Url="html/M_WodiLib_Database_TypeName_op_Implicit.htm" />
   <HelpKINode Title="String to UserDatabaseDatFilePath 変換" Url="html/M_WodiLib_IO_UserDatabaseDatFilePath_op_Implicit.htm" />
   <HelpKINode Title="String to UserDatabaseProjectFilePath 変換" Url="html/M_WodiLib_IO_UserDatabaseProjectFilePath_op_Implicit.htm" />
@@ -9830,6 +10191,17 @@
   <HelpKINode Title="ThisMapEventVariableAddress._SafetyMinValue プロパティ" Url="html/P_WodiLib_Cmn_ThisMapEventVariableAddress__SafetyMinValue.htm" />
   <HelpKINode Title="ThisMapEventVariableAddressMax フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_ThisMapEventVariableAddressMax.htm" />
   <HelpKINode Title="ThisMapEventVariableAddressMin フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_ThisMapEventVariableAddressMin.htm" />
+  <HelpKINode Title="TileCannotPassingFlags クラス" Url="html/T_WodiLib_Map_TileCannotPassingFlags.htm" />
+  <HelpKINode Title="TileCannotPassingFlags クラス、コンストラクター" Url="html/Overload_WodiLib_Map_TileCannotPassingFlags__ctor.htm" />
+  <HelpKINode Title="TileCannotPassingFlags クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_TileCannotPassingFlags.htm" />
+  <HelpKINode Title="TileCannotPassingFlags クラス、メソッド" Url="html/Methods_T_WodiLib_Map_TileCannotPassingFlags.htm" />
+  <HelpKINode Title="TileCannotPassingFlags.Down プロパティ" Url="html/P_WodiLib_Map_TileCannotPassingFlags_Down.htm" />
+  <HelpKINode Title="TileCannotPassingFlags.Equals メソッド" Url="html/Overload_WodiLib_Map_TileCannotPassingFlags_Equals.htm" />
+  <HelpKINode Title="TileCannotPassingFlags.Left プロパティ" Url="html/P_WodiLib_Map_TileCannotPassingFlags_Left.htm" />
+  <HelpKINode Title="TileCannotPassingFlags.Right プロパティ" Url="html/P_WodiLib_Map_TileCannotPassingFlags_Right.htm" />
+  <HelpKINode Title="TileCannotPassingFlags.TileCannotPassingFlags コンストラクター" Url="html/Overload_WodiLib_Map_TileCannotPassingFlags__ctor.htm" />
+  <HelpKINode Title="TileCannotPassingFlags.ToCode メソッド" Url="html/M_WodiLib_Map_TileCannotPassingFlags_ToCode.htm" />
+  <HelpKINode Title="TileCannotPassingFlags.Up プロパティ" Url="html/P_WodiLib_Map_TileCannotPassingFlags_Up.htm" />
   <HelpKINode Title="TileId to Int32 変換" Url="html/M_WodiLib_Map_TileId_op_Implicit_1.htm" />
   <HelpKINode Title="TileId 構造体" Url="html/T_WodiLib_Map_TileId.htm" />
   <HelpKINode Title="TileId 構造体、コンストラクター" Url="html/M_WodiLib_Map_TileId__ctor.htm" />
@@ -9846,6 +10218,140 @@
   <HelpKINode Title="TileId.ToBytes メソッド" Url="html/M_WodiLib_Map_TileId_ToBytes.htm" />
   <HelpKINode Title="TileId.ToInt メソッド" Url="html/M_WodiLib_Map_TileId_ToInt.htm" />
   <HelpKINode Title="TileId.ToString メソッド" Url="html/M_WodiLib_Map_TileId_ToString.htm" />
+  <HelpKINode Title="TileImpassableFlags クラス" Url="html/T_WodiLib_Map_TileImpassableFlags.htm" />
+  <HelpKINode Title="TileImpassableFlags クラス、コンストラクター" Url="html/Overload_WodiLib_Map_TileImpassableFlags__ctor.htm" />
+  <HelpKINode Title="TileImpassableFlags クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_TileImpassableFlags.htm" />
+  <HelpKINode Title="TileImpassableFlags クラス、メソッド" Url="html/Methods_T_WodiLib_Map_TileImpassableFlags.htm" />
+  <HelpKINode Title="TileImpassableFlags.Equals メソッド" Url="html/Overload_WodiLib_Map_TileImpassableFlags_Equals.htm" />
+  <HelpKINode Title="TileImpassableFlags.LeftDown プロパティ" Url="html/P_WodiLib_Map_TileImpassableFlags_LeftDown.htm" />
+  <HelpKINode Title="TileImpassableFlags.LeftUp プロパティ" Url="html/P_WodiLib_Map_TileImpassableFlags_LeftUp.htm" />
+  <HelpKINode Title="TileImpassableFlags.RightDown プロパティ" Url="html/P_WodiLib_Map_TileImpassableFlags_RightDown.htm" />
+  <HelpKINode Title="TileImpassableFlags.RightUp プロパティ" Url="html/P_WodiLib_Map_TileImpassableFlags_RightUp.htm" />
+  <HelpKINode Title="TileImpassableFlags.TileImpassableFlags コンストラクター" Url="html/Overload_WodiLib_Map_TileImpassableFlags__ctor.htm" />
+  <HelpKINode Title="TileImpassableFlags.ToCode メソッド" Url="html/M_WodiLib_Map_TileImpassableFlags_ToCode.htm" />
+  <HelpKINode Title="TilePathOption クラス" Url="html/T_WodiLib_Map_TilePathOption.htm" />
+  <HelpKINode Title="TilePathOption クラス、フィールド" Url="html/Fields_T_WodiLib_Map_TilePathOption.htm" />
+  <HelpKINode Title="TilePathOption クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_TilePathOption.htm" />
+  <HelpKINode Title="TilePathOption クラス、メソッド" Url="html/Methods_T_WodiLib_Map_TilePathOption.htm" />
+  <HelpKINode Title="TilePathOption.AboveCharacter フィールド" Url="html/F_WodiLib_Map_TilePathOption_AboveCharacter.htm" />
+  <HelpKINode Title="TilePathOption.Code プロパティ" Url="html/P_WodiLib_Map_TilePathOption_Code.htm" />
+  <HelpKINode Title="TilePathOption.FromCode メソッド" Url="html/M_WodiLib_Map_TilePathOption_FromCode.htm" />
+  <HelpKINode Title="TilePathOption.Hide フィールド" Url="html/F_WodiLib_Map_TilePathOption_Hide.htm" />
+  <HelpKINode Title="TilePathOption.Nothing フィールド" Url="html/F_WodiLib_Map_TilePathOption_Nothing.htm" />
+  <HelpKINode Title="TilePathOption.TranslucentLowerBody フィールド" Url="html/F_WodiLib_Map_TilePathOption_TranslucentLowerBody.htm" />
+  <HelpKINode Title="TilePathPermission クラス" Url="html/T_WodiLib_Map_TilePathPermission.htm" />
+  <HelpKINode Title="TilePathPermission クラス、フィールド" Url="html/Fields_T_WodiLib_Map_TilePathPermission.htm" />
+  <HelpKINode Title="TilePathPermission クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_TilePathPermission.htm" />
+  <HelpKINode Title="TilePathPermission クラス、メソッド" Url="html/Methods_T_WodiLib_Map_TilePathPermission.htm" />
+  <HelpKINode Title="TilePathPermission.Allow フィールド" Url="html/F_WodiLib_Map_TilePathPermission_Allow.htm" />
+  <HelpKINode Title="TilePathPermission.Code プロパティ" Url="html/P_WodiLib_Map_TilePathPermission_Code.htm" />
+  <HelpKINode Title="TilePathPermission.Deny フィールド" Url="html/F_WodiLib_Map_TilePathPermission_Deny.htm" />
+  <HelpKINode Title="TilePathPermission.Dependent フィールド" Url="html/F_WodiLib_Map_TilePathPermission_Dependent.htm" />
+  <HelpKINode Title="TilePathPermission.FromCode メソッド" Url="html/M_WodiLib_Map_TilePathPermission_FromCode.htm" />
+  <HelpKINode Title="TilePathPermission.OutputVersionWarningLogIfNeed メソッド" Url="html/M_WodiLib_Map_TilePathPermission_OutputVersionWarningLogIfNeed.htm" />
+  <HelpKINode Title="TilePathPermission.PartialDeny フィールド" Url="html/F_WodiLib_Map_TilePathPermission_PartialDeny.htm" />
+  <HelpKINode Title="TilePathSetting クラス" Url="html/T_WodiLib_Map_TilePathSetting.htm" />
+  <HelpKINode Title="TilePathSetting クラス、コンストラクター" Url="html/Overload_WodiLib_Map_TilePathSetting__ctor.htm" />
+  <HelpKINode Title="TilePathSetting クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_TilePathSetting.htm" />
+  <HelpKINode Title="TilePathSetting クラス、メソッド" Url="html/Methods_T_WodiLib_Map_TilePathSetting.htm" />
+  <HelpKINode Title="TilePathSetting.CannotPassingFlags プロパティ" Url="html/P_WodiLib_Map_TilePathSetting_CannotPassingFlags.htm" />
+  <HelpKINode Title="TilePathSetting.ChangePathPermissionAllow メソッド" Url="html/M_WodiLib_Map_TilePathSetting_ChangePathPermissionAllow.htm" />
+  <HelpKINode Title="TilePathSetting.ChangePathPermissionDeny メソッド" Url="html/M_WodiLib_Map_TilePathSetting_ChangePathPermissionDeny.htm" />
+  <HelpKINode Title="TilePathSetting.ChangePathPermissionDependent メソッド" Url="html/M_WodiLib_Map_TilePathSetting_ChangePathPermissionDependent.htm" />
+  <HelpKINode Title="TilePathSetting.ChangePathPermissionPartialDeny メソッド" Url="html/M_WodiLib_Map_TilePathSetting_ChangePathPermissionPartialDeny.htm" />
+  <HelpKINode Title="TilePathSetting.ImpassableFlags プロパティ" Url="html/P_WodiLib_Map_TilePathSetting_ImpassableFlags.htm" />
+  <HelpKINode Title="TilePathSetting.IsCounter プロパティ" Url="html/P_WodiLib_Map_TilePathSetting_IsCounter.htm" />
+  <HelpKINode Title="TilePathSetting.PathOption プロパティ" Url="html/P_WodiLib_Map_TilePathSetting_PathOption.htm" />
+  <HelpKINode Title="TilePathSetting.PathPermission プロパティ" Url="html/P_WodiLib_Map_TilePathSetting_PathPermission.htm" />
+  <HelpKINode Title="TilePathSetting.TilePathSetting コンストラクター" Url="html/Overload_WodiLib_Map_TilePathSetting__ctor.htm" />
+  <HelpKINode Title="TilePathSetting.ToBinary メソッド" Url="html/M_WodiLib_Map_TilePathSetting_ToBinary.htm" />
+  <HelpKINode Title="TilePathSettingList クラス" Url="html/T_WodiLib_Map_TilePathSettingList.htm" />
+  <HelpKINode Title="TilePathSettingList クラス、コンストラクター" Url="html/Overload_WodiLib_Map_TilePathSettingList__ctor.htm" />
+  <HelpKINode Title="TilePathSettingList クラス、フィールド" Url="html/Fields_T_WodiLib_Map_TilePathSettingList.htm" />
+  <HelpKINode Title="TilePathSettingList クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_TilePathSettingList.htm" />
+  <HelpKINode Title="TilePathSettingList クラス、メソッド" Url="html/Methods_T_WodiLib_Map_TilePathSettingList.htm" />
+  <HelpKINode Title="TilePathSettingList プロパティ" Url="html/P_WodiLib_Map_TileSetSetting_TilePathSettingList.htm" />
+  <HelpKINode Title="TilePathSettingList.GetMaxCapacity メソッド" Url="html/M_WodiLib_Map_TilePathSettingList_GetMaxCapacity.htm" />
+  <HelpKINode Title="TilePathSettingList.GetMinCapacity メソッド" Url="html/M_WodiLib_Map_TilePathSettingList_GetMinCapacity.htm" />
+  <HelpKINode Title="TilePathSettingList.MakeDefaultItem メソッド" Url="html/M_WodiLib_Map_TilePathSettingList_MakeDefaultItem.htm" />
+  <HelpKINode Title="TilePathSettingList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_TilePathSettingList_MaxCapacity.htm" />
+  <HelpKINode Title="TilePathSettingList.MinCapacity フィールド" Url="html/F_WodiLib_Map_TilePathSettingList_MinCapacity.htm" />
+  <HelpKINode Title="TilePathSettingList.TilePathSettingList コンストラクター" Url="html/Overload_WodiLib_Map_TilePathSettingList__ctor.htm" />
+  <HelpKINode Title="TilePathSettingList.ToBinary メソッド" Url="html/M_WodiLib_Map_TilePathSettingList_ToBinary.htm" />
+  <HelpKINode Title="TileSetData クラス" Url="html/T_WodiLib_Map_TileSetData.htm" />
+  <HelpKINode Title="TileSetData クラス、コンストラクター" Url="html/M_WodiLib_Map_TileSetData__ctor.htm" />
+  <HelpKINode Title="TileSetData クラス、フィールド" Url="html/Fields_T_WodiLib_Map_TileSetData.htm" />
+  <HelpKINode Title="TileSetData クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_TileSetData.htm" />
+  <HelpKINode Title="TileSetData クラス、メソッド" Url="html/Methods_T_WodiLib_Map_TileSetData.htm" />
+  <HelpKINode Title="TileSetData プロパティ" Url="html/P_WodiLib_IO_TileSetDataFile_TileSetData.htm" />
+  <HelpKINode Title="TileSetData.Footer フィールド" Url="html/F_WodiLib_Map_TileSetData_Footer.htm" />
+  <HelpKINode Title="TileSetData.Header フィールド" Url="html/F_WodiLib_Map_TileSetData_Header.htm" />
+  <HelpKINode Title="TileSetData.TileSetData コンストラクター" Url="html/M_WodiLib_Map_TileSetData__ctor.htm" />
+  <HelpKINode Title="TileSetData.TileSetSettingList プロパティ" Url="html/P_WodiLib_Map_TileSetData_TileSetSettingList.htm" />
+  <HelpKINode Title="TileSetData.ToBinary メソッド" Url="html/M_WodiLib_Map_TileSetData_ToBinary.htm" />
+  <HelpKINode Title="TileSetDataFile クラス" Url="html/T_WodiLib_IO_TileSetDataFile.htm" />
+  <HelpKINode Title="TileSetDataFile クラス、コンストラクター" Url="html/M_WodiLib_IO_TileSetDataFile__ctor.htm" />
+  <HelpKINode Title="TileSetDataFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_TileSetDataFile.htm" />
+  <HelpKINode Title="TileSetDataFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_TileSetDataFile.htm" />
+  <HelpKINode Title="TileSetDataFile.FilePath プロパティ" Url="html/P_WodiLib_IO_TileSetDataFile_FilePath.htm" />
+  <HelpKINode Title="TileSetDataFile.ReadASync メソッド" Url="html/M_WodiLib_IO_TileSetDataFile_ReadASync.htm" />
+  <HelpKINode Title="TileSetDataFile.ReadSync メソッド" Url="html/M_WodiLib_IO_TileSetDataFile_ReadSync.htm" />
+  <HelpKINode Title="TileSetDataFile.TileSetData プロパティ" Url="html/P_WodiLib_IO_TileSetDataFile_TileSetData.htm" />
+  <HelpKINode Title="TileSetDataFile.TileSetDataFile コンストラクター" Url="html/M_WodiLib_IO_TileSetDataFile__ctor.htm" />
+  <HelpKINode Title="TileSetDataFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_TileSetDataFile_WriteAsync.htm" />
+  <HelpKINode Title="TileSetDataFile.WriteSync メソッド" Url="html/M_WodiLib_IO_TileSetDataFile_WriteSync.htm" />
+  <HelpKINode Title="TileSetDataFilePath to String 変換" Url="html/M_WodiLib_IO_TileSetDataFilePath_op_Implicit_1.htm" />
+  <HelpKINode Title="TileSetDataFilePath クラス" Url="html/T_WodiLib_IO_TileSetDataFilePath.htm" />
+  <HelpKINode Title="TileSetDataFilePath クラス、コンストラクター" Url="html/M_WodiLib_IO_TileSetDataFilePath__ctor.htm" />
+  <HelpKINode Title="TileSetDataFilePath クラス、フィールド" Url="html/Fields_T_WodiLib_IO_TileSetDataFilePath.htm" />
+  <HelpKINode Title="TileSetDataFilePath クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_TileSetDataFilePath.htm" />
+  <HelpKINode Title="TileSetDataFilePath クラス、メソッド" Url="html/Methods_T_WodiLib_IO_TileSetDataFilePath.htm" />
+  <HelpKINode Title="TileSetDataFilePath クラス、演算子と型変換" Url="html/Operators_T_WodiLib_IO_TileSetDataFilePath.htm" />
+  <HelpKINode Title="TileSetDataFilePath.Equality 演算子" Url="html/M_WodiLib_IO_TileSetDataFilePath_op_Equality.htm" />
+  <HelpKINode Title="TileSetDataFilePath.Equals メソッド" Url="html/Overload_WodiLib_IO_TileSetDataFilePath_Equals.htm" />
+  <HelpKINode Title="TileSetDataFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_TileSetDataFilePath_FilePathRegex.htm" />
+  <HelpKINode Title="TileSetDataFilePath.GetHashCode メソッド" Url="html/M_WodiLib_IO_TileSetDataFilePath_GetHashCode.htm" />
+  <HelpKINode Title="TileSetDataFilePath.Inequality 演算子" Url="html/M_WodiLib_IO_TileSetDataFilePath_op_Inequality.htm" />
+  <HelpKINode Title="TileSetDataFilePath.IsAllowEmptyString プロパティ" Url="html/P_WodiLib_IO_TileSetDataFilePath_IsAllowEmptyString.htm" />
+  <HelpKINode Title="TileSetDataFilePath.TileSetDataFilePath コンストラクター" Url="html/M_WodiLib_IO_TileSetDataFilePath__ctor.htm" />
+  <HelpKINode Title="TileSetDataFilePath.ToString メソッド" Url="html/M_WodiLib_IO_TileSetDataFilePath_ToString.htm" />
+  <HelpKINode Title="TileSetFile クラス" Url="html/T_WodiLib_IO_TileSetFile.htm" />
+  <HelpKINode Title="TileSetFile クラス、コンストラクター" Url="html/M_WodiLib_IO_TileSetFile__ctor.htm" />
+  <HelpKINode Title="TileSetFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_TileSetFile.htm" />
+  <HelpKINode Title="TileSetFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_TileSetFile.htm" />
+  <HelpKINode Title="TileSetFile.FilePath プロパティ" Url="html/P_WodiLib_IO_TileSetFile_FilePath.htm" />
+  <HelpKINode Title="TileSetFile.ReadASync メソッド" Url="html/M_WodiLib_IO_TileSetFile_ReadASync.htm" />
+  <HelpKINode Title="TileSetFile.ReadSync メソッド" Url="html/M_WodiLib_IO_TileSetFile_ReadSync.htm" />
+  <HelpKINode Title="TileSetFile.TileSetFile コンストラクター" Url="html/M_WodiLib_IO_TileSetFile__ctor.htm" />
+  <HelpKINode Title="TileSetFile.TileSetFileData プロパティ" Url="html/P_WodiLib_IO_TileSetFile_TileSetFileData.htm" />
+  <HelpKINode Title="TileSetFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_TileSetFile_WriteAsync.htm" />
+  <HelpKINode Title="TileSetFile.WriteSync メソッド" Url="html/M_WodiLib_IO_TileSetFile_WriteSync.htm" />
+  <HelpKINode Title="TileSetFileData クラス" Url="html/T_WodiLib_Map_TileSetFileData.htm" />
+  <HelpKINode Title="TileSetFileData クラス、コンストラクター" Url="html/M_WodiLib_Map_TileSetFileData__ctor.htm" />
+  <HelpKINode Title="TileSetFileData クラス、フィールド" Url="html/Fields_T_WodiLib_Map_TileSetFileData.htm" />
+  <HelpKINode Title="TileSetFileData クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_TileSetFileData.htm" />
+  <HelpKINode Title="TileSetFileData クラス、メソッド" Url="html/Methods_T_WodiLib_Map_TileSetFileData.htm" />
+  <HelpKINode Title="TileSetFileData プロパティ" Url="html/P_WodiLib_IO_TileSetFile_TileSetFileData.htm" />
+  <HelpKINode Title="TileSetFileData.Footer フィールド" Url="html/F_WodiLib_Map_TileSetFileData_Footer.htm" />
+  <HelpKINode Title="TileSetFileData.Header フィールド" Url="html/F_WodiLib_Map_TileSetFileData_Header.htm" />
+  <HelpKINode Title="TileSetFileData.TileSetFileData コンストラクター" Url="html/M_WodiLib_Map_TileSetFileData__ctor.htm" />
+  <HelpKINode Title="TileSetFileData.TileSetSetting プロパティ" Url="html/P_WodiLib_Map_TileSetFileData_TileSetSetting.htm" />
+  <HelpKINode Title="TileSetFileData.ToBinary メソッド" Url="html/M_WodiLib_Map_TileSetFileData_ToBinary.htm" />
+  <HelpKINode Title="TileSetFilePath to String 変換" Url="html/M_WodiLib_IO_TileSetFilePath_op_Implicit_1.htm" />
+  <HelpKINode Title="TileSetFilePath クラス" Url="html/T_WodiLib_IO_TileSetFilePath.htm" />
+  <HelpKINode Title="TileSetFilePath クラス、コンストラクター" Url="html/M_WodiLib_IO_TileSetFilePath__ctor.htm" />
+  <HelpKINode Title="TileSetFilePath クラス、フィールド" Url="html/Fields_T_WodiLib_IO_TileSetFilePath.htm" />
+  <HelpKINode Title="TileSetFilePath クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_TileSetFilePath.htm" />
+  <HelpKINode Title="TileSetFilePath クラス、メソッド" Url="html/Methods_T_WodiLib_IO_TileSetFilePath.htm" />
+  <HelpKINode Title="TileSetFilePath クラス、演算子と型変換" Url="html/Operators_T_WodiLib_IO_TileSetFilePath.htm" />
+  <HelpKINode Title="TileSetFilePath.Equality 演算子" Url="html/M_WodiLib_IO_TileSetFilePath_op_Equality.htm" />
+  <HelpKINode Title="TileSetFilePath.Equals メソッド" Url="html/Overload_WodiLib_IO_TileSetFilePath_Equals.htm" />
+  <HelpKINode Title="TileSetFilePath.FilePathRegex フィールド" Url="html/F_WodiLib_IO_TileSetFilePath_FilePathRegex.htm" />
+  <HelpKINode Title="TileSetFilePath.GetHashCode メソッド" Url="html/M_WodiLib_IO_TileSetFilePath_GetHashCode.htm" />
+  <HelpKINode Title="TileSetFilePath.Inequality 演算子" Url="html/M_WodiLib_IO_TileSetFilePath_op_Inequality.htm" />
+  <HelpKINode Title="TileSetFilePath.IsAllowEmptyString プロパティ" Url="html/P_WodiLib_IO_TileSetFilePath_IsAllowEmptyString.htm" />
+  <HelpKINode Title="TileSetFilePath.TileSetFilePath コンストラクター" Url="html/M_WodiLib_IO_TileSetFilePath__ctor.htm" />
+  <HelpKINode Title="TileSetFilePath.ToString メソッド" Url="html/M_WodiLib_IO_TileSetFilePath_ToString.htm" />
   <HelpKINode Title="TileSetId to Int32 変換" Url="html/M_WodiLib_Map_TileSetId_op_Implicit_1.htm" />
   <HelpKINode Title="TileSetId プロパティ" Url="html/P_WodiLib_Map_MapData_TileSetId.htm" />
   <HelpKINode Title="TileSetId 構造体" Url="html/T_WodiLib_Map_TileSetId.htm" />
@@ -9863,8 +10369,81 @@
   <HelpKINode Title="TileSetId.ToBytes メソッド" Url="html/M_WodiLib_Map_TileSetId_ToBytes.htm" />
   <HelpKINode Title="TileSetId.ToInt メソッド" Url="html/M_WodiLib_Map_TileSetId_ToInt.htm" />
   <HelpKINode Title="TileSetId.ToString メソッド" Url="html/M_WodiLib_Map_TileSetId_ToString.htm" />
+  <HelpKINode Title="TileSetName to String 変換" Url="html/M_WodiLib_Map_TileSetName_op_Implicit_1.htm" />
+  <HelpKINode Title="TileSetName クラス" Url="html/T_WodiLib_Map_TileSetName.htm" />
+  <HelpKINode Title="TileSetName クラス、コンストラクター" Url="html/M_WodiLib_Map_TileSetName__ctor.htm" />
+  <HelpKINode Title="TileSetName クラス、メソッド" Url="html/Methods_T_WodiLib_Map_TileSetName.htm" />
+  <HelpKINode Title="TileSetName クラス、演算子と型変換" Url="html/Operators_T_WodiLib_Map_TileSetName.htm" />
+  <HelpKINode Title="TileSetName.Equality 演算子" Url="html/M_WodiLib_Map_TileSetName_op_Equality.htm" />
+  <HelpKINode Title="TileSetName.Equals メソッド" Url="html/Overload_WodiLib_Map_TileSetName_Equals.htm" />
+  <HelpKINode Title="TileSetName.GetHashCode メソッド" Url="html/M_WodiLib_Map_TileSetName_GetHashCode.htm" />
+  <HelpKINode Title="TileSetName.Inequality 演算子" Url="html/M_WodiLib_Map_TileSetName_op_Inequality.htm" />
+  <HelpKINode Title="TileSetName.TileSetName コンストラクター" Url="html/M_WodiLib_Map_TileSetName__ctor.htm" />
+  <HelpKINode Title="TileSetName.ToString メソッド" Url="html/M_WodiLib_Map_TileSetName_ToString.htm" />
+  <HelpKINode Title="TileSetName.ToWoditorStringBytes メソッド" Url="html/M_WodiLib_Map_TileSetName_ToWoditorStringBytes.htm" />
+  <HelpKINode Title="TileSetSetting クラス" Url="html/T_WodiLib_Map_TileSetSetting.htm" />
+  <HelpKINode Title="TileSetSetting クラス、コンストラクター" Url="html/Overload_WodiLib_Map_TileSetSetting__ctor.htm" />
+  <HelpKINode Title="TileSetSetting クラス、フィールド" Url="html/Fields_T_WodiLib_Map_TileSetSetting.htm" />
+  <HelpKINode Title="TileSetSetting クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_TileSetSetting.htm" />
+  <HelpKINode Title="TileSetSetting クラス、メソッド" Url="html/Methods_T_WodiLib_Map_TileSetSetting.htm" />
+  <HelpKINode Title="TileSetSetting プロパティ" Url="html/P_WodiLib_Map_TileSetFileData_TileSetSetting.htm" />
+  <HelpKINode Title="TileSetSetting.AutoTileFileNameList プロパティ" Url="html/P_WodiLib_Map_TileSetSetting_AutoTileFileNameList.htm" />
+  <HelpKINode Title="TileSetSetting.BaseTileSetFileName プロパティ" Url="html/P_WodiLib_Map_TileSetSetting_BaseTileSetFileName.htm" />
+  <HelpKINode Title="TileSetSetting.ChangeSettingLength メソッド" Url="html/M_WodiLib_Map_TileSetSetting_ChangeSettingLength.htm" />
+  <HelpKINode Title="TileSetSetting.DataSeparator フィールド" Url="html/F_WodiLib_Map_TileSetSetting_DataSeparator.htm" />
+  <HelpKINode Title="TileSetSetting.Name プロパティ" Url="html/P_WodiLib_Map_TileSetSetting_Name.htm" />
+  <HelpKINode Title="TileSetSetting.SettingLength プロパティ" Url="html/P_WodiLib_Map_TileSetSetting_SettingLength.htm" />
+  <HelpKINode Title="TileSetSetting.SettingLengthMax フィールド" Url="html/F_WodiLib_Map_TileSetSetting_SettingLengthMax.htm" />
+  <HelpKINode Title="TileSetSetting.SettingLengthMin フィールド" Url="html/F_WodiLib_Map_TileSetSetting_SettingLengthMin.htm" />
+  <HelpKINode Title="TileSetSetting.TilePathSettingList プロパティ" Url="html/P_WodiLib_Map_TileSetSetting_TilePathSettingList.htm" />
+  <HelpKINode Title="TileSetSetting.TileSetSetting コンストラクター" Url="html/Overload_WodiLib_Map_TileSetSetting__ctor.htm" />
+  <HelpKINode Title="TileSetSetting.TileTagNumberList プロパティ" Url="html/P_WodiLib_Map_TileSetSetting_TileTagNumberList.htm" />
+  <HelpKINode Title="TileSetSetting.ToBinary メソッド" Url="html/M_WodiLib_Map_TileSetSetting_ToBinary.htm" />
+  <HelpKINode Title="TileSetSettingList クラス" Url="html/T_WodiLib_Map_TileSetSettingList.htm" />
+  <HelpKINode Title="TileSetSettingList クラス、コンストラクター" Url="html/Overload_WodiLib_Map_TileSetSettingList__ctor.htm" />
+  <HelpKINode Title="TileSetSettingList クラス、フィールド" Url="html/Fields_T_WodiLib_Map_TileSetSettingList.htm" />
+  <HelpKINode Title="TileSetSettingList クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_TileSetSettingList.htm" />
+  <HelpKINode Title="TileSetSettingList クラス、メソッド" Url="html/Methods_T_WodiLib_Map_TileSetSettingList.htm" />
+  <HelpKINode Title="TileSetSettingList プロパティ" Url="html/P_WodiLib_Map_TileSetData_TileSetSettingList.htm" />
+  <HelpKINode Title="TileSetSettingList.GetMaxCapacity メソッド" Url="html/M_WodiLib_Map_TileSetSettingList_GetMaxCapacity.htm" />
+  <HelpKINode Title="TileSetSettingList.GetMinCapacity メソッド" Url="html/M_WodiLib_Map_TileSetSettingList_GetMinCapacity.htm" />
+  <HelpKINode Title="TileSetSettingList.MakeDefaultItem メソッド" Url="html/M_WodiLib_Map_TileSetSettingList_MakeDefaultItem.htm" />
+  <HelpKINode Title="TileSetSettingList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_TileSetSettingList_MaxCapacity.htm" />
+  <HelpKINode Title="TileSetSettingList.MinCapacity フィールド" Url="html/F_WodiLib_Map_TileSetSettingList_MinCapacity.htm" />
+  <HelpKINode Title="TileSetSettingList.TileSetSettingList コンストラクター" Url="html/Overload_WodiLib_Map_TileSetSettingList__ctor.htm" />
+  <HelpKINode Title="TileSetSettingList.ToBinary メソッド" Url="html/M_WodiLib_Map_TileSetSettingList_ToBinary.htm" />
+  <HelpKINode Title="TileTagNumber to Byte 変換" Url="html/M_WodiLib_Map_TileTagNumber_op_Implicit_1.htm" />
+  <HelpKINode Title="TileTagNumber 構造体" Url="html/T_WodiLib_Map_TileTagNumber.htm" />
+  <HelpKINode Title="TileTagNumber 構造体、コンストラクター" Url="html/M_WodiLib_Map_TileTagNumber__ctor.htm" />
+  <HelpKINode Title="TileTagNumber 構造体、フィールド" Url="html/Fields_T_WodiLib_Map_TileTagNumber.htm" />
+  <HelpKINode Title="TileTagNumber 構造体、メソッド" Url="html/Methods_T_WodiLib_Map_TileTagNumber.htm" />
+  <HelpKINode Title="TileTagNumber 構造体、演算子と型変換" Url="html/Operators_T_WodiLib_Map_TileTagNumber.htm" />
+  <HelpKINode Title="TileTagNumber.Equality 演算子" Url="html/M_WodiLib_Map_TileTagNumber_op_Equality.htm" />
+  <HelpKINode Title="TileTagNumber.Equals メソッド" Url="html/Overload_WodiLib_Map_TileTagNumber_Equals.htm" />
+  <HelpKINode Title="TileTagNumber.GetHashCode メソッド" Url="html/M_WodiLib_Map_TileTagNumber_GetHashCode.htm" />
+  <HelpKINode Title="TileTagNumber.Inequality 演算子" Url="html/M_WodiLib_Map_TileTagNumber_op_Inequality.htm" />
+  <HelpKINode Title="TileTagNumber.MaxValue フィールド" Url="html/F_WodiLib_Map_TileTagNumber_MaxValue.htm" />
+  <HelpKINode Title="TileTagNumber.MinValue フィールド" Url="html/F_WodiLib_Map_TileTagNumber_MinValue.htm" />
+  <HelpKINode Title="TileTagNumber.TileTagNumber コンストラクター" Url="html/M_WodiLib_Map_TileTagNumber__ctor.htm" />
+  <HelpKINode Title="TileTagNumber.ToBytes メソッド" Url="html/M_WodiLib_Map_TileTagNumber_ToBytes.htm" />
+  <HelpKINode Title="TileTagNumber.ToInt メソッド" Url="html/M_WodiLib_Map_TileTagNumber_ToInt.htm" />
+  <HelpKINode Title="TileTagNumber.ToString メソッド" Url="html/M_WodiLib_Map_TileTagNumber_ToString.htm" />
+  <HelpKINode Title="TileTagNumberList クラス" Url="html/T_WodiLib_Map_TileTagNumberList.htm" />
+  <HelpKINode Title="TileTagNumberList クラス、コンストラクター" Url="html/Overload_WodiLib_Map_TileTagNumberList__ctor.htm" />
+  <HelpKINode Title="TileTagNumberList クラス、フィールド" Url="html/Fields_T_WodiLib_Map_TileTagNumberList.htm" />
+  <HelpKINode Title="TileTagNumberList クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_TileTagNumberList.htm" />
+  <HelpKINode Title="TileTagNumberList クラス、メソッド" Url="html/Methods_T_WodiLib_Map_TileTagNumberList.htm" />
+  <HelpKINode Title="TileTagNumberList プロパティ" Url="html/P_WodiLib_Map_TileSetSetting_TileTagNumberList.htm" />
+  <HelpKINode Title="TileTagNumberList.GetMaxCapacity メソッド" Url="html/M_WodiLib_Map_TileTagNumberList_GetMaxCapacity.htm" />
+  <HelpKINode Title="TileTagNumberList.GetMinCapacity メソッド" Url="html/M_WodiLib_Map_TileTagNumberList_GetMinCapacity.htm" />
+  <HelpKINode Title="TileTagNumberList.MakeDefaultItem メソッド" Url="html/M_WodiLib_Map_TileTagNumberList_MakeDefaultItem.htm" />
+  <HelpKINode Title="TileTagNumberList.MaxCapacity フィールド" Url="html/F_WodiLib_Map_TileTagNumberList_MaxCapacity.htm" />
+  <HelpKINode Title="TileTagNumberList.MinCapacity フィールド" Url="html/F_WodiLib_Map_TileTagNumberList_MinCapacity.htm" />
+  <HelpKINode Title="TileTagNumberList.TileTagNumberList コンストラクター" Url="html/Overload_WodiLib_Map_TileTagNumberList__ctor.htm" />
+  <HelpKINode Title="TileTagNumberList.ToBinary メソッド" Url="html/M_WodiLib_Map_TileTagNumberList_ToBinary.htm" />
   <HelpKINode Title="ToBinary メソッド">
     <HelpKINode Title="ActionEntry.ToBinary メソッド " Url="html/M_WodiLib_Event_ActionEntry_ToBinary.htm" />
+    <HelpKINode Title="AutoTileFileNameList.ToBinary メソッド " Url="html/M_WodiLib_Map_AutoTileFileNameList_ToBinary.htm" />
     <HelpKINode Title="CharaMoveCommandBase.ToBinary メソッド " Url="html/M_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_ToBinary.htm" />
     <HelpKINode Title="CommonEvent.ToBinary メソッド " Url="html/M_WodiLib_Common_CommonEvent_ToBinary.htm" />
     <HelpKINode Title="CommonEventBootCondition.ToBinary メソッド " Url="html/M_WodiLib_Common_CommonEventBootCondition_ToBinary.htm" />
@@ -9901,6 +10480,17 @@
     <HelpKINode Title="MapEventPageList.ToBinary メソッド " Url="html/M_WodiLib_Map_MapEventPageList_ToBinary.htm" />
     <HelpKINode Title="MapEventPageMoveRouteInfo.ToBinary メソッド " Url="html/M_WodiLib_Map_MapEventPageMoveRouteInfo_ToBinary.htm" />
     <HelpKINode Title="MapEventPageOption.ToBinary メソッド " Url="html/M_WodiLib_Map_MapEventPageOption_ToBinary.htm" />
+    <HelpKINode Title="MapTreeData.ToBinary メソッド " Url="html/M_WodiLib_Map_MapTreeData_ToBinary.htm" />
+    <HelpKINode Title="MapTreeNodeList.ToBinary メソッド " Url="html/M_WodiLib_Map_MapTreeNodeList_ToBinary.htm" />
+    <HelpKINode Title="MapTreeOpenStatusData.ToBinary メソッド " Url="html/M_WodiLib_Map_MapTreeOpenStatusData_ToBinary.htm" />
+    <HelpKINode Title="MapTreeOpenStatusList.ToBinary メソッド " Url="html/M_WodiLib_Map_MapTreeOpenStatusList_ToBinary.htm" />
+    <HelpKINode Title="TilePathSetting.ToBinary メソッド " Url="html/M_WodiLib_Map_TilePathSetting_ToBinary.htm" />
+    <HelpKINode Title="TilePathSettingList.ToBinary メソッド " Url="html/M_WodiLib_Map_TilePathSettingList_ToBinary.htm" />
+    <HelpKINode Title="TileSetData.ToBinary メソッド " Url="html/M_WodiLib_Map_TileSetData_ToBinary.htm" />
+    <HelpKINode Title="TileSetFileData.ToBinary メソッド " Url="html/M_WodiLib_Map_TileSetFileData_ToBinary.htm" />
+    <HelpKINode Title="TileSetSetting.ToBinary メソッド " Url="html/M_WodiLib_Map_TileSetSetting_ToBinary.htm" />
+    <HelpKINode Title="TileSetSettingList.ToBinary メソッド " Url="html/M_WodiLib_Map_TileSetSettingList_ToBinary.htm" />
+    <HelpKINode Title="TileTagNumberList.ToBinary メソッド " Url="html/M_WodiLib_Map_TileTagNumberList_ToBinary.htm" />
   </HelpKINode>
   <HelpKINode Title="ToBinaryDataValues メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_ToBinaryDataValues.htm" />
   <HelpKINode Title="ToBinaryForDBData メソッド" Url="html/M_WodiLib_Database_DatabaseDataDesc_ToBinaryForDBData.htm" />
@@ -9938,12 +10528,19 @@
     <HelpKINode Title="MapEventId.ToBytes メソッド " Url="html/M_WodiLib_Map_MapEventId_ToBytes.htm" />
     <HelpKINode Title="MapEventPageIndex.ToBytes メソッド " Url="html/M_WodiLib_Event_MapEventPageIndex_ToBytes.htm" />
     <HelpKINode Title="MapEventTileId.ToBytes メソッド " Url="html/M_WodiLib_Map_MapEventTileId_ToBytes.htm" />
+    <HelpKINode Title="MapId.ToBytes メソッド " Url="html/M_WodiLib_Map_MapId_ToBytes.htm" />
     <HelpKINode Title="MapSizeHeight.ToBytes メソッド " Url="html/M_WodiLib_Map_MapSizeHeight_ToBytes.htm" />
     <HelpKINode Title="MapSizeWidth.ToBytes メソッド " Url="html/M_WodiLib_Map_MapSizeWidth_ToBytes.htm" />
+    <HelpKINode Title="MapTreeNode.ToBytes メソッド " Url="html/M_WodiLib_Map_MapTreeNode_ToBytes.htm" />
     <HelpKINode Title="TileId.ToBytes メソッド " Url="html/M_WodiLib_Map_TileId_ToBytes.htm" />
     <HelpKINode Title="TileSetId.ToBytes メソッド " Url="html/M_WodiLib_Map_TileSetId_ToBytes.htm" />
+    <HelpKINode Title="TileTagNumber.ToBytes メソッド " Url="html/M_WodiLib_Map_TileTagNumber_ToBytes.htm" />
     <HelpKINode Title="TypeId.ToBytes メソッド " Url="html/M_WodiLib_Database_TypeId_ToBytes.htm" />
     <HelpKINode Title="VariableAddress.ToBytes メソッド " Url="html/M_WodiLib_Cmn_VariableAddress_ToBytes.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ToCode メソッド">
+    <HelpKINode Title="TileCannotPassingFlags.ToCode メソッド " Url="html/M_WodiLib_Map_TileCannotPassingFlags_ToCode.htm" />
+    <HelpKINode Title="TileImpassableFlags.ToCode メソッド " Url="html/M_WodiLib_Map_TileImpassableFlags_ToCode.htm" />
   </HelpKINode>
   <HelpKINode Title="ToConditionFlag メソッド" Url="html/M_WodiLib_Event_EventCommand_ConditionNumberDesc_ToConditionFlag.htm" />
   <HelpKINode Title="ToCustomMoveRouteBinary メソッド" Url="html/M_WodiLib_Map_MapEventPageMoveRouteInfo_ToCustomMoveRouteBinary.htm" />
@@ -9982,6 +10579,7 @@
     <HelpKINode Title="MapEventPageIndex.ToInt メソッド " Url="html/M_WodiLib_Event_MapEventPageIndex_ToInt.htm" />
     <HelpKINode Title="MapEventTileId.ToInt メソッド " Url="html/M_WodiLib_Map_MapEventTileId_ToInt.htm" />
     <HelpKINode Title="MapEventVariableIndex.ToInt メソッド " Url="html/M_WodiLib_Cmn_MapEventVariableIndex_ToInt.htm" />
+    <HelpKINode Title="MapId.ToInt メソッド " Url="html/M_WodiLib_Map_MapId_ToInt.htm" />
     <HelpKINode Title="MapSizeHeight.ToInt メソッド " Url="html/M_WodiLib_Map_MapSizeHeight_ToInt.htm" />
     <HelpKINode Title="MapSizeWidth.ToInt メソッド " Url="html/M_WodiLib_Map_MapSizeWidth_ToInt.htm" />
     <HelpKINode Title="MemberId.ToInt メソッド " Url="html/M_WodiLib_Cmn_MemberId_ToInt.htm" />
@@ -9994,6 +10592,7 @@
     <HelpKINode Title="SystemVariableIndex.ToInt メソッド " Url="html/M_WodiLib_Cmn_SystemVariableIndex_ToInt.htm" />
     <HelpKINode Title="TileId.ToInt メソッド " Url="html/M_WodiLib_Map_TileId_ToInt.htm" />
     <HelpKINode Title="TileSetId.ToInt メソッド " Url="html/M_WodiLib_Map_TileSetId_ToInt.htm" />
+    <HelpKINode Title="TileTagNumber.ToInt メソッド " Url="html/M_WodiLib_Map_TileTagNumber_ToInt.htm" />
     <HelpKINode Title="TypeId.ToInt メソッド " Url="html/M_WodiLib_Database_TypeId_ToInt.htm" />
     <HelpKINode Title="VariableAddress.ToInt メソッド " Url="html/M_WodiLib_Cmn_VariableAddress_ToInt.htm" />
   </HelpKINode>
@@ -10004,6 +10603,8 @@
   <HelpKINode Title="ToStr メソッド" Url="html/M_WodiLib_Sys_IntOrStr_ToStr.htm" />
   <HelpKINode Title="ToString メソッド">
     <HelpKINode Title="AnimationId.ToString メソッド " Url="html/M_WodiLib_Map_AnimationId_ToString.htm" />
+    <HelpKINode Title="AutoTileFileName.ToString メソッド " Url="html/M_WodiLib_Map_AutoTileFileName_ToString.htm" />
+    <HelpKINode Title="BaseTileSetFileName.ToString メソッド " Url="html/M_WodiLib_Map_BaseTileSetFileName_ToString.htm" />
     <HelpKINode Title="ChangeableDatabaseDatFilePath.ToString メソッド " Url="html/M_WodiLib_IO_ChangeableDatabaseDatFilePath_ToString.htm" />
     <HelpKINode Title="ChangeableDatabaseProjectFilePath.ToString メソッド " Url="html/M_WodiLib_IO_ChangeableDatabaseProjectFilePath_ToString.htm" />
     <HelpKINode Title="CharaChipFilePath.ToString メソッド " Url="html/M_WodiLib_Cmn_CharaChipFilePath_ToString.htm" />
@@ -10057,8 +10658,12 @@
     <HelpKINode Title="MapEventPageIndex.ToString メソッド " Url="html/M_WodiLib_Event_MapEventPageIndex_ToString.htm" />
     <HelpKINode Title="MapEventTileId.ToString メソッド " Url="html/M_WodiLib_Map_MapEventTileId_ToString.htm" />
     <HelpKINode Title="MapEventVariableIndex.ToString メソッド " Url="html/M_WodiLib_Cmn_MapEventVariableIndex_ToString.htm" />
+    <HelpKINode Title="MapId.ToString メソッド " Url="html/M_WodiLib_Map_MapId_ToString.htm" />
     <HelpKINode Title="MapSizeHeight.ToString メソッド " Url="html/M_WodiLib_Map_MapSizeHeight_ToString.htm" />
     <HelpKINode Title="MapSizeWidth.ToString メソッド " Url="html/M_WodiLib_Map_MapSizeWidth_ToString.htm" />
+    <HelpKINode Title="MapTreeDataFilePath.ToString メソッド " Url="html/M_WodiLib_IO_MapTreeDataFilePath_ToString.htm" />
+    <HelpKINode Title="MapTreeNode.ToString メソッド " Url="html/M_WodiLib_Map_MapTreeNode_ToString.htm" />
+    <HelpKINode Title="MapTreeOpenStatusDataFilePath.ToString メソッド " Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFilePath_ToString.htm" />
     <HelpKINode Title="MemberId.ToString メソッド " Url="html/M_WodiLib_Cmn_MemberId_ToString.htm" />
     <HelpKINode Title="MpsFilePath.ToString メソッド " Url="html/M_WodiLib_IO_MpsFilePath_ToString.htm" />
     <HelpKINode Title="NormalNumberVariableIndex.ToString メソッド " Url="html/M_WodiLib_Cmn_NormalNumberVariableIndex_ToString.htm" />
@@ -10072,7 +10677,11 @@
     <HelpKINode Title="SystemStringVariableIndex.ToString メソッド " Url="html/M_WodiLib_Cmn_SystemStringVariableIndex_ToString.htm" />
     <HelpKINode Title="SystemVariableIndex.ToString メソッド " Url="html/M_WodiLib_Cmn_SystemVariableIndex_ToString.htm" />
     <HelpKINode Title="TileId.ToString メソッド " Url="html/M_WodiLib_Map_TileId_ToString.htm" />
+    <HelpKINode Title="TileSetDataFilePath.ToString メソッド " Url="html/M_WodiLib_IO_TileSetDataFilePath_ToString.htm" />
+    <HelpKINode Title="TileSetFilePath.ToString メソッド " Url="html/M_WodiLib_IO_TileSetFilePath_ToString.htm" />
     <HelpKINode Title="TileSetId.ToString メソッド " Url="html/M_WodiLib_Map_TileSetId_ToString.htm" />
+    <HelpKINode Title="TileSetName.ToString メソッド " Url="html/M_WodiLib_Map_TileSetName_ToString.htm" />
+    <HelpKINode Title="TileTagNumber.ToString メソッド " Url="html/M_WodiLib_Map_TileTagNumber_ToString.htm" />
     <HelpKINode Title="TypeId.ToString メソッド " Url="html/M_WodiLib_Database_TypeId_ToString.htm" />
     <HelpKINode Title="TypeName.ToString メソッド " Url="html/M_WodiLib_Database_TypeName_ToString.htm" />
     <HelpKINode Title="TypeSafeEnum(T).ToString メソッド " Url="html/M_WodiLib_Sys_TypeSafeEnum_1_ToString.htm" />
@@ -10082,6 +10691,8 @@
   </HelpKINode>
   <HelpKINode Title="ToValueString メソッド" Url="html/M_WodiLib_Sys_IntOrStr_ToValueString.htm" />
   <HelpKINode Title="ToWoditorStringBytes メソッド">
+    <HelpKINode Title="AutoTileFileName.ToWoditorStringBytes メソッド " Url="html/M_WodiLib_Map_AutoTileFileName_ToWoditorStringBytes.htm" />
+    <HelpKINode Title="BaseTileSetFileName.ToWoditorStringBytes メソッド " Url="html/M_WodiLib_Map_BaseTileSetFileName_ToWoditorStringBytes.htm" />
     <HelpKINode Title="CharaChipFilePath.ToWoditorStringBytes メソッド " Url="html/M_WodiLib_Cmn_CharaChipFilePath_ToWoditorStringBytes.htm" />
     <HelpKINode Title="CommonEventArgName.ToWoditorStringBytes メソッド " Url="html/M_WodiLib_Common_CommonEventArgName_ToWoditorStringBytes.htm" />
     <HelpKINode Title="CommonEventDescription.ToWoditorStringBytes メソッド " Url="html/M_WodiLib_Common_CommonEventDescription_ToWoditorStringBytes.htm" />
@@ -10100,6 +10711,7 @@
     <HelpKINode Title="ItemName.ToWoditorStringBytes メソッド " Url="html/M_WodiLib_Database_ItemName_ToWoditorStringBytes.htm" />
     <HelpKINode Title="MapDataMemo.ToWoditorStringBytes メソッド " Url="html/M_WodiLib_Map_MapDataMemo_ToWoditorStringBytes.htm" />
     <HelpKINode Title="MapEventName.ToWoditorStringBytes メソッド " Url="html/M_WodiLib_Map_MapEventName_ToWoditorStringBytes.htm" />
+    <HelpKINode Title="TileSetName.ToWoditorStringBytes メソッド " Url="html/M_WodiLib_Map_TileSetName_ToWoditorStringBytes.htm" />
     <HelpKINode Title="TypeName.ToWoditorStringBytes メソッド " Url="html/M_WodiLib_Database_TypeName_ToWoditorStringBytes.htm" />
   </HelpKINode>
   <HelpKINode Title="Transfer クラス、フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Transfer.htm" />
@@ -10181,6 +10793,8 @@
   <HelpKINode Title="TransitionWithOption.StringVariableCount プロパティ" Url="html/P_WodiLib_Event_EventCommand_TransitionWithOption_StringVariableCount.htm" />
   <HelpKINode Title="TransitionWithOption.TransitionId プロパティ" Url="html/P_WodiLib_Event_EventCommand_TransitionWithOption_TransitionId.htm" />
   <HelpKINode Title="TransitionWithOption.TransitionWithOption コンストラクター" Url="html/M_WodiLib_Event_EventCommand_TransitionWithOption__ctor.htm" />
+  <HelpKINode Title="TranslucentLowerBody フィールド" Url="html/F_WodiLib_Map_TilePathOption_TranslucentLowerBody.htm" />
+  <HelpKINode Title="TreeNodeList プロパティ" Url="html/P_WodiLib_Map_MapTreeData_TreeNodeList.htm" />
   <HelpKINode Title="Tuple(Of Byte, Byte) to HitExtendRange 変換" Url="html/M_WodiLib_Map_HitExtendRange_op_Implicit.htm" />
   <HelpKINode Title="Tuple(Of Int32, Int32) to Position 変換" Url="html/M_WodiLib_Map_Position_op_Implicit.htm" />
   <HelpKINode Title="Tuple(Of Int32, String) to CommonEventSpecialArgCase 変換" Url="html/M_WodiLib_Common_CommonEventSpecialArgCase_op_Implicit.htm" />
@@ -10260,9 +10874,9 @@
   <HelpKINode Title="TurnTail.TurnTail コンストラクター" Url="html/M_WodiLib_Event_CharaMoveCommand_TurnTail__ctor.htm" />
   <HelpKINode Title="TurnTail.ValueLengthByte プロパティ" Url="html/P_WodiLib_Event_CharaMoveCommand_TurnTail_ValueLengthByte.htm" />
   <HelpKINode Title="Type クラス、フィールド">
-    <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInputAuto_Type.htm" />
     <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_CheckPoint_Type.htm" />
     <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInput_Type.htm" />
+    <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInputAuto_Type.htm" />
   </HelpKINode>
   <HelpKINode Title="Type プロパティ" Url="html/P_WodiLib_Database_DBItemValue_Type.htm" />
   <HelpKINode Title="TypeDescList プロパティ" Url="html/P_WodiLib_Database_DatabaseMergedData_TypeDescList.htm" />
@@ -10337,6 +10951,7 @@
     <HelpKINode Title="CharaChipDirection.Up フィールド" Url="html/F_WodiLib_Map_CharaChipDirection_Up.htm" />
     <HelpKINode Title="DirectionKeyType.Up フィールド" Url="html/F_WodiLib_Event_EventCommand_DirectionKeyType_Up.htm" />
   </HelpKINode>
+  <HelpKINode Title="Up プロパティ" Url="html/P_WodiLib_Map_TileCannotPassingFlags_Up.htm" />
   <HelpKINode Title="UpdateDatabaseSpecialCase メソッド">
     <HelpKINode Title="CommonEventSpecialNumberArgDesc.UpdateDatabaseSpecialCase メソッド " Url="html/M_WodiLib_Common_CommonEventSpecialNumberArgDesc_UpdateDatabaseSpecialCase.htm" />
     <HelpKINode Title="DBItemSpecialSettingDesc.UpdateDatabaseSpecialCase メソッド " Url="html/M_WodiLib_Database_DBItemSpecialSettingDesc_UpdateDatabaseSpecialCase.htm" />
@@ -11189,18 +11804,32 @@
   <HelpKINode Title="WodiLib.IO.DBTypeFilePath クラス" Url="html/T_WodiLib_IO_DBTypeFilePath.htm" />
   <HelpKINode Title="WodiLib.IO.DBTypeSetFile クラス" Url="html/T_WodiLib_IO_DBTypeSetFile.htm" />
   <HelpKINode Title="WodiLib.IO.DBTypeSetFilePath クラス" Url="html/T_WodiLib_IO_DBTypeSetFilePath.htm" />
+  <HelpKINode Title="WodiLib.IO.MapTreeDataFile クラス" Url="html/T_WodiLib_IO_MapTreeDataFile.htm" />
+  <HelpKINode Title="WodiLib.IO.MapTreeDataFilePath クラス" Url="html/T_WodiLib_IO_MapTreeDataFilePath.htm" />
+  <HelpKINode Title="WodiLib.IO.MapTreeOpenStatusDataFile クラス" Url="html/T_WodiLib_IO_MapTreeOpenStatusDataFile.htm" />
+  <HelpKINode Title="WodiLib.IO.MapTreeOpenStatusDataFilePath クラス" Url="html/T_WodiLib_IO_MapTreeOpenStatusDataFilePath.htm" />
   <HelpKINode Title="WodiLib.IO.MpsFile クラス" Url="html/T_WodiLib_IO_MpsFile.htm" />
   <HelpKINode Title="WodiLib.IO.MpsFilePath クラス" Url="html/T_WodiLib_IO_MpsFilePath.htm" />
   <HelpKINode Title="WodiLib.IO.SystemDatabaseDatFilePath クラス" Url="html/T_WodiLib_IO_SystemDatabaseDatFilePath.htm" />
   <HelpKINode Title="WodiLib.IO.SystemDatabaseProjectFilePath クラス" Url="html/T_WodiLib_IO_SystemDatabaseProjectFilePath.htm" />
+  <HelpKINode Title="WodiLib.IO.TileSetDataFile クラス" Url="html/T_WodiLib_IO_TileSetDataFile.htm" />
+  <HelpKINode Title="WodiLib.IO.TileSetDataFilePath クラス" Url="html/T_WodiLib_IO_TileSetDataFilePath.htm" />
+  <HelpKINode Title="WodiLib.IO.TileSetFile クラス" Url="html/T_WodiLib_IO_TileSetFile.htm" />
+  <HelpKINode Title="WodiLib.IO.TileSetFilePath クラス" Url="html/T_WodiLib_IO_TileSetFilePath.htm" />
   <HelpKINode Title="WodiLib.IO.UserDatabaseDatFilePath クラス" Url="html/T_WodiLib_IO_UserDatabaseDatFilePath.htm" />
   <HelpKINode Title="WodiLib.IO.UserDatabaseProjectFilePath クラス" Url="html/T_WodiLib_IO_UserDatabaseProjectFilePath.htm" />
   <HelpKINode Title="WodiLib.Map 名前空間" Url="html/N_WodiLib_Map.htm" />
   <HelpKINode Title="WodiLib.Map.AnimationId 構造体" Url="html/T_WodiLib_Map_AnimationId.htm" />
+  <HelpKINode Title="WodiLib.Map.AutoTileFileName クラス" Url="html/T_WodiLib_Map_AutoTileFileName.htm" />
+  <HelpKINode Title="WodiLib.Map.AutoTileFileNameList クラス" Url="html/T_WodiLib_Map_AutoTileFileNameList.htm" />
   <HelpKINode Title="WodiLib.Map.AutoTilePartType クラス" Url="html/T_WodiLib_Map_AutoTilePartType.htm" />
+  <HelpKINode Title="WodiLib.Map.BaseTileSetFileName クラス" Url="html/T_WodiLib_Map_BaseTileSetFileName.htm" />
   <HelpKINode Title="WodiLib.Map.CharaChipDirection クラス" Url="html/T_WodiLib_Map_CharaChipDirection.htm" />
   <HelpKINode Title="WodiLib.Map.HitExtendRange 構造体" Url="html/T_WodiLib_Map_HitExtendRange.htm" />
+  <HelpKINode Title="WodiLib.Map.IFixedLengthAutoTileFileNameList インターフェイス" Url="html/T_WodiLib_Map_IFixedLengthAutoTileFileNameList.htm" />
   <HelpKINode Title="WodiLib.Map.IFixedLengthMapChipColumns インターフェイス" Url="html/T_WodiLib_Map_IFixedLengthMapChipColumns.htm" />
+  <HelpKINode Title="WodiLib.Map.IFixedLengthTilePathSettingList インターフェイス" Url="html/T_WodiLib_Map_IFixedLengthTilePathSettingList.htm" />
+  <HelpKINode Title="WodiLib.Map.IFixedLengthTileTagNumberList インターフェイス" Url="html/T_WodiLib_Map_IFixedLengthTileTagNumberList.htm" />
   <HelpKINode Title="WodiLib.Map.Layer クラス" Url="html/T_WodiLib_Map_Layer.htm" />
   <HelpKINode Title="WodiLib.Map.MapChip 構造体" Url="html/T_WodiLib_Map_MapChip.htm" />
   <HelpKINode Title="WodiLib.Map.MapChipColumns クラス" Url="html/T_WodiLib_Map_MapChipColumns.htm" />
@@ -11222,13 +11851,33 @@
   <HelpKINode Title="WodiLib.Map.MapEventPageOption クラス" Url="html/T_WodiLib_Map_MapEventPageOption.htm" />
   <HelpKINode Title="WodiLib.Map.MapEventPageOptionConstant クラス" Url="html/T_WodiLib_Map_MapEventPageOptionConstant.htm" />
   <HelpKINode Title="WodiLib.Map.MapEventTileId 構造体" Url="html/T_WodiLib_Map_MapEventTileId.htm" />
+  <HelpKINode Title="WodiLib.Map.MapId 構造体" Url="html/T_WodiLib_Map_MapId.htm" />
   <HelpKINode Title="WodiLib.Map.MapSizeConstant クラス" Url="html/T_WodiLib_Map_MapSizeConstant.htm" />
   <HelpKINode Title="WodiLib.Map.MapSizeHeight 構造体" Url="html/T_WodiLib_Map_MapSizeHeight.htm" />
   <HelpKINode Title="WodiLib.Map.MapSizeWidth 構造体" Url="html/T_WodiLib_Map_MapSizeWidth.htm" />
+  <HelpKINode Title="WodiLib.Map.MapTreeData クラス" Url="html/T_WodiLib_Map_MapTreeData.htm" />
+  <HelpKINode Title="WodiLib.Map.MapTreeNode 構造体" Url="html/T_WodiLib_Map_MapTreeNode.htm" />
+  <HelpKINode Title="WodiLib.Map.MapTreeNodeList クラス" Url="html/T_WodiLib_Map_MapTreeNodeList.htm" />
+  <HelpKINode Title="WodiLib.Map.MapTreeOpenState クラス" Url="html/T_WodiLib_Map_MapTreeOpenState.htm" />
+  <HelpKINode Title="WodiLib.Map.MapTreeOpenStatusData クラス" Url="html/T_WodiLib_Map_MapTreeOpenStatusData.htm" />
+  <HelpKINode Title="WodiLib.Map.MapTreeOpenStatusList クラス" Url="html/T_WodiLib_Map_MapTreeOpenStatusList.htm" />
   <HelpKINode Title="WodiLib.Map.Position 構造体" Url="html/T_WodiLib_Map_Position.htm" />
   <HelpKINode Title="WodiLib.Map.ShadowGraphicId 構造体" Url="html/T_WodiLib_Map_ShadowGraphicId.htm" />
+  <HelpKINode Title="WodiLib.Map.TileCannotPassingFlags クラス" Url="html/T_WodiLib_Map_TileCannotPassingFlags.htm" />
   <HelpKINode Title="WodiLib.Map.TileId 構造体" Url="html/T_WodiLib_Map_TileId.htm" />
+  <HelpKINode Title="WodiLib.Map.TileImpassableFlags クラス" Url="html/T_WodiLib_Map_TileImpassableFlags.htm" />
+  <HelpKINode Title="WodiLib.Map.TilePathOption クラス" Url="html/T_WodiLib_Map_TilePathOption.htm" />
+  <HelpKINode Title="WodiLib.Map.TilePathPermission クラス" Url="html/T_WodiLib_Map_TilePathPermission.htm" />
+  <HelpKINode Title="WodiLib.Map.TilePathSetting クラス" Url="html/T_WodiLib_Map_TilePathSetting.htm" />
+  <HelpKINode Title="WodiLib.Map.TilePathSettingList クラス" Url="html/T_WodiLib_Map_TilePathSettingList.htm" />
+  <HelpKINode Title="WodiLib.Map.TileSetData クラス" Url="html/T_WodiLib_Map_TileSetData.htm" />
+  <HelpKINode Title="WodiLib.Map.TileSetFileData クラス" Url="html/T_WodiLib_Map_TileSetFileData.htm" />
   <HelpKINode Title="WodiLib.Map.TileSetId 構造体" Url="html/T_WodiLib_Map_TileSetId.htm" />
+  <HelpKINode Title="WodiLib.Map.TileSetName クラス" Url="html/T_WodiLib_Map_TileSetName.htm" />
+  <HelpKINode Title="WodiLib.Map.TileSetSetting クラス" Url="html/T_WodiLib_Map_TileSetSetting.htm" />
+  <HelpKINode Title="WodiLib.Map.TileSetSettingList クラス" Url="html/T_WodiLib_Map_TileSetSettingList.htm" />
+  <HelpKINode Title="WodiLib.Map.TileTagNumber 構造体" Url="html/T_WodiLib_Map_TileTagNumber.htm" />
+  <HelpKINode Title="WodiLib.Map.TileTagNumberList クラス" Url="html/T_WodiLib_Map_TileTagNumberList.htm" />
   <HelpKINode Title="WodiLib.Sys 名前空間" Url="html/N_WodiLib_Sys.htm" />
   <HelpKINode Title="WodiLib.Sys.ArgumentNewLineException クラス" Url="html/T_WodiLib_Sys_ArgumentNewLineException.htm" />
   <HelpKINode Title="WodiLib.Sys.ClearItemHandlerList(Of T) クラス" Url="html/T_WodiLib_Sys_ClearItemHandlerList_1.htm" />
@@ -11311,6 +11960,8 @@
   <HelpKINode Title="WoditorVersion クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_WoditorVersion.htm" />
   <HelpKINode Title="WoditorVersion クラス、演算子" Url="html/Operators_T_WodiLib_Sys_WoditorVersion.htm" />
   <HelpKINode Title="WoditorVersion.Default プロパティ" Url="html/P_WodiLib_Sys_WoditorVersion_Default.htm" />
+  <HelpKINode Title="WoditorVersion.FromCode メソッド" Url="html/M_WodiLib_Sys_WoditorVersion_FromCode.htm" />
+  <HelpKINode Title="WoditorVersion.FromName メソッド" Url="html/M_WodiLib_Sys_WoditorVersion_FromName.htm" />
   <HelpKINode Title="WoditorVersion.GreaterThan 演算子" Url="html/M_WodiLib_Sys_WoditorVersion_op_GreaterThan.htm" />
   <HelpKINode Title="WoditorVersion.GreaterThanOrEqual 演算子" Url="html/M_WodiLib_Sys_WoditorVersion_op_GreaterThanOrEqual.htm" />
   <HelpKINode Title="WoditorVersion.LessThan 演算子" Url="html/M_WodiLib_Sys_WoditorVersion_op_LessThan.htm" />
@@ -11340,7 +11991,11 @@
     <HelpKINode Title="DatabaseProjectFile.WriteAsync メソッド " Url="html/M_WodiLib_IO_DatabaseProjectFile_WriteAsync.htm" />
     <HelpKINode Title="DBDataFile.WriteAsync メソッド " Url="html/M_WodiLib_IO_DBDataFile_WriteAsync.htm" />
     <HelpKINode Title="DBTypeSetFile.WriteAsync メソッド " Url="html/M_WodiLib_IO_DBTypeSetFile_WriteAsync.htm" />
+    <HelpKINode Title="MapTreeDataFile.WriteAsync メソッド " Url="html/M_WodiLib_IO_MapTreeDataFile_WriteAsync.htm" />
+    <HelpKINode Title="MapTreeOpenStatusDataFile.WriteAsync メソッド " Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_WriteAsync.htm" />
     <HelpKINode Title="MpsFile.WriteAsync メソッド " Url="html/M_WodiLib_IO_MpsFile_WriteAsync.htm" />
+    <HelpKINode Title="TileSetDataFile.WriteAsync メソッド " Url="html/M_WodiLib_IO_TileSetDataFile_WriteAsync.htm" />
+    <HelpKINode Title="TileSetFile.WriteAsync メソッド " Url="html/M_WodiLib_IO_TileSetFile_WriteAsync.htm" />
   </HelpKINode>
   <HelpKINode Title="WriteSync メソッド">
     <HelpKINode Title="CommonEventDatFile.WriteSync メソッド " Url="html/M_WodiLib_IO_CommonEventDatFile_WriteSync.htm" />
@@ -11350,7 +12005,11 @@
     <HelpKINode Title="DatabaseProjectFile.WriteSync メソッド " Url="html/M_WodiLib_IO_DatabaseProjectFile_WriteSync.htm" />
     <HelpKINode Title="DBDataFile.WriteSync メソッド " Url="html/M_WodiLib_IO_DBDataFile_WriteSync.htm" />
     <HelpKINode Title="DBTypeSetFile.WriteSync メソッド " Url="html/M_WodiLib_IO_DBTypeSetFile_WriteSync.htm" />
+    <HelpKINode Title="MapTreeDataFile.WriteSync メソッド " Url="html/M_WodiLib_IO_MapTreeDataFile_WriteSync.htm" />
+    <HelpKINode Title="MapTreeOpenStatusDataFile.WriteSync メソッド " Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_WriteSync.htm" />
     <HelpKINode Title="MpsFile.WriteSync メソッド " Url="html/M_WodiLib_IO_MpsFile_WriteSync.htm" />
+    <HelpKINode Title="TileSetDataFile.WriteSync メソッド " Url="html/M_WodiLib_IO_TileSetDataFile_WriteSync.htm" />
+    <HelpKINode Title="TileSetFile.WriteSync メソッド " Url="html/M_WodiLib_IO_TileSetFile_WriteSync.htm" />
   </HelpKINode>
   <HelpKINode Title="X プロパティ">
     <HelpKINode Title="Position.X プロパティ " Url="html/P_WodiLib_Map_Position_X.htm" />
