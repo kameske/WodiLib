@@ -87,9 +87,8 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="filePath">[NotNullOrEmpty] ファイル名</param>
+        /// <param name="filePath">[NotNull] ファイル名</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        /// <exception cref="ArgumentException">fileNameが空の場合</exception>
         public CommonEventDatFile(CommonEventDatFilePath filePath)
         {
             if (filePath == null)

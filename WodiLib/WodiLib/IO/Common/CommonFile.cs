@@ -87,17 +87,13 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="filePath">[NotNullOrEmpty] ファイル名</param>
+        /// <param name="filePath">[NotNull] ファイル名</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        /// <exception cref="ArgumentException">filePathが空の場合</exception>
-        public CommonFile(string filePath)
+        public CommonFile(CommonFilePath filePath)
         {
             if (filePath == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
-            if (filePath.IsEmpty())
-                throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(filePath)));
 
             FilePath = filePath;
         }
