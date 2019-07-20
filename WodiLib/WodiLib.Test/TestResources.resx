@@ -244,4 +244,16 @@
   <data name="TileSetData1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\Dir1\TileSetData.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="EditorIni0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\Dir0\Editor.ini;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="EditorIni1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\Dir1\Editor.ini;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="GameIni0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\Dir0\Game.ini;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="GameIni1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\Dir1\Game.ini;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

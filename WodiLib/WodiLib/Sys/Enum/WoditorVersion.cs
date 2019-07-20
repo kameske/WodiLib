@@ -6,6 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System;
+using System.Linq;
+
 namespace WodiLib.Sys
 {
     /// <summary>
@@ -58,6 +61,9 @@ namespace WodiLib.Sys
 
         /// <summary>デフォルト設定値</summary>
         public static WoditorVersion Default => Ver2_24;
+
+        /// <summary>最新バージョン</summary>
+        public static WoditorVersion Latest => Ver2_24;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -154,7 +160,7 @@ namespace WodiLib.Sys
         /// <returns>左辺のバージョンコード &gt; 右辺のバージョンコードの場合、true</returns>
         public static bool operator >=(WoditorVersion left, WoditorVersion right)
         {
-            return left.VersionCode <= right.VersionCode;
+            return left.VersionCode >= right.VersionCode;
         }
 
         /// <summary>
@@ -174,7 +180,26 @@ namespace WodiLib.Sys
         /// <returns>バージョンインスタンス</returns>
         public static WoditorVersion FromName(string versionName)
         {
-            return _FindFirst(x => x.VersionName.Equals(versionName));
+            var resultWithoutSpecial = _FindAll().FirstOrDefault(x => x.VersionName.Equals(versionName));
+            if (resultWithoutSpecial != null)
+            {
+                return resultWithoutSpecial;
+            }
+
+            // "Default", "Latest"
+
+            if (versionName.Equals(nameof(Default)))
+            {
+                return Default;
+            }
+
+            if (versionName.Equals(nameof(Latest)))
+            {
+                return Latest;
+            }
+
+            // 通常ここには来ない
+            throw new InvalidOperationException();
         }
     }
 }

@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Text.RegularExpressions;
 
 namespace WodiLib.Sys
@@ -50,6 +51,20 @@ namespace WodiLib.Sys
             );
 
             return regex.IsMatch(src);
+        }
+
+        /// <summary>
+        /// 文字列をintに変換する。
+        /// </summary>
+        /// <param name="src">対象</param>
+        /// <returns>変換したint値。変換に失敗した場合、null</returns>
+        public static int? TryToInt(this string src)
+        {
+            var result = int.TryParse(src, out var numeric);
+
+            if (!result) return null;
+
+            return numeric;
         }
     }
 }
