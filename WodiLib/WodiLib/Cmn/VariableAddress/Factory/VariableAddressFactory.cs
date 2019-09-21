@@ -39,6 +39,10 @@ namespace WodiLib.Cmn
                 value <= HeroInfoAddress.MaxValue)
                 return new HeroInfoAddress(value);
 
+            if (ThisMapEventInfoAddress.MinValue <= value &&
+                value <= ThisMapEventInfoAddress.MaxValue)
+                return new ThisMapEventInfoAddress(value);
+
             if (MapEventVariableAddress.MinValue <= value &&
                 value <= MapEventVariableAddress.MaxValue)
                 return new MapEventVariableAddress(value);

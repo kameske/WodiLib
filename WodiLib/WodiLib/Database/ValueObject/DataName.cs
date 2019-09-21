@@ -118,7 +118,7 @@ namespace WodiLib.Database
         /// <returns>変換したインスタンス</returns>
         public static implicit operator string(DataName src)
         {
-            return src.Value;
+            return src?.Value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

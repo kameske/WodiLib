@@ -126,7 +126,7 @@ namespace WodiLib.Common
         /// <returns>変換したインスタンス</returns>
         public static implicit operator string(CommonEventSelfVariableName src)
         {
-            return src.Value;
+            return src?.Value;
         }
 
 

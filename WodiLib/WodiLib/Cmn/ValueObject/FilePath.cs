@@ -170,7 +170,7 @@ namespace WodiLib.Cmn
         /// <returns>変換したインスタンス</returns>
         public static implicit operator string(FilePath src)
         {
-            return src.Value;
+            return src?.Value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

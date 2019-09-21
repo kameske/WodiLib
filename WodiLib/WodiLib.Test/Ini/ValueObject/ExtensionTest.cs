@@ -54,12 +54,15 @@ namespace WodiLib.Test.Ini.ValueObject
             Assert.AreEqual(strValue, value);
         }
 
+        [TestCase(null)]
         [TestCase("")]
         [TestCase("abc")]
         [TestCase("あいうえお")]
         public static void CastToStringTest(string value)
         {
-            var instance = new Extension(value);
+            var instance = value != null
+                ? new Extension(value)
+                : null;
 
             var errorOccured = false;
             try

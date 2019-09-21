@@ -126,7 +126,7 @@ namespace WodiLib.IO
         /// <returns>変換したインスタンス</returns>
         public static implicit operator string(TileSetFilePath src)
         {
-            return src.Value;
+            return src?.Value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
