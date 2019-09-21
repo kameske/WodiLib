@@ -54,13 +54,16 @@ namespace WodiLib.Test.Common
             Assert.AreEqual(strValue, value);
         }
 
+        [TestCase(null)]
         [TestCase("")]
         [TestCase("abc")]
         [TestCase("あいうえお")]
         public static void CastToStringTest(string value)
         {
             var castValue = "_DEFAULT_";
-            var instance = new CommonEventArgName(value);
+            var instance = value != null
+                ? new CommonEventArgName(value)
+                : null;
 
             var errorOccured = false;
             try

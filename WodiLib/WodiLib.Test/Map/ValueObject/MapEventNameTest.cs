@@ -54,12 +54,15 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(strValue, value);
         }
 
+        [TestCase(null)]
         [TestCase("")]
         [TestCase("abc")]
         [TestCase("あいうえお")]
         public static void CastToStringTest(string value)
         {
-            var instance = new MapEventName(value);
+            var instance = value != null
+                ? new MapEventName(value)
+                : null;
 
             var errorOccured = false;
             try
