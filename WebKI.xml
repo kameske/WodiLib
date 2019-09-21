@@ -67,6 +67,7 @@
     <HelpKINode Title="SystemStringVariableAddress.Addition 演算子 " Url="html/M_WodiLib_Cmn_SystemStringVariableAddress_op_Addition.htm" />
     <HelpKINode Title="SystemVariableAddress.Addition 演算子 " Url="html/M_WodiLib_Cmn_SystemVariableAddress_op_Addition.htm" />
     <HelpKINode Title="ThisCommonEventVariableAddress.Addition 演算子 " Url="html/M_WodiLib_Cmn_ThisCommonEventVariableAddress_op_Addition.htm" />
+    <HelpKINode Title="ThisMapEventInfoAddress.Addition 演算子 " Url="html/M_WodiLib_Cmn_ThisMapEventInfoAddress_op_Addition.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress.Addition 演算子 " Url="html/M_WodiLib_Cmn_ThisMapEventVariableAddress_op_Addition.htm" />
     <HelpKINode Title="UserDatabaseAddress.Addition 演算子 " Url="html/M_WodiLib_Cmn_UserDatabaseAddress_op_Addition.htm" />
     <HelpKINode Title="VariableAddress.Addition 演算子 " Url="html/M_WodiLib_Cmn_VariableAddress_op_Addition.htm" />
@@ -2659,7 +2660,6 @@
   <HelpKINode Title="DBKind クラス、フィールド" Url="html/Fields_T_WodiLib_Database_DBKind.htm" />
   <HelpKINode Title="DBKind クラス、プロパティ" Url="html/Properties_T_WodiLib_Database_DBKind.htm" />
   <HelpKINode Title="DBKind クラス、メソッド" Url="html/Methods_T_WodiLib_Database_DBKind.htm" />
-  <HelpKINode Title="DbKind プロパティ" Url="html/P_WodiLib_IO_DatabaseMergedDataWriter_DbKind.htm" />
   <HelpKINode Title="DBKind プロパティ">
     <HelpKINode Title="ChangeableDatabaseDatFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_ChangeableDatabaseDatFilePath_DBKind.htm" />
     <HelpKINode Title="ChangeableDatabaseProjectFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_ChangeableDatabaseProjectFilePath_DBKind.htm" />
@@ -2685,6 +2685,7 @@
     <HelpKINode Title="UserDatabaseDatFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_UserDatabaseDatFilePath_DBKind.htm" />
     <HelpKINode Title="UserDatabaseProjectFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_UserDatabaseProjectFilePath_DBKind.htm" />
   </HelpKINode>
+  <HelpKINode Title="DbKind プロパティ" Url="html/P_WodiLib_IO_DatabaseMergedDataWriter_DbKind.htm" />
   <HelpKINode Title="DBKind.Changeable フィールド" Url="html/F_WodiLib_Database_DBKind_Changeable.htm" />
   <HelpKINode Title="DBKind.Code プロパティ" Url="html/P_WodiLib_Database_DBKind_Code.htm" />
   <HelpKINode Title="DBKind.DBDataSettingTypeCode プロパティ" Url="html/P_WodiLib_Database_DBKind_DBDataSettingTypeCode.htm" />
@@ -3537,6 +3538,7 @@
     <HelpKINode Title="SystemVariableAddress.Equality 演算子 " Url="html/Overload_WodiLib_Cmn_SystemVariableAddress_op_Equality.htm" />
     <HelpKINode Title="SystemVariableIndex.Equality 演算子 " Url="html/M_WodiLib_Cmn_SystemVariableIndex_op_Equality.htm" />
     <HelpKINode Title="ThisCommonEventVariableAddress.Equality 演算子 " Url="html/Overload_WodiLib_Cmn_ThisCommonEventVariableAddress_op_Equality.htm" />
+    <HelpKINode Title="ThisMapEventInfoAddress.Equality 演算子 " Url="html/Overload_WodiLib_Cmn_ThisMapEventInfoAddress_op_Equality.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress.Equality 演算子 " Url="html/Overload_WodiLib_Cmn_ThisMapEventVariableAddress_op_Equality.htm" />
     <HelpKINode Title="TileId.Equality 演算子 " Url="html/M_WodiLib_Map_TileId_op_Equality.htm" />
     <HelpKINode Title="TileSetDataFilePath.Equality 演算子 " Url="html/M_WodiLib_IO_TileSetDataFilePath_op_Equality.htm" />
@@ -3656,6 +3658,7 @@
     <HelpKINode Title="SystemVariableAddress.Equals メソッド " Url="html/Overload_WodiLib_Cmn_SystemVariableAddress_Equals.htm" />
     <HelpKINode Title="SystemVariableIndex.Equals メソッド " Url="html/Overload_WodiLib_Cmn_SystemVariableIndex_Equals.htm" />
     <HelpKINode Title="ThisCommonEventVariableAddress.Equals メソッド " Url="html/Overload_WodiLib_Cmn_ThisCommonEventVariableAddress_Equals.htm" />
+    <HelpKINode Title="ThisMapEventInfoAddress.Equals メソッド " Url="html/Overload_WodiLib_Cmn_ThisMapEventInfoAddress_Equals.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress.Equals メソッド " Url="html/Overload_WodiLib_Cmn_ThisMapEventVariableAddress_Equals.htm" />
     <HelpKINode Title="TileCannotPassingFlags.Equals メソッド " Url="html/Overload_WodiLib_Map_TileCannotPassingFlags_Equals.htm" />
     <HelpKINode Title="TileId.Equals メソッド " Url="html/Overload_WodiLib_Map_TileId_Equals.htm" />
@@ -4252,11 +4255,11 @@
   <HelpKINode Title="EventPositionAddressMax フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_EventPositionAddressMax.htm" />
   <HelpKINode Title="EventPositionAddressMin フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_EventPositionAddressMin.htm" />
   <HelpKINode Title="ExecCode クラス、フィールド">
+    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SetVariablePlus_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PartyGraphic_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SaveLoad_ExecCode.htm" />
-    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SetVariablePlus_ExecCode.htm" />
-    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Sound_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PictureShow_ExecCode.htm" />
+    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Sound_ExecCode.htm" />
   </HelpKINode>
   <HelpKINode Title="ExecCode プロパティ">
     <HelpKINode Title="PartyGraphicBase.ExecCode プロパティ " Url="html/P_WodiLib_Event_EventCommand_PartyGraphicBase_ExecCode.htm" />
@@ -4819,6 +4822,7 @@
     <HelpKINode Title="SystemVariableAddress.GetHashCode メソッド " Url="html/M_WodiLib_Cmn_SystemVariableAddress_GetHashCode.htm" />
     <HelpKINode Title="SystemVariableIndex.GetHashCode メソッド " Url="html/M_WodiLib_Cmn_SystemVariableIndex_GetHashCode.htm" />
     <HelpKINode Title="ThisCommonEventVariableAddress.GetHashCode メソッド " Url="html/M_WodiLib_Cmn_ThisCommonEventVariableAddress_GetHashCode.htm" />
+    <HelpKINode Title="ThisMapEventInfoAddress.GetHashCode メソッド " Url="html/M_WodiLib_Cmn_ThisMapEventInfoAddress_GetHashCode.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress.GetHashCode メソッド " Url="html/M_WodiLib_Cmn_ThisMapEventVariableAddress_GetHashCode.htm" />
     <HelpKINode Title="TileId.GetHashCode メソッド " Url="html/M_WodiLib_Map_TileId_GetHashCode.htm" />
     <HelpKINode Title="TileSetDataFilePath.GetHashCode メソッド " Url="html/M_WodiLib_IO_TileSetDataFilePath_GetHashCode.htm" />
@@ -5437,6 +5441,7 @@
     <HelpKINode Title="SystemVariableAddress.Inequality 演算子 " Url="html/Overload_WodiLib_Cmn_SystemVariableAddress_op_Inequality.htm" />
     <HelpKINode Title="SystemVariableIndex.Inequality 演算子 " Url="html/M_WodiLib_Cmn_SystemVariableIndex_op_Inequality.htm" />
     <HelpKINode Title="ThisCommonEventVariableAddress.Inequality 演算子 " Url="html/Overload_WodiLib_Cmn_ThisCommonEventVariableAddress_op_Inequality.htm" />
+    <HelpKINode Title="ThisMapEventInfoAddress.Inequality 演算子 " Url="html/Overload_WodiLib_Cmn_ThisMapEventInfoAddress_op_Inequality.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress.Inequality 演算子 " Url="html/Overload_WodiLib_Cmn_ThisMapEventVariableAddress_op_Inequality.htm" />
     <HelpKINode Title="TileId.Inequality 演算子 " Url="html/M_WodiLib_Map_TileId_op_Inequality.htm" />
     <HelpKINode Title="TileSetDataFilePath.Inequality 演算子 " Url="html/M_WodiLib_IO_TileSetDataFilePath_op_Inequality.htm" />
@@ -5485,6 +5490,7 @@
     <HelpKINode Title="SetVariablePlusEtc.InfoType プロパティ " Url="html/P_WodiLib_Event_EventCommand_SetVariablePlusEtc_InfoType.htm" />
     <HelpKINode Title="SetVariablePlusPicture.InfoType プロパティ " Url="html/P_WodiLib_Event_EventCommand_SetVariablePlusPicture_InfoType.htm" />
     <HelpKINode Title="SetVariablePlusPosition.InfoType プロパティ " Url="html/P_WodiLib_Event_EventCommand_SetVariablePlusPosition_InfoType.htm" />
+    <HelpKINode Title="ThisMapEventInfoAddress.InfoType プロパティ " Url="html/P_WodiLib_Cmn_ThisMapEventInfoAddress_InfoType.htm" />
   </HelpKINode>
   <HelpKINode Title="InfoTypeCode プロパティ">
     <HelpKINode Title="SetVariablePlusBase.InfoTypeCode プロパティ " Url="html/P_WodiLib_Event_EventCommand_SetVariablePlusBase_InfoTypeCode.htm" />
@@ -5611,6 +5617,7 @@
   <HelpKINode Title="Int32 to SystemVariableAddress 変換" Url="html/M_WodiLib_Cmn_SystemVariableAddress_op_Implicit.htm" />
   <HelpKINode Title="Int32 to SystemVariableIndex 変換" Url="html/M_WodiLib_Cmn_SystemVariableIndex_op_Implicit.htm" />
   <HelpKINode Title="Int32 to ThisCommonEventVariableAddress 変換" Url="html/M_WodiLib_Cmn_ThisCommonEventVariableAddress_op_Implicit.htm" />
+  <HelpKINode Title="Int32 to ThisMapEventInfoAddress 変換" Url="html/M_WodiLib_Cmn_ThisMapEventInfoAddress_op_Implicit.htm" />
   <HelpKINode Title="Int32 to ThisMapEventVariableAddress 変換" Url="html/M_WodiLib_Cmn_ThisMapEventVariableAddress_op_Implicit.htm" />
   <HelpKINode Title="Int32 to TileId 変換" Url="html/M_WodiLib_Map_TileId_op_Implicit.htm" />
   <HelpKINode Title="Int32 to TileSetId 変換" Url="html/M_WodiLib_Map_TileSetId_op_Implicit.htm" />
@@ -7414,6 +7421,7 @@
     <HelpKINode Title="SystemStringVariableAddress.MaxValue プロパティ " Url="html/P_WodiLib_Cmn_SystemStringVariableAddress_MaxValue.htm" />
     <HelpKINode Title="SystemVariableAddress.MaxValue プロパティ " Url="html/P_WodiLib_Cmn_SystemVariableAddress_MaxValue.htm" />
     <HelpKINode Title="ThisCommonEventVariableAddress.MaxValue プロパティ " Url="html/P_WodiLib_Cmn_ThisCommonEventVariableAddress_MaxValue.htm" />
+    <HelpKINode Title="ThisMapEventInfoAddress.MaxValue プロパティ " Url="html/P_WodiLib_Cmn_ThisMapEventInfoAddress_MaxValue.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress.MaxValue プロパティ " Url="html/P_WodiLib_Cmn_ThisMapEventVariableAddress_MaxValue.htm" />
     <HelpKINode Title="UserDatabaseAddress.MaxValue プロパティ " Url="html/P_WodiLib_Cmn_UserDatabaseAddress_MaxValue.htm" />
   </HelpKINode>
@@ -7620,6 +7628,7 @@
     <HelpKINode Title="SystemStringVariableAddress.MinValue プロパティ " Url="html/P_WodiLib_Cmn_SystemStringVariableAddress_MinValue.htm" />
     <HelpKINode Title="SystemVariableAddress.MinValue プロパティ " Url="html/P_WodiLib_Cmn_SystemVariableAddress_MinValue.htm" />
     <HelpKINode Title="ThisCommonEventVariableAddress.MinValue プロパティ " Url="html/P_WodiLib_Cmn_ThisCommonEventVariableAddress_MinValue.htm" />
+    <HelpKINode Title="ThisMapEventInfoAddress.MinValue プロパティ " Url="html/P_WodiLib_Cmn_ThisMapEventInfoAddress_MinValue.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress.MinValue プロパティ " Url="html/P_WodiLib_Cmn_ThisMapEventVariableAddress_MinValue.htm" />
     <HelpKINode Title="UserDatabaseAddress.MinValue プロパティ " Url="html/P_WodiLib_Cmn_UserDatabaseAddress_MinValue.htm" />
   </HelpKINode>
@@ -9028,15 +9037,15 @@
     <HelpKINode Title="CommonEventDatFile.ReadASync メソッド " Url="html/M_WodiLib_IO_CommonEventDatFile_ReadASync.htm" />
     <HelpKINode Title="CommonFile.ReadASync メソッド " Url="html/M_WodiLib_IO_CommonFile_ReadASync.htm" />
     <HelpKINode Title="DatabaseDatFile.ReadASync メソッド " Url="html/M_WodiLib_IO_DatabaseDatFile_ReadASync.htm" />
-    <HelpKINode Title="DBDataFile.ReadASync メソッド " Url="html/M_WodiLib_IO_DBDataFile_ReadASync.htm" />
-    <HelpKINode Title="MapTreeOpenStatusDataFile.ReadASync メソッド " Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_ReadASync.htm" />
-    <HelpKINode Title="TileSetFile.ReadASync メソッド " Url="html/M_WodiLib_IO_TileSetFile_ReadASync.htm" />
     <HelpKINode Title="DatabaseProjectFile.ReadASync メソッド " Url="html/M_WodiLib_IO_DatabaseProjectFile_ReadASync.htm" />
+    <HelpKINode Title="DBDataFile.ReadASync メソッド " Url="html/M_WodiLib_IO_DBDataFile_ReadASync.htm" />
     <HelpKINode Title="DBTypeSetFile.ReadASync メソッド " Url="html/M_WodiLib_IO_DBTypeSetFile_ReadASync.htm" />
     <HelpKINode Title="EditorIniFile.ReadASync メソッド " Url="html/M_WodiLib_IO_EditorIniFile_ReadASync.htm" />
     <HelpKINode Title="GameIniFile.ReadASync メソッド " Url="html/M_WodiLib_IO_GameIniFile_ReadASync.htm" />
     <HelpKINode Title="MapTreeDataFile.ReadASync メソッド " Url="html/M_WodiLib_IO_MapTreeDataFile_ReadASync.htm" />
+    <HelpKINode Title="MapTreeOpenStatusDataFile.ReadASync メソッド " Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_ReadASync.htm" />
     <HelpKINode Title="MpsFile.ReadASync メソッド " Url="html/M_WodiLib_IO_MpsFile_ReadASync.htm" />
+    <HelpKINode Title="TileSetFile.ReadASync メソッド " Url="html/M_WodiLib_IO_TileSetFile_ReadASync.htm" />
     <HelpKINode Title="TileSetDataFile.ReadASync メソッド " Url="html/M_WodiLib_IO_TileSetDataFile_ReadASync.htm" />
   </HelpKINode>
   <HelpKINode Title="ReadAsync メソッド" Url="html/M_WodiLib_IO_DatabaseMergedDataReader_ReadAsync.htm" />
@@ -10577,6 +10586,7 @@
     <HelpKINode Title="SystemStringVariableAddress.Subtraction 演算子 " Url="html/Overload_WodiLib_Cmn_SystemStringVariableAddress_op_Subtraction.htm" />
     <HelpKINode Title="SystemVariableAddress.Subtraction 演算子 " Url="html/Overload_WodiLib_Cmn_SystemVariableAddress_op_Subtraction.htm" />
     <HelpKINode Title="ThisCommonEventVariableAddress.Subtraction 演算子 " Url="html/Overload_WodiLib_Cmn_ThisCommonEventVariableAddress_op_Subtraction.htm" />
+    <HelpKINode Title="ThisMapEventInfoAddress.Subtraction 演算子 " Url="html/Overload_WodiLib_Cmn_ThisMapEventInfoAddress_op_Subtraction.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress.Subtraction 演算子 " Url="html/Overload_WodiLib_Cmn_ThisMapEventVariableAddress_op_Subtraction.htm" />
     <HelpKINode Title="UserDatabaseAddress.Subtraction 演算子 " Url="html/Overload_WodiLib_Cmn_UserDatabaseAddress_op_Subtraction.htm" />
     <HelpKINode Title="VariableAddress.Subtraction 演算子 " Url="html/Overload_WodiLib_Cmn_VariableAddress_op_Subtraction.htm" />
@@ -10782,8 +10792,8 @@
   </HelpKINode>
   <HelpKINode Title="TargetCharacterId プロパティ" Url="html/P_WodiLib_Event_EventCommand_CharacterEffect_TargetCharacterId.htm" />
   <HelpKINode Title="TargetCode クラス、フィールド">
-    <HelpKINode Title="TargetCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Effect_TargetCode.htm" />
     <HelpKINode Title="TargetCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInputControl_TargetCode.htm" />
+    <HelpKINode Title="TargetCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Effect_TargetCode.htm" />
   </HelpKINode>
   <HelpKINode Title="TargetCode プロパティ">
     <HelpKINode Title="DBKind.TargetCode プロパティ " Url="html/P_WodiLib_Database_DBKind_TargetCode.htm" />
@@ -10849,6 +10859,26 @@
     <HelpKINode Title="MapEventId.ThisEventId フィールド" Url="html/F_WodiLib_Map_MapEventId_ThisEventId.htm" />
   </HelpKINode>
   <HelpKINode Title="ThisMapEventId フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusEtcInfoType_ThisMapEventId.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress to Int32 変換" Url="html/M_WodiLib_Cmn_ThisMapEventInfoAddress_op_Implicit_1.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress クラス" Url="html/T_WodiLib_Cmn_ThisMapEventInfoAddress.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress クラス、コンストラクター" Url="html/M_WodiLib_Cmn_ThisMapEventInfoAddress__ctor.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress クラス、プロパティ" Url="html/Properties_T_WodiLib_Cmn_ThisMapEventInfoAddress.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress クラス、メソッド" Url="html/Methods_T_WodiLib_Cmn_ThisMapEventInfoAddress.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress クラス、演算子と型変換" Url="html/Operators_T_WodiLib_Cmn_ThisMapEventInfoAddress.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress.Addition 演算子" Url="html/M_WodiLib_Cmn_ThisMapEventInfoAddress_op_Addition.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress.Equality 演算子" Url="html/Overload_WodiLib_Cmn_ThisMapEventInfoAddress_op_Equality.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress.Equals メソッド" Url="html/Overload_WodiLib_Cmn_ThisMapEventInfoAddress_Equals.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress.GetHashCode メソッド" Url="html/M_WodiLib_Cmn_ThisMapEventInfoAddress_GetHashCode.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress.Inequality 演算子" Url="html/Overload_WodiLib_Cmn_ThisMapEventInfoAddress_op_Inequality.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress.InfoType プロパティ" Url="html/P_WodiLib_Cmn_ThisMapEventInfoAddress_InfoType.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress.MaxValue プロパティ" Url="html/P_WodiLib_Cmn_ThisMapEventInfoAddress_MaxValue.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress.MinValue プロパティ" Url="html/P_WodiLib_Cmn_ThisMapEventInfoAddress_MinValue.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress.Subtraction 演算子" Url="html/Overload_WodiLib_Cmn_ThisMapEventInfoAddress_op_Subtraction.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress.ThisMapEventInfoAddress コンストラクター" Url="html/M_WodiLib_Cmn_ThisMapEventInfoAddress__ctor.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress._MaxValue プロパティ" Url="html/P_WodiLib_Cmn_ThisMapEventInfoAddress__MaxValue.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress._MinValue プロパティ" Url="html/P_WodiLib_Cmn_ThisMapEventInfoAddress__MinValue.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress._SafetyMaxValue プロパティ" Url="html/P_WodiLib_Cmn_ThisMapEventInfoAddress__SafetyMaxValue.htm" />
+  <HelpKINode Title="ThisMapEventInfoAddress._SafetyMinValue プロパティ" Url="html/P_WodiLib_Cmn_ThisMapEventInfoAddress__SafetyMinValue.htm" />
   <HelpKINode Title="ThisMapEventVariableAddress to Int32 変換" Url="html/M_WodiLib_Cmn_ThisMapEventVariableAddress_op_Implicit_1.htm" />
   <HelpKINode Title="ThisMapEventVariableAddress クラス" Url="html/T_WodiLib_Cmn_ThisMapEventVariableAddress.htm" />
   <HelpKINode Title="ThisMapEventVariableAddress クラス、コンストラクター" Url="html/M_WodiLib_Cmn_ThisMapEventVariableAddress__ctor.htm" />
@@ -12172,6 +12202,7 @@
   <HelpKINode Title="WodiLib.Cmn.SystemVariableAddress クラス" Url="html/T_WodiLib_Cmn_SystemVariableAddress.htm" />
   <HelpKINode Title="WodiLib.Cmn.SystemVariableIndex 構造体" Url="html/T_WodiLib_Cmn_SystemVariableIndex.htm" />
   <HelpKINode Title="WodiLib.Cmn.ThisCommonEventVariableAddress クラス" Url="html/T_WodiLib_Cmn_ThisCommonEventVariableAddress.htm" />
+  <HelpKINode Title="WodiLib.Cmn.ThisMapEventInfoAddress クラス" Url="html/T_WodiLib_Cmn_ThisMapEventInfoAddress.htm" />
   <HelpKINode Title="WodiLib.Cmn.ThisMapEventVariableAddress クラス" Url="html/T_WodiLib_Cmn_ThisMapEventVariableAddress.htm" />
   <HelpKINode Title="WodiLib.Cmn.UserDatabaseAddress クラス" Url="html/T_WodiLib_Cmn_UserDatabaseAddress.htm" />
   <HelpKINode Title="WodiLib.Cmn.VariableAddress クラス" Url="html/T_WodiLib_Cmn_VariableAddress.htm" />
@@ -13012,6 +13043,7 @@
     <HelpKINode Title="SystemStringVariableAddress._MaxValue プロパティ " Url="html/P_WodiLib_Cmn_SystemStringVariableAddress__MaxValue.htm" />
     <HelpKINode Title="SystemVariableAddress._MaxValue プロパティ " Url="html/P_WodiLib_Cmn_SystemVariableAddress__MaxValue.htm" />
     <HelpKINode Title="ThisCommonEventVariableAddress._MaxValue プロパティ " Url="html/P_WodiLib_Cmn_ThisCommonEventVariableAddress__MaxValue.htm" />
+    <HelpKINode Title="ThisMapEventInfoAddress._MaxValue プロパティ " Url="html/P_WodiLib_Cmn_ThisMapEventInfoAddress__MaxValue.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress._MaxValue プロパティ " Url="html/P_WodiLib_Cmn_ThisMapEventVariableAddress__MaxValue.htm" />
     <HelpKINode Title="UserDatabaseAddress._MaxValue プロパティ " Url="html/P_WodiLib_Cmn_UserDatabaseAddress__MaxValue.htm" />
     <HelpKINode Title="VariableAddress._MaxValue プロパティ " Url="html/P_WodiLib_Cmn_VariableAddress__MaxValue.htm" />
@@ -13032,6 +13064,7 @@
     <HelpKINode Title="SystemStringVariableAddress._MinValue プロパティ " Url="html/P_WodiLib_Cmn_SystemStringVariableAddress__MinValue.htm" />
     <HelpKINode Title="SystemVariableAddress._MinValue プロパティ " Url="html/P_WodiLib_Cmn_SystemVariableAddress__MinValue.htm" />
     <HelpKINode Title="ThisCommonEventVariableAddress._MinValue プロパティ " Url="html/P_WodiLib_Cmn_ThisCommonEventVariableAddress__MinValue.htm" />
+    <HelpKINode Title="ThisMapEventInfoAddress._MinValue プロパティ " Url="html/P_WodiLib_Cmn_ThisMapEventInfoAddress__MinValue.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress._MinValue プロパティ " Url="html/P_WodiLib_Cmn_ThisMapEventVariableAddress__MinValue.htm" />
     <HelpKINode Title="UserDatabaseAddress._MinValue プロパティ " Url="html/P_WodiLib_Cmn_UserDatabaseAddress__MinValue.htm" />
     <HelpKINode Title="VariableAddress._MinValue プロパティ " Url="html/P_WodiLib_Cmn_VariableAddress__MinValue.htm" />
@@ -13054,6 +13087,7 @@
     <HelpKINode Title="SystemStringVariableAddress._SafetyMaxValue プロパティ " Url="html/P_WodiLib_Cmn_SystemStringVariableAddress__SafetyMaxValue.htm" />
     <HelpKINode Title="SystemVariableAddress._SafetyMaxValue プロパティ " Url="html/P_WodiLib_Cmn_SystemVariableAddress__SafetyMaxValue.htm" />
     <HelpKINode Title="ThisCommonEventVariableAddress._SafetyMaxValue プロパティ " Url="html/P_WodiLib_Cmn_ThisCommonEventVariableAddress__SafetyMaxValue.htm" />
+    <HelpKINode Title="ThisMapEventInfoAddress._SafetyMaxValue プロパティ " Url="html/P_WodiLib_Cmn_ThisMapEventInfoAddress__SafetyMaxValue.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress._SafetyMaxValue プロパティ " Url="html/P_WodiLib_Cmn_ThisMapEventVariableAddress__SafetyMaxValue.htm" />
     <HelpKINode Title="UserDatabaseAddress._SafetyMaxValue プロパティ " Url="html/P_WodiLib_Cmn_UserDatabaseAddress__SafetyMaxValue.htm" />
     <HelpKINode Title="VariableAddress._SafetyMaxValue プロパティ " Url="html/P_WodiLib_Cmn_VariableAddress__SafetyMaxValue.htm" />
@@ -13074,6 +13108,7 @@
     <HelpKINode Title="SystemStringVariableAddress._SafetyMinValue プロパティ " Url="html/P_WodiLib_Cmn_SystemStringVariableAddress__SafetyMinValue.htm" />
     <HelpKINode Title="SystemVariableAddress._SafetyMinValue プロパティ " Url="html/P_WodiLib_Cmn_SystemVariableAddress__SafetyMinValue.htm" />
     <HelpKINode Title="ThisCommonEventVariableAddress._SafetyMinValue プロパティ " Url="html/P_WodiLib_Cmn_ThisCommonEventVariableAddress__SafetyMinValue.htm" />
+    <HelpKINode Title="ThisMapEventInfoAddress._SafetyMinValue プロパティ " Url="html/P_WodiLib_Cmn_ThisMapEventInfoAddress__SafetyMinValue.htm" />
     <HelpKINode Title="ThisMapEventVariableAddress._SafetyMinValue プロパティ " Url="html/P_WodiLib_Cmn_ThisMapEventVariableAddress__SafetyMinValue.htm" />
     <HelpKINode Title="UserDatabaseAddress._SafetyMinValue プロパティ " Url="html/P_WodiLib_Cmn_UserDatabaseAddress__SafetyMinValue.htm" />
     <HelpKINode Title="VariableAddress._SafetyMinValue プロパティ " Url="html/P_WodiLib_Cmn_VariableAddress__SafetyMinValue.htm" />
