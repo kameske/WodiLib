@@ -1,3 +1,11 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : GameIniRootData.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 using WodiLib.IO;
 using WodiLib.Sys;
 

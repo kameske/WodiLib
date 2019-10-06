@@ -6,7 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using System;
 using System.Text.RegularExpressions;
 
 namespace WodiLib.Sys

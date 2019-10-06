@@ -72,7 +72,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         void OutputVersionWarningLogIfNeed();
 
-        /// <summary>バイナリデータに変換する</summary>
+        /// <summary>バイナリデータに変換する。</summary>
         /// <returns>バイナリデータ</returns>
         byte[] ToBinary();
     }

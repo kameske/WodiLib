@@ -46,7 +46,7 @@ namespace WodiLib.Ini
         {
             if (number < MinValue || MaxValue < number)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(number), MaxValue, MinValue, number));
+                    ErrorMessage.OutOfRange(nameof(number), MinValue, MaxValue, number));
             Value = number;
         }
 

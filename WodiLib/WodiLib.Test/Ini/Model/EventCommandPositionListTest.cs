@@ -1,23 +1,11 @@
 using NUnit.Framework;
-using WodiLib.Event;
 using WodiLib.Ini;
-using WodiLib.Sys.Cmn;
-using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Ini.Model
 {
     [TestFixture]
     public class EventCommandPositionListTest
     {
-        private static WodiLibLogger logger;
-
-        [SetUp]
-        public static void Setup()
-        {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
-        }
-
         [Test]
         public static void GetMaxCapacityTest()
         {

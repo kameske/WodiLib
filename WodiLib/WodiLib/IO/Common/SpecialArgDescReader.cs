@@ -257,7 +257,7 @@ namespace WodiLib.IO
                     caseNumberList.Add(caseNumber);
 
                     Logger.Debug(FileIOMessage.SuccessRead(typeof(SpecialArgDescReader),
-                        "引数{i} {j}番目の数値", caseNumber));
+                        $"引数{i} {j}番目の数値", caseNumber));
                 }
 
                 result.Add(caseNumberList);

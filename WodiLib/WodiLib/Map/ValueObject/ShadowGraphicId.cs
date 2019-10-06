@@ -46,7 +46,7 @@ namespace WodiLib.Map
         {
             if (value < MinValue || MaxValue < value)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(value), MaxValue, MinValue, value));
+                    ErrorMessage.OutOfRange(nameof(value), MinValue, MaxValue, value));
             Value = value;
         }
 
