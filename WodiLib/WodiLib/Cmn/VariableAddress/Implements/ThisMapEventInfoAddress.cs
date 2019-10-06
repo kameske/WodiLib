@@ -13,7 +13,7 @@ using WodiLib.Sys.Cmn;
 namespace WodiLib.Cmn
 {
     /// <summary>
-    /// [Range(9190000, 9189999)] このマップイベント情報アドレス値
+    /// [Range(9190000, 9199999)] このマップイベント情報アドレス値
     /// </summary>
     public class ThisMapEventInfoAddress : VariableAddress, IEquatable<ThisMapEventInfoAddress>
     {
@@ -25,7 +25,7 @@ namespace WodiLib.Cmn
         public static int MinValue => 9190000;
 
         /// <summary>最大値</summary>
-        public static int MaxValue => 9189999;
+        public static int MaxValue => 9199999;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Constant
@@ -68,7 +68,7 @@ namespace WodiLib.Cmn
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[Range(9190000, 9189999)] 変数アドレス値</param>
+        /// <param name="value">[Range(9190000, 9199999)] 変数アドレス値</param>
         /// <exception cref="ArgumentOutOfRangeException">valueがこのマップイベント情報アドレス値として不適切な場合</exception>
         public ThisMapEventInfoAddress(int value) : base(value)
         {
@@ -133,7 +133,7 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> HeroPositionAddress への暗黙的な型変換
+        /// int -> ThisMapEventInfoAddress への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
@@ -144,7 +144,7 @@ namespace WodiLib.Cmn
         }
 
         /// <summary>
-        /// HeroPositionAddress -> int への暗黙的な型変換
+        /// ThisMapEventInfoAddress -> int への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
@@ -160,12 +160,12 @@ namespace WodiLib.Cmn
         #region int
 
         /// <summary>
-        /// 主人公座標アドレス値 + int を計算し、構造体を返す。
+        /// このマップイベント情報アドレス値 + int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">変数アドレス</param>
         /// <param name="value">加算値</param>
         /// <returns>加算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">加算後の値が主人公座標アドレス値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">加算後の値がこのマップイベント情報アドレス値として不適切な場合</exception>
         public static ThisMapEventInfoAddress operator +(ThisMapEventInfoAddress src, int value)
         {
             try
@@ -175,17 +175,17 @@ namespace WodiLib.Cmn
             catch (ArgumentOutOfRangeException ex)
             {
                 throw new InvalidOperationException(
-                    $"主人公座標アドレス値として不適切な値です。(value = {src.Value + value})", ex);
+                    $"このマップイベント情報アドレス値として不適切な値です。(value = {src.Value + value})", ex);
             }
         }
 
         /// <summary>
-        /// 主人公座標アドレス値 - int を計算し、構造体を返す。
+        /// このマップイベント情報アドレス値 - int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">変数アドレス</param>
         /// <param name="value">減算値</param>
         /// <returns>減算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">減算後の値が主人公座標アドレス値値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">減算後の値がこのマップイベント情報アドレス値値として不適切な場合</exception>
         public static ThisMapEventInfoAddress operator -(ThisMapEventInfoAddress src, int value)
         {
             try
@@ -195,7 +195,7 @@ namespace WodiLib.Cmn
             catch (ArgumentOutOfRangeException ex)
             {
                 throw new InvalidOperationException(
-                    $"主人公座標アドレス値として不適切な値です。(value = {src.Value - value})", ex);
+                    $"このマップイベント情報アドレス値として不適切な値です。(value = {src.Value - value})", ex);
             }
         }
 
