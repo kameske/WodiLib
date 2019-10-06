@@ -1,3 +1,11 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : BoolExtension.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 namespace WodiLib.Sys
 {
     internal static class BoolExtension

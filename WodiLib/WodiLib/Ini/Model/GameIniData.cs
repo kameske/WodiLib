@@ -1,3 +1,11 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : GameIniData.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -46,7 +54,7 @@ namespace WodiLib.Ini
         /// </summary>
         public bool IsPlaySe { get; set; }
 
-        private FrameSkipType frameSkipType = Ini.FrameSkipType.HighSpec;
+        private FrameSkipType frameSkipType = FrameSkipType.HighSpec;
 
         /// <summary>
         /// [NotNull] フレームスキップ種別
