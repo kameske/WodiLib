@@ -654,7 +654,7 @@ namespace WodiLib.Event.EventCommand
         {
             if (src == null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(src));
+                    ErrorMessage.NotNull(nameof(src)));
 
             const string regex = @"^\[(.*)\]\[(.*)\]<(.*)>\((.*)\)\((.*)\)$";
             const string splitter = "__";

@@ -309,7 +309,7 @@ namespace WodiLib.Database
         /// <summary>
         /// 要素数を指定の数に合わせる。
         /// </summary>
-        /// <param name="length">[Range(GetMinCapacity() - 1, GetMaxCapacity() - 1)] 調整する要素数</param>
+        /// <param name="length">[Range(GetMinCapacity(), GetMaxCapacity())] 調整する要素数</param>
         /// <exception cref="InvalidOperationException">lengthが指定範囲外の場合</exception>
         /// <exception cref="ArgumentException">要素を追加した際にnullがセットされた場合</exception>
         /// <exception cref="InvalidOperationException">紐付けされているDBItemValuesListが存在する場合</exception>

@@ -46,7 +46,7 @@ namespace WodiLib.Database
         ///     typeSettingList, dataSettingList が null の場合
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///    typeSettingListとdataSettingListの要素数が異なる場合
+        ///     typeSettingListとdataSettingListの要素数が異なる場合。
         /// </exception>
         public DatabaseMergedData(DBTypeSettingList typeSettingList, DBDataSettingList dataSettingList)
         {
