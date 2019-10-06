@@ -1445,7 +1445,7 @@
   <HelpKINode Title="CommonEventDatFile.CommonEventData プロパティ" Url="html/P_WodiLib_IO_CommonEventDatFile_CommonEventData.htm" />
   <HelpKINode Title="CommonEventDatFile.CommonEventDatFile コンストラクター" Url="html/M_WodiLib_IO_CommonEventDatFile__ctor.htm" />
   <HelpKINode Title="CommonEventDatFile.FilePath プロパティ" Url="html/P_WodiLib_IO_CommonEventDatFile_FilePath.htm" />
-  <HelpKINode Title="CommonEventDatFile.ReadASync メソッド" Url="html/M_WodiLib_IO_CommonEventDatFile_ReadASync.htm" />
+  <HelpKINode Title="CommonEventDatFile.ReadAsync メソッド" Url="html/M_WodiLib_IO_CommonEventDatFile_ReadAsync.htm" />
   <HelpKINode Title="CommonEventDatFile.ReadSync メソッド" Url="html/M_WodiLib_IO_CommonEventDatFile_ReadSync.htm" />
   <HelpKINode Title="CommonEventDatFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_CommonEventDatFile_WriteAsync.htm" />
   <HelpKINode Title="CommonEventDatFile.WriteSync メソッド" Url="html/M_WodiLib_IO_CommonEventDatFile_WriteSync.htm" />
@@ -1818,7 +1818,7 @@
   <HelpKINode Title="CommonFile.CommonFile コンストラクター" Url="html/M_WodiLib_IO_CommonFile__ctor.htm" />
   <HelpKINode Title="CommonFile.CommonFileData プロパティ" Url="html/P_WodiLib_IO_CommonFile_CommonFileData.htm" />
   <HelpKINode Title="CommonFile.FilePath プロパティ" Url="html/P_WodiLib_IO_CommonFile_FilePath.htm" />
-  <HelpKINode Title="CommonFile.ReadASync メソッド" Url="html/M_WodiLib_IO_CommonFile_ReadASync.htm" />
+  <HelpKINode Title="CommonFile.ReadAsync メソッド" Url="html/M_WodiLib_IO_CommonFile_ReadAsync.htm" />
   <HelpKINode Title="CommonFile.ReadSync メソッド" Url="html/M_WodiLib_IO_CommonFile_ReadSync.htm" />
   <HelpKINode Title="CommonFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_CommonFile_WriteAsync.htm" />
   <HelpKINode Title="CommonFile.WriteSync メソッド" Url="html/M_WodiLib_IO_CommonFile_WriteSync.htm" />
@@ -2139,7 +2139,7 @@
   <HelpKINode Title="DatabaseDatFile.Data プロパティ" Url="html/P_WodiLib_IO_DatabaseDatFile_Data.htm" />
   <HelpKINode Title="DatabaseDatFile.DatabaseDatFile コンストラクター" Url="html/M_WodiLib_IO_DatabaseDatFile__ctor.htm" />
   <HelpKINode Title="DatabaseDatFile.FileName プロパティ" Url="html/P_WodiLib_IO_DatabaseDatFile_FileName.htm" />
-  <HelpKINode Title="DatabaseDatFile.ReadASync メソッド" Url="html/M_WodiLib_IO_DatabaseDatFile_ReadASync.htm" />
+  <HelpKINode Title="DatabaseDatFile.ReadAsync メソッド" Url="html/M_WodiLib_IO_DatabaseDatFile_ReadAsync.htm" />
   <HelpKINode Title="DatabaseDatFile.ReadSync メソッド" Url="html/M_WodiLib_IO_DatabaseDatFile_ReadSync.htm" />
   <HelpKINode Title="DatabaseDatFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_DatabaseDatFile_WriteAsync.htm" />
   <HelpKINode Title="DatabaseDatFile.WriteSync メソッド" Url="html/M_WodiLib_IO_DatabaseDatFile_WriteSync.htm" />
@@ -2239,7 +2239,7 @@
   <HelpKINode Title="DatabaseProjectFile.Data プロパティ" Url="html/P_WodiLib_IO_DatabaseProjectFile_Data.htm" />
   <HelpKINode Title="DatabaseProjectFile.DatabaseProjectFile コンストラクター" Url="html/M_WodiLib_IO_DatabaseProjectFile__ctor.htm" />
   <HelpKINode Title="DatabaseProjectFile.FileName プロパティ" Url="html/P_WodiLib_IO_DatabaseProjectFile_FileName.htm" />
-  <HelpKINode Title="DatabaseProjectFile.ReadASync メソッド" Url="html/M_WodiLib_IO_DatabaseProjectFile_ReadASync.htm" />
+  <HelpKINode Title="DatabaseProjectFile.ReadAsync メソッド" Url="html/M_WodiLib_IO_DatabaseProjectFile_ReadAsync.htm" />
   <HelpKINode Title="DatabaseProjectFile.ReadSync メソッド" Url="html/M_WodiLib_IO_DatabaseProjectFile_ReadSync.htm" />
   <HelpKINode Title="DatabaseProjectFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_DatabaseProjectFile_WriteAsync.htm" />
   <HelpKINode Title="DatabaseProjectFile.WriteSync メソッド" Url="html/M_WodiLib_IO_DatabaseProjectFile_WriteSync.htm" />
@@ -2433,7 +2433,7 @@
   <HelpKINode Title="DBDataFile.Data プロパティ" Url="html/P_WodiLib_IO_DBDataFile_Data.htm" />
   <HelpKINode Title="DBDataFile.DBDataFile コンストラクター" Url="html/M_WodiLib_IO_DBDataFile__ctor.htm" />
   <HelpKINode Title="DBDataFile.FileName プロパティ" Url="html/P_WodiLib_IO_DBDataFile_FileName.htm" />
-  <HelpKINode Title="DBDataFile.ReadASync メソッド" Url="html/M_WodiLib_IO_DBDataFile_ReadASync.htm" />
+  <HelpKINode Title="DBDataFile.ReadAsync メソッド" Url="html/M_WodiLib_IO_DBDataFile_ReadAsync.htm" />
   <HelpKINode Title="DBDataFile.ReadSync メソッド" Url="html/M_WodiLib_IO_DBDataFile_ReadSync.htm" />
   <HelpKINode Title="DBDataFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_DBDataFile_WriteAsync.htm" />
   <HelpKINode Title="DBDataFile.WriteSync メソッド" Url="html/M_WodiLib_IO_DBDataFile_WriteSync.htm" />
@@ -3052,7 +3052,7 @@
   <HelpKINode Title="DBTypeSetFile.Data プロパティ" Url="html/P_WodiLib_IO_DBTypeSetFile_Data.htm" />
   <HelpKINode Title="DBTypeSetFile.DBTypeSetFile コンストラクター" Url="html/M_WodiLib_IO_DBTypeSetFile__ctor.htm" />
   <HelpKINode Title="DBTypeSetFile.FileName プロパティ" Url="html/P_WodiLib_IO_DBTypeSetFile_FileName.htm" />
-  <HelpKINode Title="DBTypeSetFile.ReadASync メソッド" Url="html/M_WodiLib_IO_DBTypeSetFile_ReadASync.htm" />
+  <HelpKINode Title="DBTypeSetFile.ReadAsync メソッド" Url="html/M_WodiLib_IO_DBTypeSetFile_ReadAsync.htm" />
   <HelpKINode Title="DBTypeSetFile.ReadSync メソッド" Url="html/M_WodiLib_IO_DBTypeSetFile_ReadSync.htm" />
   <HelpKINode Title="DBTypeSetFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_DBTypeSetFile_WriteAsync.htm" />
   <HelpKINode Title="DBTypeSetFile.WriteSync メソッド" Url="html/M_WodiLib_IO_DBTypeSetFile_WriteSync.htm" />
@@ -3371,7 +3371,7 @@
   <HelpKINode Title="EditorIniFile.Data プロパティ" Url="html/P_WodiLib_IO_EditorIniFile_Data.htm" />
   <HelpKINode Title="EditorIniFile.EditorIniFile コンストラクター" Url="html/M_WodiLib_IO_EditorIniFile__ctor.htm" />
   <HelpKINode Title="EditorIniFile.FilePath プロパティ" Url="html/P_WodiLib_IO_EditorIniFile_FilePath.htm" />
-  <HelpKINode Title="EditorIniFile.ReadASync メソッド" Url="html/M_WodiLib_IO_EditorIniFile_ReadASync.htm" />
+  <HelpKINode Title="EditorIniFile.ReadAsync メソッド" Url="html/M_WodiLib_IO_EditorIniFile_ReadAsync.htm" />
   <HelpKINode Title="EditorIniFile.ReadSync メソッド" Url="html/M_WodiLib_IO_EditorIniFile_ReadSync.htm" />
   <HelpKINode Title="EditorIniFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_EditorIniFile_WriteAsync.htm" />
   <HelpKINode Title="EditorIniFile.WriteSync メソッド" Url="html/M_WodiLib_IO_EditorIniFile_WriteSync.htm" />
@@ -4255,8 +4255,8 @@
   <HelpKINode Title="EventPositionAddressMax フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_EventPositionAddressMax.htm" />
   <HelpKINode Title="EventPositionAddressMin フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_EventPositionAddressMin.htm" />
   <HelpKINode Title="ExecCode クラス、フィールド">
-    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SetVariablePlus_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PartyGraphic_ExecCode.htm" />
+    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SetVariablePlus_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SaveLoad_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PictureShow_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Sound_ExecCode.htm" />
@@ -4656,7 +4656,7 @@
   <HelpKINode Title="GameIniFile.Data プロパティ" Url="html/P_WodiLib_IO_GameIniFile_Data.htm" />
   <HelpKINode Title="GameIniFile.FilePath プロパティ" Url="html/P_WodiLib_IO_GameIniFile_FilePath.htm" />
   <HelpKINode Title="GameIniFile.GameIniFile コンストラクター" Url="html/M_WodiLib_IO_GameIniFile__ctor.htm" />
-  <HelpKINode Title="GameIniFile.ReadASync メソッド" Url="html/M_WodiLib_IO_GameIniFile_ReadASync.htm" />
+  <HelpKINode Title="GameIniFile.ReadAsync メソッド" Url="html/M_WodiLib_IO_GameIniFile_ReadAsync.htm" />
   <HelpKINode Title="GameIniFile.ReadSync メソッド" Url="html/M_WodiLib_IO_GameIniFile_ReadSync.htm" />
   <HelpKINode Title="GameIniFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_GameIniFile_WriteAsync.htm" />
   <HelpKINode Title="GameIniFile.WriteSync メソッド" Url="html/M_WodiLib_IO_GameIniFile_WriteSync.htm" />
@@ -7227,7 +7227,7 @@
   <HelpKINode Title="MapTreeDataFile.FilePath プロパティ" Url="html/P_WodiLib_IO_MapTreeDataFile_FilePath.htm" />
   <HelpKINode Title="MapTreeDataFile.MapTreeData プロパティ" Url="html/P_WodiLib_IO_MapTreeDataFile_MapTreeData.htm" />
   <HelpKINode Title="MapTreeDataFile.MapTreeDataFile コンストラクター" Url="html/M_WodiLib_IO_MapTreeDataFile__ctor.htm" />
-  <HelpKINode Title="MapTreeDataFile.ReadASync メソッド" Url="html/M_WodiLib_IO_MapTreeDataFile_ReadASync.htm" />
+  <HelpKINode Title="MapTreeDataFile.ReadAsync メソッド" Url="html/M_WodiLib_IO_MapTreeDataFile_ReadAsync.htm" />
   <HelpKINode Title="MapTreeDataFile.ReadSync メソッド" Url="html/M_WodiLib_IO_MapTreeDataFile_ReadSync.htm" />
   <HelpKINode Title="MapTreeDataFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_MapTreeDataFile_WriteAsync.htm" />
   <HelpKINode Title="MapTreeDataFile.WriteSync メソッド" Url="html/M_WodiLib_IO_MapTreeDataFile_WriteSync.htm" />
@@ -7298,7 +7298,7 @@
   <HelpKINode Title="MapTreeOpenStatusDataFile.FilePath プロパティ" Url="html/P_WodiLib_IO_MapTreeOpenStatusDataFile_FilePath.htm" />
   <HelpKINode Title="MapTreeOpenStatusDataFile.MapTreeOpenStatusData プロパティ" Url="html/P_WodiLib_IO_MapTreeOpenStatusDataFile_MapTreeOpenStatusData.htm" />
   <HelpKINode Title="MapTreeOpenStatusDataFile.MapTreeOpenStatusDataFile コンストラクター" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile__ctor.htm" />
-  <HelpKINode Title="MapTreeOpenStatusDataFile.ReadASync メソッド" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_ReadASync.htm" />
+  <HelpKINode Title="MapTreeOpenStatusDataFile.ReadAsync メソッド" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_ReadAsync.htm" />
   <HelpKINode Title="MapTreeOpenStatusDataFile.ReadSync メソッド" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_ReadSync.htm" />
   <HelpKINode Title="MapTreeOpenStatusDataFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_WriteAsync.htm" />
   <HelpKINode Title="MapTreeOpenStatusDataFile.WriteSync メソッド" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_WriteSync.htm" />
@@ -7892,7 +7892,7 @@
   <HelpKINode Title="MpsFile.FilePath プロパティ" Url="html/P_WodiLib_IO_MpsFile_FilePath.htm" />
   <HelpKINode Title="MpsFile.MapData プロパティ" Url="html/P_WodiLib_IO_MpsFile_MapData.htm" />
   <HelpKINode Title="MpsFile.MpsFile コンストラクター" Url="html/M_WodiLib_IO_MpsFile__ctor.htm" />
-  <HelpKINode Title="MpsFile.ReadASync メソッド" Url="html/M_WodiLib_IO_MpsFile_ReadASync.htm" />
+  <HelpKINode Title="MpsFile.ReadAsync メソッド" Url="html/M_WodiLib_IO_MpsFile_ReadAsync.htm" />
   <HelpKINode Title="MpsFile.ReadSync メソッド" Url="html/M_WodiLib_IO_MpsFile_ReadSync.htm" />
   <HelpKINode Title="MpsFile.WriteAsync メソッド" Url="html/M_WodiLib_IO_MpsFile_WriteAsync.htm" />
   <HelpKINode Title="MpsFile.WriteSync メソッド" Url="html/M_WodiLib_IO_MpsFile_WriteSync.htm" />
@@ -9033,22 +9033,22 @@
   <HelpKINode Title="RateHeight プロパティ" Url="html/P_WodiLib_Event_EventCommand_ZoomRate_RateHeight.htm" />
   <HelpKINode Title="RateWidth プロパティ" Url="html/P_WodiLib_Event_EventCommand_ZoomRate_RateWidth.htm" />
   <HelpKINode Title="Read フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IoMode_Read.htm" />
-  <HelpKINode Title="ReadASync メソッド">
-    <HelpKINode Title="CommonEventDatFile.ReadASync メソッド " Url="html/M_WodiLib_IO_CommonEventDatFile_ReadASync.htm" />
-    <HelpKINode Title="CommonFile.ReadASync メソッド " Url="html/M_WodiLib_IO_CommonFile_ReadASync.htm" />
-    <HelpKINode Title="DatabaseDatFile.ReadASync メソッド " Url="html/M_WodiLib_IO_DatabaseDatFile_ReadASync.htm" />
-    <HelpKINode Title="DatabaseProjectFile.ReadASync メソッド " Url="html/M_WodiLib_IO_DatabaseProjectFile_ReadASync.htm" />
-    <HelpKINode Title="DBDataFile.ReadASync メソッド " Url="html/M_WodiLib_IO_DBDataFile_ReadASync.htm" />
-    <HelpKINode Title="DBTypeSetFile.ReadASync メソッド " Url="html/M_WodiLib_IO_DBTypeSetFile_ReadASync.htm" />
-    <HelpKINode Title="EditorIniFile.ReadASync メソッド " Url="html/M_WodiLib_IO_EditorIniFile_ReadASync.htm" />
-    <HelpKINode Title="GameIniFile.ReadASync メソッド " Url="html/M_WodiLib_IO_GameIniFile_ReadASync.htm" />
-    <HelpKINode Title="MapTreeDataFile.ReadASync メソッド " Url="html/M_WodiLib_IO_MapTreeDataFile_ReadASync.htm" />
-    <HelpKINode Title="MapTreeOpenStatusDataFile.ReadASync メソッド " Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_ReadASync.htm" />
-    <HelpKINode Title="MpsFile.ReadASync メソッド " Url="html/M_WodiLib_IO_MpsFile_ReadASync.htm" />
-    <HelpKINode Title="TileSetFile.ReadASync メソッド " Url="html/M_WodiLib_IO_TileSetFile_ReadASync.htm" />
-    <HelpKINode Title="TileSetDataFile.ReadASync メソッド " Url="html/M_WodiLib_IO_TileSetDataFile_ReadASync.htm" />
+  <HelpKINode Title="ReadAsync メソッド">
+    <HelpKINode Title="CommonEventDatFile.ReadAsync メソッド " Url="html/M_WodiLib_IO_CommonEventDatFile_ReadAsync.htm" />
+    <HelpKINode Title="CommonFile.ReadAsync メソッド " Url="html/M_WodiLib_IO_CommonFile_ReadAsync.htm" />
+    <HelpKINode Title="DatabaseDatFile.ReadAsync メソッド " Url="html/M_WodiLib_IO_DatabaseDatFile_ReadAsync.htm" />
+    <HelpKINode Title="DatabaseMergedDataReader.ReadAsync メソッド " Url="html/M_WodiLib_IO_DatabaseMergedDataReader_ReadAsync.htm" />
+    <HelpKINode Title="DatabaseProjectFile.ReadAsync メソッド " Url="html/M_WodiLib_IO_DatabaseProjectFile_ReadAsync.htm" />
+    <HelpKINode Title="DBDataFile.ReadAsync メソッド " Url="html/M_WodiLib_IO_DBDataFile_ReadAsync.htm" />
+    <HelpKINode Title="DBTypeSetFile.ReadAsync メソッド " Url="html/M_WodiLib_IO_DBTypeSetFile_ReadAsync.htm" />
+    <HelpKINode Title="EditorIniFile.ReadAsync メソッド " Url="html/M_WodiLib_IO_EditorIniFile_ReadAsync.htm" />
+    <HelpKINode Title="GameIniFile.ReadAsync メソッド " Url="html/M_WodiLib_IO_GameIniFile_ReadAsync.htm" />
+    <HelpKINode Title="MapTreeDataFile.ReadAsync メソッド " Url="html/M_WodiLib_IO_MapTreeDataFile_ReadAsync.htm" />
+    <HelpKINode Title="MapTreeOpenStatusDataFile.ReadAsync メソッド " Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_ReadAsync.htm" />
+    <HelpKINode Title="MpsFile.ReadAsync メソッド " Url="html/M_WodiLib_IO_MpsFile_ReadAsync.htm" />
+    <HelpKINode Title="TileSetDataFile.ReadAsync メソッド " Url="html/M_WodiLib_IO_TileSetDataFile_ReadAsync.htm" />
+    <HelpKINode Title="TileSetFile.ReadAsync メソッド " Url="html/M_WodiLib_IO_TileSetFile_ReadAsync.htm" />
   </HelpKINode>
-  <HelpKINode Title="ReadAsync メソッド" Url="html/M_WodiLib_IO_DatabaseMergedDataReader_ReadAsync.htm" />
   <HelpKINode Title="ReadOnlyDBItemValuesList クラス" Url="html/T_WodiLib_Database_ReadOnlyDBItemValuesList.htm" />
   <HelpKINode Title="ReadOnlyDBItemValuesList クラス、プロパティ" Url="html/Properties_T_WodiLib_Database_ReadOnlyDBItemValuesList.htm" />
   <HelpKINode Title="ReadOnlyDBItemValuesList クラス、メソッド" Url="html/Methods_T_WodiLib_Database_ReadOnlyDBItemValuesList.htm" />
@@ -10792,8 +10792,8 @@
   </HelpKINode>
   <HelpKINode Title="TargetCharacterId プロパティ" Url="html/P_WodiLib_Event_EventCommand_CharacterEffect_TargetCharacterId.htm" />
   <HelpKINode Title="TargetCode クラス、フィールド">
-    <HelpKINode Title="TargetCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInputControl_TargetCode.htm" />
     <HelpKINode Title="TargetCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Effect_TargetCode.htm" />
+    <HelpKINode Title="TargetCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInputControl_TargetCode.htm" />
   </HelpKINode>
   <HelpKINode Title="TargetCode プロパティ">
     <HelpKINode Title="DBKind.TargetCode プロパティ " Url="html/P_WodiLib_Database_DBKind_TargetCode.htm" />
@@ -11007,7 +11007,7 @@
   <HelpKINode Title="TileSetDataFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_TileSetDataFile.htm" />
   <HelpKINode Title="TileSetDataFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_TileSetDataFile.htm" />
   <HelpKINode Title="TileSetDataFile.FilePath プロパティ" Url="html/P_WodiLib_IO_TileSetDataFile_FilePath.htm" />
-  <HelpKINode Title="TileSetDataFile.ReadASync メソッド" Url="html/M_WodiLib_IO_TileSetDataFile_ReadASync.htm" />
+  <HelpKINode Title="TileSetDataFile.ReadAsync メソッド" Url="html/M_WodiLib_IO_TileSetDataFile_ReadAsync.htm" />
   <HelpKINode Title="TileSetDataFile.ReadSync メソッド" Url="html/M_WodiLib_IO_TileSetDataFile_ReadSync.htm" />
   <HelpKINode Title="TileSetDataFile.TileSetData プロパティ" Url="html/P_WodiLib_IO_TileSetDataFile_TileSetData.htm" />
   <HelpKINode Title="TileSetDataFile.TileSetDataFile コンストラクター" Url="html/M_WodiLib_IO_TileSetDataFile__ctor.htm" />
@@ -11033,7 +11033,7 @@
   <HelpKINode Title="TileSetFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_TileSetFile.htm" />
   <HelpKINode Title="TileSetFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_TileSetFile.htm" />
   <HelpKINode Title="TileSetFile.FilePath プロパティ" Url="html/P_WodiLib_IO_TileSetFile_FilePath.htm" />
-  <HelpKINode Title="TileSetFile.ReadASync メソッド" Url="html/M_WodiLib_IO_TileSetFile_ReadASync.htm" />
+  <HelpKINode Title="TileSetFile.ReadAsync メソッド" Url="html/M_WodiLib_IO_TileSetFile_ReadAsync.htm" />
   <HelpKINode Title="TileSetFile.ReadSync メソッド" Url="html/M_WodiLib_IO_TileSetFile_ReadSync.htm" />
   <HelpKINode Title="TileSetFile.TileSetFile コンストラクター" Url="html/M_WodiLib_IO_TileSetFile__ctor.htm" />
   <HelpKINode Title="TileSetFile.TileSetFileData プロパティ" Url="html/P_WodiLib_IO_TileSetFile_TileSetFileData.htm" />
@@ -11611,9 +11611,9 @@
   <HelpKINode Title="TurnTail.ValueLengthByte プロパティ" Url="html/P_WodiLib_Event_CharaMoveCommand_TurnTail_ValueLengthByte.htm" />
   <HelpKINode Title="Two フィールド" Url="html/F_WodiLib_Ini_EventCommandShortCutKey_Two.htm" />
   <HelpKINode Title="Type クラス、フィールド">
+    <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_CheckPoint_Type.htm" />
     <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInput_Type.htm" />
     <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInputAuto_Type.htm" />
-    <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_CheckPoint_Type.htm" />
   </HelpKINode>
   <HelpKINode Title="Type プロパティ" Url="html/P_WodiLib_Database_DBItemValue_Type.htm" />
   <HelpKINode Title="Type0 フィールド" Url="html/F_WodiLib_Ini_CommandColorType_Type0.htm" />
