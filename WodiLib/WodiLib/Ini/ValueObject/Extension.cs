@@ -107,7 +107,7 @@ namespace WodiLib.Ini
         /// <returns>変換したインスタンス</returns>
         public static implicit operator string(Extension src)
         {
-            return src.Value;
+            return src?.Value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
