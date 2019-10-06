@@ -155,7 +155,7 @@ namespace WodiLib.IO
         /// ファイルを非同期的に読み込む。
         /// </summary>
         /// <returns>読み込みデータを返すタスク</returns>
-        public async Task<CommonEventData> ReadASync()
+        public async Task<CommonEventData> ReadAsync()
         {
             var reader = BuildFileReader(FilePath);
             await reader.ReadAsync();
