@@ -6,7 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using System;
 using WodiLib.Map;
 
 namespace WodiLib.Event.EventCommand
@@ -23,15 +22,7 @@ namespace WodiLib.Event.EventCommand
         /// <returns>マップイベントIDの場合、true（「主人公」を示す場合もtrue）</returns>
         public static bool IsMapEventId(this int src)
         {
-            try
-            {
-                var _ = (MapEventId) src;
-                return true;
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                return false;
-            }
+            return MapEventId.MinValue <= src && src <= MapEventId.MaxValue;
         }
     }
 }
