@@ -136,7 +136,7 @@ namespace WodiLib.IO
                 var iniProperty = new IniProperty(line);
 
                 var targetProperty = properties.FirstOrDefault(x => x.Name.Equals(iniProperty.PropertyName));
-                if(targetProperty == null) continue;
+                if (targetProperty == null) continue;
 
                 targetProperty.SetValue(target, iniProperty.Value);
             }
@@ -205,7 +205,6 @@ namespace WodiLib.IO
                 var splitStr = line.Split('=');
                 return (splitStr[0], splitStr[1]);
             }
-
         }
     }
 }

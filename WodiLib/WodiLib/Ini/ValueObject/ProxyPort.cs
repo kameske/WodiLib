@@ -63,7 +63,7 @@ namespace WodiLib.Ini
         /// <returns>string値</returns>
         public override string ToString()
         {
-            if(Value != Empty) return Value.ToString();
+            if (Value != Empty) return Value.ToString();
             return string.Empty;
         }
 

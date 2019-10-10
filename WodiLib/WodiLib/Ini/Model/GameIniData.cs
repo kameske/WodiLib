@@ -65,8 +65,9 @@ namespace WodiLib.Ini
             get => frameSkipType;
             set
             {
-                if(value == null) throw new PropertyNullException(
-                    ErrorMessage.NotNull(nameof(FrameSkipType)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(FrameSkipType)));
 
                 frameSkipType = value;
             }
@@ -83,8 +84,9 @@ namespace WodiLib.Ini
             get => proxyAddress;
             set
             {
-                if(value == null) throw new PropertyNullException(
-                    ErrorMessage.NotNull(nameof(ProxyAddress)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(ProxyAddress)));
 
                 proxyAddress = value;
             }
@@ -146,6 +148,7 @@ namespace WodiLib.Ini
             {
                 FrameSkipType = FrameSkipType.HighSpec;
             }
+
             ProxyAddress = data.Proxy ?? "";
             ProxyPort = data.ProxyPort.TryToInt() ?? ProxyPort.Empty;
             CanTakeScreenShot = data.ScreenShotFlag.TryToInt() == 1;
@@ -169,8 +172,8 @@ namespace WodiLib.Ini
                 Start = StartCode.ToString(),
                 SoftModeFlag = IsSoftGraphicMode.ToIntString(),
                 WindowModeFlag = IsWindowMode.ToIntString(),
-                SEandBGM = (( IsPlayBgm ? UseBgmCode : 0 )
-                    + (IsPlaySe ? UseSeCode : 0)).ToString(),
+                SEandBGM = ((IsPlayBgm ? UseBgmCode : 0)
+                            + (IsPlaySe ? UseSeCode : 0)).ToString(),
                 FrameSkip = FrameSkipType.Code,
                 Proxy = ProxyAddress.ToString(),
                 ProxyPort = ProxyPort.ToString(),

@@ -26,6 +26,5 @@ namespace WodiLib.Sys
         {
             return src.Equals(default(KeyValuePair<TKey, TValue>));
         }
-
     }
 }

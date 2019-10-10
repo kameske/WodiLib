@@ -24,7 +24,7 @@ namespace WodiLib.Ini
         public static readonly int MaxValue = int.MaxValue;
 
         /// <summary>最小値</summary>
-        public static readonly int MinValue =int.MinValue;
+        public static readonly int MinValue = int.MinValue;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property

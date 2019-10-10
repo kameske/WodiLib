@@ -35,7 +35,7 @@ namespace WodiLib.Ini
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public ShortCutPositionList() : this(((Func<List<ShortCutPosition>>)(() =>
+        public ShortCutPositionList() : this(((Func<List<ShortCutPosition>>) (() =>
         {
             var result = new List<ShortCutPosition>();
 
