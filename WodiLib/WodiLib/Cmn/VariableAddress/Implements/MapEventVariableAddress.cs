@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using WodiLib.Map;
 using WodiLib.Sys;
 
 namespace WodiLib.Cmn
@@ -53,6 +54,9 @@ namespace WodiLib.Cmn
         /// <summary>変数インデックス</summary>
         public MapEventVariableIndex VariableIndex { get; }
 
+        /// <summary>マップイベントID</summary>
+        public MapEventId MapEventId { get; }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -65,6 +69,7 @@ namespace WodiLib.Cmn
         public MapEventVariableAddress(int value) : base(value)
         {
             VariableIndex = value.SubInt(0, 1);
+            MapEventId = value.SubInt(1, 4);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

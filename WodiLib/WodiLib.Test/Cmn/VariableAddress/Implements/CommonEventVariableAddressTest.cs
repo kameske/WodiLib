@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using WodiLib.Cmn;
+using WodiLib.Common;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
@@ -37,6 +38,15 @@ namespace WodiLib.Test.Cmn
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+        }
+        [TestCase(15000020, 0)]
+        [TestCase(15004103, 41)]
+        [TestCase(15012899, 128)]
+        public static void GetCommonEventId(int variableAddress, int answer)
+        {
+            var test = (CommonEventVariableAddress) variableAddress;
+            var commonEventId = (CommonEventId) answer;
+            Assert.AreEqual(test.CommonEventId, commonEventId);
         }
 
         [TestCase(15000000)]

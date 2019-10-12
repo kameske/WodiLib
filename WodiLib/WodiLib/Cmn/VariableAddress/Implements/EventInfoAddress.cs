@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using WodiLib.Map;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -61,6 +62,9 @@ namespace WodiLib.Cmn
         /// <summary>取得情報</summary>
         public InfoAddressInfoType InfoType { get; }
 
+        /// <summary>マップイベントID</summary>
+        public MapEventId MapEventId { get; }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -73,6 +77,7 @@ namespace WodiLib.Cmn
         public EventInfoAddress(int value) : base(value)
         {
             InfoType = InfoAddressInfoType.FromCode(Value.SubInt(0, 1));
+            MapEventId = Value.SubInt(1, 4);
 
             // 未対応チェック 未対応の場合警告ログ出力
             VersionCheck(value);

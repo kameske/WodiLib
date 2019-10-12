@@ -7,6 +7,8 @@
 // ========================================
 
 using System;
+using WodiLib.Database;
+using WodiLib.Sys;
 
 namespace WodiLib.Cmn
 {
@@ -46,6 +48,19 @@ namespace WodiLib.Cmn
         protected override int _MaxValue => MaxValue;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>タイプID</summary>
+        public TypeId TypeId { get; }
+
+        /// <summary>データID</summary>
+        public DataId DataId { get; }
+
+        /// <summary>項目ID</summary>
+        public ItemId ItemId { get; }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -56,6 +71,9 @@ namespace WodiLib.Cmn
         /// <exception cref="ArgumentOutOfRangeException">valueがユーザDBアドレス値として不適切な場合</exception>
         public UserDatabaseAddress(int value) : base(value)
         {
+            TypeId = value.SubInt(6, 2);
+            DataId = value.SubInt(2, 4);
+            ItemId = value.SubInt(0, 2);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
