@@ -66,12 +66,15 @@ namespace WodiLib.Test.Cmn
             Assert.AreEqual(strValue, value);
         }
 
+        [TestCase(null)]
         [TestCase("")]
         [TestCase("abc")]
         [TestCase("あいうえお")]
         public static void CastToStringTest(string value)
         {
-            var instance = new FilePath(value);
+            var instance = value != null
+                ? new FilePath(value)
+                : null;
 
             var errorOccured = false;
             try
