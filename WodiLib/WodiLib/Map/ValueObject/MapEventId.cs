@@ -13,7 +13,7 @@ using WodiLib.Sys;
 namespace WodiLib.Map
 {
     /// <summary>
-    /// [Range(-7, 99)] マップイベントID
+    /// [Range(-7, 9999)] マップイベントID
     /// </summary>
     public struct MapEventId : IConvertibleInt, IEquatable<MapEventId>, IComparable<MapEventId>
     {
@@ -22,7 +22,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>最大値</summary>
-        public static readonly int MaxValue = 99;
+        public static readonly int MaxValue = 9999;
 
         /// <summary>最小値</summary>
         public static readonly int MinValue = -7;
@@ -62,7 +62,7 @@ namespace WodiLib.Map
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="number">[Range(-7, 99)] マップイベントID</param>
+        /// <param name="number">[Range(-7, 9999)] マップイベントID</param>
         /// <exception cref="ArgumentOutOfRangeException">numberがマップイベントIDとして不適切な場合</exception>
         public MapEventId(int number)
         {
