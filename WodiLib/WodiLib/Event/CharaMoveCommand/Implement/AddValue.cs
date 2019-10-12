@@ -31,8 +31,6 @@ namespace WodiLib.Event.CharaMoveCommand
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private VariableAddress targetAddress = (NormalNumberVariableAddress) NormalNumberVariableAddress.MinValue;
-
         /// <summary>
         ///     [Convertible(<see cref="NormalNumberVariableAddress"/>)]
         ///     [Convertible(<see cref="CalledEventVariableAddress"/>)]
@@ -43,11 +41,13 @@ namespace WodiLib.Event.CharaMoveCommand
         {
             get
             {
-                if (targetAddress is NormalNumberVariableAddress) return targetAddress;
+                var targetAddress = GetNumberValue(0).ToInt();
+                if (NormalNumberVariableAddress.MinValue <= targetAddress &&
+                    targetAddress <= NormalNumberVariableAddress.MaxValue) return targetAddress;
 
                 if (Owner == null) return targetAddress;
 
-                return Owner.ConvertVariableAddress((int) targetAddress);
+                return Owner.ConvertVariableAddress(targetAddress);
             }
             set
             {
@@ -74,7 +74,6 @@ namespace WodiLib.Event.CharaMoveCommand
                         ErrorMessage.Unsuitable(nameof(TargetAddress), $"値：{value}"));
                 }
 
-                targetAddress = value;
                 SetNumberValue(0, value.ToInt());
             }
         }
@@ -105,7 +104,7 @@ namespace WodiLib.Event.CharaMoveCommand
         public AddValue()
         {
             // 引数0の初期値設定
-            SetNumberValue(0, targetAddress.ToInt());
+            SetNumberValue(0, NormalNumberVariableAddress.MinValue);
         }
     }
 }
