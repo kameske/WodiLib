@@ -90,7 +90,5 @@ namespace WodiLib.Ini
         /// </summary>
         [IniTarget(nameof(WoditorVersion.Ver2_22))]
         public string Old_DirectX_Use { get; set; }
-
-
     }
 }

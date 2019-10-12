@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using WodiLib.Cmn;
+using WodiLib.Database;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
@@ -39,6 +40,39 @@ namespace WodiLib.Test.Cmn
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+        }
+
+        [TestCase(1300000000, 0)]
+        [TestCase(1335002410, 35)]
+        [TestCase(1399999999, 99)]
+        public static void TypeIdTest(int variableAddress, int answer)
+        {
+            var varAddress = (SystemDatabaseAddress) variableAddress;
+            var answerTypeId = (TypeId) answer;
+
+            Assert.AreEqual(varAddress.TypeId, answerTypeId);
+        }
+
+        [TestCase(1300000000, 0)]
+        [TestCase(1335002410, 24)]
+        [TestCase(1399999999, 9999)]
+        public static void DataIdTest(int variableAddress, int answer)
+        {
+            var varAddress = (SystemDatabaseAddress) variableAddress;
+            var answerDataId = (DataId) answer;
+
+            Assert.AreEqual(varAddress.DataId, answerDataId);
+        }
+
+        [TestCase(1300000000, 0)]
+        [TestCase(1335002410, 10)]
+        [TestCase(1399999999, 99)]
+        public static void ItemIdTest(int variableAddress, int answer)
+        {
+            var varAddress = (SystemDatabaseAddress) variableAddress;
+            var answerItemId = (ItemId) answer;
+
+            Assert.AreEqual(varAddress.ItemId, answerItemId);
         }
 
         [TestCase(1300000000)]

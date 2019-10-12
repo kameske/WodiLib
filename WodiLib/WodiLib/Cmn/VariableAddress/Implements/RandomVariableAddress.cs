@@ -12,7 +12,7 @@ using WodiLib.Sys;
 namespace WodiLib.Cmn
 {
     /// <summary>
-    /// [Range(8999999, 8000000)] ランダム変数アドレス値
+    /// [Range(8000000, 8999999)] ランダム変数アドレス値
     /// </summary>
     public class RandomVariableAddress : VariableAddress, IEquatable<RandomVariableAddress>
     {
@@ -60,7 +60,7 @@ namespace WodiLib.Cmn
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[Range(8999999, 8000000)] 変数アドレス値</param>
+        /// <param name="value">[Range(8000000, 8999999)] 変数アドレス値</param>
         /// <exception cref="ArgumentOutOfRangeException">valueがランダム変数アドレス値として不適切な場合</exception>
         public RandomVariableAddress(int value) : base(value)
         {

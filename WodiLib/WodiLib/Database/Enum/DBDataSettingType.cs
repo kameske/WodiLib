@@ -76,17 +76,11 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentException">不適切な値の場合</exception>
         public static DBDataSettingType FromValue(int value)
         {
-            try
-            {
-                return _FindFirst(x => x.Code == value);
-            }
-            catch
-            {
-                var exception = new ArgumentException($"{nameof(DBDataSettingType)}の取得に失敗しました。条件値：{value}");
+            var exception = new ArgumentException($"{nameof(DBDataSettingType)}の取得に失敗しました。条件値：{value}");
 
+            if ($"{value}".Length == 5)
+            {
                 // 値が5桁の場合は DesignatedType の可能性がある
-                if ($"{value}".Length != 5) throw exception;
-
                 try
                 {
                     var _ = DBKind.FromDBDataSettingTypeCode(value.SubInt(4, 1));
@@ -98,6 +92,15 @@ namespace WodiLib.Database
                     // DB種別が取得できない場合は適切な値ではない
                     throw exception;
                 }
+            }
+
+            try
+            {
+                return _FindFirst(x => x.Code == value);
+            }
+            catch
+            {
+                throw exception;
             }
         }
     }

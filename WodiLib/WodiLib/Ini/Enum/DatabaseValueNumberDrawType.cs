@@ -50,8 +50,9 @@ namespace WodiLib.Ini
         /// <exception cref="ArgumentException">存在しない値の場合</exception>
         public static DatabaseValueNumberDrawType FromCode(string code)
         {
-            if(code == null) throw new ArgumentNullException(
-                ErrorMessage.NotNull(nameof(code)));
+            if (code == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(code)));
 
             try
             {

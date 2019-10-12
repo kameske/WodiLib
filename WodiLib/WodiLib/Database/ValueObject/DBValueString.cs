@@ -50,7 +50,7 @@ namespace WodiLib.Database
         /// string に変換する。
         /// </summary>
         /// <returns>string値</returns>
-        public override string ToString() => this;
+        public override string ToString() => Value;
 
         /// <inheritdoc />
         public override bool Equals(object obj)

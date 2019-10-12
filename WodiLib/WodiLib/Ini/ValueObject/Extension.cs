@@ -38,7 +38,7 @@ namespace WodiLib.Ini
             if (value == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(value)));
-            if(value.HasNewLine())
+            if (value.HasNewLine())
                 throw new ArgumentNewLineException(
                     ErrorMessage.NotNewLine(nameof(value), value));
 

@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using WodiLib.Common;
 using WodiLib.Sys;
 
 namespace WodiLib.Cmn
@@ -60,6 +61,9 @@ namespace WodiLib.Cmn
         /// </summary>
         public bool IsStringVariable => Index.IsStringIndex;
 
+        /// <summary>コモンイベントID</summary>
+        public CommonEventId CommonEventId { get; }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -72,6 +76,7 @@ namespace WodiLib.Cmn
         public CommonEventVariableAddress(int value) : base(value)
         {
             Index = value.SubInt(0, 2);
+            CommonEventId = value.SubInt(2, 3);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

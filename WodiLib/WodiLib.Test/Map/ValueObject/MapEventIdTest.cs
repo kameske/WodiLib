@@ -20,8 +20,8 @@ namespace WodiLib.Test.Map
 
         [TestCase(-8, true)]
         [TestCase(-7, false)]
-        [TestCase(99, false)]
-        [TestCase(100, true)]
+        [TestCase(9999, false)]
+        [TestCase(10000, true)]
         public static void ConstructorTest(int value, bool isError)
         {
             var errorOccured = false;
@@ -92,8 +92,8 @@ namespace WodiLib.Test.Map
 
         [TestCase(-8, true)]
         [TestCase(-7, false)]
-        [TestCase(99, false)]
-        [TestCase(100, true)]
+        [TestCase(9999, false)]
+        [TestCase(10000, true)]
         public static void CastFromIntTest(int value, bool isError)
         {
             var errorOccured = false;

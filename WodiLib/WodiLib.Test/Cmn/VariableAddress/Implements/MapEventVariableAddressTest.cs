@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using WodiLib.Cmn;
+using WodiLib.Map;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
@@ -37,6 +38,16 @@ namespace WodiLib.Test.Cmn
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+        }
+        [TestCase(1000005, 0)]
+        [TestCase(1099997, 9999)]
+        public static void MapEventId(int variableAddress, int answer)
+        {
+            var varAddress = new MapEventVariableAddress(variableAddress);
+            var result = varAddress.MapEventId;
+
+            // 取得した値が結果と一致すること
+            Assert.AreEqual(result, (MapEventId) answer);
         }
 
         [TestCase(1000000)]

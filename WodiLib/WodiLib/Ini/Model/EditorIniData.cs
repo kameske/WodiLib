@@ -38,8 +38,9 @@ namespace WodiLib.Ini
             get => lastLoadFile;
             set
             {
-                if(value == null) throw new PropertyNullException(
-                    ErrorMessage.NotNull(nameof(LastLoadFile)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(LastLoadFile)));
 
                 lastLoadFile = value;
             }
@@ -58,12 +59,12 @@ namespace WodiLib.Ini
         /// <summary>
         /// マップチップウィンドウ左上座標
         /// </summary>
-        public WindowPosition MapChipWindowPosition{ get; set; } = new WindowPosition(0, 0);
+        public WindowPosition MapChipWindowPosition { get; set; } = new WindowPosition(0, 0);
 
         /// <summary>
         /// マップイベントウィンドウ左上座標
         /// </summary>
-        public WindowPosition MapEventWindowPosition{ get; set; } = new WindowPosition(0, 0);
+        public WindowPosition MapEventWindowPosition { get; set; } = new WindowPosition(0, 0);
 
         /// <summary>
         /// 【Ver2.10以降】マップイベントウィンドウサイズ
@@ -73,12 +74,12 @@ namespace WodiLib.Ini
         /// <summary>
         /// マップイベントコマンド入力ウィンドウ左上座標
         /// </summary>
-        public WindowPosition MapEventInputWindowPosition{ get; set; } = new WindowPosition(0, 0);
+        public WindowPosition MapEventInputWindowPosition { get; set; } = new WindowPosition(0, 0);
 
         /// <summary>
         /// コモンイベントウィンドウ左上座標
         /// </summary>
-        public WindowPosition CommonEventWindowPosition{ get; set; } = new WindowPosition(0, 0);
+        public WindowPosition CommonEventWindowPosition { get; set; } = new WindowPosition(0, 0);
 
         /// <summary>
         /// 【Ver2.10以降】コモンイベントウィンドウサイズ
@@ -88,22 +89,22 @@ namespace WodiLib.Ini
         /// <summary>
         /// コモンイベントコマンド入力ウィンドウ左上座標
         /// </summary>
-        public WindowPosition CommonEventInputWindowPosition{ get; set; } = new WindowPosition(0, 0);
+        public WindowPosition CommonEventInputWindowPosition { get; set; } = new WindowPosition(0, 0);
 
         /// <summary>
         /// ユーザDBウィンドウ左上座標
         /// </summary>
-        public WindowPosition UserDbWindowPosition{ get; set; } = new WindowPosition(3, 6);
+        public WindowPosition UserDbWindowPosition { get; set; } = new WindowPosition(3, 6);
 
         /// <summary>
         /// 可変DBウィンドウ左上座標
         /// </summary>
-        public WindowPosition ChangeableDbWindowPosition{ get; set; } = new WindowPosition(3, 6);
+        public WindowPosition ChangeableDbWindowPosition { get; set; } = new WindowPosition(3, 6);
 
         /// <summary>
         /// システムDBウィンドウ左上座標
         /// </summary>
-        public WindowPosition SystemDbWindowPosition{ get; set; } = new WindowPosition(3, 6);
+        public WindowPosition SystemDbWindowPosition { get; set; } = new WindowPosition(3, 6);
 
         private DatabaseValueNumberDrawType databaseValueNumberDrawType = DatabaseValueNumberDrawType.Off;
 
@@ -116,8 +117,9 @@ namespace WodiLib.Ini
             get => databaseValueNumberDrawType;
             set
             {
-                if(value == null) throw new PropertyNullException(
-                    ErrorMessage.NotNull(nameof(DatabaseValueNumberDrawType)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(DatabaseValueNumberDrawType)));
 
                 databaseValueNumberDrawType = value;
             }
@@ -134,8 +136,9 @@ namespace WodiLib.Ini
             get => editTimeDrawType;
             set
             {
-                if(value == null) throw new PropertyNullException(
-                    ErrorMessage.NotNull(nameof(EditTimeDrawType)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(EditTimeDrawType)));
 
                 editTimeDrawType = value;
             }
@@ -167,8 +170,9 @@ namespace WodiLib.Ini
             get => layerTransparent;
             set
             {
-                if(value == null) throw new PropertyNullException(
-                    ErrorMessage.NotNull(nameof(LayerTransparent)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(LayerTransparent)));
 
                 layerTransparent = value;
             }
@@ -185,8 +189,9 @@ namespace WodiLib.Ini
             get => eventLayerOpacity;
             set
             {
-                if(value == null) throw new PropertyNullException(
-                    ErrorMessage.NotNull(nameof(EventLayerOpacity)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(EventLayerOpacity)));
 
                 eventLayerOpacity = value;
             }
@@ -203,8 +208,9 @@ namespace WodiLib.Ini
             get => commandColorType;
             set
             {
-                if(value == null) throw new PropertyNullException(
-                    ErrorMessage.NotNull(nameof(CommandColorType)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(CommandColorType)));
 
                 commandColorType = value;
             }
@@ -230,8 +236,9 @@ namespace WodiLib.Ini
             get => notCopyExtList;
             set
             {
-                if(value == null) throw new PropertyNullException(
-                    ErrorMessage.NotNull(nameof(NotCopyExtList)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(NotCopyExtList)));
 
                 notCopyExtList = value;
             }
@@ -254,8 +261,9 @@ namespace WodiLib.Ini
             get => backupType;
             set
             {
-                if(value == null) throw new PropertyNullException(
-                    ErrorMessage.NotNull(nameof(BackupType)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(BackupType)));
 
                 backupType = value;
             }
@@ -272,8 +280,9 @@ namespace WodiLib.Ini
             get => shortCutKeyList;
             set
             {
-                if(value == null) throw new PropertyNullException(
-                    ErrorMessage.NotNull(nameof(ShortCutKeyList)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(ShortCutKeyList)));
 
                 shortCutKeyList = value;
             }
@@ -290,8 +299,9 @@ namespace WodiLib.Ini
             get => commandPositionList;
             set
             {
-                if(value == null) throw new PropertyNullException(
-                    ErrorMessage.NotNull(nameof(CommandPositionList)));
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(CommandPositionList)));
 
                 commandPositionList = value;
             }
@@ -379,7 +389,7 @@ namespace WodiLib.Ini
             BackupType = ProjectBackupType.FromCodeOrDefault(programData.BackupNum);
             ShortCutKeyList = ((Func<EventCommandShortCutKeyList>) (() =>
             {
-                var result = new EventCommandShortCutKeyList(new []
+                var result = new EventCommandShortCutKeyList(new[]
                 {
                     EventCommandShortCutKey.FromCodeOrDefault(programData.ShortCut01),
                     EventCommandShortCutKey.FromCodeOrDefault(programData.ShortCut02),
