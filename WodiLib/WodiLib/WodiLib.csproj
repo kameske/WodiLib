@@ -6,7 +6,7 @@
     <Title>WodiLib</Title>
     <Authors>kameske</Authors>
     <Copyright>MIT License Copyright(c) 2019 kameske</Copyright>
-    <Version>0.5.2.6</Version>
+    <Version>0.5.3</Version>
     <PackageProjectUrl>https://github.com/kameske/WodiLib</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/kameske/WodiLib/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/kameske/WodiLib.git</RepositoryUrl>
