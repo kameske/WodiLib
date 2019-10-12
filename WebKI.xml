@@ -538,22 +538,20 @@
   <HelpKINode Title="ChangeableDatabaseAddress クラス、演算子と型変換" Url="html/Operators_T_WodiLib_Cmn_ChangeableDatabaseAddress.htm" />
   <HelpKINode Title="ChangeableDatabaseAddress.Addition 演算子" Url="html/M_WodiLib_Cmn_ChangeableDatabaseAddress_op_Addition.htm" />
   <HelpKINode Title="ChangeableDatabaseAddress.ChangeableDatabaseAddress コンストラクター" Url="html/M_WodiLib_Cmn_ChangeableDatabaseAddress__ctor.htm" />
+  <HelpKINode Title="ChangeableDatabaseAddress.DataId プロパティ" Url="html/P_WodiLib_Cmn_ChangeableDatabaseAddress_DataId.htm" />
   <HelpKINode Title="ChangeableDatabaseAddress.Equality 演算子" Url="html/Overload_WodiLib_Cmn_ChangeableDatabaseAddress_op_Equality.htm" />
   <HelpKINode Title="ChangeableDatabaseAddress.Equals メソッド" Url="html/Overload_WodiLib_Cmn_ChangeableDatabaseAddress_Equals.htm" />
   <HelpKINode Title="ChangeableDatabaseAddress.GetHashCode メソッド" Url="html/M_WodiLib_Cmn_ChangeableDatabaseAddress_GetHashCode.htm" />
   <HelpKINode Title="ChangeableDatabaseAddress.Inequality 演算子" Url="html/Overload_WodiLib_Cmn_ChangeableDatabaseAddress_op_Inequality.htm" />
+  <HelpKINode Title="ChangeableDatabaseAddress.ItemId プロパティ" Url="html/P_WodiLib_Cmn_ChangeableDatabaseAddress_ItemId.htm" />
   <HelpKINode Title="ChangeableDatabaseAddress.MaxValue プロパティ" Url="html/P_WodiLib_Cmn_ChangeableDatabaseAddress_MaxValue.htm" />
   <HelpKINode Title="ChangeableDatabaseAddress.MinValue プロパティ" Url="html/P_WodiLib_Cmn_ChangeableDatabaseAddress_MinValue.htm" />
   <HelpKINode Title="ChangeableDatabaseAddress.Subtraction 演算子" Url="html/Overload_WodiLib_Cmn_ChangeableDatabaseAddress_op_Subtraction.htm" />
+  <HelpKINode Title="ChangeableDatabaseAddress.TypeId プロパティ" Url="html/P_WodiLib_Cmn_ChangeableDatabaseAddress_TypeId.htm" />
   <HelpKINode Title="ChangeableDatabaseAddress._MaxValue プロパティ" Url="html/P_WodiLib_Cmn_ChangeableDatabaseAddress__MaxValue.htm" />
   <HelpKINode Title="ChangeableDatabaseAddress._MinValue プロパティ" Url="html/P_WodiLib_Cmn_ChangeableDatabaseAddress__MinValue.htm" />
   <HelpKINode Title="ChangeableDatabaseAddress._SafetyMaxValue プロパティ" Url="html/P_WodiLib_Cmn_ChangeableDatabaseAddress__SafetyMaxValue.htm" />
   <HelpKINode Title="ChangeableDatabaseAddress._SafetyMinValue プロパティ" Url="html/P_WodiLib_Cmn_ChangeableDatabaseAddress__SafetyMinValue.htm" />
-  <HelpKINode Title="ChangeableDatabaseAddressExtension クラス" Url="html/T_WodiLib_Database_ChangeableDatabaseAddressExtension.htm" />
-  <HelpKINode Title="ChangeableDatabaseAddressExtension クラス、メソッド" Url="html/Methods_T_WodiLib_Database_ChangeableDatabaseAddressExtension.htm" />
-  <HelpKINode Title="ChangeableDatabaseAddressExtension.GetDataId メソッド" Url="html/M_WodiLib_Database_ChangeableDatabaseAddressExtension_GetDataId.htm" />
-  <HelpKINode Title="ChangeableDatabaseAddressExtension.GetItemId メソッド" Url="html/M_WodiLib_Database_ChangeableDatabaseAddressExtension_GetItemId.htm" />
-  <HelpKINode Title="ChangeableDatabaseAddressExtension.GetTypeId メソッド" Url="html/M_WodiLib_Database_ChangeableDatabaseAddressExtension_GetTypeId.htm" />
   <HelpKINode Title="ChangeableDatabaseAddressMax フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_ChangeableDatabaseAddressMax.htm" />
   <HelpKINode Title="ChangeableDatabaseAddressMin フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_ChangeableDatabaseAddressMin.htm" />
   <HelpKINode Title="ChangeableDatabaseDatFilePath to String 変換" Url="html/M_WodiLib_IO_ChangeableDatabaseDatFilePath_op_Implicit_1.htm" />
@@ -1489,6 +1487,7 @@
   <HelpKINode Title="CommonEventFooterString.ToString メソッド" Url="html/M_WodiLib_Common_CommonEventFooterString_ToString.htm" />
   <HelpKINode Title="CommonEventFooterString.ToWoditorStringBytes メソッド" Url="html/M_WodiLib_Common_CommonEventFooterString_ToWoditorStringBytes.htm" />
   <HelpKINode Title="CommonEventId to Int32 変換" Url="html/M_WodiLib_Common_CommonEventId_op_Implicit_1.htm" />
+  <HelpKINode Title="CommonEventId プロパティ" Url="html/P_WodiLib_Cmn_CommonEventVariableAddress_CommonEventId.htm" />
   <HelpKINode Title="CommonEventId 構造体" Url="html/T_WodiLib_Common_CommonEventId.htm" />
   <HelpKINode Title="CommonEventId 構造体、コンストラクター" Url="html/M_WodiLib_Common_CommonEventId__ctor.htm" />
   <HelpKINode Title="CommonEventId 構造体、フィールド" Url="html/Fields_T_WodiLib_Common_CommonEventId.htm" />
@@ -1770,6 +1769,7 @@
   <HelpKINode Title="CommonEventVariableAddress クラス、メソッド" Url="html/Methods_T_WodiLib_Cmn_CommonEventVariableAddress.htm" />
   <HelpKINode Title="CommonEventVariableAddress クラス、演算子と型変換" Url="html/Operators_T_WodiLib_Cmn_CommonEventVariableAddress.htm" />
   <HelpKINode Title="CommonEventVariableAddress.Addition 演算子" Url="html/M_WodiLib_Cmn_CommonEventVariableAddress_op_Addition.htm" />
+  <HelpKINode Title="CommonEventVariableAddress.CommonEventId プロパティ" Url="html/P_WodiLib_Cmn_CommonEventVariableAddress_CommonEventId.htm" />
   <HelpKINode Title="CommonEventVariableAddress.CommonEventVariableAddress コンストラクター" Url="html/M_WodiLib_Cmn_CommonEventVariableAddress__ctor.htm" />
   <HelpKINode Title="CommonEventVariableAddress.Equality 演算子" Url="html/Overload_WodiLib_Cmn_CommonEventVariableAddress_op_Equality.htm" />
   <HelpKINode Title="CommonEventVariableAddress.Equals メソッド" Url="html/Overload_WodiLib_Cmn_CommonEventVariableAddress_Equals.htm" />
@@ -1784,10 +1784,6 @@
   <HelpKINode Title="CommonEventVariableAddress._MinValue プロパティ" Url="html/P_WodiLib_Cmn_CommonEventVariableAddress__MinValue.htm" />
   <HelpKINode Title="CommonEventVariableAddress._SafetyMaxValue プロパティ" Url="html/P_WodiLib_Cmn_CommonEventVariableAddress__SafetyMaxValue.htm" />
   <HelpKINode Title="CommonEventVariableAddress._SafetyMinValue プロパティ" Url="html/P_WodiLib_Cmn_CommonEventVariableAddress__SafetyMinValue.htm" />
-  <HelpKINode Title="CommonEventVariableAddressExtension クラス" Url="html/T_WodiLib_Common_CommonEventVariableAddressExtension.htm" />
-  <HelpKINode Title="CommonEventVariableAddressExtension クラス、メソッド" Url="html/Methods_T_WodiLib_Common_CommonEventVariableAddressExtension.htm" />
-  <HelpKINode Title="CommonEventVariableAddressExtension.GetCommonEventId メソッド" Url="html/M_WodiLib_Common_CommonEventVariableAddressExtension_GetCommonEventId.htm" />
-  <HelpKINode Title="CommonEventVariableAddressExtension.GetIndex メソッド" Url="html/M_WodiLib_Common_CommonEventVariableAddressExtension_GetIndex.htm" />
   <HelpKINode Title="CommonEventVariableAddressMax フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_CommonEventVariableAddressMax.htm" />
   <HelpKINode Title="CommonEventVariableAddressMin フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_CommonEventVariableAddressMin.htm" />
   <HelpKINode Title="CommonEventVariableIndex to Int32 変換" Url="html/M_WodiLib_Cmn_CommonEventVariableIndex_op_Implicit_1.htm" />
@@ -2362,6 +2358,11 @@
     <HelpKINode Title="EventCommandConstant.DBManagement.IdSet.GetDataLength.DataId フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IdSet_GetDataLength_DataId.htm" />
     <HelpKINode Title="EventCommandConstant.DBManagement.IdSet.GetItemX.DataId フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IdSet_GetItemX_DataId.htm" />
     <HelpKINode Title="EventCommandConstant.DBManagement.IdSet.GetTypeX.DataId フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IdSet_GetTypeX_DataId.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DataId プロパティ">
+    <HelpKINode Title="ChangeableDatabaseAddress.DataId プロパティ " Url="html/P_WodiLib_Cmn_ChangeableDatabaseAddress_DataId.htm" />
+    <HelpKINode Title="SystemDatabaseAddress.DataId プロパティ " Url="html/P_WodiLib_Cmn_SystemDatabaseAddress_DataId.htm" />
+    <HelpKINode Title="UserDatabaseAddress.DataId プロパティ " Url="html/P_WodiLib_Cmn_UserDatabaseAddress_DataId.htm" />
   </HelpKINode>
   <HelpKINode Title="DataId 構造体" Url="html/T_WodiLib_Database_DataId.htm" />
   <HelpKINode Title="DataId 構造体、コンストラクター" Url="html/M_WodiLib_Database_DataId__ctor.htm" />
@@ -4224,6 +4225,7 @@
   <HelpKINode Title="EventInfoAddress.GetHashCode メソッド" Url="html/M_WodiLib_Cmn_EventInfoAddress_GetHashCode.htm" />
   <HelpKINode Title="EventInfoAddress.Inequality 演算子" Url="html/Overload_WodiLib_Cmn_EventInfoAddress_op_Inequality.htm" />
   <HelpKINode Title="EventInfoAddress.InfoType プロパティ" Url="html/P_WodiLib_Cmn_EventInfoAddress_InfoType.htm" />
+  <HelpKINode Title="EventInfoAddress.MapEventId プロパティ" Url="html/P_WodiLib_Cmn_EventInfoAddress_MapEventId.htm" />
   <HelpKINode Title="EventInfoAddress.MaxValue プロパティ" Url="html/P_WodiLib_Cmn_EventInfoAddress_MaxValue.htm" />
   <HelpKINode Title="EventInfoAddress.MinValue プロパティ" Url="html/P_WodiLib_Cmn_EventInfoAddress_MinValue.htm" />
   <HelpKINode Title="EventInfoAddress.Subtraction 演算子" Url="html/Overload_WodiLib_Cmn_EventInfoAddress_op_Subtraction.htm" />
@@ -4256,9 +4258,9 @@
   <HelpKINode Title="EventPositionAddressMin フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_EventPositionAddressMin.htm" />
   <HelpKINode Title="ExecCode クラス、フィールド">
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PartyGraphic_ExecCode.htm" />
+    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PictureShow_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SetVariablePlus_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SaveLoad_ExecCode.htm" />
-    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PictureShow_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Sound_ExecCode.htm" />
   </HelpKINode>
   <HelpKINode Title="ExecCode プロパティ">
@@ -4710,13 +4712,7 @@
     <HelpKINode Title="CommonEventSpecialStringArgDesc.GetAllSpecialCaseNumber メソッド " Url="html/M_WodiLib_Common_CommonEventSpecialStringArgDesc_GetAllSpecialCaseNumber.htm" />
     <HelpKINode Title="DBItemSpecialSettingDesc.GetAllSpecialCaseNumber メソッド " Url="html/M_WodiLib_Database_DBItemSpecialSettingDesc_GetAllSpecialCaseNumber.htm" />
   </HelpKINode>
-  <HelpKINode Title="GetCommonEventId メソッド" Url="html/M_WodiLib_Common_CommonEventVariableAddressExtension_GetCommonEventId.htm" />
   <HelpKINode Title="GetConfigWoditorVersion メソッド" Url="html/M_WodiLib_Sys_Cmn_VersionConfig_GetConfigWoditorVersion.htm" />
-  <HelpKINode Title="GetDataId メソッド">
-    <HelpKINode Title="ChangeableDatabaseAddressExtension.GetDataId メソッド " Url="html/M_WodiLib_Database_ChangeableDatabaseAddressExtension_GetDataId.htm" />
-    <HelpKINode Title="SystemDatabaseAddressExtension.GetDataId メソッド " Url="html/M_WodiLib_Database_SystemDatabaseAddressExtension_GetDataId.htm" />
-    <HelpKINode Title="UserDatabaseAddressExtension.GetDataId メソッド " Url="html/M_WodiLib_Database_UserDatabaseAddressExtension_GetDataId.htm" />
-  </HelpKINode>
   <HelpKINode Title="GetDataLength クラス、フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IdSet_GetDataLength.htm" />
   <HelpKINode Title="GetDataX クラス、フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IdSet_GetDataX.htm" />
   <HelpKINode Title="GetEnumerator メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_GetEnumerator.htm" />
@@ -4841,16 +4837,7 @@
     <HelpKINode Title="WindowSize.GetHashCode メソッド " Url="html/M_WodiLib_Ini_WindowSize_GetHashCode.htm" />
     <HelpKINode Title="WorkTime.GetHashCode メソッド " Url="html/M_WodiLib_Ini_WorkTime_GetHashCode.htm" />
   </HelpKINode>
-  <HelpKINode Title="GetIndex メソッド">
-    <HelpKINode Title="CommonEventVariableAddressExtension.GetIndex メソッド " Url="html/M_WodiLib_Common_CommonEventVariableAddressExtension_GetIndex.htm" />
-    <HelpKINode Title="ThisCommonEventVariableAddressExtension.GetIndex メソッド " Url="html/M_WodiLib_Common_ThisCommonEventVariableAddressExtension_GetIndex.htm" />
-  </HelpKINode>
   <HelpKINode Title="GetInstance メソッド" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_GetInstance.htm" />
-  <HelpKINode Title="GetItemId メソッド">
-    <HelpKINode Title="ChangeableDatabaseAddressExtension.GetItemId メソッド " Url="html/M_WodiLib_Database_ChangeableDatabaseAddressExtension_GetItemId.htm" />
-    <HelpKINode Title="SystemDatabaseAddressExtension.GetItemId メソッド " Url="html/M_WodiLib_Database_SystemDatabaseAddressExtension_GetItemId.htm" />
-    <HelpKINode Title="UserDatabaseAddressExtension.GetItemId メソッド " Url="html/M_WodiLib_Database_UserDatabaseAddressExtension_GetItemId.htm" />
-  </HelpKINode>
   <HelpKINode Title="GetItemLength クラス、フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IdSet_GetItemLength.htm" />
   <HelpKINode Title="GetItemX クラス、フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IdSet_GetItemX.htm" />
   <HelpKINode Title="GetLayer メソッド" Url="html/M_WodiLib_Map_MapData_GetLayer.htm" />
@@ -5080,11 +5067,6 @@
     <HelpKINode Title="TransitionWithOption.GetStringVariable メソッド " Url="html/M_WodiLib_Event_EventCommand_TransitionWithOption_GetStringVariable.htm" />
     <HelpKINode Title="WaitEventCommand.GetStringVariable メソッド " Url="html/M_WodiLib_Event_EventCommand_WaitEventCommand_GetStringVariable.htm" />
     <HelpKINode Title="WaitForMovement.GetStringVariable メソッド " Url="html/M_WodiLib_Event_EventCommand_WaitForMovement_GetStringVariable.htm" />
-  </HelpKINode>
-  <HelpKINode Title="GetTypeId メソッド">
-    <HelpKINode Title="ChangeableDatabaseAddressExtension.GetTypeId メソッド " Url="html/M_WodiLib_Database_ChangeableDatabaseAddressExtension_GetTypeId.htm" />
-    <HelpKINode Title="SystemDatabaseAddressExtension.GetTypeId メソッド " Url="html/M_WodiLib_Database_SystemDatabaseAddressExtension_GetTypeId.htm" />
-    <HelpKINode Title="UserDatabaseAddressExtension.GetTypeId メソッド " Url="html/M_WodiLib_Database_UserDatabaseAddressExtension_GetTypeId.htm" />
   </HelpKINode>
   <HelpKINode Title="GetTypeX クラス、フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IdSet_GetTypeX.htm" />
   <HelpKINode Title="GoToTitleScreen クラス" Url="html/T_WodiLib_Event_EventCommand_GoToTitleScreen.htm" />
@@ -6048,6 +6030,11 @@
     <HelpKINode Title="EventCommandConstant.DBManagement.IdSet.GetItemLength.ItemId フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IdSet_GetItemLength_ItemId.htm" />
     <HelpKINode Title="EventCommandConstant.DBManagement.IdSet.GetTypeX.ItemId フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IdSet_GetTypeX_ItemId.htm" />
   </HelpKINode>
+  <HelpKINode Title="ItemId プロパティ">
+    <HelpKINode Title="ChangeableDatabaseAddress.ItemId プロパティ " Url="html/P_WodiLib_Cmn_ChangeableDatabaseAddress_ItemId.htm" />
+    <HelpKINode Title="SystemDatabaseAddress.ItemId プロパティ " Url="html/P_WodiLib_Cmn_SystemDatabaseAddress_ItemId.htm" />
+    <HelpKINode Title="UserDatabaseAddress.ItemId プロパティ " Url="html/P_WodiLib_Cmn_UserDatabaseAddress_ItemId.htm" />
+  </HelpKINode>
   <HelpKINode Title="ItemId 構造体" Url="html/T_WodiLib_Database_ItemId.htm" />
   <HelpKINode Title="ItemId 構造体、コンストラクター" Url="html/M_WodiLib_Database_ItemId__ctor.htm" />
   <HelpKINode Title="ItemId 構造体、フィールド" Url="html/Fields_T_WodiLib_Database_ItemId.htm" />
@@ -6886,7 +6873,11 @@
   <HelpKINode Title="MapEventBootType.Parallel フィールド" Url="html/F_WodiLib_Map_MapEventBootType_Parallel.htm" />
   <HelpKINode Title="MapEventBootType.PushOKKey フィールド" Url="html/F_WodiLib_Map_MapEventBootType_PushOKKey.htm" />
   <HelpKINode Title="MapEventId to Int32 変換" Url="html/M_WodiLib_Map_MapEventId_op_Implicit_1.htm" />
-  <HelpKINode Title="MapEventId プロパティ" Url="html/P_WodiLib_Map_MapEvent_MapEventId.htm" />
+  <HelpKINode Title="MapEventId プロパティ">
+    <HelpKINode Title="EventInfoAddress.MapEventId プロパティ " Url="html/P_WodiLib_Cmn_EventInfoAddress_MapEventId.htm" />
+    <HelpKINode Title="MapEvent.MapEventId プロパティ " Url="html/P_WodiLib_Map_MapEvent_MapEventId.htm" />
+    <HelpKINode Title="MapEventVariableAddress.MapEventId プロパティ " Url="html/P_WodiLib_Cmn_MapEventVariableAddress_MapEventId.htm" />
+  </HelpKINode>
   <HelpKINode Title="MapEventId 構造体" Url="html/T_WodiLib_Map_MapEventId.htm" />
   <HelpKINode Title="MapEventId 構造体、コンストラクター" Url="html/M_WodiLib_Map_MapEventId__ctor.htm" />
   <HelpKINode Title="MapEventId 構造体、フィールド" Url="html/Fields_T_WodiLib_Map_MapEventId.htm" />
@@ -7118,6 +7109,7 @@
   <HelpKINode Title="MapEventVariableAddress.Equals メソッド" Url="html/Overload_WodiLib_Cmn_MapEventVariableAddress_Equals.htm" />
   <HelpKINode Title="MapEventVariableAddress.GetHashCode メソッド" Url="html/M_WodiLib_Cmn_MapEventVariableAddress_GetHashCode.htm" />
   <HelpKINode Title="MapEventVariableAddress.Inequality 演算子" Url="html/Overload_WodiLib_Cmn_MapEventVariableAddress_op_Inequality.htm" />
+  <HelpKINode Title="MapEventVariableAddress.MapEventId プロパティ" Url="html/P_WodiLib_Cmn_MapEventVariableAddress_MapEventId.htm" />
   <HelpKINode Title="MapEventVariableAddress.MapEventVariableAddress コンストラクター" Url="html/M_WodiLib_Cmn_MapEventVariableAddress__ctor.htm" />
   <HelpKINode Title="MapEventVariableAddress.MaxValue プロパティ" Url="html/P_WodiLib_Cmn_MapEventVariableAddress_MaxValue.htm" />
   <HelpKINode Title="MapEventVariableAddress.MinValue プロパティ" Url="html/P_WodiLib_Cmn_MapEventVariableAddress_MinValue.htm" />
@@ -10644,25 +10636,23 @@
   <HelpKINode Title="SystemDatabaseAddress クラス、メソッド" Url="html/Methods_T_WodiLib_Cmn_SystemDatabaseAddress.htm" />
   <HelpKINode Title="SystemDatabaseAddress クラス、演算子と型変換" Url="html/Operators_T_WodiLib_Cmn_SystemDatabaseAddress.htm" />
   <HelpKINode Title="SystemDatabaseAddress.Addition 演算子" Url="html/M_WodiLib_Cmn_SystemDatabaseAddress_op_Addition.htm" />
+  <HelpKINode Title="SystemDatabaseAddress.DataId プロパティ" Url="html/P_WodiLib_Cmn_SystemDatabaseAddress_DataId.htm" />
   <HelpKINode Title="SystemDatabaseAddress.Equality 演算子" Url="html/Overload_WodiLib_Cmn_SystemDatabaseAddress_op_Equality.htm" />
   <HelpKINode Title="SystemDatabaseAddress.Equals メソッド" Url="html/Overload_WodiLib_Cmn_SystemDatabaseAddress_Equals.htm" />
   <HelpKINode Title="SystemDatabaseAddress.GetHashCode メソッド" Url="html/M_WodiLib_Cmn_SystemDatabaseAddress_GetHashCode.htm" />
   <HelpKINode Title="SystemDatabaseAddress.Inequality 演算子" Url="html/Overload_WodiLib_Cmn_SystemDatabaseAddress_op_Inequality.htm" />
+  <HelpKINode Title="SystemDatabaseAddress.ItemId プロパティ" Url="html/P_WodiLib_Cmn_SystemDatabaseAddress_ItemId.htm" />
   <HelpKINode Title="SystemDatabaseAddress.MaxValue プロパティ" Url="html/P_WodiLib_Cmn_SystemDatabaseAddress_MaxValue.htm" />
   <HelpKINode Title="SystemDatabaseAddress.MinValue プロパティ" Url="html/P_WodiLib_Cmn_SystemDatabaseAddress_MinValue.htm" />
   <HelpKINode Title="SystemDatabaseAddress.SafetyMaxValue プロパティ" Url="html/P_WodiLib_Cmn_SystemDatabaseAddress_SafetyMaxValue.htm" />
   <HelpKINode Title="SystemDatabaseAddress.SafetyMinValue プロパティ" Url="html/P_WodiLib_Cmn_SystemDatabaseAddress_SafetyMinValue.htm" />
   <HelpKINode Title="SystemDatabaseAddress.Subtraction 演算子" Url="html/Overload_WodiLib_Cmn_SystemDatabaseAddress_op_Subtraction.htm" />
   <HelpKINode Title="SystemDatabaseAddress.SystemDatabaseAddress コンストラクター" Url="html/M_WodiLib_Cmn_SystemDatabaseAddress__ctor.htm" />
+  <HelpKINode Title="SystemDatabaseAddress.TypeId プロパティ" Url="html/P_WodiLib_Cmn_SystemDatabaseAddress_TypeId.htm" />
   <HelpKINode Title="SystemDatabaseAddress._MaxValue プロパティ" Url="html/P_WodiLib_Cmn_SystemDatabaseAddress__MaxValue.htm" />
   <HelpKINode Title="SystemDatabaseAddress._MinValue プロパティ" Url="html/P_WodiLib_Cmn_SystemDatabaseAddress__MinValue.htm" />
   <HelpKINode Title="SystemDatabaseAddress._SafetyMaxValue プロパティ" Url="html/P_WodiLib_Cmn_SystemDatabaseAddress__SafetyMaxValue.htm" />
   <HelpKINode Title="SystemDatabaseAddress._SafetyMinValue プロパティ" Url="html/P_WodiLib_Cmn_SystemDatabaseAddress__SafetyMinValue.htm" />
-  <HelpKINode Title="SystemDatabaseAddressExtension クラス" Url="html/T_WodiLib_Database_SystemDatabaseAddressExtension.htm" />
-  <HelpKINode Title="SystemDatabaseAddressExtension クラス、メソッド" Url="html/Methods_T_WodiLib_Database_SystemDatabaseAddressExtension.htm" />
-  <HelpKINode Title="SystemDatabaseAddressExtension.GetDataId メソッド" Url="html/M_WodiLib_Database_SystemDatabaseAddressExtension_GetDataId.htm" />
-  <HelpKINode Title="SystemDatabaseAddressExtension.GetItemId メソッド" Url="html/M_WodiLib_Database_SystemDatabaseAddressExtension_GetItemId.htm" />
-  <HelpKINode Title="SystemDatabaseAddressExtension.GetTypeId メソッド" Url="html/M_WodiLib_Database_SystemDatabaseAddressExtension_GetTypeId.htm" />
   <HelpKINode Title="SystemDatabaseAddressMax フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_SystemDatabaseAddressMax.htm" />
   <HelpKINode Title="SystemDatabaseAddressMin フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_SystemDatabaseAddressMin.htm" />
   <HelpKINode Title="SystemDatabaseDatFilePath to String 変換" Url="html/M_WodiLib_IO_SystemDatabaseDatFilePath_op_Implicit_1.htm" />
@@ -10792,8 +10782,8 @@
   </HelpKINode>
   <HelpKINode Title="TargetCharacterId プロパティ" Url="html/P_WodiLib_Event_EventCommand_CharacterEffect_TargetCharacterId.htm" />
   <HelpKINode Title="TargetCode クラス、フィールド">
-    <HelpKINode Title="TargetCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Effect_TargetCode.htm" />
     <HelpKINode Title="TargetCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInputControl_TargetCode.htm" />
+    <HelpKINode Title="TargetCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Effect_TargetCode.htm" />
   </HelpKINode>
   <HelpKINode Title="TargetCode プロパティ">
     <HelpKINode Title="DBKind.TargetCode プロパティ " Url="html/P_WodiLib_Database_DBKind_TargetCode.htm" />
@@ -10849,9 +10839,6 @@
   <HelpKINode Title="ThisCommonEventVariableAddress._MinValue プロパティ" Url="html/P_WodiLib_Cmn_ThisCommonEventVariableAddress__MinValue.htm" />
   <HelpKINode Title="ThisCommonEventVariableAddress._SafetyMaxValue プロパティ" Url="html/P_WodiLib_Cmn_ThisCommonEventVariableAddress__SafetyMaxValue.htm" />
   <HelpKINode Title="ThisCommonEventVariableAddress._SafetyMinValue プロパティ" Url="html/P_WodiLib_Cmn_ThisCommonEventVariableAddress__SafetyMinValue.htm" />
-  <HelpKINode Title="ThisCommonEventVariableAddressExtension クラス" Url="html/T_WodiLib_Common_ThisCommonEventVariableAddressExtension.htm" />
-  <HelpKINode Title="ThisCommonEventVariableAddressExtension クラス、メソッド" Url="html/Methods_T_WodiLib_Common_ThisCommonEventVariableAddressExtension.htm" />
-  <HelpKINode Title="ThisCommonEventVariableAddressExtension.GetIndex メソッド" Url="html/M_WodiLib_Common_ThisCommonEventVariableAddressExtension_GetIndex.htm" />
   <HelpKINode Title="ThisCommonEventVariableAddressMax フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_ThisCommonEventVariableAddressMax.htm" />
   <HelpKINode Title="ThisCommonEventVariableAddressMin フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_ThisCommonEventVariableAddressMin.htm" />
   <HelpKINode Title="ThisEventId フィールド">
@@ -11611,8 +11598,8 @@
   <HelpKINode Title="TurnTail.ValueLengthByte プロパティ" Url="html/P_WodiLib_Event_CharaMoveCommand_TurnTail_ValueLengthByte.htm" />
   <HelpKINode Title="Two フィールド" Url="html/F_WodiLib_Ini_EventCommandShortCutKey_Two.htm" />
   <HelpKINode Title="Type クラス、フィールド">
-    <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_CheckPoint_Type.htm" />
     <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInput_Type.htm" />
+    <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_CheckPoint_Type.htm" />
     <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInputAuto_Type.htm" />
   </HelpKINode>
   <HelpKINode Title="Type プロパティ" Url="html/P_WodiLib_Database_DBItemValue_Type.htm" />
@@ -11621,9 +11608,12 @@
   <HelpKINode Title="TypeDescList プロパティ" Url="html/P_WodiLib_Database_DatabaseMergedData_TypeDescList.htm" />
   <HelpKINode Title="TypeId to Int32 変換" Url="html/M_WodiLib_Database_TypeId_op_Implicit_1.htm" />
   <HelpKINode Title="TypeId プロパティ">
+    <HelpKINode Title="ChangeableDatabaseAddress.TypeId プロパティ " Url="html/P_WodiLib_Cmn_ChangeableDatabaseAddress_TypeId.htm" />
     <HelpKINode Title="DatabaseTypeDesc.TypeId プロパティ " Url="html/P_WodiLib_Database_DatabaseTypeDesc_TypeId.htm" />
     <HelpKINode Title="DBDataSetting.TypeId プロパティ " Url="html/P_WodiLib_Database_DBDataSetting_TypeId.htm" />
     <HelpKINode Title="DBType.TypeId プロパティ " Url="html/P_WodiLib_Database_DBType_TypeId.htm" />
+    <HelpKINode Title="SystemDatabaseAddress.TypeId プロパティ " Url="html/P_WodiLib_Cmn_SystemDatabaseAddress_TypeId.htm" />
+    <HelpKINode Title="UserDatabaseAddress.TypeId プロパティ " Url="html/P_WodiLib_Cmn_UserDatabaseAddress_TypeId.htm" />
   </HelpKINode>
   <HelpKINode Title="TypeId 構造体" Url="html/T_WodiLib_Database_TypeId.htm" />
   <HelpKINode Title="TypeId 構造体、コンストラクター" Url="html/M_WodiLib_Database_TypeId__ctor.htm" />
@@ -11738,23 +11728,21 @@
   <HelpKINode Title="UserDatabaseAddress クラス、メソッド" Url="html/Methods_T_WodiLib_Cmn_UserDatabaseAddress.htm" />
   <HelpKINode Title="UserDatabaseAddress クラス、演算子と型変換" Url="html/Operators_T_WodiLib_Cmn_UserDatabaseAddress.htm" />
   <HelpKINode Title="UserDatabaseAddress.Addition 演算子" Url="html/M_WodiLib_Cmn_UserDatabaseAddress_op_Addition.htm" />
+  <HelpKINode Title="UserDatabaseAddress.DataId プロパティ" Url="html/P_WodiLib_Cmn_UserDatabaseAddress_DataId.htm" />
   <HelpKINode Title="UserDatabaseAddress.Equality 演算子" Url="html/Overload_WodiLib_Cmn_UserDatabaseAddress_op_Equality.htm" />
   <HelpKINode Title="UserDatabaseAddress.Equals メソッド" Url="html/Overload_WodiLib_Cmn_UserDatabaseAddress_Equals.htm" />
   <HelpKINode Title="UserDatabaseAddress.GetHashCode メソッド" Url="html/M_WodiLib_Cmn_UserDatabaseAddress_GetHashCode.htm" />
   <HelpKINode Title="UserDatabaseAddress.Inequality 演算子" Url="html/Overload_WodiLib_Cmn_UserDatabaseAddress_op_Inequality.htm" />
+  <HelpKINode Title="UserDatabaseAddress.ItemId プロパティ" Url="html/P_WodiLib_Cmn_UserDatabaseAddress_ItemId.htm" />
   <HelpKINode Title="UserDatabaseAddress.MaxValue プロパティ" Url="html/P_WodiLib_Cmn_UserDatabaseAddress_MaxValue.htm" />
   <HelpKINode Title="UserDatabaseAddress.MinValue プロパティ" Url="html/P_WodiLib_Cmn_UserDatabaseAddress_MinValue.htm" />
   <HelpKINode Title="UserDatabaseAddress.Subtraction 演算子" Url="html/Overload_WodiLib_Cmn_UserDatabaseAddress_op_Subtraction.htm" />
+  <HelpKINode Title="UserDatabaseAddress.TypeId プロパティ" Url="html/P_WodiLib_Cmn_UserDatabaseAddress_TypeId.htm" />
   <HelpKINode Title="UserDatabaseAddress.UserDatabaseAddress コンストラクター" Url="html/M_WodiLib_Cmn_UserDatabaseAddress__ctor.htm" />
   <HelpKINode Title="UserDatabaseAddress._MaxValue プロパティ" Url="html/P_WodiLib_Cmn_UserDatabaseAddress__MaxValue.htm" />
   <HelpKINode Title="UserDatabaseAddress._MinValue プロパティ" Url="html/P_WodiLib_Cmn_UserDatabaseAddress__MinValue.htm" />
   <HelpKINode Title="UserDatabaseAddress._SafetyMaxValue プロパティ" Url="html/P_WodiLib_Cmn_UserDatabaseAddress__SafetyMaxValue.htm" />
   <HelpKINode Title="UserDatabaseAddress._SafetyMinValue プロパティ" Url="html/P_WodiLib_Cmn_UserDatabaseAddress__SafetyMinValue.htm" />
-  <HelpKINode Title="UserDatabaseAddressExtension クラス" Url="html/T_WodiLib_Database_UserDatabaseAddressExtension.htm" />
-  <HelpKINode Title="UserDatabaseAddressExtension クラス、メソッド" Url="html/Methods_T_WodiLib_Database_UserDatabaseAddressExtension.htm" />
-  <HelpKINode Title="UserDatabaseAddressExtension.GetDataId メソッド" Url="html/M_WodiLib_Database_UserDatabaseAddressExtension_GetDataId.htm" />
-  <HelpKINode Title="UserDatabaseAddressExtension.GetItemId メソッド" Url="html/M_WodiLib_Database_UserDatabaseAddressExtension_GetItemId.htm" />
-  <HelpKINode Title="UserDatabaseAddressExtension.GetTypeId メソッド" Url="html/M_WodiLib_Database_UserDatabaseAddressExtension_GetTypeId.htm" />
   <HelpKINode Title="UserDatabaseAddressMax フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_UserDatabaseAddressMax.htm" />
   <HelpKINode Title="UserDatabaseAddressMin フィールド" Url="html/F_WodiLib_Event_VariableAddressConstant_UserDatabaseAddressMin.htm" />
   <HelpKINode Title="UserDatabaseDatFilePath to String 変換" Url="html/M_WodiLib_IO_UserDatabaseDatFilePath_op_Implicit_1.htm" />
@@ -12232,11 +12220,8 @@
   <HelpKINode Title="WodiLib.Common.CommonEventSpecialNumberArgDesc クラス" Url="html/T_WodiLib_Common_CommonEventSpecialNumberArgDesc.htm" />
   <HelpKINode Title="WodiLib.Common.CommonEventSpecialStringArgDesc クラス" Url="html/T_WodiLib_Common_CommonEventSpecialStringArgDesc.htm" />
   <HelpKINode Title="WodiLib.Common.CommonEventStringArgIndex 構造体" Url="html/T_WodiLib_Common_CommonEventStringArgIndex.htm" />
-  <HelpKINode Title="WodiLib.Common.CommonEventVariableAddressExtension クラス" Url="html/T_WodiLib_Common_CommonEventVariableAddressExtension.htm" />
   <HelpKINode Title="WodiLib.Common.CommonFileData クラス" Url="html/T_WodiLib_Common_CommonFileData.htm" />
-  <HelpKINode Title="WodiLib.Common.ThisCommonEventVariableAddressExtension クラス" Url="html/T_WodiLib_Common_ThisCommonEventVariableAddressExtension.htm" />
   <HelpKINode Title="WodiLib.Database 名前空間" Url="html/N_WodiLib_Database.htm" />
-  <HelpKINode Title="WodiLib.Database.ChangeableDatabaseAddressExtension クラス" Url="html/T_WodiLib_Database_ChangeableDatabaseAddressExtension.htm" />
   <HelpKINode Title="WodiLib.Database.DatabaseDat クラス" Url="html/T_WodiLib_Database_DatabaseDat.htm" />
   <HelpKINode Title="WodiLib.Database.DatabaseDataDesc クラス" Url="html/T_WodiLib_Database_DatabaseDataDesc.htm" />
   <HelpKINode Title="WodiLib.Database.DatabaseDataDescList クラス" Url="html/T_WodiLib_Database_DatabaseDataDescList.htm" />
@@ -12287,10 +12272,8 @@
   <HelpKINode Title="WodiLib.Database.ItemMemo クラス" Url="html/T_WodiLib_Database_ItemMemo.htm" />
   <HelpKINode Title="WodiLib.Database.ItemName クラス" Url="html/T_WodiLib_Database_ItemName.htm" />
   <HelpKINode Title="WodiLib.Database.ReadOnlyDBItemValuesList クラス" Url="html/T_WodiLib_Database_ReadOnlyDBItemValuesList.htm" />
-  <HelpKINode Title="WodiLib.Database.SystemDatabaseAddressExtension クラス" Url="html/T_WodiLib_Database_SystemDatabaseAddressExtension.htm" />
   <HelpKINode Title="WodiLib.Database.TypeId 構造体" Url="html/T_WodiLib_Database_TypeId.htm" />
   <HelpKINode Title="WodiLib.Database.TypeName クラス" Url="html/T_WodiLib_Database_TypeName.htm" />
-  <HelpKINode Title="WodiLib.Database.UserDatabaseAddressExtension クラス" Url="html/T_WodiLib_Database_UserDatabaseAddressExtension.htm" />
   <HelpKINode Title="WodiLib.Event 名前空間" Url="html/N_WodiLib_Event.htm" />
   <HelpKINode Title="WodiLib.Event.ActionEntry クラス" Url="html/T_WodiLib_Event_ActionEntry.htm" />
   <HelpKINode Title="WodiLib.Event.AnimateSpeed クラス" Url="html/T_WodiLib_Event_AnimateSpeed.htm" />
