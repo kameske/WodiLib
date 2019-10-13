@@ -29,6 +29,10 @@ namespace WodiLib.Event.EventCommand
                 ? 0x02
                 : 0x01);
 
+        /// <inheritdoc />
+        /// <summary>文字列変数最小個数</summary>
+        public override byte StringVariableCountMin => 0x01;
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

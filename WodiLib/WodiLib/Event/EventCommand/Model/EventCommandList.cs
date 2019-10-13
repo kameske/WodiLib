@@ -107,21 +107,6 @@ namespace WodiLib.Event.EventCommand
             return true;
         }
 
-        /// <summary>
-        /// コマンド末尾の適正チェック
-        /// </summary>
-        /// <param name="commands">コマンドリスト</param>
-        /// <returns>コマンド末尾が「空白行（Blankクラス）」ではない場合、false</returns>
-        private static bool CheckLastCommand(IEnumerable<IEventCommand> commands)
-        {
-            var lastCommand = commands.LastOrDefault();
-            if (!(lastCommand is Blank castedCommand)) return false;
-
-            if (castedCommand.Indent != 0) return false;
-
-            return true;
-        }
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -143,6 +128,25 @@ namespace WodiLib.Event.EventCommand
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override IEventCommand MakeDefaultItem(int index) => new Blank();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コマンド末尾の適正チェック
+        /// </summary>
+        /// <param name="commands">コマンドリスト</param>
+        /// <returns>コマンド末尾が「空白行（Blankクラス）」ではない場合、false</returns>
+        private static bool CheckLastCommand(IEnumerable<IEventCommand> commands)
+        {
+            var lastCommand = commands.LastOrDefault();
+            if (!(lastCommand is Blank castedCommand)) return false;
+
+            if (castedCommand.Indent != 0) return false;
+
+            return true;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common

@@ -6,8 +6,10 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -20,6 +22,35 @@ namespace WodiLib.Event.EventCommand
     public abstract class EventCommandBase : IEventCommand
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>数値引数最大数</summary>
+        public static int NumberArgsLengthMax => 126;
+
+        /// <summary>数値引数最小数</summary>
+        public static int NumberArgsLengthMin => 0;
+
+        /// <summary>文字列引数最大数</summary>
+        public static int StringArgsLengthMax => 127;
+
+        /// <summary>文字列引数最小数</summary>
+        public static int StringArgsLengthMin => 0;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>動作指定なしフラグ値</summary>
+        private const byte FlgNotHasActionEntry = 0x00;
+
+        /// <summary>動作指定ありフラグ値</summary>
+        private const byte FlgHasActionEntry = 0x01;
+
+        /// <summary>コマンドコードフォーマット</summary>
+        protected string CommandCodeFormat = "[{0}][{1},{2}]<{3}>({4})({5}){6}";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -28,20 +59,84 @@ namespace WodiLib.Event.EventCommand
         public abstract byte NumberVariableCount { get; }
 
         /// <inheritdoc />
+        /// <summary>数値変数最小個数</summary>
+        public virtual byte NumberVariableCountMin => NumberVariableCount;
+
+        /// <inheritdoc />
         /// <summary>イベントコマンドコード</summary>
         public abstract EventCommandCode EventCommandCode { get; }
 
+        /// <summary>実際のイベントコマンドコード</summary>
+        /// <remarks>
+        /// コマンドコード種別が「未定義」の場合、実際に指定された値が格納される。
+        /// </remarks>
+        public virtual int RawEventCommandCode => EventCommandCode.Code;
+
         /// <inheritdoc />
         /// <summary>インデントの深さ</summary>
-        public byte Indent { get; set; }
+        public Indent Indent { get; set; }
 
         /// <inheritdoc />
         /// <summary>文字列変数個数</summary>
         public abstract byte StringVariableCount { get; }
 
         /// <inheritdoc />
+        /// <summary>文字列変数最小個数</summary>
+        public virtual byte StringVariableCountMin => StringVariableCount;
+
+        /// <inheritdoc />
         /// <summary>動作指定ありフラグ</summary>
         public virtual bool HasActionEntry => false;
+
+        /// <summary>拡張数値引数リスト</summary>
+        public EventCommandExpansionNumberArgList ExpansionNumberArgList { get; }
+            = new EventCommandExpansionNumberArgList();
+
+        /// <summary>拡張文字列引数リスト</summary>
+        public EventCommandExpansionStringArgList ExpansionStringArgList { get; }
+            = new EventCommandExpansionStringArgList();
+
+        /// <summary>すべての数値引数リスト</summary>
+        public IReadOnlyList<int> AllNumberArgList
+        {
+            get
+            {
+                var args = new List<int>();
+
+                // 通常数値引数
+                for (var i = 0; i < NumberVariableCount; i++)
+                {
+                    args.Add(GetSafetyNumberVariable(i));
+                }
+
+                // 拡張数値引数
+                var maxExpansionLength = NumberArgsLengthMax - NumberVariableCount;
+                args.AddRange(ExpansionNumberArgList.Where((_, idx) => idx <= maxExpansionLength));
+
+                return args;
+            }
+        }
+
+        /// <summary>すべての文字列引数リスト</summary>
+        public IReadOnlyList<string> AllStringArgList
+        {
+            get
+            {
+                var args = new List<string>();
+
+                // 通常数値引数
+                for (var i = 0; i < StringVariableCount; i++)
+                {
+                    args.Add(GetSafetyStringVariable(i));
+                }
+
+                // 拡張数値引数
+                var maxExpansionLength = StringArgsLengthMax - StringVariableCount;
+                args.AddRange(ExpansionStringArgList.Where((_, idx) => idx <= maxExpansionLength));
+
+                return args;
+            }
+        }
 
         /// <inheritdoc />
         /// <summary>キャラ動作指定
@@ -53,23 +148,118 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <inheritdoc />
-        public abstract int GetNumberVariable(int index);
+        public virtual int GetNumberVariable(int index)
+        {
+            var max = AllNumberArgList.Count;
+            if (index < 0 || max < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), 0, max, index));
+
+            if (index < NumberVariableCount) return GetSafetyNumberVariable(index);
+            return ExpansionNumberArgList[index - NumberVariableCount];
+        }
+
+        private string expansionString = "";
 
         /// <inheritdoc />
-        public abstract void SetNumberVariable(int index, int value);
+        /// <summary>拡張文字列</summary>
+        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public string ExpansionString
+        {
+            get => expansionString;
+            set
+            {
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(ExpansionString)));
+                expansionString = value;
+            }
+        }
 
         /// <inheritdoc />
-        public abstract string GetStringVariable(int index);
+        public void SetNumberVariable(int index, int value)
+        {
+            var max = AllNumberArgList.Count;
+            if (index < 0 || max < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), 0, max, index));
+
+            if (IsNormalNumberArgIndex(index))
+            {
+                SetSafetyNumberVariable(index, value);
+                return;
+            }
+
+            var expansionIndex = index - NumberVariableCount;
+            ExpansionNumberArgList.AdjustLength(expansionIndex + 1);
+            ExpansionNumberArgList[expansionIndex] = value;
+        }
 
         /// <inheritdoc />
-        public abstract void SetStringVariable(int index, string value);
+        public string GetStringVariable(int index)
+        {
+            var max = AllStringArgList.Count;
+            if (index < 0 || max < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), 0, max, index));
 
+            if (index < StringVariableCount) return GetSafetyStringVariable(index);
+            return ExpansionStringArgList[index - StringVariableCount];
+        }
+
+        /// <inheritdoc />
+        public virtual void SetStringVariable(int index, string value)
+        {
+            var max = AllStringArgList.Count;
+            if (index < 0 || max < index)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(index), 0, max, index));
+
+            if (IsNormalStringArgIndex(index))
+            {
+                SetSafetyStringVariable(index, value);
+                return;
+            }
+
+            var expansionIndex = index - StringVariableCount;
+            ExpansionStringArgList.AdjustLength(expansionIndex + 1);
+            ExpansionStringArgList[expansionIndex] = value;
+        }
+
+        /// <inheritdoc />
+        public abstract int GetSafetyNumberVariable(int index);
+
+        /// <inheritdoc />
+        public abstract void SetSafetyNumberVariable(int index, int value);
+
+        /// <inheritdoc />
+        public abstract string GetSafetyStringVariable(int index);
+
+        /// <inheritdoc />
+        public abstract void SetSafetyStringVariable(int index, string value);
+
+        /// <inheritdoc />
+        public virtual string ToEventCodeString()
+        {
+            var numArgs = AllNumberArgList.Where((_, idx) => idx != 0)
+                .Select(x => x.ToString()).ToList();
+            var strArgs = AllStringArgList.Select(x =>
+                    // 改行コードは除去する。除去しない場合は各自このメソッドをオーバーライドして調整
+                    $"\"{x}\"".Replace("\r", "").Replace("\n", ""))
+                .ToList();
+
+            return string.Format(CommandCodeFormat,
+                RawEventCommandCode,
+                numArgs.Count, strArgs.Count,
+                Indent,
+                string.Join(",", numArgs),
+                string.Join(",", strArgs),
+                ExpansionString);
+        }
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        private readonly byte FlgNotHasActionEntry = 0x00;
-        private readonly byte FlgHasActionEntry = 0x01;
 
         /// <summary>
         /// ロガー
@@ -89,6 +279,24 @@ namespace WodiLib.Event.EventCommand
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     internal Virtual Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 指定した数値引数インデックスが通常使用の範囲であるか（拡張引数でないか）を返す。
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <returns>通常使用範囲の引数インデックスの場合true</returns>
+        internal virtual bool IsNormalNumberArgIndex(int index) => index < NumberVariableCount;
+
+        /// <summary>
+        /// 指定した文字列引数インデックスが通常使用の範囲であるか（拡張引数でないか）を返す。
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <returns>通常使用範囲の引数インデックスの場合true</returns>
+        internal virtual bool IsNormalStringArgIndex(int index) => index < StringVariableCount;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -99,14 +307,10 @@ namespace WodiLib.Event.EventCommand
 
             var result = new List<byte>();
 
-            // 数値変数の数
-            result.AddRange(MakeNumberVariableCountBytes());
             // 数値変数
             result.AddRange(MakeNumberVariableBytes());
             // インデントの深さ
             result.AddRange(MakeIndentBytes());
-            // 文字データ数
-            result.AddRange(MakeStringVariableCountBytes());
             // 文字列変数
             result.AddRange(MakeStringVariableBytes());
             // 動作指定コマンド
@@ -115,43 +319,43 @@ namespace WodiLib.Event.EventCommand
             return result.ToArray();
         }
 
-        private byte[] MakeNumberVariableCountBytes()
-        {
-            return new[] {NumberVariableCount};
-        }
-
         private byte[] MakeNumberVariableBytes()
         {
-            var result = new List<byte>();
-            for (var i = 0; i < NumberVariableCount; i++)
-            {
-                var numBytes = GetNumberVariable(i).ToBytes(Endian.Woditor);
-                result.AddRange(numBytes);
-            }
+            var args = AllNumberArgList;
 
-            return result.ToArray();
+            var resultSeed = new List<byte>();
+
+            var argsLengthByte = (byte) args.Count;
+            resultSeed.Add(argsLengthByte);
+
+            return args.Select(x => x.ToWoditorIntBytes())
+                .Aggregate(resultSeed, (n, elem) =>
+                {
+                    n.AddRange(elem);
+                    return n;
+                }).ToArray();
         }
 
         private byte[] MakeIndentBytes()
         {
-            return new[] {Indent};
-        }
-
-        private byte[] MakeStringVariableCountBytes()
-        {
-            return new[] {StringVariableCount};
+            return new[] {Indent.ToSbyte().ToByte()};
         }
 
         private byte[] MakeStringVariableBytes()
         {
-            var result = new List<byte>();
-            for (var i = 0; i < StringVariableCount; i++)
-            {
-                var strBytes = new WoditorString(GetStringVariable(i)).StringByte;
-                result.AddRange(strBytes);
-            }
+            var args = AllStringArgList;
 
-            return result.ToArray();
+            var resultSeed = new List<byte>();
+
+            var argsLengthByte = (byte) args.Count;
+            resultSeed.Add(argsLengthByte);
+
+            return args.Select(x => new WoditorString(x).StringByte)
+                .Aggregate(resultSeed, (n, elem) =>
+                {
+                    n.AddRange(elem);
+                    return n;
+                }).ToArray();
         }
 
         private byte[] MakeActionEntryBytes()

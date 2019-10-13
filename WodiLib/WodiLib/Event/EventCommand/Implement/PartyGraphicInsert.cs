@@ -26,6 +26,14 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         public override byte StringVariableCount => (byte) (IsTargetingValue ? 0x00 : 0x01);
 
+        /// <inheritdoc />
+        /// <summary>数値変数最小個数</summary>
+        public override byte NumberVariableCountMin => 0x03;
+
+        /// <inheritdoc />
+        /// <summary>文字列変数最小個数</summary>
+        public override byte StringVariableCountMin => 0x00;
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

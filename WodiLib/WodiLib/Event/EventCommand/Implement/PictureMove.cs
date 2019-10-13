@@ -22,7 +22,7 @@ namespace WodiLib.Event.EventCommand
         public override EventCommandCode EventCommandCode => EventCommandCode.Picture;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Protected Abstract Property
+        //     Protected Override Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
@@ -56,7 +56,7 @@ namespace WodiLib.Event.EventCommand
         protected override int _DivisionHeight { get; set; }
 
         /// <summary>スクロールとリンク</summary>
-        public bool IsLickScroll
+        public bool IsLinkScroll
         {
             get => _IsLinkScroll;
             set => _IsLinkScroll = value;

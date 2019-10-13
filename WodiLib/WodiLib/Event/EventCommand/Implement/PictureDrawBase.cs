@@ -20,11 +20,18 @@ namespace WodiLib.Event.EventCommand
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class PictureDrawBase : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /// <summary>自由変形フラグ表示位置コード値</summary>
         private static readonly byte FreePositionPositionCode = PictureAnchorPosition.Center.Code;
 
         /// <summary>自由変形フラグコード値</summary>
-        private static readonly byte FreePositionFlagCode = 0x04;
+        private const byte FreePositionFlagCode = 0x04;
+
+        /// <summary>同値（パターン/透過度/角度）</summary>
+        private const int SameValue = -1000000;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
@@ -70,14 +77,23 @@ namespace WodiLib.Event.EventCommand
         public override byte StringVariableCount => (byte) (IsUseString ? 0x01 : 0x00);
 
         /// <inheritdoc />
+        /// <summary>数値変数最小個数</summary>
+        public override byte NumberVariableCountMin => 0x0C;
+
+        /// <inheritdoc />
+        /// <summary>文字列変数最小個数</summary>
+        public override byte StringVariableCountMin => 0x00;
+
+        /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して数値変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, 25)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override int GetNumberVariable(int index)
+        public override int GetSafetyNumberVariable(int index)
         {
             // 画像表示は数値引数の数を決定する。めに数値引数自身の数値を参照する。め、
             // 他のイベントコマンドのようにプロパティから許容値を算出できない
@@ -203,7 +219,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetNumberVariable(int index, int value)
+        public override void SetSafetyNumberVariable(int index, int value)
         {
             if (index < 0 || NumberVariableMax < index)
                 throw new ArgumentOutOfRangeException(
@@ -339,12 +355,13 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して文字列変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, -1～0)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override string GetStringVariable(int index)
+        public override string GetSafetyStringVariable(int index)
         {
             if (index < 0 || StringVariableCount <= index)
                 throw new ArgumentOutOfRangeException(
@@ -369,7 +386,7 @@ namespace WodiLib.Event.EventCommand
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetStringVariable(int index, string value)
+        public override void SetSafetyStringVariable(int index, string value)
         {
             if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
             if (index < 0 || StringVariableCount <= index)
@@ -386,6 +403,13 @@ namespace WodiLib.Event.EventCommand
                         nameof(index), 0, StringVariableCount - 1, index));
             }
         }
+
+        /// <summary>
+        /// 指定した数値引数インデックスが通常使用の範囲であるか（拡張引数でないか）を返す。
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <returns>通常使用範囲の引数インデックスの場合true</returns>
+        internal override bool IsNormalNumberArgIndex(int index) => index <= 0x1A;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Abstract Property
@@ -478,7 +502,11 @@ namespace WodiLib.Event.EventCommand
         public int Pattern
         {
             get => pattern.Value;
-            set => pattern.Value = value;
+            set
+            {
+                pattern.Value = value;
+                IsSamePattern = value == SameValue;
+            }
         }
 
         /// <summary>パターン同値</summary>
@@ -612,9 +640,9 @@ namespace WodiLib.Event.EventCommand
         /// <summary>カラー同値</summary>
         public bool IsSameColor { get; set; }
 
-        private readonly CanSameInt pattern = new CanSameInt();
-        private readonly CanSameInt opacity = new CanSameInt();
-        private readonly CanSameInt angle = new CanSameInt();
+        private readonly CanSameInt pattern = new CanSameInt(1);
+        private readonly CanSameInt opacity = new CanSameInt(255);
+        private readonly CanSameInt angle = new CanSameInt(0);
         private readonly ZoomRate zoomRate = new ZoomRate();
         private readonly Color color = new Color();
 
@@ -643,7 +671,9 @@ namespace WodiLib.Event.EventCommand
         private class CanSameInt
         {
             /// <summary>パターン同値フラグ値</summary>
-            private static readonly int SameValue = new byte[] {0xFF, 0xF0, 0xDB, 0xC0}.ToInt32(Endian.Environment);
+            private static readonly int SameValue = -1000000;
+
+            private int DefaultValue { get; }
 
             private int value;
 
@@ -664,9 +694,17 @@ namespace WodiLib.Event.EventCommand
                 get => isSame;
                 set
                 {
+                    var before = isSame;
                     isSame = value;
                     if (value) this.value = SameValue;
+
+                    if (before && !isSame) this.value = DefaultValue;
                 }
+            }
+
+            public CanSameInt(int defaultValueValue)
+            {
+                DefaultValue = defaultValueValue;
             }
         }
 

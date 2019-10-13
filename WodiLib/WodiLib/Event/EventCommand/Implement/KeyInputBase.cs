@@ -18,6 +18,10 @@ namespace WodiLib.Event.EventCommand
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class KeyInputBase : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /// <summary>キー入力を待つフラグ値</summary>
         protected const byte FlgWaitForInput = 0x80;
 
@@ -38,7 +42,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="index">[Range(0, -)] インデックス</param>
         /// <exception cref="ArgumentOutOfRangeException">常に</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public sealed override string GetStringVariable(int index)
+        public sealed override string GetSafetyStringVariable(int index)
         {
             throw new ArgumentOutOfRangeException();
         }
@@ -51,7 +55,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">[NotNull] 設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">常に</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public sealed override void SetStringVariable(int index, string value)
+        public sealed override void SetSafetyStringVariable(int index, string value)
         {
             throw new ArgumentOutOfRangeException();
         }

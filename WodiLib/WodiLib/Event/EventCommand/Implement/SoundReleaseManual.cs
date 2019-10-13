@@ -25,7 +25,7 @@ namespace WodiLib.Event.EventCommand
         public override EventCommandCode EventCommandCode => EventCommandCode.Sound;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Protected Abstract Property
+        //     Protected Override Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />

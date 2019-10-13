@@ -24,6 +24,12 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
+        public override byte NumberVariableCount => 0x06;
+
+        /// <inheritdoc />
+        public override byte StringVariableCount => 0x04;
+
+        /// <inheritdoc />
         public override EventCommandCode EventCommandCode => EventCommandCode.CsvIO;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -151,7 +157,7 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         /// <summary>入出力値または代入先</summary>
-        protected override int NumValue
+        protected override int _NumValue
         {
             get => ItemLength;
             set => ItemLength = value;
@@ -159,7 +165,7 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         /// <summary>代入文字列またはCSVファイル名</summary>
-        protected override string StrValue
+        protected override string _StrValue
         {
             get => FileName;
             set => FileName = value;
@@ -167,7 +173,7 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         /// <summary>右辺内容コード</summary>
-        protected override byte RightSideCode
+        protected override byte LeftSideCode
         {
             get => 0;
             set { }

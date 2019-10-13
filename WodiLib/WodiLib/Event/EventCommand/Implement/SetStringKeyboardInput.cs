@@ -28,9 +28,6 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>右辺（文字列）</summary>
-        public int RightSide { get; set; }
-
         /// <summary>文字数</summary>
         public int Length { get; set; }
 

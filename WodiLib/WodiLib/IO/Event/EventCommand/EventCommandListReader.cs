@@ -90,7 +90,7 @@ namespace WodiLib.IO
             }
 
             // インデント
-            var indent = status.ReadByte();
+            var indent = (sbyte) status.ReadByte();
             status.IncreaseByteOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
@@ -130,11 +130,19 @@ namespace WodiLib.IO
                 ReadEventActionEntry(status, actionEntry);
             }
 
+            // 引数の数チェック
+            if (numVarLength != numVarList.Count)
+                throw new InvalidOperationException(
+                    "指定された数値引数の数と実際の数値引数の数が一致しません。");
+            if (strVarLength != strVarList.Count)
+                throw new InvalidOperationException(
+                    "指定された文字列引数の数と実際の文字列引数の数が一致しません。");
+
             // 結果
             var eventCommand = EventCommandFactory.CreateRaw(
-                numVarLength, numVarList,
+                numVarList,
                 indent,
-                strVarLength, strVarList,
+                strVarList,
                 actionEntry);
 
             Logger.Debug("イベントコマンド生成成功");

@@ -26,6 +26,18 @@ namespace WodiLib.Event.EventCommand
         /// <summary>ページ最小数</summary>
         private const int PageMin = 1;
 
+        /// <summary>数値引数の数最大数</summary>
+        private const int IntArgValueMax = 5;
+
+        /// <summary>数値引数の数最小数</summary>
+        private const int IntArgValueMin = 0;
+
+        /// <summary>文字列引数の数最大数</summary>
+        private const int StrArgValueMax = 5;
+
+        /// <summary>文字列引数の数最小数</summary>
+        private const int StrArgValueMin = 0;
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -49,23 +61,31 @@ namespace WodiLib.Event.EventCommand
             get
             {
                 for (var i = StrArgValue - 1; i >= 0; i--)
-                {
-                    if (strArgList.HasStringParam(i)) return (byte) (StrArgValue + 1);
-                }
+                    if (StrArgList.HasStringParam(i))
+                        return (byte) (StrArgValue + 1);
 
                 return (byte) (IsOrderByString ? 0x01 : 0x00);
             }
         }
 
         /// <inheritdoc />
+        /// <summary>数値変数最小個数</summary>
+        public override byte NumberVariableCountMin => 0x03;
+
+        /// <inheritdoc />
+        /// <summary>文字列変数最小個数</summary>
+        public override byte StringVariableCountMin => 0x00;
+
+        /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して数値変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, 3～12)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override int GetNumberVariable(int index)
+        public override int GetSafetyNumberVariable(int index)
         {
             if (index > NumberVariableCount || index < 0)
                 throw new ArgumentOutOfRangeException(
@@ -84,15 +104,13 @@ namespace WodiLib.Event.EventCommand
                     if (!IsOrderByString &&
                         (EventIdOrName.ToInt().IsMapEventId()
                          || EventIdOrName.ToInt().IsVariableAddress()))
-                    {
                         // マップイベントID指定呼び出しの場合
                         return Page - 1;
-                    }
 
                     // コモンイベントID指定呼び出しの場合
-                    byte[] bytes = new byte[4];
+                    var bytes = new byte[4];
                     bytes[0] = (byte) ((StrArgValue << 4) + IntArgValue);
-                    bytes[1] = strArgList.ReferenceFlg;
+                    bytes[1] = StrArgList.ReferenceFlg;
                     bytes[2] = 0;
                     bytes[3] = (byte) (IsGetReturnValue ? 1 : 0);
                     return bytes.ToInt32(Endian.Little);
@@ -103,10 +121,8 @@ namespace WodiLib.Event.EventCommand
                     // 数値引数の設定値を指すかどうかを確認する。
                     var tmpIndex = index - 3;
                     if (tmpIndex < IntArgValue)
-                    {
                         // 数値引数の設定値を返す
-                        return intArgList.Get(tmpIndex);
-                    }
+                        return IntArgList[tmpIndex];
 
                     // 文字列引数の設定値を指すかどうかを確認する。
                     tmpIndex -= IntArgValue;
@@ -114,11 +130,8 @@ namespace WodiLib.Event.EventCommand
                     {
                         // 文字列引数の設定値を返す
                         //   ただし文字列直接指定ならば 0 を返す
-                        var strArg = strArgList.Get(tmpIndex);
-                        if (strArg.InstanceIntOrStrType != IntOrStrType.Int)
-                        {
-                            return 0;
-                        }
+                        var strArg = StrArgList[tmpIndex];
+                        if (strArg.InstanceIntOrStrType != IntOrStrType.Int) return 0;
 
                         return strArg.ToInt();
                     }
@@ -126,10 +139,8 @@ namespace WodiLib.Event.EventCommand
                     // 残るは戻り値格納アドレスのみ
                     tmpIndex -= StrArgValue;
                     if (tmpIndex != 0 || !IsGetReturnValue)
-                    {
                         // おかしい（通常来ないはず）
                         throw new InvalidOperationException();
-                    }
 
                     return ResultOutputAddress;
             }
@@ -143,7 +154,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetNumberVariable(int index, int value)
+        public override void SetSafetyNumberVariable(int index, int value)
         {
             if (index > NumberVariableCount
                 || index < 1)
@@ -157,9 +168,7 @@ namespace WodiLib.Event.EventCommand
                     return;
 
                 case 2:
-                    if (!IsOrderByString &&
-                        (EventIdOrName.ToInt().IsMapEventId()
-                         || EventIdOrName.ToInt().IsVariableAddress()))
+                    if (IsCallMapEventId)
                     {
                         // マップイベントの場合、ページ
                         Page = value + 1;
@@ -170,7 +179,7 @@ namespace WodiLib.Event.EventCommand
                     var bytes = value.ToBytes(Endian.Environment);
                     StrArgValue = (byte) ((bytes[0] & 0xF0) >> 4);
                     IntArgValue = (byte) (bytes[0] & 0x0F);
-                    strArgList.ReferenceFlg = bytes[1];
+                    StrArgList.ReferenceFlg = bytes[1];
                     IsGetReturnValue = bytes[3] == 0x01;
                     return;
 
@@ -182,7 +191,7 @@ namespace WodiLib.Event.EventCommand
                     if (tmpIndex < IntArgValue)
                     {
                         // 数値引数の設定値を更新
-                        intArgList.Set(tmpIndex, value);
+                        IntArgList[tmpIndex] = value;
                         return;
                     }
 
@@ -192,23 +201,18 @@ namespace WodiLib.Event.EventCommand
                     {
                         // 文字列引数の設定値を更新
                         //   ただし文字列直接指定ならば 何もしない
-                        var strArg = strArgList.Get(tmpIndex);
-                        if (strArg.InstanceIntOrStrType != IntOrStrType.Int)
-                        {
-                            return;
-                        }
+                        var strArg = StrArgList[tmpIndex];
+                        if (strArg.InstanceIntOrStrType != IntOrStrType.Int) return;
 
-                        strArgList.Set(tmpIndex, value);
+                        StrArgList[tmpIndex] = value;
                         return;
                     }
 
                     // 残るは戻り値格納アドレスのみ
                     tmpIndex -= StrArgValue;
                     if (tmpIndex != 0 || !IsGetReturnValue)
-                    {
                         // おかしい（通常来ないはず）
                         throw new InvalidOperationException();
-                    }
 
                     ResultOutputAddress = value;
                     return;
@@ -218,25 +222,24 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して文字列変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, -1～5)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override string GetStringVariable(int index)
+        public override string GetSafetyStringVariable(int index)
         {
             if (index < 0 || StringVariableCount < index)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), 0, StringVariableCount, index));
             if (index == 0)
-            {
                 // コモンイベント名
                 return EventIdOrName.HasStr ? EventIdOrName.ToStr() : "";
-            }
 
             var tmpIndex = index - 1;
 
-            var val = strArgList.Get(tmpIndex);
+            var val = StrArgList[tmpIndex];
             if (val.InstanceIntOrStrType == IntOrStrType.Int) return "";
             return val.ToStr();
         }
@@ -250,7 +253,7 @@ namespace WodiLib.Event.EventCommand
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetStringVariable(int index, string value)
+        public override void SetSafetyStringVariable(int index, string value)
         {
             if (index < 0 || StringVariableCount < index)
                 throw new ArgumentOutOfRangeException(
@@ -266,8 +269,8 @@ namespace WodiLib.Event.EventCommand
 
             var tmpIndex = index - 1;
             // 引数タイプが数値なら何もしない
-            if (strArgList.Get(tmpIndex).InstanceIntOrStrType == IntOrStrType.Int) return;
-            strArgList.Set(tmpIndex, value);
+            if (StrArgList[tmpIndex].InstanceIntOrStrType == IntOrStrType.Int) return;
+            StrArgList[tmpIndex] = value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -312,18 +315,19 @@ namespace WodiLib.Event.EventCommand
         /// <summary>戻り値格納アドレス</summary>
         public int ResultOutputAddress { get; set; }
 
-        /// <summary>[Range(0, 4)] 数値引数の数</summary>
+        /// <summary>[Range(0, 3)] 数値引数の数</summary>
+        /// <remarks>
+        ///    隠し機能として、数値引数の数は 0～4 の範囲で指定可能。
+        /// </remarks>
         /// <exception cref="PropertyOutOfRangeException">指定範囲以外をセットした場合</exception>
         public int IntArgValue
         {
             get => intArgValue;
             set
             {
-                if (value < 0 || 4 < value)
-                {
+                if (value < IntArgValueMin || IntArgValueMax < value)
                     throw new PropertyOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(IntArgValue), 0, 4, value));
-                }
+                        ErrorMessage.OutOfRange(nameof(IntArgValue), IntArgValueMin, IntArgValueMax, value));
 
                 intArgValue = value;
             }
@@ -331,18 +335,19 @@ namespace WodiLib.Event.EventCommand
 
         private int intArgValue;
 
-        /// <summary>[Range(0, 4)] 文字列引数の数</summary>
+        /// <summary>[Range(0, 3)] 文字列引数の数</summary>
+        /// <remarks>
+        ///    隠し機能として、文字列引数の数は 0～4 の範囲で指定可能。
+        /// </remarks>
         /// <exception cref="PropertyOutOfRangeException">指定範囲以外をセットした場合</exception>
         public int StrArgValue
         {
             get => strArgValue;
             set
             {
-                if (value < 0 || 4 < value)
-                {
+                if (value < StrArgValueMin || StrArgValueMax < value)
                     throw new PropertyOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(StrArgValue), 0, 4, value));
-                }
+                        ErrorMessage.OutOfRange(nameof(StrArgValue), StrArgValueMin, StrArgValueMax, value));
 
                 strArgValue = value;
             }
@@ -350,49 +355,65 @@ namespace WodiLib.Event.EventCommand
 
         private int strArgValue;
 
-        private readonly CommonEventIntArgList intArgList = new CommonEventIntArgList();
+        /// <summary>
+        /// 数値引数リスト
+        /// </summary>
+        public CommonEventIntArgList IntArgList { get; }
+            = new CommonEventIntArgList();
 
         /// <summary>数値引数1</summary>
         public int IntArg1
         {
-            get => intArgList.Get(0);
-            set => intArgList.Set(0, value);
+            get => IntArgList[0];
+            set => IntArgList[0] = value;
         }
 
         /// <summary>数値引数2</summary>
         public int IntArg2
         {
-            get => intArgList.Get(1);
-            set => intArgList.Set(1, value);
+            get => IntArgList[1];
+            set => IntArgList[1] = value;
         }
 
         /// <summary>数値引数3</summary>
         public int IntArg3
         {
-            get => intArgList.Get(2);
-            set => intArgList.Set(2, value);
+            get => IntArgList[2];
+            set => IntArgList[2] = value;
         }
 
         /// <summary>数値引数4</summary>
         public int IntArg4
         {
-            get => intArgList.Get(3);
-            set => intArgList.Set(3, value);
+            get => IntArgList[3];
+            set => IntArgList[3] = value;
         }
 
-        private readonly CommonEventStrArgList strArgList = new CommonEventStrArgList();
+        /// <summary>数値引数5</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public int IntArg5
+        {
+            get => IntArgList[4];
+            set => IntArgList[4] = value;
+        }
+
+        /// <summary>
+        /// 文字列引数リスト
+        /// </summary>
+        public CommonEventStrArgList StrArgList { get; }
+            = new CommonEventStrArgList();
 
         /// <summary>[NotNull] 文字列引数1</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public IntOrStr StringArg1
         {
-            get => strArgList.Get(0);
+            get => StrArgList[0];
             set
             {
                 if (value == null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StringArg1)));
-                strArgList.Set(0, value);
+                StrArgList[0] = value;
             }
         }
 
@@ -400,13 +421,13 @@ namespace WodiLib.Event.EventCommand
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public IntOrStr StringArg2
         {
-            get => strArgList.Get(1);
+            get => StrArgList[1];
             set
             {
                 if (value == null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StringArg2)));
-                strArgList.Set(1, value);
+                StrArgList[1] = value;
             }
         }
 
@@ -414,13 +435,13 @@ namespace WodiLib.Event.EventCommand
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public IntOrStr StringArg3
         {
-            get => strArgList.Get(2);
+            get => StrArgList[2];
             set
             {
                 if (value == null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StringArg3)));
-                strArgList.Set(2, value);
+                StrArgList[2] = value;
             }
         }
 
@@ -428,17 +449,31 @@ namespace WodiLib.Event.EventCommand
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public IntOrStr StringArg4
         {
-            get => strArgList.Get(3);
+            get => StrArgList[3];
             set
             {
                 if (value == null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StringArg4)));
-                strArgList.Set(3, value);
+                StrArgList[3] = value;
             }
+        }
+
+        /// <summary>文字列引数5（変数アドレス値）</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public int StringArg5
+        {
+            get => StrArgList[4].ToInt();
+            set => StrArgList[4] = value;
         }
 
         /// <summary>イベント文字列指定フラグ</summary>
         protected abstract bool IsOrderByString { get; }
+
+        /// <summary>マップイベント呼び出しフラグ</summary>
+        protected bool IsCallMapEventId
+            => !IsOrderByString &&
+               (EventIdOrName.ToInt().IsMapEventId()
+                || EventIdOrName.ToInt().IsVariableAddress());
     }
 }

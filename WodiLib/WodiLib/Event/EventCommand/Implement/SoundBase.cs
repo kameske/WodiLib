@@ -50,14 +50,23 @@ namespace WodiLib.Event.EventCommand
             => (byte) (Specification == AudioSpecification.FileName ? 0x01 : 0x00);
 
         /// <inheritdoc />
+        /// <summary>数値変数最小個数</summary>
+        public override byte NumberVariableCountMin => 0x02;
+
+        /// <inheritdoc />
+        /// <summary>文字列変数最小個数</summary>
+        public override byte StringVariableCountMin => 0x00;
+
+        /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して数値変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, 4～7)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override int GetNumberVariable(int index)
+        public override int GetSafetyNumberVariable(int index)
         {
             if (index < 0 || NumberVariableCount <= index)
                 throw new ArgumentOutOfRangeException(
@@ -110,7 +119,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetNumberVariable(int index, int value)
+        public override void SetSafetyNumberVariable(int index, int value)
         {
             switch (index)
             {
@@ -128,7 +137,12 @@ namespace WodiLib.Event.EventCommand
                         SoundId = new byte[] {bytes[1], bytes[2], 0x00, 0x00}.ToInt32(Endian.Little);
                     }
 
-                    Specification = AudioSpecification.FromByte(bytes[3]);
+                    // Ver2.24以降、"停止"の場合は4バイト目も 0xFF が格納される。
+                    // この場合、指定方法はDB直接指定のみ
+                    Specification = bytes[3] != 0xFF
+                        ? AudioSpecification.FromByte(bytes[3])
+                        : AudioSpecification.SdbDirect;
+
                     return;
                 }
 
@@ -165,12 +179,13 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して文字列変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, 0)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override string GetStringVariable(int index)
+        public override string GetSafetyStringVariable(int index)
         {
             if (index == 0) return AudioFileName;
             throw new ArgumentOutOfRangeException(
@@ -186,9 +201,9 @@ namespace WodiLib.Event.EventCommand
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetStringVariable(int index, string value)
+        public override void SetSafetyStringVariable(int index, string value)
         {
-            if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(value));
+            if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
             switch (index)
             {
                 case 0:

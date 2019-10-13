@@ -18,8 +18,8 @@ namespace WodiLib.Test.Map
             logger = WodiLibLogger.GetInstance();
         }
 
-        [TestCase(-8, true)]
-        [TestCase(-7, false)]
+        [TestCase(-2, true)]
+        [TestCase(-1, false)]
         [TestCase(9999, false)]
         [TestCase(10000, true)]
         public static void ConstructorTest(int value, bool isError)
@@ -53,27 +53,17 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] CompareTestCaseSource =
         {
-            new object[] {-5, -7},
-            new object[] {-5, -5},
-            new object[] {-5, -1},
-            new object[] {-5, 0},
-            new object[] {-5, 1},
-            new object[] {-5, 5},
-            new object[] {-5, 8},
-            new object[] {0, -7},
-            new object[] {0, -5},
-            new object[] {0, -1},
-            new object[] {0, 0},
-            new object[] {0, 1},
-            new object[] {0, 5},
-            new object[] {0, 8},
-            new object[] {5, -7},
-            new object[] {5, -5},
-            new object[] {5, -1},
-            new object[] {5, 0},
-            new object[] {5, 1},
-            new object[] {5, 5},
-            new object[] {5, 8},
+            new object[] {-1, -1},
+            new object[] {-1, 0},
+            new object[] {-1, 1},
+            new object[] {-1, 5},
+            new object[] {1, -1},
+            new object[] {1, 1},
+            new object[] {1, 5},
+            new object[] {3, -1},
+            new object[] {3, 1},
+            new object[] {3, 3},
+            new object[] {3, 5},
         };
 
         [TestCaseSource(nameof(CompareTestCaseSource))]
@@ -90,8 +80,8 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(result > 0, left.CompareTo(right) > 0);
         }
 
-        [TestCase(-8, true)]
-        [TestCase(-7, false)]
+        [TestCase(-2, true)]
+        [TestCase(-1, false)]
         [TestCase(9999, false)]
         [TestCase(10000, true)]
         public static void CastFromIntTest(int value, bool isError)
