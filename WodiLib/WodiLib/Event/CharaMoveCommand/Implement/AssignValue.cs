@@ -55,28 +55,10 @@ namespace WodiLib.Event.CharaMoveCommand
             }
             set
             {
-                var hasError = false;
-                try
-                {
-                    var _ = (NormalNumberVariableAddress) (int) value;
-                }
-                catch
-                {
-                    try
-                    {
-                        var _ = (CalledEventVariableAddress) (int) value;
-                    }
-                    catch
-                    {
-                        hasError = true;
-                    }
-                }
-
-                if (hasError)
-                {
+                if (!(NormalNumberVariableAddress.MinValue <= value && value <= NormalNumberVariableAddress.MaxValue)
+                    && !CalledEventVariableAddress.CanCast(value))
                     throw new PropertyOutOfRangeException(
                         ErrorMessage.Unsuitable(nameof(TargetAddress), $"値：{value}"));
-                }
 
                 SetNumberValue(0, value.ToInt());
             }

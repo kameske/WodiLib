@@ -169,5 +169,33 @@ namespace WodiLib.Event.CharaMoveCommand
         {
             return !(left == right);
         }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     public Static Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値が CalledEventVariableAddress の値として適切かどうかを返す。
+        /// </summary>
+        /// <param name="src">判定対象値</param>
+        /// <returns>判定結果</returns>
+        public static bool CanCast(int src)
+        {
+            // このコモンイベントセルフ変数（限定範囲）なら許可
+            if (ThisCommonEventVariableAddress.MinValue <= src
+                && src <= MaxValue_Common)
+            {
+                return true;
+            }
+
+            // このマップイベントセルフ変数なら許可
+            if (ThisMapEventVariableAddress.MinValue <= src
+                && src <= ThisMapEventVariableAddress.MaxValue)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }
