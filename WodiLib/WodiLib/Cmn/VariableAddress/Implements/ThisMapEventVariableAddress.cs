@@ -61,7 +61,7 @@ namespace WodiLib.Cmn
         /// コンストラクタ
         /// </summary>
         /// <param name="value">[Range(1100000, 1100009)] 変数アドレス値</param>
-        /// <exception cref="ArgumentOutOfRangeException">valueが仲間座標アドレス値として不適切な場合</exception>
+        /// <exception cref="ArgumentOutOfRangeException">valueがこのマップイベントセルフ変数アドレス値として不適切な場合</exception>
         public ThisMapEventVariableAddress(int value) : base(value)
         {
             VariableIndex = value.SubInt(0, 1);
@@ -101,7 +101,7 @@ namespace WodiLib.Cmn
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Explicit
+        //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
@@ -132,12 +132,12 @@ namespace WodiLib.Cmn
         #region int
 
         /// <summary>
-        /// 仲間座標アドレス値 + int を計算し、構造体を返す。
+        /// このマップイベントセルフ変数アドレス値 + int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">変数アドレス</param>
         /// <param name="value">加算値</param>
         /// <returns>加算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">加算後の値が仲間座標アドレス値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">加算後の値がこのマップイベントセルフ変数アドレス値として不適切な場合</exception>
         public static ThisMapEventVariableAddress operator +(ThisMapEventVariableAddress src, int value)
         {
             try
@@ -147,17 +147,17 @@ namespace WodiLib.Cmn
             catch (ArgumentOutOfRangeException ex)
             {
                 throw new InvalidOperationException(
-                    $"仲間座標アドレス値として不適切な値です。(value = {src.Value + value})", ex);
+                    $"このマップイベントセルフ変数アドレス値として不適切な値です。(value = {src.Value + value})", ex);
             }
         }
 
         /// <summary>
-        /// 仲間座標アドレス値 - int を計算し、構造体を返す。
+        /// このマップイベントセルフ変数アドレス値 - int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">変数アドレス</param>
         /// <param name="value">減算値</param>
         /// <returns>減算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">減算後の値が仲間座標アドレス値値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">減算後の値がこのマップイベントセルフ変数アドレス値値として不適切な場合</exception>
         public static ThisMapEventVariableAddress operator -(ThisMapEventVariableAddress src, int value)
         {
             try
@@ -167,7 +167,7 @@ namespace WodiLib.Cmn
             catch (ArgumentOutOfRangeException ex)
             {
                 throw new InvalidOperationException(
-                    $"仲間座標アドレス値として不適切な値です。(value = {src.Value - value})", ex);
+                    $"このマップイベントセルフ変数アドレス値として不適切な値です。(value = {src.Value - value})", ex);
             }
         }
 

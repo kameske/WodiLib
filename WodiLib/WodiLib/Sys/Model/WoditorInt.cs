@@ -45,7 +45,7 @@ namespace WodiLib.Sys
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Explicit
+        //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator WoditorInt(int src)
+        public static implicit operator WoditorInt(int src)
         {
             var result = new WoditorInt(src);
             return result;
@@ -64,7 +64,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static explicit operator int(WoditorInt src)
+        public static implicit operator int(WoditorInt src)
         {
             return src.Value;
         }

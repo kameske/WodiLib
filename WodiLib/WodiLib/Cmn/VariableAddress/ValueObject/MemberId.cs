@@ -37,7 +37,7 @@ namespace WodiLib.Cmn
         {
             get
             {
-                if (value == default(int))
+                if (value == default)
                 {
                     return MinValue;
                 }
@@ -106,7 +106,7 @@ namespace WodiLib.Cmn
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Explicit
+        //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>

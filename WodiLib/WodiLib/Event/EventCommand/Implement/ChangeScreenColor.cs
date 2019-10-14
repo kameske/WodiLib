@@ -179,6 +179,9 @@ namespace WodiLib.Event.EventCommand
             throw new ArgumentOutOfRangeException();
         }
 
+        /// <inheritdoc />
+        internal override bool IsNormalNumberArgIndex(int index) => index < NumberVariableCountMax;
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

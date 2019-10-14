@@ -53,7 +53,7 @@ namespace WodiLib.Test.Map
         [TestCase(100000, false)]
         [TestCase(1604444, false)]
         [TestCase(1604445, true)]
-        public static void ExplicitFromIntTest(int id, bool isError)
+        public static void ImplicitFromIntTest(int id, bool isError)
         {
             var errorOccured = false;
             MapChip instance = MapChip.Default;
