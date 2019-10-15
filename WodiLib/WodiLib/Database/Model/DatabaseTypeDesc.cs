@@ -91,15 +91,6 @@ namespace WodiLib.Database
         /// </summary>
         public IReadOnlyDBItemSettingList DBItemSettingList => TypeSetting.ItemSettingList;
 
-        private ReadOnlyDBItemValuesList dbItemValuesList;
-
-        /// <summary>
-        /// DB項目設定値リスト（項目読み取り専用）
-        /// </summary>
-        public ReadOnlyDBItemValuesList DBItemValuesList =>
-            dbItemValuesList ??
-            (dbItemValuesList = new ReadOnlyDBItemValuesList(DataSetting.SettingValuesList));
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Internal Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

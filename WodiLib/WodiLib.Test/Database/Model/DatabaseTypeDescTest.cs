@@ -336,43 +336,6 @@ namespace WodiLib.Test.Database
         }
 
         [Test]
-        public static void DBItemValuesListGetterTest()
-        {
-            const int dataLength = 2;
-            const int itemLength = 3;
-
-            ReadOnlyDBItemValuesList result = null;
-
-            var instance = CreateTypeDesc(dataLength, itemLength);
-            var errorOccured = false;
-            try
-            {
-                result = instance.DBItemValuesList;
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生しないこと
-            Assert.IsFalse(errorOccured);
-
-            // 要素数がデータ数と一致すること
-            Assert.AreEqual(result.Count, dataLength);
-
-            // 要素数の要素数が項目数と一致すること
-            // 各要素の内容が意図した値と一致すること
-            for (var i = 0; i < dataLength; i++)
-            for (var j = 0; j < itemLength; j++)
-            {
-                Assert.AreEqual(result[i].Count, itemLength);
-
-                Assert.AreEqual((DBValueInt) result[i][j], MakeItemValue(i, j));
-            }
-        }
-
-        [Test]
         public static void ConstructorTest()
         {
             var errorOccured = false;

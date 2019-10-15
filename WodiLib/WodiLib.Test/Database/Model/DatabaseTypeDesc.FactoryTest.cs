@@ -63,7 +63,6 @@ namespace WodiLib.Test.Database
 
             // 項目追加後、項目数が一致すること
             Assert.AreEqual(instance.WritableItemSettingList.Count, 1);
-            Assert.AreEqual(instance.WritableItemSettingList.Count, instance.DBItemValuesList[0].Count);
             Assert.AreEqual(instance.WritableItemSettingList.Count, instance.DBItemSettingList.Count);
         }
 
@@ -125,11 +124,9 @@ namespace WodiLib.Test.Database
 
             // 初期データ数が一致すること
             Assert.AreEqual(instance.DataDescList.Count, 1);
-            Assert.AreEqual(instance.DataDescList.Count, instance.DBItemValuesList.Count);
             Assert.AreEqual(instance.DataDescList.Count, instance.DataNameList.Count);
             // 初期項目数が一致すること
             Assert.AreEqual(instance.ItemDescList.Count, 0);
-            Assert.AreEqual(instance.ItemDescList.Count, instance.DBItemValuesList[0].Count);
             Assert.AreEqual(instance.ItemDescList.Count, instance.DBItemSettingList.Count);
 
             var valueList = new DBItemValueList();
@@ -138,7 +135,6 @@ namespace WodiLib.Test.Database
 
             // データ追加後、データ数が一致すること
             Assert.AreEqual(instance.DataDescList.Count, 2);
-            Assert.AreEqual(instance.DataDescList.Count, instance.DBItemValuesList.Count);
             Assert.AreEqual(instance.DataDescList.Count, instance.DataNameList.Count);
 
             var itemDesc = new DatabaseItemDesc
@@ -151,7 +147,6 @@ namespace WodiLib.Test.Database
 
             // 項目追加後、項目数が一致すること
             Assert.AreEqual(instance.ItemDescList.Count, 1);
-            Assert.AreEqual(instance.ItemDescList.Count, instance.DBItemValuesList[0].Count);
             Assert.AreEqual(instance.ItemDescList.Count, instance.DBItemSettingList.Count);
         }
 
