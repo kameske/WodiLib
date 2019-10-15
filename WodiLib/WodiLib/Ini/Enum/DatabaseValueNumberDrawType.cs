@@ -73,14 +73,8 @@ namespace WodiLib.Ini
         /// <returns>EventCommandShortCutKey</returns>
         public static DatabaseValueNumberDrawType FromCodeOrDefault(string code)
         {
-            try
-            {
-                return FromCode(code);
-            }
-            catch
-            {
-                return Off;
-            }
+            if (code == null || code.Equals(string.Empty)) return Off;
+            return FromCode(code);
         }
     }
 }

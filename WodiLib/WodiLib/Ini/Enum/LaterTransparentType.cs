@@ -85,14 +85,8 @@ namespace WodiLib.Ini
         /// <returns>EventCommandShortCutKey</returns>
         public static LaterTransparentType FromCodeOrDefault(string code)
         {
-            try
-            {
-                return FromCode(code);
-            }
-            catch
-            {
-                return SomewhatDark;
-            }
+            if (code == null || code.Equals(string.Empty)) return SomewhatDark;
+            return FromCode(code);
         }
     }
 }

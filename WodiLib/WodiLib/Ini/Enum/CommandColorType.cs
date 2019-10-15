@@ -73,14 +73,8 @@ namespace WodiLib.Ini
         /// <returns>EventCommandShortCutKey</returns>
         public static CommandColorType FromCodeOrDefault(string code)
         {
-            try
-            {
-                return FromCode(code);
-            }
-            catch
-            {
-                return Type1;
-            }
+            if (code == null || code.Equals(string.Empty)) return Type1;
+            return FromCode(code);
         }
     }
 }
