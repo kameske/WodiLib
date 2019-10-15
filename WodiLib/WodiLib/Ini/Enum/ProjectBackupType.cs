@@ -98,14 +98,8 @@ namespace WodiLib.Ini
         /// <returns>EventCommandShortCutKey</returns>
         public static ProjectBackupType FromCodeOrDefault(string code)
         {
-            try
-            {
-                return FromCode(code);
-            }
-            catch
-            {
-                return ThreeTimes;
-            }
+            if (code == null || code.Equals(string.Empty)) return ThreeTimes;
+            return FromCode(code);
         }
     }
 }
