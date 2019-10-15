@@ -519,5 +519,15 @@ namespace WodiLib.Test {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] 各種メニュー呼出 {
+            get {
+                object obj = ResourceManager.GetObject("各種メニュー呼出", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

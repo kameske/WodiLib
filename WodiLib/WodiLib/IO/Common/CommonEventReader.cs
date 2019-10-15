@@ -382,14 +382,21 @@ namespace WodiLib.IO
                 var stringArgList = stringArgLists[i];
                 var numberArgList = numberArgLists[i];
 
-                var desc = argTypeList[i] == CommonEventArgType.ReferDatabase
-                    ? UpdateSpecialNumberArgDesc_MakeDescForReferDatabase(argTypeList[i], argNameList[i],
-                        numberArgInitValueList[i], numberArgList, stringArgList)
-                    : UpdateSpecialNumberArgDesc_MakeDescForElse(argTypeList[i], argNameList[i],
-                        numberArgInitValueList[i], numberArgList, stringArgList);
+                var desc = MakeSpecialNumberArgDesc(argTypeList[i], argNameList[i],
+                    numberArgInitValueList[i], numberArgList, stringArgList);
 
                 commonEvent.UpdateSpecialNumberArgDesc(i, desc);
             }
+        }
+
+        private static CommonEventSpecialNumberArgDesc MakeSpecialNumberArgDesc(CommonEventArgType type,
+            string argName, int initValue, List<int> numberArgList, List<string> stringArgList)
+        {
+            return type == CommonEventArgType.ReferDatabase
+                ? UpdateSpecialNumberArgDesc_MakeDescForReferDatabase(type, argName,
+                    initValue, numberArgList, stringArgList)
+                : UpdateSpecialNumberArgDesc_MakeDescForElse(type, argName,
+                    initValue, numberArgList, stringArgList);
         }
 
         private static CommonEventSpecialNumberArgDesc UpdateSpecialNumberArgDesc_MakeDescForReferDatabase(
@@ -421,12 +428,22 @@ namespace WodiLib.IO
             string argName, int initValue, List<int> numberArgList, List<string> stringArgList)
         {
             var stringArgListCount = stringArgList.Count;
+            var numberArgListCount = numberArgList.Count;
 
-            if (stringArgListCount != numberArgList.Count)
-                throw new ArgumentException("引数リストの長さが異なります。");
+            // 旧バージョンで作られたデータ限定？で文字列と数値の数が一致しないことがある。
+            //   基本システムVer2のコモンイベント14などで確認。
+            if (stringArgListCount != numberArgListCount)
+            {
+                WodiLibLogger.GetInstance().Warning(
+                    $"[Warning] 文字列引数リストと数値引数リストの長さが一致しません。（文字列数：{stringArgListCount}, 数値数：{numberArgListCount}）");
+            }
+
+            var loopTimes = stringArgListCount <= numberArgListCount
+                ? stringArgListCount
+                : numberArgListCount;
 
             var caseList = new List<CommonEventSpecialArgCase>();
-            for (var j = 0; j < stringArgListCount; j++)
+            for (var j = 0; j < loopTimes; j++)
             {
                 var argCase = new CommonEventSpecialArgCase(numberArgList[j], stringArgList[j]);
                 caseList.Add(argCase);
@@ -588,21 +605,9 @@ namespace WodiLib.IO
 
             if (b1 == CommonEvent.FooterBytesBeforeVer2_00[0])
             {
-                foreach (var b in CommonEvent.BeforeReturnValueSummaryBytesBefore)
-                {
-                    if (status.ReadByte() != b)
-                        throw new InvalidOperationException(
-                            $"ファイルデータが仕様と異なります。（offset:{status.Offset}）");
-                    status.IncreaseByteOffset();
-                }
-
-                Logger.Debug(FileIOMessage.CheckOk(typeof(CommonEventReader),
-                    "コモンイベント末尾", "（返戻値なし）"));
-
+                status.IncreaseByteOffset();
                 return HasNext.No;
             }
-
-            status.IncreaseByteOffset();
 
             throw new InvalidOperationException(
                 $"ファイルデータが仕様と異なります。（offset:{status.Offset}）");
