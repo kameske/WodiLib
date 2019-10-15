@@ -26,7 +26,7 @@ namespace WodiLib.Map
         public static int MaxCapacity => 9999;
 
         /// <summary>リスト最小数</summary>
-        public static int MinCapacity => 1;
+        public static int MinCapacity => 0;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
