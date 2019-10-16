@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -30,7 +31,19 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte NumberVariableCount => 0x04;
+        public override byte NumberVariableCount
+        {
+            get
+            {
+                if (VersionConfig.IsGreaterVersion(WoditorVersion.Ver2_00)) return 0x04;
+                
+                // ver 2.00 より前
+                return IsOnlySpecificKey ? (byte) 0x04 : (byte) 0x03;
+            }
+        }
+
+        /// <inheritdoc />
+        public override byte NumberVariableCountMin => 0x03;
 
         /// <inheritdoc />
         public override byte StringVariableCount => 0x00;
