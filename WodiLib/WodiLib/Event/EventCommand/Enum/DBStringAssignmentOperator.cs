@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -24,15 +25,23 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static DBStringAssignmentOperator()
         {
-            Assign = new DBStringAssignmentOperator(nameof(Assign), 0x02);
-            Addition = new DBStringAssignmentOperator(nameof(Addition), 0x03);
+            Assign = new DBStringAssignmentOperator(nameof(Assign), 0x02,
+                "=");
+            Addition = new DBStringAssignmentOperator(nameof(Addition), 0x12,
+                "+=");
         }
 
-        private DBStringAssignmentOperator(string id, byte code) : base(id)
+        private DBStringAssignmentOperator(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

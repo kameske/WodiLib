@@ -6,8 +6,10 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.ComponentModel;
 using WodiLib.Database;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -20,6 +22,16 @@ namespace WodiLib.Event.EventCommand
     public class CsvIO : DBManagementBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormatRead
+            = "■CSVﾌｧｲﾙからDBに読込:  ﾌｧｲﾙ \"{0}\"  →  {1} から [{2} データ]";
+
+        private const string EventCommandSentenceFormatWrite
+            = "■DBからCSVﾌｧｲﾙに保存:  {1} から [{2} データ]  →  ﾌｧｲﾙ \"{0}\"";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -31,6 +43,53 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         public override EventCommandCode EventCommandCode => EventCommandCode.CsvIO;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var dbDesc = MakeCommonEventSentenceResolveDatabaseDesc();
+            var dbStr = resolver.GetDatabaseCommandSentenceForCsvIo(dbDesc, type, desc);
+
+            if (Mode == CsvIOMode.Input)
+            {
+                return string.Format(EventCommandSentenceFormatRead,
+                    FileName, dbStr, ItemLength);
+            }
+
+            if (Mode == CsvIOMode.Output)
+            {
+                return string.Format(EventCommandSentenceFormatWrite,
+                    FileName, dbStr, ItemLength);
+            }
+
+            // 通常ここへは来ない
+            throw new InvalidOperationException();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private CommonEventSentenceResolveDatabaseDesc MakeCommonEventSentenceResolveDatabaseDesc()
+        {
+            var dbDesc = new CommonEventSentenceResolveDatabaseDesc()
+                .SetDbKind(DBKind);
+
+            if (IsTypeIdUseStr) dbDesc.SetTypeName(DBTypeId.ToStr());
+            else dbDesc.SetTypeId(DBTypeId.ToInt());
+
+            if (IsDataIdUseStr) dbDesc.SetDataName(DBDataId.ToStr());
+            else dbDesc.SetDataId(DBDataId.ToInt());
+
+            return dbDesc;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property

@@ -1,4 +1,4 @@
-﻿// ========================================
+// ========================================
 // Project Name : WodiLib
 // File Name    : EnumerableExtension.cs
 //
@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,6 +26,22 @@ namespace WodiLib.Sys
         public static bool HasNullItem<T>(this IEnumerable<T> src)
         {
             return src.Any(x => x == null);
+        }
+
+        /// <summary>
+        /// 条件を満たす要素のインデックスを取得する。
+        /// </summary>
+        /// <typeparam name="T">対象リスト内の型</typeparam>
+        /// <param name="src">対象</param>
+        /// <param name="predicate">条件</param>
+        /// <returns>条件に一致する要素が存在する場合、最初の要素のインデックス。存在しない場合-1</returns>
+        public static int FindIndex<T>(this IEnumerable<T> src, Func<T, bool> predicate)
+        {
+            var searchResult = src.Select((x, idx) => (x, idx))
+                .FirstOrDefault(x => predicate(x.x));
+            return searchResult.Equals(default)
+                ? -1
+                : searchResult.idx;
         }
     }
 }

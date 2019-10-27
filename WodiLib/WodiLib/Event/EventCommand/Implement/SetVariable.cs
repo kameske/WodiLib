@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -31,6 +32,9 @@ namespace WodiLib.Event.EventCommand
         private const byte FlgUseVariableXRight2 = 0x40;
 
         private const byte FlgMultiTarget = 0x01;
+
+        private const string EventCommandSentenceSingleLeftSide = "{0}";
+        private const string EventCommandSentenceMultiLeftSide = "{0}～{1}";
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
@@ -147,6 +151,31 @@ namespace WodiLib.Event.EventCommand
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), 1, NumberVariableCount, index));
             }
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeLeftSideStr(EventCommandSentenceResolver resolver,
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+        {
+            string leftSideStr;
+            if (IsMultiTarget)
+            {
+                var leftSideStartStr = resolver.GetVariableAddressStringIfVariableAddress(LeftSide, type, desc);
+                var leftSideEndStr = resolver.GetVariableAddressStringIfVariableAddress(
+                    LeftSide + OperationSeqValue, type, desc);
+                leftSideStr = string.Format(EventCommandSentenceMultiLeftSide,
+                    leftSideStartStr, leftSideEndStr);
+            }
+            else
+            {
+                var leftSideStartStr = resolver.GetVariableAddressStringIfVariableAddress(LeftSide, type, desc);
+                leftSideStr = string.Format(EventCommandSentenceSingleLeftSide, leftSideStartStr);
+            }
+
+            if (IsUseVariableXLeft) leftSideStr = $"V[{leftSideStr}]";
+
+            return leftSideStr;
         }
     }
 }

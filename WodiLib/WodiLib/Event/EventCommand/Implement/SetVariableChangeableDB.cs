@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -157,6 +158,19 @@ namespace WodiLib.Event.EventCommand
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), 1, 7, index));
             }
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeLeftSideStr(EventCommandSentenceResolver resolver,
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+        {
+            var leftSideStr = resolver.GetDatabaseCommandSentenceForSetVariable(CDBTypeNumber,
+                CDBDataNumber, CDBItemNumber, type, desc);
+
+            if (IsUseVariableXLeft) leftSideStr = $"V[{leftSideStr}]";
+
+            return leftSideStr;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

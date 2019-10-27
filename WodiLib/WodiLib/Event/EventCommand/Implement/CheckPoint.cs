@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -18,6 +19,13 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class CheckPoint : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "■チェックポイント■■■■■■■■■■■■■■■■■■■■■■■■";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -41,6 +49,10 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>数値変数最小個数</summary>
         public override byte NumberVariableCountMin => 0x01;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Vermilion;
 
         /// <inheritdoc />
         /// <summary>
@@ -106,6 +118,13 @@ namespace WodiLib.Event.EventCommand
         {
             throw new ArgumentOutOfRangeException();
         }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+            => EventCommandSentenceFormat;
 
         /// <summary>
         /// 数値変数1保有フラグ

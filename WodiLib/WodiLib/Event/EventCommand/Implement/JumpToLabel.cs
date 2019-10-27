@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -18,6 +19,13 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class JumpToLabel : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "●ラベル「{0}」に飛ぶ  ＞＞＞＞＞＞＞＞＞＞＞＞＞＞＞＞＞＞＞＞＞＞＞＞＞";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -30,6 +38,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         public override byte StringVariableCount => 0x01;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Vermilion;
 
         /// <inheritdoc />
         /// <summary>
@@ -96,6 +108,16 @@ namespace WodiLib.Event.EventCommand
 
             throw new ArgumentOutOfRangeException(
                 ErrorMessage.OutOfRange(nameof(index), 0, 0, index));
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            return string.Format(EventCommandSentenceFormat,
+                LabelName);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

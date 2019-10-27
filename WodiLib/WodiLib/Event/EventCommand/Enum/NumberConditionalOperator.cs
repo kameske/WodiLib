@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -39,20 +40,33 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static NumberConditionalOperator()
         {
-            Above = new NumberConditionalOperator("Above", 0x00);
-            Greater = new NumberConditionalOperator("Greater", 0x01);
-            Equal = new NumberConditionalOperator("Equal", 0x02);
-            Less = new NumberConditionalOperator("Less", 0x03);
-            Below = new NumberConditionalOperator("Below", 0x04);
-            Not = new NumberConditionalOperator("Not", 0x05);
-            BitAnd = new NumberConditionalOperator("BitAnd", 0x06);
+            Above = new NumberConditionalOperator("Above", 0x00,
+                "超");
+            Greater = new NumberConditionalOperator("Greater", 0x01,
+                "以上");
+            Equal = new NumberConditionalOperator("Equal", 0x02,
+                "と同じ");
+            Less = new NumberConditionalOperator("Less", 0x03,
+                "以下");
+            Below = new NumberConditionalOperator("Below", 0x04,
+                "未満");
+            Not = new NumberConditionalOperator("Not", 0x05,
+                "以外");
+            BitAnd = new NumberConditionalOperator("BitAnd", 0x06,
+                "のﾋﾞｯﾄを満たす");
         }
 
-        private NumberConditionalOperator(string id, byte code) : base(id)
+        private NumberConditionalOperator(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

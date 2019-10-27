@@ -6,7 +6,8 @@
 // see LICENSE file
 // ========================================
 
-using WodiLib.Database;
+using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -17,6 +18,13 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class DBManagementInputString : DBManagementInputBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "{0}  {1}";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -73,6 +81,20 @@ namespace WodiLib.Event.EventCommand
         {
             get => 2;
             set { }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            return string.Format(EventCommandSentenceFormat,
+                AssignmentOperator.EventCommandSentence, StrValue);
         }
     }
 }

@@ -6,8 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using System;
-
 namespace WodiLib.Cmn
 {
     /// <summary>
@@ -79,6 +77,54 @@ namespace WodiLib.Cmn
                 src <= UserDatabaseAddress.MaxValue) return true;
 
             return false;
+        }
+
+        /// <summary>
+        /// この数値が変数アドレス値として適切か簡易判定する。
+        /// </summary>
+        /// <remarks>
+        ///     厳密なチェックを行いたい場合は、int.IsVariableAddress() を使用する。
+        ///     例えば、 9180048 は int.IsVariableAddress() では false となるが、
+        ///     int.IsVariableAddressSimpleCheck() では true となる。
+        /// </remarks>
+        /// <param name="src">対象</param>
+        /// <returns>変数アドレス値として適切な場合true</returns>
+        public static bool IsVariableAddressSimpleCheck(this int src)
+        {
+            return VariableAddress.MinValue <= src && src <= VariableAddress.MaxValue;
+        }
+
+        /// <summary>
+        /// この数値が数値変数アドレス値として適切か簡易判定する。
+        /// </summary>
+        /// <param name="src">対象</param>
+        /// <returns>数値変数アドレス値として適切な場合true</returns>
+        public static bool IsNumericVariableAddressSimpleCheck(this int src)
+        {
+            if (!src.IsVariableAddressSimpleCheck()) return false;
+            if (!src.TryToVariableAddress(out var variableAddress)) return false;
+            return variableAddress.ValueType.CheckTypeInclude(VariableAddressValueType.Numeric);
+        }
+
+        /// <summary>
+        /// int値をVariableAddressに変換する。
+        /// </summary>
+        /// <param name="src">対象</param>
+        /// <param name="result">
+        ///     変換に成功した場合、変換値。
+        ///     変換に失敗した場合、null。
+        /// </param>
+        /// <returns>変換に成功した場合、true</returns>
+        public static bool TryToVariableAddress(this int src, out VariableAddress result)
+        {
+            if (!src.IsVariableAddress())
+            {
+                result = null;
+                return false;
+            }
+
+            result = VariableAddressFactory.Create(src);
+            return true;
         }
     }
 }

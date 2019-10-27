@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -30,6 +31,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>[Range(0, 2～9)] 選択肢番号</summary>
         public abstract int CaseNumber { get; set; }
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Gray;
 
         /// <inheritdoc />
         /// <summary>

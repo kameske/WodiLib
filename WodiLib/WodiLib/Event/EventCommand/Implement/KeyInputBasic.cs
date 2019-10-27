@@ -7,7 +7,9 @@
 // ========================================
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -24,6 +26,18 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>キー入力種別フラグ値</summary>
         private readonly byte FlgKeyInputType = EventCommandConstant.KeyInput.Type.Basic;
+
+        private const string EventCommandSentenceFormat = "{1} {0}";
+
+        private static class AcceptTypeString
+        {
+            public static string Ok = "決定(10)";
+            public static string Cancel = "ｷｬﾝｾﾙ(11)";
+            public static string Sub = "ｻﾌﾞｷｰ(12)";
+        }
+
+        private const string EventCommandSentenceWait = "[入力待ち] ";
+        private const string EventCommandSentenceNonWait = "";
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
@@ -96,6 +110,28 @@ namespace WodiLib.Event.EventCommand
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), 1, 2, index));
             }
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var acceptStrList = new List<string>();
+            acceptStrList.Add(DirectionKeyType.EventCommandSentence);
+
+            if (IsAcceptOk) acceptStrList.Add(AcceptTypeString.Ok);
+            if (IsAcceptCancel) acceptStrList.Add(AcceptTypeString.Cancel);
+            if (IsAcceptSub) acceptStrList.Add(AcceptTypeString.Sub);
+
+            var rightItem = string.Join(" ", acceptStrList);
+            var waitStr = IsWaitForInput
+                ? EventCommandSentenceWait
+                : EventCommandSentenceNonWait;
+
+            return string.Format(EventCommandSentenceFormat,
+                rightItem, waitStr);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

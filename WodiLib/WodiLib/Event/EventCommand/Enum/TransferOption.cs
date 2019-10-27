@@ -27,16 +27,24 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文字列</summary>
+        internal string EventCommandSentence { get; }
+
         static TransferOption()
         {
-            NoTransition = new TransferOption(nameof(NoTransition), 0x00);
-            TransitionNoFade = new TransferOption(nameof(TransitionNoFade), 0x10);
-            NoTransitionFade = new TransferOption(nameof(NoTransitionFade), 0x20);
+            NoTransition = new TransferOption(nameof(NoTransition),
+                0x00, "ﾄﾗﾝｼﾞｼｮﾝなし");
+            TransitionNoFade = new TransferOption(nameof(TransitionNoFade),
+                0x10, "ﾄﾗﾝｼﾞｼｮﾝ + 暗転なし");
+            NoTransitionFade = new TransferOption(nameof(NoTransitionFade),
+                0x20, "ﾄﾗﾝｼﾞｼｮﾝ + 暗転有り");
         }
 
-        private TransferOption(string id, byte code) : base(id)
+        private TransferOption(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

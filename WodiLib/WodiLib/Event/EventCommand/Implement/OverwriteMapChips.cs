@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -18,6 +19,13 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class OverwriteMapChips : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "■ﾏｯﾌﾟﾁｯﾌﾟ上書き： [ ﾚｲﾔｰ {0} / X {1} / Y {2} ] から[ 横{3} / 縦{4} ] をﾁｯﾌﾟ[ {5} ]で上書き";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -30,6 +38,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         public override byte StringVariableCount => 0x00;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.YellowGreen;
 
         /// <inheritdoc />
         /// <summary>
@@ -138,6 +150,23 @@ namespace WodiLib.Event.EventCommand
         public override void SetSafetyStringVariable(int index, string value)
         {
             throw new ArgumentOutOfRangeException();
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var layerName = resolver.GetNumericVariableAddressStringIfVariableAddress(Layer, type, desc);
+            var xName = resolver.GetNumericVariableAddressStringIfVariableAddress(PositionX, type, desc);
+            var yName = resolver.GetNumericVariableAddressStringIfVariableAddress(PositionY, type, desc);
+            var widthName = resolver.GetNumericVariableAddressStringIfVariableAddress(RangeWidth, type, desc);
+            var heightName = resolver.GetNumericVariableAddressStringIfVariableAddress(RangeHeight, type, desc);
+            var chipName = resolver.GetNumericVariableAddressStringIfVariableAddress(ChipId, type, desc);
+
+            return string.Format(EventCommandSentenceFormat,
+                layerName, xName, yName, widthName, heightName, chipName);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

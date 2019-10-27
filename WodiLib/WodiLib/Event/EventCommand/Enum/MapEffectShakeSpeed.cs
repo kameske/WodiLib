@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -39,20 +40,33 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static MapEffectShakeSpeed()
         {
-            Speed1 = new MapEffectShakeSpeed(nameof(Speed1), 0x00);
-            Speed2 = new MapEffectShakeSpeed(nameof(Speed2), 0x10);
-            Speed3 = new MapEffectShakeSpeed(nameof(Speed3), 0x20);
-            Speed4 = new MapEffectShakeSpeed(nameof(Speed4), 0x30);
-            Speed5 = new MapEffectShakeSpeed(nameof(Speed5), 0x40);
-            Speed6 = new MapEffectShakeSpeed(nameof(Speed6), 0x50);
-            Speed7 = new MapEffectShakeSpeed(nameof(Speed7), 0x60);
+            Speed1 = new MapEffectShakeSpeed(nameof(Speed1), 0x00,
+                "速度1");
+            Speed2 = new MapEffectShakeSpeed(nameof(Speed2), 0x10,
+                "速度2");
+            Speed3 = new MapEffectShakeSpeed(nameof(Speed3), 0x20,
+                "速度3");
+            Speed4 = new MapEffectShakeSpeed(nameof(Speed4), 0x30,
+                "速度4");
+            Speed5 = new MapEffectShakeSpeed(nameof(Speed5), 0x40,
+                "速度5");
+            Speed6 = new MapEffectShakeSpeed(nameof(Speed6), 0x50,
+                "速度6");
+            Speed7 = new MapEffectShakeSpeed(nameof(Speed7), 0x60,
+                "速度7");
         }
 
-        private MapEffectShakeSpeed(string id, byte code) : base(id)
+        private MapEffectShakeSpeed(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

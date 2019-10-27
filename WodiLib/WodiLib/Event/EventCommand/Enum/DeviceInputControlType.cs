@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -30,17 +31,27 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static DeviceInputControlType()
         {
-            KeyboardKey = new DeviceInputControlType(nameof(KeyboardKey), 0x00);
-            AllMouseInput = new DeviceInputControlType(nameof(AllMouseInput), 0x01);
-            AllPadInput = new DeviceInputControlType(nameof(AllPadInput), 0x02);
-            AllDevices = new DeviceInputControlType(nameof(AllDevices), 0x03);
+            KeyboardKey = new DeviceInputControlType(nameof(KeyboardKey), 0x00,
+                "キーボード入力");
+            AllMouseInput = new DeviceInputControlType(nameof(AllMouseInput), 0x01,
+                "マウス入力全て");
+            AllPadInput = new DeviceInputControlType(nameof(AllPadInput), 0x02,
+                "パッド入力全て");
+            AllDevices = new DeviceInputControlType(nameof(AllDevices), 0x03,
+                "全てのデバイス");
         }
 
-        private DeviceInputControlType(string id, byte code) : base(id)
+        private DeviceInputControlType(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

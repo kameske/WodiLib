@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -18,6 +19,16 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class MapEffectShake : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormatShake
+            = "■マップエフェクト：[シェイク] {0} {1} {2} ({3})ﾌﾚｰﾑ";
+
+        private const string EventCommandSentenceFormatStop
+            = "■マップエフェクト：[シェイク]シェイク停止";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -30,6 +41,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         public override byte StringVariableCount => 0x00;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Gold;
 
         /// <inheritdoc />
         /// <summary>
@@ -122,6 +137,25 @@ namespace WodiLib.Event.EventCommand
         {
             throw new ArgumentOutOfRangeException();
         }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            if (ShakeType == MapEffectShakeType.Stop)
+            {
+                return EventCommandSentenceFormatStop;
+            }
+
+            var varName = resolver.GetNumericVariableAddressStringIfVariableAddress(Duration, type, desc);
+
+            return string.Format(EventCommandSentenceFormatShake,
+                Power.EventCommandSentence, Speed.EventCommandSentence,
+                ShakeType.EventCommandSentence, varName);
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

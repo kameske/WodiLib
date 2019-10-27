@@ -8,6 +8,8 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -18,6 +20,22 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class ConditionNumberStart : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormatMain
+            = "■条件分岐(変数): {0}";
+
+        private const string EventCommandSentenceFormatForkConditionForMe
+            = "{0}  が   {1} {2} ";
+
+        private const string EventCommandSentenceFormatForkConditionForBranch
+            = "{0}  が  {1} {2}";
+
+        private const string EventCommandSentenceFormatFork
+            = " 【{0}】 {1}";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -193,6 +211,37 @@ namespace WodiLib.Event.EventCommand
             throw new ArgumentOutOfRangeException();
         }
 
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var forkStringsList = ConditionList.Select((x, idx) =>
+            {
+                var leftVarName = resolver.GetNumericVariableAddressStringIfVariableAddress(x.LeftSide, type, desc);
+                var rightVarName = x.IsNotReferX
+                    ? x.RightSide.ToString()
+                    : resolver.GetNumericVariableAddressStringIfVariableAddress(x.RightSide, type, desc);
+                var myStr = string.Format(EventCommandSentenceFormatForkConditionForMe,
+                    leftVarName, rightVarName, x.Condition.EventCommandSentence);
+                var branchStr = string.Format(EventCommandSentenceFormatForkConditionForBranch,
+                    leftVarName, rightVarName, x.Condition.EventCommandSentence);
+                return (myStr, branchStr);
+            }).ToList();
+
+            desc.StartBranch(BranchType.ConditionNumber, forkStringsList.Select(x => x.branchStr).ToList());
+
+            var forkStrList = forkStringsList.Select(x => x.myStr)
+                .Select((x, idx) =>
+                    string.Format(EventCommandSentenceFormatFork,
+                        idx + 1, x)
+                );
+
+            return string.Format(EventCommandSentenceFormatMain,
+                string.Join("", forkStrList));
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -202,5 +251,9 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>分岐リスト</summary>
         public ConditionNumberList ConditionList { get; } = new ConditionNumberList();
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
     }
 }

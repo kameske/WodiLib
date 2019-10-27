@@ -6,7 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Database;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -17,6 +19,13 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class DBManagementGetDataLength : DBManagementOutputBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "{0}DB[ﾀｲﾌﾟ{1}({2})のデータ数]";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -89,6 +98,35 @@ namespace WodiLib.Event.EventCommand
         {
             get => false;
             set { }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            string paramType;
+            string targetType;
+            if (IsTypeIdUseStr)
+            {
+                paramType = DBTypeId.ToStr();
+                targetType = resolver.GetDatabaseTypeId(_DBKind, DBTypeId.ToStr())
+                    .Item2;
+            }
+            else
+            {
+                paramType = resolver.GetNumericVariableAddressStringIfVariableAddress(
+                    DBTypeId.ToInt(), type, desc);
+                targetType = resolver.GetDatabaseTypeName(_DBKind, DBTypeId.ToInt()).Item2;
+            }
+
+            return string.Format(EventCommandSentenceFormat,
+                _DBKind.EventCommandSentence, paramType, targetType);
         }
     }
 }

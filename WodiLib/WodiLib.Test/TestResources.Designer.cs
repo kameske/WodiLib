@@ -263,6 +263,26 @@ namespace WodiLib.Test {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] EventCommandSentence_Ver224_CommonEvent {
+            get {
+                object obj = ResourceManager.GetObject("EventCommandSentence_Ver224_CommonEvent", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] EventCommandSentence_Ver224_MapEvent {
+            get {
+                object obj = ResourceManager.GetObject("EventCommandSentence_Ver224_MapEvent", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] GameIni0 {
             get {
                 object obj = ResourceManager.GetObject("GameIni0", resourceCulture);
@@ -406,6 +426,16 @@ namespace WodiLib.Test {
         internal static byte[] SysDatabase1Project {
             get {
                 object obj = ResourceManager.GetObject("SysDatabase1Project", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] TestProject_Ver224Zip {
+            get {
+                object obj = ResourceManager.GetObject("TestProject_Ver224Zip", resourceCulture);
                 return ((byte[])(obj));
             }
         }

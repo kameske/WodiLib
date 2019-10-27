@@ -27,16 +27,24 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文字列</summary>
+        internal string EventCommandSentence { get; }
+
         static StandardKeyInputControlType()
         {
-            OkMoveOkInput = new StandardKeyInputControlType(nameof(OkMoveOkInput), 0x00);
-            NgMoveOkInput = new StandardKeyInputControlType(nameof(NgMoveOkInput), 0x01);
-            NgMoveNgInput = new StandardKeyInputControlType(nameof(NgMoveNgInput), 0x02);
+            OkMoveOkInput = new StandardKeyInputControlType(nameof(OkMoveOkInput),
+                0x00, "[ 移動時○  キー入力○ ]");
+            NgMoveOkInput = new StandardKeyInputControlType(nameof(NgMoveOkInput),
+                0x01, "[ 移動時×  キー入力○ ]");
+            NgMoveNgInput = new StandardKeyInputControlType(nameof(NgMoveNgInput),
+                0x02, "[ 移動時×  キー入力× ]");
         }
 
-        private StandardKeyInputControlType(string id, byte code) : base(id)
+        private StandardKeyInputControlType(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

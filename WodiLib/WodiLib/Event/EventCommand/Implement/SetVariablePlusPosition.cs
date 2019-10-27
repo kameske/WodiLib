@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -97,6 +99,25 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         private const byte FlgPrecise = 0x20;
+
+        private const string EventCommandSentenceFormat = "X:{0} Y:{1}の{2}";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var xStr = resolver.GetNumericVariableAddressStringIfVariableAddress(PositionX, type, desc);
+            var yStr = resolver.GetNumericVariableAddressStringIfVariableAddress(PositionY, type, desc);
+
+            return string.Format(EventCommandSentenceFormat,
+                xStr, yStr, InfoType.EventCommandSentence);
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     VersionCheck

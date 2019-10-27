@@ -6,6 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
+using WodiLib.Project;
+
 namespace WodiLib.Event.CharaMoveCommand
 {
     /// <inheritdoc />
@@ -14,6 +17,12 @@ namespace WodiLib.Event.CharaMoveCommand
     /// </summary>
     public class WaitMoveCommand : CharaMoveCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "ウェイト {0}フレーム";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -29,6 +38,18 @@ namespace WodiLib.Event.CharaMoveCommand
         {
             get => GetNumberValue(0);
             set => SetNumberValue(0, value);
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override string GetEventCommandSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var frameStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
+                Frame, type, desc);
+
+            return string.Format(EventCommandSentenceFormat, frameStr);
         }
     }
 }

@@ -8,6 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using WodiLib.Event;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -178,6 +181,34 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
+        /// 指定したマップイベントIDのマップイベントを取得する。
+        /// </summary>
+        /// <param name="mapEventId">マップイベントID</param>
+        /// <returns>マップイベント（存在しない場合null）</returns>
+        public MapEvent GetMapEvent(MapEventId mapEventId)
+            => MapEvents.GetMapEvent(mapEventId);
+
+        /// <summary>
+        /// 指定したマップイベントIDのマップイベントページリストを取得する。
+        /// </summary>
+        /// <param name="mapEventId">マップイベントID</param>
+        /// <returns>マップイベントページリスト</returns>
+        /// <exception cref="ArgumentException">マップイベントIDで指定したマップイベントが存在しない場合</exception>
+        public MapEventPageList GetEventPageList(MapEventId mapEventId)
+            => MapEvents.GetEventPageList(mapEventId);
+
+        /// <summary>
+        /// 指定したマップイベントID、ページインデックスのマップイベントページ情報を取得する。
+        /// </summary>
+        /// <param name="mapEventId">マップイベントID</param>
+        /// <param name="pageIndex">[Range(1, {対象イベントのページ数})] マップイベントページインデックス</param>
+        /// <returns>マップイベントページ情報</returns>
+        /// <exception cref="ArgumentException">マップイベントIDで指定したマップイベントが存在しない場合</exception>
+        /// <exception cref="ArgumentOutOfRangeException">pageIndex が指定範囲外の場合</exception>
+        public MapEventPage GetMapEventPage(MapEventId mapEventId, MapEventPageIndex pageIndex)
+            => MapEvents.GetMapEventPage(mapEventId, pageIndex);
+
+        /// <summary>
         /// マップサイズ横を更新する。
         /// レイヤ情報もともに更新される。
         /// </summary>
@@ -210,6 +241,38 @@ namespace WodiLib.Map
         {
             UpdateMapSizeWidth(width);
             UpdateMapSizeHeight(height);
+        }
+
+        /// <summary>
+        /// イベントコマンド文字列情報リストを取得する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="eventId">[Range(0, MapEvents.Count - 1)] マップイベントID</param>
+        /// <param name="page">[Range(0, PageValue-1)] ページインデックス</param>
+        /// <returns>イベントコマンド文字列</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     resolver または type が null の場合、
+        ///     または必要なときに desc が null の場合
+        /// </exception>
+        /// <exception cref="ArgumentException">eventIdがThisMapEventの場合</exception>
+        /// <exception cref="ArgumentOutOfRangeException">eventId, pageが指定された範囲外の場合</exception>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public IReadOnlyList<EventCommandSentenceInfo> MakeEventCommandSentenceInfoList(
+            EventCommandSentenceResolver resolver, EventCommandSentenceResolveDesc desc,
+            MapEventId eventId, int page)
+        {
+            if (eventId == MapEventId.ThisMapEvent)
+                throw new ArgumentException(
+                    ErrorMessage.Deny(nameof(eventId), $"{nameof(MapEventId)}.{nameof(MapEventId.ThisMapEvent)}"));
+
+            const int idMin = 0;
+            var idMax = MapEvents.Count - 1;
+            if (eventId < idMin || idMax < eventId)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(eventId), idMin, idMax, eventId));
+
+            return MapEvents[eventId].MakeEventCommandSentenceInfoList(resolver, desc, page);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

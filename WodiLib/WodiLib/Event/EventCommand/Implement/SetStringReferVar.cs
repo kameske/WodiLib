@@ -6,6 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
+using WodiLib.Project;
+
 namespace WodiLib.Event.EventCommand
 {
     /// <inheritdoc />
@@ -14,6 +17,12 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class SetStringReferVar : SetStringBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "位置[{0}]の文字列";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -70,6 +79,21 @@ namespace WodiLib.Event.EventCommand
         {
             get => "";
             set { }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var loadVarStr = resolver.GetVariableAddressStringIfVariableAddress(RightSide, type, desc);
+
+            return string.Format(EventCommandSentenceFormat, loadVarStr);
         }
     }
 }

@@ -211,6 +211,16 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
+        /// データが存在しない場合のエラーメッセージ
+        /// </summary>
+        /// <param name="itemName">項目名</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string NotFound(string itemName)
+        {
+            return $"{itemName}が見つかりません。";
+        }
+
+        /// <summary>
         /// データサイズが超過する場合のエラーメッセージ
         /// </summary>
         /// <param name="maxByte">データ最大バイト数</param>

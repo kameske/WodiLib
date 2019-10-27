@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -18,6 +19,16 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class PictureErase : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "■ﾋﾟｸﾁｬ消去：{0}{1}  / {2}({3})ﾌﾚｰﾑ";
+
+        private const string EventCommandSentenceFormatMultiTarget = " ～ {0}";
+        private const string EventCommandSentenceFormatNotMultiTarget = "";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -41,6 +52,10 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>数値変数最小個数</summary>
         public override byte NumberVariableCountMin => 0x04;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.BrightGreen;
 
         /// <inheritdoc />
         /// <summary>
@@ -161,6 +176,31 @@ namespace WodiLib.Event.EventCommand
         public override void SetSafetyStringVariable(int index, string value)
         {
             throw new ArgumentOutOfRangeException();
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var picNumStr = resolver.GetNumericVariableAddressStringIfVariableAddress(PictureNumber, type, desc);
+            string sequenceStr;
+            if (IsMultiTarget)
+            {
+                var picEndStr = resolver.GetNumericVariableAddressStringIfVariableAddress(SequenceValue, type, desc);
+                sequenceStr = string.Format(EventCommandSentenceFormatMultiTarget, picEndStr);
+            }
+            else
+            {
+                sequenceStr = EventCommandSentenceFormatNotMultiTarget;
+            }
+
+            var processTimeStr = resolver.GetNumericVariableAddressStringIfVariableAddress(ProcessTime, type, desc);
+            var delayStr = resolver.GetNumericVariableAddressStringIfVariableAddress(Delay, type, desc);
+
+            return string.Format(EventCommandSentenceFormat,
+                picNumStr, sequenceStr, processTimeStr, delayStr);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

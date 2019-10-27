@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using WodiLib.Project;
+
 namespace WodiLib.Event.EventCommand
 {
     /// <inheritdoc />
@@ -24,6 +26,9 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        protected override string DrawTypeStr => "移動";
 
         /// <inheritdoc />
         /// <summary>読み込みファイル指定文字列変数</summary>
@@ -100,5 +105,19 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>文字列変数指定フラグフラグ</summary>
         protected override bool IsLoadForVariableAddress => false;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        protected override string MakeEventCommandAnchorSentence()
+            => "";
+
+        /// <inheritdoc />
+        protected override string MakeEventCommandDrawItemSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+            => "";
     }
 }

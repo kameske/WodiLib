@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using WodiLib.Database;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -361,6 +362,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>代入演算子コード</summary>
         protected abstract byte NumberAssignOperationCode { get; set; }
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.DeepRed;
 
         /// <summary>
         /// 名前に文字列を使用する。ラグ

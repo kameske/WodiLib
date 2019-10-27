@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using WodiLib.Project;
+
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
@@ -13,6 +15,8 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class Color
     {
+        private const string EventCommandSentenceFormat = "R[{0}] G[{1}] B[{2}]";
+
         /// <summary>赤（int）</summary>
         public int R { get; set; } = 100;
 
@@ -41,6 +45,25 @@ namespace WodiLib.Event.EventCommand
         {
             get => (byte) B;
             set => B = value;
+        }
+
+        /// <summary>
+        /// イベントコマンド文字列を取得する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列</returns>
+        public string GetEventCommandSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var rStr = resolver.GetNumericVariableAddressStringIfVariableAddress(R, type, desc);
+            var gStr = resolver.GetNumericVariableAddressStringIfVariableAddress(G, type, desc);
+            var bStr = resolver.GetNumericVariableAddressStringIfVariableAddress(B, type, desc);
+
+            return string.Format(EventCommandSentenceFormat,
+                rStr, gStr, bStr);
         }
     }
 }

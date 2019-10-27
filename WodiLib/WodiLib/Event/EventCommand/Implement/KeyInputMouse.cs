@@ -8,6 +8,8 @@
 
 using System;
 using System.ComponentModel;
+using System.Text;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -25,6 +27,11 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>キー入力種別フラグ値</summary>
         private readonly byte FlgKeyInputType = EventCommandConstant.KeyInput.Type.Mouse;
+
+        private const string EventCommandSentenceFormat = "{1} マウス{0}";
+
+        private const string EventCommandSentenceWait = "[入力待ち] ";
+        private const string EventCommandSentenceNonWait = "";
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
@@ -98,6 +105,22 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var inputItemStr = acceptStatus.GetEventCommandSentence();
+
+            var waitStr = IsWaitForInput
+                ? EventCommandSentenceWait
+                : EventCommandSentenceNonWait;
+
+            return string.Format(EventCommandSentenceFormat,
+                inputItemStr, waitStr);
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -143,6 +166,13 @@ namespace WodiLib.Event.EventCommand
         {
             /// <summary>読み込み対象</summary>
             public KeyInputMouseTarget Target { get; set; }
+
+            private static class EventCommandSentenceAccept
+            {
+                public const string LeftClick = " 左ｸﾘｯｸ(20)";
+                public const string RightClick = " 右ｸﾘｯｸ(21)";
+                public const string CenterClick = " 中ｸﾘｯｸ(22)";
+            }
 
             private bool isAcceptLeftClick;
 
@@ -192,6 +222,21 @@ namespace WodiLib.Event.EventCommand
                 if (IsAcceptRightClick) result += FlgAcceptRightClick;
                 if (IsAcceptCenterClick) result += FlgAcceptCenterClick;
                 return result;
+            }
+
+            public string GetEventCommandSentence()
+            {
+                if (Target != KeyInputMouseTarget.ClickState)
+                {
+                    return Target.EventCommandSentence;
+                }
+
+                var builder = new StringBuilder();
+                if (IsAcceptLeftClick) builder.Append(EventCommandSentenceAccept.LeftClick);
+                if (IsAcceptRightClick) builder.Append(EventCommandSentenceAccept.RightClick);
+                if (IsAcceptCenterClick) builder.Append(EventCommandSentenceAccept.CenterClick);
+
+                return builder.ToString();
             }
         }
 

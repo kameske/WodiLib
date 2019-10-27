@@ -44,21 +44,35 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static CalculateOperator()
         {
-            Addition = new CalculateOperator(nameof(Addition), 0x00);
-            Subtraction = new CalculateOperator(nameof(Subtraction), 0x10);
-            Multiplication = new CalculateOperator(nameof(Multiplication), 0x20);
-            Division = new CalculateOperator(nameof(Division), 0x30);
-            Modulo = new CalculateOperator(nameof(Modulo), 0x40);
-            BitAnd = new CalculateOperator(nameof(BitAnd), 0x50);
-            Between = new CalculateOperator(nameof(Between), 0x60);
-            Angle = new CalculateOperator(nameof(Angle), 0xF0);
+            Addition = new CalculateOperator(nameof(Addition), 0x00,
+                "+");
+            Subtraction = new CalculateOperator(nameof(Subtraction), 0x10,
+                "-");
+            Multiplication = new CalculateOperator(nameof(Multiplication), 0x20,
+                "*");
+            Division = new CalculateOperator(nameof(Division), 0x30,
+                "/");
+            Modulo = new CalculateOperator(nameof(Modulo), 0x40,
+                "%");
+            BitAnd = new CalculateOperator(nameof(BitAnd), 0x50,
+                "論理積");
+            Between = new CalculateOperator(nameof(Between), 0x60,
+                "～");
+            Angle = new CalculateOperator(nameof(Angle), 0xF0,
+                "");
         }
 
-        private CalculateOperator(string id, byte code) : base(id)
+        private CalculateOperator(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

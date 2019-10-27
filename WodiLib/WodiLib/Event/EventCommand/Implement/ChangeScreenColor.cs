@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -18,6 +19,15 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class ChangeScreenColor : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "■色調変更：{4} R{0} G{1} B{2} / {3}ﾌﾚｰﾑ";
+
+        private const string EventCommandSentenceFlash = "(フラッシュ)";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -44,6 +54,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>数値引数の数最大値</summary>
         private byte NumberVariableCountMax => 0x06;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.BrightGreen;
 
         /// <inheritdoc />
         /// <summary>
@@ -181,6 +195,22 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         internal override bool IsNormalNumberArgIndex(int index) => index < NumberVariableCountMax;
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var flash = IsFlush ? EventCommandSentenceFlash : string.Empty;
+
+            return string.Format(EventCommandSentenceFormat,
+                resolver.GetNumericVariableAddressStringIfVariableAddress(Color.R, type, desc),
+                resolver.GetNumericVariableAddressStringIfVariableAddress(Color.G, type, desc),
+                resolver.GetNumericVariableAddressStringIfVariableAddress(Color.B, type, desc),
+                resolver.GetNumericVariableAddressStringIfVariableAddress(ProcessTime, type, desc),
+                flash);
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property

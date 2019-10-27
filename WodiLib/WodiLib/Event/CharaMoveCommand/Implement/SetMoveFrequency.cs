@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.CharaMoveCommand
@@ -16,6 +18,12 @@ namespace WodiLib.Event.CharaMoveCommand
     /// </summary>
     public class SetMoveFrequency : CharaMoveCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "移動頻度を設定 => {0}";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -53,6 +61,15 @@ namespace WodiLib.Event.CharaMoveCommand
             // 引数0の初期値設定
             var val = moveFrequency.Code;
             SetNumberValue(0, val);
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override string GetEventCommandSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            return string.Format(EventCommandSentenceFormat, Value.Code);
         }
     }
 }

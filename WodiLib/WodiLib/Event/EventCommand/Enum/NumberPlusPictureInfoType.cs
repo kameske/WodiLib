@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -81,34 +82,61 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public int Code { get; }
 
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static NumberPlusPictureInfoType()
         {
-            PositionX = new NumberPlusPictureInfoType(nameof(PositionX), 0);
-            PositionY = new NumberPlusPictureInfoType(nameof(PositionY), 1);
-            ImageSizeWidth = new NumberPlusPictureInfoType(nameof(ImageSizeWidth), 2);
-            ImageSizeHeight = new NumberPlusPictureInfoType(nameof(ImageSizeHeight), 3);
-            PatternNumber = new NumberPlusPictureInfoType(nameof(PatternNumber), 4);
-            Opacity = new NumberPlusPictureInfoType(nameof(Opacity), 5);
-            Angle = new NumberPlusPictureInfoType(nameof(Angle), 6);
-            Zoom = new NumberPlusPictureInfoType(nameof(Zoom), 7);
-            ZoomWidth = new NumberPlusPictureInfoType(nameof(ZoomWidth), 11);
-            ZoomHeight = new NumberPlusPictureInfoType(nameof(ZoomHeight), 12);
-            IsMouseCursorHover = new NumberPlusPictureInfoType(nameof(IsMouseCursorHover), 8);
-            IsUsePicture = new NumberPlusPictureInfoType(nameof(IsUsePicture), 9);
-            IsDoneStringDisplaying = new NumberPlusPictureInfoType(nameof(IsDoneStringDisplaying), 10);
-            FreeModeLeftUpX = new NumberPlusPictureInfoType(nameof(FreeModeLeftUpX), 13);
-            FreeModeLeftUpY = new NumberPlusPictureInfoType(nameof(FreeModeLeftUpY), 14);
-            FreeModeRightUpX = new NumberPlusPictureInfoType(nameof(FreeModeRightUpX), 15);
-            FreeModeRightUpY = new NumberPlusPictureInfoType(nameof(FreeModeRightUpY), 16);
-            FreeModeLeftDownX = new NumberPlusPictureInfoType(nameof(FreeModeLeftDownX), 17);
-            FreeModeLeftDownY = new NumberPlusPictureInfoType(nameof(FreeModeLeftDownY), 18);
-            FreeModeRightDownX = new NumberPlusPictureInfoType(nameof(FreeModeRightDownX), 19);
-            FreeModeRightDownY = new NumberPlusPictureInfoType(nameof(FreeModeRightDownY), 20);
+            PositionX = new NumberPlusPictureInfoType(nameof(PositionX), 0,
+                "X座標");
+            PositionY = new NumberPlusPictureInfoType(nameof(PositionY), 1,
+                "Y座標");
+            ImageSizeWidth = new NumberPlusPictureInfoType(nameof(ImageSizeWidth), 2,
+                "画像サイズ(横)");
+            ImageSizeHeight = new NumberPlusPictureInfoType(nameof(ImageSizeHeight), 3,
+                "画像サイズ(縦)");
+            PatternNumber = new NumberPlusPictureInfoType(nameof(PatternNumber), 4,
+                "パターン番号");
+            Opacity = new NumberPlusPictureInfoType(nameof(Opacity), 5,
+                "不透明度");
+            Angle = new NumberPlusPictureInfoType(nameof(Angle), 6,
+                "角度");
+            Zoom = new NumberPlusPictureInfoType(nameof(Zoom), 7,
+                "拡大率");
+            ZoomWidth = new NumberPlusPictureInfoType(nameof(ZoomWidth), 11,
+                "拡大率(横)");
+            ZoomHeight = new NumberPlusPictureInfoType(nameof(ZoomHeight), 12,
+                "拡大率(縦)");
+            IsMouseCursorHover = new NumberPlusPictureInfoType(nameof(IsMouseCursorHover), 8,
+                "マウス重なってる？(1=YES)");
+            IsUsePicture = new NumberPlusPictureInfoType(nameof(IsUsePicture), 9,
+                "ピクチャが使用中？(1=YES)");
+            IsDoneStringDisplaying = new NumberPlusPictureInfoType(nameof(IsDoneStringDisplaying), 10,
+                "文字列、表示完了？(1=YES)");
+            FreeModeLeftUpX = new NumberPlusPictureInfoType(nameof(FreeModeLeftUpX), 13,
+                "左上X座標 [自由変形時以外なら-1]");
+            FreeModeLeftUpY = new NumberPlusPictureInfoType(nameof(FreeModeLeftUpY), 14,
+                "左上Y座標 [自由変形時以外なら-1]");
+            FreeModeRightUpX = new NumberPlusPictureInfoType(nameof(FreeModeRightUpX), 15,
+                "右上X座標 [自由変形時以外なら-1]");
+            FreeModeRightUpY = new NumberPlusPictureInfoType(nameof(FreeModeRightUpY), 16,
+                "右上Y座標 [自由変形時以外なら-1]");
+            FreeModeLeftDownX = new NumberPlusPictureInfoType(nameof(FreeModeLeftDownX), 17,
+                "左下X座標 [自由変形時以外なら-1]");
+            FreeModeLeftDownY = new NumberPlusPictureInfoType(nameof(FreeModeLeftDownY), 18,
+                "左下Y座標 [自由変形時以外なら-1]");
+            FreeModeRightDownX = new NumberPlusPictureInfoType(nameof(FreeModeRightDownX), 19,
+                "右下X座標 [自由変形時以外なら-1]");
+            FreeModeRightDownY = new NumberPlusPictureInfoType(nameof(FreeModeRightDownY), 20,
+                "右下Y座標 [自由変形時以外なら-1]");
         }
 
-        private NumberPlusPictureInfoType(string id, int code) : base(id)
+        private NumberPlusPictureInfoType(string id, int code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -45,22 +46,37 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static DirectionKeyType()
         {
-            NotAccept = new DirectionKeyType(nameof(NotAccept), 0x00);
-            FourDirections = new DirectionKeyType(nameof(FourDirections), 0x01);
-            EightDirections = new DirectionKeyType(nameof(EightDirections), 0x02);
-            Up = new DirectionKeyType(nameof(Up), 0x03);
-            Down = new DirectionKeyType(nameof(Down), 0x04);
-            Left = new DirectionKeyType(nameof(Left), 0x05);
-            Right = new DirectionKeyType(nameof(Right), 0x06);
-            UpDown = new DirectionKeyType(nameof(UpDown), 0x07);
-            LeftRight = new DirectionKeyType(nameof(LeftRight), 0x08);
+            NotAccept = new DirectionKeyType(nameof(NotAccept), 0x00,
+                "");
+            FourDirections = new DirectionKeyType(nameof(FourDirections), 0x01,
+                "4方向");
+            EightDirections = new DirectionKeyType(nameof(EightDirections), 0x02,
+                "8方向");
+            Up = new DirectionKeyType(nameof(Up), 0x03,
+                "上(8)のみ");
+            Down = new DirectionKeyType(nameof(Down), 0x04,
+                "下(2)のみ");
+            Left = new DirectionKeyType(nameof(Left), 0x05,
+                "左(4)のみ");
+            Right = new DirectionKeyType(nameof(Right), 0x06,
+                "右(6)のみ");
+            UpDown = new DirectionKeyType(nameof(UpDown), 0x07,
+                "上下(8,2)");
+            LeftRight = new DirectionKeyType(nameof(LeftRight), 0x08,
+                "左右(4,6)");
         }
 
-        private DirectionKeyType(string id, byte code) : base(id)
+        private DirectionKeyType(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

@@ -8,6 +8,8 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Database;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -19,6 +21,30 @@ namespace WodiLib.Event.EventCommand
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class SoundBase : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "■サウンド：{0}";
+
+        private const string EventCommandSentenceFormatExecBaseDirectFile
+            = "{0} ﾌｧｲﾙ[{1}] 音 {2}％ 周 {3}％ {4}{5}";
+
+        private const string EventCommandSentenceFormatExecBaseStop
+            = "{0} 停止 {1}";
+
+        private const string EventCommandSentenceFormatStopDuration
+            = "  /  {0}：{1}ﾌﾚｰﾑ";
+
+        private const string EventCommandSentenceFormatExecBaseId
+            = "{0}{1}「{2}」{3}";
+
+        private const string EventCommandSentenceFormatExecBaseVariableAddress
+            = "{0} 変数[{1}] {2}";
+
+        private const string EventCommandSentenceFormatLoop = "ﾙ {0}ms ";
+        private const string EventCommandSentenceFormatNotLoop = "";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -56,6 +82,10 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>文字列変数最小個数</summary>
         public override byte StringVariableCountMin => 0x00;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.BrightGreen;
 
         /// <inheritdoc />
         /// <summary>
@@ -216,6 +246,135 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            if (!UseDetailStringByEventCommandSentence) return MakeEventCommandSentenceSimple(resolver, type, desc);
+
+            var execMainStr = MakeEventCommandExecMainSentence(resolver, type, desc);
+            string execStr;
+            if (Specification == AudioSpecification.FileName)
+            {
+                execStr = MakeEventCommandExecSentenceForFileName(resolver, type, desc, execMainStr);
+            }
+            else if (Specification == AudioSpecification.SdbDirect)
+            {
+                execStr = MakeEventCommandExecSentenceForSdbDirect(resolver, type, desc, execMainStr);
+            }
+            else
+            {
+                execStr = MakeEventCommandExecSentenceForSdbRefer(resolver, type, desc, execMainStr);
+            }
+
+            return string.Format(EventCommandSentenceFormat, execStr);
+        }
+
+        private string MakeEventCommandSentenceSimple(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var mainSentence = MakeEventCommandExecMainSentence(resolver, type, desc);
+            return string.Format(EventCommandSentenceFormat, mainSentence);
+        }
+
+        /// <summary>
+        /// イベントコマンド文字列の実行内容部分を生成する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列の実行内容部分</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected abstract string MakeEventCommandExecMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc);
+
+        private string MakeEventCommandExecSentenceForFileName(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc, string execMainStr)
+        {
+            var volStr = resolver.GetNumericVariableAddressStringIfVariableAddress(Volume, type, desc);
+            var frequencyStr = resolver.GetNumericVariableAddressStringIfVariableAddress(Frequency, type, desc);
+            var loopStr = MakeEventCommandLoopSentence(resolver, type, desc);
+
+            return string.Format(EventCommandSentenceFormatExecBaseDirectFile,
+                AudioType.EventCommandSentence, AudioFileName, volStr, frequencyStr,
+                loopStr, execMainStr);
+        }
+
+        private string MakeEventCommandLoopSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            if (Specification != AudioSpecification.FileName)
+            {
+                return EventCommandSentenceFormatNotLoop;
+            }
+
+            if (AudioType == AudioType.Se)
+            {
+                return EventCommandSentenceFormatNotLoop;
+            }
+
+            var loopVarStr = resolver.GetNumericVariableAddressStringIfVariableAddress(LoopPoint, type, desc);
+            return string.Format(EventCommandSentenceFormatLoop, loopVarStr);
+        }
+
+        private string MakeEventCommandExecSentenceForSdbDirect(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc, string execMainStr)
+        {
+            if (SoundId == -1)
+            {
+                var fadeStr = resolver.GetNumericVariableAddressStringIfVariableAddress(FadeTime, type, desc);
+                string durationStr;
+                if (UseDurationStrIfStop)
+                {
+                    durationStr = string.Format(EventCommandSentenceFormatStopDuration,
+                        AudioType.EventCommandTimeSentence, fadeStr);
+                }
+                else
+                {
+                    durationStr = MakeEventCommandExecMainSentence(resolver, type, desc);
+                }
+
+                return string.Format(EventCommandSentenceFormatExecBaseStop,
+                    AudioType.EventCommandSentence, durationStr);
+            }
+
+            TypeId soundTypeId;
+            if (AudioType == AudioType.Bgm)
+            {
+                soundTypeId = 1;
+            }
+            else if (AudioType == AudioType.Bgs)
+            {
+                soundTypeId = 2;
+            }
+            else
+            {
+                soundTypeId = 3;
+            }
+
+            var soundIdStr = resolver.GetNumericVariableAddressStringIfVariableAddress(SoundId, type, desc);
+            var dataName = resolver.GetDatabaseDataName(DBKind.System, soundTypeId, SoundId).Item2;
+
+            return string.Format(EventCommandSentenceFormatExecBaseId,
+                AudioType.EventCommandSentence, soundIdStr, dataName, execMainStr);
+        }
+
+        private string MakeEventCommandExecSentenceForSdbRefer(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc, string execMainStr)
+        {
+            var varAddressName = resolver.GetNumericVariableAddressStringIfVariableAddress(NumberVariable, type, desc);
+            return string.Format(EventCommandSentenceFormatExecBaseVariableAddress,
+                AudioType.EventCommandSentence, varAddressName, execMainStr);
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -313,6 +472,16 @@ namespace WodiLib.Event.EventCommand
             /// <summary>全開放</summary>
             ReleaseAll = 3
         }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Internal Virtual Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>イベントコマンド文字列・詳細表示フラグ</summary>
+        internal virtual bool UseDetailStringByEventCommandSentence => true;
+
+        /// <summary>イベントコマンド文字列・停止時処理時間表示フラグ</summary>
+        internal virtual bool UseDurationStrIfStop => true;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Const

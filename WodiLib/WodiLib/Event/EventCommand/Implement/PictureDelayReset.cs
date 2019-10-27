@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -18,6 +19,16 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class PictureDelayReset : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "■ﾋﾟｸﾁｬ[ﾃﾞｨﾚｲ内容ﾘｾｯﾄ]：{0} {1}";
+
+        private const string EventCommandSentenceSingleTarget = "";
+        private const string EventCommandSentenceMultiTarget = "～ {0} ";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -34,6 +45,10 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>数値変数最小個数</summary>
         public override byte NumberVariableCountMin => 0x03;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.BrightGreen;
 
         /// <inheritdoc />
         /// <summary>
@@ -139,6 +154,29 @@ namespace WodiLib.Event.EventCommand
         public override void SetSafetyStringVariable(int index, string value)
         {
             throw new ArgumentOutOfRangeException();
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var pictureNumberStr = resolver.GetNumericVariableAddressStringIfVariableAddress(PictureNumber, type, desc);
+            string pictureEndStr;
+            if (IsMultiTarget)
+            {
+                var pictureEndVarName =
+                    resolver.GetNumericVariableAddressStringIfVariableAddress(SequenceValue, type, desc);
+                pictureEndStr = string.Format(EventCommandSentenceMultiTarget, pictureEndVarName);
+            }
+            else
+            {
+                pictureEndStr = EventCommandSentenceSingleTarget;
+            }
+
+            return string.Format(EventCommandSentenceFormat,
+                pictureNumberStr, pictureEndStr);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

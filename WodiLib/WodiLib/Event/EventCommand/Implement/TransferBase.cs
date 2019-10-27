@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -20,6 +21,12 @@ namespace WodiLib.Event.EventCommand
     public abstract class TransferBase : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "■場所移動：{0} {1} [{2}]";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -28,6 +35,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         public override byte StringVariableCount => 0x00;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
 
         /// <summary>
         /// インデックスを指定して数値変数を取得する。
@@ -140,6 +151,31 @@ namespace WodiLib.Event.EventCommand
         {
             throw new ArgumentOutOfRangeException();
         }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var targetStr = resolver.GetTransferEventName(_Target, type, desc);
+            var moveParamStr = MakeEventCommandMoveParamSentence(resolver, type, desc);
+
+            return string.Format(EventCommandSentenceFormat,
+                targetStr, moveParamStr, _TransferOption.EventCommandSentence);
+        }
+
+        /// <summary>
+        /// イベントコマンド文字列のメイン部分（インデント以降の部分）を生成する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列のメイン部分</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected abstract string MakeEventCommandMoveParamSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Property

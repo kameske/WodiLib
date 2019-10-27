@@ -519,6 +519,23 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
+        /// 要素数が不足している場合、要素数を指定の数に合わせる。
+        /// </summary>
+        /// <param name="length">[Range(GetMinCapacity(), GetMaxCapacity())] 調整する要素数</param>
+        /// <exception cref="ArgumentOutOfRangeException">lengthが指定範囲外の場合</exception>
+        /// <exception cref="ArgumentException">要素を追加した際にnullがセットされた場合</exception>
+        public void AdjustLengthIfShort(int length)
+        {
+            var min = GetMinCapacity();
+            var max = GetMaxCapacity();
+            if (length < min || max < length)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(length), min, max, length));
+            if (Count >= length) return;
+            AdjustLength(length);
+        }
+
+        /// <summary>
         /// すべての要素を削除し、最小の要素数だけ初期化する。
         /// </summary>
         public void Clear()

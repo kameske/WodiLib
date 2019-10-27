@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -64,6 +65,54 @@ namespace WodiLib.Common
         /// </summary>
         /// <returns>容量最小値</returns>
         public override int GetMinCapacity() => MinCapacity;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 指定したコモンイベントのイベントコードリストを取得する。
+        /// </summary>
+        /// <returns>イベントコードリスト</returns>
+        public IReadOnlyList<string> GetEventCodeStringList(CommonEventId commonEventId)
+        {
+            var max = Count;
+            const int min = 0;
+            if (commonEventId < min || max < commonEventId)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(commonEventId), min, max, commonEventId));
+
+            var targetCommonEvent = this[commonEventId];
+
+            return targetCommonEvent.GetEventCodeStringList();
+        }
+
+        /// <summary>
+        /// 指定したコモンイベントのイベントコマンド文字列情報を返す。
+        /// </summary>
+        /// <param name="commonEventId">[Range(0, Count - 1)] コモンイベントID</param>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列情報リスト</returns>
+        /// <exception cref="ArgumentOutOfRangeException">commonEventIdが指定範囲外の場合</exception>
+        /// <exception cref="ArgumentNullException">
+        ///     resolver または type が null の場合、
+        ///     または必要なときに desc が null の場合
+        /// </exception>
+        public IReadOnlyList<EventCommandSentenceInfo> GetCommonEventEventCommandSentenceInfoList(
+            CommonEventId commonEventId, EventCommandSentenceResolver resolver,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var max = Count;
+            const int min = 0;
+            if (commonEventId < min || max < commonEventId)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(commonEventId), min, max, commonEventId));
+
+            var targetCommonEvent = this[commonEventId];
+
+            return targetCommonEvent.MakeEventCommandSentenceInfoList(resolver, desc);
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method

@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -20,6 +21,15 @@ namespace WodiLib.Event.EventCommand
     public abstract class SetVariablePlusBase : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "■変数操作+: {3}{0} {1} {2}";
+
+        private const string EventCommandSentenceRound = "[ﾘ]";
+        private const string EventCommandSentenceNotRound = "";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -28,6 +38,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         public override byte StringVariableCount => 0x00;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.DeepRed;
 
         /// <inheritdoc />
         /// <summary>
@@ -149,6 +163,36 @@ namespace WodiLib.Event.EventCommand
         {
             throw new ArgumentOutOfRangeException();
         }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var leftSideStr = resolver.GetNumericVariableAddressStringIfVariableAddress(LeftSide, type, desc);
+            if (IsUseVariableXLeft) leftSideStr = $"V[{leftSideStr}]";
+            var rightSideStr = MakeEventCommandRightSideSentence(resolver, type, desc);
+            var roundStr = IsRoundMillion
+                ? EventCommandSentenceRound
+                : EventCommandSentenceNotRound;
+
+            return string.Format(EventCommandSentenceFormat,
+                leftSideStr, AssignmentOperator.EventCommandSentence, rightSideStr,
+                roundStr);
+        }
+
+        /// <summary>
+        /// イベントコマンド文字列の右辺部分を生成する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列の右辺部分</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected abstract string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property

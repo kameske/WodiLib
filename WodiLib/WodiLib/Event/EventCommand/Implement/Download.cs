@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -20,6 +21,24 @@ namespace WodiLib.Event.EventCommand
     public class Download : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "■ダウンロード：URL[ {0} ]{1} {2}";
+
+        private const string EventCommandStringHasWait = "<ｳｪｲﾄ>";
+        private const string EventCommandStringNoWait = "";
+
+        private const string EventCommandStringResponseOutputFile
+            = " 保存先[ {0} ] ";
+
+        private const string EventCommandStringResponseIfInputVariableIsZero
+            = "";
+
+        private const string EventCommandStringResponseInputVariable
+            = " > [ {0} ]に格納";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -31,6 +50,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         public override byte StringVariableCount => 0x02;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
 
         /// <inheritdoc />
         /// <summary>
@@ -144,6 +167,27 @@ namespace WodiLib.Event.EventCommand
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), 0, 1, index));
             }
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var waitStr = IsWaitForComplete
+                ? EventCommandStringHasWait
+                : EventCommandStringNoWait;
+
+            var responseStr = IsOutputFile
+                ? string.Format(EventCommandStringResponseOutputFile, StorageFolder)
+                : PathStringVar == 0
+                    ? EventCommandStringResponseIfInputVariableIsZero
+                    : string.Format(EventCommandStringResponseInputVariable,
+                        resolver.GetStringVariableAddressString(PathStringVar, type, desc));
+
+            return string.Format(EventCommandSentenceFormat,
+                DownloadUrl, waitStr, responseStr);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

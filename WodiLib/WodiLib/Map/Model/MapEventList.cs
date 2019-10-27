@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using WodiLib.Event;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -76,6 +77,52 @@ namespace WodiLib.Map
         /// </summary>
         /// <returns>容量最小値</returns>
         public override int GetMinCapacity() => MinCapacity;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 指定したマップイベントIDのマップイベントを取得する。
+        /// </summary>
+        /// <param name="mapEventId">マップイベントID</param>
+        /// <returns>マップイベント（存在しない場合null）</returns>
+        public MapEvent GetMapEvent(MapEventId mapEventId)
+            => Items.FirstOrDefault(x => x.MapEventId == mapEventId);
+
+        /// <summary>
+        /// 指定したマップイベントIDのマップイベントページリストを取得する。
+        /// </summary>
+        /// <param name="mapEventId">マップイベントID</param>
+        /// <returns>マップイベントページリスト</returns>
+        /// <exception cref="ArgumentException">マップイベントIDで指定したマップイベントが存在しない場合</exception>
+        public MapEventPageList GetEventPageList(MapEventId mapEventId)
+        {
+            var targetEvent = GetMapEvent(mapEventId);
+            if (targetEvent == null)
+                throw new ArgumentException(
+                    ErrorMessage.NotFound($"ID={mapEventId}のマップイベント"));
+
+            return targetEvent.MapEventPageList;
+        }
+
+        /// <summary>
+        /// 指定したマップイベントID、ページインデックスのマップイベントページ情報を取得する。
+        /// </summary>
+        /// <param name="mapEventId">マップイベントID</param>
+        /// <param name="pageIndex">[Range(1, {対象イベントのページ数})] マップイベントページインデックス</param>
+        /// <returns>マップイベントページ情報</returns>
+        /// <exception cref="ArgumentException">マップイベントIDで指定したマップイベントが存在しない場合</exception>
+        /// <exception cref="ArgumentOutOfRangeException">pageIndex が指定範囲外の場合</exception>
+        public MapEventPage GetMapEventPage(MapEventId mapEventId, MapEventPageIndex pageIndex)
+        {
+            var targetEvent = GetMapEvent(mapEventId);
+            if (targetEvent == null)
+                throw new ArgumentException(
+                    ErrorMessage.NotFound($"ID={mapEventId}のマップイベント"));
+
+            return targetEvent.MapEventPageList[pageIndex];
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method

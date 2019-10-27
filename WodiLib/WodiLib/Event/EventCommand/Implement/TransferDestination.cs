@@ -6,6 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
+using WodiLib.Cmn;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -17,11 +20,63 @@ namespace WodiLib.Event.EventCommand
     public class TransferDestination : TransferBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "{0}X:{1} Y:{2} {3}";
+
+        private const string EventCommandSentenceThisMap = "▲現在のマップ";
+        private const string EventCommandSentenceFormatNormal = "▲マップID{0}[{1}]";
+        private const string EventCommandSentenceFormatVariable = "▲マップIDXX<{0}>";
+
+        private const string EventCommandSentencePreciseCoordinates = "[精密]";
+        private const string EventCommandSentenceNotPreciseCoordinates = "";
+
+        private const int TargetHero = -1;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
         public override EventCommandCode EventCommandCode => EventCommandCode.Transfer;
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMoveParamSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var moveMapStr = Target == TargetHero
+                ? MakeEventCommandMoveMapSentence(resolver, type, desc) + " "
+                : "";
+            var xStr = resolver.GetNumericVariableAddressStringIfVariableAddress(PositionX, type, desc);
+            var yStr = resolver.GetNumericVariableAddressStringIfVariableAddress(PositionY, type, desc);
+            var preciseCoordinatesStr = IsPreciseCoordinates
+                ? EventCommandSentencePreciseCoordinates
+                : EventCommandSentenceNotPreciseCoordinates;
+
+            return string.Format(EventCommandSentenceFormat,
+                moveMapStr, xStr, yStr, preciseCoordinatesStr);
+        }
+
+        private string MakeEventCommandMoveMapSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            if (IsSameMap) return EventCommandSentenceThisMap;
+
+            if (DestinationMapId.IsVariableAddressSimpleCheck())
+            {
+                var varStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
+                    DestinationMapId, type, desc);
+                return string.Format(EventCommandSentenceFormatVariable, varStr);
+            }
+
+            var eventName = resolver.GetMapName(DestinationMapId).Item2;
+            return string.Format(EventCommandSentenceFormatNormal,
+                DestinationMapId, eventName);
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property

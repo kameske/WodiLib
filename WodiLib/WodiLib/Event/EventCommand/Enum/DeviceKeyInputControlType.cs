@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -24,15 +25,23 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static DeviceKeyInputControlType()
         {
-            Allow = new DeviceKeyInputControlType(nameof(Allow), 0x00);
-            Deny = new DeviceKeyInputControlType(nameof(Deny), 0x01);
+            Allow = new DeviceKeyInputControlType(nameof(Allow), 0x00,
+                "許可する");
+            Deny = new DeviceKeyInputControlType(nameof(Deny), 0x01,
+                "禁止する");
         }
 
-        private DeviceKeyInputControlType(string id, byte code) : base(id)
+        private DeviceKeyInputControlType(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

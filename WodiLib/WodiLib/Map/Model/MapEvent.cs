@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -60,6 +62,28 @@ namespace WodiLib.Map
                         ErrorMessage.NotNull(nameof(MapEventPageList)));
                 mapEventPageList = value;
             }
+        }
+
+        /// <summary>
+        /// イベントコマンド文字列情報リストを取得する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="page">[Range(0, PageValue-1)] ページインデックス</param>
+        /// <returns>イベントコマンド文字列</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     resolver または type が null の場合、
+        ///     または必要なときに desc が null の場合
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">pageが指定された範囲外の場合</exception>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public IReadOnlyList<EventCommandSentenceInfo> MakeEventCommandSentenceInfoList(
+            EventCommandSentenceResolver resolver, EventCommandSentenceResolveDesc desc,
+            int page)
+        {
+            var targetPage = MapEventPageList[page];
+
+            return targetPage.MakeEventCommandSentenceInfoList(resolver, desc);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

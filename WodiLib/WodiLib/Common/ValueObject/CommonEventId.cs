@@ -53,14 +53,20 @@ namespace WodiLib.Common
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[Range(0, 9999)] コモンイベントID</param>
+        /// <param name="value">
+        ///     [Range(0, 9999)][Range(500000, 509999)]
+        ///     コモンイベントID
+        /// </param>
         /// <exception cref="ArgumentOutOfRangeException">valueがコモンイベントIDとして不適切な場合</exception>
         public CommonEventId(int value)
         {
-            if (value < MinValue || MaxValue < value)
+            if ((value < MinValue || MaxValue < value)
+                && (value < MinValue + CommonEventOffset || MaxValue + CommonEventOffset < value))
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(value), MinValue, MaxValue, value));
-            Value = value;
+            Value = value >= CommonEventOffset
+                ? value - CommonEventOffset
+                : value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

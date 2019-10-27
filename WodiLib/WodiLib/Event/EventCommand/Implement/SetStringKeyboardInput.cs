@@ -6,6 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
+using WodiLib.Project;
+
 namespace WodiLib.Event.EventCommand
 {
     /// <inheritdoc />
@@ -14,6 +17,17 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class SetStringKeyboardInput : SetStringBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "ｷｰﾎﾞｰﾄﾞ入力 {0}文字 {1} {2}";
+
+        private const string EventCommandSentenceCanCancel = "[ｷｬﾝｾﾙ可]";
+        private const string EventCommandSentenceNotCanCancel = "";
+        private const string EventCommandSentenceReplace = "[書き換え]";
+        private const string EventCommandSentenceNotReplace = "";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -86,6 +100,24 @@ namespace WodiLib.Event.EventCommand
         {
             get => "";
             set { }
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var lengthStr = resolver.GetVariableAddressStringIfVariableAddress(Length, type, desc);
+            var canCancelStr = CanCancel
+                ? EventCommandSentenceCanCancel
+                : EventCommandSentenceNotCanCancel;
+            var replaceStr = IsReplaceLeftSide
+                ? EventCommandSentenceReplace
+                : EventCommandSentenceNotReplace;
+
+            return string.Format(EventCommandSentenceFormat,
+                lengthStr, canCancelStr, replaceStr);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

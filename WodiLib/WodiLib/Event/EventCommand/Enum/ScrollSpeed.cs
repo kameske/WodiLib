@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -51,24 +52,41 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static ScrollSpeed()
         {
-            Speed1of8 = new ScrollSpeed(nameof(Speed1of8), 0x00);
-            Speed1of4x = new ScrollSpeed(nameof(Speed1of4x), 0x10);
-            Speed1of2x = new ScrollSpeed(nameof(Speed1of2x), 0x20);
-            Speed1x = new ScrollSpeed(nameof(Speed1x), 0x30);
-            Speed2x = new ScrollSpeed(nameof(Speed2x), 0x40);
-            Speed4x = new ScrollSpeed(nameof(Speed4x), 0x50);
-            Speed8x = new ScrollSpeed(nameof(Speed8x), 0x60);
-            Speed16 = new ScrollSpeed(nameof(Speed16), 0x70);
-            Speed32 = new ScrollSpeed(nameof(Speed32), 0x90);
-            Speed64 = new ScrollSpeed(nameof(Speed64), 0xA0);
-            Instant = new ScrollSpeed(nameof(Instant), 0x80);
+            Speed1of8 = new ScrollSpeed(nameof(Speed1of8), 0x00,
+                "1/8倍速");
+            Speed1of4x = new ScrollSpeed(nameof(Speed1of4x), 0x10,
+                "1/4倍速");
+            Speed1of2x = new ScrollSpeed(nameof(Speed1of2x), 0x20,
+                "1/2倍速");
+            Speed1x = new ScrollSpeed(nameof(Speed1x), 0x30,
+                "1倍速");
+            Speed2x = new ScrollSpeed(nameof(Speed2x), 0x40,
+                "2倍速");
+            Speed4x = new ScrollSpeed(nameof(Speed4x), 0x50,
+                "4倍速");
+            Speed8x = new ScrollSpeed(nameof(Speed8x), 0x60,
+                "8倍速");
+            Speed16 = new ScrollSpeed(nameof(Speed16), 0x70,
+                "16倍速");
+            Speed32 = new ScrollSpeed(nameof(Speed32), 0x90,
+                "32倍速");
+            Speed64 = new ScrollSpeed(nameof(Speed64), 0xA0,
+                "64倍速");
+            Instant = new ScrollSpeed(nameof(Instant), 0x80,
+                "瞬間倍速");
         }
 
-        private ScrollSpeed(string id, byte code) : base(id)
+        private ScrollSpeed(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

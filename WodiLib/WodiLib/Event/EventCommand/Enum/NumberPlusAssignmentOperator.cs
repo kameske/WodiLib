@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -45,22 +46,37 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static NumberPlusAssignmentOperator()
         {
-            Assign = new NumberPlusAssignmentOperator(nameof(Assign), 0x00);
-            Addition = new NumberPlusAssignmentOperator(nameof(Addition), 0x01);
-            Subtraction = new NumberPlusAssignmentOperator(nameof(Subtraction), 0x02);
-            Multiplication = new NumberPlusAssignmentOperator(nameof(Multiplication), 0x03);
-            Division = new NumberPlusAssignmentOperator(nameof(Division), 0x04);
-            Modulo = new NumberPlusAssignmentOperator(nameof(Modulo), 0x05);
-            LowerBound = new NumberPlusAssignmentOperator(nameof(LowerBound), 0x06);
-            UpperBound = new NumberPlusAssignmentOperator(nameof(UpperBound), 0x07);
-            Absolute = new NumberPlusAssignmentOperator(nameof(Absolute), 0x08);
+            Assign = new NumberPlusAssignmentOperator(nameof(Assign), 0x00,
+                "=");
+            Addition = new NumberPlusAssignmentOperator(nameof(Addition), 0x01,
+                "+=");
+            Subtraction = new NumberPlusAssignmentOperator(nameof(Subtraction), 0x02,
+                "-=");
+            Multiplication = new NumberPlusAssignmentOperator(nameof(Multiplication), 0x03,
+                "*=");
+            Division = new NumberPlusAssignmentOperator(nameof(Division), 0x04,
+                "/=");
+            Modulo = new NumberPlusAssignmentOperator(nameof(Modulo), 0x05,
+                "%=");
+            LowerBound = new NumberPlusAssignmentOperator(nameof(LowerBound), 0x06,
+                "下限=");
+            UpperBound = new NumberPlusAssignmentOperator(nameof(UpperBound), 0x07,
+                "上限=");
+            Absolute = new NumberPlusAssignmentOperator(nameof(Absolute), 0x08,
+                "絶対値=");
         }
 
-        private NumberPlusAssignmentOperator(string id, byte code) : base(id)
+        private NumberPlusAssignmentOperator(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

@@ -8,6 +8,8 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Cmn;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -25,6 +27,18 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>キー入力種別フラグ値</summary>
         private readonly byte FlgKeyInputType = EventCommandConstant.KeyInput.Type.Pad;
+
+        private const string EventCommandSentenceFormat
+            = "{1}ﾊﾟｯﾄﾞ(300～){0}";
+
+        private const string EventCommandSentenceOnlyTarget = " [ｷｰｺｰﾄﾞ[{0}]のみ判定]{1}";
+        private const string EventCommandSentenceAllTarget = "";
+
+        private const string EventCommandSentenceWait = "[入力待ち] ";
+        private const string EventCommandSentenceNonWait = "";
+
+        private const string EventCommandSentenceTargetKeyName = " ( {0}ｷｰ ) ";
+        private const string EventCommandSentenceNonTargetKeyName = "";
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
@@ -118,6 +132,40 @@ namespace WodiLib.Event.EventCommand
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), 1, 2, index));
             }
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            string targetStr;
+            if (IsOnlySpecificKey)
+            {
+                var keyCodeStr = resolver.GetNumericVariableAddressStringIfVariableAddress(SpecificKeyCode, type, desc);
+
+                var keyName = SpecificKeyCode.IsVariableAddressSimpleCheck()
+                    ? EventCommandSentenceNonTargetKeyName
+                    : KeyboardCode.IsKeyCode(SpecificKeyCode)
+                        ? string.Format(EventCommandSentenceTargetKeyName,
+                            KeyboardCode.GetKeyName(SpecificKeyCode))
+                        : EventCommandSentenceNonTargetKeyName;
+
+                targetStr = string.Format(EventCommandSentenceOnlyTarget,
+                    keyCodeStr, keyName);
+            }
+            else
+            {
+                targetStr = EventCommandSentenceAllTarget;
+            }
+
+            var waitStr = IsWaitForInput
+                ? EventCommandSentenceWait
+                : EventCommandSentenceNonWait;
+
+            return string.Format(EventCommandSentenceFormat,
+                targetStr, waitStr);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

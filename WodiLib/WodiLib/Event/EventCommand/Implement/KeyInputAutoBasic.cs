@@ -8,6 +8,8 @@
 
 using System;
 using System.ComponentModel;
+using System.Text;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -20,6 +22,23 @@ namespace WodiLib.Event.EventCommand
     public class KeyInputAutoBasic : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "■自動キー入力:   {0}";
+
+        private static class InputKeyString
+        {
+            public const string Ok = "決定  ";
+            public const string Cancel = "ｷｬﾝｾﾙ  ";
+            public const string Sub = "サブ  ";
+            public const string Down = "↓ｷｰ  ";
+            public const string Left = "←ｷｰ  ";
+            public const string Right = "→ｷｰ  ";
+            public const string Up = "↑ｷｰ  ";
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -31,6 +50,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         public override byte StringVariableCount => 0x00;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
 
         /// <inheritdoc />
         /// <summary>
@@ -219,6 +242,24 @@ namespace WodiLib.Event.EventCommand
                 if (IsInputDown) result += FlgDown;
                 return result;
             }
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var builder = new StringBuilder();
+            if (IsInputOk) builder.Append(InputKeyString.Ok);
+            if (IsInputCancel) builder.Append(InputKeyString.Cancel);
+            if (IsInputSub) builder.Append(InputKeyString.Sub);
+            if (IsInputDown) builder.Append(InputKeyString.Down);
+            if (IsInputLeft) builder.Append(InputKeyString.Left);
+            if (IsInputRight) builder.Append(InputKeyString.Right);
+            if (IsInputUp) builder.Append(InputKeyString.Up);
+            return string.Format(EventCommandSentenceFormat,
+                builder);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

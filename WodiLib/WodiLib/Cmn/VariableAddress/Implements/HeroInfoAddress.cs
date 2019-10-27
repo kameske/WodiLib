@@ -7,6 +7,8 @@
 // ========================================
 
 using System;
+using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -22,10 +24,14 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>最小値</summary>
-        public static int MinValue => 9180000;
+        public new static int MinValue => 9180000;
 
         /// <summary>最大値</summary>
-        public static int MaxValue => 9180009;
+        public new static int MaxValue => 9180009;
+
+        /// <summary>変数種別</summary>
+        public override VariableAddressValueType ValueType
+            => VariableAddressValueType.Numeric;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Constant
@@ -76,6 +82,21 @@ namespace WodiLib.Cmn
 
             VersionCheck(value);
         }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        /// <summary>
+        /// イベントコマンド文用文字列を生成する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベントコマンド種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string ResolveEventCommandString(EventCommandSentenceResolver resolver,
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            => InfoType.MakeEventCommandSentenceForHero();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Static Method

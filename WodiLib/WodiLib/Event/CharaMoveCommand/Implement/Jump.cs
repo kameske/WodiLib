@@ -6,6 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
+using WodiLib.Project;
+
 namespace WodiLib.Event.CharaMoveCommand
 {
     /// <inheritdoc />
@@ -14,6 +17,12 @@ namespace WodiLib.Event.CharaMoveCommand
     /// </summary>
     public class Jump : CharaMoveCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "ジャンプ-右{0}下{1}";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -36,6 +45,21 @@ namespace WodiLib.Event.CharaMoveCommand
         {
             get => GetNumberValue(1);
             set => SetNumberValue(1, value);
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override string GetEventCommandSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var rightStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
+                RightPoint, type, desc);
+            var downStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
+                DownPoint, type, desc);
+
+            return string.Format(EventCommandSentenceFormat,
+                rightStr, downStr);
         }
     }
 }

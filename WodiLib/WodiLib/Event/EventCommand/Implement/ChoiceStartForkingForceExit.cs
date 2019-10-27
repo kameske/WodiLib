@@ -6,6 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
+using WodiLib.Project;
+
 namespace WodiLib.Event.EventCommand
 {
     /// <inheritdoc />
@@ -14,6 +17,12 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class ChoiceStartForkingForceExit : ChoiceStartForkingSpecialBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "-◇強制中断された場合";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -24,5 +33,14 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>選択肢コード</summary>
         protected override byte ChoiceCode => EventCommandConstant.ChoiceStartForkingEtc.ChoiceCode.ForceExit;
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            return EventCommandSentenceFormat;
+        }
     }
 }

@@ -19,6 +19,12 @@ namespace WodiLib.Event.EventCommand
     public abstract class PictureShowBase : PictureDrawBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFreePosition = "[自由変形]";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -55,6 +61,9 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Abstract Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        protected override string DrawTypeStr => "表示";
 
         /// <summary>スクロールとリンク</summary>
         public bool IsLinkScroll
@@ -105,5 +114,16 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>表示形式同値コード</summary>
         private readonly byte FlgSameDrawType = 0x0F;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        protected override string MakeEventCommandAnchorSentence()
+        {
+            if (IsFreePosition) return EventCommandSentenceFreePosition;
+            return $"[{AnchorPosition.EventCommandSentence}]";
+        }
     }
 }

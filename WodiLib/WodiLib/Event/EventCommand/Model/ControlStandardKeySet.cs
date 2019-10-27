@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using System.Text;
+
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
@@ -13,6 +15,17 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     internal class ControlStandardKeySet
     {
+        private static class InputKeyString
+        {
+            public const string Ok = "決定  ";
+            public const string Cancel = "ｷｬﾝｾﾙ  ";
+            public const string Sub = "サブ  ";
+            public const string Down = "↓ｷｰ  ";
+            public const string Left = "←ｷｰ  ";
+            public const string Right = "→ｷｰ  ";
+            public const string Up = "↑ｷｰ  ";
+        }
+
         public bool Ok { get; set; }
         public bool Cancel { get; set; }
         public bool Sub { get; set; }
@@ -53,6 +66,19 @@ namespace WodiLib.Event.EventCommand
             if (Right) result += FlgRight;
             if (Up) result += FlgUp;
             return result;
+        }
+
+        public string MakeEventCommandTargetKeySentence()
+        {
+            var builder = new StringBuilder();
+            if (Ok) builder.Append(InputKeyString.Ok);
+            if (Cancel) builder.Append(InputKeyString.Cancel);
+            if (Sub) builder.Append(InputKeyString.Sub);
+            if (Down) builder.Append(InputKeyString.Down);
+            if (Left) builder.Append(InputKeyString.Left);
+            if (Right) builder.Append(InputKeyString.Right);
+            if (Up) builder.Append(InputKeyString.Up);
+            return builder.ToString();
         }
     }
 }

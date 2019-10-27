@@ -8,6 +8,8 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -18,6 +20,13 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class ChoiceStart : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "■文章選択肢:/ {0} ";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -34,6 +43,10 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>文字列変数最小個数</summary>
         public override byte StringVariableCountMin => 0x01;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
 
         /// <inheritdoc />
         /// <summary>
@@ -123,6 +136,29 @@ namespace WodiLib.Event.EventCommand
                     ErrorMessage.OutOfRange(nameof(index), 0, StringVariableCount - 1, index));
             if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
             choiceCaseList.Set(index, value);
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            if (desc == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(desc)));
+
+            var caseStrList = Enumerable.Range(0, CaseValue)
+                .Select(idx => choiceCaseList.Get(idx))
+                .ToList();
+            // 以降の処理のために自身の選択肢をResolveDescに登録
+            desc.StartBranch(BranchType.Choice, caseStrList);
+
+            var casesStr = string.Join(" / ",
+                caseStrList.Select((s, i) => $"【{i + 1}】{s}"));
+
+            return string.Format(EventCommandSentenceFormat,
+                casesStr);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

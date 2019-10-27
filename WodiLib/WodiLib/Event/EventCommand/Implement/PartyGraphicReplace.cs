@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -16,6 +18,13 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class PartyGraphicReplace : PartyGraphicBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "{0}人目を[{1}]に変更";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -86,6 +95,31 @@ namespace WodiLib.Event.EventCommand
                         ErrorMessage.NotNull(nameof(Target)));
                 LoadGraphic = value;
             }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// イベントコマンド文字列の処理内容部分を生成する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列の処理内容部分</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandExecSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var memberStr = resolver.GetNumericVariableAddressStringIfVariableAddress(MemberId, type, desc);
+            var replaceStr = IsTargetingValue
+                ? resolver.GetNumericVariableAddressStringIfVariableAddress(LoadGraphic.ToInt(), type, desc)
+                : LoadGraphic.ToStr();
+
+            return string.Format(EventCommandSentenceFormat,
+                memberStr, replaceStr);
         }
     }
 }

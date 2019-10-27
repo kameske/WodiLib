@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -32,6 +33,24 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>同値（パターン/透過度/角度）</summary>
         private const int SameValue = -1000000;
+
+        private const string EventCommandSentenceFormat
+            = "■ﾋﾟｸﾁｬ{0}：{1} {2}{3}{4}{5} / {6}({7})ﾌﾚｰﾑ  / ﾊﾟﾀｰﾝ {8} / 透 {9} / {10} {11}ｶﾗｰ {12}";
+
+        private const string EventCommandSentenceNormalPositionOption = " / 角 {0} / 拡 {1} / ";
+
+        private const string EventCommandSentenceSingleTarget = "";
+        private const string EventCommandSentenceMultiTarget = "～ {0} ";
+
+        private const string EventCommandSentenceRelativeCoordinate = "相対";
+        private const string EventCommandSentenceNotRelativeCoordinate = " ";
+
+        private const string EventCommandSentenceValueSame = "同値";
+
+        private const string EventCommandSentenceSamePrintType = "表示形式:同値";
+
+        /// <summary>表示種別文字列（表示/移動）</summary>
+        protected abstract string DrawTypeStr { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
@@ -83,6 +102,10 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>文字列変数最小個数</summary>
         public override byte StringVariableCountMin => 0x00;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.BrightGreen;
 
         /// <inheritdoc />
         /// <summary>
@@ -410,6 +433,84 @@ namespace WodiLib.Event.EventCommand
         /// <param name="index">インデックス</param>
         /// <returns>通常使用範囲の引数インデックスの場合true</returns>
         internal override bool IsNormalNumberArgIndex(int index) => index <= 0x1A;
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var pictureNumberStr = resolver.GetNumericVariableAddressStringIfVariableAddress(PictureNumber, type, desc);
+            string pictureEndStr;
+            if (IsMultiTarget)
+            {
+                var pictureEndVarName =
+                    resolver.GetNumericVariableAddressStringIfVariableAddress(SequenceValue, type, desc);
+                pictureEndStr = string.Format(EventCommandSentenceMultiTarget, pictureEndVarName);
+            }
+            else
+            {
+                pictureEndStr = EventCommandSentenceSingleTarget;
+            }
+
+            var anchorStr = MakeEventCommandAnchorSentence();
+            var itemStr = MakeEventCommandDrawItemSentence(resolver, type, desc);
+            var positionStr = _IsFreePosition
+                ? Position.GetEventCommandSentenceFree(resolver, type, desc)
+                : Position.GetEventCommandSentenceNormal(resolver, type, desc);
+            positionStr = IsRelativeCoordinate
+                ? $"{EventCommandSentenceRelativeCoordinate}{positionStr}"
+                : $"{EventCommandSentenceNotRelativeCoordinate}{positionStr}";
+            var processTimeStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
+                ProcessTime, type, desc);
+            var delayStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
+                Delay, type, desc);
+            var patternStr = IsSamePattern
+                ? EventCommandSentenceValueSame
+                : resolver.GetNumericVariableAddressStringIfVariableAddress(
+                    Pattern, type, desc);
+            var opacityStr = IsSameOpacity
+                ? EventCommandSentenceValueSame
+                : resolver.GetNumericVariableAddressStringIfVariableAddress(
+                    Opacity, type, desc);
+            var angleStr = IsSameAngle
+                ? EventCommandSentenceValueSame
+                : resolver.GetNumericVariableAddressStringIfVariableAddress(
+                    Angle, type, desc);
+            var printTypeStr = IsSamePrintType
+                ? EventCommandSentenceSamePrintType
+                : PrintType.EventCommandSentence;
+            var zoomRateStr = zoomRate.GetEventCommandSentence(resolver, type, desc);
+            var colorStr = IsSameColor
+                ? EventCommandSentenceValueSame
+                : color.GetEventCommandSentence(resolver, type, desc);
+
+            var normalPositionStr = _IsFreePosition
+                ? ""
+                : string.Format(EventCommandSentenceNormalPositionOption, angleStr, zoomRateStr);
+
+            return string.Format(EventCommandSentenceFormat,
+                DrawTypeStr, pictureNumberStr, anchorStr, pictureEndStr, itemStr, positionStr,
+                processTimeStr, delayStr, patternStr, opacityStr, printTypeStr,
+                normalPositionStr, colorStr);
+        }
+
+        /// <summary>
+        /// イベントコマンド文字列の表示基準部分を生成する。
+        /// </summary>
+        /// <returns>イベントコマンド文字列の表示基準部分</returns>
+        protected abstract string MakeEventCommandAnchorSentence();
+
+        /// <summary>
+        /// イベントコマンド文字列の表示内容部分を生成する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列の表示内容部分</returns>
+        protected abstract string MakeEventCommandDrawItemSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Abstract Property

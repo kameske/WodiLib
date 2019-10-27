@@ -8,6 +8,8 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Cmn;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -20,6 +22,16 @@ namespace WodiLib.Event.EventCommand
     public class KeyInputAutoKeyboard : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormatNonVariableAddress
+            = "■自動キー入力: キーボード入力  コード[ {0} ] ( {1}ｷｰ ) ";
+
+        private const string EventCommandSentenceFormatVariableAddress
+            = "■自動キー入力: キーボード入力  コード[ {0} ]";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -31,6 +43,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         public override byte StringVariableCount => 0x00;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
 
         /// <inheritdoc />
         /// <summary>
@@ -145,6 +161,28 @@ namespace WodiLib.Event.EventCommand
             Logger.Warning(VersionWarningMessage.NotUnderInCommand($"{nameof(KeyInputAutoKeyboard)}",
                 VersionConfig.GetConfigWoditorVersion(),
                 WoditorVersion.Ver2_00));
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            if (KeyCode.IsVariableAddressSimpleCheck())
+            {
+                return string.Format(EventCommandSentenceFormatVariableAddress,
+                    resolver.GetNumericVariableAddressStringIfVariableAddress(KeyCode, type, desc));
+            }
+
+            if (!KeyboardCode.IsKeyCode(KeyCode))
+            {
+                return string.Format(EventCommandSentenceFormatVariableAddress,
+                    KeyCode.ToString());
+            }
+
+            return string.Format(EventCommandSentenceFormatNonVariableAddress,
+                KeyCode.ToString(), KeyboardCode.GetKeyName(KeyCode));
         }
     }
 }

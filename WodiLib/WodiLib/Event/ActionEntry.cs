@@ -7,8 +7,10 @@
 // ========================================
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using WodiLib.Event.CharaMoveCommand;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event
@@ -33,6 +35,8 @@ namespace WodiLib.Event
 
         /// <summary>移動できない場合は飛ばすフラグ</summary>
         public static readonly byte FlgSkipIfCannotMove = 0x02;
+
+        private const string EventCommandSentenceMoveRouteJoinStr = " / ";
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
@@ -175,6 +179,22 @@ namespace WodiLib.Event
             }
 
             return result.ToArray();
+        }
+
+
+        /// <summary>
+        /// イベントコマンド文字列を生成する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列のメイン部分</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public object GetEventCommandSentence(EventCommandSentenceResolver resolver,
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+        {
+            return string.Join(EventCommandSentenceMoveRouteJoinStr,
+                CommandList.Select(x => x.GetEventCommandSentence(resolver, type, desc)));
         }
     }
 }

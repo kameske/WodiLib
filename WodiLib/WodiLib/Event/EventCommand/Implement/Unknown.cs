@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -19,6 +20,14 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class Unknown : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "★仕様外[{0}]:Code={1}{2}";
+
+        private const string EventCommandSentenceFormatText = ":Text={0}";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -36,6 +45,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         public override int RawEventCommandCode => rawEventCommandCode;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
 
         /// <inheritdoc />
         /// <summary>
@@ -96,6 +109,35 @@ namespace WodiLib.Event.EventCommand
         public override void SetSafetyStringVariable(int index, string value)
         {
             throw new ArgumentOutOfRangeException();
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var codeStr = MakeEventCommandCodeSentence();
+            var textStr = MakeEventCommandTextSentence();
+
+            return string.Format(EventCommandSentenceFormat,
+                rawEventCommandCode, codeStr, textStr);
+        }
+
+        private string MakeEventCommandCodeSentence()
+        {
+            return ExpansionNumberArgList.Select(x => $"{x}/")
+                .Aggregate("", (seed, item) => seed + item);
+        }
+
+        private string MakeEventCommandTextSentence()
+        {
+            if (ExpansionStringArgList.Count == 0) return "";
+
+            var texts = ExpansionStringArgList.Select(x => $"{x}/")
+                .Aggregate("", (seed, item) => seed + item);
+
+            return string.Format(EventCommandSentenceFormatText, texts);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

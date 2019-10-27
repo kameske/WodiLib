@@ -8,6 +8,8 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -32,6 +34,15 @@ namespace WodiLib.Event.EventCommand
         /// <summary>右辺種別シフト係数</summary>
         private static readonly int RightSideFlagShift = 24;
 
+        private const string EventCommandSentenceFormatMain
+            = "■条件分岐(文字): {0}";
+
+        private const string EventCommandSentenceFormatFork
+            = " 【{0}】 {1}が {2} {3}";
+
+        private const string EventCommandSentenceFormatForkCondition
+            = "{0} {1} {2}";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -55,6 +66,10 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>数値変数最小個数</summary>
         public override byte NumberVariableCountMin => 0x03;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
 
         /// <inheritdoc />
         /// <summary>
@@ -216,6 +231,35 @@ namespace WodiLib.Event.EventCommand
                     ErrorMessage.OutOfRange(nameof(index), 0, StringVariableCount - 1, index));
             // 右辺文字列を書き換える
             conditionList[index].RightSide.Merge(value);
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var forkStrList = ConditionList.Select((x, idx) =>
+            {
+                var leftVarName = resolver.GetStringVariableAddressString(x.LeftSide, type, desc);
+                var rightVarName = x.IsUseNumberVariable
+                    ? resolver.GetStringVariableAddressString(x.RightSide.ToInt(), type, desc)
+                    : $"\"{x.RightSide.ToStr()}\"";
+
+                var myStr = string.Format(EventCommandSentenceFormatFork,
+                    idx + 1, leftVarName, rightVarName, x.Condition.EventCommandSentence);
+                var branchStr = string.Format(EventCommandSentenceFormatForkCondition,
+                    leftVarName, rightVarName, x.Condition.EventCommandSentence);
+
+                return (myStr, branchStr);
+            }).ToList();
+            var thisFortSrtList = forkStrList.Select(x => x.myStr).ToList();
+            var childForkStrList = forkStrList.Select(x => x.branchStr).ToList();
+
+            desc.StartBranch(BranchType.ConditionString, childForkStrList);
+
+            return string.Format(EventCommandSentenceFormatMain,
+                string.Join("", thisFortSrtList));
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

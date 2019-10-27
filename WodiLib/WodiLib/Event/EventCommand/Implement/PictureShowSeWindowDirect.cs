@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -16,6 +17,13 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class PictureShowSimpleWindowDirect : PictureShowBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "ｳｨﾝﾄﾞｳ「{0}」ｻｲｽﾞ[{1},{2}]";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -93,5 +101,20 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>文字列変数指定フラグフラグ</summary>
         protected override bool IsLoadForVariableAddress => false;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        protected override string MakeEventCommandDrawItemSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var sizeWidthStr = resolver.GetNumericVariableAddressStringIfVariableAddress(DivisionWidth, type, desc);
+            var sizeHeightStr = resolver.GetNumericVariableAddressStringIfVariableAddress(DivisionHeight, type, desc);
+            return string.Format(EventCommandSentenceFormat,
+                LoadFileName, sizeWidthStr, sizeHeightStr);
+        }
     }
 }

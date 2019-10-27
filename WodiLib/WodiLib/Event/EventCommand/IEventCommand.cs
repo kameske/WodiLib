@@ -6,8 +6,10 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -152,6 +154,21 @@ namespace WodiLib.Event.EventCommand
         /// イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
         /// </summary>
         void OutputVersionWarningLogIfNeed();
+
+        /// <summary>
+        /// イベントコマンド文字列情報を取得する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     resolver または type が null の場合、
+        ///     または必要なときに desc が null の場合
+        /// </exception>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        EventCommandSentenceInfo GetEventCommandSentenceInfo(EventCommandSentenceResolver resolver,
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc);
 
         /// <summary>バイナリデータに変換する。</summary>
         /// <returns>バイナリデータ</returns>

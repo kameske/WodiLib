@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -20,6 +21,19 @@ namespace WodiLib.Event.EventCommand
     public class ScrollScreen : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormatMove = "■画面スクロール：{0} {1} {2}{3}";
+        private const string EventCommandSentenceFormatLock = "■画面スクロール：{0}";
+
+        private const string EventCommandSentenceFormatMoveValue = "右方向:{0} 下方向:{1}";
+        private const string EventCommandSentenceFormatNotMoveValue = "";
+
+        private const string EventCommandSentenceWait = "[ｳｪｲﾄ]";
+        private const string EventCommandSentenceNoWait = "";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -31,6 +45,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         public override byte StringVariableCount => 0x00;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
 
         /// <inheritdoc />
         /// <summary>
@@ -134,6 +152,42 @@ namespace WodiLib.Event.EventCommand
         {
             throw new ArgumentOutOfRangeException();
         }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            if (ScrollType.IsLockType)
+            {
+                return string.Format(EventCommandSentenceFormatLock,
+                    ScrollType.EventCommandSentence);
+            }
+
+            string moveStr;
+            string waitStr;
+            if (ScrollType.IsMoveType)
+            {
+                var moveXStr = resolver.GetNumericVariableAddressStringIfVariableAddress(X, type, desc);
+                var moveYStr = resolver.GetNumericVariableAddressStringIfVariableAddress(Y, type, desc);
+                moveStr = string.Format(EventCommandSentenceFormatMoveValue,
+                    moveXStr, moveYStr);
+                // ウェイトする場合でも「ピクセル単位」がONだとウェイト文字列が表示されない
+                waitStr = IsWaitForComplete && !IsPixel
+                    ? EventCommandSentenceWait
+                    : EventCommandSentenceNoWait;
+            }
+            else
+            {
+                moveStr = EventCommandSentenceFormatNotMoveValue;
+                waitStr = EventCommandSentenceNoWait;
+            }
+
+            return string.Format(EventCommandSentenceFormatMove,
+                ScrollType.EventCommandSentence, Speed.EventCommandSentence, moveStr, waitStr);
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -33,18 +34,29 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static PictureAnchorPosition()
         {
-            LeftUp = new PictureAnchorPosition(nameof(LeftUp), 0x00);
-            Center = new PictureAnchorPosition(nameof(Center), 0x10);
-            LeftDown = new PictureAnchorPosition(nameof(LeftDown), 0x20);
-            RightUp = new PictureAnchorPosition(nameof(RightUp), 0x30);
-            RightDown = new PictureAnchorPosition(nameof(RightDown), 0x40);
+            LeftUp = new PictureAnchorPosition(nameof(LeftUp), 0x00,
+                "左上");
+            Center = new PictureAnchorPosition(nameof(Center), 0x10,
+                "中心");
+            LeftDown = new PictureAnchorPosition(nameof(LeftDown), 0x20,
+                "左下");
+            RightUp = new PictureAnchorPosition(nameof(RightUp), 0x30,
+                "右上");
+            RightDown = new PictureAnchorPosition(nameof(RightDown), 0x40,
+                "右下");
         }
 
-        private PictureAnchorPosition(string id, byte code) : base(id)
+        private PictureAnchorPosition(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

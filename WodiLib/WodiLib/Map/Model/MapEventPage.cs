@@ -6,8 +6,11 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using WodiLib.Event.EventCommand;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -115,6 +118,29 @@ namespace WodiLib.Map
                         ErrorMessage.NotNull(nameof(EventCommands)));
                 eventCommands = value;
             }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// イベントコマンド文字列情報リストを取得する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     resolver または type が null の場合、
+        ///     または必要なときに desc が null の場合
+        /// </exception>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public IReadOnlyList<EventCommandSentenceInfo> MakeEventCommandSentenceInfoList(
+            EventCommandSentenceResolver resolver, EventCommandSentenceResolveDesc desc)
+        {
+            var sentenceType = EventCommandSentenceType.Map;
+
+            return EventCommands.MakeEventCommandSentenceInfoList(resolver, sentenceType, desc);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

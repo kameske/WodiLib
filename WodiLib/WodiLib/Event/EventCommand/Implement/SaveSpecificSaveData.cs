@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -18,6 +19,13 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class SaveSpecificSaveData : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "■ｾｰﾌﾞﾃﾞｰﾀに書き込み：ｾｰﾌﾞﾃﾞｰﾀ[{0}]の {1} =  {2}";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -30,6 +38,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         public override byte StringVariableCount => 0x00;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Purple;
 
         /// <inheritdoc />
         /// <summary>
@@ -126,6 +138,20 @@ namespace WodiLib.Event.EventCommand
         public override void SetSafetyStringVariable(int index, string value)
         {
             throw new ArgumentOutOfRangeException();
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var saveNumStr = resolver.GetVariableAddressStringIfVariableAddress(SaveNumber, type, desc);
+            var saveAddrStr = resolver.GetVariableAddressStringIfVariableAddress(SaveAddress, type, desc);
+            if (IsUseVariableX) saveAddrStr = $"V[{saveAddrStr}]";
+            var valueStr = resolver.GetVariableAddressStringIfVariableAddress(SaveData, type, desc);
+            return string.Format(EventCommandSentenceFormat,
+                saveNumStr, saveAddrStr, valueStr);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

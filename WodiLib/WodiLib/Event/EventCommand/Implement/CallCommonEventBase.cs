@@ -8,7 +8,9 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using WodiLib.Cmn;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -37,6 +39,14 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>文字列引数の数最小数</summary>
         private const int StrArgValueMin = 0;
+
+        /// <summary>イベントコマンド文字列・戻り値のフォーマット</summary>
+        private const string EventCommandSentenceReturnVariableFormat
+            = "{0} = ";
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.DarkViolet;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
@@ -273,6 +283,37 @@ namespace WodiLib.Event.EventCommand
             StrArgList[tmpIndex] = value;
         }
 
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var argsCommandString = MakeEventCommandSentenceCallCommonEventArgs(
+                resolver, type, desc);
+            var returnVarString = MakeEventCommandSentenceReturnVariableStr(
+                resolver, type, desc);
+
+            return MakeEventCommandMainSentenceInner(resolver, type, desc,
+                argsCommandString, returnVarString);
+        }
+
+        /// <summary>
+        /// CallCommonEventのイベントコマンドを取得する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="argsCommandString">引数イベントコマンド文字列</param>
+        /// <param name="returnVarString">返戻先イベントコマンド文字列</param>
+        /// <returns></returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected abstract string MakeEventCommandMainSentenceInner(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc,
+            string argsCommandString, string returnVarString);
+
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -475,5 +516,63 @@ namespace WodiLib.Event.EventCommand
             => !IsOrderByString &&
                (EventIdOrName.ToInt().IsMapEventId()
                 || EventIdOrName.ToInt().IsVariableAddress());
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コモンイベント呼び出し時の引数文字列
+        /// </summary>
+        private string MakeEventCommandSentenceCallCommonEventArgs(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var intArgsStrList = IntArgList.Where((_, idx) => idx < IntArgValue)
+                .Select((x, idx) =>
+                {
+                    // 三項演算子のみを用いた場合、コード分析が "eventId == null is always false" と認識する。
+                    // クロージャ化することで警告表示を回避。
+                    var eventId = ((Func<int?>) (() =>
+                            IsOrderByString
+                                ? (int?) resolver.GetCommonEventId(EventIdOrName.ToStr())
+                                : EventIdOrName.ToInt()
+                        ))();
+
+                    if (eventId == null)
+                        return resolver.GetNumericVariableAddressStringIfVariableAddress(x, type, desc);
+
+                    var id = eventId.Value;
+                    var correctId = resolver.GetCorrectEventIdByRelativeId(id, desc.CommonEventId, type);
+                    return resolver.GetCommonEventIntArgSentence(correctId, idx, x, type, desc);
+                });
+
+            var strArgsStrList = StrArgList.Where((_, idx) => idx < StrArgValue)
+                .Select(x => x.HasInt
+                    ? resolver.GetStringVariableAddressString(x.ToInt(), type, desc)
+                    : x.ToStr());
+
+            var argStrList = intArgsStrList.Concat(strArgsStrList).ToList();
+
+            return argStrList.Count != 0
+                ? $" / {string.Join(" / ", argStrList)}"
+                : string.Empty;
+        }
+
+        /// <summary>
+        /// コモンイベント呼び出し時の返戻先
+        /// </summary>
+        private string MakeEventCommandSentenceReturnVariableStr(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            if (!IsGetReturnValue) return "";
+
+            var varAddressCmdStr = resolver.GetNumericVariableAddressString(
+                ResultOutputAddress, type, desc);
+
+            return string.Format(EventCommandSentenceReturnVariableFormat,
+                varAddressCmdStr);
+        }
     }
 }

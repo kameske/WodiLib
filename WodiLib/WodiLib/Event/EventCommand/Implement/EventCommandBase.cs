@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -147,6 +148,9 @@ namespace WodiLib.Event.EventCommand
             set { }
         }
 
+        /// <summary>イベントコマンドカラーセット</summary>
+        protected abstract EventCommandColorSet EventCommandColorSet { get; }
+
         /// <inheritdoc />
         public virtual int GetNumberVariable(int index)
         {
@@ -257,6 +261,27 @@ namespace WodiLib.Event.EventCommand
                 string.Join(",", strArgs),
                 ExpansionString);
         }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public EventCommandSentenceInfo GetEventCommandSentenceInfo(EventCommandSentenceResolver resolver,
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+        {
+            if (resolver == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(resolver)));
+            if (type == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(type)));
+
+            var indentStr = EventCommandSentenceResolver.MakeIndentString(Indent);
+            var main = MakeEventCommandMainSentence(resolver, type, desc);
+
+            return new EventCommandSentenceInfo(
+                EventCommandColorSet,
+                $"{indentStr}{main}");
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -295,6 +320,24 @@ namespace WodiLib.Event.EventCommand
         /// <param name="index">インデックス</param>
         /// <returns>通常使用範囲の引数インデックスの場合true</returns>
         internal virtual bool IsNormalStringArgIndex(int index) => index < StringVariableCount;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Abstract Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// イベントコマンド文字列のメイン部分（インデント以降の部分）を生成する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列のメイン部分</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     resolver または type が null の場合、
+        ///     または必要なときに desc が null の場合
+        /// </exception>
+        protected abstract string MakeEventCommandMainSentence(EventCommandSentenceResolver resolver,
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common

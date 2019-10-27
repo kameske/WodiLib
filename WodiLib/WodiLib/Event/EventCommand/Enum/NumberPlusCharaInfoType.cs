@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -72,31 +73,55 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public int Code { get; }
 
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static NumberPlusCharaInfoType()
         {
-            XPositionStandard = new NumberPlusCharaInfoType(nameof(XPositionStandard), 0);
-            YPositionStandard = new NumberPlusCharaInfoType(nameof(YPositionStandard), 1);
-            XPositionPrecise = new NumberPlusCharaInfoType(nameof(XPositionPrecise), 2);
-            YPositionPrecise = new NumberPlusCharaInfoType(nameof(YPositionPrecise), 3);
-            Elevation = new NumberPlusCharaInfoType(nameof(Elevation), 4);
-            Direction = new NumberPlusCharaInfoType(nameof(Direction), 5);
-            ScreenX = new NumberPlusCharaInfoType(nameof(ScreenX), 6);
-            ScreenY = new NumberPlusCharaInfoType(nameof(ScreenY), 7);
-            ShadowGraphic = new NumberPlusCharaInfoType(nameof(ShadowGraphic), 8);
-            CurrentLocationTileTag = new NumberPlusCharaInfoType(nameof(CurrentLocationTileTag), 9);
-            EventId = new NumberPlusCharaInfoType(nameof(EventId), 10);
-            IsOnScreen = new NumberPlusCharaInfoType(nameof(IsOnScreen), 11);
-            ActivePage = new NumberPlusCharaInfoType(nameof(ActivePage), 12);
-            RunCondition = new NumberPlusCharaInfoType(nameof(RunCondition), 13);
-            RangeExtendX = new NumberPlusCharaInfoType(nameof(RangeExtendX), 14);
-            RangeExtendY = new NumberPlusCharaInfoType(nameof(RangeExtendY), 15);
-            AnimationPattern = new NumberPlusCharaInfoType(nameof(AnimationPattern), 16);
-            IsMoving = new NumberPlusCharaInfoType(nameof(IsMoving), 17);
+            XPositionStandard = new NumberPlusCharaInfoType(nameof(XPositionStandard), 0,
+                "X座標(標準)");
+            YPositionStandard = new NumberPlusCharaInfoType(nameof(YPositionStandard), 1,
+                "Y座標(標準)");
+            XPositionPrecise = new NumberPlusCharaInfoType(nameof(XPositionPrecise), 2,
+                "X座標(精密)");
+            YPositionPrecise = new NumberPlusCharaInfoType(nameof(YPositionPrecise), 3,
+                "Y座標(精密)");
+            Elevation = new NumberPlusCharaInfoType(nameof(Elevation), 4,
+                "高さ(ﾋﾟｸｾﾙ数)");
+            Direction = new NumberPlusCharaInfoType(nameof(Direction), 5,
+                "向き(1～9)");
+            ScreenX = new NumberPlusCharaInfoType(nameof(ScreenX), 6,
+                "画面X座標");
+            ScreenY = new NumberPlusCharaInfoType(nameof(ScreenY), 7,
+                "画面Y座標");
+            ShadowGraphic = new NumberPlusCharaInfoType(nameof(ShadowGraphic), 8,
+                "影ｸﾞﾗﾌｨｯｸ番号");
+            CurrentLocationTileTag = new NumberPlusCharaInfoType(nameof(CurrentLocationTileTag), 9,
+                "現在地点ﾀｲﾙのﾀｸﾞ番号");
+            EventId = new NumberPlusCharaInfoType(nameof(EventId), 10,
+                "イベントID");
+            IsOnScreen = new NumberPlusCharaInfoType(nameof(IsOnScreen), 11,
+                "画面内にいる？(1=YES 0=NO)");
+            ActivePage = new NumberPlusCharaInfoType(nameof(ActivePage), 12,
+                "現在の起動ﾍﾟｰｼﾞ 0=ﾅｼ 1～=起動ﾍﾟｰｼﾞ");
+            RunCondition = new NumberPlusCharaInfoType(nameof(RunCondition), 13,
+                "起動条件(0:決定ｷｰ ～ 4:Ev接触)");
+            RangeExtendX = new NumberPlusCharaInfoType(nameof(RangeExtendX), 14,
+                "接触範囲拡張Ｘ");
+            RangeExtendY = new NumberPlusCharaInfoType(nameof(RangeExtendY), 15,
+                "接触範囲拡張Ｙ");
+            AnimationPattern = new NumberPlusCharaInfoType(nameof(AnimationPattern), 16,
+                "アニメパターン[0-4]");
+            IsMoving = new NumberPlusCharaInfoType(nameof(IsMoving), 17,
+                "移動中？[1=YES 0=NO / ※主人公のみ1ﾌﾚ以上停止時のみ0]");
         }
 
-        private NumberPlusCharaInfoType(string id, int code) : base(id)
+        private NumberPlusCharaInfoType(string id, int code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

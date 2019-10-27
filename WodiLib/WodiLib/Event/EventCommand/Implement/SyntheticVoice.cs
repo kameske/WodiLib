@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -20,6 +21,13 @@ namespace WodiLib.Event.EventCommand
     public class SyntheticVoice : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "■合成音声：[{0}] 速度[{1}]％/音量[{2}]％/声の高さ[{3}]％/遅延[{4}]ﾌﾚｰﾑ";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -31,6 +39,10 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         public override byte StringVariableCount => 0x01;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.BrightGreen;
 
         /// <inheritdoc />
         /// <summary>
@@ -136,6 +148,21 @@ namespace WodiLib.Event.EventCommand
 
             throw new ArgumentOutOfRangeException(
                 ErrorMessage.OutOfRange(nameof(index), 0, 0, index));
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var speedStr = resolver.GetNumericVariableAddressStringIfVariableAddress(PlaybackSpeed, type, desc);
+            var volStr = resolver.GetNumericVariableAddressStringIfVariableAddress(Volume, type, desc);
+            var toneStr = resolver.GetNumericVariableAddressStringIfVariableAddress(VoiceTone, type, desc);
+            var delayStr = resolver.GetNumericVariableAddressStringIfVariableAddress(Delay, type, desc);
+
+            return string.Format(EventCommandSentenceFormat,
+                PlaybackText, speedStr, volStr, toneStr, delayStr);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -26,12 +27,18 @@ namespace WodiLib.Event.EventCommand
         /// <summary>処理対象変数指定フラグ値</summary>
         private const byte FlgTargetValue = 0x01;
 
+        private const string EventCommandSentenceFormat = "■パーティ画像：{0}";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
         public override EventCommandCode EventCommandCode => EventCommandCode.PartyGraphic;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
 
         /// <inheritdoc />
         /// <summary>
@@ -150,6 +157,29 @@ namespace WodiLib.Event.EventCommand
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var execStr = MakeEventCommandExecSentence(resolver, type, desc);
+
+            return string.Format(EventCommandSentenceFormat, execStr);
+        }
+
+        /// <summary>
+        /// イベントコマンド文字列の処理内容部分を生成する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列の処理内容部分</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected abstract string MakeEventCommandExecSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Abstract Property

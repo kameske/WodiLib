@@ -6,6 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
+using WodiLib.Project;
+
 namespace WodiLib.Event.CharaMoveCommand
 {
     /// <inheritdoc />
@@ -14,6 +17,12 @@ namespace WodiLib.Event.CharaMoveCommand
     /// </summary>
     public class ApproachPosition : CharaMoveCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "X:{0},Y:{1} に接近";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -36,6 +45,20 @@ namespace WodiLib.Event.CharaMoveCommand
         {
             get => GetNumberValue(1);
             set => SetNumberValue(1, value);
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override string GetEventCommandSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var xStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
+                PositionX, type, desc);
+            var yStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
+                PositionY, type, desc);
+
+            return string.Format(EventCommandSentenceFormat, xStr, yStr);
         }
     }
 }

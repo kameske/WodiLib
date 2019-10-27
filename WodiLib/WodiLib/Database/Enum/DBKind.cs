@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -27,17 +28,22 @@ namespace WodiLib.Database
 
         static DBKind()
         {
-            Changeable = new DBKind(nameof(Changeable), 0x00, 10, 2, 3);
-            User = new DBKind(nameof(User), 0x02, 11, 1, 2);
-            System = new DBKind(nameof(System), 0x01, 13, 0, 1);
+            Changeable = new DBKind(nameof(Changeable), 0x00, 10,
+                2, 3, "可変");
+            User = new DBKind(nameof(User), 0x02, 11,
+                1, 2, "ﾕｰｻﾞ");
+            System = new DBKind(nameof(System), 0x01, 13,
+                0, 1, "ｼｽﾃﾑ");
         }
 
-        private DBKind(string id, byte code, int targetCode, int specialArgCode, int dBDataSettingTypeCode) : base(id)
+        private DBKind(string id, byte code, int targetCode, int specialArgCode,
+            int dBDataSettingTypeCode, string eventCommandSentence) : base(id)
         {
             Code = code;
             TargetCode = targetCode;
             SpecialArgCode = specialArgCode;
             DBDataSettingTypeCode = dBDataSettingTypeCode;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>対象DBコード</summary>
@@ -51,6 +57,10 @@ namespace WodiLib.Database
 
         /// <summary>DBデータ設定種別コード</summary>
         public int DBDataSettingTypeCode { get; }
+
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
 
         /// <summary>
         ///     DB値からオブジェクトを取得する。

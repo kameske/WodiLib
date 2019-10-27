@@ -16,6 +16,9 @@ namespace WodiLib.Ini
     /// </summary>
     public class CommandColorType : TypeSafeEnum<CommandColorType>
     {
+        /// <summary>旧カラーセット（Ver2.00より前）</summary>
+        public static readonly CommandColorType Old;
+
         /// <summary>タイプ0</summary>
         public static readonly CommandColorType Type0;
 
@@ -24,6 +27,7 @@ namespace WodiLib.Ini
 
         static CommandColorType()
         {
+            Old = new CommandColorType(nameof(Old), "__Old__");
             Type0 = new CommandColorType(nameof(Type0), "0");
             Type1 = new CommandColorType(nameof(Type1), "1");
         }
