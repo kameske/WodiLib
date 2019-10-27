@@ -6,7 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Database;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -17,6 +19,13 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class DBManagementClearField : DBManagementClearBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "■{0}DB書込：[ﾀｲﾌﾟ {1}({2}) : ﾃﾞｰﾀ {3}を初期化]";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -91,6 +100,31 @@ namespace WodiLib.Event.EventCommand
         {
             get => false;
             set { }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var paramType = IsTypeIdUseStr
+                ? DBTypeId.ToStr()
+                : resolver.GetNumericVariableAddressStringIfVariableAddress(DBTypeId.ToInt(), type, desc);
+            var targetType = IsTypeIdUseStr
+                ? resolver.GetDatabaseTypeId(_DBKind, DBTypeId.ToStr()).Item2
+                : resolver.GetDatabaseTypeName(_DBKind, DBTypeId.ToInt()).Item2;
+
+            var paramData = IsDataIdUseStr
+                ? DBDataId.ToStr()
+                : DBDataId.ToInt().ToString();
+
+            return string.Format(EventCommandSentenceFormat,
+                _DBKind.EventCommandSentence, paramType, targetType, paramData);
         }
     }
 }

@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -21,6 +22,12 @@ namespace WodiLib.Event.EventCommand
     public abstract class SetStringBase : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "■文字列操作：{0} {1} {2}";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -28,14 +35,19 @@ namespace WodiLib.Event.EventCommand
         public override EventCommandCode EventCommandCode => EventCommandCode.SetString;
 
         /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.DeepRed;
+
+        /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して数値変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, 2～3)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override int GetNumberVariable(int index)
+        public override int GetSafetyNumberVariable(int index)
         {
             if (index < 0 || NumberVariableCount <= index)
                 throw new ArgumentOutOfRangeException(
@@ -74,7 +86,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetNumberVariable(int index, int value)
+        public override void SetSafetyNumberVariable(int index, int value)
         {
             if (index < 1 || NumberVariableCount <= index)
                 throw new ArgumentOutOfRangeException(
@@ -107,12 +119,13 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して文字列変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, -1～1)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override string GetStringVariable(int index)
+        public override string GetSafetyStringVariable(int index)
         {
             if (index < 0 || StringVariableCount <= index)
                 throw new ArgumentOutOfRangeException(
@@ -140,7 +153,7 @@ namespace WodiLib.Event.EventCommand
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetStringVariable(int index, string value)
+        public override void SetSafetyStringVariable(int index, string value)
         {
             if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
             if (index < 0 || StringVariableCount <= index)
@@ -160,6 +173,31 @@ namespace WodiLib.Event.EventCommand
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var leftSideStr = resolver.GetVariableAddressStringIfVariableAddress(LeftSide, type, desc);
+            if (IsIndicateNumberVariable) leftSideStr = $"V[{leftSideStr}]";
+            var rightSideStr = MakeEventCommandRightSideSentence(resolver, type, desc);
+            return string.Format(EventCommandSentenceFormat,
+                leftSideStr, AssignmentOperator.EventCommandSentence, rightSideStr);
+        }
+
+        /// <summary>
+        /// イベントコマンド文字列の右辺部分を生成する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列の右辺部分</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected abstract string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property

@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -84,35 +85,63 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public int Code { get; }
 
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static NumberPlusEtcInfoType()
         {
-            CurrentMapId = new NumberPlusEtcInfoType(nameof(CurrentMapId), 0);
-            PlayingBgmNumber = new NumberPlusEtcInfoType(nameof(PlayingBgmNumber), 1);
-            PlayingBgsNumber = new NumberPlusEtcInfoType(nameof(PlayingBgsNumber), 2);
-            BgmPosition = new NumberPlusEtcInfoType(nameof(BgmPosition), 3);
-            BgsPosition = new NumberPlusEtcInfoType(nameof(BgsPosition), 4);
-            CurrentBgmLength = new NumberPlusEtcInfoType(nameof(CurrentBgmLength), 5);
-            CurrentBgsLength = new NumberPlusEtcInfoType(nameof(CurrentBgsLength), 6);
-            MouseX = new NumberPlusEtcInfoType(nameof(MouseX), 20);
-            MouseY = new NumberPlusEtcInfoType(nameof(MouseY), 21);
-            MouseLeftClick = new NumberPlusEtcInfoType(nameof(MouseLeftClick), 7);
-            MouseRightClick = new NumberPlusEtcInfoType(nameof(MouseRightClick), 8);
-            MouseCenterClick = new NumberPlusEtcInfoType(nameof(MouseCenterClick), 9);
-            MouseWheelDelta = new NumberPlusEtcInfoType(nameof(MouseWheelDelta), 10);
-            MouseXDelta = new NumberPlusEtcInfoType(nameof(MouseXDelta), 11);
-            MouseYDelta = new NumberPlusEtcInfoType(nameof(MouseYDelta), 12);
-            EventIdAtMousePosition = new NumberPlusEtcInfoType(nameof(EventIdAtMousePosition), 13);
-            MapWidth = new NumberPlusEtcInfoType(nameof(MapWidth), 15);
-            MapHeight = new NumberPlusEtcInfoType(nameof(MapHeight), 16);
-            ThisMapEventId = new NumberPlusEtcInfoType(nameof(ThisMapEventId), 14);
-            ThisCommonEventId = new NumberPlusEtcInfoType(nameof(ThisCommonEventId), 17);
-            ActiveEventId = new NumberPlusEtcInfoType(nameof(ActiveEventId), 18);
-            ActiveEventLine = new NumberPlusEtcInfoType(nameof(ActiveEventLine), 19);
+            CurrentMapId = new NumberPlusEtcInfoType(nameof(CurrentMapId), 0,
+                "現在のマップID");
+            PlayingBgmNumber = new NumberPlusEtcInfoType(nameof(PlayingBgmNumber), 1,
+                "再生中のBGM番号");
+            PlayingBgsNumber = new NumberPlusEtcInfoType(nameof(PlayingBgsNumber), 2,
+                "再生中のBGS番号");
+            BgmPosition = new NumberPlusEtcInfoType(nameof(BgmPosition), 3,
+                "BGM現在再生位置(ﾐﾘ秒･1周目のみ/MIDIならTick値)");
+            BgsPosition = new NumberPlusEtcInfoType(nameof(BgsPosition), 4,
+                "BGS現在再生位置(ﾐﾘ秒･1周目のみ)");
+            CurrentBgmLength = new NumberPlusEtcInfoType(nameof(CurrentBgmLength), 5,
+                "BGMの曲の長さ(ﾐﾘ秒/MIDIならTick値)");
+            CurrentBgsLength = new NumberPlusEtcInfoType(nameof(CurrentBgsLength), 6,
+                "BGSの曲の長さ(ﾐﾘ秒)");
+            MouseX = new NumberPlusEtcInfoType(nameof(MouseX), 20,
+                "マウスX座標");
+            MouseY = new NumberPlusEtcInfoType(nameof(MouseY), 21,
+                "マウスY座標");
+            MouseLeftClick = new NumberPlusEtcInfoType(nameof(MouseLeftClick), 7,
+                "ﾏｳｽ左ｸﾘｯｸ状態");
+            MouseRightClick = new NumberPlusEtcInfoType(nameof(MouseRightClick), 8,
+                "ﾏｳｽ右ｸﾘｯｸ状態");
+            MouseCenterClick = new NumberPlusEtcInfoType(nameof(MouseCenterClick), 9,
+                "ﾏｳｽ中ｸﾘｯｸ状態");
+            MouseWheelDelta = new NumberPlusEtcInfoType(nameof(MouseWheelDelta), 10,
+                "ﾏｳｽﾎｲｰﾙ変化");
+            MouseXDelta = new NumberPlusEtcInfoType(nameof(MouseXDelta), 11,
+                "ﾏｳｽX座標の変化");
+            MouseYDelta = new NumberPlusEtcInfoType(nameof(MouseYDelta), 12,
+                "ﾏｳｽY座標の変化");
+            EventIdAtMousePosition = new NumberPlusEtcInfoType(nameof(EventIdAtMousePosition), 13,
+                "ﾏｳｽ座標にあるEvID");
+            MapWidth = new NumberPlusEtcInfoType(nameof(MapWidth), 15,
+                "マップサイズ[横]");
+            MapHeight = new NumberPlusEtcInfoType(nameof(MapHeight), 16,
+                "マップサイズ[縦]");
+            ThisMapEventId = new NumberPlusEtcInfoType(nameof(ThisMapEventId), 14,
+                "ﾏｯﾌﾟｲﾍﾞﾝﾄID(ｺﾓﾝなら呼び出し元ID)");
+            ThisCommonEventId = new NumberPlusEtcInfoType(nameof(ThisCommonEventId), 17,
+                "このｺﾓﾝｲﾍﾞﾝﾄID(ｺﾓﾝでなければ-1)");
+            ActiveEventId = new NumberPlusEtcInfoType(nameof(ActiveEventId), 18,
+                "処理中の自動/接触/決定ｷｰEv番号[ｺﾓﾝなら+500000]");
+            ActiveEventLine = new NumberPlusEtcInfoType(nameof(ActiveEventLine), 19,
+                "処理中のEv行数 [自動/接触/決定キー起動Ev]");
         }
 
-        private NumberPlusEtcInfoType(string id, int code) : base(id)
+        private NumberPlusEtcInfoType(string id, int code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

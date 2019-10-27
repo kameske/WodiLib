@@ -112,6 +112,55 @@ namespace WodiLib.Database
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
+        /// 指定したタイプIDのデータ名リストを取得する。
+        /// </summary>
+        /// <param name="typeId">[Range(0, {対象DBのタイプ数} - 1)] タイプID</param>
+        /// <returns>DBデータ情報リスト</returns>
+        /// <exception cref="ArgumentOutOfRangeException">typeId が指定範囲外の場合</exception>
+        public IReadOnlyDataNameList GetDataNameList(TypeId typeId)
+            => TypeDescList[typeId].DataNameList;
+
+        /// <summary>
+        /// 指定したタイプIDのデータ情報リストを取得する。
+        /// </summary>
+        /// <param name="typeId">[Range(0, {対象DBのタイプ数} - 1)] タイプID</param>
+        /// <returns>DBデータ情報リスト</returns>
+        /// <exception cref="ArgumentOutOfRangeException">typeId が指定範囲外の場合</exception>
+        public DatabaseDataDescList GetDataDescList(TypeId typeId)
+            => TypeDescList[typeId].DataDescList;
+
+        /// <summary>
+        /// 指定したタイプIDのデータ情報リストを取得する。
+        /// </summary>
+        /// <param name="typeId">[Range(0, {対象DBのタイプ数} - 1)] タイプID</param>
+        /// <param name="dataId">[Range(0, {対象DB・タイプのデータ数} - 1)] データID</param>
+        /// <returns>DBデータ情報リスト</returns>
+        /// <exception cref="ArgumentOutOfRangeException">typeId, dataId が指定範囲外の場合</exception>
+        public DatabaseDataDesc GetDataDesc(TypeId typeId, DataId dataId)
+            => TypeDescList[typeId].DataDescList[dataId];
+
+        /// <summary>
+        /// 指定したタイプID、データIDの項目値リストを取得する。
+        /// </summary>
+        /// <param name="typeId">[Range(0, {対象DBのタイプ数} - 1)] タイプID</param>
+        /// <param name="dataId">[Range(0, {対象DB・タイプのデータ数} - 1)] データID</param>
+        /// <returns>DB項目値リスト</returns>
+        /// <exception cref="ArgumentOutOfRangeException">typeId, dataId が指定範囲外の場合</exception>
+        public DBItemValueList GetItemValueList(TypeId typeId, DataId dataId)
+            => TypeDescList[typeId].GetItemValueList(dataId);
+
+        /// <summary>
+        /// 指定したタイプID、データID、項目IDの項目値を取得する。
+        /// </summary>
+        /// <param name="typeId">[Range(0, {対象DBのタイプ数} - 1)] タイプID</param>
+        /// <param name="dataId">[Range(0, {対象DB・タイプのデータ数} - 1)] データID</param>
+        /// <param name="itemId">[Range(0, {対象DB・タイプ・データの項目数} - 1)] データID</param>
+        /// <returns>DB項目値リスト</returns>
+        /// <exception cref="ArgumentOutOfRangeException">typeId, dataId, itemId が指定範囲外の場合</exception>
+        public DBItemValue GetItemValue(TypeId typeId, DataId dataId, ItemId itemId)
+            => TypeDescList[typeId].GetItemValue(dataId, itemId);
+
+        /// <summary>
         /// 自身が持つ情報からDatabaseDatインスタンスを生成する。
         /// </summary>
         /// <param name="dbKind">[Nullable] DB種別</param>

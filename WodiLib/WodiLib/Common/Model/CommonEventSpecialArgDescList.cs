@@ -196,10 +196,7 @@ namespace WodiLib.Common
 
             // 特殊指定種別
             var specialArgTypes = argTypeList.Select(x => x.ArgType);
-            foreach (var specialArgType in specialArgTypes)
-            {
-                result.Add(specialArgType.Code);
-            }
+            result.AddRange(specialArgTypes.Select(specialArgType => specialArgType.Code));
 
             // 特殊指定文字列パラメータ数
             result.AddRange(argLength.ToBytes(Endian.Woditor));

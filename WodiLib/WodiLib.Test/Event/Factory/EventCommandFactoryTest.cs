@@ -1,6 +1,9 @@
 using System;
+using System.Linq;
+using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
+using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
@@ -167,17 +170,6 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「選択肢始端」のインスタンス生成
-        /// </summary>
-        /// <returns></returns>
-        [Test]
-        public static void CreateChoiceStartForkingNumberTest()
-        {
-            var _ = new ChoiceStartForkingNumber();
-            Assert.True(true);
-        }
-
-        /// <summary>
         /// イベントコマンド「右キー分岐」のインスタンス生成
         /// </summary>
         /// <returns></returns>
@@ -233,17 +225,6 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「条件（変数）・分岐始端」のインスタンス生成
-        /// </summary>
-        /// <returns></returns>
-        [Test]
-        public static void CreateConditionNumberStartForkingTest()
-        {
-            var _ = new ConditionNumberStartForking();
-            Assert.True(true);
-        }
-
-        /// <summary>
         /// イベントコマンド「条件（文字列）・始端」のインスタンス生成
         /// </summary>
         /// <returns></returns>
@@ -251,17 +232,6 @@ namespace WodiLib.Test.Event
         public static void CreateConditionStringStartTest()
         {
             var _ = new ConditionStringStart();
-            Assert.True(true);
-        }
-
-        /// <summary>
-        /// イベントコマンド「条件（文字列）・分岐始端」のインスタンス生成
-        /// </summary>
-        /// <returns></returns>
-        [Test]
-        public static void CreateConditionStringStartForkingTest()
-        {
-            var _ = new ConditionStringStartForking();
             Assert.True(true);
         }
 
@@ -919,9 +889,9 @@ namespace WodiLib.Test.Event
         /// </summary>
         /// <returns></returns>
         [Test]
-        public static void CreateReadSpecificSaveDataTest()
+        public static void CreateLoadSpecificSaveDataTest()
         {
-            var _ = new ReadSpecificSaveData();
+            var _ = new LoadSpecificSaveData();
             Assert.True(true);
         }
 
@@ -1227,6 +1197,7 @@ namespace WodiLib.Test.Event
         /// </summary>
         /// <param name="src"></param>
         [TestCase("[0][0,0]<1>()()")]
+        [TestCase("[99][1,0]<0>(1)()")]
         [TestCase("[101][0,1]<0>()(\"文章の表示\")")]
         [TestCase("[102][1,5]<0>(869)(\"選択肢A\",\"選択肢B\",\"選択肢C\",\"選択肢D\",\"選択肢E（キャンセル分岐）\")")]
         [TestCase("[103][0,1]<0>()(\"コメント\")")]
@@ -1433,10 +1404,75 @@ namespace WodiLib.Test.Event
         [TestCase("[498][0,0]<1>()()")]
         [TestCase("[498][0,0]<2>()()")]
         [TestCase("[499][0,0]<0>()()")]
+        /* ----------以下標準ではないがウディタ基本システムで登場するコマンド */
+        [TestCase("[250][5,0]<0>(1,1600000,1600015,0,1600001)()")] // CEv58 L43  | "|■可変DB書込：DB[ 1 : CSelf0[主人公ID] : CSelf15[空き欄] ]  (┣ 技能習得Lv : - : -) =  CSelf1[技能番号]"
+        [TestCase("[250][4,4]<0>(21,90,1,65538)(\"\",\"基本ｼｽﾃﾑ用変数\",\"\",\"\")")] //CEv74 L25  "|■可変DB書込：DB[ 基本ｼｽﾃﾑ用変数 : 90 : 1 ]  (18 : [Lvup]習得技能[文字列] : 文字列) =  "
+        /* ----------以下標準ではない形式 */
+        [TestCase("[9999][2,0]<2>(500001,0)()")] // 仕様外イベントコマンドコード
+        [TestCase("[101][0,3]<0>()(\"文章の表示\",\"テスト\",\"追加文字列\")")] // 本来は文字列引数1個
+        [TestCase("[0][126,127]<0>(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0," +
+                  "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0," +
+                  "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0," +
+                  "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)(\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"," +
+                  "\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"," +
+                  "\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"," +
+                  "\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"," +
+                  "\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"," +
+                  "\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"," +
+                  "\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\")")] // 与え得る最大の引数
+        [TestCase("[0][2,0]<0>(10,255)()")] // 本来は数値引数0個
+        [TestCase("[0][0,3]<0>()(\"文章の表示\",\"テスト\",\"追加文字列\")")] // 本来は文字列引数0個
+        [TestCase("[0][0,0]<0>()() #コメント")] // 末尾に余計な文字が付与されている（ウディタ仕様ではこの余計な文字は復元されないが、WodiLibでは復元対象とする）
+        [TestCase("[210][2,0]<-1>(1,0)()")] // インデントが負数（通常使用でもインデント128以上にすると負数になる）
         public static void CreateCommandStringTest(string src)
         {
-            var _ = Factory.CreateCommandString(src);
-            Assert.True(true);
+            var instance = Factory.CreateCommandString(src);
+
+            const string regex = @"^\[(.*)\]\[(.*)\]<(.*)>\((.*)\)\((.*)\)(.*)$";
+            const string splitter = "__";
+            var replaceDst = $"$1{splitter}$2{splitter}$3{splitter}$4{splitter}$5{splitter}$6";
+            var replaced = Regex.Replace(src, regex, replaceDst);
+            var split = Regex.Split(replaced, splitter);
+
+            var commandCode = int.Parse(split[0]);
+            if (instance.EventCommandCode != EventCommandCode.Unknown)
+            {
+                // 仕様外のコマンドはこの方法で本来のコードを取得することは出来ない
+                Assert.AreEqual(instance.EventCommandCode.Code, commandCode);
+            }
+            // 仕様外のコマンドでも正しいコマンドを取得できる。
+            Assert.AreEqual(instance.RawEventCommandCode, commandCode);
+
+            var argLengths = split[1].Split(',');
+            var numArgLength = int.Parse(argLengths[0].Trim());
+            var strArgLength = int.Parse(argLengths[1].Trim());
+            Assert.AreEqual(instance.AllNumberArgList.Count, numArgLength + 1);
+            Assert.AreEqual(instance.AllStringArgList.Count, strArgLength);
+
+            var indent = (sbyte) int.Parse(split[2]);
+            Assert.AreEqual(instance.Indent.ToSbyte(), indent);
+
+            var numArgs = split[3].IsEmpty() ? new string[] {} : split[3].Split(',');
+            var instanceAllNumberList = instance.AllNumberArgList;
+            // 与えた引数の数が足りない場合でもエラーにしないため、このテスト結果がfalseになる可能性がある
+            // Assert.AreEqual(instanceAllNumberList.Count - 1, numArgs.Length);
+            for (var i = 1; i < numArgs.Length; i++)
+            {
+                Assert.AreEqual(instanceAllNumberList[i + 1], int.Parse(numArgs[i].Trim()));
+            }
+
+            var strArgs = split[4].IsEmpty() ? new String[] {} : split[4].Split(',').Select(x => Regex.Replace(x.Trim(), "^\"(.*)\"$","$1")).ToArray();
+            var instanceAllStringArgList = instance.AllStringArgList;
+            // 与えた引数の数が足りない場合でもエラーにしないため、このテスト結果がfalseになる可能性がある
+            // Assert.AreEqual(instanceAllStringArgList.Count, strArgs.Length);
+            for (var i = 0; i < strArgs.Length; i++)
+            {
+                Assert.AreEqual(instanceAllStringArgList[i], strArgs[i]);
+            }
+
+            Assert.AreEqual(instance.ExpansionString, split[5]);
+
+            Assert.AreEqual(instance.ToEventCodeString(), src);
         }
 
         /// <summary>
@@ -1444,11 +1480,19 @@ namespace WodiLib.Test.Event
         /// </summary>
         /// <param name="src"></param>
         [TestCase(null)]
-        [TestCase("[498][0,0]<1>(1)()")]
-        [TestCase("[498][0,0]<1>()(\"\")")]
-        [TestCase("[210][2,0]<-1>(1,0)()")]
-        [TestCase("[9999][2,0]<2>(500001,0)()")]
-        [TestCase("[103][1,1]<0>()(\"【動作指定】※動作指定はクリップボードにセットできません\")")]
+        [TestCase("[210][2,0]<128>(1,0)()")] // インデントが許容値を超える
+        [TestCase("[0][127,0]<0>()(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0," +
+                  "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0," +
+                  "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0," +
+                  "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)")] //数値引数の数が許容量を超える
+        [TestCase("[0][0,128]<0>()(\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"," +
+                  "\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"," +
+                  "\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"," +
+                  "\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"," +
+                  "\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"," +
+                  "\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\"," +
+                  "\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\",\"\", \"\")")] // 文字列引数の数が許容量を超える
+        [TestCase("[101][0,0]<0>()()")] // "文章の表示"コマンドは 本来文字列引数が1つ以上必須。
         public static void CreateCommandStringErrorTest(string src)
         {
             var errorOccured = false;
@@ -1463,6 +1507,30 @@ namespace WodiLib.Test.Event
             }
 
             Assert.IsTrue(errorOccured);
+        }
+
+        /// <summary>
+        /// 文字列からインスタンス生成テスト（正常終了するがコマンドコードが一致しないパターン）
+        /// <para>- コード途中の空白はトリムして読み込まれるが復元できない。</para>
+        /// <para>- 引数の指定数と実際の数が異なる場合は自動で補正するため元のコードとは違う結果になる。</para>
+        /// <para>- 「動作指定」コマンドは復元できない。（ウディタ仕様では数値引数も復元しないが、WodiLib仕様では数値引数を復元する）</para>
+        /// </summary>
+        [TestCase("[101][0, 1]<0>()(\"文章の表示\")")]
+        [TestCase("[290][7,0]<0>(0,10,10, 10,40, 50,60)()")]
+        [TestCase("[102][1,5]<0>(869)(\"選択肢A\", \"選択肢B\", \"選択肢C\",\"選択肢D\", \"選択肢E（キャンセル分岐）\")")]
+        [TestCase("[0][126,127]<3>(10, 255)()")]
+        [TestCase("[0][1,3]<3>(10, 255)(\"\", \"\", \"\", \"\", \"\")")]
+        [TestCase("[101][0,1]<0>()(\"文章の表示コマンド\",)")] // 引数末尾に余分なカンマが付いていても「余計な引数が与えられた」と解釈されるべき
+        // [TestCase("[101][0,1]<0>()(\"文章の表示コマンド\",  \")")] // 引数末尾に余計な " がついていても「余計な引数が与えられた」と解釈されるべき
+        //     （NUnitが \") を文字列に含むテストケースを正しく解釈しないためテスト不可能）
+        [TestCase("[103][1,1]<0>()(\"【動作指定】※動作指定はクリップボードにセットできません\")")] // 「動作指定」コマンドは復元できない
+        public static void CreateCommandStringNotRecoverableTest(string src)
+        {
+            var instance = Factory.CreateCommandString(src);
+
+            logger.Info(instance.ToEventCodeString());
+
+            Assert.AreNotEqual(instance.ToEventCodeString(), src);
         }
     }
 }

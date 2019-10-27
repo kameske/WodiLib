@@ -7,7 +7,9 @@
 // ========================================
 
 using System;
+using System.ComponentModel;
 using WodiLib.Cmn;
+using WodiLib.Project;
 
 namespace WodiLib.Event.CharaMoveCommand
 {
@@ -38,12 +40,26 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <summary>最大値</summary>
         protected override int _MaxValue => MaxValue_Common;
 
+        /// <summary>変数種別</summary>
+        public override VariableAddressValueType ValueType
+            => VariableAddressValueType.Numeric;
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>コモンイベントセルフ変数アドレス値としての最大値</summary>
         private static int MaxValue_Common => 1600009;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>"このマップイベント変数"かどうか</summary>
+        public bool IsThisMapEventVariableAddress { get; }
+
+        /// <summary>"このコモンイベント変数"かどうか</summary>
+        public bool IsThisCommonEventVariableAddress { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -64,6 +80,7 @@ namespace WodiLib.Event.CharaMoveCommand
             if (ThisCommonEventVariableAddress.MinValue <= value
                 && value <= MaxValue_Common)
             {
+                IsThisCommonEventVariableAddress = true;
                 return;
             }
 
@@ -71,6 +88,7 @@ namespace WodiLib.Event.CharaMoveCommand
             if (ThisMapEventVariableAddress.MinValue <= value
                 && value <= ThisMapEventVariableAddress.MaxValue)
             {
+                IsThisMapEventVariableAddress = true;
                 return;
             }
 
@@ -116,7 +134,34 @@ namespace WodiLib.Event.CharaMoveCommand
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Explicit
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// イベントコマンド文用文字列を生成する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベントコマンド種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string ResolveEventCommandString(EventCommandSentenceResolver resolver,
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+        {
+            if (IsThisCommonEventVariableAddress)
+            {
+                var common = (ThisCommonEventVariableAddress) Value;
+                return common.MakeEventCommandString(resolver, type,
+                    VariableAddressValueType.Numeric, desc);
+            }
+
+            var map = (ThisMapEventVariableAddress) Value;
+            return map.MakeEventCommandString(resolver, type,
+                VariableAddressValueType.Numeric, desc);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
@@ -168,6 +213,34 @@ namespace WodiLib.Event.CharaMoveCommand
         public static bool operator !=(CalledEventVariableAddress left, CalledEventVariableAddress right)
         {
             return !(left == right);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     public Static Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値が CalledEventVariableAddress の値として適切かどうかを返す。
+        /// </summary>
+        /// <param name="src">判定対象値</param>
+        /// <returns>判定結果</returns>
+        public static bool CanCast(int src)
+        {
+            // このコモンイベントセルフ変数（限定範囲）なら許可
+            if (ThisCommonEventVariableAddress.MinValue <= src
+                && src <= MaxValue_Common)
+            {
+                return true;
+            }
+
+            // このマップイベントセルフ変数なら許可
+            if (ThisMapEventVariableAddress.MinValue <= src
+                && src <= ThisMapEventVariableAddress.MaxValue)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

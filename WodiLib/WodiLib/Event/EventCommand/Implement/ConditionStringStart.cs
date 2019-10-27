@@ -8,6 +8,8 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -19,6 +21,10 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class ConditionStringStart : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /// <summary>数値変数の数最大値</summary>
         private static readonly int NumberVariableCountMax = 10;
 
@@ -27,6 +33,15 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>右辺種別シフト係数</summary>
         private static readonly int RightSideFlagShift = 24;
+
+        private const string EventCommandSentenceFormatMain
+            = "■条件分岐(文字): {0}";
+
+        private const string EventCommandSentenceFormatFork
+            = " 【{0}】 {1}が {2} {3}";
+
+        private const string EventCommandSentenceFormatForkCondition
+            = "{0} {1} {2}";
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
@@ -49,14 +64,23 @@ namespace WodiLib.Event.EventCommand
         public override byte StringVariableCount => 0x04;
 
         /// <inheritdoc />
+        /// <summary>数値変数最小個数</summary>
+        public override byte NumberVariableCountMin => 0x03;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
+
+        /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して数値変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, 1～10)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override int GetNumberVariable(int index)
+        public override int GetSafetyNumberVariable(int index)
         {
             if (index < 0 || NumberVariableCount < index)
                 throw new ArgumentOutOfRangeException(
@@ -82,7 +106,7 @@ namespace WodiLib.Event.EventCommand
                     if (tmpIndex < CaseValue)
                     {
                         // tmpIndex が選択肢数より少ないので、左辺 & 右辺変数指定フラグを参照
-                        var condition = conditionList.Get(tmpIndex);
+                        var condition = conditionList[tmpIndex];
                         var operationFlag = condition.Condition.Code << OperationCodeShift;
                         var rightVarFlag = (condition.IsUseNumberVariable ? 1 : 0) << RightSideFlagShift;
                         return condition.LeftSide + operationFlag + rightVarFlag;
@@ -96,7 +120,7 @@ namespace WodiLib.Event.EventCommand
                         throw new InvalidOperationException();
                     }
 
-                    var checkRightSide = conditionList.Get(tmpIndex).RightSide;
+                    var checkRightSide = conditionList[tmpIndex].RightSide;
                     if (checkRightSide.HasInt)
                     {
                         // 対象の右辺が数値設定されているならその値を返す
@@ -116,7 +140,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetNumberVariable(int index, int value)
+        public override void SetSafetyNumberVariable(int index, int value)
         {
             if (index < 1 || NumberVariableCountMax < index)
                 throw new ArgumentOutOfRangeException(
@@ -143,9 +167,9 @@ namespace WodiLib.Event.EventCommand
                         var ope = (byte) (bytes[3] & 0xF0);
                         var isVar = (bytes[3] & 0x0F) == 1;
 
-                        conditionList.SetLeftSide(tmpIndex, leftSide);
-                        conditionList.SetCondition(tmpIndex, StringConditionalOperator.ForByte(ope));
-                        conditionList.SetIsUseNumberVariable(tmpIndex, isVar);
+                        conditionList[tmpIndex].LeftSide = leftSide;
+                        conditionList[tmpIndex].Condition = StringConditionalOperator.ForByte(ope);
+                        conditionList[tmpIndex].IsUseNumberVariable = isVar;
 
                         return;
                     }
@@ -160,7 +184,7 @@ namespace WodiLib.Event.EventCommand
                                     ErrorMessage.OutOfRange(nameof(index), 1, NumberVariableCount, index));
                         }
 
-                        conditionList.MergeRightSide(tmpIndex, value);
+                        conditionList[tmpIndex].RightSide.Merge(value);
                         return;
                     }
                 }
@@ -170,12 +194,13 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して文字列変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, 4)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override string GetStringVariable(int index)
+        public override string GetSafetyStringVariable(int index)
         {
             if (index < 0 || StringVariableCount - 1 < index)
                 throw new ArgumentOutOfRangeException(
@@ -187,7 +212,7 @@ namespace WodiLib.Event.EventCommand
                 return "";
             }
 
-            return conditionList.GetRightSideString(index);
+            return conditionList[index].GetRightSideString();
         }
 
         /// <inheritdoc />
@@ -199,13 +224,42 @@ namespace WodiLib.Event.EventCommand
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetStringVariable(int index, string value)
+        public override void SetSafetyStringVariable(int index, string value)
         {
             if (index < 0 || StringVariableCount - 1 < index)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), 0, StringVariableCount - 1, index));
             // 右辺文字列を書き換える
-            conditionList.MergeRightSideNonCheckIndex(index, value);
+            conditionList[index].RightSide.Merge(value);
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var forkStrList = ConditionList.Select((x, idx) =>
+            {
+                var leftVarName = resolver.GetStringVariableAddressString(x.LeftSide, type, desc);
+                var rightVarName = x.IsUseNumberVariable
+                    ? resolver.GetStringVariableAddressString(x.RightSide.ToInt(), type, desc)
+                    : $"\"{x.RightSide.ToStr()}\"";
+
+                var myStr = string.Format(EventCommandSentenceFormatFork,
+                    idx + 1, leftVarName, rightVarName, x.Condition.EventCommandSentence);
+                var branchStr = string.Format(EventCommandSentenceFormatForkCondition,
+                    leftVarName, rightVarName, x.Condition.EventCommandSentence);
+
+                return (myStr, branchStr);
+            }).ToList();
+            var thisFortSrtList = forkStrList.Select(x => x.myStr).ToList();
+            var childForkStrList = forkStrList.Select(x => x.branchStr).ToList();
+
+            desc.StartBranch(BranchType.ConditionString, childForkStrList);
+
+            return string.Format(EventCommandSentenceFormatMain,
+                string.Join("", thisFortSrtList));
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -216,6 +270,9 @@ namespace WodiLib.Event.EventCommand
         public bool IsElseCase { get; set; }
 
         private readonly ConditionStringList conditionList = new ConditionStringList();
+
+        /// <summary>分岐条件リスト</summary>
+        public ConditionStringList ConditionList => conditionList;
 
         /// <summary>[Range(1, 4)] 分岐数</summary>
         /// <exception cref="PropertyOutOfRangeException">指定範囲以外の値をセットした場合</exception>
@@ -230,63 +287,6 @@ namespace WodiLib.Event.EventCommand
                 conditionList.ConditionValue = value;
             }
         }
-
-        /// <summary>[NotNull] 条件1</summary>
-        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public ConditionStringDesc Case1
-        {
-            get => conditionList.Get(0);
-            set
-            {
-                if (value == null)
-                    throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Case1)));
-                conditionList.Set(0, value);
-            }
-        }
-
-        /// <summary>[NotNull] 条件2</summary>
-        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public ConditionStringDesc Case2
-        {
-            get => conditionList.Get(1);
-            set
-            {
-                if (value == null)
-                    throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Case2)));
-                conditionList.Set(1, value);
-            }
-        }
-
-        /// <summary>[NotNull] 条件3</summary>
-        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public ConditionStringDesc Case3
-        {
-            get => conditionList.Get(2);
-            set
-            {
-                if (value == null)
-                    throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Case3)));
-                conditionList.Set(2, value);
-            }
-        }
-
-        /// <summary>[NotNull] 条件4</summary>
-        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public ConditionStringDesc Case4
-        {
-            get => conditionList.Get(3);
-            set
-            {
-                if (value == null)
-                    throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Case4)));
-                conditionList.Set(3, value);
-            }
-        }
-
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     VersionCheck
@@ -312,7 +312,7 @@ namespace WodiLib.Event.EventCommand
         {
             for (var i = 0; i < conditionList.ConditionValue; i++)
             {
-                var con = conditionList.Get(i);
+                var con = conditionList[i];
                 if (con.Condition == StringConditionalOperator.StartWith)
                 {
                     Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(

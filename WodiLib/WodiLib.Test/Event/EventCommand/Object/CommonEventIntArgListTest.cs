@@ -17,13 +17,8 @@ namespace WodiLib.Test.Event.EventCommand
         [TestCaseSource(nameof(TestCaseSource))]
         public static void AccessorTest(int index, int value)
         {
-            var instance = new CommonEventIntArgList();
-            instance.Set(index, value);
-            for (var i = 0; i < 4; i++)
-                if (i == index)
-                    Assert.AreEqual(instance.Get(i), value);
-                else
-                    Assert.AreEqual(instance.Get(i), 0);
+            var instance = new CommonEventIntArgList {[index] = value};
+            for (var i = 0; i < 4; i++) Assert.AreEqual(instance[i], i == index ? value : 0);
         }
     }
 }

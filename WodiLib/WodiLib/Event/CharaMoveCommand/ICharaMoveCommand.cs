@@ -7,6 +7,7 @@
 // ========================================
 
 using System.ComponentModel;
+using WodiLib.Project;
 
 namespace WodiLib.Event.CharaMoveCommand
 {
@@ -38,6 +39,17 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <param name="value">設定する値</param>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         void SetNumberValue(int index, CharaMoveCommandValue value);
+
+        /// <summary>
+        /// イベントコマンド文字列を取得する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        string GetEventCommandSentence(EventCommandSentenceResolver resolver,
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc);
 
         /// <summary>
         /// VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、

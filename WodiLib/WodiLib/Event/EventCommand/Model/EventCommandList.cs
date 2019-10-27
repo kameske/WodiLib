@@ -8,8 +8,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using WodiLib.Event.CharaMoveCommand;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -108,19 +110,28 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// コマンド末尾の適正チェック
+        /// イベントコードリストを取得する。
         /// </summary>
-        /// <param name="commands">コマンドリスト</param>
-        /// <returns>コマンド末尾が「空白行（Blankクラス）」ではない場合、false</returns>
-        private static bool CheckLastCommand(IEnumerable<IEventCommand> commands)
-        {
-            var lastCommand = commands.LastOrDefault();
-            if (!(lastCommand is Blank castedCommand)) return false;
+        /// <returns>イベントコードリスト</returns>
+        public IReadOnlyList<string> GetEventCodeStringList()
+            => Items.Select(x => x.ToEventCodeString()).ToList();
 
-            if (castedCommand.Indent != 0) return false;
-
-            return true;
-        }
+        /// <summary>
+        /// イベントコマンド文字列情報リストを取得する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     resolver または type が null の場合、
+        ///     または必要なときに desc が null の場合
+        /// </exception>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public IReadOnlyList<EventCommandSentenceInfo> MakeEventCommandSentenceInfoList(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+            => Items.Select((x, idx) => x.GetEventCommandSentenceInfo(resolver, type, desc)).ToList();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
@@ -143,6 +154,25 @@ namespace WodiLib.Event.EventCommand
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override IEventCommand MakeDefaultItem(int index) => new Blank();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コマンド末尾の適正チェック
+        /// </summary>
+        /// <param name="commands">コマンドリスト</param>
+        /// <returns>コマンド末尾が「空白行（Blankクラス）」ではない場合、false</returns>
+        private static bool CheckLastCommand(IEnumerable<IEventCommand> commands)
+        {
+            var lastCommand = commands.LastOrDefault();
+            if (!(lastCommand is Blank castedCommand)) return false;
+
+            if (castedCommand.Indent != 0) return false;
+
+            return true;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common

@@ -336,7 +336,7 @@ namespace WodiLib.Test.IO
                                         IsStopForce = false,
                                         Indent = 0
                                     },
-                                    new ChoiceStartForkingNumber
+                                    new ForkStart
                                     {
                                         CaseNumber = 0,
                                         Indent = 0
@@ -361,7 +361,7 @@ namespace WodiLib.Test.IO
                                             IsWaitForComplete = false,
                                         },
                                         Indent = 1,
-                                        Target = MapEventId.ThisEventId
+                                        Target = MapCharacterId.ThisMapEvent
                                     },
                                     new MoveRoute
                                     {
@@ -405,7 +405,7 @@ namespace WodiLib.Test.IO
                                             },
                                         },
                                         Indent = 1,
-                                        Target = MapEventId.Hero
+                                        Target = MapCharacterId.Hero
                                     },
                                     new MoveRoute
                                     {
@@ -439,7 +439,7 @@ namespace WodiLib.Test.IO
                                             IsWaitForComplete = false
                                         },
                                         Indent = 1,
-                                        Target = MapEventId.Member2
+                                        Target = MapCharacterId.Member2
                                     },
                                     new MoveRoute
                                     {
@@ -544,22 +544,22 @@ namespace WodiLib.Test.IO
                                             IsWaitForComplete = false
                                         },
                                         Indent = 1,
-                                        Target = MapEventId.ThisEventId
+                                        Target = MapEventId.ThisMapEvent
                                     },
                                     new Blank {Indent = 1},
-                                    new ChoiceStartForkingNumber
+                                    new ForkStart
                                     {
                                         CaseNumber = 1,
                                         Indent = 0
                                     },
                                     new Blank {Indent = 1},
-                                    new ChoiceStartForkingNumber
+                                    new ForkStart
                                     {
                                         CaseNumber = 2,
                                         Indent = 0
                                     },
                                     new Blank {Indent = 1},
-                                    new ChoiceStartForkingNumber
+                                    new ForkStart
                                     {
                                         CaseNumber = 3,
                                         Indent = 0
@@ -575,14 +575,14 @@ namespace WodiLib.Test.IO
                                         IsStopForce = true,
                                         Indent = 1
                                     },
-                                    new ChoiceStartForkingNumber
+                                    new ForkStart
                                     {
                                         CaseNumber = 0,
                                         Indent = 1,
                                     },
                                     new BreakChoiceForce {Indent = 2},
                                     new Blank {Indent = 2},
-                                    new ChoiceStartForkingNumber
+                                    new ForkStart
                                     {
                                         CaseNumber = 1,
                                         Indent = 1
@@ -622,7 +622,7 @@ namespace WodiLib.Test.IO
                                     new Blank {Indent = 2},
                                     new ForkEnd {Indent = 1},
                                     new Blank {Indent = 1},
-                                    new ChoiceStartForkingNumber
+                                    new ForkStart
                                     {
                                         Indent = 0,
                                         CaseNumber = 4

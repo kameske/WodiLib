@@ -165,8 +165,8 @@ namespace WodiLib.Map
             if (!IsMapChipNumber(value))
                 throw new ArgumentOutOfRangeException(ErrorMessage.OutOfRange(nameof(value), StandardTileMin,
                     AutoTileMax, value));
-            IsAutoTile = IsAutoTileNumber(value);
             Value = value;
+            IsAutoTile = IsAutoTileNumber(value);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -219,7 +219,7 @@ namespace WodiLib.Map
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Explicit
+        //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>

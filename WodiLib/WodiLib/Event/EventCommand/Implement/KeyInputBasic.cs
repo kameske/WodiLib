@@ -7,7 +7,9 @@
 // ========================================
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -18,8 +20,24 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class KeyInputBasic : KeyInputBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /// <summary>キー入力種別フラグ値</summary>
         private readonly byte FlgKeyInputType = EventCommandConstant.KeyInput.Type.Basic;
+
+        private const string EventCommandSentenceFormat = "{1} {0}";
+
+        private static class AcceptTypeString
+        {
+            public static string Ok = "決定(10)";
+            public static string Cancel = "ｷｬﾝｾﾙ(11)";
+            public static string Sub = "ｻﾌﾞｷｰ(12)";
+        }
+
+        private const string EventCommandSentenceWait = "[入力待ち] ";
+        private const string EventCommandSentenceNonWait = "";
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
@@ -34,12 +52,13 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して数値変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, 2)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override int GetNumberVariable(int index)
+        public override int GetSafetyNumberVariable(int index)
         {
             switch (index)
             {
@@ -70,7 +89,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetNumberVariable(int index, int value)
+        public override void SetSafetyNumberVariable(int index, int value)
         {
             switch (index)
             {
@@ -91,6 +110,28 @@ namespace WodiLib.Event.EventCommand
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), 1, 2, index));
             }
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var acceptStrList = new List<string>();
+            acceptStrList.Add(DirectionKeyType.EventCommandSentence);
+
+            if (IsAcceptOk) acceptStrList.Add(AcceptTypeString.Ok);
+            if (IsAcceptCancel) acceptStrList.Add(AcceptTypeString.Cancel);
+            if (IsAcceptSub) acceptStrList.Add(AcceptTypeString.Sub);
+
+            var rightItem = string.Join(" ", acceptStrList);
+            var waitStr = IsWaitForInput
+                ? EventCommandSentenceWait
+                : EventCommandSentenceNonWait;
+
+            return string.Format(EventCommandSentenceFormat,
+                rightItem, waitStr);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

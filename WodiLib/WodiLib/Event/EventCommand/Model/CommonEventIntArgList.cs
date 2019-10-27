@@ -6,26 +6,68 @@
 // see LICENSE file
 // ========================================
 
+using WodiLib.Sys;
+
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
     /// コモンイベント・数値引数リストオブジェクト
     /// </summary>
-    internal class CommonEventIntArgList
+    public class CommonEventIntArgList : RestrictedCapacityCollection<int>
     {
-        private readonly int[] args =
-        {
-            0, 0, 0, 0
-        };
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      public Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        public void Set(int index, int value)
+        /// <summary>
+        /// 最大容量
+        /// </summary>
+        public static readonly int MaxCapacity = 5;
+
+        /// <summary>
+        /// 最小容量
+        /// </summary>
+        public static readonly int MinCapacity = 5;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        internal CommonEventIntArgList()
         {
-            args[index] = value;
         }
 
-        public int Get(int index)
-        {
-            return args[index];
-        }
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 容量最大値を返す。
+        /// </summary>
+        /// <returns>容量最大値</returns>
+        public override int GetMaxCapacity() => MaxCapacity;
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 容量最小値を返す。
+        /// </summary>
+        /// <returns>容量最小値</returns>
+        public override int GetMinCapacity() => MinCapacity;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 格納対象のデフォルトインスタンスを生成する。
+        /// </summary>
+        /// <param name="index">挿入インデックス</param>
+        /// <returns>デフォルトインスタンス</returns>
+        protected override int MakeDefaultItem(int index) => 0;
     }
 }

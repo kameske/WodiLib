@@ -256,4 +256,16 @@
   <data name="GameIni1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\Dir1\Game.ini;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="各種メニュー呼出" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\014_各種メニュー呼出.common;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TestProject_Ver224Zip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\TestProject_Ver224.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="EventCommandSentence_Ver224_CommonEvent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\EventCommandSentence/Ver224_CommonEvent.txt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="EventCommandSentence_Ver224_MapEvent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\EventCommandSentence/Ver224_MapEvent.txt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

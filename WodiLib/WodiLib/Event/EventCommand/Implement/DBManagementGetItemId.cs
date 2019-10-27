@@ -6,7 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Database;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -18,6 +20,13 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class DBManagementGetItemId : DBManagementOutputBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "{0}DB[ﾀｲﾌﾟ{1}({2}) 項目{3}({4})の項目番号]";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -113,6 +122,42 @@ namespace WodiLib.Event.EventCommand
         {
             get => true;
             set { }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            string paramType;
+            string targetType;
+            TypeId? typeId;
+            if (IsTypeIdUseStr)
+            {
+                paramType = DBTypeId.ToStr();
+                var (typeIdNum, typeIdStr) = resolver.GetDatabaseTypeId(_DBKind, DBTypeId.ToStr());
+                typeId = typeIdNum;
+                targetType = typeIdStr;
+            }
+            else
+            {
+                paramType = resolver.GetNumericVariableAddressStringIfVariableAddress(
+                    DBTypeId.ToInt(), type, desc);
+                typeId = DBTypeId.ToInt();
+                targetType = resolver.GetDatabaseTypeName(_DBKind, DBTypeId.ToInt()).Item2;
+            }
+
+            var paramData = DBItemName;
+            var targetData = resolver.GetDatabaseItemId(DBKind, typeId, DBItemName).Item2;
+
+            return string.Format(EventCommandSentenceFormat,
+                _DBKind.EventCommandSentence, paramType, targetType,
+                paramData, targetData);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

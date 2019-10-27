@@ -8,6 +8,8 @@
 
 using System;
 using System.ComponentModel;
+using System.Text;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -19,8 +21,17 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class KeyInputMouse : KeyInputBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /// <summary>キー入力種別フラグ値</summary>
         private readonly byte FlgKeyInputType = EventCommandConstant.KeyInput.Type.Mouse;
+
+        private const string EventCommandSentenceFormat = "{1} マウス{0}";
+
+        private const string EventCommandSentenceWait = "[入力待ち] ";
+        private const string EventCommandSentenceNonWait = "";
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
@@ -35,12 +46,13 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して数値変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, 2)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override int GetNumberVariable(int index)
+        public override int GetSafetyNumberVariable(int index)
         {
             switch (index)
             {
@@ -71,7 +83,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetNumberVariable(int index, int value)
+        public override void SetSafetyNumberVariable(int index, int value)
         {
             switch (index)
             {
@@ -91,6 +103,22 @@ namespace WodiLib.Event.EventCommand
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), 1, 2, index));
             }
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var inputItemStr = acceptStatus.GetEventCommandSentence();
+
+            var waitStr = IsWaitForInput
+                ? EventCommandSentenceWait
+                : EventCommandSentenceNonWait;
+
+            return string.Format(EventCommandSentenceFormat,
+                inputItemStr, waitStr);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -138,6 +166,13 @@ namespace WodiLib.Event.EventCommand
         {
             /// <summary>読み込み対象</summary>
             public KeyInputMouseTarget Target { get; set; }
+
+            private static class EventCommandSentenceAccept
+            {
+                public const string LeftClick = " 左ｸﾘｯｸ(20)";
+                public const string RightClick = " 右ｸﾘｯｸ(21)";
+                public const string CenterClick = " 中ｸﾘｯｸ(22)";
+            }
 
             private bool isAcceptLeftClick;
 
@@ -187,6 +222,21 @@ namespace WodiLib.Event.EventCommand
                 if (IsAcceptRightClick) result += FlgAcceptRightClick;
                 if (IsAcceptCenterClick) result += FlgAcceptCenterClick;
                 return result;
+            }
+
+            public string GetEventCommandSentence()
+            {
+                if (Target != KeyInputMouseTarget.ClickState)
+                {
+                    return Target.EventCommandSentence;
+                }
+
+                var builder = new StringBuilder();
+                if (IsAcceptLeftClick) builder.Append(EventCommandSentenceAccept.LeftClick);
+                if (IsAcceptRightClick) builder.Append(EventCommandSentenceAccept.RightClick);
+                if (IsAcceptCenterClick) builder.Append(EventCommandSentenceAccept.CenterClick);
+
+                return builder.ToString();
             }
         }
 

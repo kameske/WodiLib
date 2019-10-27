@@ -113,6 +113,17 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
+        /// リスト要素数が不足する場合のエラーメッセージ
+        /// </summary>
+        /// <param name="itemName">要素名</param>
+        /// <param name="limit">要素数下限</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string UnderListLength(string itemName, int limit)
+        {
+            return $"{itemName}の要素数が{limit}を下回るため、処理できません。";
+        }
+
+        /// <summary>
         /// リスト要素数が超過する場合のエラーメッセージ
         /// </summary>
         /// <param name="limit">要素数上限</param>
@@ -197,6 +208,16 @@ namespace WodiLib.Sys
         public static string NotExecute(string reason)
         {
             return $"{reason}処理できません。";
+        }
+
+        /// <summary>
+        /// データが存在しない場合のエラーメッセージ
+        /// </summary>
+        /// <param name="itemName">項目名</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string NotFound(string itemName)
+        {
+            return $"{itemName}が見つかりません。";
         }
 
         /// <summary>

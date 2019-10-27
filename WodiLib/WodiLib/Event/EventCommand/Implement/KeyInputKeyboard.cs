@@ -8,7 +8,10 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Cmn;
+using WodiLib.Project;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -18,15 +21,43 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class KeyInputKeyboard : KeyInputBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /// <summary>キー入力種別フラグ値</summary>
         private readonly byte FlgKeyInputType = EventCommandConstant.KeyInput.Type.Keyboard;
+
+        private const string EventCommandSentenceFormat
+            = "{1}ｷｰﾎﾞｰﾄﾞ(100～){0}";
+
+        private const string EventCommandSentenceOnlyTarget = " [ｷｰｺｰﾄﾞ[{0}]のみ判定]{1}";
+        private const string EventCommandSentenceAllTarget = "";
+
+        private const string EventCommandSentenceWait = "[入力待ち] ";
+        private const string EventCommandSentenceNonWait = "";
+
+        private const string EventCommandSentenceTargetKeyName = " ( {0}ｷｰ ) ";
+        private const string EventCommandSentenceNonTargetKeyName = "";
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override byte NumberVariableCount => 0x04;
+        public override byte NumberVariableCount
+        {
+            get
+            {
+                if (VersionConfig.IsGreaterVersion(WoditorVersion.Ver2_00)) return 0x04;
+                
+                // ver 2.00 より前
+                return IsOnlySpecificKey ? (byte) 0x04 : (byte) 0x03;
+            }
+        }
+
+        /// <inheritdoc />
+        public override byte NumberVariableCountMin => 0x03;
 
         /// <inheritdoc />
         public override byte StringVariableCount => 0x00;
@@ -34,12 +65,13 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して数値変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, 3)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override int GetNumberVariable(int index)
+        public override int GetSafetyNumberVariable(int index)
         {
             switch (index)
             {
@@ -75,7 +107,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetNumberVariable(int index, int value)
+        public override void SetSafetyNumberVariable(int index, int value)
         {
             switch (index)
             {
@@ -100,6 +132,40 @@ namespace WodiLib.Event.EventCommand
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), 1, 3, index));
             }
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            string targetStr;
+            if (IsOnlySpecificKey)
+            {
+                var keyCodeStr = resolver.GetNumericVariableAddressStringIfVariableAddress(SpecificKeyCode, type, desc);
+
+                var keyName = SpecificKeyCode.IsVariableAddressSimpleCheck()
+                    ? EventCommandSentenceNonTargetKeyName
+                    : KeyboardCode.IsKeyCode(SpecificKeyCode)
+                        ? string.Format(EventCommandSentenceTargetKeyName,
+                            KeyboardCode.GetKeyName(SpecificKeyCode))
+                        : EventCommandSentenceNonTargetKeyName;
+
+                targetStr = string.Format(EventCommandSentenceOnlyTarget,
+                    keyCodeStr, keyName);
+            }
+            else
+            {
+                targetStr = EventCommandSentenceAllTarget;
+            }
+
+            var waitStr = IsWaitForInput
+                ? EventCommandSentenceWait
+                : EventCommandSentenceNonWait;
+
+            return string.Format(EventCommandSentenceFormat,
+                targetStr, waitStr);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -6,7 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using System;
 using WodiLib.Cmn;
 using WodiLib.Event;
 using WodiLib.Sys;
@@ -23,47 +22,10 @@ namespace WodiLib.Map
 
         private static int DefaultValue => 1000000;
 
-        private VariableAddress leftSide = DefaultValue;
-
         /// <summary>
-        ///     [Convertible(ThisMapEventVariableAddress)]
-        ///     [Convertible(NormalNumberVariableAddress)]
-        ///     [Convertible(SpareNumberVariableAddress)]
-        ///     [Allow(1000000)]
         ///     左辺
         /// </summary>
-        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        /// <exception cref="InvalidCastException">
-        ///     ThisMapEventVariableAddress、
-        ///     NormalNumberVariableAddressまたは
-        ///     SpareNumberVariableAddressにキャストできない、
-        ///     かつ 1000000 ではない場合
-        /// </exception>
-        public VariableAddress LeftSide
-        {
-            get => leftSide;
-            set
-            {
-                if (value == null)
-                    throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(LeftSide)));
-
-                if (!(value is ThisMapEventVariableAddress)
-                    && !(value is NormalNumberVariableAddress)
-                    && !(value is SpareNumberVariableAddress)
-                    && (int) value != DefaultValue)
-                {
-                    throw new InvalidCastException(
-                        ErrorMessage.InvalidAnyCast(nameof(LeftSide),
-                            nameof(ThisMapEventVariableAddress),
-                            nameof(NormalNumberVariableAddress),
-                            nameof(SpareNumberVariableAddress),
-                            $"{DefaultValue}"));
-                }
-
-                leftSide = value;
-            }
-        }
+        public int LeftSide { get; set; } = DefaultValue;
 
         private CriteriaOperator operation = CriteriaOperator.Equal;
 

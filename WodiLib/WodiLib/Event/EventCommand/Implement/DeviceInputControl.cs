@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -19,6 +20,16 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class DeviceInputControl : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormatKeyboard
+            = "■キー入力禁止/許可: {0}  コード[ {2} ] [ {1} ]";
+
+        private const string EventCommandSentenceFormatEtc
+            = "■キー入力禁止/許可: {0}   [ {1} ]";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -34,14 +45,23 @@ namespace WodiLib.Event.EventCommand
         public override byte StringVariableCount => 0x00;
 
         /// <inheritdoc />
+        /// <summary>数値変数最小個数</summary>
+        public override byte NumberVariableCountMin => 0x02;
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
+
+        /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して数値変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, 1～2)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override int GetNumberVariable(int index)
+        public override int GetSafetyNumberVariable(int index)
         {
             switch (index)
             {
@@ -71,7 +91,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetNumberVariable(int index, int value)
+        public override void SetSafetyNumberVariable(int index, int value)
         {
             if (index < 1 || NumberVariableCount <= index)
                 throw new ArgumentOutOfRangeException(
@@ -104,12 +124,13 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して文字列変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, -)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">常に</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override string GetStringVariable(int index)
+        public override string GetSafetyStringVariable(int index)
         {
             throw new ArgumentOutOfRangeException();
         }
@@ -122,9 +143,26 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">[NotNull] 設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">常に</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override void SetStringVariable(int index, string value)
+        public override void SetSafetyStringVariable(int index, string value)
         {
             throw new ArgumentOutOfRangeException();
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            if (KeyType == DeviceInputControlType.KeyboardKey)
+            {
+                return string.Format(EventCommandSentenceFormatKeyboard,
+                    KeyType.EventCommandSentence, ControlType.EventCommandSentence,
+                    KeyCode);
+            }
+
+            return string.Format(EventCommandSentenceFormatEtc,
+                KeyType.EventCommandSentence, ControlType.EventCommandSentence);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

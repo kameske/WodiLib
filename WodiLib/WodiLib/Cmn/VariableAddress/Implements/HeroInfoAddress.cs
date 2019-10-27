@@ -7,6 +7,8 @@
 // ========================================
 
 using System;
+using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -22,10 +24,14 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>最小値</summary>
-        public static int MinValue => 9180000;
+        public new static int MinValue => 9180000;
 
         /// <summary>最大値</summary>
-        public static int MaxValue => 9180009;
+        public new static int MaxValue => 9180009;
+
+        /// <summary>変数種別</summary>
+        public override VariableAddressValueType ValueType
+            => VariableAddressValueType.Numeric;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Constant
@@ -69,13 +75,28 @@ namespace WodiLib.Cmn
         /// コンストラクタ
         /// </summary>
         /// <param name="value">[Range(9180000, 9180009)] 変数アドレス値</param>
-        /// <exception cref="ArgumentOutOfRangeException">valueが主人公座標アドレス値として不適切な場合</exception>
+        /// <exception cref="ArgumentOutOfRangeException">valueが主人公情報アドレス値として不適切な場合</exception>
         public HeroInfoAddress(int value) : base(value)
         {
             InfoType = InfoAddressInfoType.FromCode(Value.SubInt(0, 1));
 
             VersionCheck(value);
         }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        /// <summary>
+        /// イベントコマンド文用文字列を生成する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベントコマンド種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string ResolveEventCommandString(EventCommandSentenceResolver resolver,
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            => InfoType.MakeEventCommandSentenceForHero();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Static Method
@@ -129,7 +150,7 @@ namespace WodiLib.Cmn
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Explicit
+        //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
@@ -160,12 +181,12 @@ namespace WodiLib.Cmn
         #region int
 
         /// <summary>
-        /// 主人公座標アドレス値 + int を計算し、構造体を返す。
+        /// 主人公情報アドレス値 + int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">変数アドレス</param>
         /// <param name="value">加算値</param>
         /// <returns>加算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">加算後の値が主人公座標アドレス値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">加算後の値が主人公情報アドレス値として不適切な場合</exception>
         public static HeroInfoAddress operator +(HeroInfoAddress src, int value)
         {
             try
@@ -175,17 +196,17 @@ namespace WodiLib.Cmn
             catch (ArgumentOutOfRangeException ex)
             {
                 throw new InvalidOperationException(
-                    $"主人公座標アドレス値として不適切な値です。(value = {src.Value + value})", ex);
+                    $"主人公情報アドレス値として不適切な値です。(value = {src.Value + value})", ex);
             }
         }
 
         /// <summary>
-        /// 主人公座標アドレス値 - int を計算し、構造体を返す。
+        /// 主人公情報アドレス値 - int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">変数アドレス</param>
         /// <param name="value">減算値</param>
         /// <returns>減算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">減算後の値が主人公座標アドレス値値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">減算後の値が主人公情報アドレス値値として不適切な場合</exception>
         public static HeroInfoAddress operator -(HeroInfoAddress src, int value)
         {
             try
@@ -195,7 +216,7 @@ namespace WodiLib.Cmn
             catch (ArgumentOutOfRangeException ex)
             {
                 throw new InvalidOperationException(
-                    $"主人公座標アドレス値として不適切な値です。(value = {src.Value - value})", ex);
+                    $"主人公情報アドレス値として不適切な値です。(value = {src.Value - value})", ex);
             }
         }
 

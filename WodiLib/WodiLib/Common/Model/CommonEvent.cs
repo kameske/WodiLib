@@ -13,6 +13,7 @@ using System.Linq;
 using WodiLib.Event;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Event.EventCommand;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -156,7 +157,10 @@ namespace WodiLib.Common
             }
         }
 
-        private EventCommandList eventCommands = new EventCommandList(new[] {new Blank()});
+        private EventCommandList eventCommands = new EventCommandList(new[] {new Blank()})
+        {
+            Owner = TargetAddressOwner.CommonEvent
+        };
 
         /// <summary>
         /// [NotNull] イベントコマンド
@@ -362,6 +366,32 @@ namespace WodiLib.Common
         public void SetReturnValueNone()
         {
             returnValueInfo.SetReturnValueNone();
+        }
+
+        /// <summary>
+        /// イベントコードリストを取得する。
+        /// </summary>
+        /// <returns>イベントコードリスト</returns>
+        public IReadOnlyList<string> GetEventCodeStringList()
+            => EventCommands.GetEventCodeStringList();
+
+        /// <summary>
+        /// イベントコマンド文字列情報リストを取得する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     resolver または type が null の場合、
+        ///     または必要なときに desc が null の場合
+        /// </exception>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public IReadOnlyList<EventCommandSentenceInfo> MakeEventCommandSentenceInfoList(
+            EventCommandSentenceResolver resolver, EventCommandSentenceResolveDesc desc)
+        {
+            var sentenceType = EventCommandSentenceType.Common;
+
+            return EventCommands.MakeEventCommandSentenceInfoList(resolver, sentenceType, desc);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

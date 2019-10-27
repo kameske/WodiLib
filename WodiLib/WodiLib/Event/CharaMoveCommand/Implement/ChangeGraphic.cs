@@ -6,6 +6,10 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
+using WodiLib.Database;
+using WodiLib.Project;
+
 namespace WodiLib.Event.CharaMoveCommand
 {
     /// <inheritdoc />
@@ -14,6 +18,16 @@ namespace WodiLib.Event.CharaMoveCommand
     /// </summary>
     public class ChangeGraphic : CharaMoveCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "ｸﾞﾗﾌｨｯｸ変更 {0}:{1}";
+
+        private static readonly string EventCommandSentenceGraphicNotFound = string.Empty;
+
+        private static readonly TypeId CharacterGraphicTypeId = 8;
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -29,6 +43,24 @@ namespace WodiLib.Event.CharaMoveCommand
         {
             get => GetNumberValue(0);
             set => SetNumberValue(0, value);
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override string GetEventCommandSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var (hasData, dataName) = resolver.GetDatabaseDataName(DBKind.System,
+                CharacterGraphicTypeId, GraphicId);
+            var graphicIdStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
+                GraphicId, type, desc);
+            var graphicStr = hasData
+                ? dataName
+                : EventCommandSentenceGraphicNotFound;
+
+            return string.Format(EventCommandSentenceFormat,
+                graphicIdStr, graphicStr);
         }
     }
 }

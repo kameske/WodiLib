@@ -30,7 +30,7 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         /// <summary>入出力値または代入先</summary>
-        protected sealed override int NumValue
+        protected sealed override int _NumValue
         {
             get => 0;
             set { }
@@ -38,7 +38,7 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         /// <summary>代入文字列またはCSVファイル名</summary>
-        protected sealed override string StrValue
+        protected sealed override string _StrValue
         {
             get => "";
             set { }
@@ -46,7 +46,7 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         /// <summary>右辺内容コード</summary>
-        protected sealed override byte RightSideCode { get; set; }
+        protected sealed override byte LeftSideCode { get; set; }
 
         /// <inheritdoc />
         /// <summary>読み書きモード</summary>

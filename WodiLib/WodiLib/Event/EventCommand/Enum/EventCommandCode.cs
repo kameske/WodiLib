@@ -69,17 +69,11 @@ namespace WodiLib.Event.EventCommand
         ///<summary>条件（変数）・始端</summary>
         public static readonly EventCommandCode ConditionNumberStart;
 
-        ///<summary>条件（変数）・分岐始端</summary>
-        public static readonly EventCommandCode ConditionNumberStartForking;
-
         ///<summary>条件・上記以外</summary>
         public static readonly EventCommandCode ConditionElse;
 
         ///<summary>条件（文字列）・始端</summary>
         public static readonly EventCommandCode ConditionStringStart;
-
-        ///<summary>条件（文字列）・分岐始端</summary>
-        public static readonly EventCommandCode ConditionStringStartForking;
 
         ///<summary>キー入力</summary>
         public static readonly EventCommandCode KeyInput;
@@ -219,6 +213,9 @@ namespace WodiLib.Event.EventCommand
         ///<summary>チェックポイント</summary>
         public static readonly EventCommandCode CheckPoint;
 
+        ///<summary>仕様外共通コード</summary>
+        public static readonly EventCommandCode Unknown;
+
         /// <summary>値</summary>
         public int Code { get; }
 
@@ -242,10 +239,8 @@ namespace WodiLib.Event.EventCommand
             SetString = new EventCommandCode(nameof(SetString), 122);
             SetVariablePlus = new EventCommandCode(nameof(SetVariablePlus), 124);
             ConditionNumberStart = new EventCommandCode(nameof(ConditionNumberStart), 111);
-            ConditionNumberStartForking = new EventCommandCode(nameof(ConditionNumberStartForking), 401);
             ConditionElse = new EventCommandCode(nameof(ConditionElse), 420);
             ConditionStringStart = new EventCommandCode(nameof(ConditionStringStart), 112);
-            ConditionStringStartForking = new EventCommandCode(nameof(ConditionStringStartForking), 401);
             KeyInput = new EventCommandCode(nameof(KeyInput), 123);
             KeyInputAuto = new EventCommandCode(nameof(KeyInputAuto), 125);
             StandardKeyInputControl = new EventCommandCode(nameof(StandardKeyInputControl), 126);
@@ -292,6 +287,7 @@ namespace WodiLib.Event.EventCommand
             CommonEventReserve = new EventCommandCode(nameof(CommonEventReserve), 211);
             Download = new EventCommandCode(nameof(Download), 260);
             CheckPoint = new EventCommandCode(nameof(CheckPoint), 99);
+            Unknown = new EventCommandCode(nameof(Unknown), -1);
         }
 
         private EventCommandCode(string id, int code) : base(id)

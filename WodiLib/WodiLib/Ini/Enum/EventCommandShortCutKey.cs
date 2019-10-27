@@ -212,14 +212,8 @@ namespace WodiLib.Ini
         /// <returns>EventCommandShortCutKey</returns>
         public static EventCommandShortCutKey FromCodeOrDefault(string code)
         {
-            try
-            {
-                return FromCode(code);
-            }
-            catch
-            {
-                return None;
-            }
+            if (code == null || code.Equals(string.Empty)) return None;
+            return FromCode(code);
         }
     }
 }

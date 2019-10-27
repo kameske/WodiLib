@@ -36,13 +36,12 @@ namespace WodiLib.Test.Event.EventCommand
                     return;
             }
 
-            var instance = new CommonEventStrArgList();
-            instance.Set(index, obj);
+            var instance = new CommonEventStrArgList {[index] = obj};
             for (var idx = 0; idx < 4; idx++)
             {
                 if (idx != index) continue;
 
-                var resultInstance = instance.Get(index);
+                var resultInstance = instance[index];
                 switch (value)
                 {
                     case int i2:
@@ -86,9 +85,9 @@ namespace WodiLib.Test.Event.EventCommand
             var instance = new CommonEventStrArgList();
             for (var i = 0; i < 4; i++)
                 if (strFlgs[i])
-                    instance.Set(i, "test");
+                    instance[i] = "test";
                 else
-                    instance.Set(i, 10);
+                    instance[i] = 10;
             Assert.AreEqual(instance.ReferenceFlg, answer);
         }
 
@@ -97,10 +96,7 @@ namespace WodiLib.Test.Event.EventCommand
         {
             var instance = new CommonEventStrArgList {ReferenceFlg = flg};
             for (var i = 0; i < 4; i++)
-                if (strFlgs[i])
-                    Assert.AreEqual(instance.Get(i).InstanceIntOrStrType, IntOrStrType.Str);
-                else
-                    Assert.AreEqual(instance.Get(i).InstanceIntOrStrType, IntOrStrType.Int);
+                Assert.AreEqual(instance[i].InstanceIntOrStrType, strFlgs[i] ? IntOrStrType.Str : IntOrStrType.Int);
         }
     }
 }

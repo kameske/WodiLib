@@ -52,22 +52,18 @@ namespace WodiLib.Test.Common
             Assert.IsTrue(getValue == type);
         }
 
-        [TestCase(-1, true)] // null
-        [TestCase(1000000, true)] // MapEventSelfVariableAddress (Not NumberVariableAddress)
+        [TestCase(-1, false)] // null
+        [TestCase(1000000, false)] // MapEventSelfVariableAddress (Not NumberVariableAddress)
         [TestCase(2000000, false)] // NormalNumberVariableAddress
         [TestCase(2100000, false)] // SpareNumberVariableAddress
         public static void LeftSideTest(int leftSide, bool isError)
         {
             var instance = new CommonEventBootCondition();
 
-            var leftSideAddress = leftSide == -1
-                ? null
-                : VariableAddressFactory.Create(leftSide);
-
             var errorOccured = false;
             try
             {
-                instance.LeftSide = leftSideAddress;
+                instance.LeftSide = leftSide;
             }
             catch (Exception ex)
             {
@@ -83,8 +79,7 @@ namespace WodiLib.Test.Common
             var getValue = instance.LeftSide;
 
             // セットした値と取得した値が一致すること
-            Assert.NotNull(getValue);
-            Assert.IsTrue(getValue.Equals(leftSideAddress));
+            Assert.IsTrue(getValue == leftSide);
         }
 
         [Test]

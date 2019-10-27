@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -17,6 +19,13 @@ namespace WodiLib.Event.EventCommand
     public class PartyGraphicRemoveGraphic : PartyGraphicBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat
+            = "PTから[{0}]を全削除";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -25,6 +34,14 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         public override byte StringVariableCount => (byte) (IsTargetingValue ? 0x00 : 0x01);
+
+        /// <inheritdoc />
+        /// <summary>数値変数最小個数</summary>
+        public override byte NumberVariableCountMin => 0x02;
+
+        /// <inheritdoc />
+        /// <summary>文字列変数最小個数</summary>
+        public override byte StringVariableCountMin => 0x00;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
@@ -78,6 +95,29 @@ namespace WodiLib.Event.EventCommand
                         ErrorMessage.NotNull(nameof(Target)));
                 LoadGraphic = value;
             }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// イベントコマンド文字列の処理内容部分を生成する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列の処理内容部分</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandExecSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var removeStr = IsTargetingValue
+                ? resolver.GetNumericVariableAddressStringIfVariableAddress(LoadGraphic.ToInt(), type, desc)
+                : LoadGraphic.ToStr();
+
+            return string.Format(EventCommandSentenceFormat, removeStr);
         }
     }
 }

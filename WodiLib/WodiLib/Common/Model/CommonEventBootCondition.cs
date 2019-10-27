@@ -6,11 +6,11 @@
 // see LICENSE file
 // ========================================
 
-using System;
 using System.Collections.Generic;
 using WodiLib.Cmn;
 using WodiLib.Event;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Common
 {
@@ -36,35 +36,23 @@ namespace WodiLib.Common
             }
         }
 
-        private VariableAddress leftSide = (NormalNumberVariableAddress) 2000000;
+        private int leftSide = (NormalNumberVariableAddress) 2000000;
 
         /// <summary>
-        ///     [NotNull]
-        ///     [Convertible(NormalNumberVariableAddress)]
-        ///     [Convertible(SpareNumberVariableAddress)]
+        ///     [SafetyConvertible(NormalNumberVariableAddress)]
+        ///     [SafetyConvertible(SpareNumberVariableAddress)]
         ///     左辺
         /// </summary>
-        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        /// <exception cref="InvalidCastException">
-        ///     NormalNumberVariableAddressまたは
-        ///     SpareNumberVariableAddressにキャストできない場合
-        /// </exception>
-        public VariableAddress LeftSide
+        public int LeftSide
         {
             get => leftSide;
             set
             {
-                if (value == null)
-                    throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(LeftSide)));
-
-                if (!(value is NormalNumberVariableAddress)
-                    && !(value is SpareNumberVariableAddress))
+                if (!(NormalNumberVariableAddress.MinValue <= value && value <= NormalNumberVariableAddress.MaxValue)
+                    && !(SpareNumberVariableAddress.MinValue <= value && value <= SpareNumberVariableAddress.MaxValue))
                 {
-                    throw new InvalidCastException(
-                        ErrorMessage.InvalidAnyCast(nameof(LeftSide),
-                            nameof(NormalNumberVariableAddress),
-                            nameof(SpareNumberVariableAddress)));
+                    WodiLibLogger.GetInstance()
+                        .Warning($"[Warning]イベントコマンドの起動条件が意図しない値です。（設定値：{value}）");
                 }
 
                 leftSide = value;

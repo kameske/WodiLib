@@ -13,7 +13,7 @@ using WodiLib.Sys;
 namespace WodiLib.Map
 {
     /// <summary>
-    /// [Range(-7, 9999)] マップイベントID
+    /// [Range(-1, 9999)] マップイベントID
     /// </summary>
     public struct MapEventId : IConvertibleInt, IEquatable<MapEventId>, IComparable<MapEventId>
     {
@@ -25,28 +25,10 @@ namespace WodiLib.Map
         public static readonly int MaxValue = 9999;
 
         /// <summary>最小値</summary>
-        public static readonly int MinValue = -7;
+        public static readonly int MinValue = -1;
 
-        /// <summary>「このイベント」を表す数値</summary>
-        public static readonly MapEventId ThisEventId = new MapEventId(-1);
-
-        /// <summary>「主人公」を表す数値</summary>
-        public static readonly MapEventId Hero = new MapEventId(-2);
-
-        /// <summary>「仲間1」を表す数値</summary>
-        public static readonly MapEventId Member1 = new MapEventId(-3);
-
-        /// <summary>「仲間2」を表す数値</summary>
-        public static readonly MapEventId Member2 = new MapEventId(-4);
-
-        /// <summary>「仲間3」を表す数値</summary>
-        public static readonly MapEventId Member3 = new MapEventId(-5);
-
-        /// <summary>「仲間4」を表す数値</summary>
-        public static readonly MapEventId Member4 = new MapEventId(-6);
-
-        /// <summary>「仲間5」を表す数値</summary>
-        public static readonly MapEventId Member5 = new MapEventId(-7);
+        /// <summary>"このマップイベントID"を示すインスタンス</summary>
+        public static MapEventId ThisMapEvent = new MapEventId(-1);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
@@ -62,7 +44,7 @@ namespace WodiLib.Map
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="number">[Range(-7, 9999)] マップイベントID</param>
+        /// <param name="number">[Range(-1, 9999)] マップイベントID</param>
         /// <exception cref="ArgumentOutOfRangeException">numberがマップイベントIDとして不適切な場合</exception>
         public MapEventId(int number)
         {
@@ -136,7 +118,7 @@ namespace WodiLib.Map
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Explicit
+        //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>

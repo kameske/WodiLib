@@ -85,14 +85,8 @@ namespace WodiLib.Ini
         /// <returns>EventCommandShortCutKey</returns>
         public static EventLayerOpacityType FromCodeOrDefault(string code)
         {
-            try
-            {
-                return FromCode(code);
-            }
-            catch
-            {
-                return Quoter;
-            }
+            if (code == null || code.Equals(string.Empty)) return Quoter;
+            return FromCode(code);
         }
     }
 }

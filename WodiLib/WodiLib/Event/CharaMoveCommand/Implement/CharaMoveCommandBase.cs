@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -74,6 +75,18 @@ namespace WodiLib.Event.CharaMoveCommand
                 throw new ArgumentOutOfRangeException($"存在しない変数を取得しようとしました。index: {index} maxLength: {ValueLength} ");
             NumberValues[index] = value;
         }
+
+        /// <summary>
+        /// イベントコマンド文字列を取得する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベント種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public abstract string GetEventCommandSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc);
 
         /// <summary>
         /// 終了バイトコード

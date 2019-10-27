@@ -114,10 +114,10 @@ namespace WodiLib.Test.IO
                 $@"Written FilePath : {CommonEventDataFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
         }
 
-        [Test]
-        public static void Common005To006Test()
+        [TestCase("Common005to006_コモンイベント005.common")]
+        [TestCase("各種メニュー呼び出し.common")]
+        public static void CommonReadTest(string inputFileName)
         {
-            const string inputFileName = "Common005to006_コモンイベント005.common";
             var outputFileName = $"Output{inputFileName}";
 
             var reader =

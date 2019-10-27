@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -27,16 +28,25 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static MapEffectShakeType()
         {
-            Vertical = new MapEffectShakeType(nameof(Vertical), 0x00);
-            Horizontal = new MapEffectShakeType(nameof(Horizontal), 0x01);
-            Stop = new MapEffectShakeType(nameof(Stop), 0x02);
+            Vertical = new MapEffectShakeType(nameof(Vertical), 0x00,
+                "縦揺れ");
+            Horizontal = new MapEffectShakeType(nameof(Horizontal), 0x01,
+                "横揺れ");
+            Stop = new MapEffectShakeType(nameof(Stop), 0x02,
+                "シェイク停止");
         }
 
-        private MapEffectShakeType(string id, byte code) : base(id)
+        private MapEffectShakeType(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

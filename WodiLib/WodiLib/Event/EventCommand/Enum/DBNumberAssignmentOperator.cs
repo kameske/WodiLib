@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -42,21 +43,35 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static DBNumberAssignmentOperator()
         {
-            Assign = new DBNumberAssignmentOperator(nameof(Assign), 0x00);
-            Addition = new DBNumberAssignmentOperator(nameof(Addition), 0x10);
-            Subtraction = new DBNumberAssignmentOperator(nameof(Subtraction), 0x20);
-            Multiplication = new DBNumberAssignmentOperator(nameof(Multiplication), 0x30);
-            Division = new DBNumberAssignmentOperator(nameof(Division), 0x40);
-            Modulo = new DBNumberAssignmentOperator(nameof(Modulo), 0x50);
-            LowerBound = new DBNumberAssignmentOperator(nameof(LowerBound), 0x60);
-            UpperBound = new DBNumberAssignmentOperator(nameof(UpperBound), 0x70);
+            Assign = new DBNumberAssignmentOperator(nameof(Assign), 0x00,
+                "=");
+            Addition = new DBNumberAssignmentOperator(nameof(Addition), 0x10,
+                "+=");
+            Subtraction = new DBNumberAssignmentOperator(nameof(Subtraction), 0x20,
+                "-=");
+            Multiplication = new DBNumberAssignmentOperator(nameof(Multiplication),
+                0x30, "*=");
+            Division = new DBNumberAssignmentOperator(nameof(Division), 0x40,
+                "/=");
+            Modulo = new DBNumberAssignmentOperator(nameof(Modulo), 0x50,
+                "%=");
+            LowerBound = new DBNumberAssignmentOperator(nameof(LowerBound),
+                0x60, "下限");
+            UpperBound = new DBNumberAssignmentOperator(nameof(UpperBound),
+                0x70, "上限");
         }
 
-        private DBNumberAssignmentOperator(string id, byte code) : base(id)
+        private DBNumberAssignmentOperator(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

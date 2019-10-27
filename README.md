@@ -1,13 +1,13 @@
 WodiLib
-Ver 0.5.3
+Ver 1.0.0
 ====
 
-概要
+Description
 ----------
 
 [Wolf RPG Editor](https://www.silversecond.com/WolfRPGEditor/)で生成されるファイルを外部から扱うためのC#用APIライブラリです。
 
-ターゲットフレームワーク
+Target Framework
 ----------
 
 以下のフレームワークを対象としています。これ以外のフレームワークでの動作確認は行っておりませんので予めご了承ください。
@@ -16,7 +16,7 @@ Ver 0.5.3
 - .NET Standard 2.0
 - .NET Core 2.1
 
-使用方法
+Usage
 ----------
 
 WodiLib.dllを使用したいプロジェクトの参照に追加してください。
@@ -24,40 +24,24 @@ WodiLib.dllを使用したいプロジェクトの参照に追加してくださ
 
 各API詳細は <https://kameske.github.io/WodiLib/> 、または releaseページにあるZIPファイルを解凍して得られるchmファイルを参照してください。
 
-ライセンス
+License
 ----------
 
-MIT License Copyright (c) 2019 kameske
+[MIT License](https://github.com/kameske/WodiLib/blob/master/LICENSE)
 
-更新予定
+Loadmap
 ----------
 
-- Ver 1.0 2018年10～11月
-  - 正式版公開
-  - プロジェクト単位で管理する機能の追加
+- 適宜
+  - 不具合修正 / 機能追加
 
-更新履歴
+History
 ----------
 
-- 2019/10/12 Ver 0.5.3
-  - 無用な例外を発生させないよう内部ロジックを修正。
-  - キャラ動作指定コマンド「代入」「加算」での対象アドレス値の扱い方を変更。
-  - 一部の VariableAddress について、別の名前空間を参照するプロパティの定義方法を変更。
-  - RandomVariableAddress の説明文を修正。
-  - DatabaseMergedDataReaderの非同期読み込み処理が値を返していなかった不具合修正。
-  - DBValueString.ToString() の返戻値を修正。
-  - MapEventIdの最大許容値を99->9999に修正。
+- 2019/10/27 Ver 1.0.0
+  - 正式版初版公開
 
-- 2019/10/06 Ver 0.5.2
-  - Extension クラスのインスタンスが null のとき、 string にキャストしようとすると例外が発生する不具合修正。
-  - ThisMapEventInfoAddress クラスの設定を修正。
-  - 一部のメソッド名を修正。
-  - 例外メッセージ修正。
-- 2019/08/10 Ver 0.5.1
-  - 変数アドレス「このマップイベント情報アドレス」への対応が漏れていたため、対応するクラスを新規作成。
-  - 文字列を扱う値オブジェクトについて、null値であるオブジェクトからstringにキャストするとエラーが発生する不具合修正。
-
-作者
+Author
 ----------
 
 カメスケ（HP：[彼岸の亀の停留所](http://kameske027.php.xdomain.jp/)）

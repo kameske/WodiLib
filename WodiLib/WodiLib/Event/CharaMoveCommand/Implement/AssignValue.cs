@@ -6,7 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Cmn;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.CharaMoveCommand
@@ -17,6 +19,15 @@ namespace WodiLib.Event.CharaMoveCommand
     /// </summary>
     public class AssignValue : CharaMoveCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "変数設定{0}={1}";
+
+        private const string EventCommandSentenceReplaceSrcCommonEventStr = "CSelf";
+        private const string EventCommandSentenceReplaceDstCommonEventStr = "このEvのｾﾙﾌ変数";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Override Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -55,28 +66,10 @@ namespace WodiLib.Event.CharaMoveCommand
             }
             set
             {
-                var hasError = false;
-                try
-                {
-                    var _ = (NormalNumberVariableAddress) (int) value;
-                }
-                catch
-                {
-                    try
-                    {
-                        var _ = (CalledEventVariableAddress) (int) value;
-                    }
-                    catch
-                    {
-                        hasError = true;
-                    }
-                }
-
-                if (hasError)
-                {
+                if (!(NormalNumberVariableAddress.MinValue <= value && value <= NormalNumberVariableAddress.MaxValue)
+                    && !CalledEventVariableAddress.CanCast(value))
                     throw new PropertyOutOfRangeException(
                         ErrorMessage.Unsuitable(nameof(TargetAddress), $"値：{value}"));
-                }
 
                 SetNumberValue(0, value.ToInt());
             }
@@ -107,6 +100,32 @@ namespace WodiLib.Event.CharaMoveCommand
         {
             // 引数0の初期値設定
             SetNumberValue(0, NormalNumberVariableAddress.MinValue);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override string GetEventCommandSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var targetStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
+                TargetAddress, type, desc);
+            // 対象が"このコモンイベントセルフ変数の場合文字列変化
+            if (targetStr.Contains(EventCommandSentenceReplaceSrcCommonEventStr))
+            {
+                targetStr = targetStr.Replace(EventCommandSentenceReplaceSrcCommonEventStr,
+                    EventCommandSentenceReplaceDstCommonEventStr);
+            }
+
+            var valueStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
+                Value, type, desc);
+
+            return string.Format(EventCommandSentenceFormat,
+                targetStr, valueStr);
         }
     }
 }

@@ -7,6 +7,9 @@
 // ========================================
 
 using System;
+using System.ComponentModel;
+using WodiLib.Common;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Cmn
@@ -17,14 +20,26 @@ namespace WodiLib.Cmn
     public class ThisCommonEventVariableAddress : VariableAddress, IEquatable<ThisCommonEventVariableAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceCommonEventFormat = "CSelf{0}{1}";
+        private const string EventCommandSentenceCommonEventName = "[{0}]";
+        private const string EventCommandSentenceMapEventFormat = "★エラー！マップEvでは「ｺﾓﾝｾﾙﾌ」は動作しません！！";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>最小値</summary>
-        public static int MinValue => 1600000;
+        public new static int MinValue => 1600000;
 
         /// <summary>最大値</summary>
-        public static int MaxValue => 1600099;
+        public new static int MaxValue => 1600099;
+
+        /// <summary>変数種別</summary>
+        public override VariableAddressValueType ValueType
+            => VariableAddressValueType.Numeric;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Constant
@@ -108,7 +123,42 @@ namespace WodiLib.Cmn
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Explicit
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// イベントコマンド文用文字列を生成する。
+        /// </summary>
+        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
+        /// <param name="type">[NotNull] イベントコマンド種別</param>
+        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <returns>イベントコマンド文字列</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string ResolveEventCommandString(EventCommandSentenceResolver resolver,
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+        {
+            if (type == EventCommandSentenceType.Map) return EventCommandSentenceMapEventFormat;
+
+            if (desc == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(desc)));
+            if (desc.CommonEventId == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(desc.CommonEventId)));
+
+            var variableName = resolver.GetCommonEventSelfVariableName(
+                (CommonEventId) desc.CommonEventId, Index);
+
+            var varNameStr = ((string) variableName).Equals(string.Empty)
+                ? string.Empty
+                : string.Format(EventCommandSentenceCommonEventName, variableName);
+
+            return string.Format(EventCommandSentenceCommonEventFormat,
+                Index, varNameStr);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>

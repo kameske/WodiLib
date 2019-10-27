@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using WodiLib.Database;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -21,24 +22,53 @@ namespace WodiLib.Event.EventCommand
     public abstract class DBManagementBase : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>標準数値変数個数</summary>
+        private const byte StandardNumberVariableCount = 0x06;
+
+        /// <summary>標準文字列変数個数</summary>
+        private const byte StandardStringVariableCount = 0x05;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary> 返戻値セットフラグ </summary>
+        private bool IsSetReturnValue { get; set; }
+
+        /// <summary> 文字列引数セットフラグ </summary>
+        private bool IsSetStringArg { get; set; }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public sealed override byte NumberVariableCount => 0x06;
+        public override byte NumberVariableCount =>
+            IsSetReturnValue ? (byte) 0x06 : (byte) 0x05;
 
         /// <inheritdoc />
-        public sealed override byte StringVariableCount => 0x04;
+        public override byte StringVariableCount =>
+            IsSetStringArg ? (byte) 0x04 : (byte) 0x00;
+
+        /// <inheritdoc />
+        public override byte NumberVariableCountMin => 0x05;
+
+        /// <inheritdoc />
+        public override byte StringVariableCountMin => 0x00;
 
         /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して数値変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, 5)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public sealed override int GetNumberVariable(int index)
+        public sealed override int GetSafetyNumberVariable(int index)
         {
             switch (index)
             {
@@ -59,7 +89,7 @@ namespace WodiLib.Event.EventCommand
 
                 case 4: // 各種フラグ
                 {
-                    var operationCode = (byte) (NumberAssignOperationCode + RightSideCode);
+                    var operationCode = (byte) (NumberAssignOperationCode + LeftSideCode);
                     var mode = (byte) (ioMode + _DBKind.Code);
                     var ustFlg = new NameUseStrFlag
                     {
@@ -88,7 +118,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public sealed override void SetNumberVariable(int index, int value)
+        public sealed override void SetSafetyNumberVariable(int index, int value)
         {
             switch (index)
             {
@@ -108,7 +138,7 @@ namespace WodiLib.Event.EventCommand
                 {
                     var bytes = value.ToBytes(Endian.Environment);
                     NumberAssignOperationCode = (byte) (bytes[0] & 0xF0);
-                    RightSideCode = (byte) (bytes[0] & 0x0F);
+                    LeftSideCode = (byte) (bytes[0] & 0x0F);
 
                     ioMode = (byte) (bytes[1] & 0xF0);
                     _DBKind = DBKind.FromCode((byte) (bytes[1] & 0x0F));
@@ -123,6 +153,7 @@ namespace WodiLib.Event.EventCommand
 
                 case 5: // 数値または代入先
                     NumValue = value;
+                    IsSetReturnValue = true;
                     return;
 
                 default:
@@ -134,12 +165,13 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して文字列変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, 3)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public sealed override string GetStringVariable(int index)
+        public sealed override string GetSafetyStringVariable(int index)
         {
             switch (index)
             {
@@ -173,7 +205,7 @@ namespace WodiLib.Event.EventCommand
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public sealed override void SetStringVariable(int index, string value)
+        public sealed override void SetSafetyStringVariable(int index, string value)
         {
             if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
             switch (index)
@@ -199,6 +231,16 @@ namespace WodiLib.Event.EventCommand
                         ErrorMessage.OutOfRange(nameof(index), 0, 3, index));
             }
         }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Internal Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        internal override bool IsNormalNumberArgIndex(int index) => index < StandardNumberVariableCount;
+
+        /// <inheritdoc />
+        internal override bool IsNormalStringArgIndex(int index) => index < StandardStringVariableCount;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
@@ -284,19 +326,46 @@ namespace WodiLib.Event.EventCommand
         protected virtual bool _IsItemIdUseStr { get; set; }
 
         /// <summary>入出力値または代入先</summary>
-        protected abstract int NumValue { get; set; }
+        protected int NumValue
+        {
+            get => _NumValue;
+            set
+            {
+                _NumValue = value;
+                IsSetReturnValue = true;
+            }
+        }
+
+        /// <summary>入出力値または代入先</summary>
+        protected abstract int _NumValue { get; set; }
 
         /// <summary>代入文字列またはCSVファイル名</summary>
-        protected abstract string StrValue { get; set; }
+        protected string StrValue
+        {
+            get => _StrValue;
+            set
+            {
+                if (value == null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(StrValue)));
+                _StrValue = value;
+                IsSetStringArg = true;
+            }
+        }
+
+        /// <summary>代入文字列またはCSVファイル名</summary>
+        protected abstract string _StrValue { get; set; }
 
         /// <summary>右辺内容コード</summary>
-        protected abstract byte RightSideCode { get; set; }
+        protected abstract byte LeftSideCode { get; set; }
 
         /// <summary>読み書きモード</summary>
         protected abstract byte ioMode { get; set; }
 
         /// <summary>代入演算子コード</summary>
         protected abstract byte NumberAssignOperationCode { get; set; }
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.DeepRed;
 
         /// <summary>
         /// 名前に文字列を使用する。ラグ

@@ -8,7 +8,11 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using WodiLib.Cmn;
 using WodiLib.Event.CharaMoveCommand;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -19,6 +23,26 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class MoveRoute : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "■動作指定：{2}{0} / {1}";
+
+        private const string EventCommandSentenceTargetThisEvent = "このイベント";
+        private const string EventCommandSentenceTargetHero = "主人公";
+        private const string EventCommandSentenceTargetMember = "仲間{0}";
+        private const string EventCommandSentenceTargetMapEvent = "Ev{0}";
+        private const string EventCommandSentenceTargetVarAddress = "ｷｬﾗ[{0}]";
+
+        private const string EventCommandSentenceWait = "[ｳｪｲﾄ] ";
+        private const string EventCommandSentenceNonWait = "";
+
+        private const int TargetHero = -2;
+        private const int TargetThisEvent = -1;
+
+        private const int EventCommandSentenceMaxLength = 200;
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -81,15 +105,24 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         public override byte StringVariableCount => 0x00;
 
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
+
         /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して数値変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, 1)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override int GetNumberVariable(int index)
+        public override int GetSafetyNumberVariable(int index)
         {
             switch (index)
             {
@@ -113,7 +146,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetNumberVariable(int index, int value)
+        public override void SetSafetyNumberVariable(int index, int value)
         {
             if (index == 1)
             {
@@ -128,12 +161,13 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して文字列変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, -)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">常に</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override string GetStringVariable(int index)
+        public override string GetSafetyStringVariable(int index)
         {
             throw new ArgumentOutOfRangeException();
         }
@@ -146,9 +180,71 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">[NotNull] 設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">常に</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override void SetStringVariable(int index, string value)
+        public override void SetSafetyStringVariable(int index, string value)
         {
             throw new ArgumentOutOfRangeException();
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var targetName = GetTargetEventName(resolver, type, desc);
+            var moveRouteStr = ActionEntry.GetEventCommandSentence(resolver, type, desc);
+            var waitStr = ActionEntry.IsWaitForComplete
+                ? EventCommandSentenceWait
+                : EventCommandSentenceNonWait;
+
+            var result = string.Format(EventCommandSentenceFormat,
+                targetName, moveRouteStr, waitStr);
+
+            var encode = Encoding.Default;
+
+            var resultBytes = encode.GetBytes(result);
+
+            if (resultBytes.Length <= EventCommandSentenceMaxLength) return result;
+
+            // 文字列長が指定長を超過する場合、指定長まで切り詰めて末尾に "..." / ".." を付与する
+            var chars = encode.GetChars(resultBytes.Take(EventCommandSentenceMaxLength).ToArray());
+            var charList = chars.ToList();
+            chars = charList.ToArray();
+
+            var manufacturedStr = new string(chars);
+
+            var sb = new StringBuilder();
+            sb.Append(manufacturedStr);
+
+            var appendStr = manufacturedStr.EndsWith("・")
+                ? ".."
+                : "...";
+
+            sb.Append(appendStr);
+
+            return sb.ToString();
+        }
+
+        private string GetTargetEventName(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            if (Target.IsVariableAddressSimpleCheck())
+            {
+                var targetName = resolver.GetNumericVariableAddressStringIfVariableAddress(Target, type, desc);
+                return string.Format(EventCommandSentenceTargetVarAddress, targetName);
+            }
+
+            if (Target == TargetThisEvent) return EventCommandSentenceTargetThisEvent;
+            if (Target == TargetHero) return EventCommandSentenceTargetHero;
+
+            if (Target < -1)
+            {
+                var memberNumber = (Target + 2) * -1;
+                return string.Format(EventCommandSentenceTargetMember, memberNumber);
+            }
+
+            return string.Format(EventCommandSentenceTargetMapEvent, Target);
         }
     }
 }

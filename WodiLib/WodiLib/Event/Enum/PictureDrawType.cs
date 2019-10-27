@@ -29,18 +29,27 @@ namespace WodiLib.Event
 
         static PictureDrawType()
         {
-            Normal = new PictureDrawType("Normal", 0x00);
-            Add = new PictureDrawType("Add", 0x01);
-            Sub = new PictureDrawType("Sub", 0x02);
-            Multi = new PictureDrawType("Multi", 0x03);
+            Normal = new PictureDrawType("Normal", 0x00,
+                "通常");
+            Add = new PictureDrawType("Add", 0x01,
+                "加算");
+            Sub = new PictureDrawType("Sub", 0x02,
+                "減算");
+            Multi = new PictureDrawType("Multi", 0x03,
+                "乗算");
         }
 
         /// <summary>表示形式コード</summary>
         public byte Code { get; }
 
-        private PictureDrawType(string id, byte code) : base(id)
+        /// <summary>イベントコマンド文</summary>
+        public object EventCommandSentence { get; }
+
+        private PictureDrawType(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

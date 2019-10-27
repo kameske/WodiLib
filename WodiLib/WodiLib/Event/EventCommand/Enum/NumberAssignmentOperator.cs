@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -54,25 +55,43 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public object EventCommandSentence { get; }
+
         static NumberAssignmentOperator()
         {
-            Assign = new NumberAssignmentOperator(nameof(Assign), 0x00);
-            Addition = new NumberAssignmentOperator(nameof(Addition), 0x01);
-            Subtraction = new NumberAssignmentOperator(nameof(Subtraction), 0x02);
-            Multiplication = new NumberAssignmentOperator(nameof(Multiplication), 0x03);
-            Division = new NumberAssignmentOperator(nameof(Division), 0x04);
-            Modulo = new NumberAssignmentOperator(nameof(Modulo), 0x05);
-            LowerBound = new NumberAssignmentOperator(nameof(LowerBound), 0x06);
-            UpperBound = new NumberAssignmentOperator(nameof(UpperBound), 0x07);
-            Absolute = new NumberAssignmentOperator(nameof(Absolute), 0x08);
-            Angle = new NumberAssignmentOperator(nameof(Angle), 0x09);
-            Sin = new NumberAssignmentOperator(nameof(Sin), 0x0A);
-            Cos = new NumberAssignmentOperator(nameof(Cos), 0x0B);
+            Assign = new NumberAssignmentOperator(nameof(Assign), 0x00,
+                "=");
+            Addition = new NumberAssignmentOperator(nameof(Addition), 0x01,
+                "+=");
+            Subtraction = new NumberAssignmentOperator(nameof(Subtraction), 0x02,
+                "-=");
+            Multiplication = new NumberAssignmentOperator(nameof(Multiplication), 0x03,
+                "*=");
+            Division = new NumberAssignmentOperator(nameof(Division), 0x04,
+                "/=");
+            Modulo = new NumberAssignmentOperator(nameof(Modulo), 0x05,
+                "%=");
+            LowerBound = new NumberAssignmentOperator(nameof(LowerBound), 0x06,
+                "下限=");
+            UpperBound = new NumberAssignmentOperator(nameof(UpperBound), 0x07,
+                "上限=");
+            Absolute = new NumberAssignmentOperator(nameof(Absolute), 0x08,
+                "絶対値=");
+            Angle = new NumberAssignmentOperator(nameof(Angle), 0x09,
+                "= 角度[x10]←傾き");
+            Sin = new NumberAssignmentOperator(nameof(Sin), 0x0A,
+                "= sin[x1000]←角度[x10] =");
+            Cos = new NumberAssignmentOperator(nameof(Cos), 0x0B,
+                "= cos[x1000]←角度[x10] =");
         }
 
-        private NumberAssignmentOperator(string id, byte code) : base(id)
+        private NumberAssignmentOperator(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

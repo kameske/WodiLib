@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -30,17 +31,35 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
+        /// <summary>スクロール固定タイプフラグ</summary>
+        public bool IsLockType { get; }
+
+        /// <summary>スクロール移動タイプフラグ</summary>
+        public bool IsMoveType { get; }
+
         static ScrollScreenType()
         {
-            MoveScreen = new ScrollScreenType(nameof(MoveScreen), 0x00);
-            BackToHero = new ScrollScreenType(nameof(BackToHero), 0x01);
-            LockScroll = new ScrollScreenType(nameof(LockScroll), 0x02);
-            UnlockScroll = new ScrollScreenType(nameof(UnlockScroll), 0x03);
+            MoveScreen = new ScrollScreenType(nameof(MoveScreen), 0x00,
+                "画面移動", false, true);
+            BackToHero = new ScrollScreenType(nameof(BackToHero), 0x01,
+                "主人公に戻す", false, false);
+            LockScroll = new ScrollScreenType(nameof(LockScroll), 0x02,
+                "スクロールロック", true, false);
+            UnlockScroll = new ScrollScreenType(nameof(UnlockScroll), 0x03,
+                "スクロールロック解除", true, false);
         }
 
-        private ScrollScreenType(string id, byte code) : base(id)
+        private ScrollScreenType(string id, byte code,
+            string eventCommandSentence, bool isLockType, bool isMoveType) : base(id)
         {
             Code = code;
+            IsLockType = isLockType;
+            EventCommandSentence = eventCommandSentence;
+            IsMoveType = isMoveType;
         }
 
         /// <summary>

@@ -1,352 +1,30 @@
-using System;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
-using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand
 {
     [TestFixture]
     public class ConditionStringListTest
     {
-        private static WodiLibLogger logger;
-
-        [SetUp]
-        public static void Setup()
-        {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
-        }
-
-        private static readonly object[] SetConditionValueOutOfRangeTestCaseSource =
-        {
-            new object[] {-1, true},
-            new object[] {0, true},
-            new object[] {1, false},
-            new object[] {4, false},
-            new object[] {5, true}
-        };
-
-        [TestCaseSource(nameof(SetConditionValueOutOfRangeTestCaseSource))]
-        public static void SetConditionValueOutOfRangeTest(int value, bool error)
+        [Test]
+        public static void GetMaxCapacityTest()
         {
             var instance = new ConditionStringList();
-            bool isError;
-            try
-            {
-                instance.ConditionValue = value;
-                isError = false;
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                isError = true;
-            }
+            var maxCapacity = instance.GetMaxCapacity();
 
-            Assert.AreEqual(isError, error);
-        }
-
-        private static readonly object[] AccessorOutOfRangeTestCaseSource =
-        {
-            new object[] {1, -1, true},
-            new object[] {1, 0, false},
-            new object[] {1, 1, true},
-            new object[] {2, -1, true},
-            new object[] {2, 0, false},
-            new object[] {2, 1, false},
-            new object[] {2, 2, true},
-            new object[] {4, -1, true},
-            new object[] {4, 0, false},
-            new object[] {4, 3, false},
-            new object[] {4, 4, true}
-        };
-
-        [TestCaseSource(nameof(AccessorOutOfRangeTestCaseSource))]
-        public static void SetOutOfRangeTest(int conditionValue, int setIndex, bool error)
-        {
-            var instance = new ConditionStringList();
-            bool isError;
-            try
-            {
-                instance.ConditionValue = conditionValue;
-                instance.Set(setIndex, new ConditionStringDesc());
-                isError = false;
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                isError = true;
-            }
-
-            Assert.AreEqual(isError, error);
+            // 取得した値が容量最大値と一致すること
+            Assert.AreEqual(maxCapacity, ConditionStringList.MaxCapacity);
         }
 
         [Test]
-        public static void SetNullText()
-        {
-            var instance = new ConditionStringList
-            {
-                ConditionValue = 4
-            };
-            var isError = false;
-            try
-            {
-                instance.Set(0, null);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                isError = true;
-            }
-
-            Assert.IsTrue(isError);
-        }
-
-        private static readonly object[] SetLeftSideTestCaseSource =
-        {
-            new object[] {1, 0, 100, false},
-            new object[] {1, 1, 100, true},
-            new object[] {4, -1, 100, true},
-            new object[] {4, 0, 100, false},
-            new object[] {4, 3, 100, false},
-            new object[] {4, 4, 100, true},
-        };
-
-        [TestCaseSource(nameof(SetLeftSideTestCaseSource))]
-        public static void SetLeftSideTest(int conditionValue, int index, int leftSide, bool isError)
-        {
-            var instance = new ConditionStringList
-            {
-                ConditionValue = conditionValue
-            };
-            var errorOccured = false;
-            try
-            {
-                instance.SetLeftSide(index, leftSide);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            if (errorOccured) return;
-
-            // セットしたLeftSideだけが変化していること
-            for (var i = 0; i < instance.ConditionValue; i++)
-            {
-                var getValue = instance.Get(i).LeftSide;
-                if (i == index) Assert.AreEqual(getValue, leftSide);
-                else Assert.AreNotEqual(getValue, leftSide);
-            }
-        }
-
-        private static readonly object[] SetRightSideTestCaseSource =
-        {
-            new object[] {1, 0, 100, false},
-            new object[] {1, 1, 100, true},
-            new object[] {4, -1, 100, true},
-            new object[] {4, 0, 100, false},
-            new object[] {4, 3, 100, false},
-            new object[] {4, 4, 100, true},
-        };
-
-        [TestCaseSource(nameof(SetRightSideTestCaseSource))]
-        public static void SetRightSideTest(int conditionValue, int index, int rightSide, bool isError)
-        {
-            var instance = new ConditionStringList
-            {
-                ConditionValue = conditionValue
-            };
-            var errorOccured = false;
-            try
-            {
-                instance.SetRightSide(index, rightSide);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        private static readonly object[] MergeRightSideTestCaseSource =
-        {
-            new object[] {1, 0, 100, false},
-            new object[] {1, 1, 100, true},
-            new object[] {4, -1, 100, true},
-            new object[] {4, 0, 100, false},
-            new object[] {4, 3, 100, false},
-            new object[] {4, 4, 100, true},
-        };
-
-        [TestCaseSource(nameof(MergeRightSideTestCaseSource))]
-        public static void MergeRightSideTest(int conditionValue, int index, int rightSide, bool isError)
-        {
-            var instance = new ConditionStringList
-            {
-                ConditionValue = conditionValue
-            };
-            var errorOccured = false;
-            try
-            {
-                instance.MergeRightSide(index, rightSide);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        private static readonly object[] MergeRightSideNonCheckIndexTestCaseSource =
-        {
-            new object[] {1, 0, 100, false},
-            new object[] {1, 1, 100, false},
-            new object[] {1, 3, 100, false},
-            new object[] {1, 4, 100, true},
-            new object[] {4, -1, 100, true},
-            new object[] {4, 0, 100, false},
-            new object[] {4, 3, 100, false},
-            new object[] {4, 4, 100, true},
-        };
-
-        [TestCaseSource(nameof(MergeRightSideNonCheckIndexTestCaseSource))]
-        public static void MergeRightSideNonCheckIndexTest(int conditionValue, int index, int rightSide, bool isError)
-        {
-            var instance = new ConditionStringList
-            {
-                ConditionValue = conditionValue
-            };
-            var errorOccured = false;
-            try
-            {
-                instance.MergeRightSideNonCheckIndex(index, rightSide);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        private static readonly object[] SetConditionTestCaseSource =
-        {
-            new object[] {1, 0, StringConditionalOperator.StartWith, false},
-            new object[] {1, 1, StringConditionalOperator.StartWith, true},
-            new object[] {4, -1, StringConditionalOperator.StartWith, true},
-            new object[] {4, 0, StringConditionalOperator.StartWith, false},
-            new object[] {4, 3, StringConditionalOperator.StartWith, false},
-            new object[] {4, 4, StringConditionalOperator.StartWith, true},
-        };
-
-        [TestCaseSource(nameof(SetConditionTestCaseSource))]
-        public static void SetConditionTest(int conditionValue, int index, StringConditionalOperator condition,
-            bool isError)
-        {
-            var instance = new ConditionStringList
-            {
-                ConditionValue = conditionValue
-            };
-            var errorOccured = false;
-            try
-            {
-                instance.SetCondition(index, condition);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            if (errorOccured) return;
-
-            // セットしたConditionだけが変化していること
-            for (var i = 0; i < instance.ConditionValue; i++)
-            {
-                var getValue = instance.Get(i).Condition;
-                if (i == index) Assert.AreEqual(getValue, condition);
-                else Assert.AreNotEqual(getValue, condition);
-            }
-        }
-
-        private static readonly object[] SetIsUseNumberVariableTestCaseSource =
-        {
-            new object[] {1, 0, true, false},
-            new object[] {1, 1, true, true},
-            new object[] {4, -1, true, true},
-            new object[] {4, 0, true, false},
-            new object[] {4, 3, true, false},
-            new object[] {4, 4, true, true},
-        };
-
-        [TestCaseSource(nameof(SetIsUseNumberVariableTestCaseSource))]
-        public static void SetIsUseNumberVariableTest(int conditionValue, int index, bool isUseNumberVariable,
-            bool isError)
-        {
-            var instance = new ConditionStringList
-            {
-                ConditionValue = conditionValue
-            };
-            var errorOccured = false;
-            try
-            {
-                instance.SetIsUseNumberVariable(index, isUseNumberVariable);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            if (errorOccured) return;
-
-            // セットしたIsUseNumberVariableだけが変化していること
-            for (var i = 0; i < instance.ConditionValue; i++)
-            {
-                var getValue = instance.Get(i).IsUseNumberVariable;
-                if (i == index) Assert.AreEqual(getValue, isUseNumberVariable);
-                else Assert.AreNotEqual(getValue, isUseNumberVariable);
-            }
-        }
-
-        [TestCaseSource(nameof(AccessorOutOfRangeTestCaseSource))]
-        public static void GetOutOfRangeTest(int conditionValue, int getIndex, bool error)
+        public static void GetMinCapacityTest()
         {
             var instance = new ConditionStringList();
-            bool isError;
-            try
-            {
-                instance.ConditionValue = conditionValue;
-                var _ = instance.Get(getIndex);
-                isError = false;
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                isError = true;
-            }
+            var maxCapacity = instance.GetMinCapacity();
 
-            Assert.AreEqual(isError, error);
+            // 取得した値が容量最大値と一致すること
+            Assert.AreEqual(maxCapacity, ConditionStringList.MinCapacity);
         }
 
         private static readonly object[] SearchUseNumberVariableForRightSideMaxTestCaseSource =
@@ -387,38 +65,36 @@ namespace WodiLib.Test.Event.EventCommand
         public static void SearchUseNumberVariableForRightSideMaxTest(int conditionValue, bool is1Str, bool is2Str,
             bool is3Str, bool is4Str, int result)
         {
-            var instance = new ConditionStringList
+            var instance = new ConditionStringList(new[]
             {
-                // いったんすべての条件を上書きできるように
-                ConditionValue = 4
-            };
-            instance.Set(0, new ConditionStringDesc
-            {
-                Condition = StringConditionalOperator.Equal,
-                LeftSide = 0,
-                RightSide = is1Str ? (IntOrStr) "a" : 0,
-                IsUseNumberVariable = !is1Str
-            });
-            instance.Set(1, new ConditionStringDesc
-            {
-                Condition = StringConditionalOperator.Equal,
-                LeftSide = 0,
-                RightSide = is2Str ? (IntOrStr) "a" : 0,
-                IsUseNumberVariable = !is2Str
-            });
-            instance.Set(2, new ConditionStringDesc
-            {
-                Condition = StringConditionalOperator.Equal,
-                LeftSide = 0,
-                RightSide = is3Str ? (IntOrStr) "a" : 0,
-                IsUseNumberVariable = !is3Str
-            });
-            instance.Set(3, new ConditionStringDesc
-            {
-                Condition = StringConditionalOperator.Equal,
-                LeftSide = 0,
-                RightSide = is4Str ? (IntOrStr) "a" : 0,
-                IsUseNumberVariable = !is4Str
+                new ConditionStringDesc
+                {
+                    Condition = StringConditionalOperator.Equal,
+                    LeftSide = 0,
+                    RightSide = is1Str ? (IntOrStr) "a" : 0,
+                    IsUseNumberVariable = !is1Str
+                },
+                new ConditionStringDesc
+                {
+                    Condition = StringConditionalOperator.Equal,
+                    LeftSide = 0,
+                    RightSide = is2Str ? (IntOrStr) "a" : 0,
+                    IsUseNumberVariable = !is2Str
+                },
+                new ConditionStringDesc
+                {
+                    Condition = StringConditionalOperator.Equal,
+                    LeftSide = 0,
+                    RightSide = is3Str ? (IntOrStr) "a" : 0,
+                    IsUseNumberVariable = !is3Str
+                },
+                new ConditionStringDesc
+                {
+                    Condition = StringConditionalOperator.Equal,
+                    LeftSide = 0,
+                    RightSide = is4Str ? (IntOrStr) "a" : 0,
+                    IsUseNumberVariable = !is4Str
+                }
             });
             // 条件数を正しく
             instance.ConditionValue = conditionValue;

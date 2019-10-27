@@ -8,6 +8,8 @@
 
 using System;
 using System.ComponentModel;
+using System.Text;
+using WodiLib.Project;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -19,6 +21,23 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class KeyInputAutoBasic : EventCommandBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "■自動キー入力:   {0}";
+
+        private static class InputKeyString
+        {
+            public const string Ok = "決定  ";
+            public const string Cancel = "ｷｬﾝｾﾙ  ";
+            public const string Sub = "サブ  ";
+            public const string Down = "↓ｷｰ  ";
+            public const string Left = "←ｷｰ  ";
+            public const string Right = "→ｷｰ  ";
+            public const string Up = "↑ｷｰ  ";
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -33,14 +52,19 @@ namespace WodiLib.Event.EventCommand
         public override byte StringVariableCount => 0x00;
 
         /// <inheritdoc />
+        protected override EventCommandColorSet EventCommandColorSet
+            => EventCommandColorSet.Black;
+
+        /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して数値変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。\r\na
         /// </summary>
         /// <param name="index">[Range(0, 1)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override int GetNumberVariable(int index)
+        public override int GetSafetyNumberVariable(int index)
         {
             switch (index)
             {
@@ -65,7 +89,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public override void SetNumberVariable(int index, int value)
+        public override void SetSafetyNumberVariable(int index, int value)
         {
             switch (index)
             {
@@ -85,12 +109,13 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>
         /// インデックスを指定して文字列変数を取得する。
+        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
         /// <param name="index">[Range(0, -)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">常に</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override string GetStringVariable(int index)
+        public override string GetSafetyStringVariable(int index)
         {
             throw new ArgumentOutOfRangeException();
         }
@@ -103,7 +128,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="value">[NotNull] 設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">常に</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override void SetStringVariable(int index, string value)
+        public override void SetSafetyStringVariable(int index, string value)
         {
             throw new ArgumentOutOfRangeException();
         }
@@ -217,6 +242,24 @@ namespace WodiLib.Event.EventCommand
                 if (IsInputDown) result += FlgDown;
                 return result;
             }
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandMainSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            var builder = new StringBuilder();
+            if (IsInputOk) builder.Append(InputKeyString.Ok);
+            if (IsInputCancel) builder.Append(InputKeyString.Cancel);
+            if (IsInputSub) builder.Append(InputKeyString.Sub);
+            if (IsInputDown) builder.Append(InputKeyString.Down);
+            if (IsInputLeft) builder.Append(InputKeyString.Left);
+            if (IsInputRight) builder.Append(InputKeyString.Right);
+            if (IsInputUp) builder.Append(InputKeyString.Up);
+            return string.Format(EventCommandSentenceFormat,
+                builder);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

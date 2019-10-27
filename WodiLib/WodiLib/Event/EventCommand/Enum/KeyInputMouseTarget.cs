@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -30,17 +31,27 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         static KeyInputMouseTarget()
         {
-            ClickState = new KeyInputMouseTarget(nameof(ClickState), 0x00);
-            MouseXPosition = new KeyInputMouseTarget(nameof(MouseXPosition), 0x01);
-            MouseYPosition = new KeyInputMouseTarget(nameof(MouseYPosition), 0x02);
-            WheelDelta = new KeyInputMouseTarget(nameof(WheelDelta), 0x03);
+            ClickState = new KeyInputMouseTarget(nameof(ClickState), 0x00,
+                "");
+            MouseXPosition = new KeyInputMouseTarget(nameof(MouseXPosition), 0x01,
+                " Ｘ座標取得");
+            MouseYPosition = new KeyInputMouseTarget(nameof(MouseYPosition), 0x02,
+                " Ｙ座標取得");
+            WheelDelta = new KeyInputMouseTarget(nameof(WheelDelta), 0x03,
+                " ホイール回転取得");
         }
 
-        private KeyInputMouseTarget(string id, byte code) : base(id)
+        private KeyInputMouseTarget(string id, byte code,
+            string eventCommandSentence) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
         }
 
         /// <summary>

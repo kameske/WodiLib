@@ -27,16 +27,33 @@ namespace WodiLib.Event.EventCommand
         /// <summary>値</summary>
         public byte Code { get; }
 
+        /// <summary>イベントコマンド文字列</summary>
+        internal string EventCommandSentence { get; }
+
+        /// <summary>イベントコマンド・時間文字列</summary>
+        internal string EventCommandTimeSentence { get; }
+
+        /// <summary>ループフラグ</summary>
+        internal bool IsLoop { get; }
+
         static AudioType()
         {
-            Bgm = new AudioType(nameof(Bgm), 0x00);
-            Bgs = new AudioType(nameof(Bgs), 0x10);
-            Se = new AudioType(nameof(Se), 0x20);
+            Bgm = new AudioType(nameof(Bgm), 0x00,
+                "BGM", "処理時間", true);
+            Bgs = new AudioType(nameof(Bgs), 0x10,
+                "BGS", "処理時間", true);
+            Se = new AudioType(nameof(Se), 0x20,
+                "SE", "遅延", false);
         }
 
-        private AudioType(string id, byte code) : base(id)
+        private AudioType(string id, byte code,
+            string eventCommandSentence, string eventCommandTimeSentence,
+            bool isLoop) : base(id)
         {
             Code = code;
+            EventCommandSentence = eventCommandSentence;
+            EventCommandTimeSentence = eventCommandTimeSentence;
+            IsLoop = isLoop;
         }
 
         /// <summary>

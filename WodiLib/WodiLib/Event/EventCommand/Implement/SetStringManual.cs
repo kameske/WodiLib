@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using System.ComponentModel;
+using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -16,6 +18,14 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     public class SetStringManual : SetStringBase
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const string EventCommandSentenceFormat = "\"{0}\"";
+
+        private const string EventCommandSentenceFormat_Replace = "\"{0}\" → \"{1}\"";
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -28,6 +38,10 @@ namespace WodiLib.Event.EventCommand
             (byte) (AssignmentOperator == StringAssignmentOperator.Replace
                 ? 0x02
                 : 0x01);
+
+        /// <inheritdoc />
+        /// <summary>文字列変数最小個数</summary>
+        public override byte StringVariableCountMin => 0x01;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
@@ -65,6 +79,21 @@ namespace WodiLib.Event.EventCommand
                         ErrorMessage.NotNull(RightSideReplaceNewStr));
                 RightSideReplaceString = value;
             }
+        }
+
+        /// <inheritdoc />
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver, EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc desc)
+        {
+            if (AssignmentOperator == StringAssignmentOperator.Replace)
+            {
+                return string.Format(EventCommandSentenceFormat_Replace,
+                    RightSideString, RightSideReplaceNewStr);
+            }
+
+            return string.Format(EventCommandSentenceFormat, RightSideString);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

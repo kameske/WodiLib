@@ -91,15 +91,6 @@ namespace WodiLib.Database
         /// </summary>
         public IReadOnlyDBItemSettingList DBItemSettingList => TypeSetting.ItemSettingList;
 
-        private ReadOnlyDBItemValuesList dbItemValuesList;
-
-        /// <summary>
-        /// DB項目設定値リスト（項目読み取り専用）
-        /// </summary>
-        public ReadOnlyDBItemValuesList DBItemValuesList =>
-            dbItemValuesList ??
-            (dbItemValuesList = new ReadOnlyDBItemValuesList(DataSetting.SettingValuesList));
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Internal Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -155,6 +146,8 @@ namespace WodiLib.Database
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dataSetting)));
 
+            UpdateItemType(typeSetting, dataSetting);
+
             TypeSetting = typeSetting;
             DataSetting = dataSetting;
 
@@ -166,6 +159,18 @@ namespace WodiLib.Database
 
             RegisterDataDescListHandlerDataDescList();
             RegisterItemDescListHandlerItemDescList();
+        }
+
+        private void UpdateItemType(DBTypeSetting typeSetting, DBDataSetting dataSetting)
+        {
+            // タイプ設定の項目数とデータ設定の項目数=0が一致しない場合がある。データ設定の項目数が真
+            var itemCount = dataSetting.SettingValuesList[0].Count;
+            typeSetting.ItemSettingList.AdjustLength(itemCount);
+
+            for (var i = 0; i < itemCount; i++)
+            {
+                typeSetting.ItemSettingList[i].ItemType = dataSetting.SettingValuesList[0][i].Type;
+            }
         }
 
         /// <summary>
@@ -308,6 +313,25 @@ namespace WodiLib.Database
         {
             DataSetting.SetDataSettingType(settingType, dbKind, typeId);
         }
+
+        /// <summary>
+        /// 指定したデータIDの項目値リストを取得する。
+        /// </summary>
+        /// <param name="dataId">[Range(0, {対象DB・タイプのデータ数} - 1)] データID</param>
+        /// <returns>DB項目値リスト</returns>
+        /// <exception cref="ArgumentOutOfRangeException">dataId が指定範囲外の場合</exception>
+        public DBItemValueList GetItemValueList(DataId dataId)
+            => DataDescList[dataId].ItemValueList;
+
+        /// <summary>
+        /// 指定したデータID、項目IDの項目値を取得する。
+        /// </summary>
+        /// <param name="dataId">[Range(0, {対象DB・タイプのデータ数} - 1)] データID</param>
+        /// <param name="itemId">[Range(0, {対象DB・タイプ・データの項目数} - 1)] データID</param>
+        /// <returns>DB項目値リスト</returns>
+        /// <exception cref="ArgumentOutOfRangeException">dataId, itemId が指定範囲外の場合</exception>
+        public DBItemValue GetItemValue(DataId dataId, ItemId itemId)
+            => DataDescList[dataId].ItemValueList[itemId];
 
         /// <summary>
         /// 自身の情報を元にDBTypeSetインスタンスを生成する。

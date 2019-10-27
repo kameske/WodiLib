@@ -8,8 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -22,10 +22,8 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// データから直接インスタンスを生成する。
         /// </summary>
-        /// <param name="numberVariableCount">[Range(1, 99)] 数値引数の数</param>
         /// <param name="intValues">[NotNull] 数値引数</param>
         /// <param name="indent">インデント</param>
-        /// <param name="stringVariableCount">[Range(0, 9)] 文字列引数の数</param>
         /// <param name="strValues">[NotNull] 文字列引数</param>
         /// <param name="actionEntry">[CanBeNull] キャラ動作指定コマンド</param>
         /// <returns>イベントコマンドのインスタンス</returns>
@@ -35,35 +33,50 @@ namespace WodiLib.Event.EventCommand
         /// <exception cref="ArgumentException">stringVariableCountとstrValuesが一致しない場合</exception>
         /// <exception cref="ArgumentException">該当イベントコマンドが存在しない場合</exception>
         public static IEventCommand CreateRaw(
-            int numberVariableCount, IEnumerable<int> intValues,
-            byte indent,
-            int stringVariableCount, IEnumerable<string> strValues,
+            IEnumerable<int> intValues,
+            Indent indent,
+            IEnumerable<string> strValues,
             ActionEntry actionEntry)
         {
-            //　引数チェック
-            if (numberVariableCount < 1 || 99 < numberVariableCount)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(numberVariableCount), 1, 99, numberVariableCount));
+            return CreateRaw(intValues, indent, strValues,
+                "", actionEntry);
+        }
+
+        /// <summary>
+        /// データから直接インスタンスを生成する。
+        /// </summary>
+        /// <param name="intValues">[NotNull] 数値引数</param>
+        /// <param name="indent">インデント</param>
+        /// <param name="strValues">[NotNull] 文字列引数</param>
+        /// <param name="expansionString">[NotNull] 拡張文字列</param>
+        /// <param name="actionEntry">[CanBeNull] キャラ動作指定コマンド</param>
+        /// <returns>イベントコマンドのインスタンス</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Range項目が規定の範囲外の場合</exception>
+        /// <exception cref="ArgumentNullException">NotNull項目がnullの場合</exception>
+        /// <exception cref="ArgumentException">numberVariableCountとintValues.Lengthが一致しない場合</exception>
+        /// <exception cref="ArgumentException">stringVariableCountとstrValuesが一致しない場合</exception>
+        /// <exception cref="ArgumentException">該当イベントコマンドが存在しない場合</exception>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public static IEventCommand CreateRaw(
+            IEnumerable<int> intValues,
+            Indent indent,
+            IEnumerable<string> strValues,
+            string expansionString,
+            ActionEntry actionEntry)
+        {
+            // 引数チェック
             if (intValues == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(intValues)));
-            var intValueList = intValues.ToList();
-            if (intValueList.Count != numberVariableCount)
-                throw new ArgumentException(
-                    $"{nameof(numberVariableCount)}と{nameof(intValues)}.Lengthが一致しません。");
 
-            if (stringVariableCount < 0 || 9 < stringVariableCount)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(stringVariableCount), 0, 9, stringVariableCount));
             if (strValues == null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(strValues)));
-            var strValueList = strValues.ToList();
-            if (strValueList.Count != stringVariableCount)
-                throw new ArgumentException(
-                    $"{nameof(stringVariableCount)}と{nameof(strValues)}.Lengthが一致しません。");
 
-            IEventCommand instance = null;
+            var intValueList = intValues.ToList();
+            var strValueList = strValues.ToList();
+
+            EventCommandBase instance = null;
 
             const string failSearchMessage = "条件に合致するイベントコードが見つかりませんでした。";
 
@@ -101,7 +114,7 @@ namespace WodiLib.Event.EventCommand
             }
             else if (intValueList[0] == EventCommandCode.ChoiceStartForkingNumber.Code)
             {
-                instance = new ChoiceStartForkingNumber();
+                instance = new ForkStart();
             }
             else if (intValueList[0] == EventCommandCode.ChoiceStartForkingEtc.Code)
             {
@@ -129,7 +142,7 @@ namespace WodiLib.Event.EventCommand
             }
             else if (intValueList[0] == EventCommandCode.SetVariable.Code)
             {
-                if (numberVariableCount == 8)
+                if (intValueList[1] == SetVariableChangeableDB.LeftSide)
                 {
                     instance = new SetVariableChangeableDB();
                 }
@@ -148,7 +161,7 @@ namespace WodiLib.Event.EventCommand
                     var isUseTypeName = (intValueList[4].ToBytes(Endian.Little)[2]
                                          & EventCommandConstant.DBManagement.UseStringFlg.TypeIdFlagBit) != 0;
                     instance = isUseTypeName
-                        ? (IEventCommand) new DBManagementGetTypeId()
+                        ? (EventCommandBase) new DBManagementGetTypeId()
                         : new DBManagementGetTypeName();
                 }
                 else if (itemId == EventCommandConstant.DBManagement.IdSet.GetDataX.ItemId)
@@ -156,7 +169,7 @@ namespace WodiLib.Event.EventCommand
                     var isUseDataName = (intValueList[4].ToBytes(Endian.Little)[2]
                                          & EventCommandConstant.DBManagement.UseStringFlg.DataIdFlagBit) != 0;
                     instance = isUseDataName
-                        ? (IEventCommand) new DBManagementGetDataId()
+                        ? (EventCommandBase) new DBManagementGetDataId()
                         : new DBManagementGetDataName();
                 }
                 else if (dataId == EventCommandConstant.DBManagement.IdSet.GetItemX.DataId)
@@ -164,7 +177,7 @@ namespace WodiLib.Event.EventCommand
                     var isUseItemName = (intValueList[4].ToBytes(Endian.Little)[2]
                                          & EventCommandConstant.DBManagement.UseStringFlg.ItemIdFlagBit) != 0;
                     instance = isUseItemName
-                        ? (IEventCommand) new DBManagementGetItemId()
+                        ? (EventCommandBase) new DBManagementGetItemId()
                         : new DBManagementGetItemName();
                 }
                 else if (dataId == EventCommandConstant.DBManagement.IdSet.GetDataLength.DataId)
@@ -256,10 +269,6 @@ namespace WodiLib.Event.EventCommand
             {
                 instance = new ConditionNumberStart();
             }
-            else if (intValueList[0] == EventCommandCode.ConditionNumberStartForking.Code)
-            {
-                instance = new ConditionNumberStartForking();
-            }
             else if (intValueList[0] == EventCommandCode.ConditionElse.Code)
             {
                 instance = new ConditionElse();
@@ -267,10 +276,6 @@ namespace WodiLib.Event.EventCommand
             else if (intValueList[0] == EventCommandCode.ConditionStringStart.Code)
             {
                 instance = new ConditionStringStart();
-            }
-            else if (intValueList[0] == EventCommandCode.ConditionStringStartForking.Code)
-            {
-                instance = new ConditionStringStartForking();
             }
             else if (intValueList[0] == EventCommandCode.KeyInput.Code)
             {
@@ -438,7 +443,7 @@ namespace WodiLib.Event.EventCommand
             }
             else if (intValueList[0] == EventCommandCode.LoadVariable.Code)
             {
-                instance = new ReadSpecificSaveData();
+                instance = new LoadSpecificSaveData();
             }
             else if (intValueList[0] == EventCommandCode.SaveVariable.Code)
             {
@@ -615,27 +620,53 @@ namespace WodiLib.Event.EventCommand
 
                 if (instance == null) throw new ArgumentException(failSearchMessage);
             }
+            else
+            {
+                instance = new Unknown(intValueList[0]);
+            }
 
             #endregion
 
-            // インスタンスが取得できていない = パラメータが変
+            // instance == null の場合、処理が誤っている
             if (instance == null)
+                throw new InvalidOperationException();
+
+            // 数値引数・文字列引数の数が最低限の数揃っていない場合エラー
+            if (intValueList.Count < instance.NumberVariableCountMin)
                 throw new ArgumentException(
-                    $"イベントコード(={intValueList[0]})に該当するイベントコマンドコードがありません。");
+                    ErrorMessage.UnderListLength(nameof(intValues), instance.NumberVariableCountMin));
+            if (strValueList.Count < instance.StringVariableCountMin)
+                throw new ArgumentException(
+                    ErrorMessage.UnderListLength(nameof(strValues), instance.StringVariableCountMin));
 
             // 数値引数と文字列引数、インデント、動作指定コマンドをセットする
-            for (var i = 1; i < numberVariableCount; i++)
+            for (var i = 1; i < intValueList.Count; i++)
             {
                 // index0 はイベントコマンドコードなので設定しない
-                instance.SetNumberVariable(i, intValueList[i]);
+                if (instance.IsNormalNumberArgIndex(i))
+                {
+                    instance.SetSafetyNumberVariable(i, intValueList[i]);
+                }
+                else
+                {
+                    instance.ExpansionNumberArgList.Add(intValueList[i]);
+                }
             }
 
-            for (var i = 0; i < stringVariableCount; i++)
+            for (var i = 0; i < strValueList.Count; i++)
             {
-                instance.SetStringVariable(i, strValueList[i]);
+                if (instance.IsNormalStringArgIndex(i))
+                {
+                    instance.SetSafetyStringVariable(i, strValueList[i]);
+                }
+                else
+                {
+                    instance.ExpansionStringArgList.Add(strValueList[i]);
+                }
             }
 
-            instance.Indent = indent;
+            instance.Indent = (sbyte) indent;
+            instance.ExpansionString = expansionString;
             instance.ActionEntry = actionEntry;
 
             return instance;
@@ -656,92 +687,12 @@ namespace WodiLib.Event.EventCommand
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(src)));
 
-            const string regex = @"^\[(.*)\]\[(.*)\]<(.*)>\((.*)\)\((.*)\)$";
-            const string splitter = "__";
-            var replaceDst = $"$1{splitter}$2{splitter}$3{splitter}$4{splitter}$5";
-            const char itemSplitter = ',';
-            const char numArgListSplitter = ',';
-            const string strArgsListSplitter = ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)";
+            var parser = new EventCommandStringParser(src);
+            parser.Parse();
 
-            var parseErrorMessage = $"{{0}}の取得に失敗しました。{{ {src} }}";
-
-            // パースして必要な項目を取り出す
-
-            var replaced = Regex.Replace(src, regex, replaceDst);
-            var split = Regex.Split(replaced, splitter);
-
-            if (split.Length != 5)
-                throw new InvalidOperationException(
-                    ErrorMessage.Unsuitable(nameof(src), src));
-
-            // イベントコード
-            if (!int.TryParse(split[0], out var eventCode))
-                throw new InvalidCastException(
-                    string.Format(parseErrorMessage, "イベントコード"));
-
-            // 引数の数
-            var args = split[1].Split(itemSplitter);
-            if (args.Length != 2)
-                throw new InvalidOperationException(
-                    ErrorMessage.Unsuitable(nameof(src), src));
-            if (!int.TryParse(args[0], out var numArgs))
-                throw new InvalidCastException(
-                    string.Format(parseErrorMessage, "数値引数の数"));
-            if (numArgs < 0)
-                throw new ArgumentException(
-                    $"数値引数の数が不正です。0以上である必要があります。（取得値：{numArgs}）");
-
-            if (!int.TryParse(args[1], out var strArgs))
-                throw new InvalidCastException(
-                    string.Format(parseErrorMessage, "文字列引数の数"));
-            if (strArgs < 0)
-                throw new ArgumentException(
-                    $"文字列引数の数が不正です。0以上である必要があります。（取得値：{strArgs}）");
-
-            // インデント
-            if (!int.TryParse(split[2], out var indent))
-                throw new InvalidCastException(
-                    string.Format(parseErrorMessage, "インデント"));
-            if (indent < 0)
-                throw new ArgumentException(
-                    $"インデントの値が不正です。0以上である必要があります。（取得値：{indent}）");
-
-            // 数値引数
-            var numArgList = split[3].IsEmpty()
-                ? new List<int>()
-                : split[3].Split(numArgListSplitter).Select(s =>
-                {
-                    // ほしいのはint配列なので変換
-                    if (!int.TryParse(s, out var result))
-                        throw new InvalidCastException(
-                            string.Format(parseErrorMessage, "数値引数"));
-                    return result;
-                }).ToList();
-            if (numArgList.Count != numArgs)
-                throw new InvalidOperationException(
-                    ErrorMessage.Unsuitable(nameof(src), src));
-
-            // 文字列引数
-            var strArgList = split[4].IsEmpty()
-                ? new List<string>()
-                : Regex.Split(split[4], strArgsListSplitter).Select(s =>
-                {
-                    // 前後に " が含まれるが、不要なので取り除く
-                    if (s.StartsWith("\"")) s = s.Remove(0, 1);
-                    if (s.EndsWith("\"")) s = s.Remove(s.Length - 1);
-                    return s;
-                }).ToList();
-            if (strArgList.Count != strArgs)
-                throw new InvalidOperationException(
-                    ErrorMessage.Unsuitable(nameof(src), src));
-
-            // 数値引数 0 にイベントコマンドコードを付ける必要がある
-            numArgList.Insert(0, eventCode);
-            numArgs += 1;
-
-            // 結果を返す
-            return CreateRaw(numArgs, numArgList, (byte) indent,
-                strArgs, strArgList, null);
+            // パースした情報でインスタンスを生成
+            return CreateRaw(parser.NumberArgList, parser.Indent,
+                parser.StrArgList, parser.ExpansionString, null);
         }
     }
 }

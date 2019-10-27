@@ -1091,6 +1091,94 @@ namespace WodiLib.Test.Sys
             }
         }
 
+        [TestCase(TestClassType.Type1, 8, -1, -1, true)]
+        [TestCase(TestClassType.Type1, 8, 0, 8, false)]
+        [TestCase(TestClassType.Type1, 8, 10, 10, false)]
+        [TestCase(TestClassType.Type1, 8, 11, -1, true)]
+        [TestCase(TestClassType.Type2, 8, -1, -1, true)]
+        [TestCase(TestClassType.Type2, 8, 4, -1, true)]
+        [TestCase(TestClassType.Type2, 8, 5, 8, false)]
+        [TestCase(TestClassType.Type2, 8, 10, 10, false)]
+        [TestCase(TestClassType.Type2, 8, 11, -1, true)]
+        public static void AdjustLengthIfShortTest(TestClassType classType, int initLength,
+            int adjustLength, int answerLength, bool isError)
+        {
+            var initList = MakeStringList(initLength);
+
+            AbsCollectionTest instance = null;
+            Dictionary<string, int> countDic = null;
+            Dictionary<string, Dictionary<string, int>> handlerCalledCount = null;
+            switch (classType)
+            {
+                case TestClassType.Type1:
+                    instance = MakeCollectionForMethodTest(initLength, out countDic, out handlerCalledCount);
+                    break;
+                case TestClassType.Type2:
+                    instance = MakeCollection2ForMethodTest(initList, initLength, out countDic, out handlerCalledCount);
+                    break;
+                default:
+                    Assert.Fail();
+                    break;
+            }
+
+            var errorOccured = false;
+            try
+            {
+                instance.AdjustLengthIfShort(adjustLength);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            // 各Virtualメソッドが意図した回数呼ばれていること
+            var insertedCnt = errorOccured
+                ? 0
+                : initLength < adjustLength
+                    ? adjustLength - initLength
+                    : 0;
+            Assert.AreEqual(countDic[nameof(CollectionTest1.OnSetItemCalled)], 0);
+            Assert.AreEqual(countDic[nameof(CollectionTest1.OnInsertItemCalled)], insertedCnt);
+            Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
+            Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
+
+            // 各有効イベントハンドラが意図した回数呼ばれていること
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString],
+                insertedCnt);
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
+
+            // 各無効イベントハンドラが一度も呼ばれていないこと
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
+            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
+
+            if (errorOccured) return;
+
+            // 要素数が調整サイズと一致すること
+            Assert.AreEqual(instance.Count, answerLength);
+
+            // 操作前の要素（要素追加した場合は初期要素、要素削除した場合はすべての要素）が変化していないこと
+            var nonChangedCnt = initLength;
+            var i = 0;
+            for (; i < nonChangedCnt; i++)
+            {
+                Assert.AreEqual(instance[i], i.ToString());
+            }
+
+            // 追加した要素がデフォルト要素と一致すること
+            for (; i < instance.Count; i++)
+            {
+                Assert.AreEqual(instance[i], "test");
+            }
+        }
+
         [TestCase(TestClassType.Type1, 0)]
         [TestCase(TestClassType.Type1, 10)]
         [TestCase(TestClassType.Type2, 5)]

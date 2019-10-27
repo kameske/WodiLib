@@ -73,14 +73,8 @@ namespace WodiLib.Ini
         /// <returns>EventCommandShortCutKey</returns>
         public static EditTimeDrawType FromCodeOrDefault(string code)
         {
-            try
-            {
-                return FromCode(code);
-            }
-            catch
-            {
-                return On;
-            }
+            if (code == null || code.Equals(string.Empty)) return On;
+            return FromCode(code);
         }
     }
 }
