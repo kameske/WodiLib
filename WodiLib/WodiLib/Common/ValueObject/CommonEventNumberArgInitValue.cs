@@ -15,7 +15,7 @@ namespace WodiLib.Common
 {
     /// <summary>
     ///     [Range(int.MinValue, int.MaxValue)]
-    ///     [SafetyRange(1400000000, -1400000000)]
+    ///     [SafetyRange(-1400000000, 1400000000)]
     ///     コモンイベント数値引数初期値
     /// </summary>
     public struct CommonEventNumberArgInitValue : IConvertibleInt, IEquatable<CommonEventNumberArgInitValue>
@@ -59,7 +59,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="value">
         ///     [Range(int.MinValue, int.MaxValue)]
-        ///     [SafetyRange(1400000000, -1400000000)]
+        ///     [SafetyRange(-1400000000, 1400000000)]
         ///     コモンイベント数値引数初期値
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">valueがコモンイベント数値引数初期値として不適切な場合</exception>
