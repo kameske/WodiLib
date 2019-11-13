@@ -36,7 +36,7 @@ namespace WodiLib.Test.Map
         [TestCase(10000, 10000, true)]
         public static void ConstructorTest(int x, int y, bool isError)
         {
-            Position instance = default(Position);
+            var instance = default(Position);
 
             var errorOccured = false;
             try
@@ -57,6 +57,20 @@ namespace WodiLib.Test.Map
             // セットした値と一致すること
             Assert.AreEqual(instance.X, x);
             Assert.AreEqual(instance.Y, y);
+        }
+
+        private static readonly object[] EqualsTestCaseSource =
+        {
+            new object[] {new Position(3, 5), new Position(3, 5), true},
+            new object[] {new Position(3, 5), new Position(5, 5), false},
+            new object[] {new Position(3, 5), new Position(3, 3), false},
+            new object[] {new Position(3, 5), new Position(5, 3), false},
+        };
+
+        [TestCaseSource(nameof(EqualsTestCaseSource))]
+        public static void EqualsTest(Position left, Position right, bool answer)
+        {
+            Assert.AreEqual(left.Equals(right), answer);
         }
     }
 }
