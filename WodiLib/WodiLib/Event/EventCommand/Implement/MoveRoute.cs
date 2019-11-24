@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using WodiLib.Cmn;
 using WodiLib.Event.CharaMoveCommand;
@@ -17,11 +18,11 @@ using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
 {
-    /// <inheritdoc />
     /// <summary>
     /// イベントコマンド・動作指定
     /// </summary>
-    public class MoveRoute : EventCommandBase
+    [Serializable]
+    public class MoveRoute : EventCommandBase, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Constant
@@ -112,6 +113,28 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         protected override EventCommandColorSet EventCommandColorSet
             => EventCommandColorSet.Black;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>所有イベント保持フラグ</summary>
+        private bool HasOwner => owner != null;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public MoveRoute()
+        {
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
         /// <summary>
@@ -245,6 +268,38 @@ namespace WodiLib.Event.EventCommand
             }
 
             return string.Format(EventCommandSentenceTargetMapEvent, Target);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(actionEntry), actionEntry);
+            info.AddValue(nameof(Target), Target);
+            info.AddValue(nameof(HasOwner), HasOwner);
+            if (HasOwner) info.AddValue(nameof(owner), owner.Id);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected MoveRoute(SerializationInfo info, StreamingContext context)
+        {
+            actionEntry = info.GetValue<ActionEntry>(nameof(actionEntry));
+            Target = info.GetInt32(nameof(Target));
+            var savedOwner = info.GetBoolean(nameof(HasOwner));
+            if (savedOwner) owner = TargetAddressOwner.FromId(info.GetValue<string>(nameof(owner)));
         }
     }
 }

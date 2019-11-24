@@ -6,6 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -13,7 +16,8 @@ namespace WodiLib.Ini
     /// <summary>
     /// Game.iniデータクラス
     /// </summary>
-    public class GameIniData
+    [Serializable]
+    public class GameIniData : IEquatable<GameIniData>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Const
@@ -158,6 +162,33 @@ namespace WodiLib.Ini
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(GameIniData other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return frameSkipType == other.frameSkipType
+                   && proxyAddress == other.proxyAddress
+                   && StartCode == other.StartCode
+                   && IsSoftGraphicMode == other.IsSoftGraphicMode
+                   && IsWindowMode == other.IsWindowMode
+                   && IsPlayBgm == other.IsPlayBgm
+                   && IsPlaySe == other.IsPlaySe
+                   && ProxyPort == other.ProxyPort
+                   && CanTakeScreenShot == other.CanTakeScreenShot
+                   && CanReset == other.CanReset
+                   && DisplayNumber == other.DisplayNumber
+                   && IsUseOldDirectX == other.IsUseOldDirectX;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Internal Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -182,6 +213,54 @@ namespace WodiLib.Ini
                 Display_Number = DisplayNumber.ToString(),
                 Old_DirectX_Use = IsUseOldDirectX.ToIntString(),
             };
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(StartCode), StartCode);
+            info.AddValue(nameof(IsSoftGraphicMode), IsSoftGraphicMode);
+            info.AddValue(nameof(IsWindowMode), IsWindowMode);
+            info.AddValue(nameof(IsPlayBgm), IsPlayBgm);
+            info.AddValue(nameof(IsPlaySe), IsPlaySe);
+            info.AddValue(nameof(frameSkipType), frameSkipType.Code);
+            info.AddValue(nameof(proxyAddress), proxyAddress);
+            info.AddValue(nameof(ProxyPort), ProxyPort);
+            info.AddValue(nameof(CanTakeScreenShot), CanTakeScreenShot);
+            info.AddValue(nameof(CanReset), CanReset);
+            info.AddValue(nameof(DisplayNumber), DisplayNumber);
+            info.AddValue(nameof(IsUseOldDirectX), IsUseOldDirectX);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected GameIniData(SerializationInfo info, StreamingContext context)
+        {
+            StartCode = info.GetValue<int>(nameof(StartCode));
+            IsSoftGraphicMode = info.GetBoolean(nameof(IsSoftGraphicMode));
+            IsWindowMode = info.GetBoolean(nameof(IsWindowMode));
+            IsPlayBgm = info.GetBoolean(nameof(IsPlayBgm));
+            IsPlaySe = info.GetBoolean(nameof(IsPlaySe));
+            frameSkipType = FrameSkipType.FromCode(info.GetValue<string>(nameof(frameSkipType)));
+            proxyAddress = info.GetValue<ProxyAddress>(nameof(proxyAddress));
+            ProxyPort = info.GetInt32(nameof(ProxyPort));
+            CanTakeScreenShot = info.GetBoolean(nameof(CanTakeScreenShot));
+            CanReset = info.GetBoolean(nameof(CanReset));
+            DisplayNumber = info.GetInt32(nameof(DisplayNumber));
+            IsUseOldDirectX = info.GetBoolean(nameof(IsUseOldDirectX));
         }
     }
 }

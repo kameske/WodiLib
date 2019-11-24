@@ -141,5 +141,13 @@ namespace WodiLib.Test.Database
             var rightIndex = (DatabaseMemo) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = (DatabaseMemo) "DatabaseMemo";
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

@@ -168,5 +168,16 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new MapEventPageBootInfo
+            {
+                MapEventBootType = MapEventBootType.Auto,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

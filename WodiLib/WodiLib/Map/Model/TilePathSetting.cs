@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -13,7 +14,8 @@ namespace WodiLib.Map
     /// <summary>
     /// タイル通行許可設定
     /// </summary>
-    public class TilePathSetting
+    [Serializable]
+    public class TilePathSetting : IEquatable<TilePathSetting>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -125,6 +127,18 @@ namespace WodiLib.Map
             innerSetting = TilePathSettingFactory.Create(
                 TilePathPermission.PartialDeny, innerSetting,
                 impassableFlags);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(TilePathSetting other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return innerSetting.Equals(other.innerSetting);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

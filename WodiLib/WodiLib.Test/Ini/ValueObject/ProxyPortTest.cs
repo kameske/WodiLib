@@ -127,5 +127,13 @@ namespace WodiLib.Test.Ini.ValueObject
             var rightIndex = (ProxyPort) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = (ProxyPort) 2;
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

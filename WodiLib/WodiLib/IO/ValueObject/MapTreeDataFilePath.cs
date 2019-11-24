@@ -17,7 +17,8 @@ namespace WodiLib.IO
     /// <summary>
     /// MapTree.dat ファイルパス
     /// </summary>
-    public class MapTreeDataFilePath : FilePath
+    [Serializable]
+    public class MapTreeDataFilePath : FilePath, IEquatable<MapTreeDataFilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

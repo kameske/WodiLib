@@ -17,7 +17,8 @@ namespace WodiLib.IO
     /// <summary>
     /// XXX.title ファイルパス
     /// </summary>
-    public class TileSetFilePath : FilePath
+    [Serializable]
+    public class TileSetFilePath : FilePath, IEquatable<TileSetFilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

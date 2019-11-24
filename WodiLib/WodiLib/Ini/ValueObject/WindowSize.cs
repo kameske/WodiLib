@@ -14,7 +14,8 @@ namespace WodiLib.Ini
     /// <summary>
     /// ウィンドウサイズ
     /// </summary>
-    public struct WindowSize
+    [Serializable]
+    public struct WindowSize : IEquatable<WindowSize>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

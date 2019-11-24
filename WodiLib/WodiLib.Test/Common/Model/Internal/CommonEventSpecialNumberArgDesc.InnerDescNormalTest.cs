@@ -412,5 +412,13 @@ namespace WodiLib.Test.Common.Internal
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

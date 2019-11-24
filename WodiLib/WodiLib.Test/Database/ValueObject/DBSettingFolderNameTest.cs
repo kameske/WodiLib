@@ -141,5 +141,13 @@ namespace WodiLib.Test.Database
             var rightIndex = (DBSettingFolderName) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = (DBSettingFolderName) "DirName";
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

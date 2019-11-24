@@ -16,7 +16,7 @@ namespace WodiLib.Database
     /// DBタイプセット（XXX.dbtypeset）
     /// </summary>
     [Serializable]
-    public class DBTypeSet
+    public class DBTypeSet : IEquatable<DBTypeSet>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -83,6 +83,18 @@ namespace WodiLib.Database
                     ErrorMessage.NotNull(nameof(itemSettingList)));
 
             TypeDesc = DatabaseTypeDesc.Factory.CreateForDBTypeSet(itemSettingList);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(DBTypeSet other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return TypeDesc.Equals(other.TypeDesc);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

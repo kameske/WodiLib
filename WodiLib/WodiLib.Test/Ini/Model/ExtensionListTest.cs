@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using WodiLib.Ini;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Ini.Model
 {
@@ -41,6 +42,14 @@ namespace WodiLib.Test.Ini.Model
             var answer = string.Join(",", extStringList);
 
             Assert.IsTrue(allExtString.Equals(answer));
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new ExtensionList(new List<Extension> { ".A", ".B", "CCC" });
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

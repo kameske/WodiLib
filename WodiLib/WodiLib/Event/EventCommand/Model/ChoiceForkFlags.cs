@@ -6,12 +6,15 @@
 // see LICENSE file
 // ========================================
 
+using System;
+
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
     /// 選択肢分岐フラグ
     /// </summary>
-    public class ChoiceForkFlags
+    [Serializable]
+    public class ChoiceForkFlags : IEquatable<ChoiceForkFlags>
     {
         /// <summary>強制中断フラグ</summary>
         public bool IsStopForce { get; set; }
@@ -32,6 +35,20 @@ namespace WodiLib.Event.EventCommand
             IsStopForce = (src & StopForceFlag) != 0;
             IsForkLeftKey = (src & ForkLeftKeyFlag) != 0;
             IsForkRightKey = (src & ForkRightKeyFlag) != 0;
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(ChoiceForkFlags other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return IsStopForce == other.IsStopForce
+                   && IsForkLeftKey == other.IsForkLeftKey
+                   && IsForkRightKey == other.IsForkRightKey;
         }
 
         /// <summary>

@@ -77,5 +77,16 @@ namespace WodiLib.Test.Ini.Model
 
             logger.Debug(errorMsg);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new EventCommandShortCutKeyList
+            {
+                [2] = EventCommandShortCutKey.Eight,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

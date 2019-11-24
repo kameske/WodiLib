@@ -16,6 +16,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [NotNull][NotNewLine] ファイルパス
     /// </summary>
+    [Serializable]
     public class FilePath : IConvertibleString, IEquatable<FilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -26,6 +27,13 @@ namespace WodiLib.Cmn
         public static int MaxLength = 260;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>デフォルトの空文字許可フラグ</summary>
+        private const bool DefaultAllowEmptyStringFlag = true;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -33,7 +41,7 @@ namespace WodiLib.Cmn
         protected string Value { get; }
 
         /// <summary>空文字許可フラグ</summary>
-        protected virtual bool IsAllowEmptyString { get; } = true;
+        protected virtual bool IsAllowEmptyString => DefaultAllowEmptyStringFlag;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor

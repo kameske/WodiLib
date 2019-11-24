@@ -19,6 +19,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・CSV入出力
     /// </summary>
+    [Serializable]
     public class CsvIO : DBManagementBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

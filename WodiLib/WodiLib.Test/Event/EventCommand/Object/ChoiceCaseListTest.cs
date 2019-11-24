@@ -105,5 +105,16 @@ namespace WodiLib.Test.Event.EventCommand
                 if (i != index)
                     Assert.IsTrue(instance.Get(i).Equals(initObj.Get(i)));
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new ChoiceCaseList
+            {
+                CaseValue = 3,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

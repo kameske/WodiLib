@@ -15,12 +15,12 @@ using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.CharaMoveCommand
 {
-    /// <inheritdoc />
     /// <summary>
     /// <para>動作指定コマンド_共通動作クラス</para>
     /// <para>（隠蔽クラス）</para>
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [Serializable]
     public abstract class CharaMoveCommandBase : ICharaMoveCommand
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -48,7 +48,7 @@ namespace WodiLib.Event.CharaMoveCommand
         }
 
         /// <summary>変数リスト</summary>
-        protected CharaMoveCommandValue[] NumberValues { private get; set; }
+        protected CharaMoveCommandValue[] NumberValues { get; set; }
 
         /// <summary>
         /// 数値変数の値を取得する。
@@ -106,6 +106,31 @@ namespace WodiLib.Event.CharaMoveCommand
         protected CharaMoveCommandBase()
         {
             NumberValues = new CharaMoveCommandValue[ValueLength];
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(ICharaMoveCommand other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
+
+            if (CommandCode != other.CommandCode) return false;
+            if (ValueLength != other.ValueLength) return false;
+
+            for (var i = 0; i < ValueLength; i++)
+            {
+                if (GetNumberValue(i) != other.GetNumberValue(i)) return false;
+            }
+
+            return true;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

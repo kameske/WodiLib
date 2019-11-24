@@ -160,5 +160,16 @@ namespace WodiLib.Test.Common
             var caseLength = instance.GetAllSpecialCase().Count;
             Assert.AreEqual(caseLength, 0);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new CommonEventSpecialStringArgDesc
+            {
+                ArgName = "ArgName"
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

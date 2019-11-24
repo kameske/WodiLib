@@ -15,6 +15,7 @@ namespace WodiLib.Event
     /// <summary>
     /// [Range(1, 10)] マップイベントページインデックス
     /// </summary>
+    [Serializable]
     public struct MapEventPageIndex : IConvertibleInt, IEquatable<MapEventPageIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

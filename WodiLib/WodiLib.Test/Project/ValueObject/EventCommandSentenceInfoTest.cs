@@ -44,5 +44,13 @@ namespace WodiLib.Test.Project.ValueObject
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new EventCommandSentenceInfo(EventCommandColorSet.Gold, "Text");
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

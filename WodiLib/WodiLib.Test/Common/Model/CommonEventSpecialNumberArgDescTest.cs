@@ -875,6 +875,17 @@ namespace WodiLib.Test.Common
             Assert.AreEqual(errorOccured, isError);
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new CommonEventSpecialNumberArgDesc
+            {
+                ArgName = "ArgName",
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
 
         private static IEnumerable<CommonEventSpecialArgCase> MakeArgCaseList(int length)
         {

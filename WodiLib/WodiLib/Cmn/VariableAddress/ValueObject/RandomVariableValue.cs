@@ -14,6 +14,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(0, 999999)] ランダム変数ランダム量
     /// </summary>
+    [Serializable]
     public struct RandomVariableValue : IConvertibleInt, IEquatable<RandomVariableValue>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

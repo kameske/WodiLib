@@ -8,7 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys;
 
@@ -17,6 +19,7 @@ namespace WodiLib.Event
     /// <summary>
     /// キャラ動作指定コマンドリスト
     /// </summary>
+    [Serializable]
     public class CharaMoveCommandList : RestrictedCapacityCollection<ICharaMoveCommand>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -48,6 +51,13 @@ namespace WodiLib.Event
                     .ForEach(x => x.Owner = value);
             }
         }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>所有イベント保持フラグ</summary>
+        private bool HasOwner => owner != null;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -123,5 +133,34 @@ namespace WodiLib.Event
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override ICharaMoveCommand MakeDefaultItem(int index) => new MoveUp();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue(nameof(HasOwner), HasOwner);
+            if (HasOwner) info.AddValue(nameof(owner), owner.Id);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected CharaMoveCommandList(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+            var savedOwner = info.GetBoolean(nameof(HasOwner));
+            if (savedOwner) owner = TargetAddressOwner.FromId(info.GetValue<string>(nameof(owner)));
+        }
     }
 }

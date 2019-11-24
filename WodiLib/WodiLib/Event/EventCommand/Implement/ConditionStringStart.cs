@@ -19,6 +19,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・条件（文字列）・始端
     /// </summary>
+    [Serializable]
     public class ConditionStringStart : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

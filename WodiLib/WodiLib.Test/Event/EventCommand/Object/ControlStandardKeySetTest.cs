@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand
 {
@@ -167,6 +168,14 @@ namespace WodiLib.Test.Event.EventCommand
             };
 
             Assert.AreEqual(instance.ToByte(), answer);
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new ControlStandardKeySet(0x30);
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

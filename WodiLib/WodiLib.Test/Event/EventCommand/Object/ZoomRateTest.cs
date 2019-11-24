@@ -151,5 +151,16 @@ namespace WodiLib.Test.Event.EventCommand
                 }
             }
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new ZoomRate
+            {
+                ZoomRateType = ZoomRateType.Same
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

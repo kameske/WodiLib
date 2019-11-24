@@ -20,6 +20,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・自動キー入力（マウス）
     /// </summary>
+    [Serializable]
     public class KeyInputAutoMouse : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

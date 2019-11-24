@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using NUnit.Framework;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
@@ -1389,6 +1390,14 @@ namespace WodiLib.Test.Sys
             }
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = MakeCollectionForMethodTest(5, out _, out _);
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      テストデータ
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -1673,8 +1682,14 @@ namespace WodiLib.Test.Sys
             public AbsCollectionTest(IReadOnlyCollection<string> list) : base(list)
             {
             }
+
+            // RestrictedCapacityCollection<T>継承クラスはデシリアライズ時に呼び出せるconstructor(SerializationInfo, StreamingContext)が必須
+            protected AbsCollectionTest(SerializationInfo info, StreamingContext context) : base(info, context)
+            {
+            }
         }
 
+        [Serializable]
         private class CollectionTest1 : AbsCollectionTest
         {
             /**
@@ -1685,9 +1700,13 @@ namespace WodiLib.Test.Sys
             public static int MinCapacity => 0;
             public static string Default => "test";
 
+            [field: NonSerialized]
             public Action OnSetItemCalled { get; set; }
+            [field: NonSerialized]
             public Action OnInsertItemCalled { get; set; }
+            [field: NonSerialized]
             public Action OnRemoveItemCalled { get; set; }
+            [field: NonSerialized]
             public Action OnClearItemsCalled { get; set; }
 
             public override int GetMaxCapacity() => MaxCapacity;
@@ -1726,6 +1745,10 @@ namespace WodiLib.Test.Sys
             {
                 base.ClearItems();
                 OnClearItemsCalled?.Invoke();
+            }
+
+            protected CollectionTest1(SerializationInfo info, StreamingContext context) : base(info, context)
+            {
             }
         }
 

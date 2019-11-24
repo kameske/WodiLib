@@ -18,7 +18,8 @@ namespace WodiLib.Map
     /// <summary>
     ///     マップイベント1ページ毎の情報実装クラス
     /// </summary>
-    public class MapEventPage
+    [Serializable]
+    public class MapEventPage : IEquatable<MapEventPage>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constant
@@ -141,6 +142,24 @@ namespace WodiLib.Map
             var sentenceType = EventCommandSentenceType.Map;
 
             return EventCommands.MakeEventCommandSentenceInfoList(resolver, sentenceType, desc);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(MapEventPage other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return graphicInfo.Equals(other.graphicInfo)
+                   && bootInfo.Equals(other.bootInfo)
+                   && moveRouteInfo.Equals(other.moveRouteInfo)
+                   && option.Equals(other.option)
+                   && eventCommands.Equals(other.eventCommands)
+                   && HitExtendRange.Equals(other.HitExtendRange)
+                   && ShadowGraphicId.Equals(other.ShadowGraphicId);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

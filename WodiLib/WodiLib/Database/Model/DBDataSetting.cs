@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -16,7 +18,7 @@ namespace WodiLib.Database
     /// DBデータ設定
     /// </summary>
     [Serializable]
-    public class DBDataSetting
+    public class DBDataSetting : IEquatable<DBDataSetting>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -162,6 +164,21 @@ namespace WodiLib.Database
             this.typeId = typeId.Value;
         }
 
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(DBDataSetting other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return DataSettingType.Equals(other.DataSettingType)
+                   && dbKind == other.dbKind
+                   && typeId == other.typeId
+                   && settingValuesList.Equals(other.settingValuesList);
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -197,6 +214,38 @@ namespace WodiLib.Database
             result.AddRange(SettingValuesList.ToBinaryDataValues());
 
             return result.ToArray();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(DataSettingType), DataSettingType.Code);
+            info.AddValue(nameof(dbKind), dbKind.Code);
+            info.AddValue(nameof(typeId), typeId);
+            info.AddValue(nameof(settingValuesList), settingValuesList);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected DBDataSetting(SerializationInfo info, StreamingContext context)
+        {
+            DataSettingType = DBDataSettingType.FromCode(info.GetInt32(nameof(DataSettingType)));
+            dbKind = DBKind.FromCode(info.GetByte(nameof(dbKind)));
+            typeId = info.GetInt32(nameof(typeId));
+            settingValuesList = info.GetValue<DBItemValuesList>(nameof(settingValuesList));
         }
     }
 }

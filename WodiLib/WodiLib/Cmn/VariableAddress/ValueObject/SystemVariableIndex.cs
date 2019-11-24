@@ -14,6 +14,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(0, 99999)] システム変数インデックス
     /// </summary>
+    [Serializable]
     public struct SystemVariableIndex : IConvertibleInt, IEquatable<SystemVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

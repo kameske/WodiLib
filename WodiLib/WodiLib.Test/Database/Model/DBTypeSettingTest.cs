@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using NUnit.Framework;
 using WodiLib.Database;
 using WodiLib.Sys.Cmn;
@@ -82,7 +81,7 @@ namespace WodiLib.Test.Database
             Assert.NotNull(dataNameList);
 
             // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.SequenceEqual(dataNameList));
+            Assert.IsTrue(setValue.Equals(dataNameList));
         }
 
         [TestCase(false, false)]
@@ -115,7 +114,7 @@ namespace WodiLib.Test.Database
             Assert.NotNull(itemSettingList);
 
             // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.SequenceEqual(itemSettingList));
+            Assert.IsTrue(setValue.Equals(itemSettingList));
         }
 
         private static readonly object[] MemoTestCaseSource =
@@ -149,6 +148,17 @@ namespace WodiLib.Test.Database
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(memo));
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new DBTypeSetting
+            {
+                TypeName = "TypeName"
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

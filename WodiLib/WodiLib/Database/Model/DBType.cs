@@ -16,7 +16,7 @@ namespace WodiLib.Database
     /// DBタイプ（XXX.dbtype）
     /// </summary>
     [Serializable]
-    public class DBType
+    public class DBType : IEquatable<DBType>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -198,6 +198,18 @@ namespace WodiLib.Database
             {
                 TypeDesc.SetDataSettingType(setting.DataSettingType);
             }
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(DBType other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return TypeDesc.Equals(other.TypeDesc);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -171,5 +171,16 @@ namespace WodiLib.Test.Map
             // instance をここまで開放したくないので無駄な処理を入れる
             instance.MoveSpeed = MoveSpeed.Fast;
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new MapEventPageMoveRouteInfo
+            {
+                MoveSpeed = MoveSpeed.Slowest,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

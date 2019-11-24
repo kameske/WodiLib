@@ -17,7 +17,8 @@ namespace WodiLib.Map
     ///     [SafetyRange(0, 250)]
     ///     接触範囲拡張
     /// </summary>
-    public struct HitExtendRange
+    [Serializable]
+    public struct HitExtendRange : IEquatable<HitExtendRange>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -125,9 +126,7 @@ namespace WodiLib.Map
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            return obj is HitExtendRange other &&
-                   (Width == other.Width
-                    && Height == other.Height);
+            return obj is HitExtendRange other && Equals(other);
         }
 
         /// <inheritdoc />
@@ -137,6 +136,21 @@ namespace WodiLib.Map
             {
                 return (Width * 397) ^ Height;
             }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(HitExtendRange other)
+        {
+            return Width == other.Width
+                   && Height == other.Height;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

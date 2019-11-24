@@ -16,6 +16,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(3000000, 3999999)] 文字列変数アドレス値
     /// </summary>
+    [Serializable]
     public class StringVariableAddress : VariableAddress, IEquatable<StringVariableAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

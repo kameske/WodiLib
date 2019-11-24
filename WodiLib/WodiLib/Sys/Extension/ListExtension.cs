@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WodiLib.Sys
 {
@@ -58,6 +59,41 @@ namespace WodiLib.Sys
 
             // 長すぎるので除去
             target.RemoveRange(length, target.Count - length);
+        }
+
+        /// <summary>
+        /// 等価比較子を用いて、Listの現在のハッシュ値を取得する。
+        /// </summary>
+        /// <param name="target">対象</param>
+        /// <param name="equalityComparer">[NotNull] 比較演算子</param>
+        /// <typeparam name="T">対象の型</typeparam>
+        /// <returns>現在の要素から計算したハッシュ値</returns>
+        public static int GetHashCode<T>(this List<T> target, IEqualityComparer<T> equalityComparer)
+        {
+            if (equalityComparer == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(equalityComparer)));
+
+            return target.GetHashCode(equalityComparer.GetHashCode);
+        }
+
+        /// <summary>
+        /// 要素のハッシュ値取得関数を指定して、Listの現在のハッシュ値を取得する。
+        /// </summary>
+        /// <param name="target">対象</param>
+        /// <param name="funcGetHashCode">[NotNull] ハッシュ値取得関数</param>
+        /// <typeparam name="T">対象の型</typeparam>
+        /// <returns>現在の要素から計算したハッシュ値</returns>
+        public static int GetHashCode<T>(this List<T> target, Func<T, int> funcGetHashCode)
+        {
+            if (funcGetHashCode == null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(funcGetHashCode)));
+
+            const int prime = 31;
+            if (target.Count == 0) return 0;
+
+            return target.Aggregate(1, (current, item) => (current * prime) ^ funcGetHashCode(item));
         }
     }
 }

@@ -319,6 +319,15 @@ namespace WodiLib.Test.Map
             }
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var chips = MakeMapChipList(30, false, 40);
+            var target = new MapChipList(chips);
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
 
         private static IReadOnlyList<IReadOnlyList<MapChip>> MakeMapChipList(int width,
             bool hasNullInWidth, int height)

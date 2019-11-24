@@ -237,5 +237,16 @@ namespace WodiLib.Test.Map
             // 結果が意図した値と一致すること
             Assert.AreEqual(result, setValue);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new TilePathSettingPartialDeny
+            {
+                IsCounter = true
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

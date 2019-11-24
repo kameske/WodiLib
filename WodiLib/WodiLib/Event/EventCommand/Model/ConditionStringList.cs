@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -15,6 +17,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// 条件（文字列）条件リスト
     /// </summary>
+    [Serializable]
     public class ConditionStringList : RestrictedCapacityCollection<ConditionStringDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -125,5 +128,19 @@ namespace WodiLib.Event.EventCommand
         /// <returns>デフォルトインスタンス</returns>
         protected override ConditionStringDesc MakeDefaultItem(int index)
             => new ConditionStringDesc();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected ConditionStringList(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }

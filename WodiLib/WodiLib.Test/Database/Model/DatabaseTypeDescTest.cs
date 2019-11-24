@@ -475,6 +475,17 @@ namespace WodiLib.Test.Database
             Assert.AreEqual(result.ItemDescList.Count, itemLength);
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new DatabaseTypeDesc
+            {
+                TypeName = "TypeName",
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
 
         private static DatabaseTypeDesc CreateTypeDesc(int dataLength, int itemLength)
         {

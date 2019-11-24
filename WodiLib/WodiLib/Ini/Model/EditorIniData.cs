@@ -8,7 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -16,7 +18,8 @@ namespace WodiLib.Ini
     /// <summary>
     /// Editor.iniデータクラス
     /// </summary>
-    public class EditorIniData
+    [Serializable]
+    public class EditorIniData : IEquatable<EditorIniData>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -495,6 +498,46 @@ namespace WodiLib.Ini
             return true;
         }
 
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(EditorIniData other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return lastLoadFile == other.lastLoadFile
+                   && databaseValueNumberDrawType == other.databaseValueNumberDrawType
+                   && editTimeDrawType == other.editTimeDrawType
+                   && layerTransparent == other.layerTransparent
+                   && eventLayerOpacity == other.eventLayerOpacity
+                   && commandColorType == other.commandColorType
+                   && notCopyExtList.Equals(other.notCopyExtList)
+                   && backupType == other.backupType
+                   && shortCutKeyList.Equals(other.shortCutKeyList)
+                   && commandPositionList.Equals(other.commandPositionList)
+                   && StartFlag == other.StartFlag
+                   && MainWindowPosition == other.MainWindowPosition
+                   && MainWindowSize == other.MainWindowSize
+                   && MapChipWindowPosition == other.MapChipWindowPosition
+                   && MapEventWindowPosition == other.MapEventWindowPosition
+                   && MapEventWindowSize == other.MapEventWindowSize
+                   && MapEventInputWindowPosition == other.MapEventInputWindowPosition
+                   && CommonEventWindowPosition == other.CommonEventWindowPosition
+                   && CommonEventWindowSize == other.CommonEventWindowSize
+                   && CommonEventInputWindowPosition == other.CommonEventInputWindowPosition
+                   && UserDbWindowPosition == other.UserDbWindowPosition
+                   && ChangeableDbWindowPosition == other.ChangeableDbWindowPosition
+                   && SystemDbWindowPosition == other.SystemDbWindowPosition
+                   && EditTime == other.EditTime
+                   && NotEditTime == other.NotEditTime
+                   && IsShowDebugWindow == other.IsShowDebugWindow
+                   && IsDrawBackgroundImage == other.IsDrawBackgroundImage
+                   && CommandViewType == other.CommandViewType
+                   && IsUseExpertCommand == other.IsUseExpertCommand;
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Internal Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -614,6 +657,89 @@ namespace WodiLib.Ini
                 ShortCut31Pos = CommandPositionList[30].ToString(),
                 ExpertCommand = IsUseExpertCommand.ToIntString(),
             };
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(StartFlag), StartFlag);
+            info.AddValue(nameof(lastLoadFile), lastLoadFile);
+            info.AddValue(nameof(MainWindowPosition), MainWindowPosition);
+            info.AddValue(nameof(MainWindowSize), MainWindowSize);
+            info.AddValue(nameof(MapChipWindowPosition), MapChipWindowPosition);
+            info.AddValue(nameof(MapEventWindowPosition), MapEventWindowPosition);
+            info.AddValue(nameof(MapEventWindowSize), MapEventWindowSize);
+            info.AddValue(nameof(MapEventInputWindowPosition), MapEventInputWindowPosition);
+            info.AddValue(nameof(CommonEventWindowPosition), CommonEventWindowPosition);
+            info.AddValue(nameof(CommonEventWindowSize), CommonEventWindowSize);
+            info.AddValue(nameof(CommonEventInputWindowPosition), CommonEventInputWindowPosition);
+            info.AddValue(nameof(UserDbWindowPosition), UserDbWindowPosition);
+            info.AddValue(nameof(ChangeableDbWindowPosition), ChangeableDbWindowPosition);
+            info.AddValue(nameof(SystemDbWindowPosition), SystemDbWindowPosition);
+            info.AddValue(nameof(databaseValueNumberDrawType), databaseValueNumberDrawType.Code);
+            info.AddValue(nameof(editTimeDrawType), editTimeDrawType.Code);
+            info.AddValue(nameof(EditTime), EditTime);
+            info.AddValue(nameof(NotEditTime), NotEditTime);
+            info.AddValue(nameof(IsShowDebugWindow), IsShowDebugWindow);
+            info.AddValue(nameof(layerTransparent), layerTransparent.Code);
+            info.AddValue(nameof(eventLayerOpacity), eventLayerOpacity.Code);
+            info.AddValue(nameof(commandColorType), commandColorType.Code);
+            info.AddValue(nameof(IsDrawBackgroundImage), IsDrawBackgroundImage);
+            info.AddValue(nameof(notCopyExtList), notCopyExtList);
+            info.AddValue(nameof(CommandViewType), CommandViewType);
+            info.AddValue(nameof(shortCutKeyList), shortCutKeyList);
+            info.AddValue(nameof(backupType), backupType.Code);
+            info.AddValue(nameof(commandPositionList), commandPositionList);
+            info.AddValue(nameof(IsUseExpertCommand), IsUseExpertCommand);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected EditorIniData(SerializationInfo info, StreamingContext context)
+        {
+            StartFlag = info.GetInt32(nameof(StartFlag));
+            lastLoadFile = info.GetValue<LastLoadMapFilePath>(nameof(lastLoadFile));
+            MainWindowPosition = info.GetValue<WindowPosition>(nameof(MainWindowPosition));
+            MainWindowSize = info.GetValue<WindowSize>(nameof(MainWindowSize));
+            MapChipWindowPosition = info.GetValue<WindowPosition>(nameof(MapChipWindowPosition));
+            MapEventWindowPosition = info.GetValue<WindowPosition>(nameof(MapEventWindowPosition));
+            MapEventWindowSize = info.GetValue<WindowSize>(nameof(MapEventWindowSize));
+            MapEventInputWindowPosition = info.GetValue<WindowPosition>(nameof(MapEventInputWindowPosition));
+            CommonEventWindowPosition = info.GetValue<WindowPosition>(nameof(CommonEventWindowPosition));
+            CommonEventWindowSize = info.GetValue<WindowSize>(nameof(CommonEventWindowSize));
+            CommonEventInputWindowPosition = info.GetValue<WindowPosition>(nameof(CommonEventInputWindowPosition));
+            UserDbWindowPosition = info.GetValue<WindowPosition>(nameof(UserDbWindowPosition));
+            ChangeableDbWindowPosition = info.GetValue<WindowPosition>(nameof(ChangeableDbWindowPosition));
+            SystemDbWindowPosition = info.GetValue<WindowPosition>(nameof(SystemDbWindowPosition));
+            databaseValueNumberDrawType =
+                DatabaseValueNumberDrawType.FromCode(info.GetValue<string>(nameof(databaseValueNumberDrawType)));
+            editTimeDrawType = EditTimeDrawType.FromCode(info.GetValue<string>(nameof(editTimeDrawType)));
+            EditTime = info.GetInt32(nameof(EditTime));
+            NotEditTime = info.GetInt32(nameof(NotEditTime));
+            IsShowDebugWindow = info.GetBoolean(nameof(IsShowDebugWindow));
+            layerTransparent = LaterTransparentType.FromCode(info.GetValue<string>(nameof(layerTransparent)));
+            eventLayerOpacity = EventLayerOpacityType.FromCode(info.GetValue<string>(nameof(eventLayerOpacity)));
+            commandColorType = CommandColorType.FromCode(info.GetValue<string>(nameof(commandColorType)));
+            IsDrawBackgroundImage = info.GetBoolean(nameof(IsDrawBackgroundImage));
+            notCopyExtList = info.GetValue<ExtensionList>(nameof(notCopyExtList));
+            CommandViewType = info.GetInt32(nameof(CommandViewType));
+            shortCutKeyList = info.GetValue<IFixedLengthEventCommandShortCutKeyList>(nameof(shortCutKeyList));
+            backupType = ProjectBackupType.FromCode(info.GetValue<string>(nameof(backupType)));
+            commandPositionList = info.GetValue<IFixedLengthShortCutPositionList>(nameof(commandPositionList));
+            IsUseExpertCommand = info.GetBoolean(nameof(IsUseExpertCommand));
         }
     }
 }

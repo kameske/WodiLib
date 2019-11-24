@@ -16,7 +16,8 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベント引数特殊指定情報リスト
     /// </summary>
-    internal class CommonEventSpecialArgDescList
+    [Serializable]
+    internal class CommonEventSpecialArgDescList : IEquatable<CommonEventSpecialArgDescList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -163,6 +164,18 @@ namespace WodiLib.Common
         public CommonEventSpecialStringArgDesc GetSpecialStringArgDesc(CommonEventStringArgIndex index)
         {
             return (CommonEventSpecialStringArgDesc) argTypeList[index + StrArgListOffset];
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(CommonEventSpecialArgDescList other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return argTypeList.SequenceEqual(other.argTypeList);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

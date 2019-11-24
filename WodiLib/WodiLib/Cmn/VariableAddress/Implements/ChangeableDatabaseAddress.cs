@@ -17,6 +17,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(1100000000, 1199999999)] 可変DBアドレス値
     /// </summary>
+    [Serializable]
     public class ChangeableDatabaseAddress : VariableAddress, IEquatable<ChangeableDatabaseAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

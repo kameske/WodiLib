@@ -15,6 +15,7 @@ namespace WodiLib.Common
     /// <summary>
     /// [Range(-1, 99)] コモンイベント返戻セルフ変数インデックス
     /// </summary>
+    [Serializable]
     public struct CommonEventReturnVariableIndex : IConvertibleInt, IEquatable<CommonEventReturnVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

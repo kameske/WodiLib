@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.ComponentModel;
 using WodiLib.Project;
 
@@ -15,6 +16,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・キャンセル始端
     /// </summary>
+    [Serializable]
     public class ChoiceStartForkingCancel : ChoiceStartForkingSpecialBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

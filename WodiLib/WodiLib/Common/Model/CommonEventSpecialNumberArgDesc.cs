@@ -14,11 +14,12 @@ using WodiLib.Sys;
 
 namespace WodiLib.Common
 {
-    /// <inheritdoc />
     /// <summary>
     /// コモンイベント数値引数特殊指定情報クラス
     /// </summary>
-    public partial class CommonEventSpecialNumberArgDesc : ICommonEventSpecialArgDesc
+    [Serializable]
+    public partial class CommonEventSpecialNumberArgDesc : ICommonEventSpecialArgDesc,
+        IEquatable<CommonEventSpecialNumberArgDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -151,6 +152,35 @@ namespace WodiLib.Common
         public List<string> GetAllSpecialCaseDescription()
         {
             return InnerDesc.GetAllSpecialCaseDescription();
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(ICommonEventSpecialArgDesc other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            if (!(other is CommonEventSpecialNumberArgDesc casted)) return false;
+
+            return Equals(casted);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(CommonEventSpecialNumberArgDesc other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return ArgName.Equals(other.ArgName)
+                   && InitValue.Equals(other.InitValue)
+                   && InnerDesc.Equals(other.InnerDesc);
         }
 
         /// <summary>

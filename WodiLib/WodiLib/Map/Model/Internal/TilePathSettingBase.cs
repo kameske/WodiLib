@@ -7,6 +7,8 @@
 // ========================================
 
 using System;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -14,7 +16,8 @@ namespace WodiLib.Map
     /// <summary>
     /// タイル通行許可設定基底クラス
     /// </summary>
-    internal abstract class TilePathSettingBase : ITilePathSetting
+    [Serializable]
+    internal abstract class TilePathSettingBase : ITilePathSetting, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Constant
@@ -93,6 +96,30 @@ namespace WodiLib.Map
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        public bool Equals(ITilePathSetting other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
+
+            if (!ChildEquals(other)) return false;
+
+            return PathOption == other.PathOption
+                   && IsCounter == other.IsCounter;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Abstract Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 継承クラス独自のEquals判定メソッド
+        /// </summary>
+        protected abstract bool ChildEquals(ITilePathSetting other);
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -101,5 +128,33 @@ namespace WodiLib.Map
         /// </summary>
         /// <returns>バイナリデータ</returns>
         public abstract byte[] ToBinary();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(pathOption), pathOption.Code);
+            info.AddValue(nameof(IsCounter), IsCounter);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected TilePathSettingBase(SerializationInfo info, StreamingContext context)
+        {
+            pathOption = TilePathOption.FromCode(info.GetByte(nameof(pathOption)));
+            IsCounter = info.GetBoolean(nameof(IsCounter));
+        }
     }
 }

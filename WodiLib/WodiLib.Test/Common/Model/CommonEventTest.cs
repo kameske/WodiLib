@@ -272,7 +272,7 @@ namespace WodiLib.Test.Common
         }
 
         [TestCase(false, false)]
-        [TestCase(true, false)]
+        [TestCase(true, true)]
         public static void FooterStringTest(bool isNull, bool isError)
         {
             var instance = new CommonEvent();
@@ -290,8 +290,10 @@ namespace WodiLib.Test.Common
                 errorOccured = true;
             }
 
-            // エラーが発生しないこと
-            Assert.IsFalse(errorOccured);
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (errorOccured) return;
 
             var setValue = instance.FooterString;
 
@@ -547,6 +549,17 @@ namespace WodiLib.Test.Common
 
             // commonEvent をここまで開放したくないので無駄な処理を入れる
             commonEvent.Memo = "";
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new CommonEvent
+            {
+                Id = 20,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

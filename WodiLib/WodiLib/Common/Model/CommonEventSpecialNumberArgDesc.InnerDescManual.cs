@@ -19,7 +19,8 @@ namespace WodiLib.Common
         /// <summary>
         /// コモンイベント引数特殊指定情報内部クラス・選択肢手動生成
         /// </summary>
-        internal class InnerDescManual : IInnerDesc
+        [Serializable]
+        internal class InnerDescManual : IInnerDesc, IEquatable<InnerDescManual>
         {
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Public Property
@@ -300,6 +301,31 @@ namespace WodiLib.Common
             public void ClearSpecialCase()
             {
                 ArgCaseList.Clear();
+            }
+
+            /// <summary>
+            /// 値を比較する。
+            /// </summary>
+            /// <param name="other">比較対象</param>
+            /// <returns>一致する場合、true</returns>
+            public bool Equals(IInnerDesc other)
+            {
+                if (ReferenceEquals(null, other)) return false;
+                if (ReferenceEquals(this, other)) return true;
+                if (!(other is InnerDescManual casted)) return false;
+                return Equals(casted);
+            }
+
+            /// <summary>
+            /// 値を比較する。
+            /// </summary>
+            /// <param name="other">比較対象</param>
+            /// <returns>一致する場合、true</returns>
+            public bool Equals(InnerDescManual other)
+            {
+                if (ReferenceEquals(null, other)) return false;
+                if (ReferenceEquals(this, other)) return true;
+                return ArgCaseList.Equals(other.ArgCaseList);
             }
 
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

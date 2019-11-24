@@ -7,14 +7,17 @@
 // ========================================
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
+using System.Runtime.Serialization;
 using WodiLib.Ini;
 using WodiLib.Sys;
 
 namespace WodiLib.Project
 {
-    /// <summary>イベントコマンド分情報</summary>
-    public class EventCommandSentenceInfo
+    /// <summary>イベントコマンド文情報</summary>
+    [Serializable]
+    public class EventCommandSentenceInfo : IEquatable<EventCommandSentenceInfo>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -62,5 +65,46 @@ namespace WodiLib.Project
         /// <exception cref="ArgumentNullException">type が null の場合</exception>
         public Color GetCommandColor(CommandColorType type)
             => ColorSet.GetCommandColor(type);
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(EventCommandSentenceInfo other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return ColorSet.Equals(other.ColorSet)
+                   && Sentence.Equals(other.Sentence);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(ColorSet), ColorSet.Id);
+            info.AddValue(nameof(Sentence), Sentence);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected EventCommandSentenceInfo(SerializationInfo info, StreamingContext context)
+        {
+            ColorSet = EventCommandColorSet.FromId(info.GetValue<string>(nameof(ColorSet)));
+            Sentence = info.GetValue<EventCommandSentence>(nameof(Sentence));
+        }
     }
 }

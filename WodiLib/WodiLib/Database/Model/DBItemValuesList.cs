@@ -8,7 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -16,6 +18,7 @@ namespace WodiLib.Database
     /// <summary>
     /// DB項目設定値リスト
     /// </summary>
+    [Serializable]
     public partial class DBItemValuesList : RestrictedCapacityCollection<IFixedLengthDBItemValueList>,
         IReadOnlyDBItemValuesList
     {
@@ -69,6 +72,7 @@ namespace WodiLib.Database
         //     Private  Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        [NonSerialized]
         private readonly MadeInstanceManager madeInstances = new MadeInstanceManager();
 
         /// <summary>生成した値リストインスタンスの弱参照管理インスタンス</summary>
@@ -924,6 +928,20 @@ namespace WodiLib.Database
             }
 
             return result.ToArray();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected DBItemValuesList(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

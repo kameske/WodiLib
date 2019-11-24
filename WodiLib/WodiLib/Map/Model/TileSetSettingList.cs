@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -15,6 +17,7 @@ namespace WodiLib.Map
     /// <summary>
     /// タイルセット設定リストクラス
     /// </summary>
+    [Serializable]
     public class TileSetSettingList : RestrictedCapacityCollection<TileSetSetting>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -88,6 +91,20 @@ namespace WodiLib.Map
                 result.AddRange(setting.ToBinary());
 
             return result.ToArray();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected TileSetSettingList(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

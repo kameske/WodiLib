@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using WodiLib.Map;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
 {
@@ -155,6 +156,17 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(instance.IsAboveHero, isAboveHero);
             Assert.AreEqual(instance.IsHitBox, isHitBox);
             Assert.AreEqual(instance.IsPlaceHalfStepUp, isPlaceHalfStepUp);
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new MapEventPageOption
+            {
+                IsAboveHero = true,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

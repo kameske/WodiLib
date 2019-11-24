@@ -15,6 +15,7 @@ namespace WodiLib.Database
     /// <summary>
     /// [NotNull][NotNewLine] データ名
     /// </summary>
+    [Serializable]
     public class DataName : IConvertibleString, IEquatable<DataName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

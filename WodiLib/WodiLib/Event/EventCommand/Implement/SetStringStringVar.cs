@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.ComponentModel;
 using WodiLib.Project;
 
@@ -15,6 +16,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・文字列操作（文字列変数）
     /// </summary>
+    [Serializable]
     public class SetStringStringVar : SetStringBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

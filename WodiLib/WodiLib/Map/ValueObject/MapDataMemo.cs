@@ -15,6 +15,7 @@ namespace WodiLib.Map
     /// <summary>
     /// [NotNull] マップデータメモ
     /// </summary>
+    [Serializable]
     public class MapDataMemo : IConvertibleString, IEquatable<MapDataMemo>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

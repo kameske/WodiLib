@@ -20,6 +20,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・マップチップ通行設定
     /// </summary>
+    [Serializable]
     public class ChangeMapChipSetting : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

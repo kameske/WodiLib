@@ -17,6 +17,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(15000000, 15999999)] コモンイベントセルフ変数アドレス値
     /// </summary>
+    [Serializable]
     public class CommonEventVariableAddress : VariableAddress, IEquatable<CommonEventVariableAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

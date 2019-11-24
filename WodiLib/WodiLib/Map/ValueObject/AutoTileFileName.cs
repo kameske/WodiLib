@@ -15,6 +15,7 @@ namespace WodiLib.Map
     /// <summary>
     /// [NotNull][NotNewLine] オートタイルセットファイル名
     /// </summary>
+    [Serializable]
     public class AutoTileFileName : IConvertibleString, IEquatable<AutoTileFileName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

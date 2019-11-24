@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using WodiLib.Project;
 using WodiLib.Sys;
 
@@ -15,6 +16,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・ピクチャ（表示） ファイル読み込み（直接指定）
     /// </summary>
+    [Serializable]
     public class PictureShowLoadFileDirect : PictureShowBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

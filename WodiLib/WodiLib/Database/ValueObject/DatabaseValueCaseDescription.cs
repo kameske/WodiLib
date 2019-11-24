@@ -15,6 +15,7 @@ namespace WodiLib.Database
     /// <summary>
     /// [NotNull][NotNewLine] DB項目特殊指定選択肢文字列
     /// </summary>
+    [Serializable]
     public class DatabaseValueCaseDescription : IConvertibleString, IEquatable<DatabaseValueCaseDescription>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

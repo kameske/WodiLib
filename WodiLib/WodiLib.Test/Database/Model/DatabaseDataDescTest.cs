@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using NUnit.Framework;
 using WodiLib.Database;
 using WodiLib.Sys.Cmn;
@@ -82,7 +81,7 @@ namespace WodiLib.Test.Database
             Assert.NotNull(itemValueList);
 
             // セットした値と取得した値が一致すること
-            Assert.IsTrue(propertyValue.SequenceEqual(itemValueList));
+            Assert.IsTrue(propertyValue.Equals(itemValueList));
         }
 
         [Test]
@@ -127,6 +126,17 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new DatabaseDataDesc
+            {
+                DataName = "DataName",
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

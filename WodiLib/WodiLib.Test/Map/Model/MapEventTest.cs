@@ -48,6 +48,17 @@ namespace WodiLib.Test.Map
             }
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new MapEvent
+            {
+                EventName = "Name",
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
         private static MapEventPageList GenerateMapEventOnePageList(int length)
         {
             var list = new List<MapEventPage>();

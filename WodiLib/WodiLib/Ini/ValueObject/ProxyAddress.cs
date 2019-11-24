@@ -14,6 +14,7 @@ namespace WodiLib.Ini
     /// <summary>
     /// [NotNull][NotNewLine] プロキシアドレス
     /// </summary>
+    [Serializable]
     public class ProxyAddress : IConvertibleString, IEquatable<ProxyAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

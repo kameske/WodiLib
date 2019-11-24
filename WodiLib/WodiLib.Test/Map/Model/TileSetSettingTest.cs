@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
 using WodiLib.Map;
 using WodiLib.Sys.Cmn;
@@ -56,7 +55,7 @@ namespace WodiLib.Test.Map
             // セットした値と各プロパティの値が一致すること
             if (tileTagNumbers != null)
             {
-                Assert.IsTrue(instance.TileTagNumberList.SequenceEqual(tileTagNumbers));
+                Assert.IsTrue(instance.TileTagNumberList.Equals(tileTagNumbers));
             }
             else
             {
@@ -65,7 +64,7 @@ namespace WodiLib.Test.Map
 
             if (tilePathSettings != null)
             {
-                Assert.IsTrue(instance.TilePathSettingList.SequenceEqual(tilePathSettings));
+                Assert.IsTrue(instance.TilePathSettingList.Equals(tilePathSettings));
             }
             else
             {
@@ -74,7 +73,7 @@ namespace WodiLib.Test.Map
 
             if (autoTileFileNames != null)
             {
-                Assert.IsTrue(instance.AutoTileFileNameList.SequenceEqual(autoTileFileNames));
+                Assert.IsTrue(instance.AutoTileFileNameList.Equals(autoTileFileNames));
             }
             else
             {
@@ -234,15 +233,16 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(length, instance.TilePathSettingList.Count);
         }
 
-        public static void ChangeSettingLengthTest(bool isError)
+        [Test]
+        public static void ChangeSettingLengthTest()
         {
             var instance = new TileSetSetting();
-            var length = 30;
+            const int length = 30;
 
             var errorOccured = false;
             try
             {
-                instance.ChangeSettingLength(30);
+                instance.ChangeSettingLength(length);
             }
             catch (Exception ex)
             {
@@ -255,6 +255,17 @@ namespace WodiLib.Test.Map
 
             // 取得した結果が意図した値であること
             Assert.AreEqual(length, instance.SettingLength);
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new TileSetSetting
+            {
+                Name = "Name"
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
 
 

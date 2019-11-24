@@ -123,6 +123,17 @@ namespace WodiLib.Test.Database
             }
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new DatabaseDat
+            {
+                DBKind = DBKind.System,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
 
         [OneTimeTearDown]
         public static void TearDown()

@@ -24,6 +24,7 @@ namespace WodiLib.Project
     /// <summary>
     /// ウディタプロジェクトクラス
     /// </summary>
+    [Serializable]
     public class WoditorProject
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

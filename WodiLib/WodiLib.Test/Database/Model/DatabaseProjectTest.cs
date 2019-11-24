@@ -76,7 +76,7 @@ namespace WodiLib.Test.Database
             Assert.NotNull(propertyValue);
 
             // 取得した値が意図した値であること
-            Assert.IsTrue(propertyValue.SequenceEqual(typeSettingList));
+            Assert.IsTrue(propertyValue.Equals(typeSettingList));
         }
 
         private static readonly object[] ToBinaryTestCaseSource =
@@ -134,6 +134,17 @@ namespace WodiLib.Test.Database
                     Assert.Fail(
                         $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{generatedDataBuf.Length}）");
             }
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new DatabaseProject
+            {
+                DBKind = DBKind.System
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
 
 

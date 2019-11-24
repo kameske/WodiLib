@@ -16,6 +16,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(9900000, 9999999)] システム文字列変数アドレス値
     /// </summary>
+    [Serializable]
     public class SystemStringVariableAddress : VariableAddress, IEquatable<SystemStringVariableAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

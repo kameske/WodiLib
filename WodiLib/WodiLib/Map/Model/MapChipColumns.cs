@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -15,7 +17,9 @@ namespace WodiLib.Map
     /// <summary>
     /// マップチップ列
     /// </summary>
+    [Serializable]
     public class MapChipColumns : RestrictedCapacityCollection<MapChip>, IFixedLengthMapChipColumns
+        , IEquatable<MapChipColumns>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -115,6 +119,32 @@ namespace WodiLib.Map
         /// <param name="height">更新後のサイズ</param>
         public void UpdateSize(MapSizeHeight height) => AdjustLength(height);
 
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(MapChipColumns other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
+            return Equals((RestrictedCapacityCollection<MapChip>) other);
+        }
+
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(IFixedLengthMapChipColumns other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
+            if (!(other is MapChipColumns casted)) return false;
+            return Equals(casted);
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Override Protected Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -138,6 +168,20 @@ namespace WodiLib.Map
                 result.AddRange(((int) chip).ToBytes(Endian.Woditor));
 
             return result.ToArray();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected MapChipColumns(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -15,17 +17,19 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベントセルフ変数名リスト
     /// </summary>
-    public class CommonEventSelfVariableNameList : RestrictedCapacityCollection<CommonEventSelfVariableName>
+    [Serializable]
+    public class CommonEventSelfVariableNameList : FixedLengthList<CommonEventSelfVariableName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>リスト最大数</summary>
-        public static int MaxCapacity => 100;
+        /// <summary>リスト数</summary>
+        public static int Capacity => 100;
 
-        /// <summary>リスト最小数</summary>
-        public static int MinCapacity => 100;
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         /// コンストラクタ
@@ -40,7 +44,7 @@ namespace WodiLib.Common
         /// <param name="list">[NotNull] 初期リスト</param>
         /// <exception cref="ArgumentNullException">listがnullの場合</exception>
         /// <exception cref="InvalidOperationException">listの要素数が100以外の場合</exception>
-        public CommonEventSelfVariableNameList(List<CommonEventSelfVariableName> list) : base(list)
+        public CommonEventSelfVariableNameList(IReadOnlyCollection<CommonEventSelfVariableName> list) : base(list)
         {
         }
 
@@ -50,17 +54,10 @@ namespace WodiLib.Common
 
         /// <inheritdoc />
         /// <summary>
-        /// 容量最大値を返す。
+        /// 容量を返す。
         /// </summary>
-        /// <returns>容量最大値</returns>
-        public override int GetMaxCapacity() => MaxCapacity;
-
-        /// <inheritdoc />
-        /// <summary>
-        /// 容量最小値を返す。
-        /// </summary>
-        /// <returns>容量最小値</returns>
-        public override int GetMinCapacity() => MinCapacity;
+        /// <returns>容量</returns>
+        public override int GetCapacity() => Capacity;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
@@ -93,6 +90,20 @@ namespace WodiLib.Common
             }
 
             return result.ToArray();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected CommonEventSelfVariableNameList(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

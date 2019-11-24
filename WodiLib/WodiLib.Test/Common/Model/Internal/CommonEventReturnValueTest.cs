@@ -92,5 +92,16 @@ namespace WodiLib.Test.Common.Internal
             // 返戻アドレスが-1であること
             Assert.AreEqual((int) instance.ReturnVariableIndex, -1);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new CommonEventReturnValue
+            {
+                Description = "Description",
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

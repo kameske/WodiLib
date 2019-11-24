@@ -16,7 +16,8 @@ namespace WodiLib.IO
     /// <summary>
     /// ユーザデータベースデータファイル名
     /// </summary>
-    public class UserDatabaseDatFilePath : DatabaseDatFilePath
+    [Serializable]
+    public class UserDatabaseDatFilePath : DatabaseDatFilePath, IEquatable<UserDatabaseDatFilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

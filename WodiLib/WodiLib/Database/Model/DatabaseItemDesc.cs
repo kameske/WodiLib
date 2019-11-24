@@ -6,6 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -13,7 +16,8 @@ namespace WodiLib.Database
     /// <summary>
     /// DB項目設定と設定値
     /// </summary>
-    public class DatabaseItemDesc
+    [Serializable]
+    public class DatabaseItemDesc : IEquatable<DatabaseItemDesc>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -65,6 +69,17 @@ namespace WodiLib.Database
         private DBItemSetting Setting { get; } = new DBItemSetting();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public DatabaseItemDesc()
+        {
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -80,6 +95,47 @@ namespace WodiLib.Database
                 SpecialSettingDesc = SpecialSettingDesc,
                 ItemType = ItemType,
             };
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(DatabaseItemDesc other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return itemType == other.itemType
+                   && Setting.Equals(other.Setting);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(itemType), itemType.Code);
+            info.AddValue(nameof(Setting), Setting);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected DatabaseItemDesc(SerializationInfo info, StreamingContext context)
+        {
+            itemType = DBItemType.FromCode(info.GetInt32(nameof(itemType)));
+            Setting = info.GetValue<DBItemSetting>(nameof(Setting));
         }
     }
 }

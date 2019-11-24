@@ -7,6 +7,8 @@
 // ========================================
 
 using System;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -14,7 +16,8 @@ namespace WodiLib.Map
     /// <summary>
     /// タイル通行許可設定・下レイヤーに依存
     /// </summary>
-    internal class TilePathSettingDependent : TilePathSettingBase
+    [Serializable]
+    internal class TilePathSettingDependent : TilePathSettingBase, IEquatable<TilePathSettingDependent>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -67,6 +70,34 @@ namespace WodiLib.Map
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(TilePathSettingDependent other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return CannotPassingFlags.Equals(other.CannotPassingFlags);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc/>
+        protected override bool ChildEquals(ITilePathSetting other)
+        {
+            if (other == null) return false;
+            if (!(other is TilePathSettingDependent casted)) return false;
+            return Equals(casted);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -82,6 +113,20 @@ namespace WodiLib.Map
             result += PathOption.Code;
             result += IsCounter ? CounterOnCode : 0;
             return result.ToWoditorIntBytes();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected TilePathSettingDependent(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

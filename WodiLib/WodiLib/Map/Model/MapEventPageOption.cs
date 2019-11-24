@@ -6,12 +6,15 @@
 // see LICENSE file
 // ========================================
 
+using System;
+
 namespace WodiLib.Map
 {
     /// <summary>
     /// マップイベントページオプションクラス
     /// </summary>
-    public class MapEventPageOption
+    [Serializable]
+    public class MapEventPageOption : IEquatable<MapEventPageOption>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -111,6 +114,24 @@ namespace WodiLib.Map
             // 半歩上に設置ON
             if (IsPlaceHalfStepUp) result += FlgPlaceHalfStepUp;
             return result;
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(MapEventPageOption other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return IsWaitAnimationOn == other.IsWaitAnimationOn
+                   && IsMoveAnimationOn == other.IsMoveAnimationOn
+                   && IsFixedDirection == other.IsFixedDirection
+                   && IsSkipThrough == other.IsSkipThrough
+                   && IsAboveHero == other.IsAboveHero
+                   && IsHitBox == other.IsHitBox
+                   && IsPlaceHalfStepUp == other.IsPlaceHalfStepUp;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

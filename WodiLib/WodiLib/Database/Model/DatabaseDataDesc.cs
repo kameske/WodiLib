@@ -16,7 +16,8 @@ namespace WodiLib.Database
     /// <summary>
     /// DBデータ情報クラス
     /// </summary>
-    public class DatabaseDataDesc
+    [Serializable]
+    public class DatabaseDataDesc : IEquatable<DatabaseDataDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -88,6 +89,23 @@ namespace WodiLib.Database
 
             DataName = dataName;
             ItemValueList = itemValueList;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(DatabaseDataDesc other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return dataName == other.dataName
+                   && itemValueList.Equals(other.itemValueList);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

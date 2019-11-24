@@ -14,7 +14,8 @@ namespace WodiLib.Map
     /// <summary>
     /// [Range(0, 255)] マップイベント透過度
     /// </summary>
-    public struct MapEventOpacity : IConvertibleByte
+    [Serializable]
+    public struct MapEventOpacity : IConvertibleByte, IEquatable<MapEventOpacity>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

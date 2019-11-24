@@ -17,7 +17,8 @@ namespace WodiLib.IO
     /// <summary>
     /// Editor.ini ファイルパス
     /// </summary>
-    public class EditorIniFilePath : FilePath
+    [Serializable]
+    public class EditorIniFilePath : FilePath, IEquatable<EditorIniFilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace WodiLib.Sys
 {
@@ -20,7 +21,8 @@ namespace WodiLib.Sys
     /// <typeparam name="T">リスト内包クラス</typeparam>
     [Serializable]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class RestrictedCapacityCollection<T> : IRestrictedCapacityCollection<T>, IReadOnlyList<T>
+    public abstract class RestrictedCapacityCollection<T> : IRestrictedCapacityCollection<T>, IReadOnlyList<T>,
+        IEquatable<RestrictedCapacityCollection<T>>, IEquatable<IFixedLengthCollection<T>>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Public Property
@@ -59,35 +61,33 @@ namespace WodiLib.Sys
             }
         }
 
-        [NonSerialized] private readonly SetItemHandlerList<T> setItemHandlerList = new SetItemHandlerList<T>();
-
         /// <summary>
         /// SetItemイベントハンドラリスト
         /// </summary>
-        public SetItemHandlerList<T> SetItemHandlerList => setItemHandlerList;
-
-        [NonSerialized]
-        private readonly InsertItemHandlerList<T> insertItemHandlerList = new InsertItemHandlerList<T>();
+        [field: NonSerialized]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public SetItemHandlerList<T> SetItemHandlerList { get; private set; } = new SetItemHandlerList<T>();
 
         /// <summary>
         /// InsertItemイベントハンドラリスト
         /// </summary>
-        public InsertItemHandlerList<T> InsertItemHandlerList => insertItemHandlerList;
-
-        [NonSerialized]
-        private readonly RemoveItemHandlerList<T> removeItemHandlerList = new RemoveItemHandlerList<T>();
+        [field: NonSerialized]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public InsertItemHandlerList<T> InsertItemHandlerList { get; private set; } = new InsertItemHandlerList<T>();
 
         /// <summary>
         /// RemoveItemイベントハンドラリスト
         /// </summary>
-        public RemoveItemHandlerList<T> RemoveItemHandlerList => removeItemHandlerList;
-
-        [NonSerialized] private readonly ClearItemHandlerList<T> clearItemHandlerList = new ClearItemHandlerList<T>();
+        [field: NonSerialized]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public RemoveItemHandlerList<T> RemoveItemHandlerList { get; private set; } = new RemoveItemHandlerList<T>();
 
         /// <summary>
         /// ClearItemイベントハンドラリスト
         /// </summary>
-        public ClearItemHandlerList<T> ClearItemHandlerList => clearItemHandlerList;
+        [field: NonSerialized]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public ClearItemHandlerList<T> ClearItemHandlerList { get; private set; } = new ClearItemHandlerList<T>();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Protected Property
@@ -575,6 +575,31 @@ namespace WodiLib.Sys
         /// <returns>反復処理列挙子</returns>
         public IEnumerator<T> GetEnumerator() => Items.GetEnumerator();
 
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(RestrictedCapacityCollection<T> other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Items.SequenceEqual(other.Items);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(IFixedLengthCollection<T> other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            return Items.SequenceEqual(other.ToList());
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Implements Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -789,6 +814,36 @@ namespace WodiLib.Sys
              * ・最小要素数リストの再作成
              * を実施する。
              */
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(Items), Items);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected RestrictedCapacityCollection(SerializationInfo info, StreamingContext context)
+        {
+            Items = info.GetValue<List<T>>(nameof(Items));
+            SetItemHandlerList = new SetItemHandlerList<T>();
+            InsertItemHandlerList = new InsertItemHandlerList<T>();
+            RemoveItemHandlerList = new RemoveItemHandlerList<T>();
+            ClearItemHandlerList = new ClearItemHandlerList<T>();
         }
     }
 }

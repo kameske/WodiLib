@@ -14,6 +14,7 @@ namespace WodiLib.Ini
     /// <summary>
     /// [Range(int.MinValue, int.MaxValue)] 開始フラグ
     /// </summary>
+    [Serializable]
     public struct StartFlag : IConvertibleInt, IEquatable<StartFlag>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

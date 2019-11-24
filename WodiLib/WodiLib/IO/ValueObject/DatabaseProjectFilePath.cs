@@ -18,7 +18,8 @@ namespace WodiLib.IO
     /// <summary>
     /// データベースプロジェクトファイル名
     /// </summary>
-    public abstract class DatabaseProjectFilePath : FilePath
+    [Serializable]
+    public abstract class DatabaseProjectFilePath : FilePath, IEquatable<DatabaseProjectFilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Constant

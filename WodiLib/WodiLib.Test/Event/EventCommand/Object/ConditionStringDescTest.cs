@@ -82,5 +82,16 @@ namespace WodiLib.Test.Event.EventCommand
                 Assert.IsTrue(isError);
             }
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new ConditionStringDesc
+            {
+                IsUseNumberVariable = true,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

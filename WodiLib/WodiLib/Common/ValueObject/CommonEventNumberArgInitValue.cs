@@ -18,6 +18,7 @@ namespace WodiLib.Common
     ///     [SafetyRange(-1400000000, 1400000000)]
     ///     コモンイベント数値引数初期値
     /// </summary>
+    [Serializable]
     public struct CommonEventNumberArgInitValue : IConvertibleInt, IEquatable<CommonEventNumberArgInitValue>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

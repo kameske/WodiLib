@@ -58,7 +58,7 @@ namespace WodiLib.Test.Map
             var setValue = instance.TileSetSettingList;
 
             // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.SequenceEqual(list));
+            Assert.IsTrue(setValue.Equals(list));
         }
 
         private static readonly object[] ToBinaryTestCaseSource =
@@ -110,6 +110,15 @@ namespace WodiLib.Test.Map
                     Assert.Fail(
                         $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{generatedDataBuf.Length}）");
             }
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new TileSetData();
+            target.TileSetSettingList.AdjustLength(3);
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
 
 

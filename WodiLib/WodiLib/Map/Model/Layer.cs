@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Collections.Generic;
 using WodiLib.Sys;
 
@@ -14,7 +15,8 @@ namespace WodiLib.Map
     /// <summary>
     /// Layer実装クラス
     /// </summary>
-    public class Layer
+    [Serializable]
+    public class Layer : IEquatable<Layer>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
@@ -73,6 +75,18 @@ namespace WodiLib.Map
         {
             chips.UpdateWidth(width);
             chips.UpdateHeight(height);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(Layer other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return chips.Equals(other.chips);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

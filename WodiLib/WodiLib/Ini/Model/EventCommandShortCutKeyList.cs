@@ -8,7 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -16,8 +18,9 @@ namespace WodiLib.Ini
     /// <summary>
     /// イベントコマンドショートカットキーリスト
     /// </summary>
+    [Serializable]
     public class EventCommandShortCutKeyList : RestrictedCapacityCollection<EventCommandShortCutKey>,
-        IFixedLengthEventCommandShortCutKeyList
+        IFixedLengthEventCommandShortCutKeyList, IEquatable<EventCommandShortCutKeyList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -526,6 +529,18 @@ namespace WodiLib.Ini
             return NotUseIndexes.All(idx => this[idx] == EventCommandShortCutKey.None);
         }
 
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(EventCommandShortCutKeyList other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
+            return Equals((RestrictedCapacityCollection<EventCommandShortCutKey>) other);
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -537,5 +552,60 @@ namespace WodiLib.Ini
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override EventCommandShortCutKey MakeDefaultItem(int index) => EventCommandShortCutKey.One;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(makeSerializationItemsKeyName(-1), Items.Count);
+            for (var i = 0; i < Items.Count; i++)
+            {
+                info.AddValue(makeSerializationItemsKeyName(i), Items[i].Code);
+            }
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected EventCommandShortCutKeyList(SerializationInfo info, StreamingContext context) : base(ReadList(info))
+        {
+        }
+
+        /// <summary>
+        /// SerializationInfoから要素情報を取り出す。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <returns>取り出したリスト</returns>
+        private static IReadOnlyList<EventCommandShortCutKey> ReadList(SerializationInfo info)
+        {
+            var result = new List<EventCommandShortCutKey>();
+
+            var count = info.GetInt32(makeSerializationItemsKeyName(-1));
+            for (var i = 0; i < count; i++)
+            {
+                result.Add(
+                    EventCommandShortCutKey.FromCode(info.GetValue<string>(makeSerializationItemsKeyName(i))));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// シリアライズ時の要素のキー名を生成する。
+        /// </summary>
+        /// <param name="index">要素インデックス</param>
+        /// <returns>キー名</returns>
+        private static string makeSerializationItemsKeyName(int index) => $"key_{index}";
     }
 }

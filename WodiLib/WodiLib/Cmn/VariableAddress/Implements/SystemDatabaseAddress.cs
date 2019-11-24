@@ -19,6 +19,7 @@ namespace WodiLib.Cmn
     /// [SafetyRange(1300000000, 1399999920)]
     /// システムDB変アドレス値
     /// </summary>
+    [Serializable]
     public class SystemDatabaseAddress : VariableAddress, IEquatable<SystemDatabaseAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

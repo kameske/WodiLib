@@ -145,5 +145,13 @@ namespace WodiLib.Test.Common
             var rightIndex = (CommonEventNumberArgInitValue) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = (CommonEventNumberArgInitValue) 1234;
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

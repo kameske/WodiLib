@@ -142,5 +142,13 @@ namespace WodiLib.Test.Common
             var rightIndex = (CommonEventFooterString) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = (CommonEventFooterString) "footer";
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

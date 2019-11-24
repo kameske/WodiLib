@@ -16,7 +16,7 @@ namespace WodiLib.Database
     /// DBタイプ設定
     /// </summary>
     [Serializable]
-    public class DBTypeSetting
+    public class DBTypeSetting : IEquatable<DBTypeSetting>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -90,6 +90,25 @@ namespace WodiLib.Database
 
                 memo = value;
             }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(DBTypeSetting other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return typeName == other.typeName
+                   && memo == other.memo
+                   && dataNameList.Equals(other.dataNameList)
+                   && itemSettingList.Equals(other.itemSettingList);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

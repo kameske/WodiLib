@@ -96,6 +96,14 @@ namespace WodiLib.Test.Common.Internal
             Assert.AreEqual(maxCapacity, CommonEventSpecialArgCaseList.MinCapacity);
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new CommonEventSpecialArgCaseList(MakeInitList(3, false));
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
 
         private static IReadOnlyList<CommonEventSpecialArgCase> MakeInitList(int length, bool hasNullItem)
         {

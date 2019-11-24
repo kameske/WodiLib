@@ -91,5 +91,14 @@ namespace WodiLib.Test.Database
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new DBItemValueList();
+            target.AdjustLength(3);
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

@@ -141,5 +141,13 @@ namespace WodiLib.Test.Map
             var rightIndex = (BaseTileSetFileName) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = (BaseTileSetFileName) "filePath";
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

@@ -114,5 +114,13 @@ namespace WodiLib.Test.Event.EventCommand
 
             return result;
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new ConditionNumberList(MakeInitList(2, false));
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(1100000, 1100009)] このマップイベントセルフ変数アドレス値
     /// </summary>
+    [Serializable]
     public class ThisMapEventVariableAddress : VariableAddress, IEquatable<ThisMapEventVariableAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

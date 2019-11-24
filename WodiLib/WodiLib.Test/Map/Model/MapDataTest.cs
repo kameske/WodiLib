@@ -530,6 +530,17 @@ namespace WodiLib.Test.Map
             }
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new MapData
+            {
+                TileSetId = 2,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
         [OneTimeTearDown]
         public static void TearDown()
         {

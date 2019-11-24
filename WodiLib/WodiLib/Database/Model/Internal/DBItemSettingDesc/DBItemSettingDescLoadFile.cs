@@ -17,7 +17,7 @@ namespace WodiLib.Database
     /// データベース設定値特殊指定・ファイル読み込み
     /// </summary>
     [Serializable]
-    internal class DBItemSettingDescLoadFile : DBItemSettingDescBase
+    internal class DBItemSettingDescLoadFile : DBItemSettingDescBase, IEquatable<DBItemSettingDescLoadFile>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -175,17 +175,26 @@ namespace WodiLib.Database
         /// <returns>一致する場合、true</returns>
         public override bool Equals(IDBItemSettingDesc other)
         {
-            if (other == null) return false;
+            if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            if (!(other is DBItemSettingDescLoadFile)) return false;
+            if (!(other is DBItemSettingDescLoadFile casted)) return false;
 
-            var casted = (DBItemSettingDescLoadFile) other;
+            return Equals(casted);
+        }
 
-            if (!FolderName.Equals(casted.FolderName)) return false;
-            if (OmissionFolderNameFlag != casted.OmissionFolderNameFlag) return false;
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(DBItemSettingDescLoadFile other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
 
-            return true;
+            return FolderName == other.FolderName
+                   && OmissionFolderNameFlag == other.OmissionFolderNameFlag;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

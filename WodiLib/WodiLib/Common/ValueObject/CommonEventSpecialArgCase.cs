@@ -14,6 +14,7 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベント特殊指定選択肢
     /// </summary>
+    [Serializable]
     public class CommonEventSpecialArgCase : IEquatable<CommonEventSpecialArgCase>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

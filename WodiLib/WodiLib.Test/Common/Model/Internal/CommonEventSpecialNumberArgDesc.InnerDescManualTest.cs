@@ -529,6 +529,15 @@ namespace WodiLib.Test.Common.Internal
             Assert.IsFalse(errorOccured);
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var argCaseList = new CommonEventSpecialArgCaseList(MakeArgCaseList(2).ToArray());
+            var target = new CommonEventSpecialNumberArgDesc.InnerDescManual(argCaseList);
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
 
         private static IEnumerable<CommonEventSpecialArgCase> MakeArgCaseList(int length)
         {

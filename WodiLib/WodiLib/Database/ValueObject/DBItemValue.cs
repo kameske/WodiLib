@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using System.Text;
 using WodiLib.Sys;
 
@@ -16,7 +18,9 @@ namespace WodiLib.Database
     /// <summary>
     /// DB項目値
     /// </summary>
-    public class DBItemValue : IConvertibleDBValueInt, IConvertibleDBValueString
+    [Serializable]
+    public class DBItemValue : IConvertibleDBValueInt, IConvertibleDBValueString,
+        IEquatable<DBItemValue>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Constant
@@ -286,6 +290,36 @@ namespace WodiLib.Database
             if (Type == DBItemType.Int) return IntValue.ToBytes(Endian.Woditor);
             if (Type == DBItemType.String) return StringValue.ToWoditorStringBytes();
             throw new InvalidOperationException();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(Type), Type.Code);
+            info.AddValue(nameof(intValue), intValue);
+            info.AddValue(nameof(stringValue), stringValue);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected DBItemValue(SerializationInfo info, StreamingContext context)
+        {
+            Type = DBItemType.FromCode(info.GetInt32(nameof(Type)));
+            intValue = info.GetInt32(nameof(intValue));
+            stringValue = info.GetValue<DBValueString>(nameof(stringValue));
         }
     }
 }

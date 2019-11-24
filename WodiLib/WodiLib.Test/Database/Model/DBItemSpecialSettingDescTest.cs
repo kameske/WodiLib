@@ -965,6 +965,14 @@ namespace WodiLib.Test.Database
             Assert.AreEqual(errorOccured, isError);
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = MakeInstance(DBItemSpecialSettingType.LoadFile);
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
 
         public static DBItemSpecialSettingDesc MakeInstance(DBItemSpecialSettingType type)
         {

@@ -76,25 +76,25 @@ namespace WodiLib.Test.Common.Internal
         }
 
         [Test]
-        public static void GetMaxCapacityTest()
+        public static void GetCapacityTest()
         {
             var instance = new CommonEventSelfVariableNameList();
-            var maxCapacity = instance.GetMaxCapacity();
+            var maxCapacity = instance.GetCapacity();
 
-            // 取得した値が容量最大値と一致すること
-            Assert.AreEqual(maxCapacity, CommonEventSelfVariableNameList.MaxCapacity);
+            // 取得した値が制限容量と一致すること
+            Assert.AreEqual(maxCapacity, CommonEventSelfVariableNameList.Capacity);
         }
 
         [Test]
-        public static void GetMinCapacityTest()
+        public static void SerializeTest()
         {
-            var instance = new CommonEventSelfVariableNameList();
-            var maxCapacity = instance.GetMinCapacity();
-
-            // 取得した値が容量最大値と一致すること
-            Assert.AreEqual(maxCapacity, CommonEventSelfVariableNameList.MinCapacity);
+            var target = new CommonEventSelfVariableNameList
+            {
+                [3] = "SelfName",
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
-
 
         private static List<CommonEventSelfVariableName> MakeInitList(int length, bool hasNullItem)
         {

@@ -14,6 +14,7 @@ namespace WodiLib.Ini
     /// <summary>
     /// [Range(-1, 65535)] プロキシポート番号
     /// </summary>
+    [Serializable]
     public struct ProxyPort : IConvertibleInt, IEquatable<ProxyPort>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

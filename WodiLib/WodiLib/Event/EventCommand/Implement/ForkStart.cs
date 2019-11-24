@@ -19,6 +19,7 @@ namespace WodiLib.Event.EventCommand
     /// イベントコマンド・選択肢始端 または
     /// イベントコマンド・条件（変数/文字列）・分岐始端
     /// </summary>
+    [Serializable]
     public class ForkStart : ForkingStartBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -14,6 +14,7 @@ namespace WodiLib.Database
     /// <summary>
     /// DB項目特殊指定選択肢
     /// </summary>
+    [Serializable]
     public class DatabaseValueCase : IEquatable<DatabaseValueCase>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

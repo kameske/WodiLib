@@ -111,7 +111,6 @@ namespace WodiLib.Sys
             if (ReferenceEquals(left, right)) return true;
             if ((object) left == null || (object) right == null) return false;
 
-
             return left.Id == right.Id;
         }
 

@@ -405,5 +405,17 @@ namespace WodiLib.Test.Event.EventCommand
                 }
             }
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new NormalOrFreePosition
+            {
+                NormalPositionX = 30,
+                NormalPositionY = 21,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Collections.Generic;
 using WodiLib.Sys;
 
@@ -14,7 +15,8 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベント返戻値（Ver2.00～）
     /// </summary>
-    internal class CommonEventReturnValue
+    [Serializable]
+    internal class CommonEventReturnValue : IEquatable<CommonEventReturnValue>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -50,10 +52,10 @@ namespace WodiLib.Common
         public CommonEventReturnVariableIndex ReturnVariableIndex { get; private set; } =
             CommonEventReturnVariableIndex.NotReturn;
 
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /// <summary>
         /// 返戻コモンセルフ変数をセットする。
         /// </summary>
@@ -77,6 +79,20 @@ namespace WodiLib.Common
         {
             ReturnVariableIndex = CommonEventReturnVariableIndex.NotReturn;
             IsReturnValue = false;
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(CommonEventReturnValue other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return description.Equals(other.description)
+                   && IsReturnValue == other.IsReturnValue
+                   && ReturnVariableIndex.Equals(other.ReturnVariableIndex);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

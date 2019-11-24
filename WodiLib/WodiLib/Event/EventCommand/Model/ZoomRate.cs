@@ -6,6 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Project;
 using WodiLib.Sys;
 
@@ -14,7 +17,8 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// 拡大率
     /// </summary>
-    public class ZoomRate
+    [Serializable]
+    public class ZoomRate : IEquatable<ZoomRate>, ISerializable
     {
         /// <summary>パターン同値フラグ値</summary>
         private static readonly int SameValue = new byte[] {0xC0, 0xBD, 0xF0, 0xFF}.ToInt32(Endian.Environment);
@@ -124,6 +128,13 @@ namespace WodiLib.Event.EventCommand
         private static readonly int DefaultRate = 100;
 
         /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public ZoomRate()
+        {
+        }
+
+        /// <summary>
         /// イベントコマンド文字列を取得する。
         /// </summary>
         /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
@@ -150,6 +161,54 @@ namespace WodiLib.Event.EventCommand
                 Rate, type, desc);
 
             return string.Format(EventCommandSentenceFormatEtc, rateStr);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(ZoomRate other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            if (zoomRateType != other.zoomRateType) return false;
+
+            if (!IsDifference) return Rate == other.Rate;
+
+            return RateWidth == other.RateWidth
+                   && RateHeight == other.RateHeight;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(ZoomRateType), ZoomRateType.Code);
+            info.AddValue(nameof(Rate), Rate);
+            info.AddValue(nameof(rates), rates);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected ZoomRate(SerializationInfo info, StreamingContext context)
+        {
+            ZoomRateType = ZoomRateType.FromByte(info.GetByte(nameof(ZoomRateType)));
+            Rate = info.GetInt32(nameof(Rate));
+            rates = info.GetValue<int[]>(nameof(rates));
         }
     }
 }

@@ -15,6 +15,7 @@ namespace WodiLib.Map
     /// <summary>
     /// [NotNull][NotNewLine] 基本タイルセットファイル名
     /// </summary>
+    [Serializable]
     public class BaseTileSetFileName : IConvertibleString, IEquatable<BaseTileSetFileName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

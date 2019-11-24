@@ -7,6 +7,8 @@
 // ========================================
 
 using System;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace WodiLib.Sys
 {
@@ -14,7 +16,8 @@ namespace WodiLib.Sys
     ///     int、またはstringのどちらかを持つクラス
     ///     (internal化予定）
     /// </summary>
-    public class IntOrStr : IEquatable<IntOrStr>
+    [Serializable]
+    public class IntOrStr : IEquatable<IntOrStr>, ISerializable
     {
         private readonly Guid guidForHash = Guid.NewGuid();
 
@@ -228,6 +231,38 @@ namespace WodiLib.Sys
             if (HasStr && !strValue.Equals(other.strValue)) return false;
 
             return true;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(guidForHash), guidForHash);
+            info.AddValue(nameof(numValue), numValue);
+            info.AddValue(nameof(strValue), strValue);
+            info.AddValue(nameof(InstanceIntOrStrType), InstanceIntOrStrType.Id);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected IntOrStr(SerializationInfo info, StreamingContext context)
+        {
+            guidForHash = info.GetValue<Guid>(nameof(guidForHash));
+            numValue = info.GetInt32(nameof(numValue));
+            strValue = info.GetValue<string>(nameof(strValue));
+            InstanceIntOrStrType = IntOrStrType.FromId(info.GetValue<string>(nameof(InstanceIntOrStrType)));
         }
     }
 }

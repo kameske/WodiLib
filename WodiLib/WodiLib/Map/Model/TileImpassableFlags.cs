@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Linq;
 using WodiLib.Sys;
 
@@ -20,7 +21,8 @@ namespace WodiLib.Map
     ///
     /// すべてのプロパティを "false" にすることはできない。
     /// </remarks>
-    public class TileImpassableFlags
+    [Serializable]
+    public class TileImpassableFlags : IEquatable<TileImpassableFlags>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Constant

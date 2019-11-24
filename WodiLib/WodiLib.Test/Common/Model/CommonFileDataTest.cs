@@ -70,6 +70,15 @@ namespace WodiLib.Test.Common
             Assert.AreEqual(eventsLength, commonEventLength);
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new CommonFileData();
+            target.SetCommonEventList(MakeCommonEventList(1));
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
 
         private static List<CommonEvent> MakeCommonEventList(int length)
         {

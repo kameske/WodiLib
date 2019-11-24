@@ -140,5 +140,16 @@ namespace WodiLib.Test.Map
                 Assert.IsFalse(instance.IsGraphicTileChip);
             }
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new MapEventPageGraphicInfo
+            {
+                InitDirection = CharaChipDirection.LeftDown
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

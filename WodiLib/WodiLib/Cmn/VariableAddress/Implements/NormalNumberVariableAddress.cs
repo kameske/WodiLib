@@ -16,6 +16,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(2000000, 2099999)] 通常変数アドレス値
     /// </summary>
+    [Serializable]
     public class NormalNumberVariableAddress : VariableAddress, IEquatable<NormalNumberVariableAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

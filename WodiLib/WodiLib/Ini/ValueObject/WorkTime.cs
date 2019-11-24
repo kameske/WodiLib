@@ -14,6 +14,7 @@ namespace WodiLib.Ini
     /// <summary>
     /// [Range(0, int.MaxValue)] 作業時間（単位は1/2minute）
     /// </summary>
+    [Serializable]
     public struct WorkTime : IConvertibleInt, IEquatable<WorkTime>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

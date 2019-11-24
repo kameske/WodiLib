@@ -15,6 +15,7 @@ namespace WodiLib.Map
     /// <summary>
     /// [Range(15, 9999)] マップサイズ縦
     /// </summary>
+    [Serializable]
     public struct MapSizeHeight : IConvertibleInt, IEquatable<MapSizeHeight>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

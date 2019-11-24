@@ -16,6 +16,7 @@ namespace WodiLib.Common
         /// <summary>
         /// コモンイベント引数特殊指定情報内部クラスファクトリ
         /// </summary>
+        [Serializable]
         internal static class InnerDescFactory
         {
             /// <summary>

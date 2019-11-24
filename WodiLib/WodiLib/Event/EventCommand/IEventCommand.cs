@@ -17,7 +17,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンドインタフェース
     /// </summary>
-    public interface IEventCommand
+    public interface IEventCommand : IEquatable<IEventCommand>
     {
         /// <summary>数値変数個数</summary>
         byte NumberVariableCount { get; }

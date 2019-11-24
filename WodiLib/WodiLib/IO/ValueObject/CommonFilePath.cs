@@ -17,7 +17,8 @@ namespace WodiLib.IO
     /// <summary>
     /// XXX.common ファイルパス
     /// </summary>
-    public class CommonFilePath : FilePath
+    [Serializable]
+    public class CommonFilePath : FilePath, IEquatable<CommonFilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

@@ -17,7 +17,8 @@ namespace WodiLib.IO
     /// <summary>
     /// XXX.mps ファイルパス
     /// </summary>
-    public class MpsFilePath : FilePath
+    [Serializable]
+    public class MpsFilePath : FilePath, IEquatable<MpsFilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

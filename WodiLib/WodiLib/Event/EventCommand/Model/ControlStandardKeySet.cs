@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Text;
 
 namespace WodiLib.Event.EventCommand
@@ -13,7 +14,8 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// 基本キーセット
     /// </summary>
-    internal class ControlStandardKeySet
+    [Serializable]
+    internal class ControlStandardKeySet : IEquatable<ControlStandardKeySet>
     {
         private static class InputKeyString
         {
@@ -79,6 +81,19 @@ namespace WodiLib.Event.EventCommand
             if (Right) builder.Append(InputKeyString.Right);
             if (Up) builder.Append(InputKeyString.Up);
             return builder.ToString();
+        }
+
+        public bool Equals(ControlStandardKeySet other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Ok == other.Ok
+                   && Cancel == other.Cancel
+                   && Sub == other.Sub
+                   && Down == other.Down
+                   && Left == other.Left
+                   && Right == other.Right
+                   && Up == other.Up;
         }
     }
 }

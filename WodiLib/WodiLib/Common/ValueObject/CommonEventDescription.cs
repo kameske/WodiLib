@@ -15,6 +15,7 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベント説明文
     /// </summary>
+    [Serializable]
     public class CommonEventDescription : IConvertibleString, IEquatable<CommonEventDescription>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
