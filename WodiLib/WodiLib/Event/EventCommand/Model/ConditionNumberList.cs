@@ -25,7 +25,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>最大容量</summary>
-        public static int MaxCapacity => 3;
+        public static int MaxCapacity => 15;
 
         /// <summary>最小容量</summary>
         public static int MinCapacity => 1;

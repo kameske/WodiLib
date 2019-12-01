@@ -26,7 +26,7 @@ namespace WodiLib.Event.EventCommand
         //     Private Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private const string EventCommandSentenceFormat_Choise
+        private const string EventCommandSentenceFormat_Choice
             = "-◇選択肢：【{0}】 {1} の場合↓";
 
         private const int EventCommandSentenceCaseMinLength = 40;
@@ -41,7 +41,7 @@ namespace WodiLib.Event.EventCommand
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private const int CaseNumberMax = 9;
+        private const int CaseNumberMax = 14;
         private const int CaseNumberMin = 0;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -52,7 +52,7 @@ namespace WodiLib.Event.EventCommand
         public override EventCommandCode EventCommandCode => EventCommandCode.ChoiceStartForkingNumber;
 
         /// <inheritdoc />
-        /// <summary>[Range(0, 9)] 選択肢番号</summary>
+        /// <summary>[Range(0, 14)] 選択肢番号</summary>
         /// <exception cref="T:WodiLib.Sys.PropertyOutOfRangeException">指定範囲以外の値をセットした場合</exception>
         public override int CaseNumber
         {
@@ -63,7 +63,7 @@ namespace WodiLib.Event.EventCommand
                     || CaseNumberMax < value)
                 {
                     throw new PropertyOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(CaseNumber), 0, 9, value));
+                        ErrorMessage.OutOfRange(nameof(CaseNumber), CaseNumberMin, CaseNumberMax, value));
                 }
 
                 ChoiceCodeRaw = (byte) (value + 2);
@@ -85,7 +85,7 @@ namespace WodiLib.Event.EventCommand
             if (branchType == BranchType.Choice)
             {
                 var caseString = GetCaseStr(desc, CaseNumber, true);
-                return string.Format(EventCommandSentenceFormat_Choise,
+                return string.Format(EventCommandSentenceFormat_Choice,
                     CaseNumber + 1, caseString);
             }
 

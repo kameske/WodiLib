@@ -9,23 +9,13 @@ namespace WodiLib.Test.Event.EventCommand
     public class ConditionStringListTest
     {
         [Test]
-        public static void GetMaxCapacityTest()
+        public static void GetCapacityTest()
         {
             var instance = new ConditionStringList();
-            var maxCapacity = instance.GetMaxCapacity();
+            var maxCapacity = instance.GetCapacity();
 
             // 取得した値が容量最大値と一致すること
-            Assert.AreEqual(maxCapacity, ConditionStringList.MaxCapacity);
-        }
-
-        [Test]
-        public static void GetMinCapacityTest()
-        {
-            var instance = new ConditionStringList();
-            var maxCapacity = instance.GetMinCapacity();
-
-            // 取得した値が容量最大値と一致すること
-            Assert.AreEqual(maxCapacity, ConditionStringList.MinCapacity);
+            Assert.AreEqual(maxCapacity, ConditionStringList.Capacity);
         }
 
         private static readonly object[] SearchUseNumberVariableForRightSideMaxTestCaseSource =
@@ -95,7 +85,11 @@ namespace WodiLib.Test.Event.EventCommand
                     LeftSide = 0,
                     RightSide = is4Str ? (IntOrStr) "a" : 0,
                     IsUseNumberVariable = !is4Str
-                }
+                },
+                new ConditionStringDesc(), new ConditionStringDesc(),new ConditionStringDesc(),
+                new ConditionStringDesc(),new ConditionStringDesc(),new ConditionStringDesc(),
+                new ConditionStringDesc(),new ConditionStringDesc(),new ConditionStringDesc(),
+                new ConditionStringDesc(),new ConditionStringDesc(),
             });
             // 条件数を正しく
             instance.ConditionValue = conditionValue;

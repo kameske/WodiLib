@@ -18,21 +18,16 @@ namespace WodiLib.Event.EventCommand
     /// 条件（文字列）条件リスト
     /// </summary>
     [Serializable]
-    public class ConditionStringList : RestrictedCapacityCollection<ConditionStringDesc>
+    public class ConditionStringList : FixedLengthList<ConditionStringDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      public Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 最大容量
+        /// 容量
         /// </summary>
-        public static readonly int MaxCapacity = 4;
-
-        /// <summary>
-        /// 最小容量
-        /// </summary>
-        public static readonly int MinCapacity = 4;
+        public static readonly int Capacity = 15;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      public Property
@@ -40,14 +35,14 @@ namespace WodiLib.Event.EventCommand
 
         private int conditionValue;
 
-        /// <summary>[Range(1, 4)] 条件数</summary>
+        /// <summary>[Range(1, 15)] 条件数</summary>
         /// <exception cref="PropertyOutOfRangeException">1～4以外の値を設定しようとした場合</exception>
         public int ConditionValue
         {
             get => conditionValue;
             set
             {
-                if (value < 1 || MaxCapacity < value)
+                if (value < 1 || Capacity < value)
                     throw new PropertyOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(ConditionValue), 1, 4, value));
                 conditionValue = value;
@@ -86,17 +81,19 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         /// <summary>
-        /// 容量最大値を返す。
+        /// 容量値を返す。
         /// </summary>
         /// <returns>容量最大値</returns>
-        public override int GetMaxCapacity() => MaxCapacity;
+        public override int GetCapacity() => Capacity;
 
         /// <inheritdoc />
-        /// <summary>
-        /// 容量最小値を返す。
-        /// </summary>
-        /// <returns>容量最小値</returns>
-        public override int GetMinCapacity() => MinCapacity;
+        public override IEnumerator<ConditionStringDesc> GetEnumerator()
+        {
+            for (var i = 0; i < ConditionValue; i++)
+            {
+                yield return Items[i];
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method

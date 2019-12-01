@@ -6,12 +6,11 @@
     <Title>WodiLib</Title>
     <Authors>kameske</Authors>
     <Copyright>MIT License Copyright(c) 2019 kameske</Copyright>
-    <Version>1.0.0.1</Version>
+    <Version>1.0.0.2</Version>
     <PackageProjectUrl>https://github.com/kameske/WodiLib</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/kameske/WodiLib/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/kameske/WodiLib.git</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DocumentationFile>bin\Debug\netstandard2.0\WodiLib.xml</DocumentationFile>

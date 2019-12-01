@@ -22,23 +22,24 @@ namespace WodiLib.Event.EventCommand
         private readonly List<string> caseList = new List<string>
         {
             "", "", "", "", "",
-            "", "", "", "", ""
+            "", "", "", "", "",
+            "", ""
         };
 
         private int caseValue = 1;
 
         /// <summary>
-        /// [Range(1, 10)] 選択肢数
+        /// [Range(1, 12)] 選択肢数
         /// </summary>
-        /// <exception cref="PropertyOutOfRangeException">1～10以外の値を設定した場合</exception>
+        /// <exception cref="PropertyOutOfRangeException">1～12以外の値を設定した場合</exception>
         public int CaseValue
         {
             get => caseValue;
             set
             {
-                if (value < 1 || 10 < value)
+                if (value < 1 || 12 < value)
                     throw new PropertyOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(CaseValue), 1, 10, value));
+                        ErrorMessage.OutOfRange(nameof(CaseValue), 1, 12, value));
                 caseValue = value;
             }
         }

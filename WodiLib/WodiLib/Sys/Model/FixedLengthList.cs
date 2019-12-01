@@ -218,7 +218,7 @@ namespace WodiLib.Sys
         /// 反復処理する列挙子を返す。
         /// </summary>
         /// <returns>反復処理列挙子</returns>
-        public IEnumerator<T> GetEnumerator() => Items.AsEnumerable().GetEnumerator();
+        public virtual IEnumerator<T> GetEnumerator() => Items.AsEnumerable().GetEnumerator();
 
         /// <summary>
         /// 値を比較する。

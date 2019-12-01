@@ -46,10 +46,10 @@ namespace WodiLib.Test.Event.EventCommand
         [TestCase(0, false, true)]
         [TestCase(1, false, false)]
         [TestCase(1, true, true)]
-        [TestCase(3, false, false)]
-        [TestCase(3, true, true)]
-        [TestCase(4, false, true)]
-        [TestCase(4, true, true)]
+        [TestCase(15, false, false)]
+        [TestCase(15, true, true)]
+        [TestCase(16, false, true)]
+        [TestCase(16, true, true)]
         public static void ConstructorTestB(int initLength, bool hasNullItem, bool isError)
         {
             var initItemList = MakeInitList(initLength, hasNullItem);
