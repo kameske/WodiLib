@@ -133,5 +133,13 @@ namespace WodiLib.Test.Database
             var rightInstance = (TypeId) right;
             Assert.AreEqual(leftInstance.Equals(rightInstance), isEqual);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = (TypeId) 3;
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

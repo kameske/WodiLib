@@ -16,7 +16,7 @@ namespace WodiLib.Database
     /// DBデータ（XXX.dbdata）
     /// </summary>
     [Serializable]
-    public class DBData
+    public class DBData : IEquatable<DBData>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -66,6 +66,22 @@ namespace WodiLib.Database
                     ErrorMessage.NotNull(nameof(dataDescList)));
 
             TypeDesc = DatabaseTypeDesc.Factory.CreateForDBData(dataDescList);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(DBData other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return TypeDesc.Equals(other.TypeDesc);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

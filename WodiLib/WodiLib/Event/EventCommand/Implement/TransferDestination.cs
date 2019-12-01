@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.ComponentModel;
 using WodiLib.Cmn;
 using WodiLib.Project;
@@ -17,6 +18,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・場所移動（移動先指定）
     /// </summary>
+    [Serializable]
     public class TransferDestination : TransferBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

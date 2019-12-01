@@ -55,5 +55,10 @@ namespace WodiLib.Event.CharaMoveCommand
             // 通常ここには来ない
             throw new InvalidOperationException();
         }
+
+        internal static TargetAddressOwner FromId(string id)
+        {
+            return _FindFirst(x => x.Id.Equals(id));
+        }
     }
 }

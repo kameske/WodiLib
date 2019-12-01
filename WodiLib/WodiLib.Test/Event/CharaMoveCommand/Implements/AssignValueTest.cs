@@ -73,5 +73,17 @@ namespace WodiLib.Test.Event.CharaMoveCommand
             // 取得した値外とした値と一致すること
             Assert.AreEqual(resultValue, answerValue);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new AssignValue
+            {
+                Value = 21,
+                Owner = TargetAddressOwner.CommonEvent
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

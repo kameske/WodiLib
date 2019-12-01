@@ -17,6 +17,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・分岐終端
     /// </summary>
+    [Serializable]
     public class ForkEnd : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

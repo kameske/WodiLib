@@ -8,7 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using WodiLib.Database;
 using WodiLib.Sys;
 
@@ -19,7 +21,8 @@ namespace WodiLib.Common
         /// <summary>
         /// コモンイベント引数特殊指定情報内部クラス・データベース参照
         /// </summary>
-        internal class InnerDescDatabase : IInnerDesc
+        [Serializable]
+        internal class InnerDescDatabase : IInnerDesc, IEquatable<InnerDescDatabase>, ISerializable
         {
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Public Property
@@ -271,6 +274,35 @@ namespace WodiLib.Common
                     "特殊指定が「手動生成」ではないため処理できません");
             }
 
+            /// <summary>
+            /// 値を比較する。
+            /// </summary>
+            /// <param name="other">比較対象</param>
+            /// <returns>一致する場合、true</returns>
+            public bool Equals(IInnerDesc other)
+            {
+                if (ReferenceEquals(other, null)) return false;
+                if (ReferenceEquals(other, this)) return true;
+                if (ArgType != other.ArgType) return false;
+                if (!(other is InnerDescDatabase casted)) return false;
+                return Equals(casted);
+            }
+
+            /// <summary>
+            /// 値を比較する。
+            /// </summary>
+            /// <param name="other">比較対象</param>
+            /// <returns>一致する場合、true</returns>
+            public bool Equals(InnerDescDatabase other)
+            {
+                if (ReferenceEquals(other, null)) return false;
+                if (ReferenceEquals(other, this)) return true;
+                return databaseDbKind == other.databaseDbKind
+                       && DatabaseDbTypeId.Equals(other.DatabaseDbTypeId)
+                       && DatabaseUseAdditionalItemsFlag == other.DatabaseUseAdditionalItemsFlag
+                       && ArgCaseList.Equals(other.ArgCaseList);
+            }
+
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Private Method
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -287,6 +319,38 @@ namespace WodiLib.Common
                     new CommonEventSpecialArgCase(-2, ""),
                     new CommonEventSpecialArgCase(-3, "")
                 });
+            }
+
+            // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+            //     Serializable
+            // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+            /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+            public void GetObjectData(SerializationInfo info, StreamingContext context)
+            {
+                info.AddValue(nameof(databaseDbKind), databaseDbKind.Code);
+                info.AddValue(nameof(DatabaseDbTypeId), DatabaseDbTypeId);
+                info.AddValue(nameof(DatabaseUseAdditionalItemsFlag), DatabaseUseAdditionalItemsFlag);
+                info.AddValue(nameof(ArgCaseList), ArgCaseList);
+            }
+
+            /// <summary>
+            /// コンストラクタ
+            /// </summary>
+            /// <param name="info">デシリアライズ情報</param>
+            /// <param name="context">コンテキスト</param>
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            protected InnerDescDatabase(SerializationInfo info, StreamingContext context)
+            {
+                databaseDbKind = DBKind.FromCode(info.GetByte(nameof(databaseDbKind)));
+                DatabaseDbTypeId = info.GetInt32(nameof(DatabaseDbTypeId));
+                DatabaseUseAdditionalItemsFlag = info.GetBoolean(nameof(DatabaseUseAdditionalItemsFlag));
+                ArgCaseList = info.GetValue<CommonEventSpecialArgCaseList>(nameof(ArgCaseList));
             }
         }
     }

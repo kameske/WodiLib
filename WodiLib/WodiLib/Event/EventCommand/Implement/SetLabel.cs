@@ -17,6 +17,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・ラベル設置
     /// </summary>
+    [Serializable]
     public class SetLabel : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -17,7 +17,8 @@ namespace WodiLib.IO
     /// <summary>
     /// XXX.dbtype ファイルパス
     /// </summary>
-    public class DBTypeFilePath : FilePath
+    [Serializable]
+    public class DBTypeFilePath : FilePath, IEquatable<DBTypeFilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

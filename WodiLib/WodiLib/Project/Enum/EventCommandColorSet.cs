@@ -131,5 +131,15 @@ namespace WodiLib.Project
             // 通常ここへは来ない
             throw new InvalidOperationException();
         }
+
+        /// <summary>
+        /// IDからインスタンスを取得する。
+        /// </summary>
+        /// <param name="id">ID</param>
+        /// <returns>IDで検索したインスタンス</returns>
+        public static EventCommandColorSet FromId(string id)
+        {
+            return _FindFirst(x => x.Id.Equals(id));
+        }
     }
 }

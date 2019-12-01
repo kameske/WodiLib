@@ -14,6 +14,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(0, 999999)] 文字列変数インデックス
     /// </summary>
+    [Serializable]
     public struct StringVariableIndex : IConvertibleInt, IEquatable<StringVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

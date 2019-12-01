@@ -8,7 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -16,8 +18,9 @@ namespace WodiLib.Database
     /// <summary>
     /// DBデータ設定値リスト
     /// </summary>
+    [Serializable]
     public class DBItemValueList : RestrictedCapacityCollection<DBItemValue>,
-        IFixedLengthDBItemValueList, IReadOnlyDBItemValueList
+        IFixedLengthDBItemValueList, IReadOnlyDBItemValueList, IEquatable<DBItemValueList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -33,7 +36,7 @@ namespace WodiLib.Database
         //     Internal Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private DBItemValuesList outer;
+        [NonSerialized] private DBItemValuesList outer;
 
         /// <summary>外部クラス</summary>
         internal DBItemValuesList Outer
@@ -337,6 +340,32 @@ namespace WodiLib.Database
             base.Clear();
         }
 
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(DBItemValueList other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Equals((RestrictedCapacityCollection<DBItemValue>) other);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(IFixedLengthDBItemValueList other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            if (!(other is RestrictedCapacityCollection<DBItemValue> casted)) return false;
+            return Equals(casted);
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Internal Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -499,6 +528,20 @@ namespace WodiLib.Database
                 .ForEach(x => result.AddRange(x.ToBinary()));
 
             return result.ToArray();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected DBItemValueList(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

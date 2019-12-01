@@ -17,6 +17,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・マップチップ上書き
     /// </summary>
+    [Serializable]
     public class OverwriteMapChips : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

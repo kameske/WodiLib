@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using WodiLib.Event;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Event.EventCommand;
@@ -22,7 +23,8 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベントクラス
     /// </summary>
-    public class CommonEvent
+    [Serializable]
+    public class CommonEvent : IEquatable<CommonEvent>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Internal Constant
@@ -217,7 +219,7 @@ namespace WodiLib.Common
 
         private CommonEventLabelColor labelColor = CommonEventLabelColor.Black;
 
-        /// <summary>ラベル色</summary>
+        /// <summary>[NotNull] ラベル色</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CommonEventLabelColor LabelColor
         {
@@ -231,18 +233,30 @@ namespace WodiLib.Common
             }
         }
 
+        private CommonEventFooterString footerString = "";
+
         /// <summary>
-        /// フッタ文字列
+        /// [NotNull] フッタ文字列
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public CommonEventFooterString FooterString { get; set; }
+        public CommonEventFooterString FooterString
+        {
+            get => footerString;
+            set
+            {
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(FooterString)));
+                footerString = value;
+            }
+        }
 
         /// <summary>返戻アドレス情報（Ver2.00～）</summary>
         private readonly CommonEventReturnValue returnValueInfo = new CommonEventReturnValue();
 
         /// <summary>
-        /// 返戻値の意味（Ver2.00～）
+        /// [NotNull] 返戻値の意味（Ver2.00～）
         /// </summary>
         /// <exception cref="PropertyNullException">nullを設定した場合</exception>
         public CommonEventResultDescription ReturnValueDescription
@@ -289,6 +303,17 @@ namespace WodiLib.Common
         /// </summary>
         private CommonEventSpecialArgDescList CommonEventSpecialArgDescList { get; } =
             new CommonEventSpecialArgDescList();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public CommonEvent()
+        {
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
@@ -394,6 +419,31 @@ namespace WodiLib.Common
             return EventCommands.MakeEventCommandSentenceInfoList(resolver, sentenceType, desc);
         }
 
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(CommonEvent other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Id == other.Id
+                   && name == other.name
+                   && numberArgsLength == other.numberArgsLength
+                   && strArgsLength == other.strArgsLength
+                   && description == other.description
+                   && memo == other.memo
+                   && labelColor == other.labelColor
+                   && FooterString == other.FooterString
+                   && condition.Equals(other.condition)
+                   && returnValueInfo.Equals(other.returnValueInfo)
+                   && eventCommands.Equals(other.eventCommands)
+                   && selfVariableNameList.Equals(other.selfVariableNameList)
+                   && CommonEventSpecialArgDescList.Equals(other.CommonEventSpecialArgDescList);
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -475,6 +525,57 @@ namespace WodiLib.Common
             result.AddRange(FooterBytesAfterVer2_00);
 
             return result.ToArray();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(Id), Id);
+            info.AddValue(nameof(condition), condition);
+            info.AddValue(nameof(numberArgsLength), numberArgsLength);
+            info.AddValue(nameof(strArgsLength), strArgsLength);
+            info.AddValue(nameof(name), name);
+            info.AddValue(nameof(eventCommands), eventCommands);
+            info.AddValue(nameof(description), description);
+            info.AddValue(nameof(memo), memo);
+            info.AddValue(nameof(labelColor), labelColor.Code);
+            info.AddValue(nameof(footerString), footerString);
+            info.AddValue(nameof(returnValueInfo), returnValueInfo);
+            info.AddValue(nameof(selfVariableNameList), selfVariableNameList);
+            info.AddValue(nameof(CommonEventSpecialArgDescList), CommonEventSpecialArgDescList);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected CommonEvent(SerializationInfo info, StreamingContext context)
+        {
+            Id = info.GetInt32(nameof(Id));
+            condition = info.GetValue<CommonEventBootCondition>(nameof(condition));
+            numberArgsLength = info.GetInt32(nameof(numberArgsLength));
+            strArgsLength = info.GetInt32(nameof(strArgsLength));
+            name = info.GetValue<CommonEventName>(nameof(name));
+            eventCommands = info.GetValue<EventCommandList>(nameof(eventCommands));
+            description = info.GetValue<CommonEventDescription>(nameof(description));
+            memo = info.GetValue<CommonEventMemo>(nameof(memo));
+            labelColor = CommonEventLabelColor.FromInt(info.GetInt32(nameof(labelColor)));
+            footerString = info.GetValue<CommonEventFooterString>(nameof(footerString));
+            returnValueInfo = info.GetValue<CommonEventReturnValue>(nameof(returnValueInfo));
+            selfVariableNameList = info.GetValue<CommonEventSelfVariableNameList>(nameof(selfVariableNameList));
+            CommonEventSpecialArgDescList =
+                info.GetValue<CommonEventSpecialArgDescList>(nameof(CommonEventSpecialArgDescList));
         }
     }
 }

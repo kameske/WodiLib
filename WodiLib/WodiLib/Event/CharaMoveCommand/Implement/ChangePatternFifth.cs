@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.ComponentModel;
 using WodiLib.Project;
 using WodiLib.Sys;
@@ -17,6 +18,7 @@ namespace WodiLib.Event.CharaMoveCommand
     /// <summary>
     /// 動作指定：パターン5に変更
     /// </summary>
+    [Serializable]
     public class ChangePatternFifth : CharaMoveCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

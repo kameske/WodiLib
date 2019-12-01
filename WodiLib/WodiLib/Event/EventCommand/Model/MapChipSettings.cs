@@ -6,12 +6,15 @@
 // see LICENSE file
 // ========================================
 
+using System;
+
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
     /// マップチップ通行設定
     /// </summary>
-    internal class MapChipSettings
+    [Serializable]
+    internal class MapChipSettings : IEquatable<MapChipSettings>
     {
         /// <summary>↑不能</summary>
         public bool IsNoUp { get; set; }
@@ -63,6 +66,20 @@ namespace WodiLib.Event.EventCommand
             if (IsMatchLowerLayer) result += MatchLowerLayerFlg;
             if (IsCounter) result += CounterFlg;
             return result;
+        }
+
+        public bool Equals(MapChipSettings other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return IsNoUp == other.IsNoUp
+                   && IsNoLeft == other.IsNoLeft
+                   && IsNoRight == other.IsNoRight
+                   && IsNoDown == other.IsNoDown
+                   && IsAboveHero == other.IsAboveHero
+                   && IsHalfTrans == other.IsHalfTrans
+                   && IsMatchLowerLayer == other.IsMatchLowerLayer
+                   && IsCounter == other.IsCounter;
         }
 
         private static readonly int NoDownFlg = 1;

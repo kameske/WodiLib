@@ -193,6 +193,17 @@ namespace WodiLib.Test.Map
             Assert.AreEqual((int) getChip, x * 10 + y);
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new Layer
+            {
+                Chips = new MapChipList(GenerateTestChipsData(20, 15))
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
 
         private static List<List<MapChip>> GenerateTestChipsData(int width, int height)
         {

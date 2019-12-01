@@ -15,6 +15,7 @@ namespace WodiLib.Database
     /// <summary>
     /// [Range(-9999999, 1400000000)] DB項目特殊指定選択肢番号
     /// </summary>
+    [Serializable]
     public struct DatabaseValueCaseNumber : IConvertibleInt, IEquatable<DatabaseValueCaseNumber>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

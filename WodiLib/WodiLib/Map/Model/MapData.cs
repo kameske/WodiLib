@@ -18,7 +18,8 @@ namespace WodiLib.Map
     /// <summary>
     ///     MapDataクラス
     /// </summary>
-    public class MapData
+    [Serializable]
+    public class MapData : IEquatable<MapData>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
@@ -273,6 +274,23 @@ namespace WodiLib.Map
                     ErrorMessage.OutOfRange(nameof(eventId), idMin, idMax, eventId));
 
             return MapEvents[eventId].MakeEventCommandSentenceInfoList(resolver, desc, page);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(MapData other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return TileSetId == other.TileSetId
+                   && memo == other.memo
+                   && layer1.Equals(other.layer1)
+                   && layer2.Equals(other.layer2)
+                   && layer3.Equals(other.layer3)
+                   && mapEvents.Equals(other.mapEvents);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

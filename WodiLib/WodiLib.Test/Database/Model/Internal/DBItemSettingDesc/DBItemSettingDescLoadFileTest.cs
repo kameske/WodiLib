@@ -679,5 +679,16 @@ namespace WodiLib.Test.Database.Internal.DBItemSettingDesc
             // 結果が意図した値と一致すること
             Assert.AreEqual(result, answer);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new DBItemSettingDescLoadFile
+            {
+                FolderName = "FolderName"
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.ComponentModel;
 using WodiLib.Cmn;
 using WodiLib.Database;
@@ -18,6 +19,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・場所移動（登録位置）
     /// </summary>
+    [Serializable]
     public class TransferSavedPosition : TransferBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -17,6 +17,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・チップセット切り替え
     /// </summary>
+    [Serializable]
     public class SwitchChipSet : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

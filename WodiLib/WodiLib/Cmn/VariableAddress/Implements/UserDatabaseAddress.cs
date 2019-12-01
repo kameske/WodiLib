@@ -17,6 +17,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(1000000000, 1099999999)] ユーザDBアドレス値
     /// </summary>
+    [Serializable]
     public class UserDatabaseAddress : VariableAddress, IEquatable<UserDatabaseAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

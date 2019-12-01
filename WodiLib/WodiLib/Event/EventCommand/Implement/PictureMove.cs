@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using WodiLib.Project;
 
 namespace WodiLib.Event.EventCommand
@@ -14,6 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・ピクチャ（移動）
     /// </summary>
+    [Serializable]
     public class PictureMove : PictureDrawBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

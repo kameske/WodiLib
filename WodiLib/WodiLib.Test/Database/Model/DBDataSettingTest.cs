@@ -298,6 +298,14 @@ namespace WodiLib.Test.Database
         }
 
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = MakeInstance(DBDataSettingType.Manual);
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
         /// <summary>
         /// タイプ種別から、例外が発生しないようにインスタンスを生成する。
         /// </summary>

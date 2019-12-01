@@ -17,6 +17,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・変数操作
     /// </summary>
+    [Serializable]
     public class SetVariable : SetVariableBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

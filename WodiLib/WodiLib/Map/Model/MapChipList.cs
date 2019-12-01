@@ -8,7 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -16,6 +18,7 @@ namespace WodiLib.Map
     /// <summary>
     /// マップチップ配列クラス
     /// </summary>
+    [Serializable]
     public class MapChipList : RestrictedCapacityCollection<IFixedLengthMapChipColumns>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -196,6 +199,20 @@ namespace WodiLib.Map
                 result.AddRange(chipColumn.ToBinary());
 
             return result.ToArray();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected MapChipList(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

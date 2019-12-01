@@ -14,6 +14,7 @@ namespace WodiLib.Project
     /// <summary>
     /// [NotNull] イベントコマンド文
     /// </summary>
+    [Serializable]
     public class EventCommandSentence : IConvertibleString, IEquatable<EventCommandSentence>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

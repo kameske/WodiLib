@@ -15,7 +15,7 @@ namespace WodiLib.Sys
     /// 長さが固定されたListインタフェース
     /// </summary>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    public interface IFixedLengthCollection<T> : IReadOnlyCollection<T>
+    public interface IFixedLengthCollection<T> : IReadOnlyCollection<T>, IEquatable<IFixedLengthCollection<T>>
     {
         /// <summary>
         /// インデクサによるアクセス

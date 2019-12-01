@@ -15,6 +15,7 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベントセルフ変数名
     /// </summary>
+    [Serializable]
     public class CommonEventSelfVariableName : IConvertibleString, IEquatable<CommonEventSelfVariableName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -91,17 +92,6 @@ namespace WodiLib.Common
         {
             if (other == null) return false;
             return Value.Equals(other.Value);
-        }
-
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool Equals(string other)
-        {
-            if (other == null) return false;
-            return Value.Equals(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

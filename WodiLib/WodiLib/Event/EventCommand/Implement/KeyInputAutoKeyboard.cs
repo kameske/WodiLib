@@ -19,6 +19,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・自動キー入力（キーボード）
     /// </summary>
+    [Serializable]
     public class KeyInputAutoKeyboard : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

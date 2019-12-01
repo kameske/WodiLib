@@ -16,7 +16,9 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベント文字列引数特殊指定情報クラス
     /// </summary>
-    public class CommonEventSpecialStringArgDesc : ICommonEventSpecialArgDesc
+    [Serializable]
+    public class CommonEventSpecialStringArgDesc : ICommonEventSpecialArgDesc,
+        IEquatable<CommonEventSpecialStringArgDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -84,6 +86,32 @@ namespace WodiLib.Common
         {
             // 文字列引数は選択肢なし
             return new List<string>();
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(ICommonEventSpecialArgDesc other)
+        {
+            if (ReferenceEquals(other, this)) return true;
+            if (ReferenceEquals(other, null)) return false;
+            if (!(other is CommonEventSpecialStringArgDesc casted)) return false;
+            return Equals(casted);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(CommonEventSpecialStringArgDesc other)
+        {
+            if (ReferenceEquals(other, this)) return true;
+            if (ReferenceEquals(other, null)) return false;
+
+            return argName.Equals(other.argName);
         }
     }
 }

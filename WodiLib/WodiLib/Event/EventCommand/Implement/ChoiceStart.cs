@@ -18,6 +18,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・選択肢・開始
     /// </summary>
+    [Serializable]
     public class ChoiceStart : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -95,6 +96,7 @@ namespace WodiLib.Event.EventCommand
                 var cancelFlgByte = (byte) (bytes[0] & 0xF0);
                 CancelForkIndex = ChoiceCancelForkType.ForByte(cancelFlgByte);
                 CaseValue = bytes[0] & 0x0F;
+
                 forkFlags = new ChoiceForkFlags(bytes[1]);
                 return;
             }
@@ -108,7 +110,7 @@ namespace WodiLib.Event.EventCommand
         /// インデックスを指定して文字列変数を取得する。
         /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
-        /// <param name="index">[Range(0, 9)] インデックス</param>
+        /// <param name="index">[Range(0, CaseValue - 1)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -124,7 +126,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// 文字列変数を設定する。
         /// </summary>
-        /// <param name="index">[Range(0, 9)] インデックス</param>
+        /// <param name="index">[Range(0, CaseValue - 1)] インデックス</param>
         /// <param name="value">[NotNull] 設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
@@ -183,16 +185,21 @@ namespace WodiLib.Event.EventCommand
 
         private readonly ChoiceCaseList choiceCaseList = new ChoiceCaseList();
 
-        /// <summary>[Range(1, 10)] 選択肢数</summary>
+        /// <summary>[Range(1, 12)] 選択肢数</summary>
         /// <exception cref="PropertyOutOfRangeException">指定範囲以外の値をセットした場合</exception>
         public int CaseValue
         {
             get => choiceCaseList.CaseValue;
             set
             {
-                if (value < 1 || 10 < value)
+                if (value < 1 || 12 < value)
                     throw new PropertyOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(CaseValue), 1, 10, value));
+                        ErrorMessage.OutOfRange(nameof(CaseValue), 1, 12, value));
+                if (value >= 11)
+                {
+                    Logger.Warning("選択肢数が11以上のため、ウディタ上で編集すると設定が失われる場合があります。");
+                }
+
                 choiceCaseList.CaseValue = value;
             }
         }
@@ -334,6 +341,36 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case10)));
                 choiceCaseList.Set(9, value);
+            }
+        }
+
+        /// <summary>[NotNull] 選択肢その11</summary>
+        /// <exception cref="PropertyNullException">nullを指定した場合</exception>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public string Case11
+        {
+            get => choiceCaseList.Get(10);
+            set
+            {
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(Case10)));
+                choiceCaseList.Set(10, value);
+            }
+        }
+
+        /// <summary>[NotNull] 選択肢その12</summary>
+        /// <exception cref="PropertyNullException">nullを指定した場合</exception>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public string Case12
+        {
+            get => choiceCaseList.Get(11);
+            set
+            {
+                if (value == null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(Case10)));
+                choiceCaseList.Set(11, value);
             }
         }
 

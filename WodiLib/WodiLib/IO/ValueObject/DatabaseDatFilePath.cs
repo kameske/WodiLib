@@ -18,7 +18,8 @@ namespace WodiLib.IO
     /// <summary>
     /// データベースデータファイル名
     /// </summary>
-    public abstract class DatabaseDatFilePath : FilePath
+    [Serializable]
+    public abstract class DatabaseDatFilePath : FilePath, IEquatable<DatabaseDatFilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Constant

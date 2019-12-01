@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Event;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys;
@@ -18,9 +20,18 @@ namespace WodiLib.Map
     /// <summary>
     /// マップイベント移動ルート情報クラス
     /// </summary>
-    public class MapEventPageMoveRouteInfo
+    [Serializable]
+    public class MapEventPageMoveRouteInfo : IEquatable<MapEventPageMoveRouteInfo>, ISerializable
     {
-        private static WodiLibLogger Logger = WodiLibLogger.GetInstance();
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Static Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private static readonly WodiLibLogger Logger = WodiLibLogger.GetInstance();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         private AnimateSpeed animateSpeed = AnimateSpeed.Middle;
 
@@ -124,6 +135,37 @@ namespace WodiLib.Map
             }
         }
 
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public MapEventPageMoveRouteInfo()
+        {
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(MapEventPageMoveRouteInfo other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return animateSpeed.Equals(other.animateSpeed)
+                   && moveSpeed.Equals(other.moveSpeed)
+                   && moveFrequency.Equals(other.moveFrequency)
+                   && moveType.Equals(other.moveType)
+                   && customMoveRoute.Equals(other.customMoveRoute);
+        }
+
         /// <summary>
         /// バイナリ変換する。
         /// </summary>
@@ -174,6 +216,40 @@ namespace WodiLib.Map
             var hasCustomRoute = CustomMoveRoute != null;
             if (isTypeCustom && !hasCustomRoute)
                 throw new InvalidOperationException($"移動ルートが「カスタム」の場合、{nameof(CustomMoveRoute)}は必須です。");
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(animateSpeed), animateSpeed.Code);
+            info.AddValue(nameof(moveSpeed), moveSpeed.Code);
+            info.AddValue(nameof(moveFrequency), moveFrequency.Code);
+            info.AddValue(nameof(moveType), moveType.Code);
+            info.AddValue(nameof(customMoveRoute), customMoveRoute);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected MapEventPageMoveRouteInfo(SerializationInfo info, StreamingContext context)
+        {
+            animateSpeed = AnimateSpeed.FromByte(info.GetByte(nameof(animateSpeed)));
+            moveSpeed = MoveSpeed.FromByte(info.GetByte(nameof(moveSpeed)));
+            moveFrequency = MoveFrequency.FromByte(info.GetByte(nameof(moveFrequency)));
+            moveType = MoveType.FromByte(info.GetByte(nameof(moveType)));
+            customMoveRoute = info.GetValue<ActionEntry>(nameof(customMoveRoute));
         }
     }
 }

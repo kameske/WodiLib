@@ -14,7 +14,8 @@ namespace WodiLib.Map
     /// <summary>
     /// 座標
     /// </summary>
-    public struct Position
+    [Serializable]
+    public struct Position : IEquatable<Position>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -84,6 +85,20 @@ namespace WodiLib.Map
             {
                 return (X * 397) ^ Y;
             }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(Position other)
+        {
+            return X == other.X && Y == other.Y;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

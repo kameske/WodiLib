@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.ComponentModel;
 using WodiLib.Project;
 using WodiLib.Sys;
@@ -16,6 +17,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・DB操作（数値入力）
     /// </summary>
+    [Serializable]
     public class DBManagementInputNumber : DBManagementInputBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

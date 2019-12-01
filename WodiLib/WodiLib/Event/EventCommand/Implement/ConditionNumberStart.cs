@@ -18,6 +18,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・条件（変数）・始端
     /// </summary>
+    [Serializable]
     public class ConditionNumberStart : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -58,7 +59,7 @@ namespace WodiLib.Event.EventCommand
         /// インデックスを指定して数値変数を取得する。
         /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
-        /// <param name="index">[Range(0, 10)] インデックス</param>
+        /// <param name="index">[Range(0, 4~46)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -77,36 +78,26 @@ namespace WodiLib.Event.EventCommand
                     if (IsElseCase) bytes[0] += 0x10;
                     return bytes.ToInt32(Endian.Environment);
 
-                case 2:
-                    return ConditionList[0].LeftSide;
-
-                case 3:
-                    return ConditionList[0].RightSide;
-
-                case 4:
-                    return ConditionList[0].ToConditionFlag();
-
-                case 5:
-                    return ConditionList[1].LeftSide;
-
-                case 6:
-                    return ConditionList[1].RightSide;
-
-                case 7:
-                    return ConditionList[1].ToConditionFlag();
-
-                case 8:
-                    return ConditionList[2].LeftSide;
-
-                case 9:
-                    return ConditionList[2].RightSide;
-
-                case 10:
-                    return ConditionList[2].ToConditionFlag();
-
                 default:
-                    throw new ArgumentOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(index), 0, 10, index));
+                    // 選択肢1~15のLeftSide/RightSide/ConditionFlag
+
+                    var exception = new ArgumentOutOfRangeException(
+                        ErrorMessage.OutOfRange(nameof(index), 0, NumberVariableCount - 1, index));
+
+                    var caseNum = (index - 2) / 3;
+                    if (caseNum >= ConditionList.Count) throw exception;
+
+                    var propNum = (index - 2) % 3;
+
+                    switch (propNum)
+                    {
+                        case 0:
+                            return ConditionList[caseNum].LeftSide;
+                        case 1:
+                            return ConditionList[caseNum].RightSide;
+                        default: // case 2
+                            return ConditionList[caseNum].ToConditionFlag();
+                    }
             }
         }
 
@@ -129,58 +120,34 @@ namespace WodiLib.Event.EventCommand
                     ConditionList.AdjustLength(bytes[0] & 0x0F);
                     return;
                 }
-
-                case 2:
-                    ConditionList[0].LeftSide = value;
-                    return;
-
-                case 3:
-                    ConditionList[0].RightSide = value;
-                    return;
-
-                case 4:
-                {
-                    var bytes = value.ToBytes(Endian.Environment);
-                    ConditionList[0].IsNotReferX = (bytes[0] & 0xF0) != 0;
-                    ConditionList[0].Condition = NumberConditionalOperator.FromByte((byte) (bytes[0] & 0x0F));
-                    return;
-                }
-
-                case 5:
-                    ConditionList[1].LeftSide = value;
-                    return;
-
-                case 6:
-                    ConditionList[1].RightSide = value;
-                    return;
-
-                case 7:
-                {
-                    var bytes = value.ToBytes(Endian.Environment);
-                    ConditionList[1].IsNotReferX = (bytes[0] & 0xF0) != 0;
-                    ConditionList[1].Condition = NumberConditionalOperator.FromByte((byte) (bytes[0] & 0x0F));
-                    return;
-                }
-
-                case 8:
-                    ConditionList[2].LeftSide = value;
-                    return;
-
-                case 9:
-                    ConditionList[2].RightSide = value;
-                    return;
-
-                case 10:
-                {
-                    var bytes = value.ToBytes(Endian.Environment);
-                    ConditionList[2].IsNotReferX = (bytes[0] & 0xF0) != 0;
-                    ConditionList[2].Condition = NumberConditionalOperator.FromByte((byte) (bytes[0] & 0x0F));
-                    return;
-                }
-
                 default:
-                    throw new ArgumentOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(index), 1, 10, index));
+                    // 選択肢1~15のLeftSide/RightSide/ConditionFlag
+
+                    var exception = new ArgumentOutOfRangeException(
+                        ErrorMessage.OutOfRange(nameof(index), 0, NumberVariableCount - 1, index));
+
+                    var caseNum = (index - 2) / 3;
+                    if (caseNum >= ConditionList.Count) throw exception;
+
+                    var propNum = (index - 2) % 3;
+
+                    switch (propNum)
+                    {
+                        case 0:
+                            ConditionList[caseNum].LeftSide = value;
+                            return;
+                        case 1:
+                            ConditionList[caseNum].RightSide = value;
+                            return;
+                        default: // case 2
+                        {
+                            var bytes = value.ToBytes(Endian.Environment);
+                            ConditionList[caseNum].IsNotReferX = (bytes[0] & 0xF0) != 0;
+                            ConditionList[caseNum].Condition =
+                                NumberConditionalOperator.FromByte((byte) (bytes[0] & 0x0F));
+                            return;
+                        }
+                    }
             }
         }
 

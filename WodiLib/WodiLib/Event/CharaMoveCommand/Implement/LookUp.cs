@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.ComponentModel;
 using WodiLib.Project;
 
@@ -15,6 +16,7 @@ namespace WodiLib.Event.CharaMoveCommand
     /// <summary>
     /// 動作指定：上向き
     /// </summary>
+    [Serializable]
     public class LookUp : CharaMoveCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

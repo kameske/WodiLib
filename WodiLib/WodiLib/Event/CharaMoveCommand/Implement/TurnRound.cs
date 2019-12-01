@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.ComponentModel;
 using WodiLib.Project;
 
@@ -15,6 +16,7 @@ namespace WodiLib.Event.CharaMoveCommand
     /// <summary>
     /// 動作指定：主人公の方を向く
     /// </summary>
+    [Serializable]
     public class TurnRound : CharaMoveCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

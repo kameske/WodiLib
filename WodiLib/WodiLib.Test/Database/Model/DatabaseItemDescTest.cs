@@ -163,5 +163,16 @@ namespace WodiLib.Test.Database
             // 取得した結果が意図した値であること
             Assert.IsTrue(result.Equals(answer));
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new DatabaseItemDesc
+            {
+                ItemName = "ItemName"
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

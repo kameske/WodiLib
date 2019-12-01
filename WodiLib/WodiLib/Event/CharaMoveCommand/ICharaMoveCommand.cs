@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.ComponentModel;
 using WodiLib.Project;
 
@@ -14,7 +15,7 @@ namespace WodiLib.Event.CharaMoveCommand
     /// <summary>
     /// キャラ動作指定コマンドインタフェース
     /// </summary>
-    public interface ICharaMoveCommand
+    public interface ICharaMoveCommand : IEquatable<ICharaMoveCommand>
     {
         /// <summary>
         /// 動作コマンド種別

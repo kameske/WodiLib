@@ -16,7 +16,8 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンファイルデータクラス
     /// </summary>
-    public class CommonFileData
+    [Serializable]
+    public class CommonFileData : IEquatable<CommonFileData>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -66,6 +67,18 @@ namespace WodiLib.Common
         public IEnumerable<CommonEvent> GetAllCommonEvent()
         {
             return CommonEventList.ToList();
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(CommonFileData other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return CommonEventList.Equals(other.CommonEventList);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

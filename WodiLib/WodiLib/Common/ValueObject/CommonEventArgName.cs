@@ -15,6 +15,7 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベント引数名
     /// </summary>
+    [Serializable]
     public class CommonEventArgName : IConvertibleString, IEquatable<CommonEventArgName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

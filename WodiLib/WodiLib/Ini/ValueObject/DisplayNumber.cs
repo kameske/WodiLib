@@ -14,6 +14,7 @@ namespace WodiLib.Ini
     /// <summary>
     /// [Range(0, int.MaxValue)] ディスプレイ番号
     /// </summary>
+    [Serializable]
     public struct DisplayNumber : IConvertibleInt, IEquatable<DisplayNumber>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

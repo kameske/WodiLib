@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using WodiLib.Cmn;
 using WodiLib.Common;
 using WodiLib.Project;
@@ -16,6 +17,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・コモンイベント予約
     /// </summary>
+    [Serializable]
     public class CommonEventReserve : CallCommonEventBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

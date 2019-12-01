@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.ComponentModel;
 using WodiLib.Database;
 using WodiLib.Project;
@@ -16,6 +17,7 @@ namespace WodiLib.Event.CharaMoveCommand
     /// <summary>
     /// 動作指定：グラフィック変更
     /// </summary>
+    [Serializable]
     public class ChangeGraphic : CharaMoveCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -291,5 +291,16 @@ namespace WodiLib.Test.Map
             // 通行許可設定がセットした値と一致すること（設定を指定しなかった場合デフォルト値が設定されていること）
             Assert.IsTrue(instance.ImpassableFlags.Equals(flags ?? new TileImpassableFlags()));
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new TilePathSetting
+            {
+                IsCounter = true
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

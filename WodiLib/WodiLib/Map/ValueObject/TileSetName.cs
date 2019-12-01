@@ -15,6 +15,7 @@ namespace WodiLib.Map
     /// <summary>
     /// [NotNull][NotNewLine] タイルセット名
     /// </summary>
+    [Serializable]
     public class TileSetName : IConvertibleString, IEquatable<TileSetName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

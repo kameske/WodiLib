@@ -14,7 +14,8 @@ namespace WodiLib.Ini
     /// <summary>
     /// ウィンドウ座標
     /// </summary>
-    public struct WindowPosition
+    [Serializable]
+    public struct WindowPosition : IEquatable<WindowPosition>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

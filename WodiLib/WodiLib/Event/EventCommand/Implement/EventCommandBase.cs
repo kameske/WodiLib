@@ -20,6 +20,7 @@ namespace WodiLib.Event.EventCommand
     /// イベントコマンドのすべて共通処理を定義する。
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [Serializable]
     public abstract class EventCommandBase : IEventCommand
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -244,6 +245,21 @@ namespace WodiLib.Event.EventCommand
         public abstract void SetSafetyStringVariable(int index, string value);
 
         /// <inheritdoc />
+        public bool Equals(IEventCommand other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
+            if (ActionEntry == null ^ other.ActionEntry == null) return false;
+            return RawEventCommandCode == other.RawEventCommandCode
+                   && Indent == other.Indent
+                   && HasActionEntry == other.HasActionEntry
+                   && ExpansionString.Equals(other.ExpansionString)
+                   && AllNumberArgList.SequenceEqual(other.AllNumberArgList)
+                   && AllStringArgList.SequenceEqual(other.AllStringArgList)
+                   && (ActionEntry == null || (ActionEntry.Equals(other.ActionEntry)));
+        }
+
+        /// <inheritdoc />
         public virtual string ToEventCodeString()
         {
             var numArgs = AllNumberArgList.Where((_, idx) => idx != 0)
@@ -289,6 +305,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// ロガー
         /// </summary>
+        [field: NonSerialized]
         protected WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

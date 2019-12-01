@@ -8,7 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -16,7 +18,8 @@ namespace WodiLib.Database
     /// <summary>
     /// DBタイプ情報クラス
     /// </summary>
-    public partial class DatabaseTypeDesc
+    [Serializable]
+    public partial class DatabaseTypeDesc : IEquatable<DatabaseTypeDesc>, ISerializable, IDeserializationCallback
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -399,6 +402,21 @@ namespace WodiLib.Database
             return result;
         }
 
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(DatabaseTypeDesc other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return ItemDescList.Equals(other.ItemDescList)
+                   && DataDescList.Equals(other.DataDescList)
+                   && TypeSetting.Equals(other.TypeSetting)
+                   && DataSetting.Equals(other.DataSetting);
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -447,6 +465,52 @@ namespace WodiLib.Database
             DBType,
             DBData,
             Public
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(TypeName), TypeName);
+            info.AddValue(nameof(Memo), Memo);
+            info.AddValue(nameof(ItemDescList), ItemDescList);
+            info.AddValue(nameof(DataDescList), DataDescList);
+            info.AddValue(nameof(TypeSetting), TypeSetting);
+            info.AddValue(nameof(DataSetting), DataSetting);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected DatabaseTypeDesc(SerializationInfo info, StreamingContext context)
+        {
+            TypeName = info.GetValue<TypeName>(nameof(TypeName));
+            Memo = info.GetValue<DatabaseMemo>(nameof(Memo));
+            ItemDescList = info.GetValue<DatabaseItemDescList>(nameof(ItemDescList));
+            DataDescList = info.GetValue<DatabaseDataDescList>(nameof(DataDescList));
+            TypeSetting = info.GetValue<DBTypeSetting>(nameof(TypeSetting));
+            DataSetting = info.GetValue<DBDataSetting>(nameof(DataSetting));
+        }
+
+        /// <summary>
+        /// デシリアライズコールバック
+        /// </summary>
+        /// <param name="sender">コールバック開始オブジェクト</param>
+        public void OnDeserialization(object sender)
+        {
+            RegisterDataDescListHandlerDataDescList();
+            RegisterItemDescListHandlerItemDescList();
         }
     }
 }

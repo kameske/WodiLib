@@ -69,5 +69,68 @@ namespace WodiLib.Test.Sys
                 Assert.AreEqual(list[i + checkLength], defaultValue);
             }
         }
+
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(10)]
+        public static void GetHashCodeForEqualityComparerTest(int listLength)
+        {
+            const int prime = 31;
+            IEqualityComparer<int> testComparer = new GetHashCodeTestEqualityComparer();
+
+            var list = new List<int>();
+            // 要素が0のとき、ハッシュ値0
+            // 要素が1以上のとき、1を起点に 要素の分だけ
+            //     hashCode = (hashCode * 31) ^ IEqualityComparer<T>.GetHashCode(list[i])
+            // を実行する
+            var answer = listLength == 0 ? 0 : 1;
+
+            for (var i = 0; i < listLength; i++)
+            {
+                list.Add(i);
+                answer = (answer * prime) ^ testComparer.GetHashCode(i);
+            }
+
+            // 値が意図した値と一致すること
+            Assert.AreEqual(list.GetHashCode(testComparer), answer);
+        }
+
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(10)]
+        public static void GetHashCodeForFuncTest(int listLength)
+        {
+            const int prime = 31;
+            Func<int, int> testFunc = new GetHashCodeTestEqualityComparer().GetHashCode;
+
+            var list = new List<int>();
+            // 要素が0のとき、ハッシュ値0
+            // 要素が1以上のとき、1を起点に 要素の分だけ
+            //     hashCode = (hashCode * 31) ^ Func(list[i])
+            // を実行する
+            var answer = listLength == 0 ? 0 : 1;
+
+            for (var i = 0; i < listLength; i++)
+            {
+                list.Add(i);
+                answer = (answer * prime) ^ testFunc(i);
+            }
+
+            // 値が意図した値と一致すること
+            Assert.AreEqual(list.GetHashCode(testFunc), answer);
+        }
+
+        private class GetHashCodeTestEqualityComparer : IEqualityComparer<int>
+        {
+            public bool Equals(int x, int y)
+            {
+                return x == y;
+            }
+
+            public int GetHashCode(int obj)
+            {
+                return obj.GetHashCode();
+            }
+        }
     }
 }

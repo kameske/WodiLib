@@ -15,6 +15,7 @@ namespace WodiLib.Database
     /// <summary>
     /// [NotNull] 項目メモ
     /// </summary>
+    [Serializable]
     public class ItemMemo : IConvertibleString, IEquatable<ItemMemo>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

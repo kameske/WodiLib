@@ -15,6 +15,7 @@ namespace WodiLib.Map
     /// <summary>
     /// [Range(-1, 9999)] マップID
     /// </summary>
+    [Serializable]
     public struct MapId : IConvertibleInt, IEquatable<MapId>, IComparable<MapId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -16,7 +16,8 @@ namespace WodiLib.IO
     /// <summary>
     /// 可変データベースプロジェクトファイル名
     /// </summary>
-    public class ChangeableDatabaseProjectFilePath : DatabaseProjectFilePath
+    [Serializable]
+    public class ChangeableDatabaseProjectFilePath : DatabaseProjectFilePath, IEquatable<ChangeableDatabaseProjectFilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

@@ -17,7 +17,8 @@ namespace WodiLib.IO
     /// <summary>
     /// MapTreeOpenState.dat ファイルパス
     /// </summary>
-    public class MapTreeOpenStatusDataFilePath : FilePath
+    [Serializable]
+    public class MapTreeOpenStatusDataFilePath : FilePath, IEquatable<MapTreeOpenStatusDataFilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

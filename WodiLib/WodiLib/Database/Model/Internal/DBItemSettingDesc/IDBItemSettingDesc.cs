@@ -15,7 +15,7 @@ namespace WodiLib.Database
     /// <summary>
     /// データベース設定値特殊指定インタフェース
     /// </summary>
-    internal interface IDBItemSettingDesc
+    internal interface IDBItemSettingDesc : IEquatable<IDBItemSettingDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -173,12 +173,5 @@ namespace WodiLib.Database
         /// <returns>設定可能な場合true</returns>
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         bool CanSetItemType(DBItemType type);
-
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        bool Equals(IDBItemSettingDesc other);
     }
 }

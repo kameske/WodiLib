@@ -6,18 +6,20 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Cmn;
 using WodiLib.Project;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.CharaMoveCommand
 {
-    /// <inheritdoc />
     /// <summary>
     /// 動作指定：代入
     /// </summary>
-    public class AssignValue : CharaMoveCommandBase
+    [Serializable]
+    public class AssignValue : CharaMoveCommandBase, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Constant
@@ -90,6 +92,13 @@ namespace WodiLib.Event.CharaMoveCommand
         internal TargetAddressOwner Owner { get; set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>所有イベント保持フラグ</summary>
+        private bool HasOwner => Owner != null;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -126,6 +135,36 @@ namespace WodiLib.Event.CharaMoveCommand
 
             return string.Format(EventCommandSentenceFormat,
                 targetStr, valueStr);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(NumberValues), NumberValues);
+            info.AddValue(nameof(HasOwner), HasOwner);
+            if (HasOwner) info.AddValue(nameof(Owner), Owner.Id);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected AssignValue(SerializationInfo info, StreamingContext context)
+        {
+            NumberValues = info.GetValue<CharaMoveCommandValue[]>(nameof(NumberValues));
+            var savedOwner = info.GetBoolean(nameof(HasOwner));
+            if (savedOwner) Owner = TargetAddressOwner.FromId(info.GetValue<string>(nameof(Owner)));
         }
     }
 }

@@ -18,6 +18,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・キー入力禁止（基本入力）
     /// </summary>
+    [Serializable]
     public class StandardKeyInputControl : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

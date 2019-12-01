@@ -344,5 +344,15 @@ namespace WodiLib.Test.Ini.Model
             Assert.IsTrue(setValue.Equals(isUseOldDirectX));
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new GameIniData
+            {
+                DisplayNumber = 2,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

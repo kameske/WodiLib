@@ -18,7 +18,7 @@ namespace WodiLib.Database
     /// DB項目特殊指定情報クラス
     /// </summary>
     [Serializable]
-    public class DBItemSpecialSettingDesc
+    public class DBItemSpecialSettingDesc : IEquatable<DBItemSpecialSettingDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -334,15 +334,13 @@ namespace WodiLib.Database
         /// <returns>一致する場合、true</returns>
         public bool Equals(DBItemSpecialSettingDesc other)
         {
-            if (other == null) return false;
             if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
 
-            if (!SettingType.Equals(other.SettingType)) return false;
-            if (!InnerDesc.Equals(other.InnerDesc)) return false;
-            if (!InitValue.Equals(other.InitValue)) return false;
-            if (!ItemMemo.Equals(other.ItemMemo)) return false;
-
-            return true;
+            return SettingType == other.SettingType
+                   && InitValue == other.InitValue
+                   && ItemMemo == other.ItemMemo
+                   && InnerDesc.Equals(other.InnerDesc);
         }
     }
 }

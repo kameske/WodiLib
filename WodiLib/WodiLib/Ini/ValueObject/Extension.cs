@@ -14,6 +14,7 @@ namespace WodiLib.Ini
     /// <summary>
     /// [NotNull][NotNewLine] 拡張子
     /// </summary>
+    [Serializable]
     public class Extension : IConvertibleString, IEquatable<Extension>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -17,7 +17,7 @@ namespace WodiLib.Database
     /// データベース設定値特殊指定・選択肢手動生成
     /// </summary>
     [Serializable]
-    internal class DBItemSettingDescManual : DBItemSettingDescBase
+    internal class DBItemSettingDescManual : DBItemSettingDescBase, IEquatable<DBItemSettingDescManual>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -262,16 +262,20 @@ namespace WodiLib.Database
         /// <returns>一致する場合、true</returns>
         public override bool Equals(IDBItemSettingDesc other)
         {
-            if (other == null) return false;
+            if (ReferenceEquals(null, this)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            if (!(other is DBItemSettingDescManual)) return false;
+            if (!(other is DBItemSettingDescManual casted)) return false;
 
-            var casted = (DBItemSettingDescManual) other;
+            return Equals(casted);
+        }
 
-            if (!ArgCaseList.SequenceEqual(casted.ArgCaseList)) return false;
+        public bool Equals(DBItemSettingDescManual other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
 
-            return true;
+            return ArgCaseList.Equals(other.ArgCaseList);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

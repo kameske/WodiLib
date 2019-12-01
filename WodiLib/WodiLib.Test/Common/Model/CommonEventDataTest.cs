@@ -48,6 +48,18 @@ namespace WodiLib.Test.Common
             Assert.IsTrue(setValue.Equals(list));
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new CommonEventData
+            {
+                CommonEventList = MakeCommonEventList(1),
+            };
+            var clone = DeepCloner.DeepClone(target);
+            
+            Assert.IsTrue(clone.Equals(target));
+        }
+
 
         private static CommonEventList MakeCommonEventList(int length)
         {

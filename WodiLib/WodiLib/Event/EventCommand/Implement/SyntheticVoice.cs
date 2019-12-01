@@ -18,6 +18,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・合成音声
     /// </summary>
+    [Serializable]
     public class SyntheticVoice : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

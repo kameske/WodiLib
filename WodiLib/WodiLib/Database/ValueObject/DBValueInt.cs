@@ -18,6 +18,7 @@ namespace WodiLib.Database
     ///     [SafetyRange(-999999, 1400000000)]
     ///     DB設定数値
     /// </summary>
+    [Serializable]
     public struct DBValueInt : IConvertibleInt, IEquatable<DBValueInt>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

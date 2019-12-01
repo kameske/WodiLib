@@ -13,6 +13,7 @@ namespace WodiLib.Sys.Cmn
     /// <summary>
     /// WodiLib全体のバージョン設定
     /// </summary>
+    [Serializable]
     public class VersionConfig
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

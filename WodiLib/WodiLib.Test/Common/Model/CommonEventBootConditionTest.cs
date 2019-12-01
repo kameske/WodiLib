@@ -52,7 +52,7 @@ namespace WodiLib.Test.Common
             Assert.IsTrue(getValue == type);
         }
 
-        [TestCase(-1, false)] // null
+        [TestCase(-1, false)]      // null
         [TestCase(1000000, false)] // MapEventSelfVariableAddress (Not NumberVariableAddress)
         [TestCase(2000000, false)] // NormalNumberVariableAddress
         [TestCase(2100000, false)] // SpareNumberVariableAddress
@@ -106,6 +106,17 @@ namespace WodiLib.Test.Common
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(getValue == rightSide);
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new CommonEventBootCondition
+            {
+                RightSide = 100,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

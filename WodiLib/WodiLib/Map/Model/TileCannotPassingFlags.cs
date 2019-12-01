@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Linq;
 using WodiLib.Sys;
 
@@ -21,7 +22,8 @@ namespace WodiLib.Map
     /// すべてのプロパティを "true" にすることはできない。
     /// その場合は「通行不可」と同義のため。
     /// </remarks>
-    public class TileCannotPassingFlags
+    [Serializable]
+    public class TileCannotPassingFlags : IEquatable<TileCannotPassingFlags>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Constant

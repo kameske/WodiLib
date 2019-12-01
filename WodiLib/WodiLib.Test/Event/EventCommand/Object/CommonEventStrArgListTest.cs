@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
 using WodiLib.Sys;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand
 {
@@ -97,6 +98,17 @@ namespace WodiLib.Test.Event.EventCommand
             var instance = new CommonEventStrArgList {ReferenceFlg = flg};
             for (var i = 0; i < 4; i++)
                 Assert.AreEqual(instance[i].InstanceIntOrStrType, strFlgs[i] ? IntOrStrType.Str : IntOrStrType.Int);
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new CommonEventStrArgList
+            {
+                ReferenceFlg = 0x01
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

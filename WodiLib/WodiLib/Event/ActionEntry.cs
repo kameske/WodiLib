@@ -6,9 +6,11 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Project;
 using WodiLib.Sys;
@@ -18,7 +20,8 @@ namespace WodiLib.Event
     /// <summary>
     /// 動作指定
     /// </summary>
-    public class ActionEntry
+    [Serializable]
+    public class ActionEntry : IEquatable<ActionEntry>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constant
@@ -101,6 +104,13 @@ namespace WodiLib.Event
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>所有イベント保持フラグ</summary>
+        private bool HasOwner => owner != null;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -151,6 +161,21 @@ namespace WodiLib.Event
             return result;
         }
 
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(ActionEntry other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return IsWaitForComplete == other.IsWaitForComplete
+                   && IsRepeatAction == other.IsRepeatAction
+                   && IsSkipIfCannotMove == other.IsSkipIfCannotMove
+                   && commandList.Equals(other.commandList);
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -195,6 +220,42 @@ namespace WodiLib.Event
         {
             return string.Join(EventCommandSentenceMoveRouteJoinStr,
                 CommandList.Select(x => x.GetEventCommandSentence(resolver, type, desc)));
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(IsWaitForComplete), IsWaitForComplete);
+            info.AddValue(nameof(IsRepeatAction), IsRepeatAction);
+            info.AddValue(nameof(IsSkipIfCannotMove), IsSkipIfCannotMove);
+            info.AddValue(nameof(commandList), commandList);
+            info.AddValue(nameof(HasOwner), HasOwner);
+            if (HasOwner) info.AddValue(nameof(owner), owner.Id);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected ActionEntry(SerializationInfo info, StreamingContext context)
+        {
+            IsWaitForComplete = info.GetBoolean(nameof(IsWaitForComplete));
+            IsRepeatAction = info.GetBoolean(nameof(IsRepeatAction));
+            IsSkipIfCannotMove = info.GetBoolean(nameof(IsSkipIfCannotMove));
+            commandList = info.GetValue<CharaMoveCommandList>(nameof(commandList));
+            var savedOwner = info.GetBoolean(nameof(HasOwner));
+            if (savedOwner) owner = TargetAddressOwner.FromId(info.GetValue<string>(nameof(owner)));
         }
     }
 }

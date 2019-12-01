@@ -19,6 +19,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// 自動キー入力（基本入力）実装
     /// </summary>
+    [Serializable]
     public class KeyInputAutoBasic : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

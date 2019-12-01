@@ -8,13 +8,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace WodiLib.Common
 {
     /// <summary>
     /// コモンイベント引数特殊指定情報インタフェース
     /// </summary>
-    internal interface ICommonEventSpecialArgDesc
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public interface ICommonEventSpecialArgDesc : IEquatable<ICommonEventSpecialArgDesc>
     {
         /// <summary>
         /// [NotNull] 引数名

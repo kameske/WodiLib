@@ -15,6 +15,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [NotNull][NotNewLine] キャラチップファイルパス
     /// </summary>
+    [Serializable]
     public class CharaChipFilePath : IConvertibleString, IEquatable<CharaChipFilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

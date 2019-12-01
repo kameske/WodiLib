@@ -15,7 +15,8 @@ namespace WodiLib.Database
     /// <summary>
     /// datファイルとprojectファイルの内容をマージしたデータ
     /// </summary>
-    public class DatabaseMergedData
+    [Serializable]
+    public class DatabaseMergedData : IEquatable<DatabaseMergedData>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -257,6 +258,18 @@ namespace WodiLib.Database
                     $"{nameof(start)}および{nameof(count)}が有効な範囲を示していません。");
 
             return TypeDescList[typeId].GenerateDBData(start, count);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(DatabaseMergedData other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return TypeDescList.Equals(other.TypeDescList);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -13,7 +14,7 @@ namespace WodiLib.Database
     /// <summary>
     /// 【容量固定】DBデータ設定値リスト
     /// </summary>
-    public interface IFixedLengthDBItemValueList : IFixedLengthCollection<DBItemValue>
+    public interface IFixedLengthDBItemValueList : IFixedLengthCollection<DBItemValue>, IEquatable<IFixedLengthDBItemValueList>
     {
         /// <summary>
         /// 容量変更可能なDBデータ設定値リストに変換する。

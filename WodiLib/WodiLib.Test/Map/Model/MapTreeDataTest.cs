@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using NUnit.Framework;
 using WodiLib.Map;
 using WodiLib.Sys.Cmn;
@@ -49,7 +48,23 @@ namespace WodiLib.Test.Map
             var setValue = instance.TreeNodeList;
 
             // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.SequenceEqual(list));
+            Assert.IsTrue(setValue.Equals(list));
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new MapTreeData
+            {
+                TreeNodeList = new MapTreeNodeList
+                {
+                    new MapTreeNode(1, -1),
+                    new MapTreeNode(2, -1),
+                    new MapTreeNode(3, 1),
+                }
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

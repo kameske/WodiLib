@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -15,6 +17,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// 条件（変数）条件リスト
     /// </summary>
+    [Serializable]
     public class ConditionNumberList : RestrictedCapacityCollection<ConditionNumberDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -22,7 +25,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>最大容量</summary>
-        public static int MaxCapacity => 3;
+        public static int MaxCapacity => 15;
 
         /// <summary>最小容量</summary>
         public static int MinCapacity => 1;
@@ -80,5 +83,19 @@ namespace WodiLib.Event.EventCommand
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override ConditionNumberDesc MakeDefaultItem(int index) => new ConditionNumberDesc();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected ConditionNumberList(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }

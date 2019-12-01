@@ -277,6 +277,20 @@ namespace WodiLib.Test.Database
             Assert.AreEqual(result.TypeName, typeSettingList[typeId].TypeName);
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new DatabaseMergedData
+            {
+                TypeDescList = { new DatabaseTypeDesc
+                {
+                    Memo = "Memo"
+                }}
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
 
         private static DBTypeSettingList CreateTypeSettingList(int length)
         {

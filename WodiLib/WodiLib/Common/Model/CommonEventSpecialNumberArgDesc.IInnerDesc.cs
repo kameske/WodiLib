@@ -15,7 +15,7 @@ namespace WodiLib.Common
 {
     public partial class CommonEventSpecialNumberArgDesc
     {
-        internal interface IInnerDesc
+        internal interface IInnerDesc : IEquatable<IInnerDesc>
         {
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Public Property

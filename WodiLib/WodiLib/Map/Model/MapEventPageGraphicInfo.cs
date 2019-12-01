@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Cmn;
 using WodiLib.Event;
 using WodiLib.Sys;
@@ -17,8 +19,13 @@ namespace WodiLib.Map
     /// <summary>
     /// マップイベントページグラフィック情報クラス
     /// </summary>
-    public class MapEventPageGraphicInfo
+    [Serializable]
+    public class MapEventPageGraphicInfo : IEquatable<MapEventPageGraphicInfo>, ISerializable
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /// <summary>
         /// キャラ画像タイルセットフラグ
         /// </summary>
@@ -137,6 +144,39 @@ namespace WodiLib.Map
             CharaChipFilePath = filePath;
         }
 
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public MapEventPageGraphicInfo()
+        {
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(MapEventPageGraphicInfo other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return graphicTileId == other.graphicTileId
+                   && CharaChipOpacity == other.CharaChipOpacity
+                   && InitAnimationId == other.InitAnimationId
+                   && charaChipFilePath.Equals(other.charaChipFilePath)
+                   && initDirection.Equals(other.initDirection)
+                   && charaChipDrawType.Equals(other.charaChipDrawType)
+                   && IsGraphicTileChip == other.IsGraphicTileChip;
+        }
+
         /// <summary>
         /// バイナリ変換する。
         /// </summary>
@@ -159,6 +199,44 @@ namespace WodiLib.Map
             result.Add(CharaChipDrawType.Code);
 
             return result.ToArray();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(IsGraphicTileChip), IsGraphicTileChip);
+            info.AddValue(nameof(graphicTileId), graphicTileId);
+            info.AddValue(nameof(charaChipFilePath), charaChipFilePath);
+            info.AddValue(nameof(initDirection), initDirection.Code);
+            info.AddValue(nameof(InitAnimationId), InitAnimationId);
+            info.AddValue(nameof(CharaChipOpacity), CharaChipOpacity);
+            info.AddValue(nameof(charaChipDrawType), charaChipDrawType.Code);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected MapEventPageGraphicInfo(SerializationInfo info, StreamingContext context)
+        {
+            IsGraphicTileChip = info.GetBoolean(nameof(IsGraphicTileChip));
+            graphicTileId = info.GetInt32(nameof(graphicTileId));
+            charaChipFilePath = info.GetValue<CharaChipFilePath>(nameof(charaChipFilePath));
+            initDirection = CharaChipDirection.FromByte(info.GetByte(nameof(initDirection)));
+            InitAnimationId = info.GetByte(nameof(InitAnimationId));
+            CharaChipOpacity = info.GetByte(nameof(CharaChipOpacity));
+            charaChipDrawType = PictureDrawType.FromByte(info.GetByte(nameof(charaChipDrawType)));
         }
     }
 }

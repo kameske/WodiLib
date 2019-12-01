@@ -126,5 +126,13 @@ namespace WodiLib.Test.Map
             var rightIndex = (TileTagNumber) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = (TileTagNumber) 98;
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

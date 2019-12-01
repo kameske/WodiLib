@@ -13,6 +13,7 @@ namespace WodiLib.Sys
     /// <summary>
     /// ウディタ仕様の数値
     /// </summary>
+    [Serializable]
     internal struct WoditorInt
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

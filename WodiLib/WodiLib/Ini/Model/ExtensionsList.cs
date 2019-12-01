@@ -8,7 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -16,6 +18,7 @@ namespace WodiLib.Ini
     /// <summary>
     /// 拡張子リスト
     /// </summary>
+    [Serializable]
     public class ExtensionList : RestrictedCapacityCollection<Extension>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -94,5 +97,19 @@ namespace WodiLib.Ini
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override Extension MakeDefaultItem(int index) => new Extension("");
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected ExtensionList(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }

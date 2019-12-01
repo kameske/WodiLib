@@ -109,5 +109,19 @@ namespace WodiLib.Test.Common.Internal
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new CommonEventSpecialArgDescList();
+            target.UpdateSpecialNumberArgDesc(0,
+                new CommonEventSpecialNumberArgDesc
+                {
+                    ArgName = "引数名",
+                    InitValue = 33,
+                });
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

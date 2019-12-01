@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -13,7 +14,8 @@ namespace WodiLib.Map
     /// <summary>
     /// 長さ固定マップチップリスト
     /// </summary>
-    public interface IFixedLengthMapChipColumns : IFixedLengthCollection<MapChip>
+    public interface IFixedLengthMapChipColumns : IFixedLengthCollection<MapChip>,
+        IEquatable<IFixedLengthMapChipColumns>
     {
         /// <summary>
         /// マップチップ情報を初期化する。

@@ -19,6 +19,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・条件（文字列）・始端
     /// </summary>
+    [Serializable]
     public class ConditionStringStart : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -26,7 +27,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>数値変数の数最大値</summary>
-        private static readonly int NumberVariableCountMax = 10;
+        private static readonly int NumberVariableCountMax = 31;
 
         /// <summary>代入コードシフト係数</summary>
         private static readonly int OperationCodeShift = 24;
@@ -61,11 +62,23 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <inheritdoc />
-        public override byte StringVariableCount => 0x04;
+        public override byte StringVariableCount
+        {
+            get
+            {
+                var numRightMax = (byte) conditionList.SearchUseNumberVariableForRightSideMax();
+
+                return numRightMax >= 0x04 ? numRightMax : (byte) 0x04;
+            }
+        }
 
         /// <inheritdoc />
         /// <summary>数値変数最小個数</summary>
         public override byte NumberVariableCountMin => 0x03;
+
+        /// <inheritdoc />
+        /// <summary>数値変数最小個数</summary>
+        public override byte StringVariableCountMin => 0x00;
 
         /// <inheritdoc />
         protected override EventCommandColorSet EventCommandColorSet
@@ -76,7 +89,7 @@ namespace WodiLib.Event.EventCommand
         /// インデックスを指定して数値変数を取得する。
         /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
-        /// <param name="index">[Range(0, 1～10)] インデックス</param>
+        /// <param name="index">[Range(0, 1～31)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -136,7 +149,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// 数値変数を設定する。
         /// </summary>
-        /// <param name="index">[Range(1, 1～10)] インデックス</param>
+        /// <param name="index">[Range(1, 1～31)] インデックス</param>
         /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -144,7 +157,7 @@ namespace WodiLib.Event.EventCommand
         {
             if (index < 1 || NumberVariableCountMax < index)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(index), 1, NumberVariableCount, index));
+                    ErrorMessage.OutOfRange(nameof(index), 1, NumberVariableCountMax, index));
             switch (index)
             {
                 case 1:
@@ -181,7 +194,7 @@ namespace WodiLib.Event.EventCommand
                         {
                             if (index < 1 || NumberVariableCountMax < index)
                                 throw new ArgumentOutOfRangeException(
-                                    ErrorMessage.OutOfRange(nameof(index), 1, NumberVariableCount, index));
+                                    ErrorMessage.OutOfRange(nameof(index), 1, NumberVariableCountMax, index));
                         }
 
                         conditionList[tmpIndex].RightSide.Merge(value);
@@ -196,7 +209,7 @@ namespace WodiLib.Event.EventCommand
         /// インデックスを指定して文字列変数を取得する。
         /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
         /// </summary>
-        /// <param name="index">[Range(0, 4)] インデックス</param>
+        /// <param name="index">[Range(0, 3~14)] インデックス</param>
         /// <returns>インデックスに対応した値</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -219,7 +232,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// 文字列変数を設定する。
         /// </summary>
-        /// <param name="index">[Range(0, 3)] インデックス</param>
+        /// <param name="index">[Range(0, 3~14)] インデックス</param>
         /// <param name="value">[NotNull] 設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
@@ -274,16 +287,16 @@ namespace WodiLib.Event.EventCommand
         /// <summary>分岐条件リスト</summary>
         public ConditionStringList ConditionList => conditionList;
 
-        /// <summary>[Range(1, 4)] 分岐数</summary>
+        /// <summary>[Range(1, 15)] 分岐数</summary>
         /// <exception cref="PropertyOutOfRangeException">指定範囲以外の値をセットした場合</exception>
         public int CaseValue
         {
             get => conditionList.ConditionValue;
             set
             {
-                if (value < 1 || 4 < value)
+                if (value < 1 || 15 < value)
                     throw new PropertyOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(CaseValue), 1, 4, value));
+                        ErrorMessage.OutOfRange(nameof(CaseValue), 1, 15, value));
                 conditionList.ConditionValue = value;
             }
         }

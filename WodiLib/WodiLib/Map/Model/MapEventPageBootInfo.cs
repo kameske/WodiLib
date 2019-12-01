@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -15,8 +17,13 @@ namespace WodiLib.Map
     /// <summary>
     /// マップイベントページ起動情報クラス
     /// </summary>
-    public class MapEventPageBootInfo
+    [Serializable]
+    public class MapEventPageBootInfo : IEquatable<MapEventPageBootInfo>, ISerializable
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         private MapEventBootType mapEventBootType = MapEventBootType.PushOKKey;
 
         /// <summary>イベント起動タイプ</summary>
@@ -183,6 +190,37 @@ namespace WodiLib.Map
             }
         }
 
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public MapEventPageBootInfo()
+        {
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(MapEventPageBootInfo other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return mapEventBootType.Equals(other.mapEventBootType)
+                   && mapEventBootCondition1.Equals(other.mapEventBootCondition1)
+                   && mapEventBootCondition2.Equals(other.mapEventBootCondition2)
+                   && mapEventBootCondition3.Equals(other.mapEventBootCondition3)
+                   && mapEventBootCondition4.Equals(other.mapEventBootCondition4);
+        }
+
         /// <summary>
         /// バイナリ変換する。
         /// </summary>
@@ -219,6 +257,40 @@ namespace WodiLib.Map
             result.AddRange(MapEventBootCondition4.RightSide.ToBytes(Endian.Woditor));
 
             return result.ToArray();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(mapEventBootType), mapEventBootType.Code);
+            info.AddValue(nameof(mapEventBootCondition1), mapEventBootCondition1);
+            info.AddValue(nameof(mapEventBootCondition2), mapEventBootCondition2);
+            info.AddValue(nameof(mapEventBootCondition3), mapEventBootCondition3);
+            info.AddValue(nameof(mapEventBootCondition4), mapEventBootCondition4);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected MapEventPageBootInfo(SerializationInfo info, StreamingContext context)
+        {
+            mapEventBootType = MapEventBootType.FromByte(info.GetByte(nameof(mapEventBootType)));
+            mapEventBootCondition1 = info.GetValue<MapEventBootCondition>(nameof(mapEventBootCondition1));
+            mapEventBootCondition2 = info.GetValue<MapEventBootCondition>(nameof(mapEventBootCondition2));
+            mapEventBootCondition3 = info.GetValue<MapEventBootCondition>(nameof(mapEventBootCondition3));
+            mapEventBootCondition4 = info.GetValue<MapEventBootCondition>(nameof(mapEventBootCondition4));
         }
     }
 }

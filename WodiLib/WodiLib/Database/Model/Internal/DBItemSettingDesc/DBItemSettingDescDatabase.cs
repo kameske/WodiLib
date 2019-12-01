@@ -8,7 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -17,7 +19,7 @@ namespace WodiLib.Database
     /// データベース設定値特殊指定・データベース参照
     /// </summary>
     [Serializable]
-    internal class DBItemSettingDescDatabase : DBItemSettingDescBase
+    internal class DBItemSettingDescDatabase : DBItemSettingDescBase, IEquatable<DBItemSettingDescDatabase>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -174,16 +176,25 @@ namespace WodiLib.Database
             if (other == null) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            if (!(other is DBItemSettingDescDatabase)) return false;
+            if (!(other is DBItemSettingDescDatabase casted)) return false;
 
-            var casted = (DBItemSettingDescDatabase) other;
+            return Equals(casted);
+        }
 
-            if (DatabaseReferKind != casted.DatabaseReferKind) return false;
-            if (DatabaseDbTypeId != casted.DatabaseDbTypeId) return false;
-            if (DatabaseUseAdditionalItemsFlag != casted.DatabaseUseAdditionalItemsFlag) return false;
-            if (!ArgCaseList.SequenceEqual(casted.ArgCaseList)) return false;
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(DBItemSettingDescDatabase other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
 
-            return true;
+            return DatabaseDbTypeId == other.DatabaseDbTypeId
+                   && DatabaseUseAdditionalItemsFlag == other.DatabaseUseAdditionalItemsFlag
+                   && DatabaseReferKind == other.DatabaseReferKind
+                   && ArgCaseList.Equals(other.ArgCaseList);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -202,6 +213,38 @@ namespace WodiLib.Database
                 new DatabaseValueCase(-2, ""),
                 new DatabaseValueCase(-3, "")
             });
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(databaseDbKind), databaseDbKind.Code);
+            info.AddValue(nameof(DatabaseDbTypeId), DatabaseDbTypeId);
+            info.AddValue(nameof(DatabaseUseAdditionalItemsFlag), DatabaseUseAdditionalItemsFlag);
+            info.AddValue(nameof(ArgCaseList), ArgCaseList);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected DBItemSettingDescDatabase(SerializationInfo info, StreamingContext context)
+        {
+            databaseDbKind = DBReferType.FromCode(info.GetInt32(nameof(databaseDbKind)));
+            DatabaseDbTypeId = info.GetInt32(nameof(DatabaseDbTypeId));
+            DatabaseUseAdditionalItemsFlag = info.GetBoolean(nameof(DatabaseUseAdditionalItemsFlag));
+            ArgCaseList = info.GetValue<DatabaseValueCaseList>(nameof(ArgCaseList));
         }
     }
 }

@@ -1405,8 +1405,10 @@ namespace WodiLib.Test.Event
         [TestCase("[498][0,0]<2>()()")]
         [TestCase("[499][0,0]<0>()()")]
         /* ----------以下標準ではないがウディタ基本システムで登場するコマンド */
-        [TestCase("[250][5,0]<0>(1,1600000,1600015,0,1600001)()")] // CEv58 L43  | "|■可変DB書込：DB[ 1 : CSelf0[主人公ID] : CSelf15[空き欄] ]  (┣ 技能習得Lv : - : -) =  CSelf1[技能番号]"
-        [TestCase("[250][4,4]<0>(21,90,1,65538)(\"\",\"基本ｼｽﾃﾑ用変数\",\"\",\"\")")] //CEv74 L25  "|■可変DB書込：DB[ 基本ｼｽﾃﾑ用変数 : 90 : 1 ]  (18 : [Lvup]習得技能[文字列] : 文字列) =  "
+        [TestCase(
+            "[250][5,0]<0>(1,1600000,1600015,0,1600001)()")] // CEv58 L43  | "|■可変DB書込：DB[ 1 : CSelf0[主人公ID] : CSelf15[空き欄] ]  (┣ 技能習得Lv : - : -) =  CSelf1[技能番号]"
+        [TestCase(
+            "[250][4,4]<0>(21,90,1,65538)(\"\",\"基本ｼｽﾃﾑ用変数\",\"\",\"\")")] //CEv74 L25  "|■可変DB書込：DB[ 基本ｼｽﾃﾑ用変数 : 90 : 1 ]  (18 : [Lvup]習得技能[文字列] : 文字列) =  "
         /* ----------以下標準ではない形式 */
         [TestCase("[9999][2,0]<2>(500001,0)()")] // 仕様外イベントコマンドコード
         [TestCase("[101][0,3]<0>()(\"文章の表示\",\"テスト\",\"追加文字列\")")] // 本来は文字列引数1個
@@ -1423,7 +1425,17 @@ namespace WodiLib.Test.Event
         [TestCase("[0][2,0]<0>(10,255)()")] // 本来は数値引数0個
         [TestCase("[0][0,3]<0>()(\"文章の表示\",\"テスト\",\"追加文字列\")")] // 本来は文字列引数0個
         [TestCase("[0][0,0]<0>()() #コメント")] // 末尾に余計な文字が付与されている（ウディタ仕様ではこの余計な文字は復元されないが、WodiLibでは復元対象とする）
+        [TestCase(
+            "[102][1,12]<0>(12)(\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\")")] // 「選択肢」最大数
+        [TestCase(
+            "[111][46,0]<0>(15,1100000,0,2,1100001,1,2,1100002,2,3,1100003,3,6,1100000,4,2,1100000,5,2,1100000,6,2," +
+            "1100000,7,2,1100000,8,2,1100000,9,2,1100000,10,2,1100000,11,2,1100000,12,2,1100000,13,2,1100000,14,2)()")] // 分岐条件（数値）・分岐数15
+        [TestCase(
+            "[112][30,15]<0>(15,3000000,19777216,3000000,19777216,19777216,19777216,19777216,3000001,19777216,3000000,3000000," +
+            "3000000,19777216,19777216,3000000,0,3000000,0,3000002,3000003,3000000,3000007,0,3000009,0,0,0,3000013,3000014)" +
+            "(\"1\",\"\",\"3\",\"\",\"\",\"\",\"\",\"8\",\"\",\"10\",\"11\",\"12\",\"\",\"\",\"15\")")] // 分岐条件（文字列）・分岐数15
         [TestCase("[210][2,0]<-1>(1,0)()")] // インデントが負数（通常使用でもインデント128以上にすると負数になる）
+        [TestCase("[401][1,0]<0>(15)()")] // 分岐始端・最大値
         public static void CreateCommandStringTest(string src)
         {
             var instance = Factory.CreateCommandString(src);
@@ -1440,6 +1452,7 @@ namespace WodiLib.Test.Event
                 // 仕様外のコマンドはこの方法で本来のコードを取得することは出来ない
                 Assert.AreEqual(instance.EventCommandCode.Code, commandCode);
             }
+
             // 仕様外のコマンドでも正しいコマンドを取得できる。
             Assert.AreEqual(instance.RawEventCommandCode, commandCode);
 
@@ -1452,7 +1465,7 @@ namespace WodiLib.Test.Event
             var indent = (sbyte) int.Parse(split[2]);
             Assert.AreEqual(instance.Indent.ToSbyte(), indent);
 
-            var numArgs = split[3].IsEmpty() ? new string[] {} : split[3].Split(',');
+            var numArgs = split[3].IsEmpty() ? new string[] { } : split[3].Split(',');
             var instanceAllNumberList = instance.AllNumberArgList;
             // 与えた引数の数が足りない場合でもエラーにしないため、このテスト結果がfalseになる可能性がある
             // Assert.AreEqual(instanceAllNumberList.Count - 1, numArgs.Length);
@@ -1461,7 +1474,9 @@ namespace WodiLib.Test.Event
                 Assert.AreEqual(instanceAllNumberList[i + 1], int.Parse(numArgs[i].Trim()));
             }
 
-            var strArgs = split[4].IsEmpty() ? new String[] {} : split[4].Split(',').Select(x => Regex.Replace(x.Trim(), "^\"(.*)\"$","$1")).ToArray();
+            var strArgs = split[4].IsEmpty()
+                ? new String[] { }
+                : split[4].Split(',').Select(x => Regex.Replace(x.Trim(), "^\"(.*)\"$", "$1")).ToArray();
             var instanceAllStringArgList = instance.AllStringArgList;
             // 与えた引数の数が足りない場合でもエラーにしないため、このテスト結果がfalseになる可能性がある
             // Assert.AreEqual(instanceAllStringArgList.Count, strArgs.Length);

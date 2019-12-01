@@ -16,6 +16,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンド・条件・上記以外
     /// </summary>
+    [Serializable]
     public class ConditionElse : EventCommandBase
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

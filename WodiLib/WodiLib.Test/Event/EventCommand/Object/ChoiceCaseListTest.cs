@@ -21,8 +21,8 @@ namespace WodiLib.Test.Event.EventCommand
         [TestCase(-1, true)]
         [TestCase(0, true)]
         [TestCase(1, false)]
-        [TestCase(10, false)]
-        [TestCase(11, true)]
+        [TestCase(12, false)]
+        [TestCase(13, true)]
         public static void CaseValueSetterTest(int setValue, bool isError)
         {
             var errorOccured = false;
@@ -104,6 +104,17 @@ namespace WodiLib.Test.Event.EventCommand
             for (var i = 0; i < caseValue; i++)
                 if (i != index)
                     Assert.IsTrue(instance.Get(i).Equals(initObj.Get(i)));
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new ChoiceCaseList
+            {
+                CaseValue = 3,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using WodiLib.Project;
 
 namespace WodiLib.Event.EventCommand
@@ -13,7 +14,8 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// 色クラス
     /// </summary>
-    public class Color
+    [Serializable]
+    public class Color : IEquatable<Color>
     {
         private const string EventCommandSentenceFormat = "R[{0}] G[{1}] B[{2}]";
 
@@ -64,6 +66,20 @@ namespace WodiLib.Event.EventCommand
 
             return string.Format(EventCommandSentenceFormat,
                 rStr, gStr, bStr);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(Color other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return R == other.R
+                   && G == other.G
+                   && B == other.B;
         }
     }
 }

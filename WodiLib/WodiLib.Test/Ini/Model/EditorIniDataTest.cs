@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using NUnit.Framework;
 using WodiLib.Ini;
 using WodiLib.Sys.Cmn;
@@ -85,7 +84,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MainWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition)(10, 100)},
+            new object[] {(WindowPosition) (10, 100)},
         };
 
         [TestCaseSource(nameof(MainWindowPositionTestCaseSource))]
@@ -115,7 +114,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MainWindowSizeTestCaseSource =
         {
-            new object[] {(WindowSize)(10, 100)},
+            new object[] {(WindowSize) (10, 100)},
         };
 
         [TestCaseSource(nameof(MainWindowSizeTestCaseSource))]
@@ -145,7 +144,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MapChipWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition)(10, 100)},
+            new object[] {(WindowPosition) (10, 100)},
         };
 
         [TestCaseSource(nameof(MapChipWindowPositionTestCaseSource))]
@@ -175,7 +174,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MapEventWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition)(10, 100)},
+            new object[] {(WindowPosition) (10, 100)},
         };
 
         [TestCaseSource(nameof(MapEventWindowPositionTestCaseSource))]
@@ -205,7 +204,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MapEventWindowSizeTestCaseSource =
         {
-            new object[] {(WindowSize)(10, 100)},
+            new object[] {(WindowSize) (10, 100)},
         };
 
         [TestCaseSource(nameof(MapEventWindowSizeTestCaseSource))]
@@ -235,7 +234,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MapEventInputWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition)(10, 100)},
+            new object[] {(WindowPosition) (10, 100)},
         };
 
         [TestCaseSource(nameof(MapEventInputWindowPositionTestCaseSource))]
@@ -265,7 +264,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] CommonEventWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition)(10, 100)},
+            new object[] {(WindowPosition) (10, 100)},
         };
 
         [TestCaseSource(nameof(CommonEventWindowPositionTestCaseSource))]
@@ -295,7 +294,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] CommonEventWindowSizeTestCaseSource =
         {
-            new object[] {(WindowSize)(10, 100)},
+            new object[] {(WindowSize) (10, 100)},
         };
 
         [TestCaseSource(nameof(CommonEventWindowSizeTestCaseSource))]
@@ -325,7 +324,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] CommonEventInputWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition)(10, 100)},
+            new object[] {(WindowPosition) (10, 100)},
         };
 
         [TestCaseSource(nameof(CommonEventInputWindowPositionTestCaseSource))]
@@ -355,7 +354,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] UserDbWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition)(10, 100)},
+            new object[] {(WindowPosition) (10, 100)},
         };
 
         [TestCaseSource(nameof(UserDbWindowPositionTestCaseSource))]
@@ -385,7 +384,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] ChangeableDbWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition)(10, 100)},
+            new object[] {(WindowPosition) (10, 100)},
         };
 
         [TestCaseSource(nameof(ChangeableDbWindowPositionTestCaseSource))]
@@ -415,7 +414,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] SystemDbWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition)(10, 100)},
+            new object[] {(WindowPosition) (10, 100)},
         };
 
         [TestCaseSource(nameof(SystemDbWindowPositionTestCaseSource))]
@@ -511,7 +510,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] EditTimeTestCaseSource =
         {
-            new object[] {(WorkTime)120},
+            new object[] {(WorkTime) 120},
         };
 
         [TestCaseSource(nameof(EditTimeTestCaseSource))]
@@ -541,7 +540,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] NotEditTimeTestCaseSource =
         {
-            new object[] {(WorkTime)120},
+            new object[] {(WorkTime) 120},
         };
 
         [TestCaseSource(nameof(NotEditTimeTestCaseSource))]
@@ -721,7 +720,7 @@ namespace WodiLib.Test.Ini.Model
         private static readonly object[] NotCopyExtListTestCaseSource =
         {
             new object[] {null, true},
-            new object[] {new ExtensionList(new Extension[]{".txt", ".svg"}), false},
+            new object[] {new ExtensionList(new Extension[] {".txt", ".svg"}), false},
         };
 
         [TestCaseSource(nameof(NotCopyExtListTestCaseSource))]
@@ -753,7 +752,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] CommandViewTypeTestCaseSource =
         {
-            new object[] {(CommandViewType)0},
+            new object[] {(CommandViewType) 0},
         };
 
         [TestCaseSource(nameof(CommandViewTypeTestCaseSource))]
@@ -842,7 +841,7 @@ namespace WodiLib.Test.Ini.Model
             var setValue = instance.ShortCutKeyList;
 
             // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.SequenceEqual(item));
+            Assert.IsTrue(setValue.Equals(item));
         }
 
         [TestCase(true, true)]
@@ -873,7 +872,7 @@ namespace WodiLib.Test.Ini.Model
             var setValue = instance.CommandPositionList;
 
             // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.SequenceEqual(item));
+            Assert.IsTrue(setValue.Equals(item));
         }
 
         [TestCase(true)]
@@ -939,6 +938,17 @@ namespace WodiLib.Test.Ini.Model
             Assert.IsNotEmpty(errorMsg);
 
             logger.Debug(errorMsg);
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new EditorIniData
+            {
+                BackupType = ProjectBackupType.FiveTimes,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

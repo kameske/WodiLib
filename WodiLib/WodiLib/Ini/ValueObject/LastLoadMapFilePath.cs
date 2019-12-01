@@ -14,6 +14,7 @@ namespace WodiLib.Ini
     /// <summary>
     /// [NotNull][NotNewLine] 最後に読み込んだマップファイルパス
     /// </summary>
+    [Serializable]
     public class LastLoadMapFilePath : IConvertibleString, IEquatable<LastLoadMapFilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

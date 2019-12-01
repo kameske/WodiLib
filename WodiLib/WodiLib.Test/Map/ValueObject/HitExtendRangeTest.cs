@@ -51,5 +51,13 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(instance.Width, width);
             Assert.AreEqual(instance.Height, height);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = (HitExtendRange) (2, 4);
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

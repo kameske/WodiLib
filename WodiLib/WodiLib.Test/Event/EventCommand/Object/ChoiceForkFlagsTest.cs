@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand
 {
@@ -37,6 +38,18 @@ namespace WodiLib.Test.Event.EventCommand
                 IsStopForce = flags[2]
             };
             Assert.AreEqual(instance.ToByte(), flagByte);
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new ChoiceForkFlags
+            {
+                IsForkLeftKey = true,
+                IsStopForce = true
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

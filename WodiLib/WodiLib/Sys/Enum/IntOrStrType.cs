@@ -36,5 +36,10 @@ namespace WodiLib.Sys
         private IntOrStrType(string id) : base(id)
         {
         }
+
+        internal static IntOrStrType FromId(string id)
+        {
+            return _FindFirst(x => x.Id.Equals(id));
+        }
     }
 }

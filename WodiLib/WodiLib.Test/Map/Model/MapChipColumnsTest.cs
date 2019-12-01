@@ -250,6 +250,17 @@ namespace WodiLib.Test.Map
             }
         }
 
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new MapChipColumns
+            {
+                [3] = 10,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
+
 
         private static IReadOnlyList<MapChip> MakeMapChipList(int length)
         {

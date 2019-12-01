@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Map;
 using WodiLib.Project;
 using WodiLib.Sys;
@@ -18,7 +19,8 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(9100000, 9179999)] イベント情報アドレス値
     /// </summary>
-    public class EventInfoAddress : VariableAddress, IEquatable<EventInfoAddress>
+    [Serializable]
+    public class EventInfoAddress : VariableAddress, IEquatable<EventInfoAddress>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -323,5 +325,35 @@ namespace WodiLib.Cmn
         }
 
         #endregion
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue(nameof(InfoType), InfoType.Code);
+            info.AddValue(nameof(MapEventId), MapEventId);
+            info.AddValue(nameof(Value), Value);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected EventInfoAddress(SerializationInfo info, StreamingContext context) : base(
+            ((Func<int>) (() => info.GetInt32(nameof(Value))))())
+        {
+            InfoType = InfoAddressInfoType.FromCode(info.GetInt32(nameof(InfoType)));
+            MapEventId = info.GetInt32(nameof(MapEventId));
+        }
     }
 }

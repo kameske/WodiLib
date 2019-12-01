@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using WodiLib.Map;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
 {
@@ -24,6 +25,15 @@ namespace WodiLib.Test.Map
 
             // 取得した値が容量最大値と一致すること
             Assert.AreEqual(maxCapacity, TileSetSettingList.MinCapacity);
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new TileSetSettingList();
+            target.AdjustLength(3);
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

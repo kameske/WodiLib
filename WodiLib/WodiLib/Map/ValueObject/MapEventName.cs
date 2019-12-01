@@ -15,6 +15,7 @@ namespace WodiLib.Map
     /// <summary>
     /// [NotNull][NotNewLine] マップイベント名
     /// </summary>
+    [Serializable]
     public class MapEventName : IConvertibleString, IEquatable<MapEventName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

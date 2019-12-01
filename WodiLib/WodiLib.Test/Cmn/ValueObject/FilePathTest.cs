@@ -153,5 +153,13 @@ namespace WodiLib.Test.Cmn
             var rightIndex = (FilePath) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = (FilePath) "filePath";
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

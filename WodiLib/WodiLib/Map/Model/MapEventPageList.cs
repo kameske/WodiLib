@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Event;
 using WodiLib.Sys;
 
@@ -16,6 +18,7 @@ namespace WodiLib.Map
     /// <summary>
     /// マップイベントページリストクラス
     /// </summary>
+    [Serializable]
     public class MapEventPageList : RestrictedCapacityCollection<MapEventPage>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -99,6 +102,20 @@ namespace WodiLib.Map
             }
 
             return result.ToArray();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected MapEventPageList(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

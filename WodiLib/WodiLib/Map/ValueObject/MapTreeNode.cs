@@ -15,6 +15,7 @@ namespace WodiLib.Map
     /// <summary>
     /// マップツリーノード
     /// </summary>
+    [Serializable]
     public struct MapTreeNode : IEquatable<MapTreeNode>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

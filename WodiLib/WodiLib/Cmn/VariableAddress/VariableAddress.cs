@@ -18,6 +18,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// 変数アドレス値基底クラス
     /// </summary>
+    [Serializable]
     public abstract class VariableAddress : IConvertibleInt, IEquatable<VariableAddress>
     {
         /*

@@ -18,6 +18,7 @@ namespace WodiLib.Event.CharaMoveCommand
     ///     [Range(1600000, 1600009)]
     ///     このマップイベントセルフ変数アドレス値
     /// </summary>
+    [Serializable]
     public class CalledEventVariableAddress : VariableAddress, IEquatable<CalledEventVariableAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

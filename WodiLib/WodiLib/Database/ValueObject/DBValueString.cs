@@ -15,6 +15,7 @@ namespace WodiLib.Database
     /// <summary>
     /// [NotNull] DB設定文字列
     /// </summary>
+    [Serializable]
     public class DBValueString : IConvertibleString, IEquatable<DBValueString>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

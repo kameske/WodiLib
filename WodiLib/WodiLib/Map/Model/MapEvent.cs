@@ -17,8 +17,13 @@ namespace WodiLib.Map
     /// <summary>
     ///     マップイベント
     /// </summary>
-    public class MapEvent
+    [Serializable]
+    public class MapEvent : IEquatable<MapEvent>
     {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /// <summary>マップイベントID</summary>
         public MapEventId MapEventId { get; set; }
 
@@ -64,6 +69,10 @@ namespace WodiLib.Map
             }
         }
 
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /// <summary>
         /// イベントコマンド文字列情報リストを取得する。
         /// </summary>
@@ -84,6 +93,21 @@ namespace WodiLib.Map
             var targetPage = MapEventPageList[page];
 
             return targetPage.MakeEventCommandSentenceInfoList(resolver, desc);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(MapEvent other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return MapEventId == other.MapEventId
+                   && eventName.Equals(other.eventName)
+                   && Position == other.Position
+                   && mapEventPageList.Equals(other.mapEventPageList);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

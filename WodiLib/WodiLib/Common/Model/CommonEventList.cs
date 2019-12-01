@@ -8,6 +8,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Project;
 using WodiLib.Sys;
 
@@ -16,6 +18,7 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベントリスト
     /// </summary>
+    [Serializable]
     public class CommonEventList : RestrictedCapacityCollection<CommonEvent>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -44,7 +47,7 @@ namespace WodiLib.Common
         ///     listの要素数がMinLength未満の場合、
         ///     またはlistの要素数がMaxLengthを超える場合
         /// </exception>
-        public CommonEventList(List<CommonEvent> list) : base(list)
+        public CommonEventList(IReadOnlyCollection<CommonEvent> list) : base(list)
         {
         }
 
@@ -148,6 +151,20 @@ namespace WodiLib.Common
             }
 
             return result.ToArray();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected CommonEventList(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

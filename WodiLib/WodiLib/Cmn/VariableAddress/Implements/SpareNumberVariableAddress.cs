@@ -16,6 +16,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(2100000, 2999999)] 予備変数アドレス値
     /// </summary>
+    [Serializable]
     public class SpareNumberVariableAddress : VariableAddress, IEquatable<SpareNumberVariableAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

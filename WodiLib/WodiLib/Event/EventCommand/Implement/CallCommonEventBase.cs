@@ -20,6 +20,7 @@ namespace WodiLib.Event.EventCommand
     /// コモンイベント呼び出し共通処理
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [Serializable]
     public abstract class CallCommonEventBase : EventCommandBase
     {
         /// <summary>ページ最大数</summary>

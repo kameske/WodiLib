@@ -17,7 +17,8 @@ namespace WodiLib.IO
     /// <summary>
     /// CommonEvent.Datファイル名
     /// </summary>
-    public class CommonEventDatFilePath : FilePath
+    [Serializable]
+    public class CommonEventDatFilePath : FilePath, IEquatable<CommonEventDatFilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

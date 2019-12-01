@@ -317,5 +317,16 @@ namespace WodiLib.Test.Map
             // 結果が取得した値と一致すること
             Assert.AreEqual(result, answer);
         }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new TileCannotPassingFlags
+            {
+                Down = true,
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
+        }
     }
 }

@@ -16,6 +16,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// [Range(8000000, 8999999)] ランダム変数アドレス値
     /// </summary>
+    [Serializable]
     public class RandomVariableAddress : VariableAddress, IEquatable<RandomVariableAddress>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

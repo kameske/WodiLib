@@ -15,6 +15,7 @@ namespace WodiLib.Common
     /// <summary>
     /// [Range(0, 4)] コモンイベント数値引数インデックス
     /// </summary>
+    [Serializable]
     public struct CommonEventStringArgIndex : IConvertibleInt, IEquatable<CommonEventStringArgIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

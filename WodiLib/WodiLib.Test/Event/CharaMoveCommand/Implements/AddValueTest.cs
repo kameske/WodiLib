@@ -45,7 +45,7 @@ namespace WodiLib.Test.Event.CharaMoveCommand
         public static void TargetAddressTest(int initValue, string targetOwnerId,
             bool isError, int answerValue)
         {
-            var instance = new AssignValue
+            var instance = new AddValue
             {
                 Owner = targetOwnerId.Equals("m")
                     ? TargetAddressOwner.MapEvent
@@ -72,6 +72,18 @@ namespace WodiLib.Test.Event.CharaMoveCommand
 
             // 取得した値外とした値と一致すること
             Assert.AreEqual(resultValue, answerValue);
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new AddValue
+            {
+                Value = 5,
+                TargetAddress = 2000000
+            };
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

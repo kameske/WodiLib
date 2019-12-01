@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -15,28 +16,30 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// 選択肢リスト
     /// </summary>
-    internal class ChoiceCaseList
+    [Serializable]
+    internal class ChoiceCaseList : IEquatable<ChoiceCaseList>
     {
         private readonly List<string> caseList = new List<string>
         {
             "", "", "", "", "",
-            "", "", "", "", ""
+            "", "", "", "", "",
+            "", ""
         };
 
         private int caseValue = 1;
 
         /// <summary>
-        /// [Range(1, 10)] 選択肢数
+        /// [Range(1, 12)] 選択肢数
         /// </summary>
-        /// <exception cref="PropertyOutOfRangeException">1～10以外の値を設定した場合</exception>
+        /// <exception cref="PropertyOutOfRangeException">1～12以外の値を設定した場合</exception>
         public int CaseValue
         {
             get => caseValue;
             set
             {
-                if (value < 1 || 10 < value)
+                if (value < 1 || 12 < value)
                     throw new PropertyOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(CaseValue), 1, 10, value));
+                        ErrorMessage.OutOfRange(nameof(CaseValue), 1, 12, value));
                 caseValue = value;
             }
         }
@@ -71,6 +74,18 @@ namespace WodiLib.Event.EventCommand
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(src)));
             caseList[index] = src;
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(ChoiceCaseList other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return caseList.SequenceEqual(other.caseList);
         }
     }
 }

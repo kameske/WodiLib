@@ -18,7 +18,8 @@ namespace WodiLib.Common
         /// <summary>
         /// コモンイベント引数特殊指定情報内部クラス・データベース参照・特殊な指定方法を使用しない
         /// </summary>
-        internal class InnerDescNormal : IInnerDesc
+        [Serializable]
+        internal class InnerDescNormal : IInnerDesc, IEquatable<InnerDescNormal>
         {
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Public Property
@@ -232,6 +233,31 @@ namespace WodiLib.Common
             {
                 throw new InvalidOperationException(
                     "特殊指定が「手動生成」ではないため処理できません");
+            }
+
+            /// <summary>
+            /// 値を比較する。
+            /// </summary>
+            /// <param name="other">比較対象</param>
+            /// <returns>一致する場合、true</returns>
+            public bool Equals(IInnerDesc other)
+            {
+                if (ReferenceEquals(this, other)) return true;
+                if (ReferenceEquals(null, other)) return false;
+                if (!(other is InnerDescNormal casted)) return false;
+                return Equals(casted);
+            }
+
+            /// <summary>
+            /// 値を比較する。
+            /// </summary>
+            /// <param name="other">比較対象</param>
+            /// <returns>一致する場合、true</returns>
+            public bool Equals(InnerDescNormal other)
+            {
+                if (ReferenceEquals(this, other)) return true;
+                if (ReferenceEquals(null, other)) return false;
+                return true;
             }
         }
     }

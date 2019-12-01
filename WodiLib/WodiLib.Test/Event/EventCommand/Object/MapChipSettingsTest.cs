@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand
 {
@@ -296,6 +297,14 @@ namespace WodiLib.Test.Event.EventCommand
                 IsCounter = flags[7]
             };
             Assert.AreEqual(instance.ToInt(), flagValue);
+        }
+
+        [Test]
+        public static void SerializeTest()
+        {
+            var target = new MapChipSettings(650);
+            var clone = DeepCloner.DeepClone(target);
+            Assert.IsTrue(clone.Equals(target));
         }
     }
 }
