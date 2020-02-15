@@ -28,7 +28,7 @@ namespace WodiLib.IO
         private FileReadStatus ReadStatus { get; set; }
 
         /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -90,7 +90,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <returns>読み込んだデータインスタンス</returns>
-        private static TileSetFileData ReadData(FileReadStatus status)
+        private TileSetFileData ReadData(FileReadStatus status)
         {
             // ヘッダ
             ReadHeader(status);
@@ -112,7 +112,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイルヘッダが仕様と異なる場合</exception>
-        private static void ReadHeader(FileReadStatus status)
+        private void ReadHeader(FileReadStatus status)
         {
             foreach (var b in TileSetFileData.Header)
             {
@@ -134,7 +134,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status"></param>
         /// <param name="setting"></param>
-        private static void ReadTileSetSetting(FileReadStatus status, out TileSetSetting setting)
+        private void ReadTileSetSetting(FileReadStatus status, out TileSetSetting setting)
         {
             var reader = new TileSetSettingReader(status);
 
@@ -146,7 +146,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイルフッタが仕様と異なる場合</exception>
-        private static void ReadFooter(FileReadStatus status)
+        private void ReadFooter(FileReadStatus status)
         {
             foreach (var b in TileSetFileData.Footer)
             {

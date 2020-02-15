@@ -20,5 +20,20 @@ namespace WodiLib.Test.Tools
             WodiLibLogger.ChangeTargetKey("forDebug");
             WodiLibLogger.SetLogHandler(logHandler);
         }
+
+        /// <summary>
+        /// Project テスト用のロガーインスタンスを生成する。
+        /// </summary>
+        /// <returns></returns>
+        public static void SetupWodiLibLoggerForProjectTest()
+        {
+            var logHandler = new WodiLibLogHandler(
+                Console.WriteLine,
+                Console.WriteLine
+            );
+
+            WodiLibLogger.ChangeTargetKey("forProjectTest");
+            WodiLibLogger.SetLogHandler(logHandler);
+        }
     }
 }

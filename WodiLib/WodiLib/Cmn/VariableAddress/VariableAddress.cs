@@ -55,13 +55,6 @@ namespace WodiLib.Cmn
         protected abstract int _MaxValue { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Static Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>ロガー</summary>
-        private static readonly WodiLibLogger Logger = WodiLibLogger.GetInstance();
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -88,7 +81,7 @@ namespace WodiLib.Cmn
                     ErrorMessage.OutOfRange(nameof(value), _MinValue, _MaxValue, value));
 
             if (value < _SafetyMinValue || _SafetyMaxValue < value)
-                Logger.Warning(
+                WodiLibLogger.GetInstance().Warning(
                     WarningMessage.OutOfRange(nameof(value), _SafetyMinValue, _SafetyMaxValue, value));
 
             Value = value;

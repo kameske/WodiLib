@@ -57,13 +57,6 @@ namespace WodiLib.Cmn
         protected override int _MaxValue => MaxValue;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Static Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>ロガー</summary>
-        private static readonly WodiLibLogger Logger = WodiLibLogger.GetInstance();
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -109,7 +102,7 @@ namespace WodiLib.Cmn
                 // ウディタVer2.01未満では非対応
                 if (infoCode == 5 || infoCode == 6)
                 {
-                    Logger.Warning(VersionWarningMessage.NotUnderInVariableAddress(
+                    WodiLibLogger.GetInstance().Warning(VersionWarningMessage.NotUnderInVariableAddress(
                         value,
                         VersionConfig.GetConfigWoditorVersion(),
                         WoditorVersion.Ver2_01));
@@ -118,7 +111,7 @@ namespace WodiLib.Cmn
 
             if (infoCode == 7 || infoCode == 8)
             {
-                Logger.Warning(VersionWarningMessage.NotUsingVariableAddress(value));
+                WodiLibLogger.GetInstance().Warning(VersionWarningMessage.NotUsingVariableAddress(value));
             }
         }
 

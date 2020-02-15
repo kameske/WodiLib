@@ -26,7 +26,7 @@ namespace WodiLib.IO
         private int Length { get; }
 
         /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -67,7 +67,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commandList">データ格納先</param>
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
-        private static void ReadCharaMoveCommand(FileReadStatus status, ICollection<ICharaMoveCommand> commandList)
+        private void ReadCharaMoveCommand(FileReadStatus status, ICollection<ICharaMoveCommand> commandList)
         {
             // 動作指定コード
             var charaMoveCode = status.ReadByte();

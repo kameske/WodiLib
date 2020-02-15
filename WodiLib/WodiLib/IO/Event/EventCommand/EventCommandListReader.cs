@@ -27,7 +27,7 @@ namespace WodiLib.IO
         private int Length { get; }
 
         /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -68,7 +68,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commandList">データ格納先</param>
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
-        private static void ReadEventCommand(FileReadStatus status, ICollection<IEventCommand> commandList)
+        private void ReadEventCommand(FileReadStatus status, ICollection<IEventCommand> commandList)
         {
             // 数値変数の数
             var numVarLength = status.ReadByte();
@@ -156,7 +156,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="actionEntry">データ格納先</param>
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
-        private static void ReadEventActionEntry(FileReadStatus status, ActionEntry actionEntry)
+        private void ReadEventActionEntry(FileReadStatus status, ActionEntry actionEntry)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
                 "動作指定コマンド"));
@@ -196,7 +196,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
-        private static CharaMoveCommandList ReadCharaMoveCommand(FileReadStatus status)
+        private CharaMoveCommandList ReadCharaMoveCommand(FileReadStatus status)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
                 "動作コマンドリスト"));

@@ -27,7 +27,8 @@ namespace WodiLib.Test.Project.Model
         [SetUp]
         public static void Setup()
         {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
+            // デバッグ情報等まで出力すると出力に時間がかかりすぎてAbortするためログレベルを抑える
+            LoggerInitializer.SetupWodiLibLoggerForProjectTest();
             logger = WodiLibLogger.GetInstance();
         }
 

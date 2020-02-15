@@ -31,7 +31,7 @@ namespace WodiLib.IO
         private int Length { get; }
 
         /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -81,7 +81,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="result">結果格納インスタンス</param>
         /// <exception cref="InvalidOperationException">バイナリデータがファイル仕様と異なる場合</exception>
-        private static void ReadOneDBTypeSetting(FileReadStatus status, ICollection<DBDataSetting> result)
+        private void ReadOneDBTypeSetting(FileReadStatus status, ICollection<DBDataSetting> result)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(DBDataSettingReader), "DBタイプ設定"));
 
@@ -109,7 +109,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイルヘッダが仕様と異なる場合</exception>
-        private static void ReadHeader(FileReadStatus status)
+        private void ReadHeader(FileReadStatus status)
         {
             foreach (var b in DBDataSetting.Header)
             {
@@ -130,7 +130,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="setting">結果格納インスタンス</param>
-        private static void ReadDataSettingType(FileReadStatus status, DBDataSetting setting)
+        private void ReadDataSettingType(FileReadStatus status, DBDataSetting setting)
         {
             var typeCode = status.ReadInt();
             status.IncreaseIntOffset();
@@ -164,7 +164,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="itemTypes">取得した項目種別リスト格納先</param>
-        private static void ReadValueType(FileReadStatus status, out List<DBItemType> itemTypes)
+        private void ReadValueType(FileReadStatus status, out List<DBItemType> itemTypes)
         {
             var length = status.ReadInt();
             status.IncreaseIntOffset();
@@ -208,7 +208,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="setting">結果格納インスタンス</param>
         /// <param name="itemTypes">項目種別リスト</param>
-        private static void ReadDataSettingValue(FileReadStatus status, DBDataSetting setting,
+        private void ReadDataSettingValue(FileReadStatus status, DBDataSetting setting,
             IReadOnlyCollection<DBItemType> itemTypes)
         {
             var length = status.ReadInt();
@@ -240,7 +240,7 @@ namespace WodiLib.IO
         /// <param name="stringItemCount">文字列項目数</param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        private static void ReadOneDataSettingValue(FileReadStatus status, List<List<DBItemValue>> result,
+        private void ReadOneDataSettingValue(FileReadStatus status, List<List<DBItemValue>> result,
             IEnumerable<DBItemType> itemTypes, int numberItemCount, int stringItemCount)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(DBDataSettingReader),
@@ -310,7 +310,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="code">設定種別コード</param>
         /// <returns>DB種別</returns>
-        private static DBKind DbKindFromSettingTypeCode(int code)
+        private DBKind DbKindFromSettingTypeCode(int code)
         {
             var dbKindCode = (byte) code.SubInt(4, 1);
             return DBKind.FromDBDataSettingTypeCode(dbKindCode);
@@ -321,7 +321,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="code">設定種別コード</param>
         /// <returns>タイプID</returns>
-        private static TypeId TypeIdFromSettingTypeCode(int code)
+        private TypeId TypeIdFromSettingTypeCode(int code)
         {
             return code.SubInt(0, 4);
         }

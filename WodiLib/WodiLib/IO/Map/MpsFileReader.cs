@@ -31,7 +31,7 @@ namespace WodiLib.IO
         private FileReadStatus ReadStatus { get; set; }
 
         /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -120,7 +120,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイルヘッダが仕様と異なる場合</exception>
-        private static void ReadHeader(FileReadStatus status)
+        private void ReadHeader(FileReadStatus status)
         {
             foreach (var b in MapData.HeaderBytes)
             {
@@ -142,7 +142,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapData">データ格納マップデータインスタンス</param>
-        private static void ReadHeaderMemo(FileReadStatus status, MapData mapData)
+        private void ReadHeaderMemo(FileReadStatus status, MapData mapData)
         {
             var woditorString = status.ReadString();
             mapData.Memo = woditorString.String;
@@ -157,7 +157,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapData">データ格納マップデータインスタンス</param>
-        private static void ReadTileSetId(FileReadStatus status, MapData mapData)
+        private void ReadTileSetId(FileReadStatus status, MapData mapData)
         {
             mapData.TileSetId = status.ReadInt();
             status.IncreaseIntOffset();
@@ -171,7 +171,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapData">データ格納マップデータインスタンス</param>
-        private static void ReadMapSizeWidth(FileReadStatus status, MapData mapData)
+        private void ReadMapSizeWidth(FileReadStatus status, MapData mapData)
         {
             mapData.UpdateMapSizeWidth(status.ReadInt());
             status.IncreaseIntOffset();
@@ -185,7 +185,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapData">データ格納マップデータインスタンス</param>
-        private static void ReadMapSizeHeight(FileReadStatus status, MapData mapData)
+        private void ReadMapSizeHeight(FileReadStatus status, MapData mapData)
         {
             mapData.UpdateMapSizeHeight(status.ReadInt());
             status.IncreaseIntOffset();
@@ -198,7 +198,7 @@ namespace WodiLib.IO
         /// マップイベント数
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
-        private static int ReadMapEventLength(FileReadStatus status)
+        private int ReadMapEventLength(FileReadStatus status)
         {
             var length = status.ReadInt();
             status.IncreaseIntOffset();
@@ -214,7 +214,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapData">データ格納マップデータインスタンス</param>
-        private static void ReadLayer(FileReadStatus status, MapData mapData)
+        private void ReadLayer(FileReadStatus status, MapData mapData)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(MpsFileReader),
                 "レイヤー"));
@@ -240,7 +240,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapData">データ格納マップデータインスタンス</param>
         /// <param name="layerNo">レイヤー番号</param>
-        private static void ReadOneLayer(FileReadStatus status, MapData mapData, int layerNo)
+        private void ReadOneLayer(FileReadStatus status, MapData mapData, int layerNo)
         {
             var chips = new List<List<MapChip>>();
             for (var x = 0; x < (int) mapData.MapSizeWidth; x++)
@@ -267,7 +267,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapSizeHeight">マップ高さ</param>
         /// <param name="chipList">格納先リスト</param>
-        private static void ReadLayerOneLine(FileReadStatus status, MapSizeHeight mapSizeHeight,
+        private void ReadLayerOneLine(FileReadStatus status, MapSizeHeight mapSizeHeight,
             ICollection<List<MapChip>> chipList)
         {
             var lineChips = new List<MapChip>();
@@ -291,7 +291,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapData">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
-        private static void ReadMapEvent(int size, FileReadStatus status, MapData mapData)
+        private void ReadMapEvent(int size, FileReadStatus status, MapData mapData)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(MpsFileReader),
                 "マップイベント"));
@@ -421,7 +421,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapEventPages">格納先リスト</param>
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
-        private static void ReadMapEventOnePage(FileReadStatus status, ICollection<MapEventPage> mapEventPages)
+        private void ReadMapEventOnePage(FileReadStatus status, ICollection<MapEventPage> mapEventPages)
         {
             var result = new MapEventPage();
 
@@ -683,7 +683,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
-        private static CharaMoveCommandList ReadCharaMoveCommand(FileReadStatus status)
+        private CharaMoveCommandList ReadCharaMoveCommand(FileReadStatus status)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
                 "マップイベントページ動作コマンドリスト"));
@@ -710,7 +710,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
-        private static void ReadFooter(FileReadStatus status)
+        private void ReadFooter(FileReadStatus status)
         {
             foreach (var b in MapData.Footer)
             {

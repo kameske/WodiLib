@@ -40,7 +40,7 @@ namespace WodiLib.IO
         private FileReadStatus ReadStatus { get; set; }
 
         /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor Property
@@ -130,7 +130,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイルヘッダが仕様と異なる場合</exception>
-        private static void ReadHeader(FileReadStatus status)
+        private void ReadHeader(FileReadStatus status)
         {
             foreach (var b in DatabaseDat.Header)
             {
@@ -151,7 +151,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="data">結果格納インスタンス</param>
-        private static void ReadDBData(FileReadStatus status, DatabaseDat data)
+        private void ReadDBData(FileReadStatus status, DatabaseDat data)
         {
             var length = status.ReadInt();
             status.IncreaseIntOffset();
@@ -172,7 +172,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイルヘッダが仕様と異なる場合</exception>
-        private static void ReadFooter(FileReadStatus status)
+        private void ReadFooter(FileReadStatus status)
         {
             foreach (var b in DatabaseDat.Footer)
             {

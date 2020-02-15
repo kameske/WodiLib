@@ -51,7 +51,7 @@ namespace WodiLib.IO
         private FileReadStatus Status { get; }
 
         /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -124,7 +124,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="Status">読み込み経過状態</param>
         /// <returns>引数名リスト</returns>
-        private static List<string> ReadArgNames(FileReadStatus Status)
+        private List<string> ReadArgNames(FileReadStatus Status)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(SpecialArgDescReader),
                 "引数名"));
@@ -152,7 +152,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="Status">読み込み経過状態</param>
         /// <returns>引数特殊指定リスト</returns>
-        private static List<CommonEventArgType> ReadSpecialArgType(FileReadStatus Status)
+        private List<CommonEventArgType> ReadSpecialArgType(FileReadStatus Status)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(SpecialArgDescReader),
                 "引数特殊指定"));
@@ -180,7 +180,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="Status">読み込み経過状態</param>
         /// <returns>数値特殊指定文字列パラメータリスト</returns>
-        private static List<List<string>> ReadSpecialStringArgList(FileReadStatus Status)
+        private List<List<string>> ReadSpecialStringArgList(FileReadStatus Status)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(SpecialArgDescReader),
                 "数値特殊指定文字列パラメータ"));
@@ -227,7 +227,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="Status">読み込み経過状態</param>
         /// <returns>数値特殊指定数値パラメータリスト</returns>
-        private static List<List<int>> ReadSpecialNumberArgList(FileReadStatus Status)
+        private List<List<int>> ReadSpecialNumberArgList(FileReadStatus Status)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(SpecialArgDescReader),
                 "数値特殊指定数値パラメータ"));
@@ -274,7 +274,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="Status">読み込み経過状態</param>
         /// <returns>数値特殊指定数値初期値リスト</returns>
-        private static List<int> ReadInitValue(FileReadStatus Status)
+        private List<int> ReadInitValue(FileReadStatus Status)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(SpecialArgDescReader),
                 "数値特殊指定数値初期値"));

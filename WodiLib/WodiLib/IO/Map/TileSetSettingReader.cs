@@ -27,7 +27,7 @@ namespace WodiLib.IO
         private FileReadStatus Status { get; }
 
         /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -70,7 +70,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">バイナリデータがファイル仕様と異なる場合</exception>
-        private static TileSetSetting ReadOneTileSetSetting(FileReadStatus status)
+        private TileSetSetting ReadOneTileSetSetting(FileReadStatus status)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(TileSetSettingReader), "タイルセット設定"));
 
@@ -113,7 +113,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="name">結果格納インスタンス</param>
-        private static void ReadName(FileReadStatus status, out TileSetName name)
+        private void ReadName(FileReadStatus status, out TileSetName name)
         {
             var read = status.ReadString();
             name = read.String;
@@ -129,7 +129,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="fileName">結果格納インスタンス</param>
-        private static void ReadBaseTileSetFileName(FileReadStatus status, out BaseTileSetFileName fileName)
+        private void ReadBaseTileSetFileName(FileReadStatus status, out BaseTileSetFileName fileName)
         {
             var read = status.ReadString();
             fileName = read.String;
@@ -146,7 +146,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="listLength">オートタイルファイル名数</param>
         /// <param name="list">結果格納インスタンス</param>
-        private static void ReadAutoTileSetFileNameList(FileReadStatus status, int listLength,
+        private void ReadAutoTileSetFileNameList(FileReadStatus status, int listLength,
             out List<AutoTileFileName> list)
         {
             list = new List<AutoTileFileName>();
@@ -168,7 +168,7 @@ namespace WodiLib.IO
         /// セパレータ
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
-        private static void ReadSeparator(FileReadStatus status)
+        private void ReadSeparator(FileReadStatus status)
         {
             var read = status.ReadByte();
 
@@ -187,7 +187,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="list">結果格納インスタンス</param>
-        private static void ReadTagNumberList(FileReadStatus status, out List<TileTagNumber> list)
+        private void ReadTagNumberList(FileReadStatus status, out List<TileTagNumber> list)
         {
             var length = status.ReadInt();
             status.IncreaseIntOffset();
@@ -214,7 +214,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="list">結果格納インスタンス</param>
-        private static void ReadTilePathSettingList(FileReadStatus status, out List<TilePathSetting> list)
+        private void ReadTilePathSettingList(FileReadStatus status, out List<TilePathSetting> list)
         {
             var length = status.ReadInt();
             status.IncreaseIntOffset();

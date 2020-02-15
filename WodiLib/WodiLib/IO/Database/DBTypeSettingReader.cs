@@ -34,7 +34,7 @@ namespace WodiLib.IO
         private bool HasDataNameList { get; }
 
         /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -87,7 +87,7 @@ namespace WodiLib.IO
         /// <param name="isReadDataNameList">データ名リスト読み込みフラグ</param>
         /// <param name="result">結果格納インスタンス</param>
         /// <exception cref="InvalidOperationException">バイナリデータがファイル仕様と異なる場合</exception>
-        private static void ReadOneDBTypeSetting(FileReadStatus status,
+        private void ReadOneDBTypeSetting(FileReadStatus status,
             bool isReadDataNameList, ICollection<DBTypeSetting> result)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(DBTypeSettingReader), "DBタイプ設定"));
@@ -138,7 +138,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="setting">結果格納インスタンス</param>
-        private static void ReadTypeName(FileReadStatus status, DBTypeSetting setting)
+        private void ReadTypeName(FileReadStatus status, DBTypeSetting setting)
         {
             var typeName = status.ReadString();
             setting.TypeName = typeName.String;
@@ -154,7 +154,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <returns>項目名リスト</returns>
-        private static List<ItemName> ReadItemName(FileReadStatus status)
+        private List<ItemName> ReadItemName(FileReadStatus status)
         {
             var length = status.ReadInt();
 
@@ -184,7 +184,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="setting">結果格納インスタンス</param>
-        private static void ReadDataName(FileReadStatus status, DBTypeSetting setting)
+        private void ReadDataName(FileReadStatus status, DBTypeSetting setting)
         {
             var length = status.ReadInt();
 
@@ -214,7 +214,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="setting">結果格納インスタンス</param>
-        private static void ReadMemo(FileReadStatus status, DBTypeSetting setting)
+        private void ReadMemo(FileReadStatus status, DBTypeSetting setting)
         {
             var memo = status.ReadString();
             setting.Memo = memo.String;
@@ -230,7 +230,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <returns>項目項目特殊指定リスト</returns>
-        private static List<DBItemSpecialSettingType> ReadItemSpecialSettingType(FileReadStatus status)
+        private List<DBItemSpecialSettingType> ReadItemSpecialSettingType(FileReadStatus status)
         {
             var length = status.ReadInt();
 
@@ -262,7 +262,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <returns>項目名リスト</returns>
-        private static List<ItemMemo> ReadItemMemo(FileReadStatus status)
+        private List<ItemMemo> ReadItemMemo(FileReadStatus status)
         {
             var length = status.ReadInt();
 
@@ -292,7 +292,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <returns>特殊指定文字列パラメータリスト</returns>
-        private static List<List<DatabaseValueCaseDescription>> ReadSpecialStringValue(FileReadStatus status)
+        private List<List<DatabaseValueCaseDescription>> ReadSpecialStringValue(FileReadStatus status)
         {
             var length = status.ReadInt();
 
@@ -334,7 +334,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <returns>特殊指定数値パラメータリスト</returns>
-        private static List<List<DatabaseValueCaseNumber>> ReadSpecialNumberValue(FileReadStatus status)
+        private List<List<DatabaseValueCaseNumber>> ReadSpecialNumberValue(FileReadStatus status)
         {
             var length = status.ReadInt();
 
@@ -376,7 +376,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <returns>初期値リスト</returns>
-        private static List<DBValueInt> ReadItemInitValue(FileReadStatus status)
+        private List<DBValueInt> ReadItemInitValue(FileReadStatus status)
         {
             var length = status.ReadInt();
 
@@ -412,7 +412,7 @@ namespace WodiLib.IO
         /// <param name="caseNumberLists">特殊指定選択肢数値リスト</param>
         /// <param name="initValues">初期値リスト</param>
         /// <exception cref="ArgumentException">ファイルフォーマットが不正の場合</exception>
-        private static void SetItemSetting(DBTypeSetting setting,
+        private void SetItemSetting(DBTypeSetting setting,
             IReadOnlyList<DBItemSpecialSettingType> specialSettingTypes, IReadOnlyList<ItemName> itemNames,
             IReadOnlyList<ItemMemo> itemMemos,
             IReadOnlyList<IReadOnlyList<DatabaseValueCaseDescription>> descriptionLists,
@@ -498,7 +498,7 @@ namespace WodiLib.IO
         /// <param name="descriptions">選択肢文字列リスト</param>
         /// <returns>選択肢リスト</returns>
         /// <exception cref="ArgumentException">選択肢番号リストまたは文字列リストが不正の場合</exception>
-        private static IReadOnlyList<DatabaseValueCase> MakeValueCases(DBItemSpecialSettingType type,
+        private IReadOnlyList<DatabaseValueCase> MakeValueCases(DBItemSpecialSettingType type,
             IReadOnlyList<DatabaseValueCaseNumber> numbers, IReadOnlyList<DatabaseValueCaseDescription> descriptions)
         {
             if (type == DBItemSpecialSettingType.Normal)
@@ -526,7 +526,7 @@ namespace WodiLib.IO
                 "定義されていない特殊指定タイプです。");
         }
 
-        private static IReadOnlyList<DatabaseValueCase> MakeValueCasesNormal(
+        private IReadOnlyList<DatabaseValueCase> MakeValueCasesNormal(
             IReadOnlyList<DatabaseValueCaseNumber> numbers, IReadOnlyList<DatabaseValueCaseDescription> descriptions)
         {
             var type = DBItemSpecialSettingType.Normal;
@@ -552,7 +552,7 @@ namespace WodiLib.IO
             return new List<DatabaseValueCase>();
         }
 
-        private static IReadOnlyList<DatabaseValueCase> MakeValueCasesLoadFile(
+        private IReadOnlyList<DatabaseValueCase> MakeValueCasesLoadFile(
             IReadOnlyList<DatabaseValueCaseNumber> numbers, IReadOnlyList<DatabaseValueCaseDescription> descriptions)
         {
             var type = DBItemSpecialSettingType.LoadFile;
@@ -588,7 +588,7 @@ namespace WodiLib.IO
             };
         }
 
-        private static IReadOnlyList<DatabaseValueCase> MakeValueCasesReferDatabase(
+        private IReadOnlyList<DatabaseValueCase> MakeValueCasesReferDatabase(
             IReadOnlyList<DatabaseValueCaseDescription> descriptions)
         {
             var type = DBItemSpecialSettingType.ReferDatabase;
@@ -613,7 +613,7 @@ namespace WodiLib.IO
                 .ToList();
         }
 
-        private static IReadOnlyList<DatabaseValueCase> MakeValueCasesManual(
+        private IReadOnlyList<DatabaseValueCase> MakeValueCasesManual(
             IReadOnlyList<DatabaseValueCaseNumber> numbers, IReadOnlyList<DatabaseValueCaseDescription> descriptions)
         {
             var type = DBItemSpecialSettingType.Manual;

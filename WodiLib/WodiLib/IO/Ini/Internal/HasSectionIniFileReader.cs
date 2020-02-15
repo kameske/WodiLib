@@ -34,9 +34,6 @@ namespace WodiLib.IO
         /// <summary>[Nullable] 読み込んだデータ</summary>
         public IReadOnlyCollection<TIniTarget> Data { get; }
 
-        /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger => WodiLibLogger.GetInstance();
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -45,6 +42,9 @@ namespace WodiLib.IO
         /// 読み込み完了フラグ
         /// </summary>
         private bool IsAlreadyRead { get; set; }
+
+        /// <summary>ロガー</summary>
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor

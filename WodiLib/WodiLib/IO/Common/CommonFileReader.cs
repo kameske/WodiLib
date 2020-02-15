@@ -29,7 +29,7 @@ namespace WodiLib.IO
         private FileReadStatus ReadStatus { get; set; }
 
         /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -97,7 +97,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイルヘッダが仕様と異なる場合</exception>
-        private static void ReadHeader(FileReadStatus status)
+        private void ReadHeader(FileReadStatus status)
         {
             foreach (var b in CommonFileData.Header)
             {
@@ -119,7 +119,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="data">結果格納インスタンス</param>
         /// <exception cref="InvalidOperationException">ファイルが仕様と異なる場合</exception>
-        private static void ReadCommonEvent(FileReadStatus status, CommonFileData data)
+        private void ReadCommonEvent(FileReadStatus status, CommonFileData data)
         {
             // コモンイベント数
             var length = ReadCommonEventLength(status);
@@ -134,7 +134,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <returns>コモンイベント数</returns>
-        private static int ReadCommonEventLength(FileReadStatus status)
+        private int ReadCommonEventLength(FileReadStatus status)
         {
             var length = status.ReadInt();
             status.IncreaseIntOffset();
@@ -151,7 +151,7 @@ namespace WodiLib.IO
         /// <param name="length">コモンイベント数</param>
         /// <param name="data">結果格納インスタンス</param>
         /// <exception cref="InvalidOperationException">ファイルが仕様と異なる場合</exception>
-        private static void ReadCommonEventList(FileReadStatus status, int length, CommonFileData data)
+        private void ReadCommonEventList(FileReadStatus status, int length, CommonFileData data)
         {
             var reader = new CommonEventReader(status, length);
 

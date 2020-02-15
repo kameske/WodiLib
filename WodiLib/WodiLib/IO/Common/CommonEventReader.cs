@@ -28,7 +28,7 @@ namespace WodiLib.IO
         private int Length { get; }
 
         /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -66,7 +66,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="result">結果格納インスタンス</param>
         /// <exception cref="InvalidOperationException">バイナリデータがファイル仕様と異なる場合</exception>
-        private static void ReadOneCommonEvent(FileReadStatus status, ICollection<CommonEvent> result)
+        private void ReadOneCommonEvent(FileReadStatus status, ICollection<CommonEvent> result)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(CommonEventReader), "コモンイベント"));
 
@@ -141,7 +141,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ヘッダが仕様と異なる場合</exception>
-        private static void ReadHeader(FileReadStatus status)
+        private void ReadHeader(FileReadStatus status)
         {
             foreach (var b in CommonEvent.HeaderBytes)
             {
@@ -159,7 +159,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void ReadCommonEventId(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadCommonEventId(FileReadStatus status, CommonEvent commonEvent)
         {
             commonEvent.Id = status.ReadInt();
             status.IncreaseIntOffset();
@@ -173,7 +173,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status"></param>
         /// <param name="commonEvent"></param>
-        private static void ReadBootCondition(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadBootCondition(FileReadStatus status, CommonEvent commonEvent)
         {
             // 起動条件比較演算子 & 起動条件
             ReadBootConditionOperationAndType(status, commonEvent.BootCondition);
@@ -190,7 +190,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="condition">結果格納インスタンス</param>
-        private static void ReadBootConditionOperationAndType(FileReadStatus status,
+        private void ReadBootConditionOperationAndType(FileReadStatus status,
             CommonEventBootCondition condition)
         {
             var b = status.ReadByte();
@@ -209,7 +209,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="condition">結果格納インスタンス</param>
-        private static void ReadBootConditionLeftSide(FileReadStatus status,
+        private void ReadBootConditionLeftSide(FileReadStatus status,
             CommonEventBootCondition condition)
         {
             condition.LeftSide = status.ReadInt();
@@ -224,7 +224,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="condition">結果格納インスタンス</param>
-        private static void ReadBootConditionRightSide(FileReadStatus status,
+        private void ReadBootConditionRightSide(FileReadStatus status,
             CommonEventBootCondition condition)
         {
             condition.RightSide = status.ReadInt();
@@ -239,7 +239,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void ReadNumberArgLength(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadNumberArgLength(FileReadStatus status, CommonEvent commonEvent)
         {
             commonEvent.NumberArgsLength = status.ReadByte();
             status.IncreaseByteOffset();
@@ -253,7 +253,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void ReadStringArgLength(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadStringArgLength(FileReadStatus status, CommonEvent commonEvent)
         {
             commonEvent.StrArgsLength = status.ReadByte();
             status.IncreaseByteOffset();
@@ -267,7 +267,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void ReadCommonEventName(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadCommonEventName(FileReadStatus status, CommonEvent commonEvent)
         {
             var commonEventName = status.ReadString();
             commonEvent.Name = commonEventName.String;
@@ -282,7 +282,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void ReadEventCommand(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadEventCommand(FileReadStatus status, CommonEvent commonEvent)
         {
             var length = status.ReadInt();
             status.IncreaseIntOffset();
@@ -299,7 +299,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void ReadBeforeMemoString(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadBeforeMemoString(FileReadStatus status, CommonEvent commonEvent)
         {
             var str = status.ReadString();
             commonEvent.Description = str.String;
@@ -314,7 +314,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void ReadMemo(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadMemo(FileReadStatus status, CommonEvent commonEvent)
         {
             var str = status.ReadString();
             commonEvent.Memo = str.String;
@@ -330,7 +330,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
         /// <exception cref="InvalidOperationException">データが仕様と異なる場合</exception>
-        private static void ReadSpecialArgDesc(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadSpecialArgDesc(FileReadStatus status, CommonEvent commonEvent)
         {
             try
             {
@@ -367,7 +367,7 @@ namespace WodiLib.IO
         /// <param name="numberArgLists">数値特殊指定数値パラメータリスト</param>
         /// <param name="numberArgInitValueList">数値特殊指定数値初期値リスト</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void UpdateSpecialNumberArgDesc(IReadOnlyList<string> argNameList,
+        private void UpdateSpecialNumberArgDesc(IReadOnlyList<string> argNameList,
             IReadOnlyList<CommonEventArgType> argTypeList, IReadOnlyList<List<string>> stringArgLists,
             IReadOnlyList<List<int>> numberArgLists, IReadOnlyList<int> numberArgInitValueList,
             CommonEvent commonEvent)
@@ -389,7 +389,7 @@ namespace WodiLib.IO
             }
         }
 
-        private static CommonEventSpecialNumberArgDesc MakeSpecialNumberArgDesc(CommonEventArgType type,
+        private CommonEventSpecialNumberArgDesc MakeSpecialNumberArgDesc(CommonEventArgType type,
             string argName, int initValue, List<int> numberArgList, List<string> stringArgList)
         {
             return type == CommonEventArgType.ReferDatabase
@@ -399,7 +399,7 @@ namespace WodiLib.IO
                     initValue, numberArgList, stringArgList);
         }
 
-        private static CommonEventSpecialNumberArgDesc UpdateSpecialNumberArgDesc_MakeDescForReferDatabase(
+        private CommonEventSpecialNumberArgDesc UpdateSpecialNumberArgDesc_MakeDescForReferDatabase(
             CommonEventArgType type,
             string argName, int initValue, List<int> numberArgList, List<string> stringArgList)
         {
@@ -423,7 +423,7 @@ namespace WodiLib.IO
             return desc;
         }
 
-        private static CommonEventSpecialNumberArgDesc UpdateSpecialNumberArgDesc_MakeDescForElse(
+        private CommonEventSpecialNumberArgDesc UpdateSpecialNumberArgDesc_MakeDescForElse(
             CommonEventArgType type,
             string argName, int initValue, List<int> numberArgList, List<string> stringArgList)
         {
@@ -465,7 +465,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="argNameList">引数名リスト</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void UpdateSpecialStringArgDesc(IReadOnlyList<string> argNameList,
+        private void UpdateSpecialStringArgDesc(IReadOnlyList<string> argNameList,
             CommonEvent commonEvent)
         {
             var argNameListCount = argNameList.Count;
@@ -486,7 +486,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">データが仕様と異なる場合</exception>
-        private static void ReadAfterInitValueBytes(FileReadStatus status)
+        private void ReadAfterInitValueBytes(FileReadStatus status)
         {
             foreach (var b in CommonEvent.AfterInitValueBytes)
             {
@@ -505,7 +505,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void ReadLabelColor(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadLabelColor(FileReadStatus status, CommonEvent commonEvent)
         {
             var colorNumber = status.ReadInt();
             status.IncreaseIntOffset();
@@ -521,7 +521,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void ReadSelfVarName(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadSelfVarName(FileReadStatus status, CommonEvent commonEvent)
         {
             const int varNameLength = 100;
 
@@ -546,7 +546,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">データが仕様と異なる場合</exception>
-        private static void ReadAfterMemoBytesSelfVariableNamesBytes(FileReadStatus status)
+        private void ReadAfterMemoBytesSelfVariableNamesBytes(FileReadStatus status)
         {
             foreach (var b in CommonEvent.AfterMemoBytesSelfVariableNamesBytes)
             {
@@ -565,7 +565,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void ReadFooterString(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadFooterString(FileReadStatus status, CommonEvent commonEvent)
         {
             var footerString = status.ReadString();
             status.AddOffset(footerString.ByteLength);
@@ -582,7 +582,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <returns>あとに返戻値が続く場合true</returns>
         /// <exception cref="InvalidOperationException">データが仕様と異なる場合</exception>
-        private static HasNext ReadFooterA(FileReadStatus status)
+        private HasNext ReadFooterA(FileReadStatus status)
         {
             var b1 = status.ReadByte();
 
@@ -618,7 +618,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void ReadReturnValue(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadReturnValue(FileReadStatus status, CommonEvent commonEvent)
         {
             // 返戻値の意味
             ReadReturnValueDescription(status, commonEvent);
@@ -632,7 +632,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void ReadReturnValueDescription(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadReturnValueDescription(FileReadStatus status, CommonEvent commonEvent)
         {
             var description = status.ReadString();
             status.AddOffset(description.ByteLength);
@@ -648,7 +648,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="commonEvent">結果格納インスタンス</param>
-        private static void ReadReturnVariableIndex(FileReadStatus status, CommonEvent commonEvent)
+        private void ReadReturnVariableIndex(FileReadStatus status, CommonEvent commonEvent)
         {
             var index = status.ReadInt();
             status.IncreaseIntOffset();
@@ -664,7 +664,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">データが仕様と異なる場合</exception>
-        private static void ReadFooterB(FileReadStatus status)
+        private void ReadFooterB(FileReadStatus status)
         {
             foreach (var b in CommonEvent.FooterBytesAfterVer2_00)
             {

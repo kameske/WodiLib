@@ -38,7 +38,7 @@ namespace WodiLib.IO
         private FileReadStatus ReadStatus { get; set; }
 
         /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -120,7 +120,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイルヘッダが仕様と異なる場合</exception>
-        private static void ReadHeader(FileReadStatus status)
+        private void ReadHeader(FileReadStatus status)
         {
             foreach (var b in DBTypeSet.Header)
             {
@@ -142,7 +142,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="itemTypes">取得した項目種別リスト格納先</param>
-        private static void ReadValueType(FileReadStatus status, out List<DBItemType> itemTypes)
+        private void ReadValueType(FileReadStatus status, out List<DBItemType> itemTypes)
         {
             var length = status.ReadInt();
             status.IncreaseIntOffset();
@@ -180,7 +180,7 @@ namespace WodiLib.IO
                 typeof(DBDataSettingReader), "項目設定種別"));
         }
 
-        private static void ReadTypeSetting(FileReadStatus status, DBTypeSet data, IReadOnlyList<DBItemType> itemTypes)
+        private void ReadTypeSetting(FileReadStatus status, DBTypeSet data, IReadOnlyList<DBItemType> itemTypes)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(DBTypeSetFileReader),
                 "タイプ設定"));

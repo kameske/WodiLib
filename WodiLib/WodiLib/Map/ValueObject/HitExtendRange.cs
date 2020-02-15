@@ -49,13 +49,6 @@ namespace WodiLib.Map
         public static readonly int MinValue_Height = 0;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Static Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>ロガー</summary>
-        private static readonly WodiLibLogger Logger = WodiLibLogger.GetInstance();
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -101,11 +94,11 @@ namespace WodiLib.Map
                     ErrorMessage.OutOfRange(nameof(height), MinValue_Height, MaxValue_Height, height));
 
             if (width < SafetyMinValue_Width || SafetyMaxValue_Width < width)
-                Logger.Warning(
+                WodiLibLogger.GetInstance().Warning(
                     WarningMessage.OutOfRange(nameof(width), SafetyMinValue_Width,
                         SafetyMaxValue_Width, width));
             if (height < SafetyMinValue_Height || SafetyMaxValue_Height < height)
-                Logger.Warning(
+                WodiLibLogger.GetInstance().Warning(
                     WarningMessage.OutOfRange(nameof(height), SafetyMinValue_Height,
                         SafetyMaxValue_Height, height));
 

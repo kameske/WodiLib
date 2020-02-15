@@ -38,7 +38,7 @@ namespace WodiLib.IO
         private FileReadStatus ReadStatus { get; set; }
 
         /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -117,7 +117,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイルヘッダが仕様と異なる場合</exception>
-        private static void ReadHeader(FileReadStatus status)
+        private void ReadHeader(FileReadStatus status)
         {
             foreach (var b in DBData.Header)
             {
@@ -134,7 +134,7 @@ namespace WodiLib.IO
                 "ヘッダ"));
         }
 
-        private static void ReadDbData(FileReadStatus status, DBData data)
+        private void ReadDbData(FileReadStatus status, DBData data)
         {
             // データ数
             var length = status.ReadInt();
@@ -178,7 +178,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="values">読み込み結果</param>
-        private static void ReadDbDataIntValues(FileReadStatus status, out IReadOnlyList<DBItemValue> values)
+        private void ReadDbDataIntValues(FileReadStatus status, out IReadOnlyList<DBItemValue> values)
         {
             // 数値項目数
             var length = status.ReadInt();
@@ -209,7 +209,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="values">読み込み結果</param>
-        private static void ReadDbDataStringValues(FileReadStatus status, out IReadOnlyList<DBItemValue> values)
+        private void ReadDbDataStringValues(FileReadStatus status, out IReadOnlyList<DBItemValue> values)
         {
             // 数値項目数
             var length = status.ReadInt();

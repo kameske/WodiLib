@@ -40,7 +40,7 @@ namespace WodiLib.IO
         private FileReadStatus ReadStatus { get; set; }
 
         /// <summary>ロガー</summary>
-        private static WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -124,7 +124,7 @@ namespace WodiLib.IO
         /// <param name="status">読み込み経過状態</param>
         /// <param name="data">結果格納インスタンス</param>
         /// <exception cref="InvalidOperationException">ファイルヘッダが仕様と異なる場合</exception>
-        private static void ReadTypeSettingList(FileReadStatus status, DatabaseProject data)
+        private void ReadTypeSettingList(FileReadStatus status, DatabaseProject data)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(DBTypeSettingReader),
                 "タイプ設定リスト"));
