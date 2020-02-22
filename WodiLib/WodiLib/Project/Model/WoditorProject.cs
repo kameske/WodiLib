@@ -58,6 +58,11 @@ namespace WodiLib.Project
         public MapTreeOpenStatusList MapTreeOpenStatusList => MapTreeOpenStatusData.StatusList;
 
         /// <summary>
+        /// タイルセット設定リスト
+        /// </summary>
+        public TileSetSettingList TileSetSettingList => TileSetData.TileSetSettingList;
+
+        /// <summary>
         /// 可変DB
         /// </summary>
         public DatabaseMergedData ChangeableDatabase { get; private set; }
@@ -92,12 +97,17 @@ namespace WodiLib.Project
 
         private MapTreeOpenStatusData MapTreeOpenStatusData { get; set; }
 
+        private TileSetData TileSetData { get; set; }
+
         private CommonEventDatFilePath CommonEventDatFilePath => $"{TargetDirectory}/Data/BasicData/CommonEvent.dat";
 
         private MapTreeDataFilePath MapTreeDataFilePath => $"{TargetDirectory}/Data/BasicData/MapTree.dat";
 
         private MapTreeOpenStatusDataFilePath MapTreeOpenStatusDataFilePath =>
             $"{TargetDirectory}/Data/BasicData/MapTreeOpenStatus.dat";
+
+        private TileSetDataFilePath TileSetDataFilePath =>
+            $"{TargetDirectory}/Data/BasicData/TileSetData.dat";
 
         private ChangeableDatabaseProjectFilePath ChangeableDatabaseProjectFilePath =>
             $"{TargetDirectory}/Data/BasicData/CDataBase.project";
@@ -190,6 +200,7 @@ namespace WodiLib.Project
             ReadCommonEventDataSync();
             ReadMapTreeDataSync();
             ReadMapTreeOpenStatusDataSync();
+            ReadTileSetDataSync();
             ReadChangeableDatabaseSync();
             ReadUserDatabaseSync();
             ReadSystemDatabaseSync();
@@ -207,6 +218,7 @@ namespace WodiLib.Project
             await ReadCommonEventDataAsync();
             await ReadMapTreeDataAsync();
             await ReadMapTreeOpenStatusDataAsync();
+            await ReadTileSetDataAsync();
             await ReadChangeableDatabaseAsync();
             await ReadUserDatabaseAsync();
             await ReadSystemDatabaseAsync();
@@ -266,6 +278,7 @@ namespace WodiLib.Project
                 ComplementNapTreeOpenStatusData();
                 return;
             }
+
             var file = new MapTreeOpenStatusDataFile(MapTreeOpenStatusDataFilePath);
             MapTreeOpenStatusData = file.ReadSync();
         }
@@ -282,8 +295,29 @@ namespace WodiLib.Project
                 ComplementNapTreeOpenStatusData();
                 return;
             }
+
             var file = new MapTreeOpenStatusDataFile(MapTreeOpenStatusDataFilePath);
             MapTreeOpenStatusData = await file.ReadAsync();
+        }
+
+        /// <summary>
+        /// タイルセットデータを同期的に再読込する。
+        /// </summary>
+        /// <exception cref="InvalidOperationException">ファイルが正しく読み込めなかった場合</exception>
+        public void ReadTileSetDataSync()
+        {
+            var file = new TileSetDataFile(TileSetDataFilePath);
+            TileSetData = file.ReadSync();
+        }
+
+        /// <summary>
+        /// タイルセットデータを非同期的に再読込する。
+        /// </summary>
+        /// <exception cref="InvalidOperationException">ファイルが正しく読み込めなかった場合</exception>
+        public async Task ReadTileSetDataAsync()
+        {
+            var file = new TileSetDataFile(TileSetDataFilePath);
+            TileSetData = await file.ReadAsync();
         }
 
         /// <summary>
@@ -292,7 +326,7 @@ namespace WodiLib.Project
         private void ComplementNapTreeOpenStatusData()
         {
             // MapTreeDataが読み込まれていなければエラー（通常ありえない）
-            if(MapTreeData == null) throw new InvalidOperationException();
+            if (MapTreeData == null) throw new InvalidOperationException();
 
             MapTreeOpenStatusData = new MapTreeOpenStatusData();
             MapTreeOpenStatusData.StatusList.AdjustLength(MapTreeData.TreeNodeList.Count);

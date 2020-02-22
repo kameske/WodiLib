@@ -166,6 +166,27 @@ namespace WodiLib.Test.Project.Model
 
 
         [Test]
+        public static void ReadTileSetDataSyncTest()
+        {
+            var instance = new WoditorProject(TestProjectDir);
+
+            var errorOccured = false;
+            try
+            {
+                instance.ReadTileSetDataSync();
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
+        }
+
+
+        [Test]
         public static void ReadChangeableDatabaseSyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
@@ -321,6 +342,27 @@ namespace WodiLib.Test.Project.Model
             try
             {
                 await instance.ReadMapTreeOpenStatusDataAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
+        }
+
+
+        [Test]
+        public static async Task ReadTileSetDataAsyncTest()
+        {
+            var instance = new WoditorProject(TestProjectDir);
+
+            var errorOccured = false;
+            try
+            {
+                await instance.ReadTileSetDataAsync();
             }
             catch (Exception ex)
             {
