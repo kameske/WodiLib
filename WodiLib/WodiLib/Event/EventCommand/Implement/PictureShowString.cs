@@ -38,7 +38,7 @@ namespace WodiLib.Event.EventCommand
             get => printString;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(PrintString)));
                 printString = value;

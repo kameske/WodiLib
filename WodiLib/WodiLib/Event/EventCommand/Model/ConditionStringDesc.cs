@@ -32,7 +32,7 @@ namespace WodiLib.Event.EventCommand
             get => rightSide;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(RightSide)));
                 if (value.InstanceIntOrStrType == IntOrStrType.None)
@@ -51,7 +51,7 @@ namespace WodiLib.Event.EventCommand
             get => condition;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Condition)));
                 condition = value;

@@ -181,7 +181,7 @@ namespace WodiLib.Sys
         public static WoditorVersion FromName(string versionName)
         {
             var resultWithoutSpecial = _FindAll().FirstOrDefault(x => x.VersionName.Equals(versionName));
-            if (resultWithoutSpecial != null)
+            if (!(resultWithoutSpecial is null))
             {
                 return resultWithoutSpecial;
             }

@@ -49,6 +49,7 @@ namespace WodiLib.Event.CharaMoveCommand
         ///     [Convertible(<see cref="CalledEventVariableAddress"/>)]
         ///     対象アドレス
         /// </summary>
+        /// <exception cref="PropertyNullException">null をセットしたとき</exception>
         /// <exception cref="PropertyOutOfRangeException">指定範囲外の値をセットしたとき</exception>
         public VariableAddress TargetAddress
         {
@@ -62,12 +63,15 @@ namespace WodiLib.Event.CharaMoveCommand
                     return targetAddress;
                 }
 
-                if (Owner == null) return targetAddress;
+                if (Owner is null) return targetAddress;
 
                 return Owner.ConvertVariableAddress(targetAddress);
             }
             set
             {
+                if (value is null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(TargetAddress)));
                 if (!(NormalNumberVariableAddress.MinValue <= value && value <= NormalNumberVariableAddress.MaxValue)
                     && !CalledEventVariableAddress.CanCast(value))
                     throw new PropertyOutOfRangeException(
@@ -96,7 +100,7 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>所有イベント保持フラグ</summary>
-        private bool HasOwner => Owner != null;
+        private bool HasOwner => !(Owner is null);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor

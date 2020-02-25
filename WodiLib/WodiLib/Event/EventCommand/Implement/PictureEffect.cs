@@ -217,7 +217,7 @@ namespace WodiLib.Event.EventCommand
             get => effectType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(EffectType)));
                 effectType = value;

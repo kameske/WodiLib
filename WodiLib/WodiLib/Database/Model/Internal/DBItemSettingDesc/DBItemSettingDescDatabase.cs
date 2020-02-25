@@ -19,7 +19,8 @@ namespace WodiLib.Database
     /// データベース設定値特殊指定・データベース参照
     /// </summary>
     [Serializable]
-    internal class DBItemSettingDescDatabase : DBItemSettingDescBase, IEquatable<DBItemSettingDescDatabase>, ISerializable
+    internal class DBItemSettingDescDatabase : DBItemSettingDescBase, IEquatable<DBItemSettingDescDatabase>,
+        ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -44,7 +45,7 @@ namespace WodiLib.Database
             get => databaseDbKind;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DatabaseReferKind)));
 
@@ -143,7 +144,8 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentOutOfRangeException">caseNumberが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">descriptionがEmptyの場合</exception>
         /// <exception cref="ArgumentNewLineException">descriptionが改行を含む場合</exception>
-        public override void UpdateDatabaseSpecialCase(int caseNumber, DatabaseValueCaseDescription description)
+        public override void UpdateDatabaseSpecialCase(int caseNumber,
+            DatabaseValueCaseDescription description)
         {
             var argCase = new DatabaseValueCase(caseNumber, description);
             var innerCaseNumber = caseNumber * -1 - 1;
@@ -159,7 +161,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         public override bool CanSetItemType(DBItemType type)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 
@@ -173,7 +175,7 @@ namespace WodiLib.Database
         /// <returns>一致する場合、true</returns>
         public override bool Equals(IDBItemSettingDesc other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
             if (!(other is DBItemSettingDescDatabase casted)) return false;

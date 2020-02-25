@@ -39,7 +39,7 @@ namespace WodiLib.Event.EventCommand
             get => _DBKind;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBKind)));
                 _DBKind = value;
@@ -55,7 +55,7 @@ namespace WodiLib.Event.EventCommand
             get => _DBTypeId.ToStr();
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBTypeName)));
                 _DBTypeId.Merge(value);

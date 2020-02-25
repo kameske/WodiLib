@@ -40,7 +40,7 @@ namespace WodiLib.Event.EventCommand
             get => _DBKind;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBKind)));
                 _DBKind = value;
@@ -54,7 +54,7 @@ namespace WodiLib.Event.EventCommand
             get => _IsTypeIdUseStr ? (IntOrStr) _DBTypeId.ToStr() : _DBTypeId.ToInt();
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBTypeId)));
                 if (value.InstanceIntOrStrType == IntOrStrType.None)
@@ -71,7 +71,7 @@ namespace WodiLib.Event.EventCommand
             get => _IsDataIdUseStr ? (IntOrStr) _DBDataId.ToStr() : _DBDataId.ToInt();
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBDataId)));
                 if (value.InstanceIntOrStrType == IntOrStrType.None)
@@ -96,7 +96,7 @@ namespace WodiLib.Event.EventCommand
             get => _DBItemId.ToStr();
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBItemName)));
                 _DBItemId.Merge(value);

@@ -54,7 +54,7 @@ namespace WodiLib.Map
             get => statusList;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StatusList)));
                 statusList = value;

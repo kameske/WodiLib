@@ -78,7 +78,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         public override bool CanSetItemType(DBItemType type)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 

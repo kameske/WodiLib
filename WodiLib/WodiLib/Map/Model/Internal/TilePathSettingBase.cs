@@ -54,7 +54,7 @@ namespace WodiLib.Map
             get => pathOption;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(PathOption)));
                 pathOption = value;
@@ -85,7 +85,7 @@ namespace WodiLib.Map
         protected TilePathSettingBase(int code)
         {
             PathOption = TilePathOption.FromCode(code);
-            if (PathOption == null)
+            if (PathOption is null)
             {
                 // ここへは来ないはず
                 throw new InvalidOperationException(

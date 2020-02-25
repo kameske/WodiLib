@@ -47,11 +47,11 @@ namespace WodiLib.Common
         /// <exception cref="ArgumentException">commonEventsの要素数が0の場合</exception>
         public void SetCommonEventList(IEnumerable<CommonEvent> commonEvents)
         {
-            var eventList = commonEvents.ToList();
-
-            if (commonEvents == null)
+            if (commonEvents is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(commonEvents)));
+
+            var eventList = commonEvents.ToList();
 
             if (eventList.Count == 0)
                 throw new ArgumentException(

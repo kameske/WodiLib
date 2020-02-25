@@ -30,7 +30,7 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentNullException">keyがnullの場合</exception>
         public static bool HasCreateMethod<T>(string key = "default")
         {
-            if (key == null)
+            if (key is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(key)));
 

@@ -34,7 +34,7 @@ namespace WodiLib.Database
             get => TypeSetting.TypeName;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(TypeName)));
 
@@ -51,7 +51,7 @@ namespace WodiLib.Database
             get => TypeSetting.Memo;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Memo)));
 
@@ -140,12 +140,13 @@ namespace WodiLib.Database
         /// <param name="typeSetting">[NotNull] タイプ設定</param>
         /// <param name="dataSetting">[NotNull] データ設定</param>
         /// <exception cref="ArgumentNullException">typeSetting, dataSetting が null の場合</exception>
-        internal DatabaseTypeDesc(DBTypeSetting typeSetting, DBDataSetting dataSetting)
+        internal DatabaseTypeDesc(DBTypeSetting typeSetting,
+            DBDataSetting dataSetting)
         {
-            if (typeSetting == null)
+            if (typeSetting is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(typeSetting)));
-            if (dataSetting == null)
+            if (dataSetting is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dataSetting)));
 
@@ -164,7 +165,8 @@ namespace WodiLib.Database
             RegisterItemDescListHandlerItemDescList();
         }
 
-        private void UpdateItemType(DBTypeSetting typeSetting, DBDataSetting dataSetting)
+        private void UpdateItemType(DBTypeSetting typeSetting,
+            DBDataSetting dataSetting)
         {
             // タイプ設定の項目数とデータ設定の項目数=0が一致しない場合がある。データ設定の項目数が真
             var itemCount = dataSetting.SettingValuesList[0].Count;
@@ -312,7 +314,8 @@ namespace WodiLib.Database
         ///     settingTypeがnullの場合、
         ///     またはsettingType が DesignatedType かつ dbKindまたはtypeIdがnullの場合
         /// </exception>
-        public void SetDataSettingType(DBDataSettingType settingType, DBKind dbKind = null, TypeId? typeId = null)
+        public void SetDataSettingType(DBDataSettingType settingType,
+            DBKind dbKind = null, TypeId? typeId = null)
         {
             DataSetting.SetDataSettingType(settingType, dbKind, typeId);
         }

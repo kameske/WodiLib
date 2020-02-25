@@ -1836,7 +1836,7 @@ namespace WodiLib.Test.Sys
 
         private class CollectionTest4 : AbsCollectionTest
         {
-            /**
+            /*
              * 異常設定（MinCapacity < 0）
              */
 

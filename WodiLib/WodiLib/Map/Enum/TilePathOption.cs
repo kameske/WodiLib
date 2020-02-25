@@ -52,7 +52,7 @@ namespace WodiLib.Map
         public static TilePathOption FromCode(int code)
         {
             var searchedWithoutCodeZero = _FindAll().Where(x => x.Code != 0).FirstOrDefault(x => (x.Code & code) != 0);
-            if (searchedWithoutCodeZero != null) return searchedWithoutCodeZero;
+            if (!(searchedWithoutCodeZero is null)) return searchedWithoutCodeZero;
 
             return _FindAll().First(x => x.Code == 0);
         }

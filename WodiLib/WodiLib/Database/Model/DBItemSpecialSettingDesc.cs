@@ -97,7 +97,7 @@ namespace WodiLib.Database
             get => itemMemo;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ItemMemo)));
 
@@ -140,13 +140,14 @@ namespace WodiLib.Database
         /// <param name="type">[NotNull] 特殊指定タイプ</param>
         /// <param name="argCases">[Nullable] 選択肢リスト</param>
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
-        public DBItemSpecialSettingDesc(DBItemSpecialSettingType type, IEnumerable<DatabaseValueCase> argCases)
+        public DBItemSpecialSettingDesc(DBItemSpecialSettingType type,
+            IEnumerable<DatabaseValueCase> argCases)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 
-            var argCaseList = argCases == null
+            var argCaseList = argCases is null
                 ? null
                 : new DatabaseValueCaseList(argCases.ToArray());
 
@@ -163,13 +164,14 @@ namespace WodiLib.Database
         /// <param name="type">[NotNull] 特殊指定タイプ</param>
         /// <param name="argCases">[Nullable] 選択肢リスト</param>
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
-        public void ChangeValueType(DBItemSpecialSettingType type, IEnumerable<DatabaseValueCase> argCases)
+        public void ChangeValueType(DBItemSpecialSettingType type,
+            IEnumerable<DatabaseValueCase> argCases)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 
-            var argCaseList = argCases == null
+            var argCaseList = argCases is null
                 ? null
                 : new DatabaseValueCaseList(argCases.ToArray());
 
@@ -320,7 +322,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         public bool CanSetItemType(DBItemType type)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 

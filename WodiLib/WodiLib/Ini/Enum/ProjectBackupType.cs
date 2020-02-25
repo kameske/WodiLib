@@ -75,7 +75,7 @@ namespace WodiLib.Ini
         /// <exception cref="ArgumentException">存在しない値の場合</exception>
         public static ProjectBackupType FromCode(string code)
         {
-            if (code == null)
+            if (code is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(code)));
 
@@ -98,7 +98,7 @@ namespace WodiLib.Ini
         /// <returns>EventCommandShortCutKey</returns>
         public static ProjectBackupType FromCodeOrDefault(string code)
         {
-            if (code == null || code.Equals(string.Empty)) return ThreeTimes;
+            if (code is null || code.Equals(string.Empty)) return ThreeTimes;
             return FromCode(code);
         }
     }

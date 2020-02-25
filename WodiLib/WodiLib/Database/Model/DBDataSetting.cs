@@ -90,7 +90,7 @@ namespace WodiLib.Database
             get => settingValuesList;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(SettingValuesList)));
 
@@ -119,7 +119,8 @@ namespace WodiLib.Database
         ///     settingTypeがnullの場合、
         ///     またはsettingType が DesignatedType かつ dbKindがnullの場合
         /// </exception>
-        public DBDataSetting(DBDataSettingType settingType, DBKind dbKind = null, TypeId? typeId = null)
+        public DBDataSetting(DBDataSettingType settingType,
+            DBKind dbKind = null, TypeId? typeId = null)
         {
             SetDataSettingType(settingType, dbKind, typeId);
         }
@@ -138,9 +139,10 @@ namespace WodiLib.Database
         ///     settingTypeがnullの場合、
         ///     またはsettingType が DesignatedType かつ dbKindまたはtypeIdがnullの場合
         /// </exception>
-        public void SetDataSettingType(DBDataSettingType settingType, DBKind dbKind = null, TypeId? typeId = null)
+        public void SetDataSettingType(DBDataSettingType settingType,
+            DBKind dbKind = null, TypeId? typeId = null)
         {
-            if (settingType == null)
+            if (settingType is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(settingType)));
 
@@ -152,10 +154,10 @@ namespace WodiLib.Database
             }
 
             // 設定種別＝指定DBの指定タイプ の場合、DB種別とタイプID必須なのでチェック
-            if (dbKind == null)
+            if (dbKind is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dbKind)));
-            if (typeId == null)
+            if (typeId is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(typeId)));
 

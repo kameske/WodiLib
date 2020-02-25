@@ -31,7 +31,7 @@ namespace WodiLib.Map
             get => chips;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Chips)));
                 chips = value;

@@ -73,7 +73,7 @@ namespace WodiLib.Common
             /// <param name="argCaseList">[Nullable] 選択肢とその文字列リスト</param>
             public InnerDescManual(CommonEventSpecialArgCaseList argCaseList)
             {
-                if (argCaseList != null)
+                if (!(argCaseList is null))
                 {
                     ArgCaseList = argCaseList;
                 }
@@ -146,7 +146,7 @@ namespace WodiLib.Common
             /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
             public void AddSpecialCase(CommonEventSpecialArgCase argCase)
             {
-                if (argCase == null)
+                if (argCase is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(argCase)));
 
@@ -160,7 +160,7 @@ namespace WodiLib.Common
             /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
             public void AddRangeSpecialCase(IEnumerable<CommonEventSpecialArgCase> argCases)
             {
-                if (argCases == null)
+                if (argCases is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(argCases)));
 
@@ -182,7 +182,7 @@ namespace WodiLib.Common
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
-                if (argCase == null)
+                if (argCase is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(argCase)));
 
@@ -204,7 +204,7 @@ namespace WodiLib.Common
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
-                if (argCases == null)
+                if (argCases is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(argCases)));
 
@@ -241,7 +241,7 @@ namespace WodiLib.Common
                 if (index < min || max < index)
                     throw new ArgumentOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(index), min, max, index));
-                if (argCase == null)
+                if (argCase is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotEmpty(nameof(argCase)));
 

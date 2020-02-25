@@ -141,7 +141,7 @@ namespace WodiLib.Sys
                 throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
             }
 
-            if (list == null)
+            if (list is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(list)));
 
@@ -248,7 +248,7 @@ namespace WodiLib.Sys
         /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
         public void AddRange(IReadOnlyCollection<T> items)
         {
-            if (items == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
+            if (items is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
 
             if (items.HasNullItem())
                 throw new ArgumentNullException(
@@ -314,7 +314,7 @@ namespace WodiLib.Sys
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
-            if (items == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
+            if (items is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
 
             if (items.HasNullItem())
                 throw new ArgumentNullException(
@@ -365,7 +365,7 @@ namespace WodiLib.Sys
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), indexMin, indexMax, index));
 
-            if (list == null)
+            if (list is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(list)));
             if (list.HasNullItem())

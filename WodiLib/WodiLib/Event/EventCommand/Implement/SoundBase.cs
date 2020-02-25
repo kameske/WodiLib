@@ -233,7 +233,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void SetSafetyStringVariable(int index, string value)
         {
-            if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
+            if (value is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
             switch (index)
             {
                 case 0:
@@ -388,7 +388,7 @@ namespace WodiLib.Event.EventCommand
             get => audioType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(AudioType)));
                 audioType = value;
@@ -407,7 +407,7 @@ namespace WodiLib.Event.EventCommand
             get => specification;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Specification)));
                 specification = value;
@@ -441,7 +441,7 @@ namespace WodiLib.Event.EventCommand
             get => audioFileName;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(AudioFileName)));
                 audioFileName = value;

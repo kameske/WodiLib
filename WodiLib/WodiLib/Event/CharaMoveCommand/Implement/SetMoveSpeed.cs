@@ -44,7 +44,7 @@ namespace WodiLib.Event.CharaMoveCommand
             get => moveSpeed;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Value)));
 

@@ -155,7 +155,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void SetSafetyStringVariable(int index, string value)
         {
-            if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
+            if (value is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
             if (index < 0 || StringVariableCount <= index)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), 0, StringVariableCount - 1, index));
@@ -218,7 +218,7 @@ namespace WodiLib.Event.EventCommand
             get => assignmentOperator;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(AssignmentOperator)));
                 assignmentOperator = value;

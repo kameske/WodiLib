@@ -44,7 +44,7 @@ namespace WodiLib.Map
             get => graphicInfo;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(GraphicInfo)));
                 graphicInfo = value;
@@ -60,7 +60,7 @@ namespace WodiLib.Map
             get => bootInfo;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(BootInfo)));
                 bootInfo = value;
@@ -76,7 +76,7 @@ namespace WodiLib.Map
             get => moveRouteInfo;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MoveRouteInfo)));
                 moveRouteInfo = value;
@@ -92,7 +92,7 @@ namespace WodiLib.Map
             get => option;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Option)));
                 option = value;
@@ -114,7 +114,7 @@ namespace WodiLib.Map
             get => eventCommands;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(EventCommands)));
                 eventCommands = value;

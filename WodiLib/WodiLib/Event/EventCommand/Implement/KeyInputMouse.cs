@@ -135,7 +135,7 @@ namespace WodiLib.Event.EventCommand
             get => acceptStatus.Target;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Target)));
                 acceptStatus.Target = value;

@@ -76,7 +76,7 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
             EventCommandSentenceResolveDesc desc)
         {
-            if (desc == null)
+            if (desc is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
 

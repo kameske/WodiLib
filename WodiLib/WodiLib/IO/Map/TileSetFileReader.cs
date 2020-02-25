@@ -25,7 +25,7 @@ namespace WodiLib.IO
         /// <summary>[Nullable] 読み込んだデータ</summary>
         public TileSetFileData Data { get; private set; }
 
-        private FileReadStatus ReadStatus { get; set; }
+        private FileReadStatus ReadStatus { get; }
 
         /// <summary>ロガー</summary>
         private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
@@ -37,11 +37,12 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         public TileSetFileReader(TileSetFilePath filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 
             FilePath = filePath;
+            ReadStatus = new FileReadStatus(FilePath);
         }
 
         /// <summary>
@@ -60,7 +61,6 @@ namespace WodiLib.IO
 
             Logger.Info(FileIOMessage.StartFileRead(GetType()));
 
-            ReadStatus = new FileReadStatus(FilePath);
             Data = ReadData(ReadStatus);
 
             Logger.Info(FileIOMessage.EndFileRead(GetType()));

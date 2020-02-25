@@ -78,7 +78,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentException">dataNameList, itemSettingList に null 要素が含まれる場合</exception>
         public DBTypeSet(DBItemSettingList itemSettingList)
         {
-            if (itemSettingList == null)
+            if (itemSettingList is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(itemSettingList)));
 

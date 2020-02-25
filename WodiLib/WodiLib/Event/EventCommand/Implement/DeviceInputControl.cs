@@ -179,7 +179,7 @@ namespace WodiLib.Event.EventCommand
             get => keyType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(KeyType)));
                 keyType = value;
@@ -198,7 +198,7 @@ namespace WodiLib.Event.EventCommand
             get => controlType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ControlType)));
                 controlType = value;

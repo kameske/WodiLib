@@ -68,7 +68,7 @@ namespace WodiLib.Event.EventCommand
             get => actionEntry;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ActionEntry)));
                 actionEntry = value;
@@ -119,7 +119,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>所有イベント保持フラグ</summary>
-        private bool HasOwner => owner != null;
+        private bool HasOwner => !(owner is null);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor

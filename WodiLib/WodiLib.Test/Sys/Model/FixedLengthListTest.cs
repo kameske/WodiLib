@@ -578,12 +578,11 @@ namespace WodiLib.Test.Sys
              */
 
             public static int Capacity => 10;
+
             public static string Default => "test";
 
-            [field: NonSerialized]
-            public Action OnSetItemCalled { get; set; }
-            [field: NonSerialized]
-            public Action OnClearItemsCalled { get; set; }
+            [field: NonSerialized] public Action OnSetItemCalled { get; set; }
+            [field: NonSerialized] public Action OnClearItemsCalled { get; set; }
 
             public override int GetCapacity() => Capacity;
 
@@ -616,7 +615,7 @@ namespace WodiLib.Test.Sys
 
         private class CollectionTest2 : AbsCollectionTest
         {
-            /**
+            /*
              * 異常設定（Capacity < 0）
              */
 
@@ -642,6 +641,7 @@ namespace WodiLib.Test.Sys
              * 異常設定（DefaultValue＝null）
              */
             public static int Capacity => 10;
+
             public static string Default => null;
 
             public override int GetCapacity() => Capacity;

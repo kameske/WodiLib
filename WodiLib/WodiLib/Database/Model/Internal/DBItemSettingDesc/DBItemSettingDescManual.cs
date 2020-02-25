@@ -51,7 +51,7 @@ namespace WodiLib.Database
         /// <param name="argCaseList">[Nullable] 選択肢とその文字列リスト</param>
         public DBItemSettingDescManual(DatabaseValueCaseList argCaseList = null)
         {
-            if (argCaseList != null)
+            if (!(argCaseList is null))
             {
                 ArgCaseList = argCaseList;
             }
@@ -98,7 +98,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
         public override void AddSpecialCase(DatabaseValueCase argCase)
         {
-            if (argCase == null)
+            if (argCase is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(argCase)));
 
@@ -112,7 +112,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
         public override void AddRangeSpecialCase(IReadOnlyCollection<DatabaseValueCase> argCases)
         {
-            if (argCases == null)
+            if (argCases is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(argCases)));
 
@@ -134,7 +134,7 @@ namespace WodiLib.Database
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
-            if (argCase == null)
+            if (argCase is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(argCase)));
 
@@ -156,7 +156,7 @@ namespace WodiLib.Database
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
-            if (argCases == null)
+            if (argCases is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(argCases)));
 
@@ -178,7 +178,7 @@ namespace WodiLib.Database
             if (index < min || max < index)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), min, max, index));
-            if (argCase == null)
+            if (argCase is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotEmpty(nameof(argCase)));
 
@@ -248,7 +248,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         public override bool CanSetItemType(DBItemType type)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 

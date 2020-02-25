@@ -80,7 +80,7 @@ namespace WodiLib.Test.Map
             Assert.AreEqual((string) instance, value);
         }
 
-        [TestCase(null, true)]
+        [TestCase(null, false)]
         [TestCase("", false)]
         [TestCase("abc", false)]
         [TestCase("あいうえお", false)]

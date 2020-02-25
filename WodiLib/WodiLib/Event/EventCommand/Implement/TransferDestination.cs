@@ -133,7 +133,7 @@ namespace WodiLib.Event.EventCommand
             get => _TransferOption;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(TransferOption)));
                 _TransferOption = value;

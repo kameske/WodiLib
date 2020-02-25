@@ -73,7 +73,7 @@ namespace WodiLib.Ini
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
-            if (obj == null) return false;
+            if (obj is null) return false;
 
             return obj is WindowPosition other && Equals(other);
         }
@@ -111,9 +111,15 @@ namespace WodiLib.Ini
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
+        /// <exception cref="InvalidCastException">
+        ///     tuple が null の場合
+        /// </exception>
         public static implicit operator WindowPosition(Tuple<int, int> tuple)
         {
-            if (tuple == null) return null;
+            if (tuple is null)
+                throw new InvalidCastException(
+                    ErrorMessage.InvalidCastFromNull(nameof(tuple), nameof(WindowPosition)));
+
             return new WindowPosition(tuple.Item1, tuple.Item2);
         }
 

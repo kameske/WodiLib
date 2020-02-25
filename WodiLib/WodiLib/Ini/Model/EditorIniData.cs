@@ -41,7 +41,7 @@ namespace WodiLib.Ini
             get => lastLoadFile;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(LastLoadFile)));
 
@@ -120,7 +120,7 @@ namespace WodiLib.Ini
             get => databaseValueNumberDrawType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DatabaseValueNumberDrawType)));
 
@@ -139,7 +139,7 @@ namespace WodiLib.Ini
             get => editTimeDrawType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(EditTimeDrawType)));
 
@@ -173,7 +173,7 @@ namespace WodiLib.Ini
             get => layerTransparent;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(LayerTransparent)));
 
@@ -192,7 +192,7 @@ namespace WodiLib.Ini
             get => eventLayerOpacity;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(EventLayerOpacity)));
 
@@ -211,7 +211,7 @@ namespace WodiLib.Ini
             get => commandColorType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(CommandColorType)));
 
@@ -239,7 +239,7 @@ namespace WodiLib.Ini
             get => notCopyExtList;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(NotCopyExtList)));
 
@@ -264,7 +264,7 @@ namespace WodiLib.Ini
             get => backupType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(BackupType)));
 
@@ -283,7 +283,7 @@ namespace WodiLib.Ini
             get => shortCutKeyList;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ShortCutKeyList)));
 
@@ -302,7 +302,7 @@ namespace WodiLib.Ini
             get => commandPositionList;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(CommandPositionList)));
 
@@ -332,6 +332,10 @@ namespace WodiLib.Ini
         /// <param name="programData">ProgramData</param>
         internal EditorIniData(EditorIniProgramData programData)
         {
+            if (programData is null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(programData)));
+
             StartFlag = programData.StartFlag.TryToInt() ?? 0;
             LastLoadFile = programData.LastLoadFile;
             MainWindowPosition = new WindowPosition(

@@ -53,7 +53,7 @@ namespace WodiLib.Map
         /// <exception cref="ArgumentNullException">cannotPattingFlagsがnullの場合</exception>
         public TilePathSettingDependent(TileCannotPassingFlags cannotPassingFlags)
         {
-            if (cannotPassingFlags == null)
+            if (cannotPassingFlags is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(cannotPassingFlags)));
 
@@ -92,7 +92,7 @@ namespace WodiLib.Map
         /// <inheritdoc/>
         protected override bool ChildEquals(ITilePathSetting other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
             if (!(other is TilePathSettingDependent casted)) return false;
             return Equals(casted);
         }

@@ -39,7 +39,7 @@ namespace WodiLib.Sys
             get => Items[index];
             set
             {
-                if (value == null)
+                if (ReferenceEquals(value, null))
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(value)));
 
@@ -119,7 +119,7 @@ namespace WodiLib.Sys
                 throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
             }
 
-            if (list == null)
+            if (list is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(list)));
 
@@ -297,7 +297,7 @@ namespace WodiLib.Sys
         protected void ValidateDefaultItem()
         {
             var value = MakeDefaultItem(0);
-            if (value == null)
+            if (ReferenceEquals(value, null))
                 throw new InvalidOperationException(
                     ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}メソッドの返戻値"));
         }

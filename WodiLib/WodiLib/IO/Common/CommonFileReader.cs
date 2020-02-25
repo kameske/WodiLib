@@ -26,7 +26,7 @@ namespace WodiLib.IO
         public CommonFileData CommonFileData { get; private set; }
 
         /// <summary>ファイル読み込みステータス</summary>
-        private FileReadStatus ReadStatus { get; set; }
+        private FileReadStatus ReadStatus { get; }
 
         /// <summary>ロガー</summary>
         private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
@@ -38,11 +38,12 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         public CommonFileReader(CommonFilePath filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 
             FilePath = filePath;
+            ReadStatus = new FileReadStatus(FilePath);
         }
 
         /// <summary>
@@ -57,11 +58,10 @@ namespace WodiLib.IO
         {
             Logger.Info(FileIOMessage.StartFileRead(GetType()));
 
-            if (CommonFileData != null)
+            if (!(CommonFileData is null))
                 throw new InvalidOperationException(
                     "すでに読み込み完了しています。");
 
-            ReadStatus = new FileReadStatus(FilePath);
             CommonFileData = new CommonFileData();
 
             // ヘッダチェック

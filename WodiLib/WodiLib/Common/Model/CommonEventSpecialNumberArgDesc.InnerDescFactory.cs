@@ -30,7 +30,7 @@ namespace WodiLib.Common
             public static IInnerDesc Create(
                 CommonEventArgType type, CommonEventSpecialArgCaseList argCaseList)
             {
-                if (type == null)
+                if (type is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(argCaseList)));
 
@@ -70,10 +70,10 @@ namespace WodiLib.Common
             public static IInnerDesc CreateReferDatabase(
                 CommonEventSpecialArgCaseList argCaseList)
             {
-                string argCaseMinus1 = "";
-                string argCaseMinus2 = "";
-                string argCaseMinus3 = "";
-                if (argCaseList != null)
+                var argCaseMinus1 = "";
+                var argCaseMinus2 = "";
+                var argCaseMinus3 = "";
+                if (!(argCaseList is null))
                 {
                     argCaseMinus1 = argCaseList.GetDescriptionForCaseNumber(-1) ?? "";
                     argCaseMinus2 = argCaseList.GetDescriptionForCaseNumber(-2) ?? "";

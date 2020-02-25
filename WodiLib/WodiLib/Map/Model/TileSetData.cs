@@ -53,7 +53,7 @@ namespace WodiLib.Map
             get => settingList;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(TileSetSettingList)));
                 settingList = value;

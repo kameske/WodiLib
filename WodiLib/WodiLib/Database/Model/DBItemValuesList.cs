@@ -115,7 +115,7 @@ namespace WodiLib.Database
                 throw new InvalidOperationException();
             }
 
-            if (list == null)
+            if (list is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(list)));
 
@@ -316,7 +316,8 @@ namespace WodiLib.Database
         ///     valuesの要素数、
         ///     またはvalues中の値種別が不適切な場合
         /// </exception>
-        public IFixedLengthDBItemValueList CreateValueListInstance(IReadOnlyList<DBItemValue> values)
+        public IFixedLengthDBItemValueList CreateValueListInstance(
+            IReadOnlyList<DBItemValue> values)
         {
             var instance = new DBItemValueList(this, values);
             RefreshMadeInstanceReference();
@@ -342,7 +343,7 @@ namespace WodiLib.Database
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(itemId), min, max, itemId));
 
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 
@@ -366,7 +367,7 @@ namespace WodiLib.Database
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(itemId), min, max, itemId));
 
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(value)));
 
@@ -383,7 +384,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">項目数がDBItemValueList.MaxCapacityを超える場合</exception>
         public void AddField(DBItemType type)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 
@@ -406,7 +407,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">項目数がDBItemValueList.MaxCapacityを超える場合</exception>
         public void AddField(DBItemValue value)
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(value)));
 
@@ -429,7 +430,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">項目数がDBItemValueList.MaxCapacityを超える場合</exception>
         public void AddFieldRange(IReadOnlyCollection<DBItemType> types)
         {
-            if (types == null)
+            if (types is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(types)));
 
@@ -456,7 +457,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">項目数がDBItemValueList.MaxCapacityを超える場合</exception>
         public void AddFieldRange(IReadOnlyCollection<DBItemValue> values)
         {
-            if (values == null)
+            if (values is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(values)));
 
@@ -491,7 +492,7 @@ namespace WodiLib.Database
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(itemId), min, max, itemId));
 
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 
@@ -521,7 +522,7 @@ namespace WodiLib.Database
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(itemId), min, max, itemId));
 
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(value)));
 
@@ -554,7 +555,7 @@ namespace WodiLib.Database
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
-            if (types == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(types)));
+            if (types is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(types)));
 
             if (types.HasNullItem())
                 throw new ArgumentNullException(
@@ -594,7 +595,7 @@ namespace WodiLib.Database
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
-            if (values == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(values)));
+            if (values is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(values)));
 
             if (values.HasNullItem())
                 throw new ArgumentNullException(
@@ -721,12 +722,12 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">itemが既に別のDBItemValuesListに紐付けられている場合</exception>
         internal void AddNewRelationshipInstance(DBItemValueList item)
         {
-            if (item == null)
+            if (item is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(item)));
 
             var isReferenceEqual = ReferenceEquals(item.Outer, this);
-            if (item.Outer != null && !isReferenceEqual)
+            if (!(item.Outer is null) && !isReferenceEqual)
             {
                 throw new InvalidOperationException(
                     $"既に異なる{nameof(DBItemValuesList)}に紐付けされているため、" +
@@ -763,7 +764,7 @@ namespace WodiLib.Database
         protected override void SetItem(int index, IFixedLengthDBItemValueList item)
         {
             var writableItem = (DBItemValueList) item;
-            if (writableItem.Outer != null
+            if (!(writableItem.Outer is null)
                 && !writableItem.Outer.Equals(this))
             {
                 throw new ArgumentException(
@@ -772,7 +773,7 @@ namespace WodiLib.Database
                         "更新できません。"));
             }
 
-            if (writableItem.Outer == null)
+            if (writableItem.Outer is null)
             {
                 var validateResult = ValidateListItem(writableItem);
                 switch (validateResult)
@@ -801,7 +802,7 @@ namespace WodiLib.Database
         protected override void InsertItem(int index, IFixedLengthDBItemValueList item)
         {
             var writableItem = (DBItemValueList) item;
-            if (writableItem.Outer != null
+            if (!(writableItem.Outer is null)
                 && !writableItem.Outer.Equals(this))
             {
                 throw new ArgumentException(
@@ -810,7 +811,7 @@ namespace WodiLib.Database
                         "追加できません。"));
             }
 
-            if (writableItem.Outer == null)
+            if (writableItem.Outer is null)
             {
                 var validateResult = ValidateListItem(writableItem);
                 switch (validateResult)

@@ -96,10 +96,10 @@ namespace WodiLib.IO
         /// </exception>
         private DatabaseMergedDataReader(DatabaseDatFilePath datFilePath, DatabaseProjectFilePath projectFilePath)
         {
-            if (datFilePath == null)
+            if (datFilePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(datFilePath)));
-            if (projectFilePath == null)
+            if (projectFilePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(projectFilePath)));
 
@@ -123,7 +123,7 @@ namespace WodiLib.IO
         {
             Logger.Info(FileIOMessage.StartFileRead(GetType()));
 
-            if (Data != null)
+            if (!(Data is null))
                 throw new InvalidOperationException(
                     $"すでに読み込み完了しています。");
 

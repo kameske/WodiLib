@@ -70,7 +70,7 @@ namespace WodiLib.Event.EventCommand
             if (index < 0 || CaseValue <= index)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), 0, CaseValue - 1, index));
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(src)));
             caseList[index] = src;

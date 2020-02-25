@@ -77,7 +77,7 @@ namespace WodiLib.Event
             get => commandList;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(CommandList)));
 
@@ -108,7 +108,7 @@ namespace WodiLib.Event
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>所有イベント保持フラグ</summary>
-        private bool HasOwner => owner != null;
+        private bool HasOwner => !(owner is null);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -120,7 +120,7 @@ namespace WodiLib.Event
         /// <param name="commands">動作指定コマンド</param>
         public ActionEntry(IEnumerable<ICharaMoveCommand> commands = null)
         {
-            if (commands == null) return;
+            if (commands is null) return;
 
             var charaMoveCommands = commands as ICharaMoveCommand[] ?? commands.ToArray();
             CommandList = new CharaMoveCommandList(charaMoveCommands);

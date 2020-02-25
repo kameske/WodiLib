@@ -27,7 +27,7 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentException">makeDefaultItemFuncがnullを返却する場合</exception>
         public static void AdjustLength<T>(this List<T> target, int length, Func<int, T> makeDefaultItemFunc)
         {
-            if (makeDefaultItemFunc == null)
+            if (makeDefaultItemFunc is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(makeDefaultItemFunc)));
 
@@ -70,7 +70,7 @@ namespace WodiLib.Sys
         /// <returns>現在の要素から計算したハッシュ値</returns>
         public static int GetHashCode<T>(this List<T> target, IEqualityComparer<T> equalityComparer)
         {
-            if (equalityComparer == null)
+            if (equalityComparer is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(equalityComparer)));
 
@@ -86,7 +86,7 @@ namespace WodiLib.Sys
         /// <returns>現在の要素から計算したハッシュ値</returns>
         public static int GetHashCode<T>(this List<T> target, Func<T, int> funcGetHashCode)
         {
-            if (funcGetHashCode == null)
+            if (funcGetHashCode is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(funcGetHashCode)));
 

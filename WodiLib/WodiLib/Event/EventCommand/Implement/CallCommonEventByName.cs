@@ -45,7 +45,7 @@ namespace WodiLib.Event.EventCommand
             get => EventIdOrName.ToStr();
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(EventName));
                 EventIdOrName.Merge(value);

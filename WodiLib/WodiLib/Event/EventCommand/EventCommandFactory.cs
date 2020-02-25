@@ -65,11 +65,11 @@ namespace WodiLib.Event.EventCommand
             ActionEntry actionEntry)
         {
             // 引数チェック
-            if (intValues == null)
+            if (intValues is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(intValues)));
 
-            if (strValues == null)
+            if (strValues is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(strValues)));
 
@@ -126,7 +126,7 @@ namespace WodiLib.Event.EventCommand
                 else if (choiceCode == EventCommandConstant.ChoiceStartForkingEtc.ChoiceCode.ForceExit)
                     instance = new ChoiceStartForkingForceExit();
 
-                if (instance == null) throw new ArgumentException(failSearchMessage);
+                if (instance is null) throw new ArgumentException(failSearchMessage);
             }
             else if (intValueList[0] == EventCommandCode.ChoiceStartForkingCancel.Code)
             {
@@ -263,7 +263,7 @@ namespace WodiLib.Event.EventCommand
                     instance = new SetVariablePlusPicture();
                 }
 
-                if (instance == null) throw new ArgumentException(failSearchMessage);
+                if (instance is null) throw new ArgumentException(failSearchMessage);
             }
             else if (intValueList[0] == EventCommandCode.ConditionNumberStart.Code)
             {
@@ -297,7 +297,7 @@ namespace WodiLib.Event.EventCommand
                     instance = new KeyInputPad();
                 }
 
-                if (instance == null) throw new ArgumentException(failSearchMessage);
+                if (instance is null) throw new ArgumentException(failSearchMessage);
             }
             else if (intValueList[0] == EventCommandCode.KeyInputAuto.Code)
             {
@@ -315,7 +315,7 @@ namespace WodiLib.Event.EventCommand
                     instance = new KeyInputAutoMouse();
                 }
 
-                if (instance == null) throw new ArgumentException(failSearchMessage);
+                if (instance is null) throw new ArgumentException(failSearchMessage);
             }
             else if (intValueList[0] == EventCommandCode.StandardKeyInputControl.Code)
             {
@@ -329,7 +329,7 @@ namespace WodiLib.Event.EventCommand
                     instance = new DeviceInputControl();
                 }
 
-                if (instance == null) throw new ArgumentException(failSearchMessage);
+                if (instance is null) throw new ArgumentException(failSearchMessage);
             }
             else if (intValueList[0] == EventCommandCode.Picture.Code)
             {
@@ -358,7 +358,7 @@ namespace WodiLib.Event.EventCommand
                         instance = new PictureShowSimpleWindowVariable();
                     }
 
-                    if (instance == null) throw new ArgumentException(failSearchMessage);
+                    if (instance is null) throw new ArgumentException(failSearchMessage);
                 }
                 else if (execCode == EventCommandConstant.PictureShow.ExecCode.Move)
                 {
@@ -373,7 +373,7 @@ namespace WodiLib.Event.EventCommand
                     instance = new PictureDelayReset();
                 }
 
-                if (instance == null) throw new ArgumentException(failSearchMessage);
+                if (instance is null) throw new ArgumentException(failSearchMessage);
             }
             else if (intValueList[0] == EventCommandCode.Effect.Code)
             {
@@ -391,7 +391,7 @@ namespace WodiLib.Event.EventCommand
                     instance = new MapEffectZoom();
                 }
 
-                if (instance == null) throw new ArgumentException(failSearchMessage);
+                if (instance is null) throw new ArgumentException(failSearchMessage);
             }
             else if (intValueList[0] == EventCommandCode.MapEffectShake.Code)
             {
@@ -425,7 +425,7 @@ namespace WodiLib.Event.EventCommand
                     instance = new SoundReleaseAll();
                 }
 
-                if (instance == null) throw new ArgumentException(failSearchMessage);
+                if (instance is null) throw new ArgumentException(failSearchMessage);
             }
             else if (intValueList[0] == EventCommandCode.Save.Code)
             {
@@ -439,7 +439,7 @@ namespace WodiLib.Event.EventCommand
                     instance = new Load();
                 }
 
-                if (instance == null) throw new ArgumentException(failSearchMessage);
+                if (instance is null) throw new ArgumentException(failSearchMessage);
             }
             else if (intValueList[0] == EventCommandCode.LoadVariable.Code)
             {
@@ -473,7 +473,7 @@ namespace WodiLib.Event.EventCommand
                     instance = new PartyGraphicSpecial();
                 }
 
-                if (instance == null) throw new ArgumentException(failSearchMessage);
+                if (instance is null) throw new ArgumentException(failSearchMessage);
             }
             else if (intValueList[0] == EventCommandCode.ChangeMapChipSetting.Code)
             {
@@ -618,7 +618,7 @@ namespace WodiLib.Event.EventCommand
                     instance = new SpecialCheckPoint();
                 }
 
-                if (instance == null) throw new ArgumentException(failSearchMessage);
+                if (instance is null) throw new ArgumentException(failSearchMessage);
             }
             else
             {
@@ -627,8 +627,8 @@ namespace WodiLib.Event.EventCommand
 
             #endregion
 
-            // instance == null の場合、処理が誤っている
-            if (instance == null)
+            // instance is null の場合、処理が誤っている
+            if (instance is null)
                 throw new InvalidOperationException();
 
             // 数値引数・文字列引数の数が最低限の数揃っていない場合エラー
@@ -683,7 +683,7 @@ namespace WodiLib.Event.EventCommand
         /// <exception cref="ArgumentException"></exception>
         public static IEventCommand CreateCommandString(string src)
         {
-            if (src == null)
+            if (src is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(src)));
 

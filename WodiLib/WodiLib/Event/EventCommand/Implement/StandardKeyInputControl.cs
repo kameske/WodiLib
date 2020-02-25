@@ -154,7 +154,7 @@ namespace WodiLib.Event.EventCommand
             get => keyType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(KeyType)));
                 keyType = value;

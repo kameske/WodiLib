@@ -35,7 +35,7 @@ namespace WodiLib.Project
         /// <exception cref="ArgumentNullException">valueがnullの場合</exception>
         public EventCommandSentence(string value)
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(value)));
 
@@ -50,7 +50,7 @@ namespace WodiLib.Project
         /// string に変換する。
         /// </summary>
         /// <returns>string値</returns>
-        public override string ToString() => this;
+        public override string ToString() => Value;
 
         /// <inheritdoc />
         public override bool Equals(object obj)
@@ -78,7 +78,7 @@ namespace WodiLib.Project
         /// <returns>一致する場合、true</returns>
         public bool Equals(EventCommandSentence other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
             return Value.Equals(other.Value);
         }
 
@@ -93,6 +93,7 @@ namespace WodiLib.Project
         /// <returns>変換したインスタンス</returns>
         public static implicit operator EventCommandSentence(string src)
         {
+            if (src is null) return null;
             var result = new EventCommandSentence(src);
             return result;
         }
@@ -121,7 +122,7 @@ namespace WodiLib.Project
         {
             if (ReferenceEquals(left, right)) return true;
 
-            if ((object) left == null || (object) right == null) return false;
+            if (left is null || right is null) return false;
 
             return left.Equals(right);
         }

@@ -46,10 +46,10 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">filePathが空文字の場合</exception>
         private static MapTreeDataFileWriter BuildMapTreeDataFileWriter(string filePath, MapTreeData mapTreeData)
         {
-            if (mapTreeData == null)
+            if (mapTreeData is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(mapTreeData)));
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
             if (filePath.IsEmpty())
@@ -69,7 +69,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">filePathが空文字の場合</exception>
         private static MapTreeDataFileReader BuildMapTreeDataFileReader(string filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
             if (filePath.IsEmpty())
@@ -91,7 +91,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         public MapTreeDataFile(MapTreeDataFilePath filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 
@@ -109,7 +109,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">mapTreeData がnullの場合</exception>
         public void WriteSync(MapTreeData mapTreeData)
         {
-            if (mapTreeData == null)
+            if (mapTreeData is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(mapTreeData)));
 
@@ -127,7 +127,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">mapTreeData がnullの場合</exception>
         public async Task WriteAsync(MapTreeData mapTreeData)
         {
-            if (mapTreeData == null)
+            if (mapTreeData is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(mapTreeData)));
 

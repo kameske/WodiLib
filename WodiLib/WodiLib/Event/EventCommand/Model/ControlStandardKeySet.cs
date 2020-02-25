@@ -46,7 +46,7 @@ namespace WodiLib.Event.EventCommand
 
         public ControlStandardKeySet(byte? flg = null)
         {
-            if (flg == null) return;
+            if (flg is null) return;
             byte tFlg = (byte) flg;
             Ok = (tFlg & FlgOk) != 0;
             Cancel = (tFlg & FlgCancel) != 0;

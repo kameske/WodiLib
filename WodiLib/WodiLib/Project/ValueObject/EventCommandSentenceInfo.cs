@@ -42,10 +42,10 @@ namespace WodiLib.Project
         public EventCommandSentenceInfo(EventCommandColorSet colorSet,
             EventCommandSentence sentence)
         {
-            if (colorSet == null)
+            if (colorSet is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(colorSet)));
-            if (sentence == null)
+            if (sentence is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(sentence)));
 

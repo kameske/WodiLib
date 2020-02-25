@@ -55,10 +55,10 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">outputData, filePathがnullの場合</exception>
         public NonSectionIniFileWriter(FilePath filePath, IEnumerable<TIniTarget> outputData)
         {
-            if (outputData == null)
+            if (outputData is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(outputData)));
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 
@@ -132,7 +132,7 @@ namespace WodiLib.IO
                 .Where(x =>
                 {
                     var iniTargetAttr = (IniTargetAttribute) x.GetCustomAttribute(typeof(IniTargetAttribute), true);
-                    if (iniTargetAttr == null) return false;
+                    if (iniTargetAttr is null) return false;
 
                     // サポート対象外の場合、出力対象に含めない
                     return VersionConfig.IsGreaterVersion(iniTargetAttr.SupportMinVersion);

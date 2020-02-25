@@ -45,11 +45,11 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">filePath, data がnullの場合</exception>
         private static DatabaseProjectFileWriter BuildFileWriter(DatabaseProjectFilePath fileName, DatabaseProject data)
         {
-            if (fileName == null)
+            if (fileName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(fileName)));
 
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 
@@ -65,7 +65,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">fileNameがnullの場合</exception>
         private static DatabaseProjectFileReader BuildFileReader(DatabaseProjectFilePath fileName)
         {
-            if (fileName == null)
+            if (fileName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(fileName)));
 
@@ -84,7 +84,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">fileNameがnullの場合</exception>
         public DatabaseProjectFile(DatabaseProjectFilePath fileName)
         {
-            if (fileName == null)
+            if (fileName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(fileName)));
 
@@ -102,7 +102,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">data がnullの場合</exception>
         public void WriteSync(DatabaseProject data)
         {
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 
@@ -120,12 +120,12 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">data がnullの場合</exception>
         public async Task WriteAsync(DatabaseProject data)
         {
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 
             // 出力データのDB種別が指定されている場合のみ、ファイル名との整合性チェック
-            if (data.DBKind != null)
+            if (!(data.DBKind is null))
             {
                 if (FileName.DBKind != data.DBKind)
                     throw new ArgumentException(

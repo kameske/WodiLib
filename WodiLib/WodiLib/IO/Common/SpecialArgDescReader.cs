@@ -122,22 +122,22 @@ namespace WodiLib.IO
         /// <summary>
         /// 引数名
         /// </summary>
-        /// <param name="Status">読み込み経過状態</param>
+        /// <param name="status">読み込み経過状態</param>
         /// <returns>引数名リスト</returns>
-        private List<string> ReadArgNames(FileReadStatus Status)
+        private List<string> ReadArgNames(FileReadStatus status)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(SpecialArgDescReader),
                 "引数名"));
 
             var result = new List<string>();
 
-            var length = Status.ReadInt();
-            Status.IncreaseIntOffset();
+            var length = status.ReadInt();
+            status.IncreaseIntOffset();
 
             for (var i = 0; i < length; i++)
             {
-                var argName = Status.ReadString();
-                Status.AddOffset(argName.ByteLength);
+                var argName = status.ReadString();
+                status.AddOffset(argName.ByteLength);
                 result.Add(argName.String);
             }
 
@@ -150,22 +150,22 @@ namespace WodiLib.IO
         /// <summary>
         /// 引数特殊指定
         /// </summary>
-        /// <param name="Status">読み込み経過状態</param>
+        /// <param name="status">読み込み経過状態</param>
         /// <returns>引数特殊指定リスト</returns>
-        private List<CommonEventArgType> ReadSpecialArgType(FileReadStatus Status)
+        private List<CommonEventArgType> ReadSpecialArgType(FileReadStatus status)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(SpecialArgDescReader),
                 "引数特殊指定"));
 
             var result = new List<CommonEventArgType>();
 
-            var length = Status.ReadInt();
-            Status.IncreaseIntOffset();
+            var length = status.ReadInt();
+            status.IncreaseIntOffset();
 
             for (var i = 0; i < length; i++)
             {
-                var b = Status.ReadByte();
-                Status.IncreaseByteOffset();
+                var b = status.ReadByte();
+                status.IncreaseByteOffset();
                 result.Add(CommonEventArgType.FromByte(b));
             }
 
@@ -178,25 +178,25 @@ namespace WodiLib.IO
         /// <summary>
         /// 数値特殊指定文字列パラメータ
         /// </summary>
-        /// <param name="Status">読み込み経過状態</param>
+        /// <param name="status">読み込み経過状態</param>
         /// <returns>数値特殊指定文字列パラメータリスト</returns>
-        private List<List<string>> ReadSpecialStringArgList(FileReadStatus Status)
+        private List<List<string>> ReadSpecialStringArgList(FileReadStatus status)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(SpecialArgDescReader),
                 "数値特殊指定文字列パラメータ"));
 
             var result = new List<List<string>>();
 
-            var length = Status.ReadInt();
-            Status.IncreaseIntOffset();
+            var length = status.ReadInt();
+            status.IncreaseIntOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(SpecialArgDescReader),
                 "特殊文字列引数の数", length));
 
             for (var i = 0; i < length; i++)
             {
-                var caseLength = Status.ReadInt();
-                Status.IncreaseIntOffset();
+                var caseLength = status.ReadInt();
+                status.IncreaseIntOffset();
 
                 Logger.Debug(FileIOMessage.SuccessRead(typeof(SpecialArgDescReader),
                     $"引数{i}の文字列選択可能数", caseLength));
@@ -205,8 +205,8 @@ namespace WodiLib.IO
 
                 for (var j = 0; j < caseLength; j++)
                 {
-                    var caseDescription = Status.ReadString();
-                    Status.AddOffset(caseDescription.ByteLength);
+                    var caseDescription = status.ReadString();
+                    status.AddOffset(caseDescription.ByteLength);
                     caseDescriptionList.Add(caseDescription.String);
 
                     Logger.Debug(FileIOMessage.SuccessRead(typeof(SpecialArgDescReader),
@@ -225,25 +225,25 @@ namespace WodiLib.IO
         /// <summary>
         /// 数値特殊指定数値パラメータ
         /// </summary>
-        /// <param name="Status">読み込み経過状態</param>
+        /// <param name="status">読み込み経過状態</param>
         /// <returns>数値特殊指定数値パラメータリスト</returns>
-        private List<List<int>> ReadSpecialNumberArgList(FileReadStatus Status)
+        private List<List<int>> ReadSpecialNumberArgList(FileReadStatus status)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(SpecialArgDescReader),
                 "数値特殊指定数値パラメータ"));
 
             var result = new List<List<int>>();
 
-            var length = Status.ReadInt();
-            Status.IncreaseIntOffset();
+            var length = status.ReadInt();
+            status.IncreaseIntOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(SpecialArgDescReader),
                 "特殊数値引数の数", length));
 
             for (var i = 0; i < length; i++)
             {
-                var caseLength = Status.ReadInt();
-                Status.IncreaseIntOffset();
+                var caseLength = status.ReadInt();
+                status.IncreaseIntOffset();
 
                 Logger.Debug(FileIOMessage.SuccessRead(typeof(SpecialArgDescReader),
                     $"引数{i}の数値選択可能数", caseLength));
@@ -252,8 +252,8 @@ namespace WodiLib.IO
 
                 for (var j = 0; j < caseLength; j++)
                 {
-                    var caseNumber = Status.ReadInt();
-                    Status.IncreaseIntOffset();
+                    var caseNumber = status.ReadInt();
+                    status.IncreaseIntOffset();
                     caseNumberList.Add(caseNumber);
 
                     Logger.Debug(FileIOMessage.SuccessRead(typeof(SpecialArgDescReader),
@@ -272,25 +272,25 @@ namespace WodiLib.IO
         /// <summary>
         /// 数値特殊指定数値初期値
         /// </summary>
-        /// <param name="Status">読み込み経過状態</param>
+        /// <param name="status">読み込み経過状態</param>
         /// <returns>数値特殊指定数値初期値リスト</returns>
-        private List<int> ReadInitValue(FileReadStatus Status)
+        private List<int> ReadInitValue(FileReadStatus status)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(SpecialArgDescReader),
                 "数値特殊指定数値初期値"));
 
             var result = new List<int>();
 
-            var length = Status.ReadInt();
-            Status.IncreaseIntOffset();
+            var length = status.ReadInt();
+            status.IncreaseIntOffset();
 
             Logger.Debug(FileIOMessage.SuccessRead(typeof(SpecialArgDescReader),
                 "数値特殊指定数値初期値の数", length));
 
             for (var i = 0; i < length; i++)
             {
-                var value = Status.ReadInt();
-                Status.IncreaseIntOffset();
+                var value = status.ReadInt();
+                status.IncreaseIntOffset();
 
                 result.Add(value);
 

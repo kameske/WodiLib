@@ -191,7 +191,7 @@ namespace WodiLib.Map
         /// <returns>一致する場合、true</returns>
         public bool Equals(TileCannotPassingFlags other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
             if (Down != other.Down) return false;

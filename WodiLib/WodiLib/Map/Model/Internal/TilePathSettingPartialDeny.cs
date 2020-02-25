@@ -53,7 +53,7 @@ namespace WodiLib.Map
         /// <exception cref="ArgumentNullException">cannotPattingFlagsがnullの場合</exception>
         public TilePathSettingPartialDeny(TileImpassableFlags impassableFlags)
         {
-            if (impassableFlags == null)
+            if (impassableFlags is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(impassableFlags)));
 
@@ -92,7 +92,7 @@ namespace WodiLib.Map
         /// <inheritdoc/>
         protected override bool ChildEquals(ITilePathSetting other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
             if (!(other is TilePathSettingPartialDeny casted)) return false;
             return Equals(casted);
         }

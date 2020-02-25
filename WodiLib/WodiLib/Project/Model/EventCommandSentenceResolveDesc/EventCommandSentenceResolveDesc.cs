@@ -52,15 +52,18 @@ namespace WodiLib.Project
         /// <remarks>
         ///     イベントコマンド文字列取得処理中に分岐開始のイベントコマンド中でセットされる。
         /// </remarks>
-        /// <param name="type"></param>
-        /// <param name="cases"></param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <param name="type">分岐種別</param>
+        /// <param name="cases">分岐リスト</param>
+        /// <exception cref="ArgumentNullException">
+        ///    type, cases が null の場合、
+        ///     または cases に null 要素が含まれる場合
+        /// </exception>
         public void StartBranch(BranchType type, List<string> cases)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
-            if (cases == null)
+            if (cases is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(cases)));
             if (cases.HasNullItem())

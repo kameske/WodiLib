@@ -61,7 +61,7 @@ namespace WodiLib.Sys.Cmn
         /// <exception cref="ArgumentException">keyNameが空文字の場合</exception>
         public static void ChangeTargetKey(string keyName)
         {
-            if (keyName == null)
+            if (keyName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(keyName)));
             if (keyName.IsEmpty())
@@ -93,7 +93,7 @@ namespace WodiLib.Sys.Cmn
         /// <exception cref="ArgumentNullException">versionがnullの場合</exception>
         public static void SetConfigWoditorVersion(WoditorVersion version, string keyName = null)
         {
-            if (version == null)
+            if (version is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(version)));
             var config = GetConfig(keyName ?? TargetKeyName);
@@ -110,7 +110,7 @@ namespace WodiLib.Sys.Cmn
         /// <exception cref="ArgumentNullException">versionがnullの場合</exception>
         public static bool IsOverVersion(WoditorVersion version, string keyName = null)
         {
-            if (version == null)
+            if (version is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(version)));
 
@@ -128,7 +128,7 @@ namespace WodiLib.Sys.Cmn
         /// <exception cref="ArgumentNullException">versionがnullの場合</exception>
         public static bool IsGreaterVersion(WoditorVersion version, string keyName = null)
         {
-            if (version == null)
+            if (version is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(version)));
 
@@ -146,7 +146,7 @@ namespace WodiLib.Sys.Cmn
         /// <exception cref="ArgumentNullException">versionがnullの場合</exception>
         public static bool IsSameVersion(WoditorVersion version, string keyName = null)
         {
-            if (version == null)
+            if (version is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(version)));
 
@@ -164,7 +164,7 @@ namespace WodiLib.Sys.Cmn
         /// <exception cref="ArgumentNullException">versionがnullの場合</exception>
         public static bool IsLessVersion(WoditorVersion version, string keyName = null)
         {
-            if (version == null)
+            if (version is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(version)));
 
@@ -182,7 +182,7 @@ namespace WodiLib.Sys.Cmn
         /// <exception cref="ArgumentNullException">versionがnullの場合</exception>
         public static bool IsUnderVersion(WoditorVersion version, string keyName = null)
         {
-            if (version == null)
+            if (version is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(version)));
 

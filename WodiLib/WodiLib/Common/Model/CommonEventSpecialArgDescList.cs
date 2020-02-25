@@ -122,9 +122,10 @@ namespace WodiLib.Common
         /// <param name="desc">[NotNull] 情報</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
         /// <exception cref="ArgumentNullException">descがnullの場合</exception>
-        public void UpdateSpecialNumberArgDesc(CommonEventNumberArgIndex index, CommonEventSpecialNumberArgDesc desc)
+        public void UpdateSpecialNumberArgDesc(CommonEventNumberArgIndex index,
+            CommonEventSpecialNumberArgDesc desc)
         {
-            if (desc == null)
+            if (desc is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
             argTypeList[index] = desc;
@@ -147,9 +148,10 @@ namespace WodiLib.Common
         /// <param name="index">インデックス</param>
         /// <param name="desc">[NotNull] 情報</param>
         /// <exception cref="ArgumentNullException">descがnullの場合</exception>
-        public void UpdateSpecialStringArgDesc(CommonEventStringArgIndex index, CommonEventSpecialStringArgDesc desc)
+        public void UpdateSpecialStringArgDesc(CommonEventStringArgIndex index,
+            CommonEventSpecialStringArgDesc desc)
         {
-            if (desc == null)
+            if (desc is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
             argTypeList[index + StrArgListOffset] = desc;

@@ -61,7 +61,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">dataDescList が null の場合</exception>
         public DBData(DatabaseDataDescList dataDescList)
         {
-            if (dataDescList == null)
+            if (dataDescList is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dataDescList)));
 

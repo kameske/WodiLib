@@ -202,7 +202,7 @@ namespace WodiLib.Event.EventCommand
             get => scrollType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ScrollType)));
                 scrollType = value;
@@ -218,7 +218,7 @@ namespace WodiLib.Event.EventCommand
             get => speed;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Speed)));
                 speed = value;

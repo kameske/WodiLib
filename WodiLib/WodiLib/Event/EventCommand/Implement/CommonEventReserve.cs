@@ -10,6 +10,7 @@ using System;
 using WodiLib.Cmn;
 using WodiLib.Common;
 using WodiLib.Project;
+using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -49,6 +50,10 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentenceResolveDesc desc, string argsCommandString,
             string returnVarString)
         {
+            if (desc is null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(desc)));
+
             return EventId.IsVariableAddressSimpleCheck()
                 ? MakeEventCommandMainSentenceCallByVariableAddress(resolver, type, desc)
                 : MakeEventCommandMainSentenceCallById(resolver, type, desc);

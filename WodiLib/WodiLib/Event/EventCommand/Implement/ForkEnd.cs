@@ -99,7 +99,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void SetSafetyStringVariable(int index, string value)
         {
-            if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
+            if (value is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
             if (index == 0) Indent = 0;
             throw new ArgumentOutOfRangeException(
                 ErrorMessage.OutOfRange(nameof(index), 0, 0, index));
@@ -111,6 +111,10 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
             EventCommandSentenceResolveDesc desc)
         {
+            if (desc is null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(desc)));
+
             desc.EndBranch();
             return EventCommandSentenceFormat;
         }

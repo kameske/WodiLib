@@ -61,13 +61,14 @@ namespace WodiLib.Database
         /// <param name="valuesList">[NotNull] 値リスト</param>
         /// <exception cref="ArgumentNullException">dataNameList, valuesList が null の場合</exception>
         /// <exception cref="ArgumentException">dataNameListとvaluesListの要素数が異なる場合</exception>
-        internal DatabaseDataDescList(DataNameList dataNameList, DBItemValuesList valuesList)
+        internal DatabaseDataDescList(DataNameList dataNameList,
+            DBItemValuesList valuesList)
             : base(new Func<IReadOnlyCollection<DatabaseDataDesc>>(() =>
             {
-                if (dataNameList == null)
+                if (dataNameList is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(dataNameList)));
-                if (valuesList == null)
+                if (valuesList is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(valuesList)));
 

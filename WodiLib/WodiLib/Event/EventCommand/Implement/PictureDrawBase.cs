@@ -411,7 +411,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void SetSafetyStringVariable(int index, string value)
         {
-            if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
+            if (value is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
             if (index < 0 || StringVariableCount <= index)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), 0, StringVariableCount - 1, index));
@@ -571,7 +571,7 @@ namespace WodiLib.Event.EventCommand
             get => position;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Position)));
                 position = value;
@@ -640,7 +640,7 @@ namespace WodiLib.Event.EventCommand
             get => printType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(PrintType)));
                 printType = value;
@@ -710,7 +710,7 @@ namespace WodiLib.Event.EventCommand
             get => zoomRate.ZoomRateType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ZoomRateType)));
                 zoomRate.ZoomRateType = value;

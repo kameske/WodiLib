@@ -108,7 +108,8 @@ namespace WodiLib.Database
         ///     settingTypeがnullの場合、
         ///     またはsettingType が DesignatedType かつ dbKindまたはtypeIdがnullの場合
         /// </exception>
-        public DBType(DBDataSettingType settingType, DBKind dbKind = null, TypeId? typeId = null)
+        public DBType(DBDataSettingType settingType,
+            DBKind dbKind = null, TypeId? typeId = null)
         {
             TypeDesc.SetDataSettingType(settingType, dbKind, typeId);
         }
@@ -126,11 +127,11 @@ namespace WodiLib.Database
         public DBType(DatabaseDataDescList dataDescList,
             DatabaseItemDescList itemDescList)
         {
-            if (dataDescList == null)
+            if (dataDescList is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dataDescList)));
 
-            if (itemDescList == null)
+            if (itemDescList is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(itemDescList)));
 
@@ -172,7 +173,8 @@ namespace WodiLib.Database
         ///     settingTypeがnullの場合、
         ///     またはsettingType が DesignatedType かつ dbKindまたはtypeIdがnullの場合
         /// </exception>
-        public void SetDataSettingType(DBDataSettingType settingType, DBKind dbKind = null, TypeId? typeId = null)
+        public void SetDataSettingType(DBDataSettingType settingType,
+            DBKind dbKind = null, TypeId? typeId = null)
         {
             TypeDesc.SetDataSettingType(settingType, dbKind, typeId);
         }
@@ -186,7 +188,7 @@ namespace WodiLib.Database
         /// </exception>
         public void SetDataSettingType(DBDataSetting setting)
         {
-            if (setting == null)
+            if (setting is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNullInList(nameof(setting)));
 

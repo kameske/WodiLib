@@ -118,7 +118,7 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>
         /// インデックスを指定して数値変数を設定する。
-        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
+        /// ウディタ標準仕様でサポートしているインデックスのみ設定可能。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="value">設定値</param>
@@ -136,7 +136,7 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>
         /// インデックスを指定して文字列変数を設定する。
-        /// ウディタ標準仕様でサポートしているインデックスのみ取得可能。
+        /// ウディタ標準仕様でサポートしているインデックスのみ設置可能。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="value">設定値</param>

@@ -63,24 +63,30 @@ namespace WodiLib.Project
             CommonEventSentenceResolveDatabaseDesc desc, EventCommandSentenceType type,
             EventCommandSentenceResolveDesc commonDesc)
         {
-            if (desc == null)
+            if (desc is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
-            if (desc.TypeId == null && desc.TypeName == null)
+            if (desc.TypeId is null && desc.TypeName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(
                         $"{nameof(desc)}.{nameof(desc.TypeId)}" +
                         $"または{nameof(desc)}.{nameof(desc.TypeName)}"));
-            if (desc.DataId == null && desc.DataName == null)
+            if (desc.DataId is null && desc.DataName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(
                         $"{nameof(desc)}.{nameof(desc.DataId)}" +
                         $"または{nameof(desc)}.{nameof(desc.DataName)}"));
+            if (type is null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(type)));
+            if (commonDesc is null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(commonDesc)));
 
             string paramType;
             string typeName;
             TypeId? typeId;
-            if (desc.TypeId != null)
+            if (!(desc.TypeId is null))
             {
                 paramType = Master.GetNumericVariableAddressStringIfVariableAddress(desc.TypeId.Value, type,
                     commonDesc);
@@ -89,18 +95,18 @@ namespace WodiLib.Project
             }
             else
             {
-                // desc.TypeName != null
+                // !(desc.TypeName is null)
                 paramType = desc.TypeName;
                 var searchTypeId = Master.GetDatabaseTypeId(desc.DbKind, desc.TypeName).Item1;
                 typeId = searchTypeId;
-                typeName = searchTypeId == null
+                typeName = searchTypeId is null
                     ? EventCommandSentenceResolver_Database_Basic.DatabaseDataNotFound
-                    : desc.TypeName.ToString();
+                    : paramType;
             }
 
             string paramData;
             string dataName;
-            if (desc.DataId != null)
+            if (!(desc.DataId is null))
             {
                 paramData = Master.GetNumericVariableAddressStringIfVariableAddress(desc.DataId.Value, type,
                     commonDesc);
@@ -108,13 +114,13 @@ namespace WodiLib.Project
             }
             else
             {
-                // desc.DataName != null
+                // !(desc.DataName is null)
                 paramData = desc.DataName;
                 dataName = desc.DataName;
             }
 
-            if ((desc.TypeId != null && desc.TypeId.Value.IsVariableAddressSimpleCheck())
-                || (desc.DataId != null && desc.DataId.Value.IsVariableAddressSimpleCheck()))
+            if ((!(desc.TypeId is null) && desc.TypeId.Value.IsVariableAddressSimpleCheck())
+                || (!(desc.DataId is null) && desc.DataId.Value.IsVariableAddressSimpleCheck()))
             {
                 // 指定されたタイプIDまたはデータIDが変数アドレスの場合は専用フォーマット
                 return string.Format(CsvIoEventCommandSentenceFormatWithReferX,

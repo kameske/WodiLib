@@ -43,7 +43,7 @@ namespace WodiLib.Map
             get => animateSpeed;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(AnimateSpeed)));
 
@@ -63,7 +63,7 @@ namespace WodiLib.Map
             get => moveSpeed;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MoveSpeed)));
 
@@ -83,7 +83,7 @@ namespace WodiLib.Map
             get => moveFrequency;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MoveFrequency)));
                 moveFrequency = value;
@@ -99,11 +99,11 @@ namespace WodiLib.Map
             get => moveType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MoveType)));
                 moveType = value;
-                if (moveType == MoveType.Custom && customMoveRoute == null)
+                if (moveType == MoveType.Custom && customMoveRoute is null)
                 {
                     // 移動ルート＝カスタムのとき、移動ルート必須のためからインスタンスをセット
                     customMoveRoute = new ActionEntry();
@@ -124,7 +124,7 @@ namespace WodiLib.Map
             get => customMoveRoute;
             set
             {
-                if (value == null && MoveType == MoveType.Custom)
+                if (value is null && MoveType == MoveType.Custom)
                     throw new ArgumentNullException(
                         $"移動ルートがカスタムの場合、{ErrorMessage.NotNull(nameof(CustomMoveRoute))}");
 
@@ -198,7 +198,7 @@ namespace WodiLib.Map
             // 動作指定コマンド数
             result.AddRange(customMoveRoute.CommandList.Count.ToWoditorIntBytes());
             // 動作指定コマンド
-            if (CustomMoveRoute != null)
+            if (!(CustomMoveRoute is null))
             {
                 result.AddRange(CustomMoveRoute.MakeMoveRouteByte());
             }
@@ -213,7 +213,7 @@ namespace WodiLib.Map
         public void ValidateMoveType()
         {
             var isTypeCustom = MoveType == MoveType.Custom;
-            var hasCustomRoute = CustomMoveRoute != null;
+            var hasCustomRoute = !(CustomMoveRoute is null);
             if (isTypeCustom && !hasCustomRoute)
                 throw new InvalidOperationException($"移動ルートが「カスタム」の場合、{nameof(CustomMoveRoute)}は必須です。");
         }

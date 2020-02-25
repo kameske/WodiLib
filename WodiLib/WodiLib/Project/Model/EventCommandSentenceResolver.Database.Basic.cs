@@ -66,7 +66,7 @@ namespace WodiLib.Project
         /// <exception cref="ArgumentNullException">dbKindがnullの場合</exception>
         public (bool, string) GetDatabaseTypeName(DBKind dbKind, int id)
         {
-            if (dbKind == null)
+            if (dbKind is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dbKind)));
 
@@ -95,11 +95,11 @@ namespace WodiLib.Project
         public (bool, string) GetDatabaseDataName(DBKind dbKind, int? typeId,
             int dataId)
         {
-            if (dbKind == null)
+            if (dbKind is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dbKind)));
 
-            if (typeId == null) return (false, DatabaseDataNotFound);
+            if (typeId is null) return (false, DatabaseDataNotFound);
 
             if (dataId.IsVariableAddressSimpleCheck()) return (true, TargetIdVariableAddress);
 
@@ -162,11 +162,11 @@ namespace WodiLib.Project
         public (bool, string) GetDatabaseItemName(DBKind dbKind, int? typeId,
             int itemId)
         {
-            if (dbKind == null)
+            if (dbKind is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dbKind)));
 
-            if (typeId == null) return (false, DatabaseDataNotFound);
+            if (typeId is null) return (false, DatabaseDataNotFound);
 
             if (itemId.IsVariableAddressSimpleCheck()) return (true, TargetIdVariableAddress);
 
@@ -191,10 +191,10 @@ namespace WodiLib.Project
         /// <exception cref="ArgumentNullException">dbKind または name が null の場合</exception>
         public (int?, string) GetDatabaseTypeId(DBKind dbKind, string name)
         {
-            if (dbKind == null)
+            if (dbKind is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dbKind)));
-            if (name == null)
+            if (name is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(name)));
 
@@ -229,14 +229,14 @@ namespace WodiLib.Project
         public (int?, string) GetDatabaseDataId(DBKind dbKind, int? typeId,
             string dataName)
         {
-            if (dbKind == null)
+            if (dbKind is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dbKind)));
-            if (dataName == null)
+            if (dataName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dataName)));
 
-            if (typeId == null) return (null, DatabaseDataNotFound);
+            if (typeId is null) return (null, DatabaseDataNotFound);
 
             if (typeId.Value.IsVariableAddressSimpleCheck()) return (null, TargetIdNotFound);
 
@@ -269,14 +269,14 @@ namespace WodiLib.Project
         public (int?, string) GetDatabaseItemId(DBKind dbKind, int? typeId,
             string itemName)
         {
-            if (dbKind == null)
+            if (dbKind is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dbKind)));
-            if (itemName == null)
+            if (itemName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(itemName)));
 
-            if (typeId == null) return (null, DatabaseDataNotFound);
+            if (typeId is null) return (null, DatabaseDataNotFound);
 
             if (typeId.Value.IsVariableAddressSimpleCheck()) return (null, DatabaseDataNotFound);
 
@@ -309,14 +309,14 @@ namespace WodiLib.Project
         public (int?, string) GetDatabaseItemIdForInputDatabase(DBKind dbKind, int? typeId,
             string itemName)
         {
-            if (dbKind == null)
+            if (dbKind is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dbKind)));
-            if (itemName == null)
+            if (itemName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(itemName)));
 
-            if (typeId == null) return (null, DatabaseDataNotFound);
+            if (typeId is null) return (null, DatabaseDataNotFound);
 
             if (typeId.Value.IsVariableAddressSimpleCheck()) return (null, TargetIdNotFound);
 

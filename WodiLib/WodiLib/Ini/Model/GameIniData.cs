@@ -69,7 +69,7 @@ namespace WodiLib.Ini
             get => frameSkipType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(FrameSkipType)));
 
@@ -88,7 +88,7 @@ namespace WodiLib.Ini
             get => proxyAddress;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ProxyAddress)));
 
@@ -138,6 +138,10 @@ namespace WodiLib.Ini
         /// <param name="data">Iniデータ</param>
         internal GameIniData(GameIniRootData data)
         {
+            if (data is null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(data)));
+
             StartCode = data.Start.TryToInt() ?? 0;
             IsSoftGraphicMode = data.SoftModeFlag.TryToInt() == 1;
             IsWindowMode = data.WindowModeFlag.TryToInt() == 1;

@@ -181,6 +181,17 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
+        /// nullのためキャスト不可能な場合のエラーメッセージ
+        /// </summary>
+        /// <param name="itemName">エラー項目名</param>
+        /// <param name="className">キャスト先型名</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string InvalidCastFromNull(string itemName, string className)
+        {
+            return $"{itemName}はnullのため{className}にキャストできません。";
+        }
+
+        /// <summary>
         /// アクセスできない場合のエラーメッセージ
         /// </summary>
         /// <param name="reason">アクセスできない理由</param>

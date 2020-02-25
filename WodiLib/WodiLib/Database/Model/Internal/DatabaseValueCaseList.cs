@@ -85,7 +85,7 @@ namespace WodiLib.Database
         public string GetDescriptionForCaseNumber(int caseNumber)
         {
             var info = GetForCaseNumber(caseNumber);
-            if (info == null) return null;
+            if (info is null) return null;
             return GetForCaseNumber(caseNumber).Description;
         }
 

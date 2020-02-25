@@ -38,10 +38,10 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">outputData, filePathがnullの場合</exception>
         public MapTreeOpenStatusDataFileWriter(MapTreeOpenStatusData outputData, MapTreeOpenStatusDataFilePath filePath)
         {
-            if (outputData == null)
+            if (outputData is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(outputData)));
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 

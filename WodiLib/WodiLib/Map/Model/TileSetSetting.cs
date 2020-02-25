@@ -46,7 +46,7 @@ namespace WodiLib.Map
             get => name;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Name)));
                 name = value;
@@ -64,7 +64,7 @@ namespace WodiLib.Map
             get => baseTileSetFileName;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(BaseTileSetFileName)));
                 baseTileSetFileName = value;
@@ -115,21 +115,21 @@ namespace WodiLib.Map
         /// <param name="tilePathSettings">[Nullable] 初期タイル通行設定リスト</param>
         /// <param name="autoTileFileNames">[Nullable] 初期オートタイルファイル名リスト</param>
         /// <exception cref="ArgumentNullException">
-        ///     tileTagNumbers, ArgumentNullExceptionのいずれか一方のみnullの場合
+        ///     tileTagNumbers, tilePathSettingsのいずれか一方のみnullの場合
         /// </exception>
-        /// <exception cref="ArgumentException">tileTagNumbersとArgumentNullExceptionの要素数が異なる場合</exception>
+        /// <exception cref="ArgumentException">tileTagNumbersとtilePathSettingsの要素数が異なる場合</exception>
         public TileSetSetting(TileTagNumberList tileTagNumbers = null,
             TilePathSettingList tilePathSettings = null,
             AutoTileFileNameList autoTileFileNames = null)
         {
-            if (tileTagNumbers == null && tilePathSettings != null)
+            if (tileTagNumbers is null && !(tilePathSettings is null))
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(tileTagNumbers)));
-            if (tileTagNumbers != null && tilePathSettings == null)
+            if (!(tileTagNumbers is null) && tilePathSettings is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(tilePathSettings)));
 
-            if (tileTagNumbers != null)
+            if (!(tileTagNumbers is null))
             {
                 if (tilePathSettings.Count != tileTagNumbers.Count)
                     throw new ArgumentException(
@@ -140,7 +140,7 @@ namespace WodiLib.Map
                 tilePathSettingList = tilePathSettings;
             }
 
-            if (autoTileFileNames != null)
+            if (!(autoTileFileNames is null))
             {
                 autoTileFileNameList = autoTileFileNames;
             }

@@ -49,7 +49,8 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentException">
         ///     typeSettingListとdataSettingListの要素数が異なる場合。
         /// </exception>
-        public DatabaseMergedData(DBTypeSettingList typeSettingList, DBDataSettingList dataSettingList)
+        public DatabaseMergedData(DBTypeSettingList typeSettingList,
+            DBDataSettingList dataSettingList)
         {
             InitializeTypeDescList(typeSettingList, dataSettingList);
         }
@@ -65,12 +66,13 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentException">
         ///    dat.TypeSettingListとproject.SettingListの要素数が異なる場合
         /// </exception>
-        public DatabaseMergedData(DatabaseDat dat, DatabaseProject project)
+        public DatabaseMergedData(DatabaseDat dat,
+            DatabaseProject project)
         {
-            if (dat == null)
+            if (dat is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dat)));
-            if (project == null)
+            if (project is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(project)));
 
@@ -88,12 +90,13 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentException">
         ///    typeSettingListとdataSettingListの要素数が異なる場合
         /// </exception>
-        private void InitializeTypeDescList(DBTypeSettingList typeSettingList, DBDataSettingList dataSettingList)
+        private void InitializeTypeDescList(DBTypeSettingList typeSettingList,
+            DBDataSettingList dataSettingList)
         {
-            if (typeSettingList == null)
+            if (typeSettingList is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(typeSettingList)));
-            if (dataSettingList == null)
+            if (dataSettingList is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dataSettingList)));
 

@@ -64,7 +64,7 @@ namespace WodiLib.Event.EventCommand
             get => loadGraphic;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(LoadGraphic)));
                 loadGraphic.Merge(value);
@@ -92,7 +92,7 @@ namespace WodiLib.Event.EventCommand
             get => LoadGraphic;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Target)));
                 LoadGraphic = value;

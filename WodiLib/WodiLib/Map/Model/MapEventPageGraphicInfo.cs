@@ -65,7 +65,7 @@ namespace WodiLib.Map
                 if (IsGraphicTileChip)
                     throw new PropertyAccessException(
                         $"{nameof(IsGraphicTileChip)}がfalseの場合のみセットできます。");
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(CharaChipFilePath)));
                 charaChipFilePath = value;
@@ -83,7 +83,7 @@ namespace WodiLib.Map
             get => initDirection;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(InitDirection)));
                 initDirection = value;
@@ -105,7 +105,7 @@ namespace WodiLib.Map
             get => charaChipDrawType;
             set
             {
-                if (value == null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(CharaChipDrawType)));
+                if (value is null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(CharaChipDrawType)));
                 charaChipDrawType = value;
             }
         }
@@ -136,7 +136,7 @@ namespace WodiLib.Map
         /// <returns>キャラ画像ファイル名</returns>
         public void SetGraphicFileName(CharaChipFilePath filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 

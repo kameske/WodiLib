@@ -46,7 +46,7 @@ namespace WodiLib.Common
                 get => databaseDbKind;
                 private set
                 {
-                    if (value == null)
+                    if (value is null)
                         throw new PropertyNullException(
                             ErrorMessage.NotNull(nameof(DatabaseDbKind)));
                     databaseDbKind = value;
@@ -97,7 +97,7 @@ namespace WodiLib.Common
             /// <exception cref="ArgumentNullException">dbKindがnullの場合</exception>
             public void SetDatabaseRefer(DBKind dbKind, TypeId dbTypeId)
             {
-                if (dbKind == null)
+                if (dbKind is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(dbKind)));
 
@@ -326,11 +326,11 @@ namespace WodiLib.Common
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
             /// <summary>
-        /// オブジェクトをシリアル化するために必要なデータを設定する。
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
+            /// オブジェクトをシリアル化するために必要なデータを設定する。
+            /// </summary>
+            /// <param name="info">デシリアライズ情報</param>
+            /// <param name="context">コンテキスト</param>
+            [EditorBrowsable(EditorBrowsableState.Never)]
             public void GetObjectData(SerializationInfo info, StreamingContext context)
             {
                 info.AddValue(nameof(databaseDbKind), databaseDbKind.Code);

@@ -63,11 +63,11 @@ namespace WodiLib.IO
         /// </exception>
         public NonSectionIniFileReader(FilePath filePath, IReadOnlyCollection<TIniTarget> targets)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 
-            if (targets == null)
+            if (targets is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(targets)));
             if (targets.HasNullItem())

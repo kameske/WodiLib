@@ -75,7 +75,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">outerがnullの場合</exception>
         internal DBItemValueList(DBItemValuesList outer)
         {
-            if (outer == null)
+            if (outer is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(outer)));
 
@@ -100,12 +100,13 @@ namespace WodiLib.Database
         ///     listの要素数、
         ///     またはlist中の値種別が不適切な場合
         /// </exception>
-        internal DBItemValueList(DBItemValuesList outer, IReadOnlyCollection<DBItemValue> list)
+        internal DBItemValueList(DBItemValuesList outer,
+            IReadOnlyCollection<DBItemValue> list)
         {
-            if (outer == null)
+            if (outer is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(outer)));
-            if (list == null)
+            if (list is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(list)));
 
@@ -175,7 +176,7 @@ namespace WodiLib.Database
         /// </exception>
         public new void Add(DBItemValue item)
         {
-            if (Outer != null)
+            if (!(Outer is null))
                 throw new InvalidOperationException(
                     $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
                     $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
@@ -197,7 +198,7 @@ namespace WodiLib.Database
         /// </exception>
         public new void AddRange(IReadOnlyCollection<DBItemValue> items)
         {
-            if (Outer != null)
+            if (!(Outer is null))
                 throw new InvalidOperationException(
                     $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
                     $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
@@ -218,7 +219,7 @@ namespace WodiLib.Database
         /// </exception>
         public new void Insert(int index, DBItemValue item)
         {
-            if (Outer != null)
+            if (!(Outer is null))
                 throw new InvalidOperationException(
                     $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
                     $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
@@ -242,7 +243,7 @@ namespace WodiLib.Database
         /// </exception>
         public new void InsertRange(int index, IReadOnlyCollection<DBItemValue> items)
         {
-            if (Outer != null)
+            if (!(Outer is null))
                 throw new InvalidOperationException(
                     $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
                     $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
@@ -261,7 +262,7 @@ namespace WodiLib.Database
         /// </exception>
         public new bool Remove(DBItemValue item)
         {
-            if (Outer != null)
+            if (!(Outer is null))
                 throw new InvalidOperationException(
                     $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
                     $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
@@ -280,7 +281,7 @@ namespace WodiLib.Database
         /// </exception>
         public new void RemoveAt(int index)
         {
-            if (Outer != null)
+            if (!(Outer is null))
                 throw new InvalidOperationException(
                     $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
                     $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
@@ -301,7 +302,7 @@ namespace WodiLib.Database
         /// </exception>
         public new void RemoveRange(int index, int count)
         {
-            if (Outer != null)
+            if (!(Outer is null))
                 throw new InvalidOperationException(
                     $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
                     $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
@@ -318,7 +319,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">紐付けされているDBItemValuesListが存在する場合</exception>
         public new void AdjustLength(int length)
         {
-            if (Outer != null)
+            if (!(Outer is null))
                 throw new InvalidOperationException(
                     $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
                     $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
@@ -332,7 +333,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">紐付けされているDBItemValuesListが存在する場合</exception>
         public new void Clear()
         {
-            if (Outer != null)
+            if (!(Outer is null))
                 throw new InvalidOperationException(
                     $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
                     $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
@@ -378,10 +379,10 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">outerがnullの場合</exception>
         internal void Attach(DBItemValuesList outer)
         {
-            if (Outer != null)
+            if (!(Outer is null))
                 throw new InvalidOperationException(
                     "既に紐付けされているため、処理できません。");
-            if (outer == null)
+            if (outer is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(outer)));
 
@@ -451,7 +452,8 @@ namespace WodiLib.Database
         ///     紐付けされているDBItemValuesListが存在する場合、
         ///     または要素数がMaxCapacityを超える場合
         /// </exception>
-        internal void InsertRangeForValuesListInstanceManager(int index, IReadOnlyCollection<DBItemValue> items)
+        internal void InsertRangeForValuesListInstanceManager(int index,
+            IReadOnlyCollection<DBItemValue> items)
         {
             base.InsertRange(index, items);
         }

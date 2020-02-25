@@ -104,7 +104,7 @@ namespace WodiLib.Project
             }
 
             var targetEvent = Master.MapData?.MapEvents.FirstOrDefault(x => x.MapEventId == characterId);
-            if (targetEvent == null) return (false, notFound);
+            if (targetEvent is null) return (false, notFound);
 
             return (true, $"Ev{characterId}");
         }
@@ -139,7 +139,7 @@ namespace WodiLib.Project
             if (mapEventId == -1) return (true, "このﾏｯﾌﾟｲﾍﾞﾝﾄ");
 
             var targetEvent = Master.MapData?.MapEvents.FirstOrDefault(x => x.MapEventId == mapEventId);
-            if (targetEvent == null) return (false, notFound);
+            if (targetEvent is null) return (false, notFound);
 
             return (true, targetEvent.EventName);
         }

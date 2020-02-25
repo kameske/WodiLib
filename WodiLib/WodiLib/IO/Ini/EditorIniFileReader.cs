@@ -36,7 +36,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         public EditorIniFileReader(EditorIniFilePath filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 
@@ -53,7 +53,7 @@ namespace WodiLib.IO
         /// </exception>
         public EditorIniData ReadSync()
         {
-            if (Data != null)
+            if (!(Data is null))
                 throw new InvalidOperationException(
                     "すでに読み込み完了しています。");
 

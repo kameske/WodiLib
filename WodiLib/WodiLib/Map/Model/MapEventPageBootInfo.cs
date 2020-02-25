@@ -33,7 +33,7 @@ namespace WodiLib.Map
             get => mapEventBootType;
             set
             {
-                if (value == null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(MapEventBootType)));
+                if (value is null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(MapEventBootType)));
                 mapEventBootType = value;
             }
         }
@@ -106,7 +106,7 @@ namespace WodiLib.Map
             get => mapEventBootCondition1;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MapEventBootCondition1)));
                 mapEventBootCondition1 = value;
@@ -120,7 +120,7 @@ namespace WodiLib.Map
             get => mapEventBootCondition2;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MapEventBootCondition2)));
                 mapEventBootCondition2 = value;
@@ -134,7 +134,7 @@ namespace WodiLib.Map
             get => mapEventBootCondition3;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MapEventBootCondition3)));
                 mapEventBootCondition3 = value;
@@ -148,7 +148,7 @@ namespace WodiLib.Map
             get => mapEventBootCondition4;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MapEventBootCondition4)));
                 mapEventBootCondition4 = value;
@@ -164,7 +164,7 @@ namespace WodiLib.Map
         /// <exception cref="ArgumentNullException">conditionがnull</exception>
         public void SetEventBootCondition(int index, MapEventBootCondition condition)
         {
-            if (condition == null)
+            if (condition is null)
             {
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(condition)));

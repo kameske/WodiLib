@@ -113,7 +113,10 @@ namespace WodiLib.Ini
         /// <returns>変換した値</returns>
         public static implicit operator WindowSize(Tuple<int, int> tuple)
         {
-            if (tuple == null) return null;
+            if (tuple is null)
+                throw new InvalidCastException(
+                    ErrorMessage.InvalidCastFromNull(nameof(tuple), nameof(WindowSize)));
+
             return new WindowSize(tuple.Item1, tuple.Item2);
         }
 

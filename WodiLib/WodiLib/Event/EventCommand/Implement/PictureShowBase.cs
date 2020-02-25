@@ -44,7 +44,7 @@ namespace WodiLib.Event.EventCommand
             get => anchorPosition;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(anchorPosition)));
                 anchorPosition = value;

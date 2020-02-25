@@ -27,7 +27,7 @@ namespace WodiLib.Database
         public static IDBItemSettingDesc Create(
             DBItemSpecialSettingType type, DatabaseValueCaseList argCaseList)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(argCaseList)));
 
@@ -71,7 +71,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentException">argCaseList.Countが1以外の場合</exception>
         public static IDBItemSettingDesc CreateLoadFile(DatabaseValueCaseList argCaseList)
         {
-            if (argCaseList == null)
+            if (argCaseList is null)
             {
                 return new DBItemSettingDescLoadFile();
             }
@@ -96,7 +96,7 @@ namespace WodiLib.Database
             var argCaseMinus1 = "";
             var argCaseMinus2 = "";
             var argCaseMinus3 = "";
-            if (argCaseList != null)
+            if (!(argCaseList is null))
             {
                 argCaseMinus1 = argCaseList.GetDescriptionForCaseNumber(-1) ?? "";
                 argCaseMinus2 = argCaseList.GetDescriptionForCaseNumber(-2) ?? "";

@@ -46,13 +46,13 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">filePathが空文字の場合</exception>
         private static CommonFileWriter BuildFileWriter(string filePath, CommonFileData data)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
             if (filePath.IsEmpty())
                 throw new ArgumentException(
                     ErrorMessage.NotEmpty(nameof(filePath)));
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 
@@ -69,7 +69,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">filePathが空文字の場合</exception>
         private static CommonFileReader BuildFileReader(string filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
             if (filePath.IsEmpty())
@@ -91,7 +91,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         public CommonFile(CommonFilePath filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 
@@ -109,7 +109,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">data がnullの場合</exception>
         public void WriteSync(CommonFileData data)
         {
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 
@@ -127,7 +127,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">data がnullの場合</exception>
         public async Task WriteAsync(CommonFileData data)
         {
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 

@@ -31,7 +31,7 @@ namespace WodiLib.Database
             get => typeName;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(TypeName)));
 
@@ -50,7 +50,7 @@ namespace WodiLib.Database
             get => dataNameList;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(DataNameList)));
                 dataNameList = value;
@@ -68,7 +68,7 @@ namespace WodiLib.Database
             get => itemSettingList;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ItemSettingList)));
                 itemSettingList = value;
@@ -84,7 +84,7 @@ namespace WodiLib.Database
             get => memo;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Memo)));
 

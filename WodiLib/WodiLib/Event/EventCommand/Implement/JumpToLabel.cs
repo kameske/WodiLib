@@ -100,7 +100,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void SetSafetyStringVariable(int index, string value)
         {
-            if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
+            if (value is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
             if (index == 0)
             {
                 LabelName = value;
@@ -134,7 +134,7 @@ namespace WodiLib.Event.EventCommand
             get => labelName;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(LabelName)));
                 labelName = value;

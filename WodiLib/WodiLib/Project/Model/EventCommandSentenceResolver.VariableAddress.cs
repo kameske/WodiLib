@@ -56,7 +56,7 @@ namespace WodiLib.Project
         public string GetVariableAddressString(int value,
             EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 
@@ -88,7 +88,7 @@ namespace WodiLib.Project
         public string GetVariableAddressStringIfVariableAddress(int value,
             EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 
@@ -111,7 +111,7 @@ namespace WodiLib.Project
         public string GetNumericVariableAddressString(int value,
             EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 
@@ -143,7 +143,7 @@ namespace WodiLib.Project
         public string GetNumericVariableAddressStringIfVariableAddress(int value,
             EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 
@@ -166,7 +166,7 @@ namespace WodiLib.Project
         public string GetStringVariableAddressString(int value,
             EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 

@@ -53,11 +53,11 @@ namespace WodiLib.IO
         /// </exception>
         public CommonEventDatFilePath(string value) : base(value)
         {
-            var fileName = Path.GetFileName(value);
-            if (fileName == null)
-                throw new ArgumentException(
-                    ErrorMessage.Unsuitable("ファイルパス", $"（パス：{value}）"));
+            if (value is null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(value)));
 
+            var fileName = Path.GetFileName(value);
             if (!FilePathRegex.IsMatch(fileName))
             {
                 throw new ArgumentException(
@@ -73,7 +73,7 @@ namespace WodiLib.IO
         /// string に変換する。
         /// </summary>
         /// <returns>string値</returns>
-        public override string ToString() => this;
+        public override string ToString() => Value;
 
         /// <inheritdoc />
         public override bool Equals(object obj)
@@ -101,7 +101,7 @@ namespace WodiLib.IO
         /// <returns>一致する場合、true</returns>
         public bool Equals(CommonEventDatFilePath other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
             return Value.Equals(other.Value);
         }
 
@@ -116,6 +116,7 @@ namespace WodiLib.IO
         /// <returns>変換したインスタンス</returns>
         public static implicit operator CommonEventDatFilePath(string src)
         {
+            if (src is null) return null;
             var result = new CommonEventDatFilePath(src);
             return result;
         }
@@ -144,7 +145,7 @@ namespace WodiLib.IO
         {
             if (ReferenceEquals(left, right)) return true;
 
-            if ((object) left == null || (object) right == null) return false;
+            if (left is null || right is null) return false;
 
             return left.Equals(right);
         }

@@ -136,7 +136,7 @@ namespace WodiLib.Event.EventCommand
             if (index < 0 || StringVariableCount < index)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), 0, StringVariableCount - 1, index));
-            if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
+            if (value is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
             choiceCaseList.Set(index, value);
         }
 
@@ -146,7 +146,7 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
             EventCommandSentenceResolveDesc desc)
         {
-            if (desc == null)
+            if (desc is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
 
@@ -176,7 +176,7 @@ namespace WodiLib.Event.EventCommand
             get => cancelForkIndex;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(CancelForkIndex)));
                 cancelForkIndex = value;
@@ -211,7 +211,7 @@ namespace WodiLib.Event.EventCommand
             get => choiceCaseList.Get(0);
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case1)));
                 choiceCaseList.Set(0, value);
@@ -225,7 +225,7 @@ namespace WodiLib.Event.EventCommand
             get => choiceCaseList.Get(1);
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case2)));
                 choiceCaseList.Set(1, value);
@@ -239,7 +239,7 @@ namespace WodiLib.Event.EventCommand
             get => choiceCaseList.Get(2);
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case3)));
                 choiceCaseList.Set(2, value);
@@ -253,7 +253,7 @@ namespace WodiLib.Event.EventCommand
             get => choiceCaseList.Get(3);
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case4)));
                 choiceCaseList.Set(3, value);
@@ -267,7 +267,7 @@ namespace WodiLib.Event.EventCommand
             get => choiceCaseList.Get(4);
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case5)));
                 choiceCaseList.Set(4, value);
@@ -281,7 +281,7 @@ namespace WodiLib.Event.EventCommand
             get => choiceCaseList.Get(5);
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case6)));
                 choiceCaseList.Set(5, value);
@@ -295,7 +295,7 @@ namespace WodiLib.Event.EventCommand
             get => choiceCaseList.Get(6);
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case7)));
                 choiceCaseList.Set(6, value);
@@ -309,7 +309,7 @@ namespace WodiLib.Event.EventCommand
             get => choiceCaseList.Get(7);
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case8)));
                 choiceCaseList.Set(7, value);
@@ -323,7 +323,7 @@ namespace WodiLib.Event.EventCommand
             get => choiceCaseList.Get(8);
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case9)));
                 choiceCaseList.Set(8, value);
@@ -337,7 +337,7 @@ namespace WodiLib.Event.EventCommand
             get => choiceCaseList.Get(9);
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case10)));
                 choiceCaseList.Set(9, value);
@@ -352,7 +352,7 @@ namespace WodiLib.Event.EventCommand
             get => choiceCaseList.Get(10);
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case10)));
                 choiceCaseList.Set(10, value);
@@ -367,7 +367,7 @@ namespace WodiLib.Event.EventCommand
             get => choiceCaseList.Get(11);
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case10)));
                 choiceCaseList.Set(11, value);

@@ -40,7 +40,7 @@ namespace WodiLib.Sys
             bool canDelete = true, bool enabled = true,
             bool canChangeEnabled = true) : base(tag, canDelete, enabled, canChangeEnabled)
         {
-            if (handler == null)
+            if (handler is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(handler)));
 

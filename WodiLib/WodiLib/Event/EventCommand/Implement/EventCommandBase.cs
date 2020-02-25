@@ -175,7 +175,7 @@ namespace WodiLib.Event.EventCommand
             get => expansionString;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ExpansionString)));
                 expansionString = value;
@@ -249,14 +249,14 @@ namespace WodiLib.Event.EventCommand
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
-            if (ActionEntry == null ^ other.ActionEntry == null) return false;
+            if (ActionEntry is null ^ other.ActionEntry is null) return false;
             return RawEventCommandCode == other.RawEventCommandCode
                    && Indent == other.Indent
                    && HasActionEntry == other.HasActionEntry
                    && ExpansionString.Equals(other.ExpansionString)
                    && AllNumberArgList.SequenceEqual(other.AllNumberArgList)
                    && AllStringArgList.SequenceEqual(other.AllStringArgList)
-                   && (ActionEntry == null || (ActionEntry.Equals(other.ActionEntry)));
+                   && (ActionEntry is null || (ActionEntry.Equals(other.ActionEntry)));
         }
 
         /// <inheritdoc />
@@ -283,10 +283,10 @@ namespace WodiLib.Event.EventCommand
         public EventCommandSentenceInfo GetEventCommandSentenceInfo(EventCommandSentenceResolver resolver,
             EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
         {
-            if (resolver == null)
+            if (resolver is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(resolver)));
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 
@@ -421,7 +421,7 @@ namespace WodiLib.Event.EventCommand
         private byte[] MakeActionEntryBytes()
         {
             var result = new List<byte>();
-            if (ActionEntry == null)
+            if (ActionEntry is null)
             {
                 result.Add(FlgNotHasActionEntry);
                 return result.ToArray();

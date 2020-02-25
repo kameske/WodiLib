@@ -63,7 +63,7 @@ namespace WodiLib.Database
         internal DatabaseItemDescList(DBItemSettingList itemSettingList)
             : base(new Func<IReadOnlyCollection<DatabaseItemDesc>>(() =>
             {
-                if (itemSettingList == null)
+                if (itemSettingList is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(itemSettingList)));
 

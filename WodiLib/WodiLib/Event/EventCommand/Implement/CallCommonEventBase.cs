@@ -269,7 +269,7 @@ namespace WodiLib.Event.EventCommand
             if (index < 0 || StringVariableCount < index)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), 0, StringVariableCount, index));
-            if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
+            if (value is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
 
             if (index == 0)
             {
@@ -290,6 +290,10 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
             EventCommandSentenceResolveDesc desc)
         {
+            if (desc is null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(desc)));
+
             var argsCommandString = MakeEventCommandSentenceCallCommonEventArgs(
                 resolver, type, desc);
             var returnVarString = MakeEventCommandSentenceReturnVariableStr(
@@ -328,7 +332,7 @@ namespace WodiLib.Event.EventCommand
             get => eventIdOrName;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(EventIdOrName)));
                 eventIdOrName = value;
@@ -452,7 +456,7 @@ namespace WodiLib.Event.EventCommand
             get => StrArgList[0];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StringArg1)));
                 StrArgList[0] = value;
@@ -466,7 +470,7 @@ namespace WodiLib.Event.EventCommand
             get => StrArgList[1];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StringArg2)));
                 StrArgList[1] = value;
@@ -480,7 +484,7 @@ namespace WodiLib.Event.EventCommand
             get => StrArgList[2];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StringArg3)));
                 StrArgList[2] = value;
@@ -494,7 +498,7 @@ namespace WodiLib.Event.EventCommand
             get => StrArgList[3];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StringArg4)));
                 StrArgList[3] = value;
@@ -540,7 +544,7 @@ namespace WodiLib.Event.EventCommand
                                 : EventIdOrName.ToInt()
                         ))();
 
-                    if (eventId == null)
+                    if (eventId is null)
                         return resolver.GetNumericVariableAddressStringIfVariableAddress(x, type, desc);
 
                     var id = eventId.Value;

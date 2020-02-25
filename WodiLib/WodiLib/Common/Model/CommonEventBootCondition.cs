@@ -36,7 +36,9 @@ namespace WodiLib.Common
             get => commonEventBootType;
             set
             {
-                if (value == null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(CommonEventBootType)));
+                if (value is null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(CommonEventBootType)));
                 commonEventBootType = value;
             }
         }
@@ -73,7 +75,7 @@ namespace WodiLib.Common
             get => operation;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Operation)));
                 operation = value;

@@ -69,7 +69,7 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentNullException">tag にnullが設定された場合</exception>
         public RestrictedCapacityCollectionHandler(string tag, bool canDelete, bool enabled, bool canChangeEnabled)
         {
-            if (tag == null)
+            if (tag is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(tag)));
 

@@ -14,7 +14,6 @@ namespace WodiLib.Sys
 {
     /// <summary>
     ///     int、またはstringのどちらかを持つクラス
-    ///     (internal化予定）
     /// </summary>
     [Serializable]
     public class IntOrStr : IEquatable<IntOrStr>, ISerializable
@@ -172,6 +171,7 @@ namespace WodiLib.Sys
         /// <returns>変換した値</returns>
         public static implicit operator IntOrStr(string src)
         {
+            if (src is null) return null;
             return new IntOrStr(src);
         }
 
@@ -182,6 +182,7 @@ namespace WodiLib.Sys
         /// <returns>変換した値</returns>
         public static implicit operator IntOrStr(Tuple<int, string> tuple)
         {
+            if (tuple is null) return null;
             return new IntOrStr(tuple.Item1, tuple.Item2);
         }
 
@@ -224,7 +225,7 @@ namespace WodiLib.Sys
         /// <returns>一致する場合、true</returns>
         public bool Equals(IntOrStr other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
 
             if (InstanceIntOrStrType != other.InstanceIntOrStrType) return false;
             if (HasInt && numValue != other.numValue) return false;

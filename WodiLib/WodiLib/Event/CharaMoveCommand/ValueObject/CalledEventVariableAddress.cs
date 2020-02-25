@@ -10,6 +10,7 @@ using System;
 using System.ComponentModel;
 using WodiLib.Cmn;
 using WodiLib.Project;
+using WodiLib.Sys;
 
 namespace WodiLib.Event.CharaMoveCommand
 {
@@ -131,7 +132,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <returns>一致する場合、true</returns>
         public bool Equals(CalledEventVariableAddress other)
         {
-            return other != null && Value == other.Value;
+            return !(other is null) && Value == other.Value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -181,8 +182,15 @@ namespace WodiLib.Event.CharaMoveCommand
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        /// <exception cref="InvalidCastException">
+        ///     src が null の場合
+        /// </exception>
         public static implicit operator int(CalledEventVariableAddress src)
         {
+            if (src is null)
+                throw new InvalidCastException(
+                    ErrorMessage.InvalidCastFromNull(nameof(src), nameof(StringVariableAddress)));
+
             return src.Value;
         }
 

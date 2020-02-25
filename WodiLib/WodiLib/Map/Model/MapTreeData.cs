@@ -53,7 +53,7 @@ namespace WodiLib.Map
             get => treeNodeList;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(TreeNodeList)));
                 treeNodeList = value;

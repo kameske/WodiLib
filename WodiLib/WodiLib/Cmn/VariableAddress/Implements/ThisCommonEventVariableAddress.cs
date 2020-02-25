@@ -120,7 +120,7 @@ namespace WodiLib.Cmn
         /// <returns>一致する場合、true</returns>
         public bool Equals(ThisCommonEventVariableAddress other)
         {
-            return other != null && Value == other.Value;
+            return !(other is null) && Value == other.Value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -140,10 +140,10 @@ namespace WodiLib.Cmn
         {
             if (type == EventCommandSentenceType.Map) return EventCommandSentenceMapEventFormat;
 
-            if (desc == null)
+            if (desc is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
-            if (desc.CommonEventId == null)
+            if (desc.CommonEventId is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc.CommonEventId)));
 
@@ -178,8 +178,15 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        /// <exception cref="InvalidCastException">
+        ///     src が null の場合
+        /// </exception>
         public static implicit operator int(ThisCommonEventVariableAddress src)
         {
+            if (src is null)
+                throw new InvalidCastException(
+                    ErrorMessage.InvalidCastFromNull(nameof(src), nameof(ThisCommonEventVariableAddress)));
+
             return src.Value;
         }
 
@@ -195,9 +202,16 @@ namespace WodiLib.Cmn
         /// <param name="src">変数アドレス</param>
         /// <param name="value">加算値</param>
         /// <returns>加算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">加算後の値がこのコモンイベントセルフ変数アドレス値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     left が null の場合、または
+        ///     加算後の値がこのコモンイベントセルフ変数アドレス値として不適切な場合
+        /// </exception>
         public static ThisCommonEventVariableAddress operator +(ThisCommonEventVariableAddress src, int value)
         {
+            if (src is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("左オペランド"));
+
             try
             {
                 return new ThisCommonEventVariableAddress(src.Value + value);
@@ -215,9 +229,16 @@ namespace WodiLib.Cmn
         /// <param name="src">変数アドレス</param>
         /// <param name="value">減算値</param>
         /// <returns>減算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">減算後の値がこのコモンイベントセルフ変数アドレス値値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     left が null の場合、または
+        ///     減算後の値がこのコモンイベントセルフ変数アドレス値として不適切な場合
+        /// </exception>
         public static ThisCommonEventVariableAddress operator -(ThisCommonEventVariableAddress src, int value)
         {
+            if (src is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("左オペランド"));
+
             try
             {
                 return new ThisCommonEventVariableAddress(src.Value - value);
@@ -241,6 +262,13 @@ namespace WodiLib.Cmn
         /// <returns>アドレス値の差</returns>
         public static int operator -(ThisCommonEventVariableAddress left, VariableAddress right)
         {
+            if (left is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("左オペランド"));
+            if (right is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("右オペランド"));
+
             return left.Value - right;
         }
 
@@ -282,6 +310,13 @@ namespace WodiLib.Cmn
         /// <returns>このコモンイベントセルフ変数アドレス値の差</returns>
         public static int operator -(ThisCommonEventVariableAddress left, ThisCommonEventVariableAddress right)
         {
+            if (left is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("左オペランド"));
+            if (right is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("右オペランド"));
+
             return left.Value - right.Value;
         }
 

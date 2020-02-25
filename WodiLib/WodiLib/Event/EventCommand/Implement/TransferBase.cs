@@ -215,7 +215,7 @@ namespace WodiLib.Event.EventCommand
             get => transferOption;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(_TransferOption)));
                 transferOption = value;

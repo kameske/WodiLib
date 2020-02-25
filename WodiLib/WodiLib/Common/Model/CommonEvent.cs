@@ -96,7 +96,7 @@ namespace WodiLib.Common
             get => condition;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(CriteriaOperator)));
                 condition = value;
@@ -152,7 +152,7 @@ namespace WodiLib.Common
             get => name;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Name)));
                 name = value;
@@ -173,7 +173,7 @@ namespace WodiLib.Common
             get => eventCommands;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(EventCommands)));
                 eventCommands = value;
@@ -192,7 +192,7 @@ namespace WodiLib.Common
             get => description;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Description)));
                 description = value;
@@ -210,7 +210,7 @@ namespace WodiLib.Common
             get => memo;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Memo)));
                 memo = value;
@@ -226,7 +226,7 @@ namespace WodiLib.Common
             get => labelColor;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(LabelColor)));
                 labelColor = value;
@@ -245,7 +245,7 @@ namespace WodiLib.Common
             get => footerString;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(FooterString)));
                 footerString = value;
@@ -286,7 +286,7 @@ namespace WodiLib.Common
             get => selfVariableNameList;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(SelfVariableNameList)));
 
@@ -327,7 +327,7 @@ namespace WodiLib.Common
         /// <exception cref="ArgumentNullException">descがnullの場合</exception>
         public void UpdateSpecialNumberArgDesc(CommonEventNumberArgIndex index, CommonEventSpecialNumberArgDesc desc)
         {
-            if (desc == null)
+            if (desc is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
 
@@ -352,7 +352,7 @@ namespace WodiLib.Common
         /// <exception cref="ArgumentNullException">descがnullの場合</exception>
         public void UpdateSpecialStringArgDesc(CommonEventStringArgIndex index, CommonEventSpecialStringArgDesc desc)
         {
-            if (desc == null)
+            if (desc is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
             CommonEventSpecialArgDescList.UpdateSpecialStringArgDesc(index, desc);

@@ -52,7 +52,7 @@ namespace WodiLib.Database
                     if (!reference.TryGetTarget(out var target)) continue;
 
                     // タイプ変化チェックは最初の1回だけ行えばいい
-                    if (typeCheckFunc != null)
+                    if (!(typeCheckFunc is null))
                     {
                         if (typeCheckFunc.Invoke(target)) break;
                         typeCheckFunc = null;

@@ -58,7 +58,7 @@ namespace WodiLib.Event.EventCommand
             get => rightSide;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(RightSide)));
                 rightSide = value;
@@ -76,7 +76,7 @@ namespace WodiLib.Event.EventCommand
             }
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(RightSideReplaceNewStr));
                 RightSideReplaceString = value;

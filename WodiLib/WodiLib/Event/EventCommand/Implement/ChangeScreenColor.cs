@@ -231,7 +231,7 @@ namespace WodiLib.Event.EventCommand
             get => color;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Color)));
                 color = value;

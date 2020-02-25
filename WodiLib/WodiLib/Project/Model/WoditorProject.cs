@@ -166,7 +166,7 @@ namespace WodiLib.Project
         /// </exception>
         public WoditorProject(string targetDirectory)
         {
-            if (targetDirectory == null)
+            if (targetDirectory is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(targetDirectory)));
             if (targetDirectory.IsEmpty())
@@ -326,7 +326,7 @@ namespace WodiLib.Project
         private void ComplementNapTreeOpenStatusData()
         {
             // MapTreeDataが読み込まれていなければエラー（通常ありえない）
-            if (MapTreeData == null) throw new InvalidOperationException();
+            if (MapTreeData is null) throw new InvalidOperationException();
 
             MapTreeOpenStatusData = new MapTreeOpenStatusData();
             MapTreeOpenStatusData.StatusList.AdjustLength(MapTreeData.TreeNodeList.Count);

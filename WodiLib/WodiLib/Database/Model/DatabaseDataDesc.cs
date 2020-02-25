@@ -34,7 +34,7 @@ namespace WodiLib.Database
             get => dataName;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DataName)));
 
@@ -53,7 +53,7 @@ namespace WodiLib.Database
             get => itemValueList;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ItemValueList)));
                 itemValueList = value;
@@ -79,11 +79,11 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">dataName, itemValuesがnullの場合</exception>
         internal DatabaseDataDesc(DataName dataName, DBItemValueList itemValueList)
         {
-            if (dataName == null)
+            if (dataName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dataName)));
 
-            if (itemValueList == null)
+            if (itemValueList is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(itemValueList)));
 

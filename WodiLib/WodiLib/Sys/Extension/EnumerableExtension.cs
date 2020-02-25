@@ -25,7 +25,7 @@ namespace WodiLib.Sys
         /// <returns>null項目がある場合、true</returns>
         public static bool HasNullItem<T>(this IEnumerable<T> src)
         {
-            return src.Any(x => x == null);
+            return src.Any(x => ReferenceEquals(x, null));
         }
 
         /// <summary>

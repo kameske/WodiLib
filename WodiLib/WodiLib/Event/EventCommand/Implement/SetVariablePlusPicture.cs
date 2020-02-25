@@ -50,7 +50,7 @@ namespace WodiLib.Event.EventCommand
             get => infoType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(InfoType)));
                 infoType = value;

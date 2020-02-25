@@ -52,7 +52,7 @@ namespace WodiLib.Sys
         /// </exception>
         public RestrictedCapacityCollectionHandlerList(IReadOnlyCollection<THandler> list)
         {
-            if (list == null)
+            if (list is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(list)));
 
@@ -75,7 +75,7 @@ namespace WodiLib.Sys
         /// <inheritdoc />
         protected override void SetItem(int index, THandler item)
         {
-            if (item == null)
+            if (item is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(item)));
 
@@ -89,7 +89,7 @@ namespace WodiLib.Sys
         /// <inheritdoc />
         protected override void InsertItem(int index, THandler item)
         {
-            if (item == null)
+            if (item is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(item)));
 

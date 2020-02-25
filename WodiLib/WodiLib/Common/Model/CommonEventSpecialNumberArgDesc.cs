@@ -36,7 +36,7 @@ namespace WodiLib.Common
             get => argName;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ArgName)));
                 argName = value;
@@ -93,11 +93,11 @@ namespace WodiLib.Common
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         public void ChangeArgType(CommonEventArgType type, IEnumerable<CommonEventSpecialArgCase> argCases)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 
-            var argCaseList = argCases == null
+            var argCaseList = argCases is null
                 ? null
                 : new CommonEventSpecialArgCaseList(argCases.ToArray());
 

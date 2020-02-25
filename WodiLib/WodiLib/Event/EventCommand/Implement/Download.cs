@@ -153,7 +153,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public override void SetSafetyStringVariable(int index, string value)
         {
-            if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
+            if (value is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
             switch (index)
             {
                 case 0:
@@ -204,7 +204,7 @@ namespace WodiLib.Event.EventCommand
             get => downloadUrl;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DownloadUrl)));
                 downloadUrl = value;
@@ -223,7 +223,7 @@ namespace WodiLib.Event.EventCommand
             get => storageFolder;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StorageFolder)));
                 storageFolder = value;

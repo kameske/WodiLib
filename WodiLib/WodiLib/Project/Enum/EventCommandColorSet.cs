@@ -120,7 +120,7 @@ namespace WodiLib.Project
         /// <exception cref="ArgumentNullException">type が null の場合</exception>
         public Color GetCommandColor(CommandColorType type)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 

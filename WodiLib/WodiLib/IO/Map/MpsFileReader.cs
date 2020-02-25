@@ -28,7 +28,7 @@ namespace WodiLib.IO
         /// <summary>[Nullable] 読み込んだマップデータ</summary>
         public MapData MapData { get; private set; }
 
-        private FileReadStatus ReadStatus { get; set; }
+        private FileReadStatus ReadStatus { get; }
 
         /// <summary>ロガー</summary>
         private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
@@ -40,11 +40,12 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         public MpsFileReader(MpsFilePath filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 
             FilePath = filePath;
+            ReadStatus = new FileReadStatus(FilePath);
         }
 
         /// <summary>
@@ -57,13 +58,12 @@ namespace WodiLib.IO
         /// </exception>
         public MapData ReadSync()
         {
-            if (MapData != null)
+            if (!(MapData is null))
                 throw new InvalidOperationException(
                     "すでに読み込み完了しています。");
 
             Logger.Info(FileIOMessage.StartFileRead(GetType()));
 
-            ReadStatus = new FileReadStatus(FilePath);
             MapData = new MapData();
 
             // ヘッダチェック

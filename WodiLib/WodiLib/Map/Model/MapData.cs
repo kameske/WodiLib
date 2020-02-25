@@ -72,7 +72,7 @@ namespace WodiLib.Map
             get => layer2;
             set
             {
-                if (value == null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(Layer2)));
+                if (value is null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(Layer2)));
                 if (value.Width != Layer1.Width || value.Height != Layer1.Height)
                     throw new PropertyException(
                         $"{nameof(Layer2)}のマップサイズは{nameof(Layer1)}のマップサイズと同じサイズである必要があります。");
@@ -90,7 +90,7 @@ namespace WodiLib.Map
             get => layer3;
             set
             {
-                if (value == null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(Layer3)));
+                if (value is null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(Layer3)));
                 if (value.Width != Layer1.Width || value.Height != Layer1.Height)
                     throw new PropertyException(
                         $"{nameof(Layer3)}のマップサイズは{nameof(Layer1)}のマップサイズと同じサイズである必要があります。");
@@ -138,7 +138,7 @@ namespace WodiLib.Map
         /// <exception cref="ArgumentOutOfRangeException">インデックスが 0～2 以外の場合</exception>
         public void SetLayer(int index, Layer layer)
         {
-            if (layer == null)
+            if (layer is null)
             {
                 var message = $"Layerに null をセットすることはできません";
                 throw new ArgumentNullException(message);

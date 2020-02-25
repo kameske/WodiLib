@@ -38,11 +38,12 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         public CommonEventDatFileReader(string filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 
             FilePath = filePath;
+            ReadStatus = new FileReadStatus(FilePath);
         }
 
         /// <summary>
@@ -55,13 +56,12 @@ namespace WodiLib.IO
         /// </exception>
         public CommonEventData ReadSync()
         {
-            if (CommonEventData != null)
+            if (!(CommonEventData is null))
                 throw new InvalidOperationException(
                     $"すでに読み込み完了しています。");
 
             Logger.Info(FileIOMessage.StartFileRead(GetType()));
 
-            ReadStatus = new FileReadStatus(FilePath);
             CommonEventData = new CommonEventData();
 
             // ヘッダチェック

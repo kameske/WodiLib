@@ -107,10 +107,10 @@ namespace WodiLib.IO
         private DatabaseMergedDataWriter(DatabaseMergedData outputData, DatabaseDatFilePath datFilePath,
             DatabaseProjectFilePath projectFilePath)
         {
-            if (datFilePath == null)
+            if (datFilePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(datFilePath)));
-            if (projectFilePath == null)
+            if (projectFilePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(projectFilePath)));
 

@@ -136,8 +136,7 @@ namespace WodiLib.Cmn
         /// <returns>一致する場合、true</returns>
         public bool Equals(VariableAddress other)
         {
-            if (other == null) return false;
-            return Value == other.Value;
+            return !(other is null) && Value == other.Value;
         }
 
         /// <summary>
@@ -156,13 +155,13 @@ namespace WodiLib.Cmn
             EventCommandSentenceType sentenceType, VariableAddressValueType valueType,
             EventCommandSentenceResolveDesc desc)
         {
-            if (resolver == null)
+            if (resolver is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(resolver)));
-            if (sentenceType == null)
+            if (sentenceType is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(sentenceType)));
-            if (valueType == null)
+            if (valueType is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(valueType)));
 
@@ -209,8 +208,15 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        /// <exception cref="InvalidCastException">
+        ///     src が null の場合
+        /// </exception>
         public static implicit operator int(VariableAddress src)
         {
+            if (src is null)
+                throw new InvalidCastException(
+                    ErrorMessage.InvalidCastFromNull(nameof(src), nameof(ChangeableDatabaseAddress)));
+
             return src.Value;
         }
 
@@ -225,8 +231,18 @@ namespace WodiLib.Cmn
         /// <param name="right">左辺</param>
         /// <returns>アドレス値の差</returns>
         /// <exception cref="InvalidOperationException">減算後の値がアドレス値値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">
+        ///    left, right が null の場合
+        /// </exception>
         public static int operator -(VariableAddress left, VariableAddress right)
         {
+            if (left is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("左オペランド"));
+            if (right is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("右オペランド"));
+
             return left.Value - right.Value;
         }
 
@@ -236,9 +252,16 @@ namespace WodiLib.Cmn
         /// <param name="src">変数アドレス</param>
         /// <param name="value">加算値</param>
         /// <returns>加算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">加算後の値がアドレス値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     left が null の場合、または
+        ///     加算後の値がアドレス値として不適切な場合
+        /// </exception>
         public static VariableAddress operator +(VariableAddress src, int value)
         {
+            if (src is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("左オペランド"));
+
             try
             {
                 return src.Value + value;
@@ -256,9 +279,16 @@ namespace WodiLib.Cmn
         /// <param name="src">変数アドレス</param>
         /// <param name="value">減算値</param>
         /// <returns>減算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">減算後の値がアドレス値値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     left が null の場合、または
+        ///     減算後の値がアドレス値値として不適切な場合
+        /// </exception>
         public static VariableAddress operator -(VariableAddress src, int value)
         {
+            if (src is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("左オペランド"));
+
             try
             {
                 return src.Value - value;

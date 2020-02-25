@@ -69,7 +69,7 @@ namespace WodiLib.Cmn
         /// </remarks>
         public bool CheckTypeInclude(VariableAddressValueType target)
         {
-            if (target == null) return false;
+            if (target is null) return false;
             return (TypeFlag & target.TypeFlag) != 0;
         }
     }

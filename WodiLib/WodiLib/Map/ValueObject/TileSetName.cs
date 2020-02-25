@@ -37,7 +37,7 @@ namespace WodiLib.Map
         /// <exception cref="ArgumentNewLineException">valueが改行を含む場合</exception>
         public TileSetName(string value)
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(value)));
             if (value.HasNewLine())
@@ -55,7 +55,7 @@ namespace WodiLib.Map
         /// string に変換する。
         /// </summary>
         /// <returns>string値</returns>
-        public override string ToString() => this;
+        public override string ToString() => Value;
 
         /// <summary>
         /// ウディタ文字列のbyte配列に変換する。
@@ -74,7 +74,7 @@ namespace WodiLib.Map
         /// <returns>一致する場合、true</returns>
         public bool Equals(TileSetName other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
             return Value.Equals(other.Value);
         }
 
@@ -85,7 +85,7 @@ namespace WodiLib.Map
         /// <returns>一致する場合、true</returns>
         public bool Equals(string other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
             return Value.Equals(other);
         }
 
@@ -100,6 +100,7 @@ namespace WodiLib.Map
         /// <returns>変換したインスタンス</returns>
         public static implicit operator TileSetName(string src)
         {
+            if (src is null) return null;
             var result = new TileSetName(src);
             return result;
         }
@@ -128,7 +129,7 @@ namespace WodiLib.Map
         {
             if (ReferenceEquals(left, right)) return true;
 
-            if ((object) left == null || (object) right == null) return false;
+            if (left is null || right is null) return false;
 
             return left.Value == right.Value;
         }

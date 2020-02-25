@@ -46,13 +46,13 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">fileNameが空文字の場合</exception>
         private static CommonEventDatFileWriter BuildFileWriter(string fileName, CommonEventData data)
         {
-            if (fileName == null)
+            if (fileName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(fileName)));
             if (fileName.IsEmpty())
                 throw new ArgumentException(
                     ErrorMessage.NotEmpty(nameof(fileName)));
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 
@@ -69,7 +69,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">fileNameが空文字の場合</exception>
         private static CommonEventDatFileReader BuildFileReader(string fileName)
         {
-            if (fileName == null)
+            if (fileName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(fileName)));
             if (fileName.IsEmpty())
@@ -91,7 +91,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         public CommonEventDatFile(CommonEventDatFilePath filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
             if (((string) filePath).IsEmpty())
@@ -112,7 +112,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">data がnullの場合</exception>
         public void WriteSync(CommonEventData data)
         {
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 
@@ -130,7 +130,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">data がnullの場合</exception>
         public async Task WriteAsync(CommonEventData data)
         {
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 

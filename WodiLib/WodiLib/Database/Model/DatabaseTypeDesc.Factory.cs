@@ -36,7 +36,7 @@ namespace WodiLib.Database
             /// <exception cref="ArgumentNullException">dataNameList, itemSettingList が null の場合</exception>
             public static DatabaseTypeDesc CreateForDBTypeSet(DBItemSettingList itemSettingList)
             {
-                if (itemSettingList == null)
+                if (itemSettingList is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(itemSettingList)));
 
@@ -68,11 +68,11 @@ namespace WodiLib.Database
             {
                 var result = new DatabaseTypeDesc(BaseListType.DBType);
 
-                if (dataDescList == null)
+                if (dataDescList is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(dataDescList)));
 
-                if (itemDescList == null)
+                if (itemDescList is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(itemDescList)));
 
@@ -99,7 +99,7 @@ namespace WodiLib.Database
             /// <exception cref="ArgumentNullException">dataDescList が null の場合</exception>
             public static DatabaseTypeDesc CreateForDBData(DatabaseDataDescList dataDescList)
             {
-                if (dataDescList == null)
+                if (dataDescList is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(dataDescList)));
 

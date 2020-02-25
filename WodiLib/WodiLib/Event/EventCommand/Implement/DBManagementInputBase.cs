@@ -54,7 +54,7 @@ namespace WodiLib.Event.EventCommand
             get => _IsTypeIdUseStr ? (IntOrStr) _DBTypeId.ToStr() : _DBTypeId.ToInt();
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBTypeId)));
                 if (value.InstanceIntOrStrType == IntOrStrType.None)
@@ -71,7 +71,7 @@ namespace WodiLib.Event.EventCommand
             get => _IsDataIdUseStr ? (IntOrStr) _DBDataId.ToStr() : _DBDataId.ToInt();
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBDataId)));
                 if (value.InstanceIntOrStrType == IntOrStrType.None)
@@ -88,7 +88,7 @@ namespace WodiLib.Event.EventCommand
             get => _IsItemIdUseStr ? (IntOrStr) _DBItemId.ToStr() : _DBItemId.ToInt();
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBItemId)));
                 if (value.InstanceIntOrStrType == IntOrStrType.None)
@@ -159,7 +159,7 @@ namespace WodiLib.Event.EventCommand
             }
 
             // タイプIDが変数アドレス値の場合、データ名に"×NoData"を表示させるための措置
-            var correctTypeId = typeId == null
+            var correctTypeId = typeId is null
                 ? null
                 : typeId.Value.IsVariableAddressSimpleCheck()
                     ? TypeId.MaxValue + 1

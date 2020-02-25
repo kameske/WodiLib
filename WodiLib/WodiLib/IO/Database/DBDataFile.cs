@@ -45,11 +45,11 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">filePath, data がnullの場合</exception>
         private static DBDataFileWriter BuildFileWriter(DBDataFilePath fileName, DBData data)
         {
-            if (fileName == null)
+            if (fileName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(fileName)));
 
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 
@@ -65,7 +65,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">fileNameがnullの場合</exception>
         private static DBDataFileReader BuildFileReader(DBDataFilePath fileName)
         {
-            if (fileName == null)
+            if (fileName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(fileName)));
 
@@ -84,7 +84,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">fileNameがnullの場合</exception>
         public DBDataFile(DBDataFilePath fileName)
         {
-            if (fileName == null)
+            if (fileName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(fileName)));
 
@@ -102,7 +102,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">data がnullの場合</exception>
         public void WriteSync(DBData data)
         {
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 
@@ -120,7 +120,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">data がnullの場合</exception>
         public async Task WriteAsync(DBData data)
         {
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 

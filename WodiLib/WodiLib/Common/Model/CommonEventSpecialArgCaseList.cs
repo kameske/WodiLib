@@ -48,7 +48,8 @@ namespace WodiLib.Common
         /// <param name="list">[NotNull] 初期リスト</param>
         /// <exception cref="ArgumentNullException">listがnullの場合</exception>
         /// <exception cref="InvalidOperationException">listの要素数がMaxLengthを超える場合</exception>
-        public CommonEventSpecialArgCaseList(IReadOnlyCollection<CommonEventSpecialArgCase> list) : base(list)
+        public CommonEventSpecialArgCaseList(
+            IReadOnlyCollection<CommonEventSpecialArgCase> list) : base(list)
         {
         }
 
@@ -95,7 +96,7 @@ namespace WodiLib.Common
         public string GetDescriptionForCaseNumber(int caseNumber)
         {
             var info = GetForCaseNumber(caseNumber);
-            if (info == null) return null;
+            if (info is null) return null;
             return GetForCaseNumber(caseNumber).Description;
         }
 

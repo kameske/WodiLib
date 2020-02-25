@@ -252,6 +252,10 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
             EventCommandSentenceResolveDesc desc)
         {
+            if (desc is null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(desc)));
+
             var forkStrList = ConditionList.Select((x, idx) =>
             {
                 var leftVarName = resolver.GetStringVariableAddressString(x.LeftSide, type, desc);

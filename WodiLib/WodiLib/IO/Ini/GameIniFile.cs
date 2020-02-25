@@ -46,10 +46,10 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">filePathが空文字の場合</exception>
         private static GameIniFileWriter BuildGameIniFileWriter(string filePath, GameIniData editorIniData)
         {
-            if (editorIniData == null)
+            if (editorIniData is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(editorIniData)));
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
             if (filePath.IsEmpty())
@@ -69,7 +69,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">filePathが空文字の場合</exception>
         private static GameIniFileReader BuildEditorFileReader(string filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
             if (filePath.IsEmpty())
@@ -91,7 +91,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         public GameIniFile(GameIniFilePath filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 
@@ -109,7 +109,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">tileSetFileData がnullの場合</exception>
         public void WriteSync(GameIniData tileSetFileData)
         {
-            if (tileSetFileData == null)
+            if (tileSetFileData is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(tileSetFileData)));
 
@@ -127,7 +127,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">tileSetFileData がnullの場合</exception>
         public async Task WriteAsync(GameIniData tileSetFileData)
         {
-            if (tileSetFileData == null)
+            if (tileSetFileData is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(tileSetFileData)));
 

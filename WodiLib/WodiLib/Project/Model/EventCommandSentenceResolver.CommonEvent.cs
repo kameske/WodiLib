@@ -121,7 +121,7 @@ namespace WodiLib.Project
 
             // 該当コモンイベントが存在しないときは値をそのまま表示
             var target = Master.CommonEventList.FirstOrDefault(x => x.Id == id);
-            if (target == null) return value.ToString();
+            if (target is null) return value.ToString();
 
             // 該当引数が設定されていないときは値をそのまま表示
             if (intArgIndex >= target.NumberArgsLength) return value.ToString();
@@ -137,7 +137,7 @@ namespace WodiLib.Project
                     var targetCase = argDesc.GetAllSpecialCase()
                         .FirstOrDefault(x => x.CaseNumber == value);
 
-                    return targetCase == null
+                    return targetCase is null
                         ? value.ToString()
                         : $"{value.ToString()}:{targetCase.Description}";
                 }
@@ -158,7 +158,7 @@ namespace WodiLib.Project
                 var targetCase = argDesc.GetAllSpecialCase()
                     .LastOrDefault(x => x.CaseNumber == value);
 
-                return targetCase == null
+                return targetCase is null
                     ? value.ToString()
                     : $"{value.ToString()}:{targetCase.Description}";
             }
@@ -190,7 +190,7 @@ namespace WodiLib.Project
             switch (type)
             {
                 case EventCommandSentenceType t when t == EventCommandSentenceType.Common:
-                    if (thisCommonEventId == null) throw new InvalidOperationException();
+                    if (thisCommonEventId is null) throw new InvalidOperationException();
 
                     targetId = thisCommonEventId.Value + difference;
                     break;

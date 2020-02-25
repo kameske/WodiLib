@@ -73,7 +73,7 @@ namespace WodiLib.Map
         /// <exception cref="ArgumentException">縦幅が異なる列データが存在する場合</exception>
         public MapChipList(IReadOnlyList<IReadOnlyList<MapChip>> mapChipList)
         {
-            if (mapChipList == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(mapChipList)));
+            if (mapChipList is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(mapChipList)));
 
             var width = mapChipList.Count;
             if (width < MapSizeWidth.MinValue || MapSizeWidth.MaxValue < width)

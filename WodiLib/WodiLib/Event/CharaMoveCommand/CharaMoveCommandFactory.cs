@@ -24,7 +24,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <exception cref="ArgumentNullException">codeがnullの場合</exception>
         public static ICharaMoveCommand CreateRaw(CharaMoveCommandCode code)
         {
-            if (code == null)
+            if (code is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(code)));
 

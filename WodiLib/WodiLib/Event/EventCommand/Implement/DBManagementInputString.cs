@@ -38,7 +38,7 @@ namespace WodiLib.Event.EventCommand
             get => DBStringAssignmentOperator.FromByte((byte) (NumberAssignOperationCode + LeftSideCode));
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBStringAssignmentOperator)));
                 NumberAssignOperationCode = (byte) (value.Code & 0xF0);
@@ -54,7 +54,7 @@ namespace WodiLib.Event.EventCommand
             get => rightSide;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(RightSide)));
                 rightSide = value;

@@ -62,7 +62,7 @@ namespace WodiLib.Map
         /// <exception cref="ArgumentOutOfRangeException">chips の要素数が指定範囲外の場合</exception>
         public MapChipColumns(IReadOnlyList<MapChip> chips)
         {
-            if (chips == null)
+            if (chips is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(chips)));
             if (chips.HasNullItem())

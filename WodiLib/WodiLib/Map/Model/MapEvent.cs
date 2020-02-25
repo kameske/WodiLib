@@ -36,7 +36,7 @@ namespace WodiLib.Map
             get => eventName;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(EventName)));
                 eventName = value;
@@ -62,7 +62,7 @@ namespace WodiLib.Map
             get => mapEventPageList;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(MapEventPageList)));
                 mapEventPageList = value;

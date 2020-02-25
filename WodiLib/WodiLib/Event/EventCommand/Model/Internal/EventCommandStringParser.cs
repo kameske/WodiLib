@@ -98,7 +98,7 @@ namespace WodiLib.Event.EventCommand
         /// <exception cref="ArgumentException">eventCodeString が空文字の場合</exception>
         public EventCommandStringParser(string eventCodeString)
         {
-            if (eventCodeString == null)
+            if (eventCodeString is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(eventCodeString)));
             if (eventCodeString.IsEmpty())

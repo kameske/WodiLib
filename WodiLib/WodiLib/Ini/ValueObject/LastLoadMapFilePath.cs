@@ -36,7 +36,7 @@ namespace WodiLib.Ini
         /// <exception cref="ArgumentNewLineException">valueが改行を含む場合</exception>
         public LastLoadMapFilePath(string value)
         {
-            if (value == null)
+            if (value is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(value)));
             if (value.HasNewLine())
@@ -82,7 +82,7 @@ namespace WodiLib.Ini
         /// <returns>一致する場合、true</returns>
         public bool Equals(LastLoadMapFilePath other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
             return Value.Equals(other.Value);
         }
 
@@ -97,6 +97,7 @@ namespace WodiLib.Ini
         /// <returns>変換したインスタンス</returns>
         public static implicit operator LastLoadMapFilePath(string src)
         {
+            if (src is null) return null;
             var result = new LastLoadMapFilePath(src);
             return result;
         }
@@ -125,7 +126,7 @@ namespace WodiLib.Ini
         {
             if (ReferenceEquals(left, right)) return true;
 
-            if ((object) left == null || (object) right == null) return false;
+            if (left is null || right is null) return false;
 
             return left.Equals(right);
         }

@@ -67,7 +67,7 @@ namespace WodiLib.Map
         /// </summary>
         public void OutputVersionWarningLogIfNeed()
         {
-            if (SupportVersion == null) return;
+            if (SupportVersion is null) return;
 
             if (VersionConfig.IsUnderVersion(SupportVersion))
             {
@@ -87,7 +87,7 @@ namespace WodiLib.Map
         {
             var searchedWithoutCodeZero =
                 _FindAll().Where(x => x.Code != 0).FirstOrDefault(x => (x.Code & code) == x.Code);
-            if (searchedWithoutCodeZero != null) return searchedWithoutCodeZero;
+            if (!(searchedWithoutCodeZero is null)) return searchedWithoutCodeZero;
 
             return _FindAll().First(x => x.Code == 0);
         }

@@ -110,7 +110,7 @@ namespace WodiLib.Cmn
         /// <returns>一致する場合、true</returns>
         public bool Equals(SystemVariableAddress other)
         {
-            return other != null && Value == other.Value;
+            return !(other is null) && Value == other.Value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -154,8 +154,15 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        /// <exception cref="InvalidCastException">
+        ///     src が null の場合
+        /// </exception>
         public static implicit operator int(SystemVariableAddress src)
         {
+            if (src is null)
+                throw new InvalidCastException(
+                    ErrorMessage.InvalidCastFromNull(nameof(src), nameof(SystemVariableAddress)));
+
             return src.Value;
         }
 
@@ -171,9 +178,16 @@ namespace WodiLib.Cmn
         /// <param name="src">変数アドレス</param>
         /// <param name="value">加算値</param>
         /// <returns>加算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">加算後の値がシステム変数アドレス値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     left が null の場合、または
+        ///     加算後の値がシステム変数アドレス値として不適切な場合
+        /// </exception>
         public static SystemVariableAddress operator +(SystemVariableAddress src, int value)
         {
+            if (src is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("左オペランド"));
+
             try
             {
                 return new SystemVariableAddress(src.Value + value);
@@ -191,9 +205,16 @@ namespace WodiLib.Cmn
         /// <param name="src">変数アドレス</param>
         /// <param name="value">減算値</param>
         /// <returns>減算後のインスタンス</returns>
-        /// <exception cref="InvalidOperationException">減算後の値がシステム変数アドレス値値として不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">
+        ///     left が null の場合、または
+        ///     減算後の値がシステム変数アドレス値として不適切な場合
+        /// </exception>
         public static SystemVariableAddress operator -(SystemVariableAddress src, int value)
         {
+            if (src is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("左オペランド"));
+
             try
             {
                 return new SystemVariableAddress(src.Value - value);
@@ -217,6 +238,13 @@ namespace WodiLib.Cmn
         /// <returns>アドレス値の差</returns>
         public static int operator -(SystemVariableAddress left, VariableAddress right)
         {
+            if (left is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("左オペランド"));
+            if (right is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("右オペランド"));
+
             return left.Value - right;
         }
 
@@ -258,6 +286,13 @@ namespace WodiLib.Cmn
         /// <returns>システム変数アドレス値の差</returns>
         public static int operator -(SystemVariableAddress left, SystemVariableAddress right)
         {
+            if (left is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("左オペランド"));
+            if (right is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull("右オペランド"));
+
             return left.Value - right.Value;
         }
 

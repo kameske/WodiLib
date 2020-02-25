@@ -51,7 +51,7 @@ namespace WodiLib.Map
         /// <exception cref="ArgumentNullException">eventsがnullの場合</exception>
         public MapEventList(IReadOnlyList<MapEvent> events) : base(events)
         {
-            if (events == null)
+            if (events is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(events)));
 
@@ -102,7 +102,7 @@ namespace WodiLib.Map
         public MapEventPageList GetEventPageList(MapEventId mapEventId)
         {
             var targetEvent = GetMapEvent(mapEventId);
-            if (targetEvent == null)
+            if (targetEvent is null)
                 throw new ArgumentException(
                     ErrorMessage.NotFound($"ID={mapEventId}のマップイベント"));
 
@@ -120,7 +120,7 @@ namespace WodiLib.Map
         public MapEventPage GetMapEventPage(MapEventId mapEventId, MapEventPageIndex pageIndex)
         {
             var targetEvent = GetMapEvent(mapEventId);
-            if (targetEvent == null)
+            if (targetEvent is null)
                 throw new ArgumentException(
                     ErrorMessage.NotFound($"ID={mapEventId}のマップイベント"));
 
@@ -199,7 +199,7 @@ namespace WodiLib.Map
         public bool ContainsEventId(MapEventId mapEventId)
         {
             var searchEvent = Items.FirstOrDefault(x => x.MapEventId == mapEventId);
-            return searchEvent != null;
+            return !(searchEvent is null);
         }
 
         /// <summary>

@@ -172,7 +172,7 @@ namespace WodiLib.Event.EventCommand
             get => shakeType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ShakeType)));
                 shakeType = value;
@@ -186,7 +186,7 @@ namespace WodiLib.Event.EventCommand
             get => power;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Power)));
                 power = value;
@@ -200,7 +200,7 @@ namespace WodiLib.Event.EventCommand
             get => speed;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Speed)));
                 speed = value;

@@ -71,7 +71,7 @@ namespace WodiLib.Map
         /// <inheritdoc/>
         protected override bool ChildEquals(ITilePathSetting other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
             if (!(other is TilePathSettingDeny casted)) return false;
             return Equals(casted);
         }

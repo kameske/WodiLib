@@ -87,7 +87,7 @@ namespace WodiLib.Ini
             get => this[IndexMessage];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Message)));
                 this[IndexMessage] = value;
@@ -103,7 +103,7 @@ namespace WodiLib.Ini
             get => this[IndexChoice];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Choice)));
                 this[IndexChoice] = value;
@@ -119,7 +119,7 @@ namespace WodiLib.Ini
             get => this[IndexSetVariable];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(SetVariable)));
                 this[IndexSetVariable] = value;
@@ -135,7 +135,7 @@ namespace WodiLib.Ini
             get => this[IndexDbManagement];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBManagement)));
                 this[IndexDbManagement] = value;
@@ -151,7 +151,7 @@ namespace WodiLib.Ini
             get => this[IndexSetString];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(SetString)));
                 this[IndexSetString] = value;
@@ -167,7 +167,7 @@ namespace WodiLib.Ini
             get => this[IndexSetVariablePlus];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(SetVariablePlus)));
                 this[IndexSetVariablePlus] = value;
@@ -183,7 +183,7 @@ namespace WodiLib.Ini
             get => this[IndexConditionNumber];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ConditionNumber)));
                 this[IndexConditionNumber] = value;
@@ -199,7 +199,7 @@ namespace WodiLib.Ini
             get => this[IndexConditionString];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ConditionString)));
                 this[IndexConditionString] = value;
@@ -215,7 +215,7 @@ namespace WodiLib.Ini
             get => this[IndexKeyInput];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(KeyInput)));
                 this[IndexKeyInput] = value;
@@ -231,7 +231,7 @@ namespace WodiLib.Ini
             get => this[IndexPicture];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Picture)));
                 this[IndexPicture] = value;
@@ -247,7 +247,7 @@ namespace WodiLib.Ini
             get => this[IndexEffect];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Effect)));
                 this[IndexEffect] = value;
@@ -263,7 +263,7 @@ namespace WodiLib.Ini
             get => this[IndexSound];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Sound)));
                 this[IndexSound] = value;
@@ -279,7 +279,7 @@ namespace WodiLib.Ini
             get => this[IndexSaveAndLoad];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(SaveAndLoad)));
                 this[IndexSaveAndLoad] = value;
@@ -295,7 +295,7 @@ namespace WodiLib.Ini
             get => this[IndexPartyGraphic];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(PartyGraphic)));
                 this[IndexPartyGraphic] = value;
@@ -311,7 +311,7 @@ namespace WodiLib.Ini
             get => this[IndexMapChip];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MapChip)));
                 this[IndexMapChip] = value;
@@ -327,7 +327,7 @@ namespace WodiLib.Ini
             get => this[IndexTransfer];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Transfer)));
                 this[IndexTransfer] = value;
@@ -343,7 +343,7 @@ namespace WodiLib.Ini
             get => this[IndexEventControl];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(EventControl)));
                 this[IndexEventControl] = value;
@@ -359,7 +359,7 @@ namespace WodiLib.Ini
             get => this[IndexCommonEvent];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(CommonEvent)));
                 this[IndexCommonEvent] = value;
@@ -375,7 +375,7 @@ namespace WodiLib.Ini
             get => this[IndexDownload];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Download)));
                 this[IndexDownload] = value;

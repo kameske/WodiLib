@@ -46,10 +46,10 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">filePathが空文字の場合</exception>
         private static MpsFileWriter BuildMpsFileWriter(string filePath, MapData mapData)
         {
-            if (mapData == null)
+            if (mapData is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(mapData)));
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
             if (filePath.IsEmpty())
@@ -69,7 +69,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentException">filePathが空文字の場合</exception>
         private static MpsFileReader BuildMpsFileReader(string filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
             if (filePath.IsEmpty())
@@ -91,7 +91,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         public MpsFile(MpsFilePath filePath)
         {
-            if (filePath == null)
+            if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 
@@ -109,7 +109,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">mapData がnullの場合</exception>
         public void WriteSync(MapData mapData)
         {
-            if (mapData == null)
+            if (mapData is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(mapData)));
 
@@ -127,7 +127,7 @@ namespace WodiLib.IO
         /// <exception cref="ArgumentNullException">mapData がnullの場合</exception>
         public async Task WriteAsync(MapData mapData)
         {
-            if (mapData == null)
+            if (mapData is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(mapData)));
 

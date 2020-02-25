@@ -41,7 +41,7 @@ namespace WodiLib.Database
             get => folderName;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(FolderName));
 
@@ -73,7 +73,7 @@ namespace WodiLib.Database
         /// </exception>
         public DBItemSettingDescLoadFile(DatabaseValueCase infoSet = null)
         {
-            if (infoSet == null)
+            if (infoSet is null)
             {
                 FolderName = "";
                 OmissionFolderNameFlag = false;
@@ -136,7 +136,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">folderNameがnullの場合</exception>
         public override void UpdateDefaultFolder(DBSettingFolderName folderName)
         {
-            if (folderName == null)
+            if (folderName is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(folderName)));
 
@@ -161,7 +161,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         public override bool CanSetItemType(DBItemType type)
         {
-            if (type == null)
+            if (type is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 

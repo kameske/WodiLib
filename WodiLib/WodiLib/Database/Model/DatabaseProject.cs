@@ -38,7 +38,7 @@ namespace WodiLib.Database
             get => typeSettingList;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(TypeSettingList)));
                 typeSettingList = value;
@@ -49,7 +49,7 @@ namespace WodiLib.Database
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private bool HasDbKind => DBKind != null;
+        private bool HasDbKind => !(DBKind is null);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor

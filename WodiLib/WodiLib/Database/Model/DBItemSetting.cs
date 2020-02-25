@@ -34,7 +34,7 @@ namespace WodiLib.Database
             get => itemName;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ItemName)));
 
@@ -53,7 +53,7 @@ namespace WodiLib.Database
             get => specialSettingDesc;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(SpecialSettingDesc)));
 
@@ -77,7 +77,7 @@ namespace WodiLib.Database
             get => itemType;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ItemType)));
 

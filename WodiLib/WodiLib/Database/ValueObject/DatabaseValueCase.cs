@@ -45,7 +45,7 @@ namespace WodiLib.Database
         public DatabaseValueCase(DatabaseValueCaseNumber caseNumber,
             DatabaseValueCaseDescription description)
         {
-            if (description == null)
+            if (description is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(description)));
 
@@ -74,7 +74,7 @@ namespace WodiLib.Database
         {
             unchecked
             {
-                return (CaseNumber * 397) ^ (Description != null ? Description.GetHashCode() : 0);
+                return (CaseNumber * 397) ^ (!(Description is null) ? Description.GetHashCode() : 0);
             }
         }
 
@@ -105,6 +105,7 @@ namespace WodiLib.Database
         /// <returns>変換した値</returns>
         public static implicit operator DatabaseValueCase(Tuple<int, string> tuple)
         {
+            if (tuple is null) return null;
             return new DatabaseValueCase(tuple.Item1, tuple.Item2);
         }
 
@@ -125,6 +126,7 @@ namespace WodiLib.Database
         /// <returns>変換した値</returns>
         public static implicit operator Tuple<int, string>(DatabaseValueCase src)
         {
+            if (src == null) return null;
             return new Tuple<int, string>(src.CaseNumber, src.Description);
         }
 

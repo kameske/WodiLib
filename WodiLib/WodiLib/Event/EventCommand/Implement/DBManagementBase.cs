@@ -207,7 +207,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public sealed override void SetSafetyStringVariable(int index, string value)
         {
-            if (value == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
+            if (value is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
             switch (index)
             {
                 case 0: // 代入文字列またはCSVファイル名
@@ -258,7 +258,7 @@ namespace WodiLib.Event.EventCommand
             get => dbKind;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(_DBKind)));
                 dbKind = value;
@@ -272,7 +272,7 @@ namespace WodiLib.Event.EventCommand
             get => dbTypeId;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(_DBTypeId)));
                 if (value.InstanceIntOrStrType == IntOrStrType.None)
@@ -289,7 +289,7 @@ namespace WodiLib.Event.EventCommand
             get => dbDataId;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(_DBDataId)));
                 if (value.InstanceIntOrStrType == IntOrStrType.None)
@@ -306,7 +306,7 @@ namespace WodiLib.Event.EventCommand
             get => dbItemId;
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(_DBItemId)));
                 if (value.InstanceIntOrStrType == IntOrStrType.None)
@@ -345,7 +345,7 @@ namespace WodiLib.Event.EventCommand
             get => _StrValue;
             set
             {
-                if (value == null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(StrValue)));
+                if (value is null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(StrValue)));
                 _StrValue = value;
                 IsSetStringArg = true;
             }

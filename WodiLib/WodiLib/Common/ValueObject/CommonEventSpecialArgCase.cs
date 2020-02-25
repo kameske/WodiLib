@@ -57,7 +57,7 @@ namespace WodiLib.Common
             if (caseNumber < CaseNumberMinValue || CaseNumberMaxValue < caseNumber)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(caseNumber), CaseNumberMinValue, CaseNumberMaxValue, caseNumber));
-            if (description == null)
+            if (description is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(description)));
             if (description.HasNewLine())
@@ -89,7 +89,7 @@ namespace WodiLib.Common
         {
             unchecked
             {
-                return (CaseNumber * 397) ^ (Description != null ? Description.GetHashCode() : 0);
+                return (CaseNumber * 397) ^ (!(Description is null) ? Description.GetHashCode() : 0);
             }
         }
 
@@ -120,6 +120,7 @@ namespace WodiLib.Common
         /// <returns>変換した値</returns>
         public static implicit operator CommonEventSpecialArgCase(Tuple<int, string> tuple)
         {
+            if (tuple is null) return null;
             return new CommonEventSpecialArgCase(tuple.Item1, tuple.Item2);
         }
 
@@ -140,6 +141,7 @@ namespace WodiLib.Common
         /// <returns>変換した値</returns>
         public static implicit operator Tuple<int, string>(CommonEventSpecialArgCase src)
         {
+            if (src is null) return null;
             return new Tuple<int, string>(src.CaseNumber, src.Description);
         }
 
@@ -148,8 +150,15 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
+        /// <exception cref="InvalidCastException">
+        ///     src が null の場合
+        /// </exception>
         public static implicit operator ValueTuple<int, string>(CommonEventSpecialArgCase src)
         {
+            if (src == null)
+                throw new InvalidCastException(
+                    ErrorMessage.InvalidCastFromNull(nameof(src), nameof(ValueTuple<int, string>)));
+
             return (src.CaseNumber, src.Description);
         }
 
