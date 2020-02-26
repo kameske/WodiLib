@@ -15,7 +15,7 @@ namespace WodiLib.Cmn
     /// [Range(0, 99999)] 予備変数インデックス
     /// </summary>
     [Serializable]
-    public struct SpareNumberVariableIndex : IConvertibleInt, IEquatable<SpareNumberVariableIndex>
+    public readonly struct SpareNumberVariableIndex : IConvertibleInt, IEquatable<SpareNumberVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

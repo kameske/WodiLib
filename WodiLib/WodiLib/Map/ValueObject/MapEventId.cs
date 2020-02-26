@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// [Range(-1, 9999)] マップイベントID
     /// </summary>
     [Serializable]
-    public struct MapEventId : IConvertibleInt, IEquatable<MapEventId>, IComparable<MapEventId>
+    public readonly struct MapEventId : IConvertibleInt, IEquatable<MapEventId>, IComparable<MapEventId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

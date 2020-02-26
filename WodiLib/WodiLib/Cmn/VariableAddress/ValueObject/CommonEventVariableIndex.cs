@@ -15,7 +15,7 @@ namespace WodiLib.Cmn
     /// [Range(0, 99)] コモンイベントセルフ変数インデックス
     /// </summary>
     [Serializable]
-    public struct CommonEventVariableIndex : IConvertibleInt, IEquatable<CommonEventVariableIndex>
+    public readonly struct CommonEventVariableIndex : IConvertibleInt, IEquatable<CommonEventVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

@@ -15,7 +15,7 @@ namespace WodiLib.Cmn
     /// [Range(0, 9)] マップイベントセルフ変数インデックス
     /// </summary>
     [Serializable]
-    public struct MapEventVariableIndex : IConvertibleInt, IEquatable<MapEventVariableIndex>
+    public readonly struct MapEventVariableIndex : IConvertibleInt, IEquatable<MapEventVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

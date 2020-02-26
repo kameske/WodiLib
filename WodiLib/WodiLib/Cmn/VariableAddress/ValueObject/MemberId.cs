@@ -15,7 +15,7 @@ namespace WodiLib.Cmn
     /// [Range(1, 5)] 仲間ID
     /// </summary>
     [Serializable]
-    public struct MemberId : IConvertibleInt, IEquatable<MemberId>
+    public readonly struct MemberId : IConvertibleInt, IEquatable<MemberId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// [Range(0, 99)] タイルタグ番号
     /// </summary>
     [Serializable]
-    public struct TileTagNumber : IConvertibleInt, IEquatable<TileTagNumber>
+    public readonly struct TileTagNumber : IConvertibleInt, IEquatable<TileTagNumber>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

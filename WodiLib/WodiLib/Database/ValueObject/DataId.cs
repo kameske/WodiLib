@@ -16,7 +16,7 @@ namespace WodiLib.Database
     /// [Range(0, 9999)] DBデータID
     /// </summary>
     [Serializable]
-    public struct DataId : IConvertibleInt, IEquatable<DataId>
+    public readonly struct DataId : IConvertibleInt, IEquatable<DataId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

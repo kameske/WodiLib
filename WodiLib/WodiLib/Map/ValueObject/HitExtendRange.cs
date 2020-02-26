@@ -18,7 +18,7 @@ namespace WodiLib.Map
     ///     接触範囲拡張
     /// </summary>
     [Serializable]
-    public struct HitExtendRange : IEquatable<HitExtendRange>
+    public readonly struct HitExtendRange : IEquatable<HitExtendRange>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

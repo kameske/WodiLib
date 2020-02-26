@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// マップツリーノード
     /// </summary>
     [Serializable]
-    public struct MapTreeNode : IEquatable<MapTreeNode>
+    public readonly struct MapTreeNode : IEquatable<MapTreeNode>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property

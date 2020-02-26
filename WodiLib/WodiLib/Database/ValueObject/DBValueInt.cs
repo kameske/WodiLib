@@ -19,7 +19,7 @@ namespace WodiLib.Database
     ///     DB設定数値
     /// </summary>
     [Serializable]
-    public struct DBValueInt : IConvertibleInt, IEquatable<DBValueInt>
+    public readonly struct DBValueInt : IConvertibleInt, IEquatable<DBValueInt>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

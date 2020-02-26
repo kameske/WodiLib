@@ -16,7 +16,7 @@ namespace WodiLib.Common
     /// [Range(0, 9999)] コモンイベントID
     /// </summary>
     [Serializable]
-    public struct CommonEventId : IConvertibleInt, IEquatable<CommonEventId>
+    public readonly struct CommonEventId : IConvertibleInt, IEquatable<CommonEventId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

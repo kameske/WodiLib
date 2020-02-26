@@ -16,7 +16,7 @@ namespace WodiLib.Cmn
     /// [Range(-999999, 999999)] 条件右辺
     /// </summary>
     [Serializable]
-    public struct ConditionRight : IConvertibleInt, IEquatable<ConditionRight>
+    public readonly struct ConditionRight : IConvertibleInt, IEquatable<ConditionRight>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

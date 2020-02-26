@@ -16,7 +16,7 @@ namespace WodiLib.Database
     /// <summary>[Range(0, 99)] DB設定種別順列</summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Serializable]
-    public struct DBSettingTypePermutation : IConvertibleInt, IEquatable<DBSettingTypePermutation>
+    public readonly struct DBSettingTypePermutation : IConvertibleInt, IEquatable<DBSettingTypePermutation>
     {
         /*
          * 現時点では未使用なオブジェクト

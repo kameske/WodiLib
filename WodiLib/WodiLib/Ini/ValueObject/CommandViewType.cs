@@ -15,7 +15,7 @@ namespace WodiLib.Ini
     /// [Range(int.MinValue, int.MaxValue)] CommandViewType
     /// </summary>
     [Serializable]
-    public struct CommandViewType : IConvertibleInt, IEquatable<CommandViewType>
+    public readonly struct CommandViewType : IConvertibleInt, IEquatable<CommandViewType>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

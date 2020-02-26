@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// [Range(0, 9999)] タイルID
     /// </summary>
     [Serializable]
-    public struct TileId : IConvertibleInt, IEquatable<TileId>
+    public readonly struct TileId : IConvertibleInt, IEquatable<TileId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

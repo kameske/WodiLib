@@ -16,7 +16,7 @@ namespace WodiLib.Map
     ///     [Range(0, 1604444)] マップチップ
     /// </summary>
     [Serializable]
-    public struct MapChip : IConvertibleInt, IEquatable<MapChip>
+    public readonly struct MapChip : IConvertibleInt, IEquatable<MapChip>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

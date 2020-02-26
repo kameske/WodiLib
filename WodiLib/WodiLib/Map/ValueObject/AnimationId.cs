@@ -15,7 +15,7 @@ namespace WodiLib.Map
     /// [Range(0, 4)] アニメーションID
     /// </summary>
     [Serializable]
-    public struct AnimationId : IConvertibleByte, IEquatable<AnimationId>
+    public readonly struct AnimationId : IConvertibleByte, IEquatable<AnimationId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

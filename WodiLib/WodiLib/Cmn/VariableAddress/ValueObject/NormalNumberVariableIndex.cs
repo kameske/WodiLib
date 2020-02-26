@@ -15,7 +15,7 @@ namespace WodiLib.Cmn
     /// [Range(0, 99999)] 通常変数インデックス
     /// </summary>
     [Serializable]
-    public struct NormalNumberVariableIndex : IConvertibleInt, IEquatable<NormalNumberVariableIndex>
+    public readonly struct NormalNumberVariableIndex : IConvertibleInt, IEquatable<NormalNumberVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

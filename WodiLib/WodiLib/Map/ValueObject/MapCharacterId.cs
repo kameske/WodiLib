@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// [Range(int.MinValue, int.MaxValue)] マップキャラクタID
     /// </summary>
     [Serializable]
-    public struct MapCharacterId : IConvertibleInt, IEquatable<MapCharacterId>, IComparable<MapCharacterId>
+    public readonly struct MapCharacterId : IConvertibleInt, IEquatable<MapCharacterId>, IComparable<MapCharacterId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

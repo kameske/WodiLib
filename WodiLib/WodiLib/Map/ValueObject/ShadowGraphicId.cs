@@ -15,7 +15,7 @@ namespace WodiLib.Map
     /// [Range(0, 255)] 影グラフィックID
     /// </summary>
     [Serializable]
-    public struct ShadowGraphicId : IConvertibleByte, IEquatable<ShadowGraphicId>
+    public readonly struct ShadowGraphicId : IConvertibleByte, IEquatable<ShadowGraphicId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

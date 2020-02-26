@@ -19,7 +19,7 @@ namespace WodiLib.Event.CharaMoveCommand
     ///     キャラ動作指定コマンド設定値
     /// </summary>
     [Serializable]
-    public struct CharaMoveCommandValue : IConvertibleInt, IEquatable<CharaMoveCommandValue>
+    public readonly struct CharaMoveCommandValue : IConvertibleInt, IEquatable<CharaMoveCommandValue>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

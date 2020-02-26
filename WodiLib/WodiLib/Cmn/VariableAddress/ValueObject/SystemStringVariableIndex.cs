@@ -15,7 +15,7 @@ namespace WodiLib.Cmn
     /// [Range(0, 99999)] システム文字列変数インデックス
     /// </summary>
     [Serializable]
-    public struct SystemStringVariableIndex : IConvertibleInt, IEquatable<SystemStringVariableIndex>
+    public readonly struct SystemStringVariableIndex : IConvertibleInt, IEquatable<SystemStringVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

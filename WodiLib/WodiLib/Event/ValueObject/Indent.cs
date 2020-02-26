@@ -15,7 +15,7 @@ namespace WodiLib.Event
     /// [Range(-128, 127)] インデント
     /// </summary>
     [Serializable]
-    public struct Indent : IConvertibleSbyte, IEquatable<Indent>
+    public readonly struct Indent : IConvertibleSbyte, IEquatable<Indent>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

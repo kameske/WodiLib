@@ -15,7 +15,7 @@ namespace WodiLib.Cmn
     /// [Range(0, 999999)] ランダム変数ランダム量
     /// </summary>
     [Serializable]
-    public struct RandomVariableValue : IConvertibleInt, IEquatable<RandomVariableValue>
+    public readonly struct RandomVariableValue : IConvertibleInt, IEquatable<RandomVariableValue>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
