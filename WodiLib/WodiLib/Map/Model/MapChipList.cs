@@ -19,7 +19,7 @@ namespace WodiLib.Map
     /// マップチップ配列クラス
     /// </summary>
     [Serializable]
-    public class MapChipList : RestrictedCapacityCollection<IFixedLengthMapChipColumns>
+    public class MapChipList : RestrictedCapacityCollection<MapChipColumns>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -81,7 +81,7 @@ namespace WodiLib.Map
                     ErrorMessage.OutOfRange("mapChipListの要素数", MapSizeWidth.MinValue, MapSizeWidth.MaxValue, width));
             var height = mapChipList.First().Count;
 
-            var chips = new List<IFixedLengthMapChipColumns>();
+            var chips = new List<MapChipColumns>();
 
             var h = 0;
             foreach (var line in mapChipList)
@@ -128,7 +128,7 @@ namespace WodiLib.Map
         /// <param name="height">マップサイズ縦</param>
         public void InitializeChips(int width, int height)
         {
-            var initChips = new List<IFixedLengthMapChipColumns>();
+            var initChips = new List<MapChipColumns>();
             for (var i = 0; i < width; i++)
             {
                 var initChipsLine = new MapChipColumns();
@@ -180,7 +180,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        protected override IFixedLengthMapChipColumns MakeDefaultItem(int index)
+        protected override MapChipColumns MakeDefaultItem(int index)
             => new MapChipColumns(Height);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
