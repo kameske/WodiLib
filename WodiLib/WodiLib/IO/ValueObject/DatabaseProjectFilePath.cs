@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using WodiLib.Cmn;
 using WodiLib.Database;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -52,24 +53,22 @@ namespace WodiLib.IO
         /// <param name="value">[NotNull][NotNewLine] ファイルパス</param>
         /// <exception cref="ArgumentNullException">valueがnullの場合</exception>
         /// <exception cref="ArgumentNewLineException">
-        ///     valueに改行が含まれる場合、
-        ///     または255byteを超える場合
+        ///     valueに改行が含まれる場合
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     valueがファイルパスとして不適切な場合、
-        ///     またはファイル名が指定された名前ではない場合
+        ///     valueがファイルパスとして不適切な場合
         /// </exception>
         public DatabaseProjectFilePath(string value) : base(value)
         {
-            var fileName = Path.GetFileName(value);
-            if (fileName is null)
-                throw new ArgumentException(
-                    ErrorMessage.Unsuitable("ファイルパス", $"（パス：{value}）"));
+            if (value is null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(value)));
 
+            var fileName = Path.GetFileName(value);
             if (!_FilePathRegex.IsMatch(fileName))
             {
-                throw new ArgumentException(
-                    $"ファイル名の形式は{_FilePathRegex}でなければなりません。");
+                WodiLibLogger.GetInstance().Warning(
+                    WarningMessage.UnsuitableFileName(value, _FilePathRegex));
             }
         }
 

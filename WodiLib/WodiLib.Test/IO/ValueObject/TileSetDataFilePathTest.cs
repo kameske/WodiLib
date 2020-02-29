@@ -23,12 +23,12 @@ namespace WodiLib.Test.IO.ValueObject
         [TestCase("", true)]
         [TestCase("TileSetData.dat", false)]
         [TestCase("TILESETDATA.DAT", false)]
-        [TestCase("TileSetData_.dat", true)]
-        [TestCase("TileSetData.dat.bak", true)]
+        [TestCase("TileSetData_.dat", false)]
+        [TestCase("TileSetData.dat.bak", false)]
         [TestCase("./TileSetData.dat", false)]
         [TestCase(@".\Data\TileSetData.dat", false)]
         [TestCase(@"c:\MyProject\Data\TileSetData.dat", false)]
-        [TestCase(@"c:\MyProject\Data\TileSetData.data", true)]
+        [TestCase(@"c:\MyProject\Data\TileSetData.data", false)]
         public static void ConstructorTest(string path, bool isError)
         {
             TileSetDataFilePath instance = null;

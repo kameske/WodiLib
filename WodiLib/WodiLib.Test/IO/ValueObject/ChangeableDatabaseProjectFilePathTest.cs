@@ -23,12 +23,12 @@ namespace WodiLib.Test.IO.ValueObject
         [TestCase("", true)]
         [TestCase("CDataBase.project", false)]
         [TestCase("CDATABASE.PROJECT", false)]
-        [TestCase("Database.project", true)]
-        [TestCase("CDatabase.project.bak", true)]
+        [TestCase("Database.project", false)]
+        [TestCase("CDatabase.project.bak", false)]
         [TestCase("./CDataBase.project", false)]
         [TestCase(@".\Data\CDataBase.project", false)]
         [TestCase(@"c:\MyProject\Data\CDataBase.project", false)]
-        [TestCase(@"c:\MyProject\Data\CDataBase.proj", true)]
+        [TestCase(@"c:\MyProject\Data\CDataBase.proj", false)]
         public static void ConstructorTest(string path, bool isError)
         {
             ChangeableDatabaseProjectFilePath instance = null;
