@@ -220,8 +220,8 @@ namespace WodiLib.Event.EventCommand
         private Color color = new Color
         {
             R = 100,
-            B = 100,
-            ByteB = 100
+            G = 100,
+            B = 100
         };
 
         /// <summary>[NotNull] カラー</summary>
