@@ -51,10 +51,11 @@ namespace WodiLib.Test.IO
             var reader = new MpsFileReader($@"{MapFileTestItemGenerator.TestWorkRootDir}\{readFileName}");
 
             var readResult = false;
+            MapData data = null;
             var errorMessage = "";
             try
             {
-                reader.ReadSync();
+                data = reader.ReadSync();
                 readResult = true;
             }
             catch (Exception e)
@@ -74,7 +75,7 @@ namespace WodiLib.Test.IO
 
             // 意図したデータと一致すること
             var resultDataBytes = resultData.ToBinary().ToArray();
-            var readResultDataBytes = reader.MapData.ToBinary().ToArray();
+            var readResultDataBytes = data.ToBinary().ToArray();
 
             if (resultDataBytes.Length != readResultDataBytes.Length)
             {

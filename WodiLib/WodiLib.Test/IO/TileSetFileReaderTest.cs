@@ -54,10 +54,11 @@ namespace WodiLib.Test.IO
             var reader = new TileSetFileReader(filePath);
 
             var readResult = false;
+            TileSetFileData data = null;
             var errorMessage = "";
             try
             {
-                reader.ReadSync();
+                data = reader.ReadSync();
                 readResult = true;
             }
             catch (Exception ex)
@@ -76,7 +77,7 @@ namespace WodiLib.Test.IO
 
             Console.WriteLine("Write Test Clear.");
 
-            var readResultDataBytes = reader.Data.ToBinary().ToArray();
+            var readResultDataBytes = data.ToBinary().ToArray();
 
             // 元のデータと一致すること
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))

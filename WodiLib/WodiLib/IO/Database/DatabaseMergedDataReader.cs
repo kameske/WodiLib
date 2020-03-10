@@ -30,7 +30,7 @@ namespace WodiLib.IO
         /// <summary>読み込みプロジェクトファイルパス</summary>
         public DatabaseProjectFilePath ProjectFilePath { get; }
 
-        /// <summary>[Nullable] 読み込んだデータ</summary>
+        /// <summary>読み込んだデータ</summary>
         public DatabaseMergedData Data { get; private set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -40,6 +40,11 @@ namespace WodiLib.IO
         /// <summary>ロガー</summary>
         private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
+        /// <summary>DB種別</summary>
+        private DBKind DbKind { get; }
+
+        private readonly object readLock = new object();
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -47,8 +52,8 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="datFilePath">[NotNull] データファイルパス</param>
-        /// <param name="projectFilePath">[NotNull] プロジェクトファイルパス</param>
+        /// <param name="datFilePath">データファイルパス</param>
+        /// <param name="projectFilePath">プロジェクトファイルパス</param>
         /// <exception cref="ArgumentNullException">
         ///     datFilePath, projectFilePath が null の場合
         /// </exception>
@@ -56,13 +61,14 @@ namespace WodiLib.IO
             ChangeableDatabaseProjectFilePath projectFilePath) : this(datFilePath,
             (DatabaseProjectFilePath) projectFilePath)
         {
+            DbKind = DBKind.Changeable;
         }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="datFilePath">[NotNull] データファイルパス</param>
-        /// <param name="projectFilePath">[NotNull] プロジェクトファイルパス</param>
+        /// <param name="datFilePath">データファイルパス</param>
+        /// <param name="projectFilePath">プロジェクトファイルパス</param>
         /// <exception cref="ArgumentNullException">
         ///     datFilePath, projectFilePath が null の場合
         /// </exception>
@@ -70,13 +76,14 @@ namespace WodiLib.IO
             UserDatabaseProjectFilePath projectFilePath) : this(datFilePath,
             (DatabaseProjectFilePath) projectFilePath)
         {
+            DbKind = DBKind.User;
         }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="datFilePath">[NotNull] データファイルパス</param>
-        /// <param name="projectFilePath">[NotNull] プロジェクトファイルパス</param>
+        /// <param name="datFilePath">データファイルパス</param>
+        /// <param name="projectFilePath">プロジェクトファイルパス</param>
         /// <exception cref="ArgumentNullException">
         ///     datFilePath, projectFilePath が null の場合
         /// </exception>
@@ -84,13 +91,14 @@ namespace WodiLib.IO
             SystemDatabaseProjectFilePath projectFilePath) : this(datFilePath,
             (DatabaseProjectFilePath) projectFilePath)
         {
+            DbKind = DBKind.System;
         }
 
         /// <summary>
         /// コンストラクタ（DatFilePath, ProjectFilePathから生成するコンストラクタの統合版）
         /// </summary>
-        /// <param name="datFilePath">[NotNull] データファイルパス</param>
-        /// <param name="projectFilePath">[NotNull] プロジェクトファイルパス</param>
+        /// <param name="datFilePath">データファイルパス</param>
+        /// <param name="projectFilePath">プロジェクトファイルパス</param>
         /// <exception cref="ArgumentNullException">
         ///     datFilePath, projectFilePath が null の場合
         /// </exception>
@@ -121,23 +129,26 @@ namespace WodiLib.IO
         /// </exception>
         public DatabaseMergedData ReadSync()
         {
-            Logger.Info(FileIOMessage.StartFileRead(GetType()));
+            lock (readLock)
+            {
+                Logger.Info(FileIOMessage.StartFileRead(GetType()));
 
-            if (!(Data is null))
-                throw new InvalidOperationException(
-                    $"すでに読み込み完了しています。");
+                if (!(Data is null))
+                    throw new InvalidOperationException(
+                        $"すでに読み込み完了しています。");
 
-            var datFile = new DatabaseDatFile(DatFilePath);
-            var projectFile = new DatabaseProjectFile(ProjectFilePath);
+                var datFileReader = new DatabaseDatFileReader(DatFilePath, DbKind);
+                var dataSettingList = datFileReader.ReadSync().SettingList;
 
-            var dataSettingList = datFile.ReadSync().SettingList;
-            var typeSettingList = projectFile.ReadSync().TypeSettingList;
+                var projectFile = new DatabaseProjectFileReader(ProjectFilePath, DbKind);
+                var typeSettingList = projectFile.ReadSync().TypeSettingList;
 
-            Data = new DatabaseMergedData(typeSettingList, dataSettingList);
+                Data = new DatabaseMergedData(typeSettingList, dataSettingList);
 
-            Logger.Info(FileIOMessage.EndFileRead(GetType()));
+                Logger.Info(FileIOMessage.EndFileRead(GetType()));
 
-            return Data;
+                return Data;
+            }
         }
 
         /// <summary>

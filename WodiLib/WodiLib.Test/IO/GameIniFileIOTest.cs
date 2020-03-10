@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using NUnit.Framework;
+using WodiLib.Ini;
 using WodiLib.IO;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
@@ -41,10 +42,11 @@ namespace WodiLib.Test.IO
             var reader =
                 new GameIniFileReader(
                     $@"{GameIniDataTestItemGenerator.TestWorkRootDir}\{inputFileName}");
+            GameIniData data = null;
             var isSuccessRead = false;
             try
             {
-                reader.ReadAsync().GetAwaiter().GetResult();
+                data = reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -54,14 +56,12 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var data = reader.Data;
-
-            var writer = new GameIniFileWriter(data,
+            var writer = new GameIniFileWriter(
                 $@"{GameIniDataTestItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
             try
             {
-                writer.WriteAsync().GetAwaiter().GetResult();
+                writer.WriteAsync(data).GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
             catch (Exception ex)

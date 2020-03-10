@@ -29,17 +29,20 @@ namespace WodiLib.Test.IO
         [Test]
         public static void Database1ProjectIOTest()
         {
-            const string inputFileName = "Database1.project";
-            const string outputFileName = "OutputDatabase1.project";
+            UserDatabaseProjectFilePath inputFileName =
+                $@"{DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\Database1.project";
+            UserDatabaseProjectFilePath outputFileName =
+                $@"{DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\OutputDatabase1.project";
 
             var reader =
                 new DatabaseProjectFileReader(
-                    $@"{DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\{inputFileName}",
+                    inputFileName,
                     DBKind.User);
+            DatabaseProject data = null;
             var isSuccessRead = false;
             try
             {
-                reader.ReadAsync().GetAwaiter().GetResult();
+                data = reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -49,14 +52,11 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var data = reader.Data;
-
-            var writer = new DatabaseProjectFileWriter(data,
-                $@"{DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+            var writer = new DatabaseProjectFileWriter(outputFileName);
             var isSuccessWrite = false;
             try
             {
-                writer.WriteAsync().GetAwaiter().GetResult();
+                writer.WriteAsync(data).GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
             catch (Exception ex)
@@ -67,23 +67,26 @@ namespace WodiLib.Test.IO
             Assert.IsTrue(isSuccessWrite);
 
             Console.WriteLine(
-                $@"Written FilePath : {DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+                $"Written FilePath : {outputFileName}");
         }
 
         [Test]
         public static void CDatabase0ProjectIOTest()
         {
-            const string inputFileName = "CDatabase1.project";
-            const string outputFileName = "OutputCDatabase1.project";
+            ChangeableDatabaseProjectFilePath inputFileName =
+                $@"{DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\CDatabase1.project";
+            ChangeableDatabaseProjectFilePath outputFileName =
+                $@"{DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\OutputCDatabase1.project";
 
             var reader =
                 new DatabaseProjectFileReader(
-                    $@"{DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\{inputFileName}",
+                    inputFileName,
                     DBKind.Changeable);
+            DatabaseProject data = null;
             var isSuccessRead = false;
             try
             {
-                reader.ReadAsync().GetAwaiter().GetResult();
+                data = reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -93,14 +96,11 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var data = reader.Data;
-
-            var writer = new DatabaseProjectFileWriter(data,
-                $@"{DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+            var writer = new DatabaseProjectFileWriter(outputFileName);
             var isSuccessWrite = false;
             try
             {
-                writer.WriteAsync().GetAwaiter().GetResult();
+                writer.WriteAsync(data).GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
             catch (Exception ex)
@@ -111,23 +111,26 @@ namespace WodiLib.Test.IO
             Assert.IsTrue(isSuccessWrite);
 
             Console.WriteLine(
-                $@"Written FilePath : {DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+                $"Written FilePath : {outputFileName}");
         }
 
         [Test]
         public static void SysDatabase0ProjectIOTest()
         {
-            const string inputFileName = "SysDatabase1.project";
-            const string outputFileName = "OutputSysDatabase1.project";
+            SystemDatabaseProjectFilePath inputFileName =
+                $@"{DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\SysDatabase1.project";
+            SystemDatabaseProjectFilePath outputFileName =
+                $@"{DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\OutputSysDatabase1.project";
 
             var reader =
                 new DatabaseProjectFileReader(
-                    $@"{DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\{inputFileName}",
+                    inputFileName,
                     DBKind.System);
+            DatabaseProject data = null;
             var isSuccessRead = false;
             try
             {
-                reader.ReadAsync().GetAwaiter().GetResult();
+                data = reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -137,14 +140,11 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var data = reader.Data;
-
-            var writer = new DatabaseProjectFileWriter(data,
-                $@"{DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+            var writer = new DatabaseProjectFileWriter(outputFileName);
             var isSuccessWrite = false;
             try
             {
-                writer.WriteAsync().GetAwaiter().GetResult();
+                writer.WriteAsync(data).GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
             catch (Exception ex)
@@ -155,7 +155,7 @@ namespace WodiLib.Test.IO
             Assert.IsTrue(isSuccessWrite);
 
             Console.WriteLine(
-                $@"Written FilePath : {DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+                $"Written FilePath : {outputFileName}");
         }
 
         [OneTimeTearDown]

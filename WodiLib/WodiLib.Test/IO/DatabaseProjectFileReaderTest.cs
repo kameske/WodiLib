@@ -34,7 +34,8 @@ namespace WodiLib.Test.IO
         {
             Common(
                 DatabaseProjectFileTestItemGenerator.GenerateDatabase0Project(),
-                "Database0.project", DBKind.User);
+                (UserDatabaseProjectFilePath) $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\Database0.project",
+                DBKind.User);
 
             Assert.True(true);
         }
@@ -44,22 +45,24 @@ namespace WodiLib.Test.IO
         {
             Common(
                 DatabaseProjectFileTestItemGenerator.GenerateCDatabase0Project(),
-                "CDatabase0.project", DBKind.Changeable);
+                (ChangeableDatabaseProjectFilePath)
+                $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\CDatabase0.project",
+                DBKind.Changeable);
 
             Assert.True(true);
         }
 
 
-        private static void Common(DatabaseProject resultData, string readFileName, DBKind dbKind)
+        private static void Common(DatabaseProject resultData, DatabaseProjectFilePath readFileName, DBKind dbKind)
         {
-            var filePath = $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\{readFileName}";
-            var reader = new DatabaseProjectFileReader(filePath, dbKind);
+            var reader = new DatabaseProjectFileReader(readFileName, dbKind);
 
             var readResult = false;
+            DatabaseProject data = null;
             var errorMessage = "";
             try
             {
-                reader.ReadSync();
+                data = reader.ReadSync();
                 readResult = true;
             }
             catch (Exception ex)
@@ -78,10 +81,10 @@ namespace WodiLib.Test.IO
 
             Console.WriteLine("Write Test Clear.");
 
-            var readResultDataBytes = reader.Data.ToBinary().ToArray();
+            var readResultDataBytes = data.ToBinary().ToArray();
 
             // 元のデータと一致すること
-            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var stream = new FileStream(readFileName, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 var bufLength = (int) stream.Length;
                 var buf = new byte[bufLength];

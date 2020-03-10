@@ -36,10 +36,6 @@ namespace WodiLib.IO
         /// <summary>書き出すデータ</summary>
         public IEnumerable<TIniTarget> Data { get; }
 
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
         /// <summary>ロガー</summary>
         private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
@@ -50,8 +46,8 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="filePath">[NotNullOrEmpty] 書き出しファイルパス</param>
-        /// <param name="outputData">[NotNull] 書き出しデータ</param>
+        /// <param name="filePath">[NotEmpty] 書き出しファイルパス</param>
+        /// <param name="outputData">書き出しデータ</param>
         /// <exception cref="ArgumentNullException">outputData, filePathがnullの場合</exception>
         public NonSectionIniFileWriter(FilePath filePath, IEnumerable<TIniTarget> outputData)
         {

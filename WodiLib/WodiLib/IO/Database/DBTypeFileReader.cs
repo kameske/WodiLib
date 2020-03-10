@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using WodiLib.Database;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
@@ -18,18 +17,8 @@ namespace WodiLib.IO
     /// <summary>
     /// DBプロジェクトデータファイル読み込みクラス
     /// </summary>
-    internal class DBTypeFileReader
+    public class DBTypeFileReader : WoditorFileReaderBase<DBTypeFilePath, DBType>
     {
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>読み込みファイルパス</summary>
-        public string FilePath { get; }
-
-        /// <summary>[Nullable] 読み込んだDBプロジェクトデータ</summary>
-        public DBType Data { get; private set; }
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -40,6 +29,8 @@ namespace WodiLib.IO
         /// <summary>ロガー</summary>
         private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
+        private readonly object readLock = new object();
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -47,18 +38,10 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込みファイルパス</param>
+        /// <param name="filePath">読み込みファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        public DBTypeFileReader(string filePath)
+        public DBTypeFileReader(DBTypeFilePath filePath) : base(filePath)
         {
-            if (filePath is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(filePath)));
-            if (filePath.IsEmpty())
-                throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(filePath)));
-
-            FilePath = filePath;
             ReadStatus = new FileReadStatus(FilePath);
         }
 
@@ -74,48 +57,34 @@ namespace WodiLib.IO
         ///     すでにファイルを読み込んでいる場合、
         ///     またはファイルが正しく読み込めなかった場合
         /// </exception>
-        public DBType ReadSync()
+        public override DBType ReadSync()
         {
-            Logger.Info(FileIOMessage.StartFileRead(GetType()));
+            lock (readLock)
+            {
+                Logger.Info(FileIOMessage.StartFileRead(GetType()));
 
-            if (!(Data is null))
-                throw new InvalidOperationException(
-                    $"すでに読み込み完了しています。");
+                var result = new DBType();
 
-            Data = new DBType();
+                // ヘッダチェック
+                ReadHeader(ReadStatus);
 
-            // ヘッダチェック
-            ReadHeader(ReadStatus);
+                // タイプ設定
+                ReadTypeSetting(ReadStatus, out var typeSetting);
+                result.TypeName = typeSetting.TypeName;
+                result.Memo = typeSetting.Memo;
 
-            // タイプ設定
-            ReadTypeSetting(ReadStatus, out var typeSetting);
-            Data.TypeName = typeSetting.TypeName;
-            Data.Memo = typeSetting.Memo;
+                // データ設定
+                ReadDataSetting(ReadStatus, out var dataSetting);
+                result.SetDataSettingType(dataSetting);
 
-            // データ設定
-            ReadDataSetting(ReadStatus, out var dataSetting);
-            Data.SetDataSettingType(dataSetting);
+                result.ItemDescList.AddRange(MakeItemDescList(typeSetting, dataSetting));
 
-            Data.ItemDescList.AddRange(MakeItemDescList(typeSetting, dataSetting));
+                result.DataDescList.Overwrite(0, MakeDataDescList(typeSetting, dataSetting));
 
-            Data.DataDescList.Overwrite(0, MakeDataDescList(typeSetting, dataSetting));
+                Logger.Info(FileIOMessage.EndFileRead(GetType()));
 
-            Logger.Info(FileIOMessage.EndFileRead(GetType()));
-
-            return Data;
-        }
-
-        /// <summary>
-        /// ファイルを非同期的に読み込む
-        /// </summary>
-        /// <returns>読み込み成否</returns>
-        /// <exception cref="InvalidOperationException">
-        ///     すでにファイルを読み込んでいる場合、
-        ///     またはファイルが正しく読み込めなかった場合
-        /// </exception>
-        public async Task<DBType> ReadAsync()
-        {
-            return await Task.Run(ReadSync);
+                return result;
+            }
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

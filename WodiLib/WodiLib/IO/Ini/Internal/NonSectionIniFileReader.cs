@@ -33,8 +33,11 @@ namespace WodiLib.IO
         /// <summary>読み込みファイルパス</summary>
         public FilePath FilePath { get; }
 
-        /// <summary>[Nullable] 読み込んだデータ</summary>
+        /// <summary>読み込んだデータ</summary>
         public IReadOnlyCollection<TIniTarget> Data { get; }
+
+        /// <summary>ロガー</summary>
+        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
@@ -45,9 +48,6 @@ namespace WodiLib.IO
         /// </summary>
         private bool IsAlreadyRead { get; set; }
 
-        /// <summary>ロガー</summary>
-        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -55,8 +55,8 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込みファイルパス</param>
-        /// <param name="targets">[NotNull] 読み込みデータ格納用インスタンス</param>
+        /// <param name="filePath">読み込みファイルパス</param>
+        /// <param name="targets">読み込みデータ格納用インスタンス</param>
         /// <exception cref="ArgumentNullException">
         ///     filePath, targetsがnullの場合、
         ///    またはtargetsにnull要素が含まれる場合
@@ -136,9 +136,7 @@ namespace WodiLib.IO
                 var iniProperty = new IniProperty(line);
 
                 var targetProperty = properties.FirstOrDefault(x => x.Name.Equals(iniProperty.PropertyName));
-                if (targetProperty == null) continue;
-
-                targetProperty.SetValue(target, iniProperty.Value);
+                targetProperty?.SetValue(target, iniProperty.Value);
             }
         }
 

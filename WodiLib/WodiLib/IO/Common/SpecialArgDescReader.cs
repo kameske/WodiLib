@@ -21,31 +21,31 @@ namespace WodiLib.IO
     internal class SpecialArgDescReader
     {
         /// <summary>数値引数名リスト</summary>
-        public List<string> NumberArgNameList { get; private set; }
+        public List<string> NumberArgNameList { get; private set; } = new List<string>();
 
         /// <summary>文字列引数名リスト</summary>
-        public List<string> StringArgNameList { get; private set; }
+        public List<string> StringArgNameList { get; private set; } = new List<string>();
 
         /// <summary>数値引数種別リスト</summary>
-        public List<CommonEventArgType> NumberArgTypeList { get; private set; }
+        public List<CommonEventArgType> NumberArgTypeList { get; private set; } = new List<CommonEventArgType>();
 
         /// <summary>文字列引数種別リスト</summary>
-        public List<CommonEventArgType> StringArgTypeList { get; private set; }
+        public List<CommonEventArgType> StringArgTypeList { get; private set; } = new List<CommonEventArgType>();
 
         /// <summary>数値引数特殊指定文字列パラメータリスト</summary>
-        public List<List<string>> NumberArgStringParamsList { get; private set; }
+        public List<List<string>> NumberArgStringParamsList { get; private set; } = new List<List<string>>();
 
         /// <summary>文字列引数特殊指定文字列パラメータリスト</summary>
-        public List<List<string>> StringArgStringParamsList { get; private set; }
+        public List<List<string>> StringArgStringParamsList { get; private set; } = new List<List<string>>();
 
         /// <summary>数値引数特殊指定数値パラメータリスト</summary>
-        public List<List<int>> NumberArgNumberParamsList { get; private set; }
+        public List<List<int>> NumberArgNumberParamsList { get; private set; } = new List<List<int>>();
 
         /// <summary>文字列引数特殊指定数値パラメータリスト</summary>
-        public List<List<int>> StringArgNumberParamsList { get; private set; }
+        public List<List<int>> StringArgNumberParamsList { get; private set; } = new List<List<int>>();
 
         /// <summary>数値特殊指定数値初期値リスト</summary>
-        public List<int> NumberArgInitValueList { get; private set; }
+        public List<int> NumberArgInitValueList { get; private set; } = new List<int>();
 
         /// <summary>読み込み経過状態</summary>
         private FileReadStatus Status { get; }

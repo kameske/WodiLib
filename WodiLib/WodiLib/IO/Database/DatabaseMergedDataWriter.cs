@@ -43,6 +43,8 @@ namespace WodiLib.IO
         /// <summary>ロガー</summary>
         private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
+        private readonly object writeLock = new object();
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -50,9 +52,9 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="outputData">[NotNull] 書き出しデータ</param>
-        /// <param name="datFilePath">[NotNull] データファイルパス</param>
-        /// <param name="projectFilePath">[NotNull] プロジェクトファイルパス</param>
+        /// <param name="outputData">書き出しデータ</param>
+        /// <param name="datFilePath">データファイルパス</param>
+        /// <param name="projectFilePath">プロジェクトファイルパス</param>
         /// <exception cref="ArgumentNullException">
         ///     outputData, datFilePath, projectFilePath が null の場合
         /// </exception>
@@ -66,9 +68,9 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="outputData">[NotNull] 書き出しデータ</param>
-        /// <param name="datFilePath">[NotNull] データファイルパス</param>
-        /// <param name="projectFilePath">[NotNull] プロジェクトファイルパス</param>
+        /// <param name="outputData">書き出しデータ</param>
+        /// <param name="datFilePath">データファイルパス</param>
+        /// <param name="projectFilePath">プロジェクトファイルパス</param>
         /// <exception cref="ArgumentNullException">
         ///     outputData, datFilePath, projectFilePath が null の場合
         /// </exception>
@@ -82,9 +84,9 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="outputData">[NotNull] 書き出しデータ</param>
-        /// <param name="datFilePath">[NotNull] データファイルパス</param>
-        /// <param name="projectFilePath">[NotNull] プロジェクトファイルパス</param>
+        /// <param name="outputData">書き出しデータ</param>
+        /// <param name="datFilePath">データファイルパス</param>
+        /// <param name="projectFilePath">プロジェクトファイルパス</param>
         /// <exception cref="ArgumentNullException">
         ///     outputData, datFilePath, projectFilePath が null の場合
         /// </exception>
@@ -98,9 +100,9 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ（DatFilePath, ProjectFilePathから生成するコンストラクタの統合版）
         /// </summary>
-        /// <param name="outputData">[NotNull] 書き出しデータ</param>
-        /// <param name="datFilePath">[NotNull] データファイルパス</param>
-        /// <param name="projectFilePath">[NotNull] プロジェクトファイルパス</param>
+        /// <param name="outputData">書き出しデータ</param>
+        /// <param name="datFilePath">データファイルパス</param>
+        /// <param name="projectFilePath">プロジェクトファイルパス</param>
         /// <exception cref="ArgumentNullException">
         ///     outputData, datFilePath, projectFilePath が null の場合
         /// </exception>
@@ -132,17 +134,20 @@ namespace WodiLib.IO
         /// </exception>
         public void WriteSync()
         {
-            Logger.Info(FileIOMessage.StartFileWrite(GetType()));
+            lock (writeLock)
+            {
+                Logger.Info(FileIOMessage.StartFileWrite(GetType()));
 
-            var datFile = new DatabaseDatFile(DatFilePath);
-            var writeDatabaseDat = Data.GenerateDatabaseDat(DbKind);
-            datFile.WriteSync(writeDatabaseDat);
+                var writeDatabaseDat = Data.GenerateDatabaseDat(DbKind);
+                var datFileWriter = new DatabaseDatFileWriter(DatFilePath);
+                datFileWriter.WriteSync(writeDatabaseDat);
 
-            var projectFile = new DatabaseProjectFile(ProjectFilePath);
-            var writeDatabaseProject = Data.GenerateDatabaseProject(DbKind);
-            projectFile.WriteSync(writeDatabaseProject);
+                var writeDatabaseProject = Data.GenerateDatabaseProject(DbKind);
+                var projectFileWriter = new DatabaseProjectFileWriter(ProjectFilePath);
+                projectFileWriter.WriteSync(writeDatabaseProject);
 
-            Logger.Info(FileIOMessage.EndFileWrite(GetType()));
+                Logger.Info(FileIOMessage.EndFileWrite(GetType()));
+            }
         }
 
         /// <summary>
