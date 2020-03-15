@@ -29,14 +29,48 @@ License
 
 [MIT License](https://github.com/kameske/WodiLib/blob/master/LICENSE)
 
+Branches
+----------
+
+- master
+  - releaseしたDLLの元となったプロジェクトのみをコミットするブランチ。
+  - Ver 2.X 公開以降は最もメジャーバージョンが大きなmasterブランチと同期。
+- develop
+  - Ver 1.2 未満のバージョンで機能追加や不具合修正を行った際に反映するブランチ。
+  - Ver 1.2 および Ver 2.2 公開以降は廃止。代わりにメジャーバージョンごとのブランチを作成。
+- XXX/master (XXX = Version)
+  - Ver XXX 専用のmasterブランチ。メジャーバージョンごとに存在。
+  - Ver 1.2 公開以降で使用される。
+- XXX/develop (XXX = Version)
+  - Ver XXX 専用のdevelopブランチ。メジャーバージョンごとに存在。
+  - Ver 1.2 公開以降で使用される。
+- features (XXX/features)
+  - 機能追加時、developブランチに反映する前に作成されることがあるブランチ。
+  - master ブランチに取り込まれたあとは削除される。
+
 Loadmap
 ----------
+
+- Ver 1.2 ： 2020/04 ～ 2020/06
+  - INotifyPropertyChanged, INotifyCollectionChanged 対応と XXXItemEventHandler クラス廃止
+  - ファイルIO関連クラスの見直し
+    - Reader および Writer クラス公開
+
+- Ver 2.2 ： Ver1.2と同時
+  - 言語バージョンと対象フレームワークの変更
+    - 言語バージョン： C# 8.0
+    - 対象フレームワーク： .NET Core 3.1
+  - 機能面は Ver 1.2 と同等
+  - ※Ver 2.2 公開以降のブランチについては "Branches" を参照。
 
 - 適宜
   - 不具合修正 / 機能追加
 
 History
 ----------
+
+- 2020/03/15 Ver 1.1.0.7
+  - 不具合修正
 
 - 2019/12/01 Ver 1.1.0
   - シリアライズ/デシリアライズ対応
