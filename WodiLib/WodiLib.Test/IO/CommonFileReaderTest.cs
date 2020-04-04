@@ -63,11 +63,12 @@ namespace WodiLib.Test.IO
             var filePath = $@"{CommonFileTestItemGenerator.TestWorkRootDir}\{readFileName}";
             var reader = new CommonFileReader(filePath);
 
+            CommonFileData data = null;
             var readResult = false;
             var errorMessage = "";
             try
             {
-                reader.ReadSync();
+                data = reader.ReadSync();
                 readResult = true;
             }
             catch (Exception ex)
@@ -86,7 +87,7 @@ namespace WodiLib.Test.IO
 
             Console.WriteLine("Write Test Clear.");
 
-            var readResultDataBytes = reader.CommonFileData.ToBinary().ToArray();
+            var readResultDataBytes = data.ToBinary().ToArray();
 
             // 元のデータと一致すること
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))

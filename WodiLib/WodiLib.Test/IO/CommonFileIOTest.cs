@@ -1,5 +1,6 @@
 using System;
 using NUnit.Framework;
+using WodiLib.Common;
 using WodiLib.IO;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
@@ -39,9 +40,10 @@ namespace WodiLib.Test.IO
             var reader = new CommonFileReader(
                 $@"{CommonFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
             var isSuccessRead = false;
+            CommonFileData data = null;
             try
             {
-                reader.ReadAsync().GetAwaiter().GetResult();
+                data = reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -51,14 +53,12 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var commonEventData = reader.CommonFileData;
-
-            var writer = new CommonFileWriter(commonEventData,
+            var writer = new CommonFileWriter(
                 $@"{CommonEventDataFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
             try
             {
-                writer.WriteAsync().GetAwaiter().GetResult();
+                writer.WriteAsync(data).GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
             catch (Exception ex)
@@ -81,9 +81,10 @@ namespace WodiLib.Test.IO
             var reader =
                 new CommonFileReader($@"{CommonEventDataFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
             var isSuccessRead = false;
+            CommonFileData data = null;
             try
             {
-                reader.ReadAsync().GetAwaiter().GetResult();
+                data = reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -93,14 +94,12 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var commonEventData = reader.CommonFileData;
-
-            var writer = new CommonFileWriter(commonEventData,
+            var writer = new CommonFileWriter(
                 $@"{CommonEventDataFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
             try
             {
-                writer.WriteAsync().GetAwaiter().GetResult();
+                writer.WriteAsync(data).GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
             catch (Exception ex)
@@ -123,9 +122,10 @@ namespace WodiLib.Test.IO
             var reader =
                 new CommonFileReader($@"{CommonEventDataFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
             var isSuccessRead = false;
+            CommonFileData data = null;
             try
             {
-                reader.ReadSync();
+                data = reader.ReadSync();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -135,15 +135,13 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var commonEventData = reader.CommonFileData;
-
-            var writer = new CommonFileWriter(commonEventData,
+            var writer = new CommonFileWriter(
                 $@"{CommonEventDataFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
 
             try
             {
-                writer.WriteSync();
+                writer.WriteSync(data);
                 isSuccessWrite = true;
             }
             catch (Exception ex)

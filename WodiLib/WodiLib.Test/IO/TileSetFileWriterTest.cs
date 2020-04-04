@@ -25,14 +25,14 @@ namespace WodiLib.Test.IO
         [TestCaseSource(nameof(WriteSyncTestCaseSource))]
         public static void WriteSyncTest(TileSetFileData outputData, string outputFileName)
         {
-            var writer = new TileSetFileWriter(outputData, outputFileName);
+            var writer = new TileSetFileWriter(outputFileName);
 
             var isSuccess = false;
             var errorMessage = "";
 
             try
             {
-                writer.WriteSync();
+                writer.WriteSync(outputData);
                 isSuccess = true;
             }
             catch (Exception e)

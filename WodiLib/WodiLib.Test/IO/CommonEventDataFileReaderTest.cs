@@ -33,10 +33,11 @@ namespace WodiLib.Test.IO
             var reader = new CommonEventDatFileReader(filePath);
 
             var readResult = false;
+            CommonEventData commonEventData = null;
             var errorMessage = "";
             try
             {
-                reader.ReadSync();
+                commonEventData = reader.ReadSync();
                 readResult = true;
             }
             catch (Exception e)
@@ -54,7 +55,7 @@ namespace WodiLib.Test.IO
 
             Console.WriteLine("Write Test Clear.");
 
-            var readResultDataBytes = reader.CommonEventData.ToBinary().ToArray();
+            var readResultDataBytes = commonEventData.ToBinary().ToArray();
 
             // 元のデータと一致すること
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))

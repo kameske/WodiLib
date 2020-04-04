@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using NUnit.Framework;
 using WodiLib.IO;
+using WodiLib.Map;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
@@ -43,10 +44,11 @@ namespace WodiLib.Test.IO
             outputDir.CreateDirectoryIfNeed();
 
             var reader = new MapTreeDataFileReader($@"{MapTreeDataFileItemGenerator.TestWorkRootDir}\{inputFileName}");
+            MapTreeData data = null;
             var isSuccessRead = false;
             try
             {
-                reader.ReadAsync().GetAwaiter().GetResult();
+                data = reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -56,14 +58,12 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var data = reader.Data;
-
-            var writer = new MapTreeDataFileWriter(data,
+            var writer = new MapTreeDataFileWriter(
                 $@"{MapTreeDataFileItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
             try
             {
-                writer.WriteAsync().GetAwaiter().GetResult();
+                writer.WriteAsync(data).GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
             catch (Exception ex)
@@ -88,10 +88,11 @@ namespace WodiLib.Test.IO
             outputDir.CreateDirectoryIfNeed();
 
             var reader = new MapTreeDataFileReader($@"{MapTreeDataFileItemGenerator.TestWorkRootDir}\{inputFileName}");
+            MapTreeData data = null;
             var isSuccessRead = false;
             try
             {
-                reader.ReadSync();
+                data = reader.ReadSync();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -101,15 +102,12 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var data = reader.Data;
-
-            var writer = new MapTreeDataFileWriter(data,
+            var writer = new MapTreeDataFileWriter(
                 $@"{MapTreeDataFileItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
-
             try
             {
-                writer.WriteSync();
+                writer.WriteSync(data);
                 isSuccessWrite = true;
             }
             catch (Exception ex)

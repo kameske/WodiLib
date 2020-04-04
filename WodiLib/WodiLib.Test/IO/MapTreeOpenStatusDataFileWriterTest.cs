@@ -25,14 +25,14 @@ namespace WodiLib.Test.IO
             var dir = Path.GetDirectoryName(outputFileName);
             dir.CreateDirectoryIfNeed();
 
-            var writer = new MapTreeOpenStatusDataFileWriter(outputData, outputFileName);
+            var writer = new MapTreeOpenStatusDataFileWriter(outputFileName);
 
             var isSuccess = false;
             var errorMessage = "";
 
             try
             {
-                writer.WriteSync();
+                writer.WriteSync(outputData);
                 isSuccess = true;
             }
             catch (Exception e)

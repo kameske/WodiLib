@@ -1,5 +1,6 @@
 using System;
 using NUnit.Framework;
+using WodiLib.Database;
 using WodiLib.IO;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
@@ -37,10 +38,11 @@ namespace WodiLib.Test.IO
             var reader =
                 new DBTypeSetFileReader(
                     $@"{DBTypeSetFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
+            DBTypeSet data = null;
             var isSuccessRead = false;
             try
             {
-                reader.ReadAsync().GetAwaiter().GetResult();
+                data = reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -50,14 +52,12 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var data = reader.Data;
-
-            var writer = new DBTypeSetFileWriter(data,
+            var writer = new DBTypeSetFileWriter(
                 $@"{DBTypeSetFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
             try
             {
-                writer.WriteAsync().GetAwaiter().GetResult();
+                writer.WriteAsync(data).GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
             catch (Exception ex)

@@ -47,15 +47,16 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
+        /// <remarks>
+        ///     ファイル名が "CDataBase.dat" ではない場合、警告ログを出力する。
+        /// </remarks>
         /// <param name="value">[NotNull][NotNewLine] ファイルパス</param>
         /// <exception cref="ArgumentNullException">valueがnullの場合</exception>
         /// <exception cref="ArgumentNewLineException">
-        ///     valueに改行が含まれる場合、
-        ///     または255byteを超える場合
+        ///     valueに改行が含まれる場合
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     valueがファイルパスとして不適切な場合、
-        ///     またはファイル名が"CDataBase.dat"ではない場合
+        ///     valueがファイルパスとして不適切な場合
         /// </exception>
         public ChangeableDatabaseDatFilePath(string value) : base(value)
         {

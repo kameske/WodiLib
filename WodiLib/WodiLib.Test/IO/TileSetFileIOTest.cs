@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using NUnit.Framework;
 using WodiLib.IO;
+using WodiLib.Map;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
@@ -43,10 +44,11 @@ namespace WodiLib.Test.IO
             outputDir.CreateDirectoryIfNeed();
 
             var reader = new TileSetFileReader($@"{TileSetFileDataTestItemGenerator.TestWorkRootDir}\{inputFileName}");
+            TileSetFileData data = null;
             var isSuccessRead = false;
             try
             {
-                reader.ReadAsync().GetAwaiter().GetResult();
+                data = reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -56,14 +58,12 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var data = reader.Data;
-
-            var writer = new TileSetFileWriter(data,
+            var writer = new TileSetFileWriter(
                 $@"{TileSetFileDataTestItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
             try
             {
-                writer.WriteAsync().GetAwaiter().GetResult();
+                writer.WriteAsync(data).GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
             catch (Exception ex)
@@ -84,10 +84,11 @@ namespace WodiLib.Test.IO
             const string outputFileName = @"Output_001_aaa.tile";
 
             var reader = new TileSetFileReader($@"{TileSetFileDataTestItemGenerator.TestWorkRootDir}\{inputFileName}");
+            TileSetFileData data = null;
             var isSuccessRead = false;
             try
             {
-                reader.ReadSync();
+                data = reader.ReadSync();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -97,15 +98,12 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var data = reader.Data;
-
-            var writer = new TileSetFileWriter(data,
+            var writer = new TileSetFileWriter(
                 $@"{TileSetFileDataTestItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
-
             try
             {
-                writer.WriteSync();
+                writer.WriteSync(data);
                 isSuccessWrite = true;
             }
             catch (Exception ex)
@@ -123,10 +121,11 @@ namespace WodiLib.Test.IO
             const string outputFileName = @"Output_000_街.tile";
 
             var reader = new TileSetFileReader($@"{TileSetFileDataTestItemGenerator.TestWorkRootDir}\{inputFileName}");
+            TileSetFileData data = null;
             var isSuccessRead = false;
             try
             {
-                reader.ReadSync();
+                data = reader.ReadSync();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -136,15 +135,12 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var data = reader.Data;
-
-            var writer = new TileSetFileWriter(data,
+            var writer = new TileSetFileWriter(
                 $@"{TileSetFileDataTestItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
-
             try
             {
-                writer.WriteSync();
+                writer.WriteSync(data);
                 isSuccessWrite = true;
             }
             catch (Exception ex)

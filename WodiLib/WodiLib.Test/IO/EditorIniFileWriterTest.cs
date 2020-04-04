@@ -33,14 +33,14 @@ namespace WodiLib.Test.IO
         public static void WriteSyncTest(EditorIniData outputDat, string outputFileName)
         {
             Path.GetDirectoryName(outputFileName).CreateDirectoryIfNeed();
-            var writer = new EditorIniFileWriter(outputDat, outputFileName);
+            var writer = new EditorIniFileWriter(outputFileName);
 
             var isSuccess = false;
             var errorMessage = "";
 
             try
             {
-                writer.WriteSync();
+                writer.WriteSync(outputDat);
                 isSuccess = true;
             }
             catch (Exception e)

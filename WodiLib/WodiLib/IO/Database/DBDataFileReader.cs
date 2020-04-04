@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using WodiLib.Database;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
@@ -18,18 +17,8 @@ namespace WodiLib.IO
     /// <summary>
     /// DBプロジェクトデータファイル読み込みクラス
     /// </summary>
-    internal class DBDataFileReader
+    public class DBDataFileReader : WoditorFileReaderBase<DBDataFilePath, DBData>
     {
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>読み込みファイルパス</summary>
-        public string FilePath { get; }
-
-        /// <summary>[Nullable] 読み込んだDBプロジェクトデータ</summary>
-        public DBData Data { get; private set; }
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -40,6 +29,8 @@ namespace WodiLib.IO
         /// <summary>ロガー</summary>
         private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
 
+        private readonly object readLock = new object();
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -47,18 +38,10 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込みファイルパス</param>
+        /// <param name="filePath">読み込みファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        public DBDataFileReader(string filePath)
+        public DBDataFileReader(DBDataFilePath filePath) : base(filePath)
         {
-            if (filePath is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(filePath)));
-            if (filePath.IsEmpty())
-                throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(filePath)));
-
-            FilePath = filePath;
             ReadStatus = new FileReadStatus(FilePath);
         }
 
@@ -71,41 +54,26 @@ namespace WodiLib.IO
         /// </summary>
         /// <returns>読み込んだデータ</returns>
         /// <exception cref="InvalidOperationException">
-        ///     すでにファイルを読み込んでいる場合、
-        ///     またはファイルが正しく読み込めなかった場合
+        ///     ファイルが正しく読み込めなかった場合
         /// </exception>
-        public DBData ReadSync()
+        public override DBData ReadSync()
         {
-            Logger.Info(FileIOMessage.StartFileRead(GetType()));
+            lock (readLock)
+            {
+                Logger.Info(FileIOMessage.StartFileRead(GetType()));
 
-            if (!(Data is null))
-                throw new InvalidOperationException(
-                    $"すでに読み込み完了しています。");
+                var result = new DBData();
 
-            Data = new DBData();
+                // ヘッダチェック
+                ReadHeader(ReadStatus);
 
-            // ヘッダチェック
-            ReadHeader(ReadStatus);
+                // DBデータ
+                ReadDbData(ReadStatus, result);
 
-            // DBデータ
-            ReadDbData(ReadStatus, Data);
+                Logger.Info(FileIOMessage.EndFileRead(GetType()));
 
-            Logger.Info(FileIOMessage.EndFileRead(GetType()));
-
-            return Data;
-        }
-
-        /// <summary>
-        /// ファイルを非同期的に読み込む
-        /// </summary>
-        /// <returns>読み込み成否</returns>
-        /// <exception cref="InvalidOperationException">
-        ///     すでにファイルを読み込んでいる場合、
-        ///     またはファイルが正しく読み込めなかった場合
-        /// </exception>
-        public async Task<DBData> ReadAsync()
-        {
-            return await Task.Run(ReadSync);
+                return result;
+            }
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -228,7 +196,8 @@ namespace WodiLib.IO
                 Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataFileReader),
                     $"  文字列項目{i,2}", value));
 
-                result.Add((DBValueString) value.String);
+                DBValueString dbValueString = value.String;
+                result.Add(dbValueString);
             }
 
             values = result;

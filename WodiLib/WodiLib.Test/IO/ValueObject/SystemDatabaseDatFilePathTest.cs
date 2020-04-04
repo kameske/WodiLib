@@ -23,12 +23,12 @@ namespace WodiLib.Test.IO.ValueObject
         [TestCase("", true)]
         [TestCase("SysDataBase.dat", false)]
         [TestCase("SYSDATABASE.DAT", false)]
-        [TestCase("CDatabase.dat", true)]
-        [TestCase("SysDatabase.dat.bak", true)]
+        [TestCase("CDatabase.dat", false)]
+        [TestCase("SysDatabase.dat.bak", false)]
         [TestCase("./SysDataBase.dat", false)]
         [TestCase(@".\Data\SysDataBase.dat", false)]
         [TestCase(@"c:\MyProject\Data\SysDataBase.dat", false)]
-        [TestCase(@"c:\MyProject\Data\SysDataBase.data", true)]
+        [TestCase(@"c:\MyProject\Data\SysDataBase.data", false)]
         public static void ConstructorTest(string path, bool isError)
         {
             SystemDatabaseDatFilePath instance = null;

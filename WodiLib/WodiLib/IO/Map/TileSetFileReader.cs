@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using System.Threading.Tasks;
 using WodiLib.Map;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
@@ -17,15 +16,11 @@ namespace WodiLib.IO
     /// <summary>
     /// マップファイル読み込みクラス
     /// </summary>
-    internal class TileSetFileReader
+    public class TileSetFileReader : WoditorFileReaderBase<TileSetFilePath, TileSetFileData>
     {
-        /// <summary>読み込みファイルパス</summary>
-        public TileSetFilePath FilePath { get; }
-
-        /// <summary>[Nullable] 読み込んだデータ</summary>
-        public TileSetFileData Data { get; private set; }
-
         private FileReadStatus ReadStatus { get; }
+
+        private readonly object readLock = new object();
 
         /// <summary>ロガー</summary>
         private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
@@ -33,15 +28,10 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込みファイルパス</param>
+        /// <param name="filePath">読み込みファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        public TileSetFileReader(TileSetFilePath filePath)
+        public TileSetFileReader(TileSetFilePath filePath) : base(filePath)
         {
-            if (filePath is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(filePath)));
-
-            FilePath = filePath;
             ReadStatus = new FileReadStatus(FilePath);
         }
 
@@ -50,35 +40,20 @@ namespace WodiLib.IO
         /// </summary>
         /// <returns>読み込んだデータ</returns>
         /// <exception cref="InvalidOperationException">
-        ///     すでにファイルを読み込んでいる場合、
-        ///     またはファイルが正しく読み込めなかった場合
+        ///     ファイルが正しく読み込めなかった場合
         /// </exception>
-        public TileSetFileData ReadSync()
+        public override TileSetFileData ReadSync()
         {
-            if (Data != null)
-                throw new InvalidOperationException(
-                    "すでに読み込み完了しています。");
+            lock (readLock)
+            {
+                Logger.Info(FileIOMessage.StartFileRead(GetType()));
 
-            Logger.Info(FileIOMessage.StartFileRead(GetType()));
+                var result = ReadData(ReadStatus);
 
-            Data = ReadData(ReadStatus);
+                Logger.Info(FileIOMessage.EndFileRead(GetType()));
 
-            Logger.Info(FileIOMessage.EndFileRead(GetType()));
-
-            return Data;
-        }
-
-        /// <summary>
-        /// ファイルを非同期的に読み込む
-        /// </summary>
-        /// <returns>読み込み成否</returns>
-        /// <exception cref="InvalidOperationException">
-        ///     すでにファイルを読み込んでいる場合、
-        ///     またはファイルが正しく読み込めなかった場合
-        /// </exception>
-        public async Task<TileSetFileData> ReadAsync()
-        {
-            return await Task.Run(ReadSync);
+                return result;
+            }
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

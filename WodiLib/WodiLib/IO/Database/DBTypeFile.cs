@@ -1,22 +1,22 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : TileSetFile.cs
+// File Name    : DBTypeFile.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
 // ========================================
 
 using System;
-using WodiLib.Map;
+using WodiLib.Database;
 using WodiLib.Sys;
 
 namespace WodiLib.IO
 {
     /// <summary>
-    /// タイルセットファイルクラス
+    /// DBタイプファイル
     /// </summary>
-    public class TileSetFile : WoditorFileBase<TileSetFilePath, TileSetFileData,
-        TileSetFileWriter, TileSetFileReader>
+    public class DBTypeFile : WoditorFileBase<DBTypeFilePath, DBType,
+        DBTypeFileWriter, DBTypeFileReader>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -26,7 +26,7 @@ namespace WodiLib.IO
         /// 読み取り/書き出しデータ
         /// </summary>
         [Obsolete("入出力データは Read/Write メソッドの戻値を使用してください。 Ver1.3 で削除します。")]
-        public TileSetFileData TileSetFileData { get; private set; }
+        public DBType DBType { get; private set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -37,7 +37,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="filePath">ファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        public TileSetFile(TileSetFilePath filePath) : base(filePath)
+        public DBTypeFile(DBTypeFilePath filePath) : base(filePath)
         {
         }
 
@@ -51,13 +51,13 @@ namespace WodiLib.IO
         /// <param name="filePath">書き出しファイル名</param>
         /// <returns>ライターインスタンス</returns>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        protected override TileSetFileWriter MakeFileWriter(TileSetFilePath filePath)
+        protected override DBTypeFileWriter MakeFileWriter(DBTypeFilePath filePath)
         {
             if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 
-            var writer = new TileSetFileWriter(filePath);
+            var writer = new DBTypeFileWriter(filePath);
             return writer;
         }
 
@@ -67,21 +67,21 @@ namespace WodiLib.IO
         /// <param name="filePath">読み込みファイル名</param>
         /// <returns>リーダーインスタンス</returns>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        protected override TileSetFileReader MakeFileReader(TileSetFilePath filePath)
+        protected override DBTypeFileReader MakeFileReader(DBTypeFilePath filePath)
         {
             if (filePath is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(filePath)));
 
-            var reader = new TileSetFileReader(filePath);
+            var reader = new DBTypeFileReader(filePath);
             return reader;
         }
 
         /// <inheritdoc />
         [Obsolete("Ver1.1 以前と互換性を持たせるためだけのメソッドです。 Ver1.3 で削除します。")]
-        protected override void CallbackIO(TileSetFileData data)
+        protected override void CallbackIO(DBType data)
         {
-            TileSetFileData = data;
+            DBType = data;
         }
     }
 }

@@ -30,14 +30,14 @@ namespace WodiLib.Test.IO
         [TestCaseSource(nameof(WriteSyncTestCaseSource))]
         public static void WriteSyncTest(CommonFileData outputData, string outputFileName)
         {
-            var writer = new CommonFileWriter(outputData, outputFileName);
+            var writer = new CommonFileWriter(outputFileName);
 
             var isSuccess = false;
             var errorMessage = "";
 
             try
             {
-                writer.WriteSync();
+                writer.WriteSync(outputData);
                 isSuccess = true;
             }
             catch (Exception e)

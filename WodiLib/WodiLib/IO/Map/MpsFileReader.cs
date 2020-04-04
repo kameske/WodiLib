@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using WodiLib.Event;
 using WodiLib.Event.EventCommand;
 using WodiLib.Map;
@@ -20,15 +19,11 @@ namespace WodiLib.IO
     /// <summary>
     /// マップファイル読み込みクラス
     /// </summary>
-    internal class MpsFileReader
+    public class MpsFileReader : WoditorFileReaderBase<MpsFilePath, MapData>
     {
-        /// <summary>読み込みファイルパス</summary>
-        public MpsFilePath FilePath { get; }
-
-        /// <summary>[Nullable] 読み込んだマップデータ</summary>
-        public MapData MapData { get; private set; }
-
         private FileReadStatus ReadStatus { get; }
+
+        private readonly object readLock = new object();
 
         /// <summary>ロガー</summary>
         private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
@@ -36,15 +31,10 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込みファイルパス</param>
+        /// <param name="filePath">読み込みファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        public MpsFileReader(MpsFilePath filePath)
+        public MpsFileReader(MpsFilePath filePath) : base(filePath)
         {
-            if (filePath is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(filePath)));
-
-            FilePath = filePath;
             ReadStatus = new FileReadStatus(FilePath);
         }
 
@@ -53,62 +43,47 @@ namespace WodiLib.IO
         /// </summary>
         /// <returns>読み込んだデータ</returns>
         /// <exception cref="InvalidOperationException">
-        ///     すでにファイルを読み込んでいる場合、
-        ///     またはファイルが正しく読み込めなかった場合
+        ///     ファイルが正しく読み込めなかった場合
         /// </exception>
-        public MapData ReadSync()
+        public override MapData ReadSync()
         {
-            if (!(MapData is null))
-                throw new InvalidOperationException(
-                    "すでに読み込み完了しています。");
+            lock (readLock)
+            {
+                Logger.Info(FileIOMessage.StartFileRead(GetType()));
 
-            Logger.Info(FileIOMessage.StartFileRead(GetType()));
+                var result = new MapData();
 
-            MapData = new MapData();
+                // ヘッダチェック
+                ReadHeader(ReadStatus);
 
-            // ヘッダチェック
-            ReadHeader(ReadStatus);
+                // ヘッダ文字列
+                ReadHeaderMemo(ReadStatus, result);
 
-            // ヘッダ文字列
-            ReadHeaderMemo(ReadStatus, MapData);
+                // タイルセットID
+                ReadTileSetId(ReadStatus, result);
 
-            // タイルセットID
-            ReadTileSetId(ReadStatus, MapData);
+                // マップサイズ横
+                ReadMapSizeWidth(ReadStatus, result);
 
-            // マップサイズ横
-            ReadMapSizeWidth(ReadStatus, MapData);
+                // マップサイズ縦
+                ReadMapSizeHeight(ReadStatus, result);
 
-            // マップサイズ縦
-            ReadMapSizeHeight(ReadStatus, MapData);
+                // マップイベント数
+                var mapEventLength = ReadMapEventLength(ReadStatus);
 
-            // マップイベント数
-            var mapEventLength = ReadMapEventLength(ReadStatus);
+                // レイヤー1～3
+                ReadLayer(ReadStatus, result);
 
-            // レイヤー1～3
-            ReadLayer(ReadStatus, MapData);
+                // マップイベント
+                ReadMapEvent(mapEventLength, ReadStatus, result);
 
-            // マップイベント
-            ReadMapEvent(mapEventLength, ReadStatus, MapData);
+                // ファイル末尾
+                ReadFooter(ReadStatus);
 
-            // ファイル末尾
-            ReadFooter(ReadStatus);
+                Logger.Info(FileIOMessage.EndFileRead(GetType()));
 
-            Logger.Info(FileIOMessage.EndFileRead(GetType()));
-
-            return MapData;
-        }
-
-        /// <summary>
-        /// ファイルを非同期的に読み込む
-        /// </summary>
-        /// <returns>読み込み成否</returns>
-        /// <exception cref="InvalidOperationException">
-        ///     すでにファイルを読み込んでいる場合、
-        ///     またはファイルが正しく読み込めなかった場合
-        /// </exception>
-        public async Task<MapData> ReadAsync()
-        {
-            return await Task.Run(ReadSync);
+                return result;
+            }
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

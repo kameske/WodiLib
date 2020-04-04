@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using WodiLib.Map;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
@@ -18,15 +17,12 @@ namespace WodiLib.IO
     /// <summary>
     /// マップツリーデータ読み込みクラス
     /// </summary>
-    internal class MapTreeOpenStatusDataFileReader
+    public class
+        MapTreeOpenStatusDataFileReader : WoditorFileReaderBase<MapTreeOpenStatusDataFilePath, MapTreeOpenStatusData>
     {
-        /// <summary>読み込みファイルパス</summary>
-        public MapTreeOpenStatusDataFilePath FilePath { get; }
-
-        /// <summary>[Nullable] 読み込んだデータ</summary>
-        public MapTreeOpenStatusData Data { get; private set; }
-
         private FileReadStatus ReadStatus { get; }
+
+        private readonly object readLock = new object();
 
         /// <summary>ロガー</summary>
         private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
@@ -34,15 +30,10 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込みファイルパス</param>
+        /// <param name="filePath">読み込みファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        public MapTreeOpenStatusDataFileReader(MapTreeOpenStatusDataFilePath filePath)
+        public MapTreeOpenStatusDataFileReader(MapTreeOpenStatusDataFilePath filePath) : base(filePath)
         {
-            if (filePath is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(filePath)));
-
-            FilePath = filePath;
             ReadStatus = new FileReadStatus(FilePath);
         }
 
@@ -54,32 +45,18 @@ namespace WodiLib.IO
         ///     すでにファイルを読み込んでいる場合、
         ///     またはファイルが正しく読み込めなかった場合
         /// </exception>
-        public MapTreeOpenStatusData ReadSync()
+        public override MapTreeOpenStatusData ReadSync()
         {
-            if (!(Data is null))
-                throw new InvalidOperationException(
-                    "すでに読み込み完了しています。");
+            lock (readLock)
+            {
+                Logger.Info(FileIOMessage.StartFileRead(GetType()));
 
-            Logger.Info(FileIOMessage.StartFileRead(GetType()));
+                var result = ReadData(ReadStatus);
 
-            Data = ReadData(ReadStatus);
+                Logger.Info(FileIOMessage.EndFileRead(GetType()));
 
-            Logger.Info(FileIOMessage.EndFileRead(GetType()));
-
-            return Data;
-        }
-
-        /// <summary>
-        /// ファイルを非同期的に読み込む
-        /// </summary>
-        /// <returns>読み込み成否</returns>
-        /// <exception cref="InvalidOperationException">
-        ///     すでにファイルを読み込んでいる場合、
-        ///     またはファイルが正しく読み込めなかった場合
-        /// </exception>
-        public async Task<MapTreeOpenStatusData> ReadAsync()
-        {
-            return await Task.Run(ReadSync);
+                return result;
+            }
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -22,12 +22,12 @@ namespace WodiLib.Test.IO.ValueObject
         [TestCase("", true)]
         [TestCase("Map0000.mps", false)]
         [TestCase("map0123.MPS", false)]
-        [TestCase("Map0000.map", true)]
-        [TestCase("Map_.mps.bak", true)]
+        [TestCase("Map0000.map", false)]
+        [TestCase("Map_.mps.bak", false)]
         [TestCase("./Map0002.mps", false)]
         [TestCase(@".\Data\Map0003.mps", false)]
         [TestCase(@"c:\MyProject\Data\Map0003.mps", false)]
-        [TestCase(@"c:\MyProject\Data\Map0003.map", true)]
+        [TestCase(@"c:\MyProject\Data\Map0003.map", false)]
         public static void ConstructorTest(string path, bool isError)
         {
             MpsFilePath instance = null;
