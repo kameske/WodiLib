@@ -67,7 +67,7 @@ namespace WodiLib.Event.EventCommand
                 // 自由変形あり
                 if (_IsFreePosition) return 0x1A;
                 // 拡大率別々
-                if (zoomRate.ZoomRateType == ZoomRateType.Different && !zoomRate.IsDefaultRate) return 0x14;
+                if (ZoomRateType == ZoomRateType.Different && !zoomRate.IsDefaultRate) return 0x14;
                 // カラー指定ありかついずれかが100以外
                 if (!IsSameColor)
                 {
@@ -85,7 +85,7 @@ namespace WodiLib.Event.EventCommand
                 // 読み込みファイル変数指定
                 if (IsLoadForVariableAddress) return 0x0D;
                 // 拡大率「縦のみ」「横のみ」
-                if ((zoomRate.ZoomRateType == ZoomRateType.OnlyDepth || zoomRate.ZoomRateType == ZoomRateType.OnlyWidth)
+                if ((ZoomRateType == ZoomRateType.OnlyDepth || ZoomRateType == ZoomRateType.OnlyWidth)
                     && !zoomRate.IsDefaultRate) return 0x0D;
 
                 return 0x0C;
@@ -553,14 +553,45 @@ namespace WodiLib.Event.EventCommand
         //     Protected Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int pictureNumber;
+
         /// <summary>ピクチャ番号</summary>
-        public int PictureNumber { get; set; }
+        public int PictureNumber
+        {
+            get => pictureNumber;
+            set
+            {
+                pictureNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isMultiTarget;
 
         /// <summary>連続ピクチャ操作フラグ</summary>
-        public bool IsMultiTarget { get; set; }
+        public bool IsMultiTarget
+        {
+            get => isMultiTarget;
+            set
+            {
+                isMultiTarget = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
+            }
+        }
+
+        private int sequenceValue;
 
         /// <summary>連続ピクチャ数</summary>
-        public int SequenceValue { get; set; }
+        public int SequenceValue
+        {
+            get => sequenceValue;
+            set
+            {
+                sequenceValue = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private NormalOrFreePosition position = new NormalOrFreePosition();
 
@@ -575,11 +606,22 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Position)));
                 position = value;
+                NotifyPropertyChanged();
             }
         }
 
+        private bool isRelativeCoordinate;
+
         /// <summary>座標相対モード</summary>
-        public bool IsRelativeCoordinate { get; set; }
+        public bool IsRelativeCoordinate
+        {
+            get => isRelativeCoordinate;
+            set
+            {
+                isRelativeCoordinate = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>自由変形フラグコード</summary>
         private byte IsFreePositionCode { get; set; }
@@ -596,6 +638,7 @@ namespace WodiLib.Event.EventCommand
                 }
 
                 IsFreePositionCode = (byte) (value ? FreePositionFlagCode : 0x00);
+                NotifyPropertyChanged(nameof(NumberVariableCount));
             }
         }
 
@@ -606,7 +649,9 @@ namespace WodiLib.Event.EventCommand
             set
             {
                 pattern.Value = value;
+                NotifyPropertyChanged();
                 IsSamePattern = value == SameValue;
+                NotifyPropertyChanged(nameof(NumberVariableCount));
             }
         }
 
@@ -614,21 +659,33 @@ namespace WodiLib.Event.EventCommand
         public bool IsSamePattern
         {
             get => pattern.IsSame;
-            set => pattern.IsSame = value;
+            set
+            {
+                pattern.IsSame = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>不透明度</summary>
         public int Opacity
         {
             get => opacity.Value;
-            set => opacity.Value = value;
+            set
+            {
+                opacity.Value = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>不透明度同値</summary>
         public bool IsSameOpacity
         {
             get => opacity.IsSame;
-            set => opacity.IsSame = value;
+            set
+            {
+                opacity.IsSame = value;
+                NotifyPropertyChanged();
+            }
         }
 
         private PictureDrawType printType = PictureDrawType.Normal;
@@ -644,30 +701,70 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(PrintType)));
                 printType = value;
+                NotifyPropertyChanged();
             }
         }
 
+        private bool isSamePrintType;
+
         /// <summary>表示形式同値</summary>
-        public bool IsSamePrintType { get; set; }
+        public bool IsSamePrintType
+        {
+            get => isSamePrintType;
+            set
+            {
+                isSamePrintType = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int processTime;
 
         /// <summary>処理時間</summary>
-        public int ProcessTime { get; set; }
+        public int ProcessTime
+        {
+            get => processTime;
+            set
+            {
+                processTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int delay;
 
         /// <summary>発動ディレイ</summary>
-        public int Delay { get; set; }
+        public int Delay
+        {
+            get => delay;
+            set
+            {
+                delay = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
+            }
+        }
 
         /// <summary>角度</summary>
         public int Angle
         {
             get => angle.Value;
-            set => angle.Value = value;
+            set
+            {
+                angle.Value = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>角度同値</summary>
         public bool IsSameAngle
         {
             get => angle.IsSame;
-            set => angle.IsSame = value;
+            set
+            {
+                angle.IsSame = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>拡大率（縦横同じ）</summary>
@@ -721,25 +818,51 @@ namespace WodiLib.Event.EventCommand
         public int ColorR
         {
             get => color.R;
-            set => color.R = value;
+            set
+            {
+                color.R = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
+            }
         }
 
         /// <summary>カラーG</summary>
         public int ColorG
         {
             get => color.G;
-            set => color.G = value;
+            set
+            {
+                color.G = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
+            }
         }
 
         /// <summary>カラーB</summary>
         public int ColorB
         {
             get => color.B;
-            set => color.B = value;
+            set
+            {
+                color.B = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
+            }
         }
 
+        private bool isSameColor;
+
         /// <summary>カラー同値</summary>
-        public bool IsSameColor { get; set; }
+        public bool IsSameColor
+        {
+            get => isSameColor;
+            set
+            {
+                isSameColor = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
+            }
+        }
 
         private readonly CanSameInt pattern = new CanSameInt(1);
         private readonly CanSameInt opacity = new CanSameInt(255);
@@ -807,6 +930,90 @@ namespace WodiLib.Event.EventCommand
             {
                 DefaultValue = defaultValueValue;
             }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 拡大率プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnZoomRatePropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(EventCommand.ZoomRate.ZoomRateType):
+                    NotifyPropertyChanged(nameof(ZoomRateType));
+                    NotifyPropertyChanged(nameof(NumberVariableCount));
+                    break;
+
+                case nameof(EventCommand.ZoomRate.IsDifference):
+                    NotifyPropertyChanged(nameof(ZoomRateWidth));
+                    NotifyPropertyChanged(nameof(ZoomRateHeight));
+                    NotifyPropertyChanged(nameof(NumberVariableCount));
+                    break;
+
+                case nameof(EventCommand.ZoomRate.IsSame):
+                    break;
+
+                case nameof(EventCommand.ZoomRate.Rate):
+                    NotifyPropertyChanged(nameof(ZoomRate));
+                    break;
+
+                case nameof(EventCommand.ZoomRate.RateWidth):
+                    NotifyPropertyChanged(nameof(ZoomRateWidth));
+                    break;
+
+                case nameof(EventCommand.ZoomRate.RateHeight):
+                    NotifyPropertyChanged(nameof(ZoomRateHeight));
+                    break;
+
+                case nameof(EventCommand.ZoomRate.IsDefaultRate):
+                    NotifyPropertyChanged(nameof(NumberVariableCount));
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 色プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnColorPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(Color.R):
+                    NotifyPropertyChanged(nameof(ColorR));
+                    NotifyPropertyChanged(nameof(NumberVariableCount));
+                    break;
+
+                case nameof(Color.G):
+                    NotifyPropertyChanged(nameof(ColorG));
+                    NotifyPropertyChanged(nameof(NumberVariableCount));
+                    break;
+
+                case nameof(Color.B):
+                    NotifyPropertyChanged(nameof(ColorB));
+                    NotifyPropertyChanged(nameof(NumberVariableCount));
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public PictureDrawBase()
+        {
+            zoomRate.PropertyChanged += OnZoomRatePropertyChanged;
+            color.PropertyChanged += OnColorPropertyChanged;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

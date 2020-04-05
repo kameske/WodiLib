@@ -144,49 +144,77 @@ namespace WodiLib.Event.EventCommand
         public bool IsInputOk
         {
             get => inputFlag.IsInputOk;
-            set => inputFlag.IsInputOk = value;
+            set
+            {
+                inputFlag.IsInputOk = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>自動キー入力（キャンセル）</summary>
         public bool IsInputCancel
         {
             get => inputFlag.IsInputCancel;
-            set => inputFlag.IsInputCancel = value;
+            set
+            {
+                inputFlag.IsInputCancel = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>自動キー入力（サブ）</summary>
         public bool IsInputSub
         {
             get => inputFlag.IsInputSub;
-            set => inputFlag.IsInputSub = value;
+            set
+            {
+                inputFlag.IsInputSub = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>自動キー入力（上）</summary>
         public bool IsInputUp
         {
             get => inputFlag.IsInputUp;
-            set => inputFlag.IsInputUp = value;
+            set
+            {
+                inputFlag.IsInputUp = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>自動キー入力（左）</summary>
         public bool IsInputLeft
         {
             get => inputFlag.IsInputLeft;
-            set => inputFlag.IsInputLeft = value;
+            set
+            {
+                inputFlag.IsInputLeft = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>自動キー入力（右）</summary>
         public bool IsInputRight
         {
             get => inputFlag.IsInputRight;
-            set => inputFlag.IsInputRight = value;
+            set
+            {
+                inputFlag.IsInputRight = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>自動キー入力（下）</summary>
         public bool IsInputDown
         {
             get => inputFlag.IsInputDown;
-            set => inputFlag.IsInputDown = value;
+            set
+            {
+                inputFlag.IsInputDown = value;
+                NotifyPropertyChanged();
+            }
         }
 
         private class InputFlag

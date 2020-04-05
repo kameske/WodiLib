@@ -62,6 +62,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(RightSide)));
                 rightSide = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -80,6 +81,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(RightSideReplaceNewStr));
                 RightSideReplaceString = value;
+                NotifyPropertyChanged();
             }
         }
 

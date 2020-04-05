@@ -21,7 +21,7 @@ namespace WodiLib.Map
     /// マップイベント移動ルート情報クラス
     /// </summary>
     [Serializable]
-    public class MapEventPageMoveRouteInfo : IEquatable<MapEventPageMoveRouteInfo>, ISerializable
+    public class MapEventPageMoveRouteInfo : ModelBase<MapEventPageMoveRouteInfo>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
@@ -51,6 +51,7 @@ namespace WodiLib.Map
                     Logger.Warning(WarningMessage.CannotSetValue(nameof(AnimateSpeed), value));
 
                 animateSpeed = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -71,6 +72,7 @@ namespace WodiLib.Map
                     Logger.Warning(WarningMessage.CannotSetValue(nameof(AnimateSpeed), value));
 
                 moveSpeed = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -87,6 +89,7 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MoveFrequency)));
                 moveFrequency = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -103,10 +106,13 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MoveType)));
                 moveType = value;
+                NotifyPropertyChanged();
+
                 if (moveType == MoveType.Custom && customMoveRoute is null)
                 {
-                    // 移動ルート＝カスタムのとき、移動ルート必須のためからインスタンスをセット
+                    // 移動ルート＝カスタムのとき、移動ルート必須のためインスタンスをセット
                     customMoveRoute = new ActionEntry();
+                    NotifyPropertyChanged(nameof(CustomMoveRoute));
                 }
             }
         }
@@ -132,6 +138,7 @@ namespace WodiLib.Map
                 customMoveRoute = value ?? new ActionEntry();
 
                 customMoveRoute.Owner = TargetAddressOwner.MapEvent;
+                NotifyPropertyChanged();
             }
         }
 
@@ -155,7 +162,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(MapEventPageMoveRouteInfo other)
+        public override bool Equals(MapEventPageMoveRouteInfo other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

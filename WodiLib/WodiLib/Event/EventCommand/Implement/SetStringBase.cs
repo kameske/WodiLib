@@ -203,11 +203,31 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int leftSide;
+
         /// <summary>左辺（代入先）</summary>
-        public int LeftSide { get; set; }
+        public int LeftSide
+        {
+            get => leftSide;
+            set
+            {
+                leftSide = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isIndicateNumberVariable;
 
         /// <summary>代入先を変数で指定フラグ</summary>
-        public bool IsIndicateNumberVariable { get; set; }
+        public bool IsIndicateNumberVariable
+        {
+            get => isIndicateNumberVariable;
+            set
+            {
+                isIndicateNumberVariable = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private StringAssignmentOperator assignmentOperator = StringAssignmentOperator.Assign;
 
@@ -222,6 +242,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(AssignmentOperator)));
                 assignmentOperator = value;
+                NotifyPropertyChanged();
             }
         }
 

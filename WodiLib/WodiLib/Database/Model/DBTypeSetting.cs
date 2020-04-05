@@ -16,7 +16,7 @@ namespace WodiLib.Database
     /// DBタイプ設定
     /// </summary>
     [Serializable]
-    public class DBTypeSetting : IEquatable<DBTypeSetting>
+    public class DBTypeSetting : ModelBase<DBTypeSetting>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -36,6 +36,7 @@ namespace WodiLib.Database
                         ErrorMessage.NotNull(nameof(TypeName)));
 
                 typeName = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -54,6 +55,7 @@ namespace WodiLib.Database
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(DataNameList)));
                 dataNameList = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -72,6 +74,7 @@ namespace WodiLib.Database
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ItemSettingList)));
                 itemSettingList = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -89,6 +92,7 @@ namespace WodiLib.Database
                         ErrorMessage.NotNull(nameof(Memo)));
 
                 memo = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -101,7 +105,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DBTypeSetting other)
+        public override bool Equals(DBTypeSetting other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

@@ -139,6 +139,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Target)));
                 acceptStatus.Target = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -146,21 +147,33 @@ namespace WodiLib.Event.EventCommand
         public bool IsAcceptLeftClick
         {
             get => acceptStatus.IsAcceptLeftClick;
-            set => acceptStatus.IsAcceptLeftClick = value;
+            set
+            {
+                acceptStatus.IsAcceptLeftClick = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>右クリック</summary>
         public bool IsAcceptRightClick
         {
             get => acceptStatus.IsAcceptRightClick;
-            set => acceptStatus.IsAcceptRightClick = value;
+            set
+            {
+                acceptStatus.IsAcceptRightClick = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>中クリック</summary>
         public bool IsAcceptCenterClick
         {
             get => acceptStatus.IsAcceptCenterClick;
-            set => acceptStatus.IsAcceptCenterClick = value;
+            set
+            {
+                acceptStatus.IsAcceptCenterClick = value;
+                NotifyPropertyChanged();
+            }
         }
 
         private class AcceptStatus

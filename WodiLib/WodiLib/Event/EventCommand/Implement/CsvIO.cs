@@ -111,6 +111,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBKind)));
                 _DBKind = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -128,6 +129,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBTypeId)));
                 _DBTypeId.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 
@@ -145,6 +147,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBDataId)));
                 _DBDataId.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 
@@ -156,12 +159,26 @@ namespace WodiLib.Event.EventCommand
         public int DBItemIndex
         {
             get => _DBItemId.ToInt();
-            set => _DBItemId = value;
+            set
+            {
+                _DBItemId = value;
+                NotifyPropertyChanged();
+            }
         }
+
+        private IntOrStr _dBItemId = 0;
 
         /// <inheritdoc />
         /// <summary>項目ID</summary>
-        protected override IntOrStr _DBItemId { get; set; } = 0;
+        protected override IntOrStr _DBItemId
+        {
+            get => _dBItemId;
+            set
+            {
+                _dBItemId = value;
+                NotifyPropertyChanged(nameof(DBItemIndex));
+            }
+        }
 
         private CsvIOMode mode = CsvIOMode.Input;
 
@@ -176,11 +193,22 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Mode)));
                 mode = value;
+                NotifyPropertyChanged();
             }
         }
 
+        private int itemLength;
+
         /// <summary>出力/入力データ数</summary>
-        public int ItemLength { get; set; }
+        public int ItemLength
+        {
+            get => itemLength;
+            set
+            {
+                itemLength = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private string fileName = "";
 
@@ -194,6 +222,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(FileName)));
                 fileName = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -201,14 +230,22 @@ namespace WodiLib.Event.EventCommand
         public bool IsTypeIdUseStr
         {
             get => _IsTypeIdUseStr;
-            set => _IsTypeIdUseStr = value;
+            set
+            {
+                _IsTypeIdUseStr = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>データID文字列指定フラグ</summary>
         public bool IsDataIdUseStr
         {
             get => _IsDataIdUseStr;
-            set => _IsDataIdUseStr = value;
+            set
+            {
+                _IsDataIdUseStr = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <inheritdoc />

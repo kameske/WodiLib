@@ -8,7 +8,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel;
+using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -17,14 +18,40 @@ namespace WodiLib.Event.EventCommand
     /// 選択肢リスト
     /// </summary>
     [Serializable]
-    internal class ChoiceCaseList : IEquatable<ChoiceCaseList>
+    public class ChoiceCaseList : FixedLengthList<string>
     {
-        private readonly List<string> caseList = new List<string>
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>リスト数</summary>
+        public static int Capacity => 12;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        public override string this[int index]
         {
-            "", "", "", "", "",
-            "", "", "", "", "",
-            "", ""
-        };
+            get
+            {
+                if (index < 0 || CaseValue <= index)
+                    throw new ArgumentOutOfRangeException(
+                        ErrorMessage.OutOfRange(nameof(index), 0, CaseValue - 1, index));
+                return base[index];
+            }
+            set
+            {
+                if (index < 0 || CaseValue <= index)
+                    throw new ArgumentOutOfRangeException(
+                        ErrorMessage.OutOfRange(nameof(index), 0, CaseValue - 1, index));
+                if (value is null)
+                    throw new ArgumentNullException(
+                        ErrorMessage.NotNull(nameof(value)));
+                base[index] = value;
+            }
+        }
 
         private int caseValue = 1;
 
@@ -50,12 +77,13 @@ namespace WodiLib.Event.EventCommand
         /// <param name="index">[Range(0, CaseValue - 1)] 選択肢番号</param>
         /// <returns>選択肢番号に対応した文字列</returns>
         /// <exception cref="ArgumentOutOfRangeException">0～選択肢最大番号以外の値を設定した場合</exception>
+        [Obsolete("インデクサを通じて値を取得してください。 Ver1.4で削除します。")]
         public string Get(int index)
         {
             if (index < 0 || CaseValue <= index)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), 0, CaseValue - 1, index));
-            return caseList[index];
+            return this[index];
         }
 
         /// <summary>
@@ -65,6 +93,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="src">[NotNull] 更新文字列</param>
         /// <exception cref="ArgumentOutOfRangeException">0～選択肢最大番号以外の値を設定した場合</exception>
         /// <exception cref="ArgumentNullException">srcがnullの場合</exception>
+        [Obsolete("インデクサを通じて値を設定してください。 Ver1.4で削除します。")]
         public void Set(int index, string src)
         {
             if (index < 0 || CaseValue <= index)
@@ -73,19 +102,67 @@ namespace WodiLib.Event.EventCommand
             if (src is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(src)));
-            caseList[index] = src;
+            this[index] = src;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public ChoiceCaseList()
+        {
         }
 
         /// <summary>
-        /// 値を比較する。
+        /// コンストラクタ
         /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool Equals(ChoiceCaseList other)
+        /// <param name="list">初期リスト</param>
+        /// <exception cref="ArgumentNullException">listがnullの場合</exception>
+        /// <exception cref="InvalidOperationException">listの要素数が12以外の場合</exception>
+        public ChoiceCaseList(
+            IReadOnlyCollection<string> list)
+            : base(list)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return caseList.SequenceEqual(other.caseList);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 容量を返す。
+        /// </summary>
+        /// <returns>容量</returns>
+        public override int GetCapacity() => Capacity;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 格納対象のデフォルトインスタンスを生成する。
+        /// </summary>
+        /// <param name="index">挿入インデックス</param>
+        /// <returns>デフォルトインスタンス</returns>
+        protected override string MakeDefaultItem(int index) => "";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="info">デシリアライズ情報</param>
+        /// <param name="context">コンテキスト</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected ChoiceCaseList(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

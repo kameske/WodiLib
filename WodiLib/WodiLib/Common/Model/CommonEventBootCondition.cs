@@ -21,7 +21,7 @@ namespace WodiLib.Common
     /// コモンイベント起動条件実装クラス
     /// </summary>
     [Serializable]
-    public class CommonEventBootCondition : ISerializable, IEquatable<CommonEventBootCondition>
+    public class CommonEventBootCondition : ModelBase<CommonEventBootCondition>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -40,6 +40,7 @@ namespace WodiLib.Common
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(CommonEventBootType)));
                 commonEventBootType = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -63,6 +64,7 @@ namespace WodiLib.Common
                 }
 
                 leftSide = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -79,11 +81,22 @@ namespace WodiLib.Common
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Operation)));
                 operation = value;
+                NotifyPropertyChanged();
             }
         }
 
+        private ConditionRight rightSide;
+
         /// <summary>右辺</summary>
-        public ConditionRight RightSide { get; set; }
+        public ConditionRight RightSide
+        {
+            get => rightSide;
+            set
+            {
+                rightSide = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -105,7 +118,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(CommonEventBootCondition other)
+        public override bool Equals(CommonEventBootCondition other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

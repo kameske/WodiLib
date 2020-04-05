@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Cmn;
 using WodiLib.Event;
@@ -27,11 +28,14 @@ namespace WodiLib.Test.Map
         public static void GraphicTileIdSetTest(bool isGraphicTileChip, int tileId, bool isError)
         {
             var instance = new MapEventPageGraphicInfo();
+            instance.IsGraphicTileChip = isGraphicTileChip;
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var graphicTileId = (MapEventTileId) tileId;
             var errorOccured = false;
             try
             {
-                instance.IsGraphicTileChip = isGraphicTileChip;
                 instance.GraphicTileId = graphicTileId;
             }
             catch (Exception ex)
@@ -42,6 +46,17 @@ namespace WodiLib.Test.Map
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapEventPageGraphicInfo.GraphicTileId)));
+            }
         }
 
         [TestCase(false, "abc", false)]
@@ -49,11 +64,14 @@ namespace WodiLib.Test.Map
         public static void CharaChipFileNameSetTest(bool isGraphicTileChip, string fileName, bool isError)
         {
             var instance = new MapEventPageGraphicInfo();
+            instance.IsGraphicTileChip = isGraphicTileChip;
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var errorOccured = false;
             var charaChipName = (CharaChipFilePath) fileName;
             try
             {
-                instance.IsGraphicTileChip = isGraphicTileChip;
                 instance.CharaChipFilePath = charaChipName;
             }
             catch (Exception ex)
@@ -64,6 +82,17 @@ namespace WodiLib.Test.Map
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapEventPageGraphicInfo.CharaChipFilePath)));
+            }
         }
 
         [TestCase(false, false)]
@@ -71,6 +100,9 @@ namespace WodiLib.Test.Map
         public static void CharaChipDrawTypeTest(bool isNull, bool isError)
         {
             var instance = new MapEventPageGraphicInfo();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var errorOccured = false;
             try
             {
@@ -84,6 +116,17 @@ namespace WodiLib.Test.Map
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapEventPageGraphicInfo.CharaChipDrawType)));
+            }
         }
 
         [TestCase(-1, false, false)]
@@ -94,6 +137,9 @@ namespace WodiLib.Test.Map
         {
             var instance = new MapEventPageGraphicInfo();
             instance.IsGraphicTileChip = beforeIsGraphicTileChip;
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var mapEventTileId = (MapEventTileId) tileId;
             var errorOccured = false;
             try
@@ -111,6 +157,21 @@ namespace WodiLib.Test.Map
 
             // タイルチップ使用フラグが一致すること
             Assert.AreEqual(instance.IsGraphicTileChip, afterIsGraphicTileChip);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (mapEventTileId == MapEventTileId.NotUse)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 3);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapEventPageGraphicInfo.GraphicTileId)));
+                Assert.IsTrue(changedPropertyList[1].Equals(nameof(MapEventPageGraphicInfo.IsGraphicTileChip)));
+                Assert.IsTrue(changedPropertyList[2].Equals(nameof(MapEventPageGraphicInfo.CharaChipFilePath)));
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 2);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapEventPageGraphicInfo.GraphicTileId)));
+                Assert.IsTrue(changedPropertyList[1].Equals(nameof(MapEventPageGraphicInfo.IsGraphicTileChip)));
+            }
         }
 
         [TestCase("CharaChip/Hero.png", false, false)]
@@ -119,6 +180,9 @@ namespace WodiLib.Test.Map
         {
             var instance = new MapEventPageGraphicInfo();
             instance.IsGraphicTileChip = beforeIsGraphicTileChip;
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var charaChipFileName = (CharaChipFilePath) fileName;
             var errorOccured = false;
             try
@@ -139,6 +203,18 @@ namespace WodiLib.Test.Map
                 // タイルチップ使用フラグがfalseであること
                 Assert.IsFalse(instance.IsGraphicTileChip);
             }
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 2);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapEventPageGraphicInfo.IsGraphicTileChip)));
+                Assert.IsTrue(changedPropertyList[1].Equals(nameof(MapEventPageGraphicInfo.CharaChipFilePath)));
+            }
         }
 
         [Test]
@@ -148,8 +224,14 @@ namespace WodiLib.Test.Map
             {
                 InitDirection = CharaChipDirection.LeftDown
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
     }
 }

@@ -14,6 +14,7 @@ namespace WodiLib.Database.DatabaseTypeDescHandler.DataDescList.DataName
     /// <summary>
     /// DatabaseDataDescList.SetItemのイベントハンドラ
     /// </summary>
+    [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
     internal class SetItemHandler : OnSetItemHandler<Database.DataName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

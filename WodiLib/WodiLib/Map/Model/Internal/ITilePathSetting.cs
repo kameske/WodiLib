@@ -6,7 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using System;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -14,7 +13,7 @@ namespace WodiLib.Map
     /// <summary>
     /// タイル通行許可設定インタフェース
     /// </summary>
-    internal interface ITilePathSetting : IEquatable<ITilePathSetting>
+    internal interface ITilePathSetting : IModelBase<ITilePathSetting>
     {
         /// <summary>
         /// タイル通行許可

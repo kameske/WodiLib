@@ -39,14 +39,22 @@ namespace WodiLib.Event.CharaMoveCommand
         public CharaMoveCommandValue PositionX
         {
             get => GetNumberValue(0);
-            set => SetNumberValue(0, value);
+            set
+            {
+                SetNumberValue(0, value);
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>Y座標</summary>
         public CharaMoveCommandValue PositionY
         {
             get => GetNumberValue(1);
-            set => SetNumberValue(1, value);
+            set
+            {
+                SetNumberValue(1, value);
+                NotifyPropertyChanged();
+            }
         }
 
         /// <inheritdoc />

@@ -131,10 +131,20 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int validNumber;
+
         /// <summary>
         /// Validate数値
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public int ValidNumber { get; set; }
+        public int ValidNumber
+        {
+            get => validNumber;
+            set
+            {
+                validNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace WodiLib.Ini
     /// Game.iniデータクラス
     /// </summary>
     [Serializable]
-    public class GameIniData : IEquatable<GameIniData>, ISerializable
+    public class GameIniData : ModelBase<GameIniData>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Const
@@ -33,30 +33,80 @@ namespace WodiLib.Ini
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int startCode;
+
         /// <summary>
         /// Game.exe起動済み種別コード
         /// </summary>
-        public int StartCode { get; set; }
+        public int StartCode
+        {
+            get => startCode;
+            set
+            {
+                startCode = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isSoftGraphicMode;
 
         /// <summary>
         /// ソフトウェア表示モードフラグ
         /// </summary>
-        public bool IsSoftGraphicMode { get; set; }
+        public bool IsSoftGraphicMode
+        {
+            get => isSoftGraphicMode;
+            set
+            {
+                isSoftGraphicMode = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isWindowMode;
 
         /// <summary>
         /// ウィンドウモードフラグ
         /// </summary>
-        public bool IsWindowMode { get; set; }
+        public bool IsWindowMode
+        {
+            get => isWindowMode;
+            set
+            {
+                isWindowMode = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isPlayBgm;
 
         /// <summary>
         /// BGM再生フラグ
         /// </summary>
-        public bool IsPlayBgm { get; set; }
+        public bool IsPlayBgm
+        {
+            get => isPlayBgm;
+            set
+            {
+                isPlayBgm = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isPlaySe;
 
         /// <summary>
         /// SE再生フラグ
         /// </summary>
-        public bool IsPlaySe { get; set; }
+        public bool IsPlaySe
+        {
+            get => isPlaySe;
+            set
+            {
+                isPlaySe = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private FrameSkipType frameSkipType = FrameSkipType.HighSpec;
 
@@ -74,6 +124,7 @@ namespace WodiLib.Ini
                         ErrorMessage.NotNull(nameof(FrameSkipType)));
 
                 frameSkipType = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -93,33 +144,84 @@ namespace WodiLib.Ini
                         ErrorMessage.NotNull(nameof(ProxyAddress)));
 
                 proxyAddress = value;
+                NotifyPropertyChanged();
             }
         }
+
+        private ProxyPort proxyPort;
 
         /// <summary>
         /// プロキシポート
         /// </summary>
-        public ProxyPort ProxyPort { get; set; }
+        public ProxyPort ProxyPort
+        {
+            get => proxyPort;
+            set
+            {
+                proxyPort = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool canTakeScreenShot;
 
         /// <summary>
         /// スクリーンショット許可フラグ
         /// </summary>
-        public bool CanTakeScreenShot { get; set; }
+        public bool CanTakeScreenShot
+        {
+            get => canTakeScreenShot;
+            set
+            {
+                canTakeScreenShot = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool canReset;
 
         /// <summary>
         /// 【Ver2.20以降】F12リセット許可フラグ
         /// </summary>
-        public bool CanReset { get; set; }
+        public bool CanReset
+        {
+            get => canReset;
+            set
+            {
+                canReset = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DisplayNumber displayNumber;
 
         /// <summary>
         /// 【Ver2.20以降】起動ディスプレイ番号
         /// </summary>
-        public DisplayNumber DisplayNumber { get; set; }
+        public DisplayNumber DisplayNumber
+        {
+            get => displayNumber;
+            set
+            {
+                displayNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isUseOldDirectX;
 
         /// <summary>
         /// 【Ver2.22以降】旧DirectXバージョン利用フラグ
         /// </summary>
-        public bool IsUseOldDirectX { get; set; }
+        public bool IsUseOldDirectX
+        {
+            get => isUseOldDirectX;
+            set
+            {
+                isUseOldDirectX = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -174,7 +276,7 @@ namespace WodiLib.Ini
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(GameIniData other)
+        public override bool Equals(GameIniData other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

@@ -53,22 +53,26 @@ namespace WodiLib.Event.EventCommand
         public string EventCodeString { get; }
 
         /// <summary>
-        /// インデント
+        /// インデント<br/>
+        /// <see cref="Parse"/>実行完了までは値が正しく取得できない。
         /// </summary>
         public Indent Indent { get; private set; }
 
         /// <summary>
-        /// 数値引数リスト
+        /// 数値引数リスト<br/>
+        /// <see cref="Parse"/>実行完了までは空リストが返却される。
         /// </summary>
-        public List<int> NumberArgList { get; private set; }
+        public List<int> NumberArgList { get; private set; } = new List<int>();
 
         /// <summary>
-        /// 文字列引数リスト
+        /// 文字列引数リスト<br/>
+        /// <see cref="Parse"/>実行完了までは空リストが返却される。
         /// </summary>
-        public List<string> StrArgList { get; private set; }
+        public List<string> StrArgList { get; private set; } = new List<string>();
 
         /// <summary>
-        /// 拡張文字列
+        /// 拡張文字列<br/>
+        /// <see cref="Parse"/>実行完了までは空文字が返却される。
         /// </summary>
         public string ExpansionString { get; private set; } = "";
 

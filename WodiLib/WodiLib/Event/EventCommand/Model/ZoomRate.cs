@@ -18,7 +18,7 @@ namespace WodiLib.Event.EventCommand
     /// 拡大率
     /// </summary>
     [Serializable]
-    public class ZoomRate : IEquatable<ZoomRate>, ISerializable
+    public class ZoomRate : ModelBase<ZoomRate>, ISerializable
     {
         /// <summary>パターン同値フラグ値</summary>
         private static readonly int SameValue = new byte[] {0xC0, 0xBD, 0xF0, 0xFF}.ToInt32(Endian.Environment);
@@ -45,6 +45,9 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ZoomRateType)));
                 zoomRateType = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(IsDifference));
+                NotifyPropertyChanged(nameof(IsSame));
             }
         }
 
@@ -72,6 +75,7 @@ namespace WodiLib.Event.EventCommand
             {
                 if (IsDifference) throw new PropertyAccessException(ErrorMessage_Difference);
                 rates[0] = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -88,6 +92,7 @@ namespace WodiLib.Event.EventCommand
             {
                 if (!IsDifference) throw new PropertyAccessException(ErrorMessage_NotDifference);
                 rates[0] = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -104,6 +109,7 @@ namespace WodiLib.Event.EventCommand
             {
                 if (!IsDifference) throw new PropertyAccessException(ErrorMessage_NotDifference);
                 rates[1] = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -168,7 +174,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(ZoomRate other)
+        public override bool Equals(ZoomRate other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

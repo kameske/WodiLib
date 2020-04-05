@@ -52,6 +52,7 @@ namespace WodiLib.Event.CharaMoveCommand
                 moveFrequency = value;
                 var val = moveFrequency.Code;
                 SetNumberValue(0, val);
+                NotifyPropertyChanged();
             }
         }
 

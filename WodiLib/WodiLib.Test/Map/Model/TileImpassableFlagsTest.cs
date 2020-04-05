@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Map;
 using WodiLib.Sys.Cmn;
@@ -96,6 +97,8 @@ namespace WodiLib.Test.Map
         public static void RightDownTest(bool rightDown, int initCode, bool isError)
         {
             var instance = new TileImpassableFlags(initCode);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -111,12 +114,24 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (errorOccured)
+            {
+                var setValue = instance.RightDown;
 
-            var setValue = instance.RightDown;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(setValue));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(setValue));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(TileImpassableFlags.RightDown)));
+            }
         }
 
         [TestCase(false, 1, false)]
@@ -152,6 +167,8 @@ namespace WodiLib.Test.Map
         public static void LeftDownTest(bool leftDown, int initCode, bool isError)
         {
             var instance = new TileImpassableFlags(initCode);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -167,12 +184,24 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (errorOccured)
+            {
+                var setValue = instance.LeftDown;
 
-            var setValue = instance.LeftDown;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(setValue));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(setValue));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(TileImpassableFlags.LeftDown)));
+            }
         }
 
         [TestCase(false, 1, false)]
@@ -208,6 +237,8 @@ namespace WodiLib.Test.Map
         public static void RightUpTest(bool rightUp, int initCode, bool isError)
         {
             var instance = new TileImpassableFlags(initCode);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -223,12 +254,24 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (errorOccured)
+            {
+                var setValue = instance.RightUp;
 
-            var setValue = instance.RightUp;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(setValue));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(setValue));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(TileImpassableFlags.RightUp)));
+            }
         }
 
         [TestCase(false, 1, false)]
@@ -264,6 +307,8 @@ namespace WodiLib.Test.Map
         public static void LeftUpTest(bool LeftUp, int initCode, bool isError)
         {
             var instance = new TileImpassableFlags(initCode);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -279,12 +324,24 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (errorOccured)
+            {
+                var setValue = instance.LeftUp;
 
-            var setValue = instance.LeftUp;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(setValue));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(setValue));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(TileImpassableFlags.LeftUp)));
+            }
         }
 
         [TestCase(1, 1, true)]

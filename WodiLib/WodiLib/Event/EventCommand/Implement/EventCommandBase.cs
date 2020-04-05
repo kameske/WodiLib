@@ -21,7 +21,7 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Serializable]
-    public abstract class EventCommandBase : IEventCommand
+    public abstract class EventCommandBase : ModelBase<EventCommandBase>, IEventCommand
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -74,9 +74,19 @@ namespace WodiLib.Event.EventCommand
         /// </remarks>
         public virtual int RawEventCommandCode => EventCommandCode.Code;
 
+        private Indent indent;
+
         /// <inheritdoc />
         /// <summary>インデントの深さ</summary>
-        public Indent Indent { get; set; }
+        public Indent Indent
+        {
+            get => indent;
+            set
+            {
+                indent = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <inheritdoc />
         /// <summary>文字列変数個数</summary>
@@ -179,6 +189,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ExpansionString)));
                 expansionString = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -257,6 +268,14 @@ namespace WodiLib.Event.EventCommand
                    && AllNumberArgList.SequenceEqual(other.AllNumberArgList)
                    && AllStringArgList.SequenceEqual(other.AllStringArgList)
                    && (ActionEntry is null || (ActionEntry.Equals(other.ActionEntry)));
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(EventCommandBase other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
+            return Equals(other);
         }
 
         /// <inheritdoc />

@@ -185,14 +185,44 @@ namespace WodiLib.Event.EventCommand
 
         private CharaEffectType effectType = CharaEffectType.Flush;
 
+        private int targetCharacterId;
+
         /// <summary>対象キャラID</summary>
-        public int TargetCharacterId { get; set; }
+        public int TargetCharacterId
+        {
+            get => targetCharacterId;
+            set
+            {
+                targetCharacterId = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isMultiTarget;
 
         /// <summary>連続ピクチャ操作フラグ</summary>
-        public bool IsMultiTarget { get; set; }
+        public bool IsMultiTarget
+        {
+            get => isMultiTarget;
+            set
+            {
+                isMultiTarget = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int sequenceValue;
 
         /// <summary>連続ピクチャ数</summary>
-        public int SequenceValue { get; set; }
+        public int SequenceValue
+        {
+            get => sequenceValue;
+            set
+            {
+                sequenceValue = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>[NotNull] エフェクト種別</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
@@ -205,19 +235,60 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(EffectType)));
                 effectType = value;
+                NotifyPropertyChanged();
             }
         }
 
+        private int numberArg1;
+
         /// <summary>数値引数1</summary>
-        public int NumberArg1 { get; set; }
+        public int NumberArg1
+        {
+            get => numberArg1;
+            set
+            {
+                numberArg1 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int numberArg2;
 
         /// <summary>数値引数2</summary>
-        public int NumberArg2 { get; set; }
+        public int NumberArg2
+        {
+            get => numberArg2;
+            set
+            {
+                numberArg2 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int numberArg3;
 
         /// <summary>数値引数3</summary>
-        public int NumberArg3 { get; set; }
+        public int NumberArg3
+        {
+            get => numberArg3;
+            set
+            {
+                numberArg3 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int processTime;
 
         /// <summary>処理時間/間隔</summary>
-        public int ProcessTime { get; set; }
+        public int ProcessTime
+        {
+            get => processTime;
+            set
+            {
+                processTime = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }

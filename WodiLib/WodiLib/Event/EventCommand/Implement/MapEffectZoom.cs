@@ -177,16 +177,56 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int centerX;
+
         /// <summary>中心X座標</summary>
-        public int CenterX { get; set; }
+        public int CenterX
+        {
+            get => centerX;
+            set
+            {
+                centerX = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int centerY;
 
         /// <summary>中心Y座標</summary>
-        public int CenterY { get; set; }
+        public int CenterY
+        {
+            get => centerY;
+            set
+            {
+                centerY = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int zoomRate;
 
         /// <summary>拡大率</summary>
-        public int ZoomRate { get; set; }
+        public int ZoomRate
+        {
+            get => zoomRate;
+            set
+            {
+                zoomRate = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int duration;
 
         /// <summary>処理時間</summary>
-        public int Duration { get; set; }
+        public int Duration
+        {
+            get => duration;
+            set
+            {
+                duration = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }

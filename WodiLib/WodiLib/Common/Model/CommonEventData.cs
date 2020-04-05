@@ -16,7 +16,7 @@ namespace WodiLib.Common
     /// コモンイベントデータ
     /// </summary>
     [Serializable]
-    public class CommonEventData : IEquatable<CommonEventData>
+    public class CommonEventData : ModelBase<CommonEventData>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -40,7 +40,7 @@ namespace WodiLib.Common
 
         private CommonEventList commonEventList = new CommonEventList();
 
-        /// <summary>[NotNull] コモンイベントリスト</summary>
+        /// <summary>コモンイベントリスト</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CommonEventList CommonEventList
         {
@@ -51,6 +51,7 @@ namespace WodiLib.Common
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(CommonEventList)));
                 commonEventList = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -63,7 +64,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(CommonEventData other)
+        public override bool Equals(CommonEventData other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

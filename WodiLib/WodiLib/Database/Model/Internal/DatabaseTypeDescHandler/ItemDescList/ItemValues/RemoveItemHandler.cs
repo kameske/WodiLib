@@ -14,6 +14,7 @@ namespace WodiLib.Database.DatabaseTypeDescHandler.ItemDescList.ItemValues
     /// <summary>
     /// DBItemValuesList.RemoveItemのイベントハンドラ
     /// </summary>
+    [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
     internal class RemoveItemHandler : OnRemoveItemHandler<DBItemValue>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -21,7 +21,7 @@ namespace WodiLib.Event
     /// 動作指定
     /// </summary>
     [Serializable]
-    public class ActionEntry : IEquatable<ActionEntry>, ISerializable
+    public class ActionEntry : ModelBase<ActionEntry>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constant
@@ -45,14 +45,44 @@ namespace WodiLib.Event
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private bool isWaitForComplete;
+
         /// <summary>動作完了まで待機フラグ</summary>
-        public bool IsWaitForComplete { get; set; }
+        public bool IsWaitForComplete
+        {
+            get => isWaitForComplete;
+            set
+            {
+                isWaitForComplete = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isRepeatAction;
 
         /// <summary>動作繰り返しフラグ</summary>
-        public bool IsRepeatAction { get; set; }
+        public bool IsRepeatAction
+        {
+            get => isRepeatAction;
+            set
+            {
+                isRepeatAction = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isSkipIfCannotMove = true;
 
         /// <summary>移動できないときは飛ばすフラグ</summary>
-        public bool IsSkipIfCannotMove { get; set; } = true;
+        public bool IsSkipIfCannotMove
+        {
+            get => isSkipIfCannotMove;
+            set
+            {
+                isSkipIfCannotMove = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// オプションフラグをセットする。
@@ -82,6 +112,7 @@ namespace WodiLib.Event
                         ErrorMessage.NotNull(nameof(CommandList)));
 
                 commandList = value;
+                NotifyPropertyChanged();
                 commandList.Owner = Owner;
             }
         }
@@ -166,7 +197,7 @@ namespace WodiLib.Event
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(ActionEntry other)
+        public override bool Equals(ActionEntry other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

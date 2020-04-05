@@ -234,7 +234,9 @@ namespace WodiLib.Event.EventCommand
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Color)));
+                color.PropertyChanged -= OnColorPropertyChanged;
                 color = value;
+                color.PropertyChanged += OnColorPropertyChanged;
             }
         }
 
@@ -247,6 +249,39 @@ namespace WodiLib.Event.EventCommand
         private bool IsNeedExpandNumberArg()
         {
             return Color.R > 200 || Color.G > 200 || Color.B > 200;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// タイプ設定プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnColorPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(Color.R):
+                case nameof(Color.G):
+                case nameof(Color.B):
+                    NotifyPropertyChanged(nameof(NumberVariableCount));
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public ChangeScreenColor()
+        {
+            color.PropertyChanged += OnColorPropertyChanged;
         }
     }
 }

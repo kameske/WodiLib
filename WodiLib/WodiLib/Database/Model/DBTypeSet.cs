@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -16,7 +17,7 @@ namespace WodiLib.Database
     /// DBタイプセット（XXX.dbtypeset）
     /// </summary>
     [Serializable]
-    public class DBTypeSet : IEquatable<DBTypeSet>
+    public class DBTypeSet : ModelBase<DBTypeSet>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -60,6 +61,30 @@ namespace WodiLib.Database
         private DatabaseTypeDesc TypeDesc { get; } = DatabaseTypeDesc.Factory.CreateForDBTypeSet();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// タイプ情報プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnTypeDescPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(DatabaseTypeDesc.TypeName):
+                case nameof(DatabaseTypeDesc.Memo):
+                    NotifyPropertyChanged(args.PropertyName);
+                    break;
+
+                case nameof(DatabaseTypeDesc.WritableItemSettingList):
+                    NotifyPropertyChanged(nameof(ItemSettingList));
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -68,6 +93,7 @@ namespace WodiLib.Database
         /// </summary>
         public DBTypeSet()
         {
+            TypeDesc.PropertyChanged += OnTypeDescPropertyChanged;
         }
 
         /// <summary>
@@ -76,7 +102,7 @@ namespace WodiLib.Database
         /// <param name="itemSettingList">[NotNull] 初期項目設定リスト</param>
         /// <exception cref="ArgumentNullException">dataNameList, itemSettingList が null の場合</exception>
         /// <exception cref="ArgumentException">dataNameList, itemSettingList に null 要素が含まれる場合</exception>
-        public DBTypeSet(DBItemSettingList itemSettingList)
+        public DBTypeSet(DBItemSettingList itemSettingList) : this()
         {
             if (itemSettingList is null)
                 throw new ArgumentNullException(
@@ -90,7 +116,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DBTypeSet other)
+        public override bool Equals(DBTypeSet other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

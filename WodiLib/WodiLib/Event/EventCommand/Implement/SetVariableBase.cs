@@ -156,8 +156,18 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int leftSide;
+
         /// <summary>左辺（代入先）</summary>
-        public int LeftSide { get; set; }
+        public int LeftSide
+        {
+            get => leftSide;
+            set
+            {
+                leftSide = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private NumberAssignmentOperator assignmentOperator = NumberAssignmentOperator.Assign;
 
@@ -172,11 +182,22 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(AssignmentOperator)));
                 assignmentOperator = value;
+                NotifyPropertyChanged();
             }
         }
 
+        private int rightSide1;
+
         /// <summary>右辺その1</summary>
-        public int RightSide1 { get; set; }
+        public int RightSide1
+        {
+            get => rightSide1;
+            set
+            {
+                rightSide1 = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private CalculateOperator calculateOperator = CalculateOperator.Addition;
 
@@ -191,37 +212,138 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(CalculateOperator)));
                 calculateOperator = value;
+                NotifyPropertyChanged();
             }
         }
 
+        private int rightSide2;
+
         /// <summary>右辺その2</summary>
-        public int RightSide2 { get; set; }
+        public int RightSide2
+        {
+            get => rightSide2;
+            set
+            {
+                rightSide2 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isRoundMillion;
 
         /// <summary>計算結果を±999999以内に収める</summary>
-        public bool IsRoundMillion { get; set; }
+        public bool IsRoundMillion
+        {
+            get => isRoundMillion;
+            set
+            {
+                isRoundMillion = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isCalcReal;
 
         /// <summary>実数計算</summary>
-        public bool IsCalcReal { get; set; }
+        public bool IsCalcReal
+        {
+            get => isCalcReal;
+            set
+            {
+                isCalcReal = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isUseVariableXLeft;
 
         /// <summary>左辺）X番の変数呼び出し</summary>
-        public bool IsUseVariableXLeft { get; set; }
+        public bool IsUseVariableXLeft
+        {
+            get => isUseVariableXLeft;
+            set
+            {
+                isUseVariableXLeft = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isNotReferRight1;
 
         /// <summary>右辺1）データを呼ばない</summary>
-        public bool IsNotReferRight1 { get; set; }
+        public bool IsNotReferRight1
+        {
+            get => isNotReferRight1;
+            set
+            {
+                isNotReferRight1 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isUseVariableXRight1;
 
         /// <summary>右辺1）X番の変数呼び出し</summary>
-        public bool IsUseVariableXRight1 { get; set; }
+        public bool IsUseVariableXRight1
+        {
+            get => isUseVariableXRight1;
+            set
+            {
+                isUseVariableXRight1 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isNotReferRight2;
 
         /// <summary>右辺2）データを呼ばない</summary>
-        public bool IsNotReferRight2 { get; set; }
+        public bool IsNotReferRight2
+        {
+            get => isNotReferRight2;
+            set
+            {
+                isNotReferRight2 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isUseVariableXRight2;
 
         /// <summary>右辺2）X番の変数呼び出し</summary>
-        public bool IsUseVariableXRight2 { get; set; }
+        public bool IsUseVariableXRight2
+        {
+            get => isUseVariableXRight2;
+            set
+            {
+                isUseVariableXRight2 = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isMultiTarget;
 
         /// <summary>連続変数操作フラグ</summary>
-        public bool IsMultiTarget { get; set; }
+        public bool IsMultiTarget
+        {
+            get => isMultiTarget;
+            set
+            {
+                isMultiTarget = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int operationSeqValue;
 
         /// <summary>連続操作変数の数</summary>
-        public int OperationSeqValue { get; set; }
+        public int OperationSeqValue
+        {
+            get => operationSeqValue;
+            set
+            {
+                operationSeqValue = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }

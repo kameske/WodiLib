@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
+using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
@@ -46,10 +48,43 @@ namespace WodiLib.Test.Event.EventCommand
         [TestCase(0, 9, false)]
         [TestCase(9, 9, true)]
         [TestCase(10, 9, true)]
+        public static void GetAccessorTest(int index, int caseValue, bool isError)
+        {
+            var errorOccured = false;
+            var instance = new ChoiceCaseList {CaseValue = caseValue};
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            try
+            {
+                var _ = instance[index];
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            Assert.AreEqual(errorOccured, isError);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
+        }
+
+        [TestCase(0, 1, false)]
+        [TestCase(0, 2, false)]
+        [TestCase(1, 2, false)]
+        [TestCase(2, 2, true)]
+        [TestCase(0, 9, false)]
+        [TestCase(9, 9, true)]
+        [TestCase(10, 9, true)]
         public static void GetTest(int index, int caseValue, bool isError)
         {
             var errorOccured = false;
             var instance = new ChoiceCaseList {CaseValue = caseValue};
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             try
             {
                 var _ = instance.Get(index);
@@ -61,6 +96,47 @@ namespace WodiLib.Test.Event.EventCommand
             }
 
             Assert.AreEqual(errorOccured, isError);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
+        }
+
+        [TestCase(0, 1, false)]
+        [TestCase(0, 2, false)]
+        [TestCase(1, 2, false)]
+        [TestCase(2, 2, true)]
+        [TestCase(0, 9, false)]
+        [TestCase(8, 9, false)]
+        [TestCase(9, 9, true)]
+        public static void SetAccessorTest(int index, int caseValue, bool isError)
+        {
+            var errorOccured = false;
+            var instance = new ChoiceCaseList {CaseValue = caseValue};
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            try
+            {
+                instance[index] = "";
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(ListConstant.IndexerName));
+            }
         }
 
         [TestCase(0, 1, false)]
@@ -74,6 +150,9 @@ namespace WodiLib.Test.Event.EventCommand
         {
             var errorOccured = false;
             var instance = new ChoiceCaseList {CaseValue = caseValue};
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             try
             {
                 instance.Set(index, "");
@@ -85,6 +164,17 @@ namespace WodiLib.Test.Event.EventCommand
             }
 
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(ListConstant.IndexerName));
+            }
         }
 
         [TestCase(0, 1, "abc")]
@@ -94,6 +184,9 @@ namespace WodiLib.Test.Event.EventCommand
         {
             var initObj = new ChoiceCaseList {CaseValue = caseValue};
             var instance = new ChoiceCaseList {CaseValue = caseValue};
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             instance.Set(index, str);
 
             // 設定した文字列が取得できること
@@ -113,8 +206,14 @@ namespace WodiLib.Test.Event.EventCommand
             {
                 CaseValue = 3,
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
     }
 }

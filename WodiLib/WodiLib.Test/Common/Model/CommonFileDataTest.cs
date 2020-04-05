@@ -20,6 +20,53 @@ namespace WodiLib.Test.Common
             logger = WodiLibLogger.GetInstance();
         }
 
+        [TestCase(true, true)]
+        [TestCase(false, false)]
+        public static void CommonEventListTest(bool isNull, bool isError)
+        {
+            var instance = new CommonFileData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            var list = isNull
+                ? null
+                : new CommonEventList();
+
+            var errorOccured = false;
+            try
+            {
+                instance.CommonEventList = list;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (!errorOccured)
+            {
+                var getList = instance.CommonEventList;
+
+                // セットした値と取得した値が一致すること
+                Assert.NotNull(getList);
+                Assert.IsTrue(getList.Equals(list));
+            }
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(CommonFileData.CommonEventList)));
+            }
+        }
+
         [TestCase(-1, true)]
         [TestCase(0, true)]
         [TestCase(1, false)]
@@ -27,6 +74,8 @@ namespace WodiLib.Test.Common
         public static void SetCommonEventListTest(int commonEventLength, bool isError)
         {
             var instance = new CommonFileData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -41,6 +90,17 @@ namespace WodiLib.Test.Common
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (isError)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(CommonFileData.CommonEventList)));
+            }
         }
 
         [TestCase(1)]
@@ -50,6 +110,8 @@ namespace WodiLib.Test.Common
         {
             var instance = new CommonFileData();
             instance.SetCommonEventList(MakeCommonEventList(commonEventLength));
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -68,6 +130,9 @@ namespace WodiLib.Test.Common
             // 取得件数が意図した値と一致すること
             var eventsLength = instance.GetAllCommonEvent().Count();
             Assert.AreEqual(eventsLength, commonEventLength);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
@@ -75,8 +140,14 @@ namespace WodiLib.Test.Common
         {
             var target = new CommonFileData();
             target.SetCommonEventList(MakeCommonEventList(1));
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
 

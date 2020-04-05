@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Database;
 using WodiLib.Sys.Cmn;
@@ -22,6 +23,8 @@ namespace WodiLib.Test.Database
         public static void TypeDescListGetterTest()
         {
             var instance = new DatabaseMergedData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -36,6 +39,9 @@ namespace WodiLib.Test.Database
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
@@ -137,6 +143,8 @@ namespace WodiLib.Test.Database
             var typeSettingList = CreateTypeSettingList(listLength);
             var dataSettingList = CreateDataSettingList(listLength);
             var instance = new DatabaseMergedData(typeSettingList, dataSettingList);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             DatabaseDat result = null;
             var errorOccured = false;
@@ -163,6 +171,9 @@ namespace WodiLib.Test.Database
                 // 内容が一致すること
                 Assert.AreEqual(result.SettingList[i].TypeId, dataSettingList[i].TypeId);
             }
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] GenerateDatabaseProjectTestCaseSource =
@@ -177,6 +188,8 @@ namespace WodiLib.Test.Database
             var typeSettingList = CreateTypeSettingList(listLength);
             var dataSettingList = CreateDataSettingList(listLength);
             var instance = new DatabaseMergedData(typeSettingList, dataSettingList);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             DatabaseProject result = null;
             var errorOccured = false;
@@ -202,6 +215,9 @@ namespace WodiLib.Test.Database
                 // 内容が一致すること
                 Assert.AreEqual(result.TypeSettingList[i].TypeName, typeSettingList[i].TypeName);
             }
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] GenerateDBTypeSetTestCaseSource =
@@ -218,6 +234,8 @@ namespace WodiLib.Test.Database
             var typeSettingList = CreateTypeSettingList(listLength);
             var dataSettingList = CreateDataSettingList(listLength);
             var instance = new DatabaseMergedData(typeSettingList, dataSettingList);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             DBTypeSet result = null;
             var errorOccured = false;
@@ -234,10 +252,15 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                // データが正しいこと
+                Assert.NotNull(result);
+                Assert.AreEqual(result.TypeName, typeSettingList[typeId].TypeName);
+            }
 
-            // データが正しいこと
-            Assert.AreEqual(result.TypeName, typeSettingList[typeId].TypeName);
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
 
@@ -255,6 +278,8 @@ namespace WodiLib.Test.Database
             var typeSettingList = CreateTypeSettingList(listLength);
             var dataSettingList = CreateDataSettingList(listLength);
             var instance = new DatabaseMergedData(typeSettingList, dataSettingList);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             DBType result = null;
             var errorOccured = false;
@@ -271,10 +296,15 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                // データが正しいこと
+                Assert.NotNull(result);
+                Assert.AreEqual(result.TypeName, typeSettingList[typeId].TypeName);
+            }
 
-            // データが正しいこと
-            Assert.AreEqual(result.TypeName, typeSettingList[typeId].TypeName);
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
@@ -282,13 +312,22 @@ namespace WodiLib.Test.Database
         {
             var target = new DatabaseMergedData
             {
-                TypeDescList = { new DatabaseTypeDesc
+                TypeDescList =
                 {
-                    Memo = "Memo"
-                }}
+                    new DatabaseTypeDesc
+                    {
+                        Memo = "Memo"
+                    }
+                }
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
 

@@ -18,7 +18,7 @@ namespace WodiLib.Database
     /// DBデータ（XXXDatabase.dat）
     /// </summary>
     [Serializable]
-    public class DatabaseDat : IEquatable<DatabaseDat>, ISerializable
+    public class DatabaseDat : ModelBase<DatabaseDat>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -44,8 +44,18 @@ namespace WodiLib.Database
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>[Nullable] DB種別</summary>
-        public DBKind DBKind { get; set; }
+        private DBKind dbKind;
+
+        /// <summary>DB種別</summary>
+        public DBKind DBKind
+        {
+            get => dbKind;
+            set
+            {
+                dbKind = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private DBDataSettingList settingList = new DBDataSettingList();
 
@@ -62,6 +72,7 @@ namespace WodiLib.Database
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(SettingList)));
                 settingList = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -91,7 +102,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DatabaseDat other)
+        public override bool Equals(DatabaseDat other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

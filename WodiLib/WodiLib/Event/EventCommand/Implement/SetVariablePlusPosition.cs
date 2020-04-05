@@ -32,14 +32,44 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int positionX;
+
         /// <summary>X座標</summary>
-        public int PositionX { get; set; }
+        public int PositionX
+        {
+            get => positionX;
+            set
+            {
+                positionX = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int positionY;
 
         /// <summary>Y座標</summary>
-        public int PositionY { get; set; }
+        public int PositionY
+        {
+            get => positionY;
+            set
+            {
+                positionY = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isPrecise;
 
         /// <summary>精密座標フラグ</summary>
-        public bool IsPrecise { get; set; }
+        public bool IsPrecise
+        {
+            get => isPrecise;
+            set
+            {
+                isPrecise = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private NumberPlusPositionInfoType infoType = NumberPlusPositionInfoType.EventId;
 
@@ -54,6 +84,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(InfoType)));
                 infoType = value;
+                NotifyPropertyChanged();
             }
         }
 

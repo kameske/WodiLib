@@ -21,7 +21,7 @@ namespace WodiLib.Event.CharaMoveCommand
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Serializable]
-    public abstract class CharaMoveCommandBase : ICharaMoveCommand
+    public abstract class CharaMoveCommandBase : ModelBase<CharaMoveCommandBase>, ICharaMoveCommand
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
@@ -131,6 +131,19 @@ namespace WodiLib.Event.CharaMoveCommand
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public override bool Equals(CharaMoveCommandBase other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
+
+            return Equals(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

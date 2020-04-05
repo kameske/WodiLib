@@ -13,6 +13,7 @@ namespace WodiLib.Sys
     /// <summary>
     /// いずれかのActionデリゲートを保有するクラス
     /// </summary>
+    [Obsolete("Ver1.3削除クラス")]
     internal class AnyAction<T>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

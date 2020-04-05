@@ -159,16 +159,56 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int saveNumber;
+
         /// <summary>セーブデータ番号</summary>
-        public int SaveNumber { get; set; }
+        public int SaveNumber
+        {
+            get => saveNumber;
+            set
+            {
+                saveNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int saveAddress;
 
         /// <summary>読み込み先アドレス</summary>
-        public int SaveAddress { get; set; }
+        public int SaveAddress
+        {
+            get => saveAddress;
+            set
+            {
+                saveAddress = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isUseVariableX;
 
         /// <summary>X番の変数呼び出し</summary>
-        public bool IsUseVariableX { get; set; }
+        public bool IsUseVariableX
+        {
+            get => isUseVariableX;
+            set
+            {
+                isUseVariableX = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int saveData;
 
         /// <summary>書き込み値</summary>
-        public int SaveData { get; set; }
+        public int SaveData
+        {
+            get => saveData;
+            set
+            {
+                saveData = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }

@@ -38,8 +38,18 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int eventId;
+
         /// <summary>対象イベントID</summary>
-        public int EventId { get; set; }
+        public int EventId
+        {
+            get => eventId;
+            set
+            {
+                eventId = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private NumberPlusCharaInfoType infoType = NumberPlusCharaInfoType.XPositionStandard;
 
@@ -54,6 +64,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(InfoType)));
                 infoType = value;
+                NotifyPropertyChanged();
             }
         }
 

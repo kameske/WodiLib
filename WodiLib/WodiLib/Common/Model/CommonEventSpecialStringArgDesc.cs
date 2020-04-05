@@ -17,8 +17,8 @@ namespace WodiLib.Common
     /// コモンイベント文字列引数特殊指定情報クラス
     /// </summary>
     [Serializable]
-    public class CommonEventSpecialStringArgDesc : ICommonEventSpecialArgDesc,
-        IEquatable<CommonEventSpecialStringArgDesc>
+    public class CommonEventSpecialStringArgDesc : ModelBase<CommonEventSpecialStringArgDesc>,
+        ICommonEventSpecialArgDesc
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -39,6 +39,7 @@ namespace WodiLib.Common
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ArgName)));
                 argName = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -98,7 +99,7 @@ namespace WodiLib.Common
             if (ReferenceEquals(other, this)) return true;
             if (ReferenceEquals(other, null)) return false;
             if (!(other is CommonEventSpecialStringArgDesc casted)) return false;
-            return Equals(casted);
+            return Equals((IEquatable<CommonEventSpecialStringArgDesc>) casted);
         }
 
         /// <summary>
@@ -106,7 +107,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(CommonEventSpecialStringArgDesc other)
+        public override bool Equals(CommonEventSpecialStringArgDesc other)
         {
             if (ReferenceEquals(other, this)) return true;
             if (ReferenceEquals(other, null)) return false;

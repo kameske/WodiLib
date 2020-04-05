@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -14,31 +15,111 @@ namespace WodiLib.Event.EventCommand
     /// マップチップ通行設定
     /// </summary>
     [Serializable]
-    internal class MapChipSettings : IEquatable<MapChipSettings>
+    internal class MapChipSettings : ModelBase<MapChipSettings>
     {
+        private bool isNoUp;
+
         /// <summary>↑不能</summary>
-        public bool IsNoUp { get; set; }
+        public bool IsNoUp
+        {
+            get => isNoUp;
+            set
+            {
+                isNoUp = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isNoLeft;
 
         /// <summary>←不能</summary>
-        public bool IsNoLeft { get; set; }
+        public bool IsNoLeft
+        {
+            get => isNoLeft;
+            set
+            {
+                isNoLeft = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isNoRight;
 
         /// <summary>→不能</summary>
-        public bool IsNoRight { get; set; }
+        public bool IsNoRight
+        {
+            get => isNoRight;
+            set
+            {
+                isNoRight = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isNoDown;
 
         /// <summary>↓不能</summary>
-        public bool IsNoDown { get; set; }
+        public bool IsNoDown
+        {
+            get => isNoDown;
+            set
+            {
+                isNoDown = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isAboveHero;
 
         /// <summary>主人公の上</summary>
-        public bool IsAboveHero { get; set; }
+        public bool IsAboveHero
+        {
+            get => isAboveHero;
+            set
+            {
+                isAboveHero = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isHalfTrans;
 
         /// <summary>下半身透過</summary>
-        public bool IsHalfTrans { get; set; }
+        public bool IsHalfTrans
+        {
+            get => isHalfTrans;
+            set
+            {
+                isHalfTrans = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isMatchLowerLayer;
 
         /// <summary>下レイヤー依存</summary>
-        public bool IsMatchLowerLayer { get; set; }
+        public bool IsMatchLowerLayer
+        {
+            get => isMatchLowerLayer;
+            set
+            {
+                isMatchLowerLayer = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isCounter;
 
         /// <summary>カウンター</summary>
-        public bool IsCounter { get; set; }
+        public bool IsCounter
+        {
+            get => isCounter;
+            set
+            {
+                isCounter = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public MapChipSettings(int? flags = null)
         {
@@ -68,7 +149,7 @@ namespace WodiLib.Event.EventCommand
             return result;
         }
 
-        public bool Equals(MapChipSettings other)
+        public override bool Equals(MapChipSettings other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

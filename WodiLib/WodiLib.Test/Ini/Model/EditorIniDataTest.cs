@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Ini;
 using WodiLib.Sys.Cmn;
@@ -27,6 +28,8 @@ namespace WodiLib.Test.Ini.Model
         public static void StartFlagTest(StartFlag startFlag)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -46,6 +49,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(startFlag));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.StartFlag)));
         }
 
         private static readonly object[] LastLoadFileTestCaseSource =
@@ -59,6 +66,8 @@ namespace WodiLib.Test.Ini.Model
         public static void LastLoadFileTest(LastLoadMapFilePath lastLoadFile, bool isError)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -74,12 +83,24 @@ namespace WodiLib.Test.Ini.Model
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.LastLoadFile;
 
-            var setValue = instance.LastLoadFile;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(lastLoadFile));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(lastLoadFile));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.LastLoadFile)));
+            }
         }
 
         private static readonly object[] MainWindowPositionTestCaseSource =
@@ -91,6 +112,8 @@ namespace WodiLib.Test.Ini.Model
         public static void MainWindowPositionTest(WindowPosition position)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -110,6 +133,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(position));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.MainWindowPosition)));
         }
 
         private static readonly object[] MainWindowSizeTestCaseSource =
@@ -121,6 +148,8 @@ namespace WodiLib.Test.Ini.Model
         public static void MainWindowSizeTest(WindowSize size)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -140,6 +169,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(size));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.MainWindowSize)));
         }
 
         private static readonly object[] MapChipWindowPositionTestCaseSource =
@@ -151,6 +184,8 @@ namespace WodiLib.Test.Ini.Model
         public static void MapChipWindowPositionTest(WindowPosition position)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -170,6 +205,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(position));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.MapChipWindowPosition)));
         }
 
         private static readonly object[] MapEventWindowPositionTestCaseSource =
@@ -181,6 +220,8 @@ namespace WodiLib.Test.Ini.Model
         public static void MapEventWindowPositionTest(WindowPosition position)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -200,6 +241,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(position));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.MapEventWindowPosition)));
         }
 
         private static readonly object[] MapEventWindowSizeTestCaseSource =
@@ -211,6 +256,8 @@ namespace WodiLib.Test.Ini.Model
         public static void MapEventWindowSizeTest(WindowSize size)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -230,6 +277,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(size));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.MapEventWindowSize)));
         }
 
         private static readonly object[] MapEventInputWindowPositionTestCaseSource =
@@ -241,6 +292,8 @@ namespace WodiLib.Test.Ini.Model
         public static void MapEventInputWindowPositionTest(WindowPosition position)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -260,6 +313,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(position));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.MapEventInputWindowPosition)));
         }
 
         private static readonly object[] CommonEventWindowPositionTestCaseSource =
@@ -271,6 +328,8 @@ namespace WodiLib.Test.Ini.Model
         public static void CommonEventWindowPositionTest(WindowPosition position)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -290,6 +349,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(position));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.CommonEventWindowPosition)));
         }
 
         private static readonly object[] CommonEventWindowSizeTestCaseSource =
@@ -301,6 +364,8 @@ namespace WodiLib.Test.Ini.Model
         public static void CommonEventWindowSizeTest(WindowSize size)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -320,6 +385,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(size));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.CommonEventWindowSize)));
         }
 
         private static readonly object[] CommonEventInputWindowPositionTestCaseSource =
@@ -331,6 +400,8 @@ namespace WodiLib.Test.Ini.Model
         public static void CommonEventInputWindowPositionTest(WindowPosition position)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -350,6 +421,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(position));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.CommonEventInputWindowPosition)));
         }
 
         private static readonly object[] UserDbWindowPositionTestCaseSource =
@@ -361,6 +436,8 @@ namespace WodiLib.Test.Ini.Model
         public static void UserDbWindowPositionTest(WindowPosition position)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -380,6 +457,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(position));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.UserDbWindowPosition)));
         }
 
         private static readonly object[] ChangeableDbWindowPositionTestCaseSource =
@@ -391,6 +472,8 @@ namespace WodiLib.Test.Ini.Model
         public static void ChangeableDbWindowPositionTest(WindowPosition position)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -410,6 +493,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(position));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.ChangeableDbWindowPosition)));
         }
 
         private static readonly object[] SystemDbWindowPositionTestCaseSource =
@@ -421,6 +508,8 @@ namespace WodiLib.Test.Ini.Model
         public static void SystemDbWindowPositionTest(WindowPosition position)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -440,6 +529,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(position));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.SystemDbWindowPosition)));
         }
 
         private static readonly object[] DatabaseValueNumberDrawTypeTestCaseSource =
@@ -452,6 +545,8 @@ namespace WodiLib.Test.Ini.Model
         public static void DatabaseValueNumberDrawTypeTest(DatabaseValueNumberDrawType type, bool isError)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -467,12 +562,24 @@ namespace WodiLib.Test.Ini.Model
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.DatabaseValueNumberDrawType;
 
-            var setValue = instance.DatabaseValueNumberDrawType;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(type));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(type));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.DatabaseValueNumberDrawType)));
+            }
         }
 
         private static readonly object[] EditTimeDrawTypeTestCaseSource =
@@ -485,6 +592,8 @@ namespace WodiLib.Test.Ini.Model
         public static void EditTimeDrawTypeTest(EditTimeDrawType type, bool isError)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -500,12 +609,24 @@ namespace WodiLib.Test.Ini.Model
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.EditTimeDrawType;
 
-            var setValue = instance.EditTimeDrawType;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(type));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(type));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.EditTimeDrawType)));
+            }
         }
 
         private static readonly object[] EditTimeTestCaseSource =
@@ -517,6 +638,8 @@ namespace WodiLib.Test.Ini.Model
         public static void EditTimeTest(WorkTime workTime)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -536,6 +659,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(workTime));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.EditTime)));
         }
 
         private static readonly object[] NotEditTimeTestCaseSource =
@@ -547,6 +674,8 @@ namespace WodiLib.Test.Ini.Model
         public static void NotEditTimeTest(WorkTime workTime)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -566,12 +695,18 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(workTime));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.NotEditTime)));
         }
 
         [TestCase(true)]
         public static void IsShowDebugWindowTest(bool isShow)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -591,6 +726,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(isShow));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.IsShowDebugWindow)));
         }
 
         private static readonly object[] LayerTransparentTestCaseSource =
@@ -603,6 +742,8 @@ namespace WodiLib.Test.Ini.Model
         public static void LayerTransparentTest(LaterTransparentType type, bool isError)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -618,12 +759,24 @@ namespace WodiLib.Test.Ini.Model
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.LayerTransparent;
 
-            var setValue = instance.LayerTransparent;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(type));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(type));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.LayerTransparent)));
+            }
         }
 
         private static readonly object[] EventLayerOpacityTestCaseSource =
@@ -636,6 +789,8 @@ namespace WodiLib.Test.Ini.Model
         public static void EventLayerOpacityTest(EventLayerOpacityType type, bool isError)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -651,12 +806,24 @@ namespace WodiLib.Test.Ini.Model
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.EventLayerOpacity;
 
-            var setValue = instance.EventLayerOpacity;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(type));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(type));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.EventLayerOpacity)));
+            }
         }
 
         private static readonly object[] CommandColorTypeTestCaseSource =
@@ -669,6 +836,8 @@ namespace WodiLib.Test.Ini.Model
         public static void CommandColorTypeTest(CommandColorType type, bool isError)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -684,18 +853,32 @@ namespace WodiLib.Test.Ini.Model
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.CommandColorType;
 
-            var setValue = instance.CommandColorType;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(type));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(type));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.CommandColorType)));
+            }
         }
 
         [TestCase(true)]
         public static void IsDrawBackgroundImageTest(bool isDraw)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -715,6 +898,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(isDraw));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.IsDrawBackgroundImage)));
         }
 
         private static readonly object[] NotCopyExtListTestCaseSource =
@@ -727,6 +914,8 @@ namespace WodiLib.Test.Ini.Model
         public static void NotCopyExtListTest(ExtensionList list, bool isError)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -742,12 +931,24 @@ namespace WodiLib.Test.Ini.Model
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.NotCopyExtList;
 
-            var setValue = instance.NotCopyExtList;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(list));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(list));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.NotCopyExtList)));
+            }
         }
 
         private static readonly object[] CommandViewTypeTestCaseSource =
@@ -759,6 +960,8 @@ namespace WodiLib.Test.Ini.Model
         public static void CommandViewTypeTest(CommandViewType type)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -778,6 +981,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(type));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.CommandViewType)));
         }
 
         private static readonly object[] BackupTypeTestCaseSource =
@@ -790,6 +997,8 @@ namespace WodiLib.Test.Ini.Model
         public static void BackupTypeTest(ProjectBackupType type, bool isError)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -805,12 +1014,24 @@ namespace WodiLib.Test.Ini.Model
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.BackupType;
 
-            var setValue = instance.BackupType;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(type));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(type));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.BackupType)));
+            }
         }
 
         [TestCase(true, true)]
@@ -818,6 +1039,8 @@ namespace WodiLib.Test.Ini.Model
         public static void ShortCutKeyListTest(bool isNull, bool isError)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var item = isNull ? null : new EventCommandShortCutKeyList();
 
@@ -842,6 +1065,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(item));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.ShortCutKeyList)));
         }
 
         [TestCase(true, true)]
@@ -849,6 +1076,8 @@ namespace WodiLib.Test.Ini.Model
         public static void CommandPositionListTest(bool isNull, bool isError)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var item = isNull ? null : new ShortCutPositionList();
 
@@ -873,12 +1102,18 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(item));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.CommandPositionList)));
         }
 
         [TestCase(true)]
         public static void IsUseExpertCommandTest(bool isUse)
         {
             var instance = new EditorIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -898,6 +1133,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(isUse));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(EditorIniData.IsUseExpertCommand)));
         }
 
         [TestCase("Success", true)]
@@ -947,8 +1186,14 @@ namespace WodiLib.Test.Ini.Model
             {
                 BackupType = ProjectBackupType.FiveTimes,
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
     }
 }

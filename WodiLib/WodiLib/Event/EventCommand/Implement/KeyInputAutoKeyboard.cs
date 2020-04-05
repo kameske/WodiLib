@@ -134,8 +134,18 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int keyCode;
+
         /// <summary>キーコード</summary>
-        public int KeyCode { get; set; }
+        public int KeyCode
+        {
+            get => keyCode;
+            set
+            {
+                keyCode = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     VersionCheck

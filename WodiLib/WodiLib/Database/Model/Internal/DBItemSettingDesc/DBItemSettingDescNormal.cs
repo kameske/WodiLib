@@ -33,6 +33,12 @@ namespace WodiLib.Database
         /// </summary>
         public override DBItemType DefaultType => DBItemType.Int;
 
+        /// <summary>
+        /// 選択肢リスト
+        /// </summary>
+        public override IReadOnlyDatabaseValueCaseList ArgCaseList { get; }
+            = new DatabaseValueCaseList();
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -92,6 +98,21 @@ namespace WodiLib.Database
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
         public override bool Equals(IDBItemSettingDesc other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            if (!(other is DBItemSettingDescNormal casted)) return false;
+
+            return Equals(casted);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public override bool Equals(DBItemSettingDescBase other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

@@ -198,14 +198,44 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int leftSide;
+
         /// <summary>左辺（代入先）</summary>
-        public int LeftSide { get; set; }
+        public int LeftSide
+        {
+            get => leftSide;
+            set
+            {
+                leftSide = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isUseVariableXLeft;
 
         /// <summary>左辺）X番の変数呼び出し</summary>
-        public bool IsUseVariableXLeft { get; set; }
+        public bool IsUseVariableXLeft
+        {
+            get => isUseVariableXLeft;
+            set
+            {
+                isUseVariableXLeft = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isRoundMillion;
 
         /// <summary>計算結果を±999999以内に収める</summary>
-        public bool IsRoundMillion { get; set; }
+        public bool IsRoundMillion
+        {
+            get => isRoundMillion;
+            set
+            {
+                isRoundMillion = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private NumberPlusAssignmentOperator assignmentOperator = NumberPlusAssignmentOperator.Assign;
 
@@ -220,6 +250,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(AssignmentOperator)));
                 assignmentOperator = value;
+                NotifyPropertyChanged();
             }
         }
 

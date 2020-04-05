@@ -38,8 +38,18 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int pictureNumber;
+
         /// <summary>ピクチャ番号</summary>
-        public int PictureNumber { get; set; }
+        public int PictureNumber
+        {
+            get => pictureNumber;
+            set
+            {
+                pictureNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private NumberPlusPictureInfoType infoType = NumberPlusPictureInfoType.PositionX;
 
@@ -54,6 +64,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(InfoType)));
                 infoType = value;
+                NotifyPropertyChanged();
             }
         }
 

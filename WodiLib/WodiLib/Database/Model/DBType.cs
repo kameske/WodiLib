@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -16,7 +17,7 @@ namespace WodiLib.Database
     /// DBタイプ（XXX.dbtype）
     /// </summary>
     [Serializable]
-    public class DBType : IEquatable<DBType>
+    public class DBType : ModelBase<DBType>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -88,6 +89,31 @@ namespace WodiLib.Database
         private DatabaseTypeDesc TypeDesc { get; } = DatabaseTypeDesc.Factory.CreateForDBType();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// DBタイプ情報プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnDatabaseTypeDescPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(DatabaseTypeDesc.TypeName):
+                case nameof(DatabaseTypeDesc.Memo):
+                case nameof(DatabaseTypeDesc.DataSettingType):
+                case nameof(DatabaseTypeDesc.DBKind):
+                case nameof(DatabaseTypeDesc.TypeId):
+                case nameof(DatabaseTypeDesc.ItemDescList):
+                case nameof(DatabaseTypeDesc.DataDescList):
+                    NotifyPropertyChanged(args.PropertyName);
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -96,6 +122,7 @@ namespace WodiLib.Database
         /// </summary>
         public DBType()
         {
+            TypeDesc.PropertyChanged += OnDatabaseTypeDescPropertyChanged;
         }
 
         /// <summary>
@@ -109,7 +136,7 @@ namespace WodiLib.Database
         ///     またはsettingType が DesignatedType かつ dbKindまたはtypeIdがnullの場合
         /// </exception>
         public DBType(DBDataSettingType settingType,
-            DBKind dbKind = null, TypeId? typeId = null)
+            DBKind dbKind = null, TypeId? typeId = null) : this()
         {
             TypeDesc.SetDataSettingType(settingType, dbKind, typeId);
         }
@@ -125,7 +152,7 @@ namespace WodiLib.Database
         ///     または dataDescList, itemDescList の要素数が指定範囲外の場合
         /// </exception>
         public DBType(DatabaseDataDescList dataDescList,
-            DatabaseItemDescList itemDescList)
+            DatabaseItemDescList itemDescList) : this()
         {
             if (dataDescList is null)
                 throw new ArgumentNullException(
@@ -136,6 +163,7 @@ namespace WodiLib.Database
                     ErrorMessage.NotNull(nameof(itemDescList)));
 
             TypeDesc = DatabaseTypeDesc.Factory.CreateForDBType(dataDescList, itemDescList);
+            TypeDesc.PropertyChanged += OnDatabaseTypeDescPropertyChanged;
         }
 
         /// <summary>
@@ -157,6 +185,7 @@ namespace WodiLib.Database
             itemDescList)
         {
             TypeDesc.SetDataSettingType(settingType, dbKind, typeId);
+            TypeDesc.PropertyChanged += OnDatabaseTypeDescPropertyChanged;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -207,7 +236,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DBType other)
+        public override bool Equals(DBType other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

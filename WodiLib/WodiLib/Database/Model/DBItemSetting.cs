@@ -17,7 +17,7 @@ namespace WodiLib.Database
     /// DB項目設定
     /// </summary>
     [Serializable]
-    public class DBItemSetting : IEquatable<DBItemSetting>, ISerializable
+    public class DBItemSetting : ModelBase<DBItemSetting>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -39,6 +39,7 @@ namespace WodiLib.Database
                         ErrorMessage.NotNull(nameof(ItemName)));
 
                 itemName = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -58,11 +59,13 @@ namespace WodiLib.Database
                         ErrorMessage.NotNull(nameof(SpecialSettingDesc)));
 
                 specialSettingDesc = value;
+                NotifyPropertyChanged();
 
                 // 予め設定されていた項目種別が不適切な場合、整合性を保つために項目種別を強制変更する
                 if (!SpecialSettingDesc.CanSetItemType(ItemType))
                 {
                     itemType = specialSettingDesc.DefaultType;
+                    NotifyPropertyChanged(nameof(ItemType));
                 }
             }
         }
@@ -86,6 +89,7 @@ namespace WodiLib.Database
                         $"現在の設定では指定できない値種別がセットされました。(設定値：{value})");
 
                 itemType = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -109,7 +113,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DBItemSetting other)
+        public override bool Equals(DBItemSetting other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;

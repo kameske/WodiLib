@@ -46,6 +46,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(ConditionValue), 1, 4, value));
                 conditionValue = value;
+                NotifyPropertyChanged();
             }
         }
 

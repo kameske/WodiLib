@@ -54,6 +54,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBTypeId)));
                 _DBTypeId.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 
@@ -71,6 +72,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBDataId)));
                 _DBDataId.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 
@@ -86,14 +88,22 @@ namespace WodiLib.Event.EventCommand
         public bool IsTypeIdUseStr
         {
             get => _IsTypeIdUseStr;
-            set => _IsTypeIdUseStr = value;
+            set
+            {
+                _IsTypeIdUseStr = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>データID文字列指定フラグ</summary>
         public bool IsDataIdUseStr
         {
             get => _IsDataIdUseStr;
-            set => _IsDataIdUseStr = value;
+            set
+            {
+                _IsDataIdUseStr = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <inheritdoc />

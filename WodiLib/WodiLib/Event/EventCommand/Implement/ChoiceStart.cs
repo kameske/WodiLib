@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using WodiLib.Project;
@@ -119,7 +120,7 @@ namespace WodiLib.Event.EventCommand
             if (index < 0 || StringVariableCount < index)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), 0, StringVariableCount - 1, index));
-            return choiceCaseList.Get(index);
+            return ChoiceCaseList[index];
         }
 
         /// <inheritdoc />
@@ -137,7 +138,7 @@ namespace WodiLib.Event.EventCommand
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), 0, StringVariableCount - 1, index));
             if (value is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(value)));
-            choiceCaseList.Set(index, value);
+            ChoiceCaseList[index] = value;
         }
 
         /// <inheritdoc />
@@ -151,7 +152,7 @@ namespace WodiLib.Event.EventCommand
                     ErrorMessage.NotNull(nameof(desc)));
 
             var caseStrList = Enumerable.Range(0, CaseValue)
-                .Select(idx => choiceCaseList.Get(idx))
+                .Select(idx => ChoiceCaseList[idx])
                 .ToList();
             // 以降の処理のために自身の選択肢をResolveDescに登録
             desc.StartBranch(BranchType.Choice, caseStrList);
@@ -180,16 +181,20 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(CancelForkIndex)));
                 cancelForkIndex = value;
+                NotifyPropertyChanged();
             }
         }
 
-        private readonly ChoiceCaseList choiceCaseList = new ChoiceCaseList();
+        /// <summary>
+        /// 選択肢リスト
+        /// </summary>
+        public ChoiceCaseList ChoiceCaseList { get; } = new ChoiceCaseList();
 
         /// <summary>[Range(1, 12)] 選択肢数</summary>
         /// <exception cref="PropertyOutOfRangeException">指定範囲以外の値をセットした場合</exception>
         public int CaseValue
         {
-            get => choiceCaseList.CaseValue;
+            get => ChoiceCaseList.CaseValue;
             set
             {
                 if (value < 1 || 12 < value)
@@ -200,177 +205,178 @@ namespace WodiLib.Event.EventCommand
                     Logger.Warning("選択肢数が11以上のため、ウディタ上で編集すると設定が失われる場合があります。");
                 }
 
-                choiceCaseList.CaseValue = value;
+                ChoiceCaseList.CaseValue = value;
+                NotifyPropertyChanged(nameof(StringVariableCount));
             }
         }
 
-        /// <summary>[NotNull] 選択肢その1</summary>
+        /// <summary>選択肢その1</summary>
         /// <exception cref="PropertyNullException">nullを指定した場合</exception>
         public string Case1
         {
-            get => choiceCaseList.Get(0);
+            get => ChoiceCaseList[0];
             set
             {
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case1)));
-                choiceCaseList.Set(0, value);
+                ChoiceCaseList[0] = value;
             }
         }
 
-        /// <summary>[NotNull] 選択肢その2</summary>
+        /// <summary>選択肢その2</summary>
         /// <exception cref="PropertyNullException">nullを指定した場合</exception>
         public string Case2
         {
-            get => choiceCaseList.Get(1);
+            get => ChoiceCaseList[1];
             set
             {
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case2)));
-                choiceCaseList.Set(1, value);
+                ChoiceCaseList[1] = value;
             }
         }
 
-        /// <summary>[NotNull] 選択肢その3</summary>
+        /// <summary>選択肢その3</summary>
         /// <exception cref="PropertyNullException">nullを指定した場合</exception>
         public string Case3
         {
-            get => choiceCaseList.Get(2);
+            get => ChoiceCaseList[2];
             set
             {
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case3)));
-                choiceCaseList.Set(2, value);
+                ChoiceCaseList[2] = value;
             }
         }
 
-        /// <summary>[NotNull] 選択肢その4</summary>
+        /// <summary>選択肢その4</summary>
         /// <exception cref="PropertyNullException">nullを指定した場合</exception>
         public string Case4
         {
-            get => choiceCaseList.Get(3);
+            get => ChoiceCaseList[3];
             set
             {
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case4)));
-                choiceCaseList.Set(3, value);
+                ChoiceCaseList[3] = value;
             }
         }
 
-        /// <summary>[NotNull] 選択肢その5</summary>
+        /// <summary>選択肢その5</summary>
         /// <exception cref="PropertyNullException">nullを指定した場合</exception>
         public string Case5
         {
-            get => choiceCaseList.Get(4);
+            get => ChoiceCaseList[4];
             set
             {
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case5)));
-                choiceCaseList.Set(4, value);
+                ChoiceCaseList[4] = value;
             }
         }
 
-        /// <summary>[NotNull] 選択肢その6</summary>
+        /// <summary>選択肢その6</summary>
         /// <exception cref="PropertyNullException">nullを指定した場合</exception>
         public string Case6
         {
-            get => choiceCaseList.Get(5);
+            get => ChoiceCaseList[5];
             set
             {
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case6)));
-                choiceCaseList.Set(5, value);
+                ChoiceCaseList[5] = value;
             }
         }
 
-        /// <summary>[NotNull] 選択肢その7</summary>
+        /// <summary>選択肢その7</summary>
         /// <exception cref="PropertyNullException">nullを指定した場合</exception>
         public string Case7
         {
-            get => choiceCaseList.Get(6);
+            get => ChoiceCaseList[6];
             set
             {
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case7)));
-                choiceCaseList.Set(6, value);
+                ChoiceCaseList[6] = value;
             }
         }
 
-        /// <summary>[NotNull] 選択肢その8</summary>
+        /// <summary>選択肢その8</summary>
         /// <exception cref="PropertyNullException">nullを指定した場合</exception>
         public string Case8
         {
-            get => choiceCaseList.Get(7);
+            get => ChoiceCaseList[7];
             set
             {
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case8)));
-                choiceCaseList.Set(7, value);
+                ChoiceCaseList[7] = value;
             }
         }
 
-        /// <summary>[NotNull] 選択肢その9</summary>
+        /// <summary>選択肢その9</summary>
         /// <exception cref="PropertyNullException">nullを指定した場合</exception>
         public string Case9
         {
-            get => choiceCaseList.Get(8);
+            get => ChoiceCaseList[8];
             set
             {
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case9)));
-                choiceCaseList.Set(8, value);
+                ChoiceCaseList[8] = value;
             }
         }
 
-        /// <summary>[NotNull] 選択肢その10</summary>
+        /// <summary>選択肢その10</summary>
         /// <exception cref="PropertyNullException">nullを指定した場合</exception>
         public string Case10
         {
-            get => choiceCaseList.Get(9);
+            get => ChoiceCaseList[9];
             set
             {
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case10)));
-                choiceCaseList.Set(9, value);
+                ChoiceCaseList[9] = value;
             }
         }
 
-        /// <summary>[NotNull] 選択肢その11</summary>
+        /// <summary>選択肢その11</summary>
         /// <exception cref="PropertyNullException">nullを指定した場合</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public string Case11
         {
-            get => choiceCaseList.Get(10);
+            get => ChoiceCaseList[10];
             set
             {
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case10)));
-                choiceCaseList.Set(10, value);
+                ChoiceCaseList[10] = value;
             }
         }
 
-        /// <summary>[NotNull] 選択肢その12</summary>
+        /// <summary>選択肢その12</summary>
         /// <exception cref="PropertyNullException">nullを指定した場合</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public string Case12
         {
-            get => choiceCaseList.Get(11);
+            get => ChoiceCaseList[11];
             set
             {
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Case10)));
-                choiceCaseList.Set(11, value);
+                ChoiceCaseList[11] = value;
             }
         }
 
@@ -395,6 +401,75 @@ namespace WodiLib.Event.EventCommand
         {
             get => forkFlags.IsForkRightKey;
             set => forkFlags.IsForkRightKey = value;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 選択肢プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnChoiceCaseListPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(EventCommand.ChoiceCaseList.CaseValue):
+                    NotifyPropertyChanged(args.PropertyName);
+                    NotifyPropertyChanged(nameof(StringVariableCount));
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 選択肢コレクション変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnChoiceCaseListCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            if (args.OldStartingIndex != -1)
+            {
+                NotifyPropertyChanged($"Case{args.OldStartingIndex + 1}");
+            }
+
+            if (args.NewStartingIndex != -1)
+            {
+                NotifyPropertyChanged($"Case{args.NewStartingIndex + 1}");
+            }
+        }
+
+        /// <summary>
+        /// 選択肢分岐フラグプロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnForkFlagsPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(ChoiceForkFlags.IsStopForce):
+                case nameof(ChoiceForkFlags.IsForkLeftKey):
+                case nameof(ChoiceForkFlags.IsForkRightKey):
+                    NotifyPropertyChanged(args.PropertyName);
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public ChoiceStart()
+        {
+            ChoiceCaseList.PropertyChanged += OnChoiceCaseListPropertyChanged;
+            ChoiceCaseList.CollectionChanged += OnChoiceCaseListCollectionChanged;
+            forkFlags.PropertyChanged += OnForkFlagsPropertyChanged;
         }
     }
 }

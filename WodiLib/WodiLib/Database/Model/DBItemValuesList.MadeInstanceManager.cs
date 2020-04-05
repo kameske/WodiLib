@@ -35,8 +35,10 @@ namespace WodiLib.Database
             /// <summary>
             /// DB項目種別変更を生成したすべてのインスタンスに反映する。
             /// 更新された項目は、
-            ///     値種別が変化した場合はデフォルト値で初期化され、
-            ///     値種別が変化しなかった場合は値の変更は起こらない。
+            /// <list type="bullet">
+            ///     <item>値種別が変化した場合はデフォルト値で初期化される。</item>
+            ///     <item>値種別が変化しなかった場合は値の変更は起こらない。ただしNotifyPropertyChangedイベントは発火する。</item>
+            /// </list>
             /// </summary>
             /// <param name="itemId">項目ID</param>
             /// <param name="type">変更後の値種別</param>
@@ -45,20 +47,24 @@ namespace WodiLib.Database
                 Refresh();
 
                 // タイプ変化チェックメソッド 後のロジックのため匿名関数にする
-                var typeCheckFunc = new Func<DBItemValueList, bool>(target => target[itemId].Type == type);
+                Func<DBItemValueList, bool> typeCheckFunc = target => target[itemId].Type == type;
+                var isSameType = false;
 
                 foreach (var reference in MadeInstanceList)
                 {
                     if (!reference.TryGetTarget(out var target)) continue;
 
                     // タイプ変化チェックは最初の1回だけ行えばいい
+                    //   要素変更イベントを発火するため、タイプ変化していない場合でも要素を上書きする。
                     if (!(typeCheckFunc is null))
                     {
-                        if (typeCheckFunc.Invoke(target)) break;
+                        isSameType = typeCheckFunc.Invoke(target);
                         typeCheckFunc = null;
                     }
 
-                    target[itemId] = type.DBItemDefaultValue;
+                    target[itemId] = isSameType
+                        ? target[itemId]
+                        : type.DBItemDefaultValue;
                 }
             }
 

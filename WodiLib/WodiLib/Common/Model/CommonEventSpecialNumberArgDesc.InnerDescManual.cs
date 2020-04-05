@@ -20,7 +20,7 @@ namespace WodiLib.Common
         /// コモンイベント引数特殊指定情報内部クラス・選択肢手動生成
         /// </summary>
         [Serializable]
-        internal class InnerDescManual : IInnerDesc, IEquatable<InnerDescManual>
+        internal class InnerDescManual : ModelBase<InnerDescManual>, IInnerDesc
         {
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Public Property
@@ -37,7 +37,7 @@ namespace WodiLib.Common
             /// DB参照時のDB種別
             /// </summary>
             /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
-            public DBKind DatabaseDbKind => throw new PropertyException(
+            public DBKind DatabaseUseDbKind => throw new PropertyException(
                 "特殊指定が「データベース参照」ではないため取得できません");
 
             /// <inheritdoc />
@@ -56,12 +56,12 @@ namespace WodiLib.Common
             public bool DatabaseUseAdditionalItemsFlag => throw new PropertyException(
                 "特殊指定が「データベース参照」ではないため取得できません");
 
-            // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-            //     Private Property
-            // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-            /// <summary>選択肢リスト</summary>
             private CommonEventSpecialArgCaseList ArgCaseList { get; } = new CommonEventSpecialArgCaseList();
+
+            /// <summary>
+            /// 【読み取り専用】選択肢情報リスト
+            /// </summary>
+            public IReadOnlyCommonEventSpecialArgCaseList SpecialArgCaseList => ArgCaseList;
 
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Constructor
@@ -313,7 +313,7 @@ namespace WodiLib.Common
                 if (ReferenceEquals(null, other)) return false;
                 if (ReferenceEquals(this, other)) return true;
                 if (!(other is InnerDescManual casted)) return false;
-                return Equals(casted);
+                return Equals((IEquatable<InnerDescManual>) casted);
             }
 
             /// <summary>
@@ -321,7 +321,7 @@ namespace WodiLib.Common
             /// </summary>
             /// <param name="other">比較対象</param>
             /// <returns>一致する場合、true</returns>
-            public bool Equals(InnerDescManual other)
+            public override bool Equals(InnerDescManual other)
             {
                 if (ReferenceEquals(null, other)) return false;
                 if (ReferenceEquals(this, other)) return true;

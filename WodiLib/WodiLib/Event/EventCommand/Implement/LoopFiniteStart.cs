@@ -129,7 +129,17 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int loopTimes;
+
         /// <summary>ループ回数</summary>
-        public int LoopTimes { get; set; }
+        public int LoopTimes
+        {
+            get => loopTimes;
+            set
+            {
+                loopTimes = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }

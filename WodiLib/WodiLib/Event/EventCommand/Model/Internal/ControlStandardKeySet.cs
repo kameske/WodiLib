@@ -8,6 +8,7 @@
 
 using System;
 using System.Text;
+using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -15,7 +16,7 @@ namespace WodiLib.Event.EventCommand
     /// 基本キーセット
     /// </summary>
     [Serializable]
-    internal class ControlStandardKeySet : IEquatable<ControlStandardKeySet>
+    internal class ControlStandardKeySet : ModelBase<ControlStandardKeySet>
     {
         private static class InputKeyString
         {
@@ -28,13 +29,89 @@ namespace WodiLib.Event.EventCommand
             public const string Up = "↑ｷｰ  ";
         }
 
-        public bool Ok { get; set; }
-        public bool Cancel { get; set; }
-        public bool Sub { get; set; }
-        public bool Down { get; set; }
-        public bool Left { get; set; }
-        public bool Right { get; set; }
-        public bool Up { get; set; }
+        private bool ok;
+
+        public bool Ok
+        {
+            get => ok;
+            set
+            {
+                ok = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool cancel;
+
+        public bool Cancel
+        {
+            get => cancel;
+            set
+            {
+                cancel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool sub;
+
+        public bool Sub
+        {
+            get => sub;
+            set
+            {
+                sub = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool down;
+
+        public bool Down
+        {
+            get => down;
+            set
+            {
+                down = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool left;
+
+        public bool Left
+        {
+            get => left;
+            set
+            {
+                left = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool right;
+
+        public bool Right
+        {
+            get => right;
+            set
+            {
+                right = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool up;
+
+        public bool Up
+        {
+            get => up;
+            set
+            {
+                up = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private static byte FlgOk => 0x01;
         private static byte FlgCancel => 0x02;
@@ -83,7 +160,7 @@ namespace WodiLib.Event.EventCommand
             return builder.ToString();
         }
 
-        public bool Equals(ControlStandardKeySet other)
+        public override bool Equals(ControlStandardKeySet other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

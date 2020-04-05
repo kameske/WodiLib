@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Map;
 using WodiLib.Sys.Cmn;
@@ -85,6 +86,8 @@ namespace WodiLib.Test.Map
         public static void PathPermissionTest()
         {
             var instance = new TilePathSettingAllow();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             TilePathPermission result = null;
 
@@ -104,12 +107,17 @@ namespace WodiLib.Test.Map
 
             // 結果が意図した値と一致すること
             Assert.AreEqual(result, TilePathPermission.Allow);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
         public static void ImpassableFlagsTest()
         {
             var instance = new TilePathSettingAllow();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -124,6 +132,9 @@ namespace WodiLib.Test.Map
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] PathOptionTestCaseSource =
@@ -136,6 +147,8 @@ namespace WodiLib.Test.Map
         public static void PathOptionTest(TilePathOption option, bool isError)
         {
             var instance = new TilePathSettingAllow();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -170,6 +183,10 @@ namespace WodiLib.Test.Map
 
             // 結果が意図した値と一致すること
             Assert.AreEqual(result, option);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(TilePathSettingAllow.PathOption)));
         }
 
         [Test]
@@ -177,6 +194,8 @@ namespace WodiLib.Test.Map
         {
             var setValue = new TileCannotPassingFlags(0x02);
             var instance = new TilePathSettingAllow(setValue);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             TileCannotPassingFlags result = null;
             var errorOccured = false;
@@ -195,6 +214,9 @@ namespace WodiLib.Test.Map
 
             // 結果が意図した値であること
             Assert.AreEqual(result, setValue);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
@@ -202,7 +224,8 @@ namespace WodiLib.Test.Map
         {
             const bool setValue = true;
             var instance = new TilePathSettingAllow();
-
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -235,6 +258,10 @@ namespace WodiLib.Test.Map
 
             // 結果が意図した値と一致すること
             Assert.AreEqual(result, setValue);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(TilePathSettingAllow.IsCounter)));
         }
 
         [Test]
@@ -244,8 +271,14 @@ namespace WodiLib.Test.Map
             {
                 IsCounter = true
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
     }
 }

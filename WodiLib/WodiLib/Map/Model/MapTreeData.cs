@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// マップツリーデータ
     /// </summary>
     [Serializable]
-    public class MapTreeData : IEquatable<MapTreeData>
+    public class MapTreeData : ModelBase<MapTreeData>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -57,6 +57,7 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(TreeNodeList)));
                 treeNodeList = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -69,7 +70,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(MapTreeData other)
+        public override bool Equals(MapTreeData other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

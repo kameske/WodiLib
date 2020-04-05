@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -38,6 +39,8 @@ namespace WodiLib.Test.Map
         public static void TileSetSettingListTest(TileSetSettingList list, bool isError)
         {
             var instance = new TileSetData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -53,12 +56,24 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.TileSetSettingList;
 
-            var setValue = instance.TileSetSettingList;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(list));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(list));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(TileSetData.TileSetSettingList)));
+            }
         }
 
         private static readonly object[] ToBinaryTestCaseSource =

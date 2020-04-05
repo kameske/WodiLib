@@ -80,28 +80,46 @@ namespace WodiLib.Test.Common.Internal
         public static void GetMaxCapacityTest()
         {
             var instance = new CommonEventSpecialArgCaseList();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var maxCapacity = instance.GetMaxCapacity();
 
             // 取得した値が容量最大値と一致すること
             Assert.AreEqual(maxCapacity, CommonEventSpecialArgCaseList.MaxCapacity);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
         public static void GetMinCapacityTest()
         {
             var instance = new CommonEventSpecialArgCaseList();
-            var maxCapacity = instance.GetMinCapacity();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            var minCapacity = instance.GetMinCapacity();
 
             // 取得した値が容量最大値と一致すること
-            Assert.AreEqual(maxCapacity, CommonEventSpecialArgCaseList.MinCapacity);
+            Assert.AreEqual(minCapacity, CommonEventSpecialArgCaseList.MinCapacity);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
         public static void SerializeTest()
         {
             var target = new CommonEventSpecialArgCaseList(MakeInitList(3, false));
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
 

@@ -39,8 +39,18 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int rightSide;
+
         /// <summary>ロード位置</summary>
-        public int RightSide { get; set; }
+        public int RightSide
+        {
+            get => rightSide;
+            set
+            {
+                rightSide = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Abstract Property

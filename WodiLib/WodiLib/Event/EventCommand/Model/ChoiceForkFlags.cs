@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -14,16 +15,46 @@ namespace WodiLib.Event.EventCommand
     /// 選択肢分岐フラグ
     /// </summary>
     [Serializable]
-    public class ChoiceForkFlags : IEquatable<ChoiceForkFlags>
+    public class ChoiceForkFlags : ModelBase<ChoiceForkFlags>
     {
+        private bool isStopForce;
+
         /// <summary>強制中断フラグ</summary>
-        public bool IsStopForce { get; set; }
+        public bool IsStopForce
+        {
+            get => isStopForce;
+            set
+            {
+                isStopForce = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isForkLeftKey;
 
         /// <summary>左キー分岐</summary>
-        public bool IsForkLeftKey { get; set; }
+        public bool IsForkLeftKey
+        {
+            get => isForkLeftKey;
+            set
+            {
+                isForkLeftKey = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isForkRightKey;
 
         /// <summary>右キー分岐</summary>
-        public bool IsForkRightKey { get; set; }
+        public bool IsForkRightKey
+        {
+            get => isForkRightKey;
+            set
+            {
+                isForkRightKey = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// コンストラクタ
@@ -42,7 +73,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(ChoiceForkFlags other)
+        public override bool Equals(ChoiceForkFlags other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

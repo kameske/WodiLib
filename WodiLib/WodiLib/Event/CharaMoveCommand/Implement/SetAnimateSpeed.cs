@@ -52,6 +52,7 @@ namespace WodiLib.Event.CharaMoveCommand
                 animateSpeed = value;
                 var val = animateSpeed.Code;
                 SetNumberValue(0, val);
+                NotifyPropertyChanged();
             }
         }
 

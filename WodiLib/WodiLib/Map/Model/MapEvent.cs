@@ -18,14 +18,24 @@ namespace WodiLib.Map
     ///     マップイベント
     /// </summary>
     [Serializable]
-    public class MapEvent : IEquatable<MapEvent>
+    public class MapEvent : ModelBase<MapEvent>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private MapEventId mapEventId;
+
         /// <summary>マップイベントID</summary>
-        public MapEventId MapEventId { get; set; }
+        public MapEventId MapEventId
+        {
+            get => mapEventId;
+            set
+            {
+                mapEventId = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private MapEventName eventName = "";
 
@@ -40,11 +50,22 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(EventName)));
                 eventName = value;
+                NotifyPropertyChanged();
             }
         }
 
+        private Position position;
+
         /// <summary>座標</summary>
-        public Position Position { get; set; }
+        public Position Position
+        {
+            get => position;
+            set
+            {
+                position = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>ページ数</summary>
         public int PageValue => MapEventPageList.Count;
@@ -65,8 +86,45 @@ namespace WodiLib.Map
                 if (value is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(MapEventPageList)));
+
+                mapEventPageList.PropertyChanged -= OnMapEventPageListPropertyChanged;
                 mapEventPageList = value;
+                mapEventPageList.PropertyChanged += OnMapEventPageListPropertyChanged;
+
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(PageValue));
             }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// マップイベントリストプロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnMapEventPageListPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(MapEventPageList.Count):
+                    NotifyPropertyChanged(nameof(PageValue));
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public MapEvent()
+        {
+            mapEventPageList.PropertyChanged += OnMapEventPageListPropertyChanged;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -100,7 +158,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(MapEvent other)
+        public override bool Equals(MapEvent other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

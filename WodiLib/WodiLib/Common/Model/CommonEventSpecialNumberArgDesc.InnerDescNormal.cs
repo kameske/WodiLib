@@ -19,7 +19,7 @@ namespace WodiLib.Common
         /// コモンイベント引数特殊指定情報内部クラス・データベース参照・特殊な指定方法を使用しない
         /// </summary>
         [Serializable]
-        internal class InnerDescNormal : IInnerDesc, IEquatable<InnerDescNormal>
+        internal class InnerDescNormal : ModelBase<InnerDescNormal>, IInnerDesc
         {
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Public Property
@@ -36,7 +36,7 @@ namespace WodiLib.Common
             /// DB参照時のDB種別
             /// </summary>
             /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
-            public DBKind DatabaseDbKind => throw new PropertyException(
+            public DBKind DatabaseUseDbKind => throw new PropertyException(
                 "特殊指定が「データベース参照」ではないため取得できません");
 
             /// <inheritdoc />
@@ -54,6 +54,13 @@ namespace WodiLib.Common
             /// <exception cref="PropertyException">参照種別が「データベース参照」以外の場合</exception>
             public bool DatabaseUseAdditionalItemsFlag => throw new PropertyException(
                 "特殊指定が「データベース参照」ではないため取得できません");
+
+            private CommonEventSpecialArgCaseList ArgCaseList { get; } = new CommonEventSpecialArgCaseList();
+
+            /// <summary>
+            /// 【読み取り専用】選択肢情報リスト
+            /// </summary>
+            public IReadOnlyCommonEventSpecialArgCaseList SpecialArgCaseList => ArgCaseList;
 
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Public Method
@@ -245,7 +252,7 @@ namespace WodiLib.Common
                 if (ReferenceEquals(this, other)) return true;
                 if (ReferenceEquals(null, other)) return false;
                 if (!(other is InnerDescNormal casted)) return false;
-                return Equals(casted);
+                return Equals((IEquatable<InnerDescNormal>) casted);
             }
 
             /// <summary>
@@ -253,7 +260,7 @@ namespace WodiLib.Common
             /// </summary>
             /// <param name="other">比較対象</param>
             /// <returns>一致する場合、true</returns>
-            public bool Equals(InnerDescNormal other)
+            public override bool Equals(InnerDescNormal other)
             {
                 if (ReferenceEquals(this, other)) return true;
                 if (ReferenceEquals(null, other)) return false;

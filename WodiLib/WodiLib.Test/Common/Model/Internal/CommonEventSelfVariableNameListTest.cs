@@ -79,10 +79,16 @@ namespace WodiLib.Test.Common.Internal
         public static void GetCapacityTest()
         {
             var instance = new CommonEventSelfVariableNameList();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var maxCapacity = instance.GetCapacity();
 
             // 取得した値が制限容量と一致すること
             Assert.AreEqual(maxCapacity, CommonEventSelfVariableNameList.Capacity);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
@@ -92,8 +98,14 @@ namespace WodiLib.Test.Common.Internal
             {
                 [3] = "SelfName",
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static List<CommonEventSelfVariableName> MakeInitList(int length, bool hasNullItem)

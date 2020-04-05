@@ -13,11 +13,13 @@ using System.Runtime.Serialization;
 namespace WodiLib.Sys
 {
     /// <summary>
-    ///     int、またはstringのどちらかを持つクラス
+    ///     int、stringを持つクラス
     /// </summary>
     [Serializable]
-    public class IntOrStr : IEquatable<IntOrStr>, ISerializable
+    public class IntOrStr : ModelBase<IntOrStr>, ISerializable
     {
+        private static string NotifyPropertyChangedName = "Value";
+
         private readonly Guid guidForHash = Guid.NewGuid();
 
         private int numValue;
@@ -81,6 +83,7 @@ namespace WodiLib.Sys
         {
             InstanceIntOrStrType = HasStr ? IntOrStrType.IntAndStr : IntOrStrType.Int;
             numValue = value;
+            NotifyPropertyChanged(NotifyPropertyChangedName);
         }
 
         /// <summary>
@@ -92,6 +95,7 @@ namespace WodiLib.Sys
         {
             InstanceIntOrStrType = HasInt ? IntOrStrType.IntAndStr : IntOrStrType.Str;
             strValue = value;
+            NotifyPropertyChanged(NotifyPropertyChangedName);
         }
 
         /// <summary>
@@ -107,6 +111,8 @@ namespace WodiLib.Sys
             else if (HasInt || value.HasInt) InstanceIntOrStrType = IntOrStrType.Int;
             else if (HasStr || value.HasStr) InstanceIntOrStrType = IntOrStrType.Str;
             else InstanceIntOrStrType = IntOrStrType.None;
+
+            NotifyPropertyChanged(NotifyPropertyChangedName);
         }
 
         /// <summary>数値保有フラグ</summary>
@@ -223,7 +229,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(IntOrStr other)
+        public override bool Equals(IntOrStr other)
         {
             if (other is null) return false;
 

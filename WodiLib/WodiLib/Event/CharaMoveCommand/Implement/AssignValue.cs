@@ -78,6 +78,7 @@ namespace WodiLib.Event.CharaMoveCommand
                         ErrorMessage.Unsuitable(nameof(TargetAddress), $"値：{value}"));
 
                 SetNumberValue(0, value.ToInt());
+                NotifyPropertyChanged();
             }
         }
 
@@ -85,7 +86,11 @@ namespace WodiLib.Event.CharaMoveCommand
         public CharaMoveCommandValue Value
         {
             get => GetNumberValue(1);
-            set => SetNumberValue(1, value);
+            set
+            {
+                SetNumberValue(1, value);
+                NotifyPropertyChanged();
+            }
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

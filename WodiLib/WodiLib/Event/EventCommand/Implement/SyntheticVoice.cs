@@ -170,17 +170,57 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int playbackSpeed;
+
         /// <summary>読む速さ</summary>
-        public int PlaybackSpeed { get; set; }
+        public int PlaybackSpeed
+        {
+            get => playbackSpeed;
+            set
+            {
+                playbackSpeed = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int volume;
 
         /// <summary>音量</summary>
-        public int Volume { get; set; }
+        public int Volume
+        {
+            get => volume;
+            set
+            {
+                volume = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int voiceTone;
 
         /// <summary>声の高さ</summary>
-        public int VoiceTone { get; set; }
+        public int VoiceTone
+        {
+            get => voiceTone;
+            set
+            {
+                voiceTone = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int delay;
 
         /// <summary>再生遅延</summary>
-        public int Delay { get; set; }
+        public int Delay
+        {
+            get => delay;
+            set
+            {
+                delay = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private string playbackText = "";
 
@@ -195,6 +235,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(PlaybackText)));
                 playbackText = value;
+                NotifyPropertyChanged();
             }
         }
 

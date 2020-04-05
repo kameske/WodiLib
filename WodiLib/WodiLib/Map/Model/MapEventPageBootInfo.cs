@@ -18,7 +18,7 @@ namespace WodiLib.Map
     /// マップイベントページ起動情報クラス
     /// </summary>
     [Serializable]
-    public class MapEventPageBootInfo : IEquatable<MapEventPageBootInfo>, ISerializable
+    public class MapEventPageBootInfo : ModelBase<MapEventPageBootInfo>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -35,6 +35,7 @@ namespace WodiLib.Map
             {
                 if (value is null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(MapEventBootType)));
                 mapEventBootType = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -109,7 +110,11 @@ namespace WodiLib.Map
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MapEventBootCondition1)));
+                mapEventBootCondition1.PropertyChanged -= OnMapEventBootConditionChanged;
                 mapEventBootCondition1 = value;
+                mapEventBootCondition1.PropertyChanged += OnMapEventBootConditionChanged;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(HasEventBootCondition1));
             }
         }
 
@@ -123,7 +128,11 @@ namespace WodiLib.Map
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MapEventBootCondition2)));
+                mapEventBootCondition2.PropertyChanged -= OnMapEventBootConditionChanged;
                 mapEventBootCondition2 = value;
+                mapEventBootCondition2.PropertyChanged += OnMapEventBootConditionChanged;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(HasEventBootCondition2));
             }
         }
 
@@ -137,7 +146,11 @@ namespace WodiLib.Map
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MapEventBootCondition3)));
+                mapEventBootCondition3.PropertyChanged -= OnMapEventBootConditionChanged;
                 mapEventBootCondition3 = value;
+                mapEventBootCondition3.PropertyChanged += OnMapEventBootConditionChanged;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(HasEventBootCondition3));
             }
         }
 
@@ -151,7 +164,11 @@ namespace WodiLib.Map
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MapEventBootCondition4)));
+                mapEventBootCondition4.PropertyChanged -= OnMapEventBootConditionChanged;
                 mapEventBootCondition4 = value;
+                mapEventBootCondition4.PropertyChanged += OnMapEventBootConditionChanged;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(HasEventBootCondition4));
             }
         }
 
@@ -191,6 +208,41 @@ namespace WodiLib.Map
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 起動条件1設定プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnMapEventBootConditionChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(MapEventBootCondition.UseCondition):
+                    if (ReferenceEquals(sender, mapEventBootCondition1))
+                    {
+                        NotifyPropertyChanged(nameof(HasEventBootCondition1));
+                    }
+                    else if (ReferenceEquals(sender, mapEventBootCondition2))
+                    {
+                        NotifyPropertyChanged(nameof(HasEventBootCondition2));
+                    }
+                    else if (ReferenceEquals(sender, mapEventBootCondition3))
+                    {
+                        NotifyPropertyChanged(nameof(HasEventBootCondition3));
+                    }
+                    else if (ReferenceEquals(sender, mapEventBootCondition4))
+                    {
+                        NotifyPropertyChanged(nameof(HasEventBootCondition4));
+                    }
+
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -199,6 +251,10 @@ namespace WodiLib.Map
         /// </summary>
         public MapEventPageBootInfo()
         {
+            mapEventBootCondition1.PropertyChanged += OnMapEventBootConditionChanged;
+            mapEventBootCondition2.PropertyChanged += OnMapEventBootConditionChanged;
+            mapEventBootCondition3.PropertyChanged += OnMapEventBootConditionChanged;
+            mapEventBootCondition4.PropertyChanged += OnMapEventBootConditionChanged;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -210,7 +266,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(MapEventPageBootInfo other)
+        public override bool Equals(MapEventPageBootInfo other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

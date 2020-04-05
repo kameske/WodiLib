@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using NUnit.Framework;
 using WodiLib.Database;
+using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
@@ -31,6 +33,8 @@ namespace WodiLib.Test.Database
         public static void SettingTypeTest(DBItemSpecialSettingType type)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -45,6 +49,9 @@ namespace WodiLib.Test.Database
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] DatabaseReferKindTestCaseSource =
@@ -59,6 +66,8 @@ namespace WodiLib.Test.Database
         public static void DatabaseReferKindGetterTest(DBItemSpecialSettingType type, bool isError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -73,12 +82,17 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [TestCaseSource(nameof(DatabaseReferKindTestCaseSource))]
         public static void DatabaseReferKindSetterTest(DBItemSpecialSettingType type, bool isError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -93,6 +107,17 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBItemSpecialSettingDesc.DatabaseReferKind)));
+            }
         }
 
         private static readonly object[] DatabaseDbTypeIdTestCaseSource =
@@ -107,6 +132,8 @@ namespace WodiLib.Test.Database
         public static void DatabaseDbTypeIdGetterTest(DBItemSpecialSettingType type, bool isError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -121,12 +148,17 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [TestCaseSource(nameof(DatabaseDbTypeIdTestCaseSource))]
         public static void DatabaseDbTypeIdSetterTest(DBItemSpecialSettingType type, bool isError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -141,6 +173,17 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBItemSpecialSettingDesc.DatabaseDbTypeId)));
+            }
         }
 
         private static readonly object[] DatabaseUseAdditionalItemsFlagTestCaseSource =
@@ -155,6 +198,8 @@ namespace WodiLib.Test.Database
         public static void DatabaseUseAdditionalItemsFlagGetterTest(DBItemSpecialSettingType type, bool isError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -169,12 +214,17 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [TestCaseSource(nameof(DatabaseUseAdditionalItemsFlagTestCaseSource))]
         public static void DatabaseUseAdditionalItemsFlagSetterTest(DBItemSpecialSettingType type, bool isError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -189,6 +239,18 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0]
+                    .Equals(nameof(DBItemSpecialSettingDesc.DatabaseUseAdditionalItemsFlag)));
+            }
         }
 
         private static readonly object[] FolderNameTestCaseSource =
@@ -203,6 +265,8 @@ namespace WodiLib.Test.Database
         public static void FolderNameGetterTest(DBItemSpecialSettingType type, bool isError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -217,12 +281,17 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [TestCaseSource(nameof(FolderNameTestCaseSource))]
         public static void FolderNameSetterTest(DBItemSpecialSettingType type, bool isError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -237,6 +306,17 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(instance.FolderName)));
+            }
         }
 
         private static readonly object[] OmissionFolderNameFlagTestCaseSource =
@@ -251,6 +331,8 @@ namespace WodiLib.Test.Database
         public static void OmissionFolderNameFlagGetterTest(DBItemSpecialSettingType type, bool isError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -265,12 +347,17 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [TestCaseSource(nameof(OmissionFolderNameFlagTestCaseSource))]
         public static void OmissionFolderNameFlagSetterTest(DBItemSpecialSettingType type, bool isError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -285,6 +372,50 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBItemSpecialSettingDesc.OmissionFolderNameFlag)));
+            }
+        }
+
+        private static readonly object[] ArgCaseListGetterTestCaseSource =
+        {
+            new object[] {DBItemSpecialSettingType.Normal},
+            new object[] {DBItemSpecialSettingType.Manual},
+            new object[] {DBItemSpecialSettingType.LoadFile},
+            new object[] {DBItemSpecialSettingType.ReferDatabase},
+        };
+
+        [TestCaseSource(nameof(ArgCaseListGetterTestCaseSource))]
+        public static void ArgCaseListGetterTest(DBItemSpecialSettingType type)
+        {
+            var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            var errorOccured = false;
+            try
+            {
+                var _ = instance.ArgCaseList;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] InitValueTestCaseSource =
@@ -303,6 +434,8 @@ namespace WodiLib.Test.Database
         public static void InitValueTest(DBItemSpecialSettingType type, DBItemValue setValue, bool isSetError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -330,6 +463,17 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isSetError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBItemSpecialSettingDesc.InitValue)));
+            }
         }
 
         private static readonly object[] ItemMemoTestCaseSource =
@@ -348,6 +492,8 @@ namespace WodiLib.Test.Database
         public static void ItemMemoTest(DBItemSpecialSettingType type, ItemMemo setValue, bool isSetError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -375,6 +521,17 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isSetError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBItemSpecialSettingDesc.ItemMemo)));
+            }
         }
 
         private static readonly object[] ChangeValueTypeTestCaseSource =
@@ -406,6 +563,9 @@ namespace WodiLib.Test.Database
             bool isError)
         {
             var instance = new DBItemSpecialSettingDesc();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var cases = MakeCaseList(argCaseLength);
 
             var errorOccured = false;
@@ -421,6 +581,17 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBItemSpecialSettingDesc.SettingType)));
+            }
         }
 
         private static readonly object[] GetAllSpecialCaseTestCaseSource =
@@ -435,6 +606,8 @@ namespace WodiLib.Test.Database
         public static void GetAllSpecialCaseTest(DBItemSpecialSettingType type)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -449,6 +622,9 @@ namespace WodiLib.Test.Database
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] GetAllSpecialCaseNumberTestCaseSource =
@@ -463,6 +639,8 @@ namespace WodiLib.Test.Database
         public static void GetAllSpecialCaseNumberTest(DBItemSpecialSettingType type)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -477,6 +655,9 @@ namespace WodiLib.Test.Database
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] GetAllSpecialCaseDescriptionTestCaseSource =
@@ -491,6 +672,8 @@ namespace WodiLib.Test.Database
         public static void GetAllSpecialCaseDescriptionTest(DBItemSpecialSettingType type)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -505,6 +688,9 @@ namespace WodiLib.Test.Database
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] AddSpecialCaseTestCaseSource =
@@ -524,6 +710,12 @@ namespace WodiLib.Test.Database
             DatabaseValueCase argCase, bool isError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            var changedArgCaseList = new List<string>();
+            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
+            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
+            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
 
             var errorOccured = false;
             try
@@ -538,6 +730,22 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 0);
+            if (!errorOccured)
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 2);
+                Assert.IsTrue(changedArgCaseList[0].Equals(nameof(instance.ArgCaseList.Count)));
+                Assert.IsTrue(changedArgCaseList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedArgCaseCollection.Count, 1);
+                Assert.IsTrue(changedArgCaseCollection[0].Action == NotifyCollectionChangedAction.Add);
+            }
+            else
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 0);
+                Assert.AreEqual(changedArgCaseCollection.Count, 0);
+            }
         }
 
         private static readonly object[] AddSpecialCaseRangeTestCaseSource =
@@ -573,6 +781,13 @@ namespace WodiLib.Test.Database
             int caseLength, bool hasNullItem, bool isError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            var changedArgCaseList = new List<string>();
+            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
+            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
+            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
+
             var cases = MakeCaseList(caseLength, hasNullItem);
 
             var errorOccured = false;
@@ -588,6 +803,22 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 0);
+            if (!errorOccured)
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 2);
+                Assert.IsTrue(changedArgCaseList[0].Equals(nameof(instance.ArgCaseList.Count)));
+                Assert.IsTrue(changedArgCaseList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedArgCaseCollection.Count, 1);
+                Assert.IsTrue(changedArgCaseCollection[0].Action == NotifyCollectionChangedAction.Add);
+            }
+            else
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 0);
+                Assert.AreEqual(changedArgCaseCollection.Count, 0);
+            }
         }
 
 
@@ -626,6 +857,13 @@ namespace WodiLib.Test.Database
                 instance.AddSpecialCaseRange(addList);
             }
 
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            var changedArgCaseList = new List<string>();
+            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
+            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
+            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
+
             var errorOccured = false;
             try
             {
@@ -639,6 +877,22 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 0);
+            if (!errorOccured)
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 2);
+                Assert.IsTrue(changedArgCaseList[0].Equals(nameof(instance.ArgCaseList.Count)));
+                Assert.IsTrue(changedArgCaseList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedArgCaseCollection.Count, 1);
+                Assert.IsTrue(changedArgCaseCollection[0].Action == NotifyCollectionChangedAction.Add);
+            }
+            else
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 0);
+                Assert.AreEqual(changedArgCaseCollection.Count, 0);
+            }
         }
 
         private static readonly object[] InsertSpecialCaseRangeTestCaseSource =
@@ -716,6 +970,13 @@ namespace WodiLib.Test.Database
                 instance.AddSpecialCaseRange(addList);
             }
 
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            var changedArgCaseList = new List<string>();
+            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
+            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
+            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
+
             var cases = MakeCaseList(insertLength, hasNullItem);
 
             var errorOccured = false;
@@ -731,6 +992,22 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 0);
+            if (!errorOccured)
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 2);
+                Assert.IsTrue(changedArgCaseList[0].Equals(nameof(instance.ArgCaseList.Count)));
+                Assert.IsTrue(changedArgCaseList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedArgCaseCollection.Count, 1);
+                Assert.IsTrue(changedArgCaseCollection[0].Action == NotifyCollectionChangedAction.Add);
+            }
+            else
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 0);
+                Assert.AreEqual(changedArgCaseCollection.Count, 0);
+            }
         }
 
         private static readonly object[] UpdateDatabaseSpecialCaseTestCaseSource =
@@ -774,6 +1051,12 @@ namespace WodiLib.Test.Database
             int caseNumber, string description, bool isError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            var changedArgCaseList = new List<string>();
+            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
+            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
+            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
 
             var errorOccured = false;
             try
@@ -788,6 +1071,21 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 0);
+            if (!errorOccured)
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 1);
+                Assert.IsTrue(changedArgCaseList[0].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedArgCaseCollection.Count, 1);
+                Assert.IsTrue(changedArgCaseCollection[0].Action == NotifyCollectionChangedAction.Replace);
+            }
+            else
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 0);
+                Assert.AreEqual(changedArgCaseCollection.Count, 0);
+            }
         }
 
         private static readonly object[] UpdateManualSpecialCaseTestCaseSource =
@@ -825,6 +1123,13 @@ namespace WodiLib.Test.Database
                 instance.AddSpecialCaseRange(addList);
             }
 
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            var changedArgCaseList = new List<string>();
+            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
+            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
+            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
+
             var errorOccured = false;
             try
             {
@@ -838,6 +1143,21 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 0);
+            if (!errorOccured)
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 1);
+                Assert.IsTrue(changedArgCaseList[0].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedArgCaseCollection.Count, 1);
+                Assert.IsTrue(changedArgCaseCollection[0].Action == NotifyCollectionChangedAction.Replace);
+            }
+            else
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 0);
+                Assert.AreEqual(changedArgCaseCollection.Count, 0);
+            }
         }
 
         private static readonly object[] RemoveAtTestCaseSource =
@@ -865,6 +1185,13 @@ namespace WodiLib.Test.Database
                 instance.AddSpecialCaseRange(addList);
             }
 
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            var changedArgCaseList = new List<string>();
+            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
+            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
+            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
+
             var errorOccured = false;
             try
             {
@@ -878,6 +1205,22 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 0);
+            if (!errorOccured)
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 2);
+                Assert.IsTrue(changedArgCaseList[0].Equals(nameof(instance.ArgCaseList.Count)));
+                Assert.IsTrue(changedArgCaseList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedArgCaseCollection.Count, 1);
+                Assert.IsTrue(changedArgCaseCollection[0].Action == NotifyCollectionChangedAction.Remove);
+            }
+            else
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 0);
+                Assert.AreEqual(changedArgCaseCollection.Count, 0);
+            }
         }
 
         private static readonly object[] RemoveRangeTestCaseSource =
@@ -922,6 +1265,13 @@ namespace WodiLib.Test.Database
                 instance.AddSpecialCaseRange(addList);
             }
 
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            var changedArgCaseList = new List<string>();
+            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
+            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
+            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
+
             var errorOccured = false;
             try
             {
@@ -935,6 +1285,22 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 0);
+            if (!errorOccured)
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 2);
+                Assert.IsTrue(changedArgCaseList[0].Equals(nameof(instance.ArgCaseList.Count)));
+                Assert.IsTrue(changedArgCaseList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedArgCaseCollection.Count, 1);
+                Assert.IsTrue(changedArgCaseCollection[0].Action == NotifyCollectionChangedAction.Remove);
+            }
+            else
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 0);
+                Assert.AreEqual(changedArgCaseCollection.Count, 0);
+            }
         }
 
         private static readonly object[] ClearTestCaseSource =
@@ -949,6 +1315,12 @@ namespace WodiLib.Test.Database
         public static void ClearTest(DBItemSpecialSettingType type, bool isError)
         {
             var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            var changedArgCaseList = new List<string>();
+            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
+            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
+            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
 
             var errorOccured = false;
             try
@@ -963,14 +1335,36 @@ namespace WodiLib.Test.Database
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 0);
+            if (!errorOccured)
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 2);
+                Assert.IsTrue(changedArgCaseList[0].Equals(nameof(instance.ArgCaseList.Count)));
+                Assert.IsTrue(changedArgCaseList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedArgCaseCollection.Count, 1);
+                Assert.IsTrue(changedArgCaseCollection[0].Action == NotifyCollectionChangedAction.Reset);
+            }
+            else
+            {
+                Assert.AreEqual(changedArgCaseList.Count, 0);
+                Assert.AreEqual(changedArgCaseCollection.Count, 0);
+            }
         }
 
         [Test]
         public static void SerializeTest()
         {
             var target = MakeInstance(DBItemSpecialSettingType.LoadFile);
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
 

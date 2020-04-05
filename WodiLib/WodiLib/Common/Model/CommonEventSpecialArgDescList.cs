@@ -32,31 +32,20 @@ namespace WodiLib.Common
         };
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Constant
+        //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 文字列引数名用リストオフセット
+        /// 数値引数特殊指定情報リスト
         /// </summary>
-        private const int StrArgListOffset = 5;
+        public CommonEventSpecialNumberArgDescList NumberArgDescList { get; }
+            = new CommonEventSpecialNumberArgDescList();
 
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>変数タイプ数</summary>
-        private int Count => argTypeList.Count;
-
-        /// <summary>引数特殊指定情報リスト</summary>
-        private readonly List<ICommonEventSpecialArgDesc> argTypeList = new List<ICommonEventSpecialArgDesc>
-        {
-            new CommonEventSpecialNumberArgDesc(), new CommonEventSpecialNumberArgDesc(),
-            new CommonEventSpecialNumberArgDesc(),
-            new CommonEventSpecialNumberArgDesc(), new CommonEventSpecialNumberArgDesc(),
-            new CommonEventSpecialStringArgDesc(), new CommonEventSpecialStringArgDesc(),
-            new CommonEventSpecialStringArgDesc(),
-            new CommonEventSpecialStringArgDesc(), new CommonEventSpecialStringArgDesc()
-        };
+        /// <summary>
+        /// 文字列引数特殊指定情報リスト
+        /// </summary>
+        public CommonEventSpecialStringArgDescList StringArgDescList { get; }
+            = new CommonEventSpecialStringArgDescList();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Static Method
@@ -122,13 +111,14 @@ namespace WodiLib.Common
         /// <param name="desc">[NotNull] 情報</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
         /// <exception cref="ArgumentNullException">descがnullの場合</exception>
+        [Obsolete("NumberArgDescList を直接更新してください。Ver1.4で削除します。")]
         public void UpdateSpecialNumberArgDesc(CommonEventNumberArgIndex index,
             CommonEventSpecialNumberArgDesc desc)
         {
             if (desc is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
-            argTypeList[index] = desc;
+            NumberArgDescList[index] = desc;
         }
 
         /// <summary>
@@ -137,9 +127,10 @@ namespace WodiLib.Common
         /// <param name="index">インデックス</param>
         /// <returns>情報インスタンス</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
+        [Obsolete("NumberArgDescList を直接参照してください。Ver1.4で削除します。")]
         public CommonEventSpecialNumberArgDesc GetSpecialNumberArgDesc(CommonEventNumberArgIndex index)
         {
-            return (CommonEventSpecialNumberArgDesc) argTypeList[index];
+            return NumberArgDescList[index];
         }
 
         /// <summary>
@@ -148,13 +139,14 @@ namespace WodiLib.Common
         /// <param name="index">インデックス</param>
         /// <param name="desc">[NotNull] 情報</param>
         /// <exception cref="ArgumentNullException">descがnullの場合</exception>
+        [Obsolete("StringArgDescList を直接更新してください。Ver1.4で削除します。")]
         public void UpdateSpecialStringArgDesc(CommonEventStringArgIndex index,
             CommonEventSpecialStringArgDesc desc)
         {
             if (desc is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
-            argTypeList[index + StrArgListOffset] = desc;
+            StringArgDescList[index] = desc;
         }
 
         /// <summary>
@@ -163,9 +155,10 @@ namespace WodiLib.Common
         /// <param name="index">インデックス</param>
         /// <returns>情報インスタンス</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
+        [Obsolete("StringArgDescList を直接更新してください。Ver1.4で削除します。")]
         public CommonEventSpecialStringArgDesc GetSpecialStringArgDesc(CommonEventStringArgIndex index)
         {
-            return (CommonEventSpecialStringArgDesc) argTypeList[index + StrArgListOffset];
+            return StringArgDescList[index];
         }
 
         /// <summary>
@@ -177,7 +170,8 @@ namespace WodiLib.Common
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return argTypeList.SequenceEqual(other.argTypeList);
+            return NumberArgDescList.SequenceEqual(other.NumberArgDescList)
+                   && StringArgDescList.SequenceEqual(other.StringArgDescList);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -195,8 +189,13 @@ namespace WodiLib.Common
             // ヘッダ
             result.AddRange(Header);
 
+            // 数値引数と文字列引数を結合
+            var numberArgInterfaceList = NumberArgDescList.Select(x => (ICommonEventSpecialArgDesc) x);
+            var stringArgInterfaceList = StringArgDescList.Select(x => (ICommonEventSpecialArgDesc) x);
+            var argTypeList = numberArgInterfaceList.Concat(stringArgInterfaceList).ToList();
+
             // 引数名数
-            var argLength = Count;
+            var argLength = argTypeList.Count;
             result.AddRange(argLength.ToBytes(Endian.Woditor));
 
             // 引数名

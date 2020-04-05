@@ -73,11 +73,22 @@ namespace WodiLib.Event.EventCommand
                         ErrorMessage.NotNull(nameof(ActionEntry)));
                 actionEntry = value;
                 actionEntry.Owner = Owner;
+                NotifyPropertyChanged();
             }
         }
 
+        private int target;
+
         /// <summary>対象イベントID</summary>
-        public int Target { get; set; }
+        public int Target
+        {
+            get => target;
+            set
+            {
+                target = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Internal Property

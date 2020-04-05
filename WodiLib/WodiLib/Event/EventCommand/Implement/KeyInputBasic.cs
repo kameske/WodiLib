@@ -152,6 +152,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DirectionKeyType)));
                 directionKeyType = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -161,21 +162,33 @@ namespace WodiLib.Event.EventCommand
         public bool IsAcceptOk
         {
             get => keyInputFlag.IsAcceptOk;
-            set => keyInputFlag.IsAcceptOk = value;
+            set
+            {
+                keyInputFlag.IsAcceptOk = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>キャンセルキー受付</summary>
         public bool IsAcceptCancel
         {
             get => keyInputFlag.IsAcceptCancel;
-            set => keyInputFlag.IsAcceptCancel = value;
+            set
+            {
+                keyInputFlag.IsAcceptCancel = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>サブキー受付</summary>
         public bool IsAcceptSub
         {
             get => keyInputFlag.IsAcceptSub;
-            set => keyInputFlag.IsAcceptSub = value;
+            set
+            {
+                keyInputFlag.IsAcceptSub = value;
+                NotifyPropertyChanged();
+            }
         }
 
         private class KeyInputFlag

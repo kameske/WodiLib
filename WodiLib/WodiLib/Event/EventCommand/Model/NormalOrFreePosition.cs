@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using WodiLib.Project;
+using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -16,7 +17,7 @@ namespace WodiLib.Event.EventCommand
     /// ピクチャ表示位置・通常または自由変形
     /// </summary>
     [Serializable]
-    public class NormalOrFreePosition : IEquatable<NormalOrFreePosition>
+    public class NormalOrFreePosition : ModelBase<NormalOrFreePosition>
     {
         private const string EventCommandSentenceFormatNormal = "X:{0} Y:{1}";
 
@@ -35,6 +36,7 @@ namespace WodiLib.Event.EventCommand
             {
                 normalPositionX = value;
                 type = MyType.Normal;
+                NotifyPropertyChanged();
             }
         }
 
@@ -49,6 +51,7 @@ namespace WodiLib.Event.EventCommand
             {
                 normalPositionY = value;
                 type = MyType.Normal;
+                NotifyPropertyChanged();
             }
         }
 
@@ -63,6 +66,7 @@ namespace WodiLib.Event.EventCommand
             {
                 freePositionLeftUpX = value;
                 type = MyType.Free;
+                NotifyPropertyChanged();
             }
         }
 
@@ -77,6 +81,7 @@ namespace WodiLib.Event.EventCommand
             {
                 freePositionLeftUpY = value;
                 type = MyType.Free;
+                NotifyPropertyChanged();
             }
         }
 
@@ -91,6 +96,7 @@ namespace WodiLib.Event.EventCommand
             {
                 freePositionLeftDownX = value;
                 type = MyType.Free;
+                NotifyPropertyChanged();
             }
         }
 
@@ -105,6 +111,7 @@ namespace WodiLib.Event.EventCommand
             {
                 freePositionLeftDownY = value;
                 type = MyType.Free;
+                NotifyPropertyChanged();
             }
         }
 
@@ -119,6 +126,7 @@ namespace WodiLib.Event.EventCommand
             {
                 freePositionRightUpX = value;
                 type = MyType.Free;
+                NotifyPropertyChanged();
             }
         }
 
@@ -133,6 +141,7 @@ namespace WodiLib.Event.EventCommand
             {
                 freePositionRightUpY = value;
                 type = MyType.Free;
+                NotifyPropertyChanged();
             }
         }
 
@@ -147,6 +156,7 @@ namespace WodiLib.Event.EventCommand
             {
                 freePositionRightDownX = value;
                 type = MyType.Free;
+                NotifyPropertyChanged();
             }
         }
 
@@ -161,6 +171,7 @@ namespace WodiLib.Event.EventCommand
             {
                 freePositionRightDownY = value;
                 type = MyType.Free;
+                NotifyPropertyChanged();
             }
         }
 
@@ -219,7 +230,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(NormalOrFreePosition other)
+        public override bool Equals(NormalOrFreePosition other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

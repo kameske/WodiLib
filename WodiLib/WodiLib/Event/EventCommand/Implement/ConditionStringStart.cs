@@ -283,8 +283,18 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private bool isElseCase;
+
         /// <summary>「上記以外」分岐フラグ</summary>
-        public bool IsElseCase { get; set; }
+        public bool IsElseCase
+        {
+            get => isElseCase;
+            set
+            {
+                isElseCase = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private readonly ConditionStringList conditionList = new ConditionStringList();
 

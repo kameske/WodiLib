@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NUnit.Framework;
@@ -38,6 +39,8 @@ namespace WodiLib.Test.Database
         public static void TypeNameTest(TypeName typeName, bool isError)
         {
             var instance = new DBTypeSet();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -53,12 +56,24 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.TypeName;
 
-            var setValue = instance.TypeName;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(typeName));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(typeName));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBTypeSet.TypeName)));
+            }
         }
 
 
@@ -66,6 +81,8 @@ namespace WodiLib.Test.Database
         public static void ItemSettingListGetterTest()
         {
             var instance = new DBTypeSet();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -80,6 +97,9 @@ namespace WodiLib.Test.Database
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] MemoTestCaseSource =
@@ -92,6 +112,8 @@ namespace WodiLib.Test.Database
         public static void MemoTest(DatabaseMemo memo, bool isError)
         {
             var instance = new DBTypeSet();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -107,12 +129,24 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.Memo;
 
-            var setValue = instance.Memo;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(memo));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(memo));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBTypeSet.Memo)));
+            }
         }
 
 
@@ -180,8 +214,14 @@ namespace WodiLib.Test.Database
             {
                 Memo = "Memo"
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [OneTimeTearDown]

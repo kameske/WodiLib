@@ -53,7 +53,8 @@ namespace WodiLib.IO
         /// <param name="value">[NotNull][NotNewLine] ファイルパス</param>
         /// <exception cref="ArgumentNullException">valueがnullの場合</exception>
         /// <exception cref="ArgumentNewLineException">
-        ///     valueに改行が含まれる場合
+        ///     valueに改行が含まれる場合、
+        ///     または255byteを超える場合
         /// </exception>
         /// <exception cref="ArgumentException">
         ///     valueがファイルパスとして不適切な場合

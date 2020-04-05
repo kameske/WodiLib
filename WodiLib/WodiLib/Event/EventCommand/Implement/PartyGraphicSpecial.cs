@@ -47,6 +47,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Subject)));
                 subject = value;
+                NotifyPropertyChanged();
             }
         }
 

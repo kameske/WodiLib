@@ -65,6 +65,8 @@ namespace WodiLib.Test.Project.Model
         public static void ReadAllSyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -79,12 +81,26 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 9);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.CommonEventList)));
+            Assert.IsTrue(changedPropertyList[1].Equals(nameof(WoditorProject.MapTreeNodeList)));
+            Assert.IsTrue(changedPropertyList[2].Equals(nameof(WoditorProject.MapTreeOpenStatusList)));
+            Assert.IsTrue(changedPropertyList[3].Equals(nameof(WoditorProject.TileSetSettingList)));
+            Assert.IsTrue(changedPropertyList[4].Equals(nameof(WoditorProject.ChangeableDatabase)));
+            Assert.IsTrue(changedPropertyList[5].Equals(nameof(WoditorProject.UserDatabase)));
+            Assert.IsTrue(changedPropertyList[6].Equals(nameof(WoditorProject.SystemDatabase)));
+            Assert.IsTrue(changedPropertyList[7].Equals(nameof(WoditorProject.EditorIni)));
+            Assert.IsTrue(changedPropertyList[8].Equals(nameof(WoditorProject.GameIni)));
         }
 
         [Test]
         public static async Task ReadAllAsyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -99,6 +115,18 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 9);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.CommonEventList)));
+            Assert.IsTrue(changedPropertyList[1].Equals(nameof(WoditorProject.MapTreeNodeList)));
+            Assert.IsTrue(changedPropertyList[2].Equals(nameof(WoditorProject.MapTreeOpenStatusList)));
+            Assert.IsTrue(changedPropertyList[3].Equals(nameof(WoditorProject.TileSetSettingList)));
+            Assert.IsTrue(changedPropertyList[4].Equals(nameof(WoditorProject.ChangeableDatabase)));
+            Assert.IsTrue(changedPropertyList[5].Equals(nameof(WoditorProject.UserDatabase)));
+            Assert.IsTrue(changedPropertyList[6].Equals(nameof(WoditorProject.SystemDatabase)));
+            Assert.IsTrue(changedPropertyList[7].Equals(nameof(WoditorProject.EditorIni)));
+            Assert.IsTrue(changedPropertyList[8].Equals(nameof(WoditorProject.GameIni)));
         }
 
 
@@ -106,6 +134,8 @@ namespace WodiLib.Test.Project.Model
         public static void ReadCommonEventDataSyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -120,6 +150,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.CommonEventList)));
         }
 
 
@@ -127,6 +161,8 @@ namespace WodiLib.Test.Project.Model
         public static void ReadMapTreeDataSyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -141,6 +177,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.MapTreeNodeList)));
         }
 
 
@@ -148,6 +188,8 @@ namespace WodiLib.Test.Project.Model
         public static void ReadMapTreeOpenStatusDataSyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -162,6 +204,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.MapTreeOpenStatusList)));
         }
 
 
@@ -169,6 +215,8 @@ namespace WodiLib.Test.Project.Model
         public static void ReadTileSetDataSyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -183,6 +231,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.TileSetSettingList)));
         }
 
 
@@ -190,6 +242,8 @@ namespace WodiLib.Test.Project.Model
         public static void ReadChangeableDatabaseSyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -204,6 +258,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.ChangeableDatabase)));
         }
 
 
@@ -211,6 +269,8 @@ namespace WodiLib.Test.Project.Model
         public static void ReadUserDatabaseSyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -225,6 +285,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.UserDatabase)));
         }
 
 
@@ -232,6 +296,8 @@ namespace WodiLib.Test.Project.Model
         public static void ReadSystemDatabaseSyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -246,6 +312,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.SystemDatabase)));
         }
 
 
@@ -253,6 +323,8 @@ namespace WodiLib.Test.Project.Model
         public static void ReadEditorIniSyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -267,6 +339,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.EditorIni)));
         }
 
 
@@ -274,6 +350,8 @@ namespace WodiLib.Test.Project.Model
         public static void ReadGameIniSyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -288,6 +366,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.GameIni)));
         }
 
 
@@ -295,6 +377,8 @@ namespace WodiLib.Test.Project.Model
         public static async Task ReadCommonEventDataAsyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -309,6 +393,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.CommonEventList)));
         }
 
 
@@ -316,6 +404,8 @@ namespace WodiLib.Test.Project.Model
         public static async Task ReadMapTreeDataAsyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -330,6 +420,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.MapTreeNodeList)));
         }
 
 
@@ -337,6 +431,8 @@ namespace WodiLib.Test.Project.Model
         public static async Task ReadMapTreeOpenStatusDataAsyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -351,6 +447,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.MapTreeOpenStatusList)));
         }
 
 
@@ -358,6 +458,8 @@ namespace WodiLib.Test.Project.Model
         public static async Task ReadTileSetDataAsyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -372,6 +474,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.TileSetSettingList)));
         }
 
 
@@ -379,6 +485,8 @@ namespace WodiLib.Test.Project.Model
         public static async Task ReadChangeableDatabaseAsyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -393,6 +501,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.ChangeableDatabase)));
         }
 
 
@@ -400,6 +512,8 @@ namespace WodiLib.Test.Project.Model
         public static async Task ReadUserDatabaseAsyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -414,6 +528,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.UserDatabase)));
         }
 
 
@@ -421,6 +539,8 @@ namespace WodiLib.Test.Project.Model
         public static async Task ReadSystemDatabaseAsyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -435,6 +555,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.SystemDatabase)));
         }
 
 
@@ -442,6 +566,8 @@ namespace WodiLib.Test.Project.Model
         public static async Task ReadEditorIniAsyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -456,6 +582,10 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.EditorIni)));
         }
 
 
@@ -463,6 +593,8 @@ namespace WodiLib.Test.Project.Model
         public static async Task ReadGameIniAsyncTest()
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -477,13 +609,18 @@ namespace WodiLib.Test.Project.Model
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(WoditorProject.GameIni)));
         }
 
         private static readonly object[] RemoveMpsFilesCacheTestCaseSource =
         {
-            new object[] {(MpsFilePath)"Data/MapData/TitleMap.mps", (MpsFilePath)"Data/MapData/TitleMap.mps", false},
-            new object[] { (MpsFilePath)"Data/MapData/TitleMap.mps", (MpsFilePath)"Data/MapData/SampleMapA.mps", false},
-            new object[] { (MpsFilePath)"Data/MapData/TitleMap.mps", null, true},
+            new object[] {(MpsFilePath) "Data/MapData/TitleMap.mps", (MpsFilePath) "Data/MapData/TitleMap.mps", false},
+            new object[]
+                {(MpsFilePath) "Data/MapData/TitleMap.mps", (MpsFilePath) "Data/MapData/SampleMapA.mps", false},
+            new object[] {(MpsFilePath) "Data/MapData/TitleMap.mps", null, true},
         };
 
         [TestCaseSource(nameof(RemoveMpsFilesCacheTestCaseSource))]
@@ -491,6 +628,8 @@ namespace WodiLib.Test.Project.Model
         {
             var instance = new WoditorProject(TestProjectDir);
             instance.ReadMpsFileSync(firstRead);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -503,22 +642,29 @@ namespace WodiLib.Test.Project.Model
                 errorOccured = true;
             }
 
-            // エラーフラグ外とした値と一致すること
+            // エラーフラグが意図した値と一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                // 削除したマップデータがプールから消えていること
+                var check = instance.MpsFilesPool
+                    .FirstOrDefault(x => x.Key.Equals(removePath));
+                Assert.IsTrue(check.IsNull());
+            }
 
-            // 削除したマップデータがプールから消えていること
-            var check = instance.MpsFilesPool
-                .FirstOrDefault(x => x.Key.Equals(removePath));
-            Assert.IsTrue(check.IsNull());
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
+        [Test]
         public static void ClearMpsFilesCache()
         {
             var instance = new WoditorProject(TestProjectDir);
             instance.ReadMpsFileSync("Data/MapData/TitleMap.mps");
             instance.ReadMpsFileSync("Data/MapData/SampleMapA.mps");
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -536,6 +682,9 @@ namespace WodiLib.Test.Project.Model
 
             // プールのデータが0件であること
             Assert.AreEqual(instance.MpsFilesPool.Count, 0);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] GetMapEventEventCommandSentenceInfoListTestCaseSource =
@@ -547,6 +696,9 @@ namespace WodiLib.Test.Project.Model
         public static void GetMapEventEventCommandSentenceInfoListSyncTest(EventCommandSentenceTestInfo testInfo)
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             IReadOnlyList<EventCommandSentenceInfo> resultList = null;
 
             var errorOccured = false;
@@ -579,7 +731,7 @@ namespace WodiLib.Test.Project.Model
                 : answerListCnt;
             for (var i = 0; i < length; i++)
             {
-                logger.Debug($"{i}行目比較");
+                logger.Info($"{i}行目比較");
                 var resultSentence = resultListCnt > i
                     ? resultList[i].Sentence.ToString()
                     : "";
@@ -587,22 +739,28 @@ namespace WodiLib.Test.Project.Model
                     ? answerLines[i]
                     : "";
 
-                logger.Debug($"    変換結果：{resultSentence}");
-                logger.Debug($"    真値    ：{answerSentence}");
+                logger.Info($"    変換結果：{resultSentence}");
+                logger.Info($"    真値    ：{answerSentence}");
 
                 var isEqual = resultSentence.Equals(answerSentence);
 
-                logger.Debug($"    比較結果：{isEqual}");
+                logger.Info($"    比較結果：{isEqual}");
                 isSuccess &= isEqual;
             }
 
             Assert.IsTrue(isSuccess);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [TestCaseSource(nameof(GetMapEventEventCommandSentenceInfoListTestCaseSource))]
         public static async Task GetMapEventEventCommandSentenceInfoListAsyncTest(EventCommandSentenceTestInfo testInfo)
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             IReadOnlyList<EventCommandSentenceInfo> resultList = null;
 
             var errorOccured = false;
@@ -635,7 +793,7 @@ namespace WodiLib.Test.Project.Model
                 : answerListCnt;
             for (var i = 0; i < length; i++)
             {
-                logger.Debug($"{i}行目比較");
+                logger.Info($"{i}行目比較");
                 var resultSentence = resultListCnt > i
                     ? resultList[i].Sentence.ToString()
                     : "";
@@ -643,16 +801,19 @@ namespace WodiLib.Test.Project.Model
                     ? answerLines[i]
                     : "";
 
-                logger.Debug($"    変換結果：{resultSentence}");
-                logger.Debug($"    真値    ：{answerSentence}");
+                logger.Info($"    変換結果：{resultSentence}");
+                logger.Info($"    真値    ：{answerSentence}");
 
                 var isEqual = resultSentence.Equals(answerSentence);
 
-                logger.Debug($"    比較結果：{isEqual}");
+                logger.Info($"    比較結果：{isEqual}");
                 isSuccess &= isEqual;
             }
 
             Assert.IsTrue(isSuccess);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] GetCommonEventEventCommandSentenceInfoListTestCaseSource =
@@ -664,6 +825,9 @@ namespace WodiLib.Test.Project.Model
         public static void GetCommonEventEventCommandSentenceInfoListSyncTest(EventCommandSentenceTestInfo testInfo)
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             IReadOnlyList<EventCommandSentenceInfo> resultList = null;
 
             var errorOccured = false;
@@ -695,7 +859,7 @@ namespace WodiLib.Test.Project.Model
                 : answerListCnt;
             for (var i = 0; i < length; i++)
             {
-                logger.Debug($"{i}行目比較");
+                logger.Info($"{i}行目比較");
                 var resultSentence = resultListCnt > i
                     ? resultList[i].Sentence.ToString()
                     : "";
@@ -703,22 +867,29 @@ namespace WodiLib.Test.Project.Model
                     ? answerLines[i]
                     : "";
 
-                logger.Debug($"    変換結果：{resultSentence}");
-                logger.Debug($"    真値    ：{answerSentence}");
+                logger.Info($"    変換結果：{resultSentence}");
+                logger.Info($"    真値    ：{answerSentence}");
 
                 var isEqual = resultSentence.Equals(answerSentence);
 
-                logger.Debug($"    比較結果：{isEqual}");
+                logger.Info($"    比較結果：{isEqual}");
                 isSuccess &= isEqual;
             }
 
             Assert.IsTrue(isSuccess);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [TestCaseSource(nameof(GetCommonEventEventCommandSentenceInfoListTestCaseSource))]
-        public static async Task GetCommonEventEventCommandSentenceInfoListAsyncTest(EventCommandSentenceTestInfo testInfo)
+        public static async Task GetCommonEventEventCommandSentenceInfoListAsyncTest(
+            EventCommandSentenceTestInfo testInfo)
         {
             var instance = new WoditorProject(TestProjectDir);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             IReadOnlyList<EventCommandSentenceInfo> resultList = null;
 
             var errorOccured = false;
@@ -750,7 +921,7 @@ namespace WodiLib.Test.Project.Model
                 : answerListCnt;
             for (var i = 0; i < length; i++)
             {
-                logger.Debug($"{i}行目比較");
+                logger.Info($"{i}行目比較");
                 var resultSentence = resultListCnt > i
                     ? resultList[i].Sentence.ToString()
                     : "";
@@ -758,16 +929,19 @@ namespace WodiLib.Test.Project.Model
                     ? answerLines[i]
                     : "";
 
-                logger.Debug($"    変換結果：{resultSentence}");
-                logger.Debug($"    真値    ：{answerSentence}");
+                logger.Info($"    変換結果：{resultSentence}");
+                logger.Info($"    真値    ：{answerSentence}");
 
                 var isEqual = resultSentence.Equals(answerSentence);
 
-                logger.Debug($"    比較結果：{isEqual}");
+                logger.Info($"    比較結果：{isEqual}");
                 isSuccess &= isEqual;
             }
 
             Assert.IsTrue(isSuccess);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [OneTimeTearDown]

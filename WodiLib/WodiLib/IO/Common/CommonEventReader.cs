@@ -385,7 +385,7 @@ namespace WodiLib.IO
                 var desc = MakeSpecialNumberArgDesc(argTypeList[i], argNameList[i],
                     numberArgInitValueList[i], numberArgList, stringArgList);
 
-                commonEvent.UpdateSpecialNumberArgDesc(i, desc);
+                commonEvent.NumberArgDescList[i] = desc;
             }
         }
 
@@ -477,7 +477,7 @@ namespace WodiLib.IO
                     ArgName = argNameList[i]
                 };
 
-                commonEvent.UpdateSpecialStringArgDesc(i, desc);
+                commonEvent.StringArgDescList[i] = desc;
             }
         }
 

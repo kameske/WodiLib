@@ -44,7 +44,11 @@ namespace WodiLib.Event.EventCommand
         public int DivisionWidth
         {
             get => _DivisionWidth;
-            set => _DivisionWidth = value;
+            set
+            {
+                _DivisionWidth = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <inheritdoc />
@@ -55,7 +59,11 @@ namespace WodiLib.Event.EventCommand
         public int DivisionHeight
         {
             get => _DivisionHeight;
-            set => _DivisionHeight = value;
+            set
+            {
+                _DivisionHeight = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <inheritdoc />
@@ -66,7 +74,11 @@ namespace WodiLib.Event.EventCommand
         public bool IsLinkScroll
         {
             get => _IsLinkScroll;
-            set => _IsLinkScroll = value;
+            set
+            {
+                _IsLinkScroll = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>スクロールとリンク</summary>

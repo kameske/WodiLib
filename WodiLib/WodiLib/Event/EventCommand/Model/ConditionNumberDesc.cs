@@ -17,13 +17,33 @@ namespace WodiLib.Event.EventCommand
     /// 条件（変数）条件オブジェクトクラス
     /// </summary>
     [Serializable]
-    public class ConditionNumberDesc : IEquatable<ConditionNumberDesc>, ISerializable
+    public class ConditionNumberDesc : ModelBase<ConditionNumberDesc>, ISerializable
     {
+        private int leftSide;
+
         /// <summary>左辺</summary>
-        public int LeftSide { get; set; }
+        public int LeftSide
+        {
+            get => leftSide;
+            set
+            {
+                leftSide = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int rightSide;
 
         /// <summary>右辺</summary>
-        public int RightSide { get; set; }
+        public int RightSide
+        {
+            get => rightSide;
+            set
+            {
+                rightSide = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private NumberConditionalOperator condition = NumberConditionalOperator.Equal;
 
@@ -41,13 +61,25 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
+        private bool isNotReferX;
+
         /// <summary>条件右辺）データを呼ばない</summary>
-        public bool IsNotReferX { get; set; }
+        public bool IsNotReferX
+        {
+            get => isNotReferX;
+            set
+            {
+                isNotReferX = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public ConditionNumberDesc() {}
+        public ConditionNumberDesc()
+        {
+        }
 
         /// <summary>
         /// 右辺データ呼ばないフラグ＆比較演算子のバイトを返す。
@@ -64,7 +96,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(ConditionNumberDesc other)
+        public override bool Equals(ConditionNumberDesc other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
