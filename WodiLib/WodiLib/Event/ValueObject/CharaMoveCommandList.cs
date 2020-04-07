@@ -73,13 +73,13 @@ namespace WodiLib.Event
         /// <summary>
         /// コンストラクタ（初期値指定）
         /// </summary>
-        /// <param name="list">[NotNull] 初期リスト</param>
+        /// <param name="items">[NotNull] 初期要素</param>
         /// <exception cref="ArgumentNullException">
-        ///     listがnullの場合、
-        ///     またはlist中にnullが含まれる場合
+        ///     itemsがnullの場合、
+        ///     またはitems中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
-        public CharaMoveCommandList(IReadOnlyCollection<ICharaMoveCommand> list) : base(list)
+        /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
+        public CharaMoveCommandList(IEnumerable<ICharaMoveCommand> items) : base(items)
         {
         }
 

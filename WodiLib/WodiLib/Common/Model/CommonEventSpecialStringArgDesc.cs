@@ -62,7 +62,7 @@ namespace WodiLib.Common
         /// 引数種別によらずすべての選択肢を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public List<CommonEventSpecialArgCase> GetAllSpecialCase()
+        public IReadOnlyList<CommonEventSpecialArgCase> GetAllSpecialCase()
         {
             // 文字列引数は選択肢なし
             return new List<CommonEventSpecialArgCase>();
@@ -72,7 +72,7 @@ namespace WodiLib.Common
         /// すべての選択肢番号を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public List<int> GetAllSpecialCaseNumber()
+        public IReadOnlyList<int> GetAllSpecialCaseNumber()
         {
             // 文字列引数は選択肢なし
             return new List<int>();
@@ -82,7 +82,7 @@ namespace WodiLib.Common
         /// すべての選択肢文字列を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public List<string> GetAllSpecialCaseDescription()
+        public IReadOnlyList<string> GetAllSpecialCaseDescription()
         {
             // 文字列引数は選択肢なし
             return new List<string>();

@@ -122,14 +122,14 @@ namespace WodiLib.Sys
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="list">[NotNull] 初期リスト</param>
+        /// <param name="initItems">[NotNull] 初期要素</param>
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         /// <exception cref="ArgumentNullException">
-        ///     listがnullの場合、
-        ///     またはlist中にnullが含まれる場合
+        ///     initItemsがnullの場合、
+        ///     またはinitItems中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
-        public RestrictedCapacityCollection(IReadOnlyCollection<T> list)
+        /// <exception cref="InvalidOperationException">initItemsの要素数が不適切な場合</exception>
+        protected RestrictedCapacityCollection(IEnumerable<T> initItems)
         {
             try
             {
@@ -141,15 +141,17 @@ namespace WodiLib.Sys
                 throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
             }
 
-            if (list is null)
+            if (initItems is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(list)));
+                    ErrorMessage.NotNull(nameof(initItems)));
 
-            if (list.HasNullItem())
+            var initList = initItems.ToArray();
+
+            if (initList.HasNullItem())
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNullInList(nameof(list)));
+                    ErrorMessage.NotNullInList(nameof(initItems)));
 
-            var cnt = list.Count;
+            var cnt = initList.Length;
             if (cnt < GetMinCapacity())
                 throw new InvalidOperationException(
                     ErrorMessage.UnderListLength(GetMinCapacity()));
@@ -157,12 +159,40 @@ namespace WodiLib.Sys
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(GetMaxCapacity()));
 
-            var insertIndex = 0;
-            foreach (var item in list)
-            {
-                PrivateInsertItem(insertIndex, item);
-                insertIndex++;
-            }
+            PrivateInsertItemRange(0, initList);
+        }
+
+        /// <summary>
+        /// 容量上下限チェック
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        ///     容量下限が 0 未満の場合、
+        ///     または容量上限が容量下限未満の場合
+        /// </exception>
+        private void ValidateCapacity()
+        {
+            var maxCapacity = GetMaxCapacity();
+            var minCapacity = GetMinCapacity();
+
+            if (minCapacity < 0)
+                throw new InvalidOperationException(
+                    ErrorMessage.GreaterOrEqual("最小容量", 0, maxCapacity));
+
+            if (maxCapacity < minCapacity)
+                throw new InvalidOperationException(
+                    ErrorMessage.GreaterOrEqual("最大容量", $"最小容量（{minCapacity}）", maxCapacity));
+        }
+
+        /// <summary>
+        /// デフォルト値チェック
+        /// </summary>
+        /// <exception cref="InvalidOperationException"><see cref="MakeDefaultItem"/>がnullを返却する場合</exception>
+        private void ValidateDefaultItem()
+        {
+            var value = MakeDefaultItem(0);
+            if (ReferenceEquals(value,null))
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}メソッドの返戻値"));
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -246,25 +276,23 @@ namespace WodiLib.Sys
         ///     またはitemsにnull要素が含まれる場合
         /// </exception>
         /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
-        public void AddRange(IReadOnlyCollection<T> items)
+        public void AddRange(IEnumerable<T> items)
         {
             if (items is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
 
-            if (items.HasNullItem())
+            var list = items.ToArray();
+
+            if (list.HasNullItem())
                 throw new ArgumentNullException(
                     ErrorMessage.NotNullInList(nameof(items)));
 
-            var addedLength = Count + items.Count;
+            var addedLength = Count + list.Length;
             if (addedLength > GetMaxCapacity())
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(GetMaxCapacity()));
 
             var insertIndex = Count;
-            foreach (var item in items)
-            {
-                PrivateInsertItem(insertIndex, item);
-                insertIndex++;
-            }
+            PrivateInsertItemRange(insertIndex, list);
         }
 
         /// <summary>
@@ -306,7 +334,7 @@ namespace WodiLib.Sys
         ///     またはitemsにnull要素が含まれる場合
         /// </exception>
         /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
-        public void InsertRange(int index, IReadOnlyCollection<T> items)
+        public void InsertRange(int index, IEnumerable<T> items)
         {
             var max = Count;
             const int min = 0;
@@ -316,32 +344,28 @@ namespace WodiLib.Sys
 
             if (items is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
 
-            if (items.HasNullItem())
+            var list = items.ToArray();
+
+            if (list.HasNullItem())
                 throw new ArgumentNullException(
                     ErrorMessage.NotNullInList(nameof(items)));
 
-            var addedLength = Count + items.Count;
+            var addedLength = Count + list.Length;
             if (addedLength > GetMaxCapacity())
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(GetMaxCapacity()));
 
-            var insertIndex = index;
-
-            foreach (var item in items)
-            {
-                Insert(insertIndex, item);
-                insertIndex++;
-            }
+            PrivateInsertItemRange(index, list);
         }
 
         /// <summary>
         /// 指定したインデックスを起点として、要素の上書き/追加を行う。
         /// </summary>
         /// <param name="index">[Range(0, Count)] インデックス</param>
-        /// <param name="list">[NotNull] 上書き/追加リスト</param>
+        /// <param name="items">[NotNull] 上書き/追加リスト</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
-        /// <exception cref="ArgumentNullException">listがnullの場合</exception>
-        /// <exception cref="ArgumentException">list中にnull要素が含まれる場合</exception>
+        /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
+        /// <exception cref="ArgumentException">items中にnull要素が含まれる場合</exception>
         /// <exception cref="InvalidOperationException">追加操作によって要素数がMaxCapacityを超える場合</exception>
         /// <example>
         ///     <code>
@@ -357,7 +381,7 @@ namespace WodiLib.Sys
         ///     // target is { 0, 1, 10, 3 }
         ///     </code>
         /// </example>
-        public void Overwrite(int index, IReadOnlyList<T> list)
+        public void Overwrite(int index, IEnumerable<T> items)
         {
             var indexMax = Count;
             const int indexMin = 0;
@@ -365,16 +389,19 @@ namespace WodiLib.Sys
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), indexMin, indexMax, index));
 
-            if (list is null)
+            if (items is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(list)));
+                    ErrorMessage.NotNull(nameof(items)));
+
+            var list = items.ToArray();
+
             if (list.HasNullItem())
                 throw new ArgumentException(
-                    ErrorMessage.NotNullInList(nameof(list)));
+                    ErrorMessage.NotNullInList(nameof(items)));
 
-            var updateCnt = list.Count;
+            var updateCnt = list.Length;
             if (updateCnt + index > Count) updateCnt = Count - index;
-            var insertCnt = list.Count - updateCnt;
+            var insertCnt = list.Length - updateCnt;
 
             if (insertCnt > 0 && Count + insertCnt > GetMaxCapacity())
                 throw new InvalidOperationException(
@@ -597,7 +624,20 @@ namespace WodiLib.Sys
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return Items.SequenceEqual(other.ToList());
+            return All().SequenceEqual(other.All());
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(IEnumerable<T> other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            return All().SequenceEqual(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -686,39 +726,6 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 容量上下限チェック
-        /// </summary>
-        /// <exception cref="InvalidOperationException">
-        ///     容量下限が 0 未満の場合、
-        ///     または容量上限が容量下限未満の場合
-        /// </exception>
-        protected void ValidateCapacity()
-        {
-            var maxCapacity = GetMaxCapacity();
-            var minCapacity = GetMinCapacity();
-
-            if (minCapacity < 0)
-                throw new InvalidOperationException(
-                    ErrorMessage.GreaterOrEqual("最小容量", 0, maxCapacity));
-
-            if (maxCapacity < minCapacity)
-                throw new InvalidOperationException(
-                    ErrorMessage.GreaterOrEqual("最大容量", $"最小容量（{minCapacity}）", maxCapacity));
-        }
-
-        /// <summary>
-        /// デフォルト値チェック
-        /// </summary>
-        /// <exception cref="InvalidOperationException"><see cref="MakeDefaultItem"/>がnullを返却する場合</exception>
-        protected void ValidateDefaultItem()
-        {
-            var value = MakeDefaultItem(0);
-            if (value == null)
-                throw new InvalidOperationException(
-                    ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}メソッドの返戻値"));
-        }
-
-        /// <summary>
         /// 要素最小数に充足するまでデフォルト要素を追加する。
         /// </summary>
         protected void FillMinCapacity()
@@ -782,6 +789,117 @@ namespace WodiLib.Sys
              */
             InsertItem(index, item);
             InsertItemHandlerList.Execute(index, item);
+#pragma warning restore 618
+
+            NotifyPropertyChanged(nameof(Count));
+            NotifyPropertyChanged(ListConstant.IndexerName);
+            _collectionChanged?.Invoke(this,
+                NotifyCollectionChangedEventArgsHelper.Insert(item, index));
+        }
+
+        /// <summary>
+        /// 指定したインデックスの位置に要素を挿入する。
+        /// </summary>
+        /// <param name="startIndex">挿入開始インデックス</param>
+        /// <param name="items">要素</param>
+        private void PrivateInsertItemRange(int startIndex, IEnumerable<T> items)
+        {
+            /*
+             * 呼び出し元で
+             * ・indexの範囲チェック
+             * ・追加後の要素数チェック
+             * ・itemのnullチェック
+             * を実施済み。
+             */
+            var itemList = items.ToArray();
+
+            itemList.ForEach((item, i) =>
+            {
+                InsertItem(i + startIndex, item);
+#pragma warning disable 618
+                InsertItemHandlerList.Execute(i + startIndex, item);
+#pragma warning restore 618
+            });
+
+            NotifyPropertyChanged(nameof(Count));
+            NotifyPropertyChanged(ListConstant.IndexerName);
+            _collectionChanged?.Invoke(this,
+                NotifyCollectionChangedEventArgsHelper.InsertRange(itemList, startIndex));
+        }
+
+        /// <summary>
+        /// 指定したインデックスを起点として、要素の上書き/追加を行う。
+        /// </summary>
+        /// <param name="index">[Range(0, Count)] インデックス</param>
+        /// <param name="list">上書き/追加リスト</param>
+        /// <param name="updateCnt">更新要素数</param>
+        private void PrivateOverwriteItem(int index, IReadOnlyList<T> list, int updateCnt)
+        {
+            /*
+             * 呼び出し元で
+             * ・indexの範囲チェック
+             * ・追加後の要素数チェック
+             * ・itemのnullチェック
+             * ・必要更新数の計算
+             * を実施済み。
+             */
+
+            var replaceItems = new List<T>();
+            var replaceOldItems = Items.GetRange(index, updateCnt);
+            {
+                // 上書き
+                for (var i = 0; i < updateCnt; i++)
+                {
+                    var item = list[i];
+                    SetItem(index + i, item);
+                    replaceItems.Add(item);
+#pragma warning disable 618
+                    SetItemHandlerList.Execute(index, item);
+#pragma warning restore 618
+                }
+            }
+
+            var insertStartIndex = index + updateCnt;
+            var insertItems = list.Skip(updateCnt).ToList();
+            {
+                // 追加
+                insertItems.ForEach((item, i) =>
+                {
+                    InsertItem(i + insertStartIndex, item);
+#pragma warning disable 618
+                    InsertItemHandlerList.Execute(i + insertStartIndex, item);
+#pragma warning restore 618
+                });
+            }
+
+            // 通知
+            NotifyPropertyChanged(nameof(Count));
+            NotifyPropertyChanged(ListConstant.IndexerName);
+            _collectionChanged?.Invoke(this,
+                NotifyCollectionChangedEventArgsHelper.SetRange(replaceOldItems, replaceItems, index));
+            _collectionChanged?.Invoke(this,
+                NotifyCollectionChangedEventArgsHelper.InsertRange(insertItems, insertStartIndex));
+        }
+
+        /// <summary>
+        /// 指定したインデックスにある項目をコレクション内の新しい場所へ移動する。
+        /// </summary>
+        /// <param name="oldIndex">[Range(0, Count - 1)] 移動する項目のインデックス</param>
+        /// <param name="newIndex">[Range(0, Count - 1)] 移動先のインデックス</param>
+        private void PrivateMoveItem(int oldIndex, int newIndex)
+        {
+            /*
+             * 呼び出し元で
+             * ・indexの範囲チェック
+             * を実施済み。
+             */
+            var moveItem = this[oldIndex];
+
+            MoveItem(oldIndex, newIndex);
+
+            NotifyPropertyChanged(ListConstant.IndexerName);
+            _collectionChanged?.Invoke(this,
+                NotifyCollectionChangedEventArgsHelper.Move(moveItem, newIndex, oldIndex));
         }
 
 

@@ -1,56 +1,44 @@
-// ========================================
-// Project Name : WodiLib
-// File Name    : DatabaseTypeDescList.cs
-//
-// MIT License Copyright(c) 2019 kameske
-// see LICENSE file
-// ========================================
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using WodiLib.Sys;
 
-namespace WodiLib.Database
+namespace WodiLib.Common
 {
     /// <summary>
-    /// DB項目設定と設定値リスト
+    /// コモンイベント数値引数特殊指定情報リスト
     /// </summary>
     [Serializable]
-    public class DatabaseTypeDescList : RestrictedCapacityCollection<DatabaseTypeDesc>
+    public class CommonEventSpecialNumberArgDescList : FixedLengthList<CommonEventSpecialNumberArgDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>最大容量</summary>
-        public static int MaxCapacity => DBTypeSettingList.MaxCapacity;
-
-        /// <summary>最小容量</summary>
-        public static int MinCapacity => DBTypeSettingList.MinCapacity;
+        /// <summary>リスト数</summary>
+        public static int Capacity => 5;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Constructor
+        //     Public Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public DatabaseTypeDescList()
+        public CommonEventSpecialNumberArgDescList()
         {
         }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="items">初期DB項目設定リスト</param>
-        /// <exception cref="ArgumentNullException">
-        ///     itemsがnullの場合、
-        ///     またはitems中にnullが含まれる場合
-        /// </exception>
-        /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
-        public DatabaseTypeDescList(IEnumerable<DatabaseTypeDesc> items) : base(items)
+        /// <param name="items">初期リスト</param>
+        /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
+        /// <exception cref="InvalidOperationException">itemsの要素数が5以外の場合</exception>
+        public CommonEventSpecialNumberArgDescList(
+            IEnumerable<CommonEventSpecialNumberArgDesc> items)
+            : base(items)
         {
         }
 
@@ -60,17 +48,10 @@ namespace WodiLib.Database
 
         /// <inheritdoc />
         /// <summary>
-        /// 容量最大値を返す。
+        /// 容量を返す。
         /// </summary>
-        /// <returns>容量最大値</returns>
-        public override int GetMaxCapacity() => MaxCapacity;
-
-        /// <inheritdoc />
-        /// <summary>
-        /// 容量最小値を返す。
-        /// </summary>
-        /// <returns>容量最小値</returns>
-        public override int GetMinCapacity() => MinCapacity;
+        /// <returns>容量</returns>
+        public override int GetCapacity() => Capacity;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
@@ -82,7 +63,8 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
-        protected override DatabaseTypeDesc MakeDefaultItem(int index) => new DatabaseTypeDesc();
+        protected override CommonEventSpecialNumberArgDesc MakeDefaultItem(int index) =>
+            new CommonEventSpecialNumberArgDesc();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Serializable
@@ -94,7 +76,8 @@ namespace WodiLib.Database
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        protected DatabaseTypeDescList(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected CommonEventSpecialNumberArgDescList(SerializationInfo info, StreamingContext context) : base(info,
+            context)
         {
         }
     }

@@ -63,21 +63,23 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 選択肢リストの文字列をバイト配列データにしてリストに格納する。
+        /// 選択肢リストの文字列をバイト配列データにして列挙する。
         /// </summary>
-        /// <param name="specialStringArgCasesList">対象選択肢リスト</param>
+        /// <param name="specialStringArgCases">対象選択肢列挙</param>
         private static IEnumerable<byte> MakeSpecialArgCaseStringByte(
-            IEnumerable<List<string>> specialStringArgCasesList)
+            IEnumerable<IEnumerable<string>> specialStringArgCases)
         {
             var result = new List<byte>();
 
-            foreach (var caseStringList in specialStringArgCasesList)
+            foreach (var caseStrings in specialStringArgCases)
             {
+                var caseStrArr = caseStrings.ToArray();
+
                 // 選択肢数
-                result.AddRange(caseStringList.Count.ToBytes(Endian.Woditor));
+                result.AddRange(caseStrArr.Length.ToBytes(Endian.Woditor));
 
                 // 選択肢文字列
-                foreach (var caseString in caseStringList)
+                foreach (var caseString in caseStrArr)
                 {
                     var caseWoditorString = new WoditorString(caseString);
                     result.AddRange(caseWoditorString.StringByte);
@@ -88,21 +90,23 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 選択肢リストの数値をバイト配列データにしてリストに格納する。
+        /// 選択肢リストの数値をバイト配列データにして列挙する。
         /// </summary>
-        /// <param name="specialNumberArgCasesList">対象選択肢リスト</param>
+        /// <param name="specialNumberArgCases">対象選択肢列挙</param>
         private static IEnumerable<byte> MakeSpecialArgCaseIntByte(
-            IEnumerable<List<int>> specialNumberArgCasesList)
+            IEnumerable<IEnumerable<int>> specialNumberArgCases)
         {
             var result = new List<byte>();
 
-            foreach (var caseNumberList in specialNumberArgCasesList)
+            foreach (var caseNumbers in specialNumberArgCases)
             {
+                var caseNumArr = caseNumbers.ToArray();
+
                 // 選択肢数
-                result.AddRange(caseNumberList.Count.ToBytes(Endian.Woditor));
+                result.AddRange(caseNumArr.Length.ToBytes(Endian.Woditor));
 
                 // 選択肢値
-                foreach (var caseInt in caseNumberList)
+                foreach (var caseInt in caseNumArr)
                 {
                     result.AddRange(caseInt.ToBytes(Endian.Woditor));
                 }

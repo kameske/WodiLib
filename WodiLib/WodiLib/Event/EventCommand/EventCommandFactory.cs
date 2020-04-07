@@ -73,8 +73,8 @@ namespace WodiLib.Event.EventCommand
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(strValues)));
 
-            var intValueList = intValues.ToList();
-            var strValueList = strValues.ToList();
+            var intValueArr = intValues.ToArray();
+            var strValueArr = strValues.ToArray();
 
             EventCommandBase instance = null;
 
@@ -84,41 +84,41 @@ namespace WodiLib.Event.EventCommand
 
             #region GetInstance
 
-            if (intValueList[0] == EventCommandCode.Blank.Code)
+            if (intValueArr[0] == EventCommandCode.Blank.Code)
             {
                 instance = new Blank();
             }
-            else if (intValueList[0] == EventCommandCode.Message.Code)
+            else if (intValueArr[0] == EventCommandCode.Message.Code)
             {
                 instance = new Message();
             }
-            else if (intValueList[0] == EventCommandCode.Comment.Code)
+            else if (intValueArr[0] == EventCommandCode.Comment.Code)
             {
                 instance = new Comment();
             }
-            else if (intValueList[0] == EventCommandCode.DebugText.Code)
+            else if (intValueArr[0] == EventCommandCode.DebugText.Code)
             {
                 instance = new DebugText();
             }
-            else if (intValueList[0] == EventCommandCode.ClearDebugText.Code)
+            else if (intValueArr[0] == EventCommandCode.ClearDebugText.Code)
             {
                 instance = new ClearDebugText();
             }
-            else if (intValueList[0] == EventCommandCode.StopForceMessage.Code)
+            else if (intValueArr[0] == EventCommandCode.StopForceMessage.Code)
             {
                 instance = new StopForceMessage();
             }
-            else if (intValueList[0] == EventCommandCode.ChoiceStart.Code)
+            else if (intValueArr[0] == EventCommandCode.ChoiceStart.Code)
             {
                 instance = new ChoiceStart();
             }
-            else if (intValueList[0] == EventCommandCode.ChoiceStartForkingNumber.Code)
+            else if (intValueArr[0] == EventCommandCode.ChoiceStartForkingNumber.Code)
             {
                 instance = new ForkStart();
             }
-            else if (intValueList[0] == EventCommandCode.ChoiceStartForkingEtc.Code)
+            else if (intValueArr[0] == EventCommandCode.ChoiceStartForkingEtc.Code)
             {
-                var choiceCode = intValueList[1].ToBytes(Endian.Little)[0];
+                var choiceCode = intValueArr[1].ToBytes(Endian.Little)[0];
                 if (choiceCode == EventCommandConstant.ChoiceStartForkingEtc.ChoiceCode.LeftKey)
                     instance = new ChoiceStartForkingLeftKey();
                 else if (choiceCode == EventCommandConstant.ChoiceStartForkingEtc.ChoiceCode.RightKey)
@@ -128,21 +128,21 @@ namespace WodiLib.Event.EventCommand
 
                 if (instance is null) throw new ArgumentException(failSearchMessage);
             }
-            else if (intValueList[0] == EventCommandCode.ChoiceStartForkingCancel.Code)
+            else if (intValueArr[0] == EventCommandCode.ChoiceStartForkingCancel.Code)
             {
                 instance = new ChoiceStartForkingCancel();
             }
-            else if (intValueList[0] == EventCommandCode.ForkEnd.Code)
+            else if (intValueArr[0] == EventCommandCode.ForkEnd.Code)
             {
                 instance = new ForkEnd();
             }
-            else if (intValueList[0] == EventCommandCode.BreakChoiceForce.Code)
+            else if (intValueArr[0] == EventCommandCode.BreakChoiceForce.Code)
             {
                 instance = new BreakChoiceForce();
             }
-            else if (intValueList[0] == EventCommandCode.SetVariable.Code)
+            else if (intValueArr[0] == EventCommandCode.SetVariable.Code)
             {
-                if (intValueList[1] == SetVariableChangeableDB.LeftSide)
+                if (intValueArr[1] == SetVariableChangeableDB.LeftSide)
                 {
                     instance = new SetVariableChangeableDB();
                 }
@@ -151,14 +151,14 @@ namespace WodiLib.Event.EventCommand
                     instance = new SetVariable();
                 }
             }
-            else if (intValueList[0] == EventCommandCode.DBManagement.Code)
+            else if (intValueArr[0] == EventCommandCode.DBManagement.Code)
             {
-                var dataId = intValueList[2];
-                var itemId = intValueList[3];
+                var dataId = intValueArr[2];
+                var itemId = intValueArr[3];
                 if (dataId == EventCommandConstant.DBManagement.IdSet.GetTypeX.DataId
                     && itemId == EventCommandConstant.DBManagement.IdSet.GetTypeX.ItemId)
                 {
-                    var isUseTypeName = (intValueList[4].ToBytes(Endian.Little)[2]
+                    var isUseTypeName = (intValueArr[4].ToBytes(Endian.Little)[2]
                                          & EventCommandConstant.DBManagement.UseStringFlg.TypeIdFlagBit) != 0;
                     instance = isUseTypeName
                         ? (EventCommandBase) new DBManagementGetTypeId()
@@ -166,7 +166,7 @@ namespace WodiLib.Event.EventCommand
                 }
                 else if (itemId == EventCommandConstant.DBManagement.IdSet.GetDataX.ItemId)
                 {
-                    var isUseDataName = (intValueList[4].ToBytes(Endian.Little)[2]
+                    var isUseDataName = (intValueArr[4].ToBytes(Endian.Little)[2]
                                          & EventCommandConstant.DBManagement.UseStringFlg.DataIdFlagBit) != 0;
                     instance = isUseDataName
                         ? (EventCommandBase) new DBManagementGetDataId()
@@ -174,7 +174,7 @@ namespace WodiLib.Event.EventCommand
                 }
                 else if (dataId == EventCommandConstant.DBManagement.IdSet.GetItemX.DataId)
                 {
-                    var isUseItemName = (intValueList[4].ToBytes(Endian.Little)[2]
+                    var isUseItemName = (intValueArr[4].ToBytes(Endian.Little)[2]
                                          & EventCommandConstant.DBManagement.UseStringFlg.ItemIdFlagBit) != 0;
                     instance = isUseItemName
                         ? (EventCommandBase) new DBManagementGetItemId()
@@ -198,7 +198,7 @@ namespace WodiLib.Event.EventCommand
                 }
                 else
                 {
-                    var bytes = intValueList[4].ToBytes(Endian.Environment);
+                    var bytes = intValueArr[4].ToBytes(Endian.Environment);
                     var isInput = (bytes[1] & 0xF0) == 0;
                     if (isInput)
                     {
@@ -219,13 +219,13 @@ namespace WodiLib.Event.EventCommand
                     }
                 }
             }
-            else if (intValueList[0] == EventCommandCode.CsvIO.Code)
+            else if (intValueArr[0] == EventCommandCode.CsvIO.Code)
             {
                 instance = new CsvIO();
             }
-            else if (intValueList[0] == EventCommandCode.SetString.Code)
+            else if (intValueArr[0] == EventCommandCode.SetString.Code)
             {
-                var mode = (byte) (intValueList[2].ToBytes(Endian.Little)[0] & 0x0F);
+                var mode = (byte) (intValueArr[2].ToBytes(Endian.Little)[0] & 0x0F);
                 if (mode == EventCommandConstant.SetString.RightSidePropertyCode.Manual)
                 {
                     instance = new SetStringManual();
@@ -243,9 +243,9 @@ namespace WodiLib.Event.EventCommand
                     instance = new SetStringKeyboardInput();
                 }
             }
-            else if (intValueList[0] == EventCommandCode.SetVariablePlus.Code)
+            else if (intValueArr[0] == EventCommandCode.SetVariablePlus.Code)
             {
-                var execCode = (byte) (intValueList[2].ToBytes(Endian.Little)[1] & 0xF0);
+                var execCode = (byte) (intValueArr[2].ToBytes(Endian.Little)[1] & 0xF0);
                 if (execCode == EventCommandConstant.SetVariablePlus.ExecCode.Chara)
                 {
                     instance = new SetVariablePlusChara();
@@ -265,21 +265,21 @@ namespace WodiLib.Event.EventCommand
 
                 if (instance is null) throw new ArgumentException(failSearchMessage);
             }
-            else if (intValueList[0] == EventCommandCode.ConditionNumberStart.Code)
+            else if (intValueArr[0] == EventCommandCode.ConditionNumberStart.Code)
             {
                 instance = new ConditionNumberStart();
             }
-            else if (intValueList[0] == EventCommandCode.ConditionElse.Code)
+            else if (intValueArr[0] == EventCommandCode.ConditionElse.Code)
             {
                 instance = new ConditionElse();
             }
-            else if (intValueList[0] == EventCommandCode.ConditionStringStart.Code)
+            else if (intValueArr[0] == EventCommandCode.ConditionStringStart.Code)
             {
                 instance = new ConditionStringStart();
             }
-            else if (intValueList[0] == EventCommandCode.KeyInput.Code)
+            else if (intValueArr[0] == EventCommandCode.KeyInput.Code)
             {
-                var typeCode = (byte) (intValueList[2].ToBytes(Endian.Little)[1] & 0x0F);
+                var typeCode = (byte) (intValueArr[2].ToBytes(Endian.Little)[1] & 0x0F);
                 if (typeCode == EventCommandConstant.KeyInput.Type.Basic)
                 {
                     instance = new KeyInputBasic();
@@ -299,9 +299,9 @@ namespace WodiLib.Event.EventCommand
 
                 if (instance is null) throw new ArgumentException(failSearchMessage);
             }
-            else if (intValueList[0] == EventCommandCode.KeyInputAuto.Code)
+            else if (intValueArr[0] == EventCommandCode.KeyInputAuto.Code)
             {
-                var typeCode = (byte) (intValueList[1].ToBytes(Endian.Little)[3] & 0xF0);
+                var typeCode = (byte) (intValueArr[1].ToBytes(Endian.Little)[3] & 0xF0);
                 if (typeCode == EventCommandConstant.KeyInputAuto.Type.Basic)
                 {
                     instance = new KeyInputAutoBasic();
@@ -317,9 +317,9 @@ namespace WodiLib.Event.EventCommand
 
                 if (instance is null) throw new ArgumentException(failSearchMessage);
             }
-            else if (intValueList[0] == EventCommandCode.StandardKeyInputControl.Code)
+            else if (intValueArr[0] == EventCommandCode.StandardKeyInputControl.Code)
             {
-                var typeCode = (byte) (intValueList[1].ToBytes(Endian.Little)[3] & 0xF0);
+                var typeCode = (byte) (intValueArr[1].ToBytes(Endian.Little)[3] & 0xF0);
                 if (typeCode == EventCommandConstant.KeyInputControl.TargetCode.Basic)
                 {
                     instance = new StandardKeyInputControl();
@@ -331,12 +331,12 @@ namespace WodiLib.Event.EventCommand
 
                 if (instance is null) throw new ArgumentException(failSearchMessage);
             }
-            else if (intValueList[0] == EventCommandCode.Picture.Code)
+            else if (intValueArr[0] == EventCommandCode.Picture.Code)
             {
-                var execCode = (byte) (intValueList[1].ToBytes(Endian.Little)[0] & 0x0F);
+                var execCode = (byte) (intValueArr[1].ToBytes(Endian.Little)[0] & 0x0F);
                 if (execCode == EventCommandConstant.PictureShow.ExecCode.Show)
                 {
-                    var typeCode = (byte) (intValueList[1].ToBytes(Endian.Little)[0] & 0xF0);
+                    var typeCode = (byte) (intValueArr[1].ToBytes(Endian.Little)[0] & 0xF0);
                     if (typeCode == EventCommandConstant.PictureShow.ShowTypeCode.LoadFileDirect)
                     {
                         instance = new PictureShowLoadFileDirect();
@@ -375,9 +375,9 @@ namespace WodiLib.Event.EventCommand
 
                 if (instance is null) throw new ArgumentException(failSearchMessage);
             }
-            else if (intValueList[0] == EventCommandCode.Effect.Code)
+            else if (intValueArr[0] == EventCommandCode.Effect.Code)
             {
-                var targetCode = (byte) (intValueList[1].ToBytes(Endian.Environment)[0] & 0x0F);
+                var targetCode = (byte) (intValueArr[1].ToBytes(Endian.Environment)[0] & 0x0F);
                 if (targetCode == EventCommandConstant.Effect.TargetCode.Picture)
                 {
                     instance = new PictureEffect();
@@ -393,21 +393,21 @@ namespace WodiLib.Event.EventCommand
 
                 if (instance is null) throw new ArgumentException(failSearchMessage);
             }
-            else if (intValueList[0] == EventCommandCode.MapEffectShake.Code)
+            else if (intValueArr[0] == EventCommandCode.MapEffectShake.Code)
             {
                 instance = new MapEffectShake();
             }
-            else if (intValueList[0] == EventCommandCode.ScrollScreen.Code)
+            else if (intValueArr[0] == EventCommandCode.ScrollScreen.Code)
             {
                 instance = new ScrollScreen();
             }
-            else if (intValueList[0] == EventCommandCode.ChangeScreenColor.Code)
+            else if (intValueArr[0] == EventCommandCode.ChangeScreenColor.Code)
             {
                 instance = new ChangeScreenColor();
             }
-            else if (intValueList[0] == EventCommandCode.Sound.Code)
+            else if (intValueArr[0] == EventCommandCode.Sound.Code)
             {
-                var execCode = (byte) (intValueList[1].ToBytes(Endian.Little)[0] & 0x0F);
+                var execCode = (byte) (intValueArr[1].ToBytes(Endian.Little)[0] & 0x0F);
                 if (execCode == EventCommandConstant.Sound.ExecCode.Playback)
                 {
                     instance = new SoundPlayback();
@@ -427,9 +427,9 @@ namespace WodiLib.Event.EventCommand
 
                 if (instance is null) throw new ArgumentException(failSearchMessage);
             }
-            else if (intValueList[0] == EventCommandCode.Save.Code)
+            else if (intValueArr[0] == EventCommandCode.Save.Code)
             {
-                var execCode = (byte) (intValueList[1].ToBytes(Endian.Little)[0] & 0x0F);
+                var execCode = (byte) (intValueArr[1].ToBytes(Endian.Little)[0] & 0x0F);
                 if (execCode == EventCommandConstant.SaveLoad.ExecCode.Save)
                 {
                     instance = new Save();
@@ -441,17 +441,17 @@ namespace WodiLib.Event.EventCommand
 
                 if (instance is null) throw new ArgumentException(failSearchMessage);
             }
-            else if (intValueList[0] == EventCommandCode.LoadVariable.Code)
+            else if (intValueArr[0] == EventCommandCode.LoadVariable.Code)
             {
                 instance = new LoadSpecificSaveData();
             }
-            else if (intValueList[0] == EventCommandCode.SaveVariable.Code)
+            else if (intValueArr[0] == EventCommandCode.SaveVariable.Code)
             {
                 instance = new SaveSpecificSaveData();
             }
-            else if (intValueList[0] == EventCommandCode.PartyGraphic.Code)
+            else if (intValueArr[0] == EventCommandCode.PartyGraphic.Code)
             {
-                var execCode = (byte) (intValueList[1].ToBytes(Endian.Little)[0] & 0x0F);
+                var execCode = (byte) (intValueArr[1].ToBytes(Endian.Little)[0] & 0x0F);
                 if (execCode == EventCommandConstant.PartyGraphic.ExecCode.Remove)
                 {
                     instance = new PartyGraphicRemove();
@@ -475,21 +475,21 @@ namespace WodiLib.Event.EventCommand
 
                 if (instance is null) throw new ArgumentException(failSearchMessage);
             }
-            else if (intValueList[0] == EventCommandCode.ChangeMapChipSetting.Code)
+            else if (intValueArr[0] == EventCommandCode.ChangeMapChipSetting.Code)
             {
                 instance = new ChangeMapChipSetting();
             }
-            else if (intValueList[0] == EventCommandCode.SwitchChipSet.Code)
+            else if (intValueArr[0] == EventCommandCode.SwitchChipSet.Code)
             {
                 instance = new SwitchChipSet();
             }
-            else if (intValueList[0] == EventCommandCode.OverwriteMapChips.Code)
+            else if (intValueArr[0] == EventCommandCode.OverwriteMapChips.Code)
             {
                 instance = new OverwriteMapChips();
             }
-            else if (intValueList[0] == EventCommandCode.Transfer.Code)
+            else if (intValueArr[0] == EventCommandCode.Transfer.Code)
             {
-                if (intValueList[1] != EventCommandConstant.Transfer.UseSavedPosition)
+                if (intValueArr[1] != EventCommandConstant.Transfer.UseSavedPosition)
                 {
                     instance = new TransferDestination();
                 }
@@ -498,122 +498,122 @@ namespace WodiLib.Event.EventCommand
                     instance = new TransferSavedPosition();
                 }
             }
-            else if (intValueList[0] == EventCommandCode.SyntheticVoice.Code)
+            else if (intValueArr[0] == EventCommandCode.SyntheticVoice.Code)
             {
                 instance = new SyntheticVoice();
             }
-            else if (intValueList[0] == EventCommandCode.LoopInfiniteStart.Code)
+            else if (intValueArr[0] == EventCommandCode.LoopInfiniteStart.Code)
             {
                 instance = new LoopInfiniteStart();
             }
-            else if (intValueList[0] == EventCommandCode.LoopFiniteStart.Code)
+            else if (intValueArr[0] == EventCommandCode.LoopFiniteStart.Code)
             {
                 instance = new LoopFiniteStart();
             }
-            else if (intValueList[0] == EventCommandCode.LoopEnd.Code)
+            else if (intValueArr[0] == EventCommandCode.LoopEnd.Code)
             {
                 instance = new LoopEnd();
             }
-            else if (intValueList[0] == EventCommandCode.LoopBreak.Code)
+            else if (intValueArr[0] == EventCommandCode.LoopBreak.Code)
             {
                 instance = new LoopBreak();
             }
-            else if (intValueList[0] == EventCommandCode.LoopContinue.Code)
+            else if (intValueArr[0] == EventCommandCode.LoopContinue.Code)
             {
                 instance = new LoopContinue();
             }
-            else if (intValueList[0] == EventCommandCode.PreparationTransition.Code)
+            else if (intValueArr[0] == EventCommandCode.PreparationTransition.Code)
             {
                 instance = new PreparationTransition();
             }
-            else if (intValueList[0] == EventCommandCode.ExecutionTransition.Code)
+            else if (intValueArr[0] == EventCommandCode.ExecutionTransition.Code)
             {
                 instance = new ExecutionTransition();
             }
-            else if (intValueList[0] == EventCommandCode.TransitionWithOption.Code)
+            else if (intValueArr[0] == EventCommandCode.TransitionWithOption.Code)
             {
                 instance = new TransitionWithOption();
             }
-            else if (intValueList[0] == EventCommandCode.MoveDuringEventsOn.Code)
+            else if (intValueArr[0] == EventCommandCode.MoveDuringEventsOn.Code)
             {
                 instance = new MoveDuringEventsOn();
             }
-            else if (intValueList[0] == EventCommandCode.MoveDuringEventsOff.Code)
+            else if (intValueArr[0] == EventCommandCode.MoveDuringEventsOff.Code)
             {
                 instance = new MoveDuringEventsOff();
             }
-            else if (intValueList[0] == EventCommandCode.GoToTitleScreen.Code)
+            else if (intValueArr[0] == EventCommandCode.GoToTitleScreen.Code)
             {
                 instance = new GoToTitleScreen();
             }
-            else if (intValueList[0] == EventCommandCode.GameEnd.Code)
+            else if (intValueArr[0] == EventCommandCode.GameEnd.Code)
             {
                 instance = new GameEnd();
             }
-            else if (intValueList[0] == EventCommandCode.HaltNonPictureUpdate.Code)
+            else if (intValueArr[0] == EventCommandCode.HaltNonPictureUpdate.Code)
             {
                 instance = new HaltNonPictureUpdate();
             }
-            else if (intValueList[0] == EventCommandCode.ResumeNonPictureUpdate.Code)
+            else if (intValueArr[0] == EventCommandCode.ResumeNonPictureUpdate.Code)
             {
                 instance = new ResumeNonPictureUpdate();
             }
-            else if (intValueList[0] == EventCommandCode.ForceExitEvent.Code)
+            else if (intValueArr[0] == EventCommandCode.ForceExitEvent.Code)
             {
                 instance = new ForceExitEvent();
             }
-            else if (intValueList[0] == EventCommandCode.MoveRoute.Code)
+            else if (intValueArr[0] == EventCommandCode.MoveRoute.Code)
             {
                 instance = new MoveRoute();
             }
-            else if (intValueList[0] == EventCommandCode.WaitForMovement.Code)
+            else if (intValueArr[0] == EventCommandCode.WaitForMovement.Code)
             {
                 instance = new WaitForMovement();
             }
-            else if (intValueList[0] == EventCommandCode.EraseEvent.Code)
+            else if (intValueArr[0] == EventCommandCode.EraseEvent.Code)
             {
                 instance = new EraseEvent();
             }
-            else if (intValueList[0] == EventCommandCode.Wait.Code)
+            else if (intValueArr[0] == EventCommandCode.Wait.Code)
             {
                 instance = new WaitEventCommand();
             }
-            else if (intValueList[0] == EventCommandCode.SetLabel.Code)
+            else if (intValueArr[0] == EventCommandCode.SetLabel.Code)
             {
                 instance = new SetLabel();
             }
-            else if (intValueList[0] == EventCommandCode.JumpToLabel.Code)
+            else if (intValueArr[0] == EventCommandCode.JumpToLabel.Code)
             {
                 instance = new JumpToLabel();
             }
-            else if (intValueList[0] == EventCommandCode.CallCommonEventById.Code)
+            else if (intValueArr[0] == EventCommandCode.CallCommonEventById.Code)
             {
                 instance = new CallCommonEventById();
             }
-            else if (intValueList[0] == EventCommandCode.CallCommonEventByName.Code)
+            else if (intValueArr[0] == EventCommandCode.CallCommonEventByName.Code)
             {
                 instance = new CallCommonEventByName();
             }
-            else if (intValueList[0] == EventCommandCode.CommonEventReserve.Code)
+            else if (intValueArr[0] == EventCommandCode.CommonEventReserve.Code)
             {
                 instance = new CommonEventReserve();
             }
-            else if (intValueList[0] == EventCommandCode.Download.Code)
+            else if (intValueArr[0] == EventCommandCode.Download.Code)
             {
                 instance = new Download();
             }
-            else if (intValueList[0] == EventCommandCode.CheckPoint.Code)
+            else if (intValueArr[0] == EventCommandCode.CheckPoint.Code)
             {
-                if (intValueList.Count == 1)
+                if (intValueArr.Length == 1)
                 {
                     // ver2.00より前のチェックポイント
                     instance = new CheckPoint(false);
                 }
-                else if (intValueList[1] == EventCommandConstant.CheckPoint.Type.Standard)
+                else if (intValueArr[1] == EventCommandConstant.CheckPoint.Type.Standard)
                 {
                     instance = new CheckPoint();
                 }
-                else if (intValueList[1] == EventCommandConstant.CheckPoint.Type.Special)
+                else if (intValueArr[1] == EventCommandConstant.CheckPoint.Type.Special)
                 {
                     instance = new SpecialCheckPoint();
                 }
@@ -622,7 +622,7 @@ namespace WodiLib.Event.EventCommand
             }
             else
             {
-                instance = new Unknown(intValueList[0]);
+                instance = new Unknown(intValueArr[0]);
             }
 
             #endregion
@@ -632,36 +632,36 @@ namespace WodiLib.Event.EventCommand
                 throw new InvalidOperationException();
 
             // 数値引数・文字列引数の数が最低限の数揃っていない場合エラー
-            if (intValueList.Count < instance.NumberVariableCountMin)
+            if (intValueArr.Length < instance.NumberVariableCountMin)
                 throw new ArgumentException(
                     ErrorMessage.UnderListLength(nameof(intValues), instance.NumberVariableCountMin));
-            if (strValueList.Count < instance.StringVariableCountMin)
+            if (strValueArr.Length < instance.StringVariableCountMin)
                 throw new ArgumentException(
                     ErrorMessage.UnderListLength(nameof(strValues), instance.StringVariableCountMin));
 
             // 数値引数と文字列引数、インデント、動作指定コマンドをセットする
-            for (var i = 1; i < intValueList.Count; i++)
+            for (var i = 1; i < intValueArr.Length; i++)
             {
                 // index0 はイベントコマンドコードなので設定しない
                 if (instance.IsNormalNumberArgIndex(i))
                 {
-                    instance.SetSafetyNumberVariable(i, intValueList[i]);
+                    instance.SetSafetyNumberVariable(i, intValueArr[i]);
                 }
                 else
                 {
-                    instance.ExpansionNumberArgList.Add(intValueList[i]);
+                    instance.ExpansionNumberArgList.Add(intValueArr[i]);
                 }
             }
 
-            for (var i = 0; i < strValueList.Count; i++)
+            for (var i = 0; i < strValueArr.Length; i++)
             {
                 if (instance.IsNormalStringArgIndex(i))
                 {
-                    instance.SetSafetyStringVariable(i, strValueList[i]);
+                    instance.SetSafetyStringVariable(i, strValueArr[i]);
                 }
                 else
                 {
-                    instance.ExpansionStringArgList.Add(strValueList[i]);
+                    instance.ExpansionStringArgList.Add(strValueArr[i]);
                 }
             }
 

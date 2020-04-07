@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -149,7 +148,7 @@ namespace WodiLib.Database
 
             var argCaseList = argCases is null
                 ? null
-                : new DatabaseValueCaseList(argCases.ToArray());
+                : new DatabaseValueCaseList(argCases);
 
             InnerDesc = DBItemSettingDescFactory.Create(type, argCaseList);
         }
@@ -173,7 +172,7 @@ namespace WodiLib.Database
 
             var argCaseList = argCases is null
                 ? null
-                : new DatabaseValueCaseList(argCases.ToArray());
+                : new DatabaseValueCaseList(argCases);
 
             InnerDesc = DBItemSettingDescFactory.Create(type, argCaseList);
         }
@@ -223,7 +222,7 @@ namespace WodiLib.Database
         /// <param name="argCases">[NotNull] 追加する選択肢</param>
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
         /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
-        public void AddSpecialCaseRange(IReadOnlyCollection<DatabaseValueCase> argCases)
+        public void AddSpecialCaseRange(IEnumerable<DatabaseValueCase> argCases)
         {
             InnerDesc.AddRangeSpecialCase(argCases);
         }
@@ -249,7 +248,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
-        public void InsertSpecialCaseRange(int index, IReadOnlyCollection<DatabaseValueCase> argCases)
+        public void InsertSpecialCaseRange(int index, IEnumerable<DatabaseValueCase> argCases)
         {
             InnerDesc.InsertRangeSpecialCase(index, argCases);
         }

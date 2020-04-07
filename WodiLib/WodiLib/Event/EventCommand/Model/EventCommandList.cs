@@ -75,13 +75,13 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="list">初期イベントコマンドリスト</param>
+        /// <param name="items">初期イベントコマンド列挙</param>
         /// <exception cref="ArgumentNullException">
-        ///     listがnullの場合、
-        ///     またはlist中にnullが含まれる場合
+        ///     itemsがnullの場合、
+        ///     またはitems中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
-        public EventCommandList(IReadOnlyCollection<IEventCommand> list) : base(list)
+        /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
+        public EventCommandList(IEnumerable<IEventCommand> items) : base(items)
         {
         }
 

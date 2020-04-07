@@ -122,8 +122,7 @@ namespace WodiLib.Event
         {
             if (commands is null) return;
 
-            var charaMoveCommands = commands as ICharaMoveCommand[] ?? commands.ToArray();
-            CommandList = new CharaMoveCommandList(charaMoveCommands);
+            CommandList = new CharaMoveCommandList(commands);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -77,7 +77,44 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// 値を比較する。
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="items">初期リスト</param>
+        /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
+        /// <exception cref="InvalidOperationException">itemsの要素数が12以外の場合</exception>
+        public ChoiceCaseList(IEnumerable<string> items) : base(items)
+        {
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 容量を返す。
+        /// </summary>
+        /// <returns>容量</returns>
+        public override int GetCapacity() => Capacity;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 格納対象のデフォルトインスタンスを生成する。
+        /// </summary>
+        /// <param name="index">挿入インデックス</param>
+        /// <returns>デフォルトインスタンス</returns>
+        protected override string MakeDefaultItem(int index) => "";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Serializable
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>

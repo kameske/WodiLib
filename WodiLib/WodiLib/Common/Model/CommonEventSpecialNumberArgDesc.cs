@@ -8,7 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel;
 using WodiLib.Database;
 using WodiLib.Sys;
 
@@ -99,7 +99,7 @@ namespace WodiLib.Common
 
             var argCaseList = argCases is null
                 ? null
-                : new CommonEventSpecialArgCaseList(argCases.ToArray());
+                : new CommonEventSpecialArgCaseList(argCases);
 
             InnerDesc = InnerDescFactory.Create(type, argCaseList);
         }
@@ -130,7 +130,7 @@ namespace WodiLib.Common
         /// すべての選択肢を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public List<CommonEventSpecialArgCase> GetAllSpecialCase()
+        public IReadOnlyList<CommonEventSpecialArgCase> GetAllSpecialCase()
         {
             return InnerDesc.GetAllSpecialCase();
         }
@@ -140,7 +140,7 @@ namespace WodiLib.Common
         /// <para>特殊指定が「データベース参照」の場合、返却されるリストは[-1, -2, -3]ではなく[DB種別コード, DBタイプID, -1～-3追加フラグ]。</para>
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public List<int> GetAllSpecialCaseNumber()
+        public IReadOnlyList<int> GetAllSpecialCaseNumber()
         {
             return InnerDesc.GetAllSpecialCaseNumber();
         }
@@ -149,7 +149,7 @@ namespace WodiLib.Common
         /// すべての選択肢文字列を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public List<string> GetAllSpecialCaseDescription()
+        public IReadOnlyList<string> GetAllSpecialCaseDescription()
         {
             return InnerDesc.GetAllSpecialCaseDescription();
         }

@@ -114,7 +114,7 @@ namespace WodiLib.Common
             /// 引数種別によらずすべての選択肢を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            public List<CommonEventSpecialArgCase> GetAllSpecialCase()
+            public IReadOnlyList<CommonEventSpecialArgCase> GetAllSpecialCase()
             {
                 return ArgCaseList.ToList();
             }
@@ -124,7 +124,7 @@ namespace WodiLib.Common
             /// すべての選択肢番号を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            public List<int> GetAllSpecialCaseNumber()
+            public IReadOnlyList<int> GetAllSpecialCaseNumber()
             {
                 return GetAllManualCase().Select(x => x.CaseNumber).ToList();
             }
@@ -134,7 +134,7 @@ namespace WodiLib.Common
             /// すべての選択肢文字列を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            public List<string> GetAllSpecialCaseDescription()
+            public IReadOnlyList<string> GetAllSpecialCaseDescription()
             {
                 return GetAllManualCase().Select(x => x.Description).ToList();
             }
@@ -164,7 +164,7 @@ namespace WodiLib.Common
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(argCases)));
 
-                ArgCaseList.AddRange(argCases.ToList());
+                ArgCaseList.AddRange(argCases);
             }
 
             /// <summary>
@@ -208,7 +208,7 @@ namespace WodiLib.Common
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(argCases)));
 
-                ArgCaseList.InsertRange(index, argCases.ToList());
+                ArgCaseList.InsertRange(index, argCases);
             }
 
             /// <summary>

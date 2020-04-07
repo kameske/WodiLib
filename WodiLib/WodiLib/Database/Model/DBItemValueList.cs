@@ -59,12 +59,12 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="list">[NotNull] 初期リスト</param>
+        /// <param name="items">[NotNull] 初期リスト</param>
         /// <exception cref="ArgumentNullException">
-        ///     listがnullの場合、
-        ///     またはlist中にnullが含まれる場合
+        ///     itemsがnullの場合、
+        ///     またはitems中にnullが含まれる場合
         /// </exception>
-        public DBItemValueList(IReadOnlyCollection<DBItemValue> list) : base(list)
+        public DBItemValueList(IEnumerable<DBItemValue> items) : base(items)
         {
         }
 
@@ -94,36 +94,36 @@ namespace WodiLib.Database
         /// コンストラクタ
         /// </summary>
         /// <param name="outer">[NotNull] 外部クラス</param>
-        /// <param name="list">[NotNull] 値リスト</param>
-        /// <exception cref="ArgumentNullException">outer, listがnullの場合</exception>
+        /// <param name="items">値列挙</param>
+        /// <exception cref="ArgumentNullException">outer, itemsがnullの場合</exception>
         /// <exception cref="ArgumentException">
-        ///     listの要素数、
-        ///     またはlist中の値種別が不適切な場合
+        ///     itemsの要素数、
+        ///     またはitems中の値種別が不適切な場合
         /// </exception>
         internal DBItemValueList(DBItemValuesList outer,
-            IReadOnlyCollection<DBItemValue> list)
+            IEnumerable<DBItemValue> items)
         {
             if (outer is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(outer)));
-            if (list is null)
+            if (items is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(list)));
+                    ErrorMessage.NotNull(nameof(items)));
 
             Outer = outer;
 
             // validationのためにここで追加する。validation後には追加しない。
-            Items.AddRange(list);
+            Items.AddRange(items);
 
             var validateResult = outer.ValidateListItem(this);
             switch (validateResult)
             {
                 case DBItemValuesList.ValidationResult.LengthError:
                     throw new ArgumentException(
-                        $"{nameof(list)}の要素数が異なります。");
+                        $"{nameof(items)}の要素数が異なります。");
                 case DBItemValuesList.ValidationResult.ItemError:
                     throw new ArgumentException(
-                        $"{nameof(list)}中に種類の異なる項目があります。");
+                        $"{nameof(items)}中に種類の異なる項目があります。");
             }
         }
 
@@ -196,7 +196,7 @@ namespace WodiLib.Database
         ///     紐付けされているDBItemValuesListが存在する場合、
         ///     または要素数がMaxCapacityを超える場合
         /// </exception>
-        public new void AddRange(IReadOnlyCollection<DBItemValue> items)
+        public new void AddRange(IEnumerable<DBItemValue> items)
         {
             if (!(Outer is null))
                 throw new InvalidOperationException(
@@ -241,7 +241,7 @@ namespace WodiLib.Database
         ///     紐付けされているDBItemValuesListが存在する場合、
         ///     または要素数がMaxCapacityを超える場合
         /// </exception>
-        public new void InsertRange(int index, IReadOnlyCollection<DBItemValue> items)
+        public new void InsertRange(int index, IEnumerable<DBItemValue> items)
         {
             if (!(Outer is null))
                 throw new InvalidOperationException(
@@ -417,7 +417,7 @@ namespace WodiLib.Database
         ///     紐付けされているDBItemValuesListが存在する場合、
         ///     または要素数がMaxCapacityを超える場合
         /// </exception>
-        internal void AddRangeForValuesListInstanceManager(IReadOnlyCollection<DBItemValue> items)
+        internal void AddRangeForValuesListInstanceManager(IEnumerable<DBItemValue> items)
         {
             base.AddRange(items);
         }
@@ -453,7 +453,7 @@ namespace WodiLib.Database
         ///     または要素数がMaxCapacityを超える場合
         /// </exception>
         internal void InsertRangeForValuesListInstanceManager(int index,
-            IReadOnlyCollection<DBItemValue> items)
+            IEnumerable<DBItemValue> items)
         {
             base.InsertRange(index, items);
         }
