@@ -119,12 +119,10 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="list">初期リスト</param>
-        /// <exception cref="ArgumentNullException">listがnullの場合</exception>
-        /// <exception cref="InvalidOperationException">listの要素数が12以外の場合</exception>
-        public ChoiceCaseList(
-            IReadOnlyCollection<string> list)
-            : base(list)
+        /// <param name="items">初期リスト</param>
+        /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
+        /// <exception cref="InvalidOperationException">itemsの要素数が12以外の場合</exception>
+        public ChoiceCaseList(IEnumerable<string> items) : base(items)
         {
         }
 

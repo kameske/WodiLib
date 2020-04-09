@@ -33,12 +33,12 @@ namespace WodiLib.Common
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="list">初期リスト</param>
-        /// <exception cref="ArgumentNullException">listがnullの場合</exception>
-        /// <exception cref="InvalidOperationException">listの要素数が5以外の場合</exception>
+        /// <param name="items">初期リスト</param>
+        /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
+        /// <exception cref="InvalidOperationException">itemsの要素数が5以外の場合</exception>
         public CommonEventSpecialNumberArgDescList(
-            IReadOnlyCollection<CommonEventSpecialNumberArgDesc> list)
-            : base(list)
+            IEnumerable<CommonEventSpecialNumberArgDesc> items)
+            : base(items)
         {
         }
 

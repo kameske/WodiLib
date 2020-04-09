@@ -123,15 +123,15 @@ namespace WodiLib.Sys
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="list">[NotNull] 初期リスト</param>
+        /// <param name="initItems">[NotNull] 初期リスト</param>
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         /// <exception cref="ArgumentNullException">
-        ///     listがnullの場合、
-        ///     またはlist中にnullが含まれる場合、
-        ///     またはlistの要素数が Capacity と一致しない場合
+        ///     initItemsがnullの場合、
+        ///     またはinitItems中にnullが含まれる場合、
+        ///     またはinitItemsの要素数が Capacity と一致しない場合
         /// </exception>
         /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
-        public FixedLengthList(IReadOnlyCollection<T> list)
+        public FixedLengthList(IEnumerable<T> initItems)
         {
             try
             {
@@ -142,17 +142,19 @@ namespace WodiLib.Sys
                 throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
             }
 
-            if (list is null)
+            if (initItems is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(list)));
+                    ErrorMessage.NotNull(nameof(initItems)));
+
+            var list = initItems.ToArray();
 
             if (list.HasNullItem())
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNullInList(nameof(list)));
+                    ErrorMessage.NotNullInList(nameof(initItems)));
 
-            if (list.Count != GetCapacity())
+            if (list.Length != GetCapacity())
                 throw new InvalidOperationException(
-                    ErrorMessage.NotEqual($"{nameof(list)}の要素数", $"{nameof(GetCapacity)}({GetCapacity()})"));
+                    ErrorMessage.NotEqual($"{nameof(initItems)}の要素数", $"{nameof(GetCapacity)}({GetCapacity()})"));
 
             Items = new T[GetCapacity()];
             var insertIndex = 0;
@@ -322,6 +324,7 @@ namespace WodiLib.Sys
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
+
             return All().SequenceEqual(other.All());
         }
 
@@ -335,8 +338,7 @@ namespace WodiLib.Sys
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-
-            return All().SequenceEqual(other.All());
+            return All().SequenceEqual(other);
         }
 
         /// <summary>
@@ -344,9 +346,10 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(IReadOnlyList<T> other)
+        public bool Equals(IEnumerable<T> other)
         {
             if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
 
             return All().SequenceEqual(other);
         }

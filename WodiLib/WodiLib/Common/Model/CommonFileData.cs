@@ -70,9 +70,9 @@ namespace WodiLib.Common
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(commonEvents)));
 
-            var eventList = commonEvents.ToList();
+            var eventList = commonEvents.ToArray();
 
-            if (eventList.Count == 0)
+            if (eventList.Length == 0)
                 throw new ArgumentException(
                     $"{nameof(commonEvents)}の要素数は1以上である必要があります。");
 

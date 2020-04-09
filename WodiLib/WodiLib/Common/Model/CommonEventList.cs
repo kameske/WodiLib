@@ -42,13 +42,13 @@ namespace WodiLib.Common
         /// <summary>
         /// コンストラクタ（初期配列指定）
         /// </summary>
-        /// <param name="list">[NotNull] 初期リスト</param>
-        /// <exception cref="ArgumentNullException">listがnullの場合</exception>
+        /// <param name="items">[NotNull] 初期リスト</param>
+        /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
         /// <exception cref="InvalidOperationException">
-        ///     listの要素数がMinLength未満の場合、
-        ///     またはlistの要素数がMaxLengthを超える場合
+        ///     itemsの要素数がMinLength未満の場合、
+        ///     またはitemsの要素数がMaxLengthを超える場合
         /// </exception>
-        public CommonEventList(IReadOnlyCollection<CommonEvent> list) : base(list)
+        public CommonEventList(IEnumerable<CommonEvent> items) : base(items)
         {
         }
 

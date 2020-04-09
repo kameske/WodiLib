@@ -121,15 +121,17 @@ namespace WodiLib.Database
             /// 追加された項目はデフォルト値で初期化される。
             /// </summary>
             /// <param name="types">値種別リスト</param>
-            public void ReflectAddValueTypeRange(IReadOnlyCollection<DBItemType> types)
+            public void ReflectAddValueTypeRange(IEnumerable<DBItemType> types)
             {
                 Refresh();
+
+                var typeArr = types.ToArray();
 
                 foreach (var reference in MadeInstanceList)
                 {
                     if (!reference.TryGetTarget(out var target)) continue;
 
-                    var defaultValues = types.Select(x => x.DBItemDefaultValue).ToList();
+                    var defaultValues = typeArr.Select(x => x.DBItemDefaultValue);
                     target.AddRangeForValuesListInstanceManager(defaultValues);
                 }
             }
@@ -139,15 +141,17 @@ namespace WodiLib.Database
             /// 追加された項目は引数で指定された値で初期化される。
             /// </summary>
             /// <param name="values">値リスト</param>
-            public void ReflectAddValueRange(IReadOnlyCollection<DBItemValue> values)
+            public void ReflectAddValueRange(IEnumerable<DBItemValue> values)
             {
                 Refresh();
+
+                var valuesArr = values.ToArray();
 
                 foreach (var reference in MadeInstanceList)
                 {
                     if (!reference.TryGetTarget(out var target)) continue;
 
-                    target.AddRangeForValuesListInstanceManager(values);
+                    target.AddRangeForValuesListInstanceManager(valuesArr);
                 }
             }
 
@@ -192,15 +196,17 @@ namespace WodiLib.Database
             /// </summary>
             /// <param name="index">インデックス</param>
             /// <param name="types">値種別リスト</param>
-            public void ReflectInsertValueTypeRange(int index, IReadOnlyCollection<DBItemType> types)
+            public void ReflectInsertValueTypeRange(int index, IEnumerable<DBItemType> types)
             {
                 Refresh();
+
+                var typeArr = types.ToArray();
 
                 foreach (var reference in MadeInstanceList)
                 {
                     if (!reference.TryGetTarget(out var target)) continue;
 
-                    var defaultValues = types.Select(x => x.DBItemDefaultValue).ToList();
+                    var defaultValues = typeArr.Select(x => x.DBItemDefaultValue);
                     target.InsertRangeForValuesListInstanceManager(index, defaultValues);
                 }
             }
@@ -211,15 +217,17 @@ namespace WodiLib.Database
             /// </summary>
             /// <param name="index">インデックス</param>
             /// <param name="values">値リスト</param>
-            public void ReflectInsertValueRange(int index, IReadOnlyCollection<DBItemValue> values)
+            public void ReflectInsertValueRange(int index, IEnumerable<DBItemValue> values)
             {
                 Refresh();
+
+                var valuesArr = values.ToArray();
 
                 foreach (var reference in MadeInstanceList)
                 {
                     if (!reference.TryGetTarget(out var target)) continue;
 
-                    target.InsertRangeForValuesListInstanceManager(index, values);
+                    target.InsertRangeForValuesListInstanceManager(index, valuesArr);
                 }
             }
 

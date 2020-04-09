@@ -155,7 +155,7 @@ namespace WodiLib.Database
         /// <param name="argCases">[NotNull] 追加する選択肢</param>
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
         /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
-        public virtual void AddRangeSpecialCase(IReadOnlyCollection<DatabaseValueCase> argCases)
+        public virtual void AddRangeSpecialCase(IEnumerable<DatabaseValueCase> argCases)
         {
             throw new InvalidOperationException(
                 "特殊指定が「手動生成」ではないため処理できません");
@@ -183,7 +183,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
-        public virtual void InsertRangeSpecialCase(int index, IReadOnlyCollection<DatabaseValueCase> argCases)
+        public virtual void InsertRangeSpecialCase(int index, IEnumerable<DatabaseValueCase> argCases)
         {
             throw new InvalidOperationException(
                 "特殊指定が「手動生成」ではないため処理できません");
