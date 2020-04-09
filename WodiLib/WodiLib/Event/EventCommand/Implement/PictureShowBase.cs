@@ -48,6 +48,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(anchorPosition)));
                 anchorPosition = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -55,7 +56,11 @@ namespace WodiLib.Event.EventCommand
         public bool IsFreePosition
         {
             get => _IsFreePosition;
-            set => _IsFreePosition = value;
+            set
+            {
+                _IsFreePosition = value;
+                NotifyPropertyChanged();
+            }
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -69,7 +74,11 @@ namespace WodiLib.Event.EventCommand
         public bool IsLinkScroll
         {
             get => _IsLinkScroll;
-            set => _IsLinkScroll = value;
+            set
+            {
+                _IsLinkScroll = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <inheritdoc />

@@ -219,28 +219,45 @@ namespace WodiLib.Event.EventCommand
         public bool IsInputLeftClick
         {
             get => inputFlag.IsInputLeftClick;
-            set => inputFlag.IsInputLeftClick = value;
+            set
+            {
+                inputFlag.IsInputLeftClick = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>右クリック</summary>
         public bool IsInputRightClick
         {
             get => inputFlag.IsInputRightClick;
-            set => inputFlag.IsInputRightClick = value;
+            set
+            {
+                inputFlag.IsInputRightClick = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>中クリック</summary>
         public bool IsInputCenterClick
         {
             get => inputFlag.IsInputCenterClick;
-            set => inputFlag.IsInputCenterClick = value;
+            set
+            {
+                inputFlag.IsInputCenterClick = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>ホイール入力</summary>
         public bool IsInputWheel
         {
             get => inputFlag.IsInputWheel;
-            set => inputFlag.IsInputWheel = value;
+            set
+            {
+                inputFlag.IsInputWheel = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
+            }
         }
 
         /// <summary>左クリック</summary>
@@ -250,14 +267,39 @@ namespace WodiLib.Event.EventCommand
         public bool IsInputPosition
         {
             get => inputFlag.IsInputPosition;
-            set => inputFlag.IsInputPosition = value;
+            set
+            {
+                inputFlag.IsInputPosition = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
+            }
         }
 
+        private int positionX;
+
         /// <summary>X座標</summary>
-        public int PositionX { get; set; }
+        public int PositionX
+        {
+            get => positionX;
+            set
+            {
+                positionX = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int positionY;
 
         /// <summary>Y座標</summary>
-        public int PositionY { get; set; }
+        public int PositionY
+        {
+            get => positionY;
+            set
+            {
+                positionY = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private class InputFlag
         {

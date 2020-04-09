@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Common;
 using WodiLib.Sys.Cmn;
@@ -23,6 +24,8 @@ namespace WodiLib.Test.Common.Internal
         public static void ReturnValueDescriptionTest(bool isNull, bool isError)
         {
             var instance = new CommonEventReturnValue();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var description = isNull ? null : (CommonEventResultDescription) "test";
 
@@ -39,6 +42,17 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(CommonEventReturnValue.Description)));
+            }
         }
 
         [TestCase(-1, false)]
@@ -46,6 +60,8 @@ namespace WodiLib.Test.Common.Internal
         public static void SetReturnVariableIndexTest(int commonVariableIndex, bool isReturnFlag)
         {
             var instance = new CommonEventReturnValue();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var index = (CommonEventReturnVariableIndex) commonVariableIndex;
 
@@ -65,12 +81,19 @@ namespace WodiLib.Test.Common.Internal
 
             // 返戻値フラグが一致すること
             Assert.AreEqual(instance.IsReturnValue, isReturnFlag);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 2);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(CommonEventReturnValue.ReturnVariableIndex)));
+            Assert.IsTrue(changedPropertyList[1].Equals(nameof(CommonEventReturnValue.IsReturnValue)));
         }
 
         [Test]
         public static void SetReturnValueNoneTest()
         {
             var instance = new CommonEventReturnValue();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -91,6 +114,11 @@ namespace WodiLib.Test.Common.Internal
 
             // 返戻アドレスが-1であること
             Assert.AreEqual((int) instance.ReturnVariableIndex, -1);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 2);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(CommonEventReturnValue.ReturnVariableIndex)));
+            Assert.IsTrue(changedPropertyList[1].Equals(nameof(CommonEventReturnValue.IsReturnValue)));
         }
 
         [Test]
@@ -100,8 +128,14 @@ namespace WodiLib.Test.Common.Internal
             {
                 Description = "Description",
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
     }
 }

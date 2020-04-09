@@ -19,7 +19,7 @@ namespace WodiLib.Database
     /// DBタイプ情報クラス
     /// </summary>
     [Serializable]
-    public partial class DatabaseTypeDesc : IEquatable<DatabaseTypeDesc>, ISerializable, IDeserializationCallback
+    public partial class DatabaseTypeDesc : ModelBase<DatabaseTypeDesc>, ISerializable, IDeserializationCallback
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -124,6 +124,45 @@ namespace WodiLib.Database
         internal DBDataSetting DataSetting { get; } = new DBDataSetting();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// タイプ設定プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnTypeSettingPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(DBTypeSetting.TypeName):
+                case nameof(DBTypeSetting.Memo):
+                case nameof(DBTypeSetting.DataNameList):
+                case nameof(DBTypeSetting.ItemSettingList):
+                    NotifyPropertyChanged(args.PropertyName);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// データ設定プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnDataSettingPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(DBDataSetting.DataSettingType):
+                case nameof(DBDataSetting.DBKind):
+                case nameof(DBDataSetting.TypeId):
+                    NotifyPropertyChanged(args.PropertyName);
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -161,6 +200,8 @@ namespace WodiLib.Database
             var dataDescList = new DatabaseDataDescList(typeSetting.DataNameList, dataSetting.SettingValuesList);
             DataDescList.Overwrite(0, dataDescList);
 
+            TypeSetting.PropertyChanged += OnTypeSettingPropertyChanged;
+            DataSetting.PropertyChanged += OnDataSettingPropertyChanged;
             RegisterDataDescListHandlerDataDescList();
             RegisterItemDescListHandlerItemDescList();
         }
@@ -184,6 +225,8 @@ namespace WodiLib.Database
         /// <param name="baseListType">初期化種別</param>
         private DatabaseTypeDesc(BaseListType baseListType)
         {
+            TypeSetting.PropertyChanged += OnTypeSettingPropertyChanged;
+            DataSetting.PropertyChanged += OnDataSettingPropertyChanged;
             /*
              * 使用する場所によって操作するリストが異なるので、
              * 操作対象のリストへの変更が操作対象ではないリストへ反映されるように
@@ -210,6 +253,7 @@ namespace WodiLib.Database
             }
         }
 
+#pragma warning disable 618
         /// <summary>
         /// DataDescList のイベントハンドラ登録を行う。
         /// </summary>
@@ -299,6 +343,7 @@ namespace WodiLib.Database
             WritableItemValuesList.ClearFieldHandlerList.Add(
                 new DatabaseTypeDescHandler.ItemDescList.ItemValues.ClearItemHandler(this));
         }
+#pragma warning restore 618
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
@@ -410,7 +455,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DatabaseTypeDesc other)
+        public override bool Equals(DatabaseTypeDesc other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

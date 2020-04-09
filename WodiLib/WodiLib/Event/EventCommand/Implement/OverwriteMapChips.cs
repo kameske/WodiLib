@@ -174,22 +174,82 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int layer;
+
         /// <summary>レイヤー</summary>
-        public int Layer { get; set; }
+        public int Layer
+        {
+            get => layer;
+            set
+            {
+                layer = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int positionX;
 
         /// <summary>X座標</summary>
-        public int PositionX { get; set; }
+        public int PositionX
+        {
+            get => positionX;
+            set
+            {
+                positionX = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int positionY;
 
         /// <summary>Y座標</summary>
-        public int PositionY { get; set; }
+        public int PositionY
+        {
+            get => positionY;
+            set
+            {
+                positionY = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int chipId;
 
         /// <summary>チップID</summary>
-        public int ChipId { get; set; }
+        public int ChipId
+        {
+            get => chipId;
+            set
+            {
+                chipId = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int rangeWidth;
 
         /// <summary>横幅</summary>
-        public int RangeWidth { get; set; }
+        public int RangeWidth
+        {
+            get => rangeWidth;
+            set
+            {
+                rangeWidth = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int rangeHeight;
 
         /// <summary>縦幅</summary>
-        public int RangeHeight { get; set; }
+        public int RangeHeight
+        {
+            get => rangeHeight;
+            set
+            {
+                rangeHeight = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }

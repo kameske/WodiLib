@@ -16,7 +16,7 @@ namespace WodiLib.Common
     /// コモンイベント返戻値（Ver2.00～）
     /// </summary>
     [Serializable]
-    internal class CommonEventReturnValue : IEquatable<CommonEventReturnValue>
+    internal class CommonEventReturnValue : ModelBase<CommonEventReturnValue>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -38,6 +38,7 @@ namespace WodiLib.Common
                         ErrorMessage.NotNull(nameof(Description)));
 
                 description = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -70,6 +71,8 @@ namespace WodiLib.Common
 
             ReturnVariableIndex = commonVariableIndex;
             IsReturnValue = true;
+            NotifyPropertyChanged(nameof(ReturnVariableIndex));
+            NotifyPropertyChanged(nameof(IsReturnValue));
         }
 
         /// <summary>
@@ -79,6 +82,8 @@ namespace WodiLib.Common
         {
             ReturnVariableIndex = CommonEventReturnVariableIndex.NotReturn;
             IsReturnValue = false;
+            NotifyPropertyChanged(nameof(ReturnVariableIndex));
+            NotifyPropertyChanged(nameof(IsReturnValue));
         }
 
         /// <summary>
@@ -86,7 +91,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(CommonEventReturnValue other)
+        public override bool Equals(CommonEventReturnValue other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

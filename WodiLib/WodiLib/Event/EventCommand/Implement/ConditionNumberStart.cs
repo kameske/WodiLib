@@ -217,8 +217,18 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private bool isElseCase;
+
         /// <summary>「上記以外」分岐フラグ</summary>
-        public bool IsElseCase { get; set; }
+        public bool IsElseCase
+        {
+            get => isElseCase;
+            set
+            {
+                isElseCase = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>分岐リスト</summary>
         public ConditionNumberList ConditionList { get; } = new ConditionNumberList();
@@ -226,5 +236,31 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         protected override EventCommandColorSet EventCommandColorSet
             => EventCommandColorSet.Black;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private void OnConditionListPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(ConditionList.Count):
+                    NotifyPropertyChanged(nameof(NumberVariableCount));
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public ConditionNumberStart()
+        {
+            ConditionList.PropertyChanged += OnConditionListPropertyChanged;
+        }
     }
 }

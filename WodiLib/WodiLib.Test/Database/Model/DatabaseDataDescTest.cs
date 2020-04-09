@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Database;
 using WodiLib.Sys.Cmn;
@@ -28,6 +29,8 @@ namespace WodiLib.Test.Database
         public static void DataNameTest(DataName dataName, bool isError)
         {
             var instance = new DatabaseDataDesc();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -43,11 +46,23 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var propertyValue = instance.DataName;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(propertyValue.Equals(dataName));
+            }
 
-            var propertyValue = instance.DataName;
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(propertyValue.Equals(dataName));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DatabaseDataDesc.DataName)));
+            }
         }
 
         [TestCase(false, false)]
@@ -55,6 +70,8 @@ namespace WodiLib.Test.Database
         public static void ItemValueListTest(bool isSetNull, bool isError)
         {
             var instance = new DatabaseDataDesc();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var itemValueList = isSetNull ? null : new DBItemValueList();
 
@@ -73,15 +90,27 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var propertyValue = instance.ItemValueList;
 
-            var propertyValue = instance.ItemValueList;
+                Assert.NotNull(propertyValue);
+                Assert.NotNull(itemValueList);
 
-            Assert.NotNull(propertyValue);
-            Assert.NotNull(itemValueList);
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(propertyValue.Equals(itemValueList));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(propertyValue.Equals(itemValueList));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DatabaseDataDesc.ItemValueList)));
+            }
         }
 
         [Test]
@@ -135,8 +164,14 @@ namespace WodiLib.Test.Database
             {
                 DataName = "DataName",
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
     }
 }

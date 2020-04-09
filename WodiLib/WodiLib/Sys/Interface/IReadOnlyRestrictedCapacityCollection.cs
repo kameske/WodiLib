@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace WodiLib.Sys
 {
@@ -15,16 +16,9 @@ namespace WodiLib.Sys
     /// 【読み取り専用】容量制限のあるList基底クラス
     /// </summary>
     /// <typeparam name="T">要素の型</typeparam>
-    public interface IReadOnlyRestrictedCapacityCollection<out T> : IReadOnlyCollection<T>
+    public interface IReadOnlyRestrictedCapacityCollection<T> : IModelBase<IReadOnlyRestrictedCapacityCollection<T>>,
+        IReadOnlyList<T>, IEquatable<IReadOnlyList<T>>, INotifyCollectionChanged
     {
-        /// <summary>
-        /// インデクサによるアクセス
-        /// </summary>
-        /// <param name="index">[Range(0, Count - 1)] インデックス</param>
-        /// <returns>指定したインデックスの要素</returns>
-        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
-        T this[int index] { get; }
-
         /// <summary>
         /// 指定範囲の要素を簡易コピーしたリストを取得する。
         /// </summary>
@@ -34,5 +28,11 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentOutOfRangeException">index, countが0未満の場合</exception>
         /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合</exception>
         IEnumerable<T> GetRange(int index, int count);
+
+        /// <summary>
+        /// すべての列挙子を取得する。
+        /// </summary>
+        /// <returns>すべての列挙子</returns>
+        IEnumerable<T> All();
     }
 }

@@ -18,7 +18,7 @@ namespace WodiLib.Database
     /// DBデータ設定
     /// </summary>
     [Serializable]
-    public class DBDataSetting : IEquatable<DBDataSetting>, ISerializable
+    public class DBDataSetting : ModelBase<DBDataSetting>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -42,10 +42,20 @@ namespace WodiLib.Database
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private DBDataSettingType dataSettingType = DBDataSettingType.Manual;
+
         /// <summary>
         /// データの設定方法
         /// </summary>
-        public DBDataSettingType DataSettingType { get; private set; } = DBDataSettingType.Manual;
+        public DBDataSettingType DataSettingType
+        {
+            get => dataSettingType;
+            private set
+            {
+                dataSettingType = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private DBKind dbKind = DBKind.System;
 
@@ -61,6 +71,11 @@ namespace WodiLib.Database
                     throw new PropertyAccessException(PropertyErrorMessage);
 
                 return dbKind;
+            }
+            private set
+            {
+                dbKind = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -95,6 +110,7 @@ namespace WodiLib.Database
                         ErrorMessage.NotNull(nameof(SettingValuesList)));
 
                 settingValuesList = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -150,6 +166,8 @@ namespace WodiLib.Database
             {
                 // 設定種別≠指定DBの指定タイプ の場合、DB種別とタイプIDは無視して設定を上書きするだけ
                 DataSettingType = settingType;
+                NotifyPropertyChanged(nameof(DBKind));
+                NotifyPropertyChanged(nameof(TypeId));
                 return;
             }
 
@@ -162,8 +180,9 @@ namespace WodiLib.Database
                     ErrorMessage.NotNull(nameof(typeId)));
 
             DataSettingType = settingType;
-            this.dbKind = dbKind;
+            DBKind = dbKind;
             this.typeId = typeId.Value;
+            NotifyPropertyChanged(nameof(TypeId));
         }
 
         /// <summary>
@@ -171,7 +190,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DBDataSetting other)
+        public override bool Equals(DBDataSetting other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

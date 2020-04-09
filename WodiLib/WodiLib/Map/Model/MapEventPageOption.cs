@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using WodiLib.Sys;
 
 namespace WodiLib.Map
 {
@@ -14,7 +15,7 @@ namespace WodiLib.Map
     /// マップイベントページオプションクラス
     /// </summary>
     [Serializable]
-    public class MapEventPageOption : IEquatable<MapEventPageOption>
+    public class MapEventPageOption : ModelBase<MapEventPageOption>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -45,26 +46,96 @@ namespace WodiLib.Map
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private bool isWaitAnimationOn;
+
         /// <summary>待機時アニメフラグ</summary>
-        public bool IsWaitAnimationOn { get; set; }
+        public bool IsWaitAnimationOn
+        {
+            get => isWaitAnimationOn;
+            set
+            {
+                isWaitAnimationOn = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isMoveAnimationOn;
 
         /// <summary>移動時アニメフラグ</summary>
-        public bool IsMoveAnimationOn { get; set; }
+        public bool IsMoveAnimationOn
+        {
+            get => isMoveAnimationOn;
+            set
+            {
+                isMoveAnimationOn = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isFixedDirection;
 
         /// <summary>方向固定フラグ</summary>
-        public bool IsFixedDirection { get; set; }
+        public bool IsFixedDirection
+        {
+            get => isFixedDirection;
+            set
+            {
+                isFixedDirection = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isSkipThrough;
 
         /// <summary>すり抜けフラグ</summary>
-        public bool IsSkipThrough { get; set; }
+        public bool IsSkipThrough
+        {
+            get => isSkipThrough;
+            set
+            {
+                isSkipThrough = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isAboveHero;
 
         /// <summary>主人公より上フラグ</summary>
-        public bool IsAboveHero { get; set; }
+        public bool IsAboveHero
+        {
+            get => isAboveHero;
+            set
+            {
+                isAboveHero = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isHitBox;
 
         /// <summary>当たり判定■フラグ</summary>
-        public bool IsHitBox { get; set; }
+        public bool IsHitBox
+        {
+            get => isHitBox;
+            set
+            {
+                isHitBox = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isPlaceHalfStepUp;
 
         /// <summary>半歩上に設置フラグ</summary>
-        public bool IsPlaceHalfStepUp { get; set; }
+        public bool IsPlaceHalfStepUp
+        {
+            get => isPlaceHalfStepUp;
+            set
+            {
+                isPlaceHalfStepUp = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
@@ -121,7 +192,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(MapEventPageOption other)
+        public override bool Equals(MapEventPageOption other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

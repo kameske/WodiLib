@@ -19,7 +19,7 @@ namespace WodiLib.Map
     ///     マップイベント起動条件実装クラス
     /// </summary>
     [Serializable]
-    public class MapEventBootCondition : IEquatable<MapEventBootCondition>, ISerializable
+    public class MapEventBootCondition : ModelBase<MapEventBootCondition>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Constant
@@ -34,10 +34,18 @@ namespace WodiLib.Map
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>
-        ///     左辺
-        /// </summary>
-        public int LeftSide { get; set; } = DefaultValue;
+        private int leftSide = DefaultValue;
+
+        /// <summary>左辺</summary>
+        public int LeftSide
+        {
+            get => leftSide;
+            set
+            {
+                leftSide = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private CriteriaOperator operation = CriteriaOperator.Equal;
 
@@ -45,14 +53,41 @@ namespace WodiLib.Map
         public CriteriaOperator Operation
         {
             get => operation;
-            set => operation = value ?? throw new PropertyNullException(ErrorMessage.NotNull(nameof(Operation)));
+            set
+            {
+                if (value is null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(Operation)));
+                operation = value;
+                NotifyPropertyChanged();
+            }
         }
 
+        private bool useCondition;
+
         /// <summary>条件使用フラグ</summary>
-        public bool UseCondition { get; set; }
+        public bool UseCondition
+        {
+            get => useCondition;
+            set
+            {
+                useCondition = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ConditionRight rightSide;
 
         /// <summary>右辺</summary>
-        public ConditionRight RightSide { get; set; }
+        public ConditionRight RightSide
+        {
+            get => rightSide;
+            set
+            {
+                rightSide = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -86,7 +121,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(MapEventBootCondition other)
+        public override bool Equals(MapEventBootCondition other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

@@ -76,13 +76,14 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
             EventCommandSentenceResolveDesc desc)
         {
-            // 左辺には「このイベントのセルフ変数」「このコモンイベントのセルフ変数」「通常変数」いずれかである場合しか考慮しない。
+            // 左辺が「このイベントのセルフ変数」「このコモンイベントのセルフ変数」「通常変数」いずれかである場合しか考慮しない。
             //   上記以外の変数アドレスが指定されている場合、イベントコマンド文の表示が乱れる。
-            var leftSide = LeftSide.IsNumericVariableAddressSimpleCheck()
+            var leftSideValue = LeftSide.IsNumericVariableAddressSimpleCheck()
                 ? LeftSide
                 : CorrectAddressIfNotNumericVariableAddressLeftSide;
-            var leftSideName = resolver.GetNumericVariableAddressString(leftSide, type, desc);
-            if (NormalNumberVariableAddress.MinValue <= leftSide && leftSide <= NormalNumberVariableAddress.MaxValue)
+            var leftSideName = resolver.GetNumericVariableAddressString(leftSideValue, type, desc);
+            if (NormalNumberVariableAddress.MinValue <= leftSideValue &&
+                leftSideValue <= NormalNumberVariableAddress.MaxValue)
             {
                 leftSideName = $"変数{leftSideName}";
             }
@@ -109,10 +110,30 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int leftSide;
+
         /// <summary>左辺（代入先）</summary>
-        public int LeftSide { get; set; }
+        public int LeftSide
+        {
+            get => leftSide;
+            set
+            {
+                leftSide = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isWaitForInput;
 
         /// <summary>キー入力を待つ</summary>
-        public bool IsWaitForInput { get; set; }
+        public bool IsWaitForInput
+        {
+            get => isWaitForInput;
+            set
+            {
+                isWaitForInput = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }

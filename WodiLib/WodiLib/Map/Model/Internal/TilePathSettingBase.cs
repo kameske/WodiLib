@@ -17,7 +17,7 @@ namespace WodiLib.Map
     /// タイル通行許可設定基底クラス
     /// </summary>
     [Serializable]
-    internal abstract class TilePathSettingBase : ITilePathSetting, ISerializable
+    internal abstract class TilePathSettingBase : ModelBase<TilePathSettingBase>, ITilePathSetting, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Constant
@@ -58,6 +58,7 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(PathOption)));
                 pathOption = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -69,10 +70,20 @@ namespace WodiLib.Map
             throw new PropertyAccessException(
                 $"{nameof(PathPermission)}が{nameof(TilePathPermission.PartialDeny)}または{nameof(TilePathPermission.Deny)}であるため取得できません。");
 
+        private bool isCounter;
+
         /// <summary>
         /// カウンター属性
         /// </summary>
-        public bool IsCounter { get; set; }
+        public bool IsCounter
+        {
+            get => isCounter;
+            set
+            {
+                isCounter = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -108,6 +119,14 @@ namespace WodiLib.Map
 
             return PathOption == other.PathOption
                    && IsCounter == other.IsCounter;
+        }
+
+        public override bool Equals(TilePathSettingBase other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
+
+            return Equals(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

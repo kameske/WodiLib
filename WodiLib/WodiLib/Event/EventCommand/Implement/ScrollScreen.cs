@@ -206,6 +206,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ScrollType)));
                 scrollType = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -222,20 +223,61 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Speed)));
                 speed = value;
+                NotifyPropertyChanged();
             }
         }
 
+        private int x;
+
         /// <summary>X</summary>
-        public int X { get; set; }
+        public int X
+        {
+            get => x;
+            set
+            {
+                x = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int y;
 
         /// <summary>Y</summary>
-        public int Y { get; set; }
+        public int Y
+        {
+            get => y;
+            set
+            {
+                y = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isWaitForComplete;
 
         /// <summary>完了まで待機</summary>
-        public bool IsWaitForComplete { get; set; }
+        public bool IsWaitForComplete
+        {
+            get => isWaitForComplete;
+            set
+            {
+                isWaitForComplete = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isPixel;
 
         /// <summary>ピクセル単位</summary>
-        public bool IsPixel { get; set; }
+        public bool IsPixel
+        {
+            get => isPixel;
+            set
+            {
+                isPixel = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Const

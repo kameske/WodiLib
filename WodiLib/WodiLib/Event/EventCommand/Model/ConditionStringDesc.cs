@@ -17,10 +17,20 @@ namespace WodiLib.Event.EventCommand
     /// 条件（文字列）条件オブジェクトクラス
     /// </summary>
     [Serializable]
-    public class ConditionStringDesc : IEquatable<ConditionStringDesc>, ISerializable
+    public class ConditionStringDesc : ModelBase<ConditionStringDesc>, ISerializable
     {
+        private int leftSide = 3000000;
+
         /// <summary>左辺</summary>
-        public int LeftSide { get; set; } = 3000000;
+        public int LeftSide
+        {
+            get => leftSide;
+            set
+            {
+                leftSide = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private IntOrStr rightSide = "";
 
@@ -58,8 +68,18 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
+        private bool isUseNumberVariable;
+
         /// <summary>数値変数使用フラグ</summary>
-        public bool IsUseNumberVariable { get; set; }
+        public bool IsUseNumberVariable
+        {
+            get => isUseNumberVariable;
+            set
+            {
+                isUseNumberVariable = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// コンストラクタ
@@ -83,7 +103,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(ConditionStringDesc other)
+        public override bool Equals(ConditionStringDesc other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

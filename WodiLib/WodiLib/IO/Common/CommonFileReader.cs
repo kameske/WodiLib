@@ -129,7 +129,7 @@ namespace WodiLib.IO
             var reader = new CommonEventReader(status, length);
 
             var commonEventList = reader.Read();
-            data.SetCommonEventList(commonEventList);
+            data.CommonEventList = new CommonEventList(commonEventList);
         }
     }
 }

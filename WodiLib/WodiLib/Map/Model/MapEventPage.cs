@@ -19,7 +19,7 @@ namespace WodiLib.Map
     ///     マップイベント1ページ毎の情報実装クラス
     /// </summary>
     [Serializable]
-    public class MapEventPage : IEquatable<MapEventPage>
+    public class MapEventPage : ModelBase<MapEventPage>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constant
@@ -48,6 +48,7 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(GraphicInfo)));
                 graphicInfo = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -64,6 +65,7 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(BootInfo)));
                 bootInfo = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -80,6 +82,7 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(MoveRouteInfo)));
                 moveRouteInfo = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -96,14 +99,35 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Option)));
                 option = value;
+                NotifyPropertyChanged();
             }
         }
 
+        private HitExtendRange hitExtendRange;
+
         /// <summary>接触範囲拡張</summary>
-        public HitExtendRange HitExtendRange { get; set; }
+        public HitExtendRange HitExtendRange
+        {
+            get => hitExtendRange;
+            set
+            {
+                hitExtendRange = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private ShadowGraphicId shadowGraphicId;
 
         /// <summary>影グラフィック番号</summary>
-        public ShadowGraphicId ShadowGraphicId { get; set; }
+        public ShadowGraphicId ShadowGraphicId
+        {
+            get => shadowGraphicId;
+            set
+            {
+                shadowGraphicId = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private EventCommandList eventCommands = new EventCommandList(new[] {new Blank()});
 
@@ -118,6 +142,7 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(EventCommands)));
                 eventCommands = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -149,7 +174,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(MapEventPage other)
+        public override bool Equals(MapEventPage other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

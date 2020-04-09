@@ -19,7 +19,8 @@ namespace WodiLib.Database
     /// 選択肢情報リスト
     /// </summary>
     [Serializable]
-    internal class DatabaseValueCaseList : RestrictedCapacityCollection<DatabaseValueCase>
+    internal class DatabaseValueCaseList : RestrictedCapacityCollection<DatabaseValueCase>,
+        IReadOnlyDatabaseValueCaseList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Public Constant
@@ -85,8 +86,7 @@ namespace WodiLib.Database
         public string GetDescriptionForCaseNumber(int caseNumber)
         {
             var info = GetForCaseNumber(caseNumber);
-            if (info is null) return null;
-            return GetForCaseNumber(caseNumber).Description;
+            return info?.Description;
         }
 
         /// <summary>

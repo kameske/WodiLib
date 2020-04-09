@@ -65,7 +65,7 @@ namespace WodiLib.Event.EventCommand
         {
             var correctEventId = resolver.GetCorrectEventIdByRelativeId(EventId, desc.CommonEventId, type);
 
-            var getEventNameResult = GetEventName(resolver, type, desc, correctEventId);
+            var getEventNameResult = TryGetEventName(resolver, type, desc, correctEventId);
             var eventName = getEventNameResult.Item1
                 ? getEventNameResult.Item2
                 : string.Empty;
@@ -103,7 +103,11 @@ namespace WodiLib.Event.EventCommand
         public int EventId
         {
             get => EventIdOrName.ToInt();
-            set => EventIdOrName = value;
+            set
+            {
+                EventIdOrName = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <inheritdoc />
@@ -114,7 +118,7 @@ namespace WodiLib.Event.EventCommand
         //     Private Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private (bool, string) GetEventName(EventCommandSentenceResolver resolver,
+        private (bool, string) TryGetEventName(EventCommandSentenceResolver resolver,
             EventCommandSentenceType type, EventCommandSentenceResolveDesc desc,
             int correctId)
         {

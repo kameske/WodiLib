@@ -46,19 +46,36 @@ namespace WodiLib.Database
                         ErrorMessage.NotNull(FolderName));
 
                 folderName = value;
+                NotifyPropertyChanged();
             }
         }
+
+        private bool omissionFolderNameFlag;
 
         /// <summary>
         /// ファイル読み込み時の保存時にフォルダ名省略フラグ
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「ファイル読み込み」以外の場合</exception>
-        public override bool OmissionFolderNameFlag { get; set; }
+        public override bool OmissionFolderNameFlag
+        {
+            get => omissionFolderNameFlag;
+            set
+            {
+                omissionFolderNameFlag = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// デフォルト設定値種別
         /// </summary>
         public override DBItemType DefaultType => DBItemType.String;
+
+        /// <summary>
+        /// 選択肢リスト
+        /// </summary>
+        public override IReadOnlyDatabaseValueCaseList ArgCaseList { get; }
+            = new DatabaseValueCaseList();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -174,6 +191,21 @@ namespace WodiLib.Database
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
         public override bool Equals(IDBItemSettingDesc other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            if (!(other is DBItemSettingDescLoadFile casted)) return false;
+
+            return Equals(casted);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public override bool Equals(DBItemSettingDescBase other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

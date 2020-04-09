@@ -50,6 +50,21 @@ namespace WodiLib.Event.EventCommand
             => EventCommandColorSet.DarkViolet;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// タイプ設定プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnEventIdOrNamePropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            NotifyPropertyChanged(nameof(EventIdOrName));
+            NotifyPropertyChanged(nameof(IsCallMapEventId));
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -335,7 +350,10 @@ namespace WodiLib.Event.EventCommand
                 if (value is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(EventIdOrName)));
+                eventIdOrName.PropertyChanged -= OnEventIdOrNamePropertyChanged;
                 eventIdOrName = value;
+                eventIdOrName.PropertyChanged += OnEventIdOrNamePropertyChanged;
+                OnEventIdOrNamePropertyChanged(eventIdOrName, new PropertyChangedEventArgs("this"));
             }
         }
 
@@ -352,14 +370,36 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyOutOfRangeException(
                         ErrorMessage.OutOfRange(nameof(Page), PageMin, PageMax, value));
                 page = value;
+                NotifyPropertyChanged();
             }
         }
 
+        private bool isGetReturnValue;
+
         /// <summary>戻り値を受け取る</summary>
-        public bool IsGetReturnValue { get; set; }
+        public bool IsGetReturnValue
+        {
+            get => isGetReturnValue;
+            set
+            {
+                isGetReturnValue = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
+            }
+        }
+
+        private int resultOutputAddress;
 
         /// <summary>戻り値格納アドレス</summary>
-        public int ResultOutputAddress { get; set; }
+        public int ResultOutputAddress
+        {
+            get => resultOutputAddress;
+            set
+            {
+                resultOutputAddress = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>[Range(0, 3)] 数値引数の数</summary>
         /// <remarks>
@@ -376,6 +416,8 @@ namespace WodiLib.Event.EventCommand
                         ErrorMessage.OutOfRange(nameof(IntArgValue), IntArgValueMin, IntArgValueMax, value));
 
                 intArgValue = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
             }
         }
 
@@ -396,6 +438,9 @@ namespace WodiLib.Event.EventCommand
                         ErrorMessage.OutOfRange(nameof(StrArgValue), StrArgValueMin, StrArgValueMax, value));
 
                 strArgValue = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
+                NotifyPropertyChanged(nameof(StringVariableCount));
             }
         }
 
@@ -411,28 +456,44 @@ namespace WodiLib.Event.EventCommand
         public int IntArg1
         {
             get => IntArgList[0];
-            set => IntArgList[0] = value;
+            set
+            {
+                IntArgList[0] = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>数値引数2</summary>
         public int IntArg2
         {
             get => IntArgList[1];
-            set => IntArgList[1] = value;
+            set
+            {
+                IntArgList[1] = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>数値引数3</summary>
         public int IntArg3
         {
             get => IntArgList[2];
-            set => IntArgList[2] = value;
+            set
+            {
+                IntArgList[2] = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>数値引数4</summary>
         public int IntArg4
         {
             get => IntArgList[3];
-            set => IntArgList[3] = value;
+            set
+            {
+                IntArgList[3] = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>数値引数5</summary>
@@ -440,7 +501,11 @@ namespace WodiLib.Event.EventCommand
         public int IntArg5
         {
             get => IntArgList[4];
-            set => IntArgList[4] = value;
+            set
+            {
+                IntArgList[4] = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>
@@ -460,6 +525,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StringArg1)));
                 StrArgList[0] = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -474,6 +540,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StringArg2)));
                 StrArgList[1] = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -488,6 +555,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StringArg3)));
                 StrArgList[2] = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -502,6 +570,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StringArg4)));
                 StrArgList[3] = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -510,7 +579,11 @@ namespace WodiLib.Event.EventCommand
         public int StringArg5
         {
             get => StrArgList[4].ToInt();
-            set => StrArgList[4] = value;
+            set
+            {
+                StrArgList[4] = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>イベント文字列指定フラグ</summary>

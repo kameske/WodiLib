@@ -17,7 +17,7 @@ namespace WodiLib.Database
     /// DB項目設定と設定値
     /// </summary>
     [Serializable]
-    public class DatabaseItemDesc : IEquatable<DatabaseItemDesc>, ISerializable
+    public class DatabaseItemDesc : ModelBase<DatabaseItemDesc>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -48,7 +48,7 @@ namespace WodiLib.Database
         /// <summary>
         /// DB項目種別
         /// </summary>
-        /// <exception cref="PropertyNullException"></exception>
+        /// <exception cref="PropertyNullException">nullがセットされた場合</exception>
         public DBItemType ItemType
         {
             get => itemType;
@@ -59,6 +59,7 @@ namespace WodiLib.Database
                         ErrorMessage.NotNull(nameof(ItemType)));
 
                 itemType = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -69,6 +70,29 @@ namespace WodiLib.Database
         private DBItemSetting Setting { get; } = new DBItemSetting();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerPropertyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// Setting プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnSettingPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(DBItemSetting.ItemName):
+                    NotifyPropertyChanged(nameof(ItemName));
+                    break;
+
+                case nameof(DBItemSetting.SpecialSettingDesc):
+                    NotifyPropertyChanged(nameof(SpecialSettingDesc));
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -77,6 +101,7 @@ namespace WodiLib.Database
         /// </summary>
         public DatabaseItemDesc()
         {
+            Setting.PropertyChanged += OnSettingPropertyChanged;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -102,7 +127,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DatabaseItemDesc other)
+        public override bool Equals(DatabaseItemDesc other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

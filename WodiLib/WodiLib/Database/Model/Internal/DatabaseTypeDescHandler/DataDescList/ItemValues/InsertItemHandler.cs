@@ -14,6 +14,7 @@ namespace WodiLib.Database.DatabaseTypeDescHandler.DataDescList.ItemValues
     /// <summary>
     /// DatabaseItemDescList.InsertItemのイベントハンドラ
     /// </summary>
+    [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
     internal class InsertItemHandler : OnInsertItemHandler<IFixedLengthDBItemValueList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

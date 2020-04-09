@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using System.Collections.Generic;
 
 namespace WodiLib.Sys
 {
@@ -15,7 +14,7 @@ namespace WodiLib.Sys
     /// 長さが固定されたListインタフェース
     /// </summary>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    public interface IFixedLengthCollection<T> : IReadOnlyCollection<T>, IEquatable<IFixedLengthCollection<T>>
+    public interface IFixedLengthCollection<T> : IReadOnlyFixedLengthCollection<T>
     {
         /// <summary>
         /// インデクサによるアクセス
@@ -23,16 +22,13 @@ namespace WodiLib.Sys
         /// <param name="index">[Range(0, Count - 1)] インデックス</param>
         /// <returns>指定したインデックスの要素</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
-        T this[int index] { get; set; }
+        new T this[int index] { get; set; }
 
         /// <summary>
-        /// 指定範囲の要素を簡易コピーしたリストを取得する。
+        /// 指定したオブジェクトを検索し、最初に出現する位置のインデックスを返す。
         /// </summary>
-        /// <param name="index">[Range(0, Count - 1)] インデックス</param>
-        /// <param name="count">[Range(0, Count)] 要素数</param>
-        /// <returns>指定範囲の要素簡易コピーリスト</returns>
-        /// <exception cref="ArgumentOutOfRangeException">index, countが0未満の場合</exception>
-        /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合</exception>
-        IEnumerable<T> GetRange(int index, int count);
+        /// <param name="item">対象要素</param>
+        /// <returns>要素が含まれていない場合、-1</returns>
+        int IndexOf(T item);
     }
 }

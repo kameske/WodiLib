@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys.Cmn;
@@ -51,6 +52,8 @@ namespace WodiLib.Test.Event.CharaMoveCommand
                     ? TargetAddressOwner.MapEvent
                     : TargetAddressOwner.CommonEvent
             };
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -66,12 +69,24 @@ namespace WodiLib.Test.Event.CharaMoveCommand
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var resultValue = (int) instance.TargetAddress;
 
-            var resultValue = (int) instance.TargetAddress;
+                // 取得した値が意図した値と一致すること
+                Assert.AreEqual(resultValue, answerValue);
+            }
 
-            // 取得した値外とした値と一致すること
-            Assert.AreEqual(resultValue, answerValue);
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(AddValue.TargetAddress)));
+            }
         }
 
         [Test]
@@ -82,8 +97,14 @@ namespace WodiLib.Test.Event.CharaMoveCommand
                 Value = 5,
                 TargetAddress = 2000000
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
     }
 }

@@ -19,21 +19,31 @@ namespace WodiLib.Ini
     /// Editor.iniデータクラス
     /// </summary>
     [Serializable]
-    public class EditorIniData : IEquatable<EditorIniData>, ISerializable
+    public class EditorIniData : ModelBase<EditorIniData>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private StartFlag startFlag = 0;
+
         /// <summary>
         /// 【Ver2.20以降】開始フラグ
         /// </summary>
-        public StartFlag StartFlag { get; set; } = 0;
+        public StartFlag StartFlag
+        {
+            get => startFlag;
+            set
+            {
+                startFlag = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private LastLoadMapFilePath lastLoadFile = "";
 
         /// <summary>
-        /// [NotNull] 最終読み込みマップファイルパス
+        /// 最終読み込みマップファイルパス
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public LastLoadMapFilePath LastLoadFile
@@ -46,68 +56,189 @@ namespace WodiLib.Ini
                         ErrorMessage.NotNull(nameof(LastLoadFile)));
 
                 lastLoadFile = value;
+                NotifyPropertyChanged();
             }
         }
+
+        private WindowPosition mainWindowPosition = new WindowPosition(500, 120);
 
         /// <summary>
         /// メインウィンドウ左上座標
         /// </summary>
-        public WindowPosition MainWindowPosition { get; set; } = new WindowPosition(500, 120);
+        public WindowPosition MainWindowPosition
+        {
+            get => mainWindowPosition;
+            set
+            {
+                mainWindowPosition = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private WindowSize mainWindowSize = new WindowSize(0, 0);
 
         /// <summary>
         /// メインウィンドウサイズ
         /// </summary>
-        public WindowSize MainWindowSize { get; set; } = new WindowSize(0, 0);
+        public WindowSize MainWindowSize
+        {
+            get => mainWindowSize;
+            set
+            {
+                mainWindowSize = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private WindowPosition mapChipWindowPosition = new WindowPosition(0, 0);
 
         /// <summary>
         /// マップチップウィンドウ左上座標
         /// </summary>
-        public WindowPosition MapChipWindowPosition { get; set; } = new WindowPosition(0, 0);
+        public WindowPosition MapChipWindowPosition
+        {
+            get => mapChipWindowPosition;
+            set
+            {
+                mapChipWindowPosition = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private WindowPosition mapEventWindowPosition = new WindowPosition(0, 0);
 
         /// <summary>
         /// マップイベントウィンドウ左上座標
         /// </summary>
-        public WindowPosition MapEventWindowPosition { get; set; } = new WindowPosition(0, 0);
+        public WindowPosition MapEventWindowPosition
+        {
+            get => mapEventWindowPosition;
+            set
+            {
+                mapEventWindowPosition = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private WindowSize mapEventWindowSize = new WindowSize(840, 410);
 
         /// <summary>
         /// 【Ver2.10以降】マップイベントウィンドウサイズ
         /// </summary>
-        public WindowSize MapEventWindowSize { get; set; } = new WindowSize(840, 410);
+        public WindowSize MapEventWindowSize
+        {
+            get => mapEventWindowSize;
+            set
+            {
+                mapEventWindowSize = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private WindowPosition mapEventInputWindowPosition = new WindowPosition(0, 0);
 
         /// <summary>
         /// マップイベントコマンド入力ウィンドウ左上座標
         /// </summary>
-        public WindowPosition MapEventInputWindowPosition { get; set; } = new WindowPosition(0, 0);
+        public WindowPosition MapEventInputWindowPosition
+        {
+            get => mapEventInputWindowPosition;
+            set
+            {
+                mapEventInputWindowPosition = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private WindowPosition commonEventWindowPosition = new WindowPosition(0, 0);
 
         /// <summary>
         /// コモンイベントウィンドウ左上座標
         /// </summary>
-        public WindowPosition CommonEventWindowPosition { get; set; } = new WindowPosition(0, 0);
+        public WindowPosition CommonEventWindowPosition
+        {
+            get => commonEventWindowPosition;
+            set
+            {
+                commonEventWindowPosition = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private WindowSize commonEventWindowSize = new WindowSize(0, 0);
 
         /// <summary>
         /// 【Ver2.10以降】コモンイベントウィンドウサイズ
         /// </summary>
-        public WindowSize CommonEventWindowSize { get; set; } = new WindowSize(0, 0);
+        public WindowSize CommonEventWindowSize
+        {
+            get => commonEventWindowSize;
+            set
+            {
+                commonEventWindowSize = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private WindowPosition commonEventInputWindowPosition = new WindowPosition(0, 0);
 
         /// <summary>
         /// コモンイベントコマンド入力ウィンドウ左上座標
         /// </summary>
-        public WindowPosition CommonEventInputWindowPosition { get; set; } = new WindowPosition(0, 0);
+        public WindowPosition CommonEventInputWindowPosition
+        {
+            get => commonEventInputWindowPosition;
+            set
+            {
+                commonEventInputWindowPosition = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private WindowPosition userDbWindowPosition = new WindowPosition(3, 6);
 
         /// <summary>
         /// ユーザDBウィンドウ左上座標
         /// </summary>
-        public WindowPosition UserDbWindowPosition { get; set; } = new WindowPosition(3, 6);
+        public WindowPosition UserDbWindowPosition
+        {
+            get => userDbWindowPosition;
+            set
+            {
+                userDbWindowPosition = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private WindowPosition changeableDbWindowPosition = new WindowPosition(3, 6);
 
         /// <summary>
         /// 可変DBウィンドウ左上座標
         /// </summary>
-        public WindowPosition ChangeableDbWindowPosition { get; set; } = new WindowPosition(3, 6);
+        public WindowPosition ChangeableDbWindowPosition
+        {
+            get => changeableDbWindowPosition;
+            set
+            {
+                changeableDbWindowPosition = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private WindowPosition systemDbWindowPosition = new WindowPosition(3, 6);
 
         /// <summary>
         /// システムDBウィンドウ左上座標
         /// </summary>
-        public WindowPosition SystemDbWindowPosition { get; set; } = new WindowPosition(3, 6);
+        public WindowPosition SystemDbWindowPosition
+        {
+            get => systemDbWindowPosition;
+            set
+            {
+                systemDbWindowPosition = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private DatabaseValueNumberDrawType databaseValueNumberDrawType = DatabaseValueNumberDrawType.Off;
 
@@ -125,6 +256,7 @@ namespace WodiLib.Ini
                         ErrorMessage.NotNull(nameof(DatabaseValueNumberDrawType)));
 
                 databaseValueNumberDrawType = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -144,23 +276,54 @@ namespace WodiLib.Ini
                         ErrorMessage.NotNull(nameof(EditTimeDrawType)));
 
                 editTimeDrawType = value;
+                NotifyPropertyChanged();
             }
         }
+
+        private WorkTime editTime = 0;
 
         /// <summary>
         /// ウディタ作業時間（アクティブ時間）[1/2minute]
         /// </summary>
-        public WorkTime EditTime { get; set; } = 0;
+        public WorkTime EditTime
+        {
+            get => editTime;
+            set
+            {
+                editTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private WorkTime notEditTime = 0;
 
         /// <summary>
         /// 【Ver2.00以降】ウディタ作業時間（非アクティブ時間）[1/2minute]
         /// </summary>
-        public WorkTime NotEditTime { get; set; } = 0;
+        public WorkTime NotEditTime
+        {
+            get => notEditTime;
+            set
+            {
+                notEditTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isShowDebugWindow = true;
 
         /// <summary>
         /// 【Ver2.00以降】デバッグウィンドウ使用フラグ
         /// </summary>
-        public bool IsShowDebugWindow { get; set; } = true;
+        public bool IsShowDebugWindow
+        {
+            get => isShowDebugWindow;
+            set
+            {
+                isShowDebugWindow = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private LaterTransparentType layerTransparent = LaterTransparentType.SomewhatDark;
 
@@ -178,6 +341,7 @@ namespace WodiLib.Ini
                         ErrorMessage.NotNull(nameof(LayerTransparent)));
 
                 layerTransparent = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -197,6 +361,7 @@ namespace WodiLib.Ini
                         ErrorMessage.NotNull(nameof(EventLayerOpacity)));
 
                 eventLayerOpacity = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -216,13 +381,24 @@ namespace WodiLib.Ini
                         ErrorMessage.NotNull(nameof(CommandColorType)));
 
                 commandColorType = value;
+                NotifyPropertyChanged();
             }
         }
+
+        private bool isDrawBackgroundImage = true;
 
         /// <summary>
         /// 【Ver2.00以降】マップ編集・遠景表示有無
         /// </summary>
-        public bool IsDrawBackgroundImage { get; set; } = true;
+        public bool IsDrawBackgroundImage
+        {
+            get => isDrawBackgroundImage;
+            set
+            {
+                isDrawBackgroundImage = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private ExtensionList notCopyExtList = new ExtensionList(new Extension[]
         {
@@ -244,14 +420,25 @@ namespace WodiLib.Ini
                         ErrorMessage.NotNull(nameof(NotCopyExtList)));
 
                 notCopyExtList = value;
+                NotifyPropertyChanged();
             }
         }
 
 
+        private CommandViewType commandViewType = 0;
+
         /// <summary>
         /// 【Ver2.20以降】？
         /// </summary>
-        public CommandViewType CommandViewType { get; set; } = 0;
+        public CommandViewType CommandViewType
+        {
+            get => commandViewType;
+            set
+            {
+                commandViewType = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private ProjectBackupType backupType = ProjectBackupType.ThreeTimes;
 
@@ -269,6 +456,7 @@ namespace WodiLib.Ini
                         ErrorMessage.NotNull(nameof(BackupType)));
 
                 backupType = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -288,6 +476,7 @@ namespace WodiLib.Ini
                         ErrorMessage.NotNull(nameof(ShortCutKeyList)));
 
                 shortCutKeyList = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -307,13 +496,24 @@ namespace WodiLib.Ini
                         ErrorMessage.NotNull(nameof(CommandPositionList)));
 
                 commandPositionList = value;
+                NotifyPropertyChanged();
             }
         }
+
+        private bool isUseExpertCommand;
 
         /// <summary>
         /// 【Ver2.10以降】上級者向けコマンド使用フラグ
         /// </summary>
-        public bool IsUseExpertCommand { get; set; }
+        public bool IsUseExpertCommand
+        {
+            get => isUseExpertCommand;
+            set
+            {
+                isUseExpertCommand = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -507,7 +707,7 @@ namespace WodiLib.Ini
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(EditorIniData other)
+        public override bool Equals(EditorIniData other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -15,7 +16,7 @@ namespace WodiLib.Map
     /// タイル通行許可設定
     /// </summary>
     [Serializable]
-    public class TilePathSetting : IEquatable<TilePathSetting>
+    public class TilePathSetting : ModelBase<TilePathSetting>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -24,13 +25,13 @@ namespace WodiLib.Map
         /// <summary>
         /// タイル通行許可
         /// </summary>
-        public TilePathPermission PathPermission => innerSetting.PathPermission;
+        public TilePathPermission PathPermission => InnerSetting.PathPermission;
 
         /// <summary>
         /// タイル通行不可フラグ
         /// </summary>
         /// <exception cref="PropertyAccessException">タイル通行許可が"通行不可"以外の場合</exception>
-        public TileImpassableFlags ImpassableFlags => innerSetting.ImpassableFlags;
+        public TileImpassableFlags ImpassableFlags => InnerSetting.ImpassableFlags;
 
         /// <summary>
         /// [NotNull] タイル通行設定オプション
@@ -38,23 +39,23 @@ namespace WodiLib.Map
         /// <exception cref="PropertyNullException">nullを設定した場合</exception>
         public TilePathOption PathOption
         {
-            get => innerSetting.PathOption;
-            set => innerSetting.PathOption = value;
+            get => InnerSetting.PathOption;
+            set => InnerSetting.PathOption = value;
         }
 
         /// <summary>
         /// タイル通行方向設定
         /// </summary>
         /// <exception cref="PropertyAccessException">タイル通行許可が"通行不可"の場合</exception>
-        public TileCannotPassingFlags CannotPassingFlags => innerSetting.CannotPassingFlags;
+        public TileCannotPassingFlags CannotPassingFlags => InnerSetting.CannotPassingFlags;
 
         /// <summary>
         /// カウンター属性
         /// </summary>
         public bool IsCounter
         {
-            get => innerSetting.IsCounter;
-            set => innerSetting.IsCounter = value;
+            get => InnerSetting.IsCounter;
+            set => InnerSetting.IsCounter = value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -62,6 +63,43 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         private ITilePathSetting innerSetting = new TilePathSettingAllow();
+
+        private ITilePathSetting InnerSetting
+        {
+            get => innerSetting;
+            set
+            {
+                innerSetting = value;
+                NotifyPropertyChanged(nameof(PathPermission));
+                NotifyPropertyChanged(nameof(ImpassableFlags));
+                NotifyPropertyChanged(nameof(PathOption));
+                NotifyPropertyChanged(nameof(CannotPassingFlags));
+                NotifyPropertyChanged(nameof(IsCounter));
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// タイル通行許可設定プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnInnerSettingPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(ITilePathSetting.PathPermission):
+                case nameof(ITilePathSetting.ImpassableFlags):
+                case nameof(ITilePathSetting.PathOption):
+                case nameof(ITilePathSetting.CannotPassingFlags):
+                case nameof(ITilePathSetting.IsCounter):
+                    NotifyPropertyChanged(args.PropertyName);
+                    break;
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -72,6 +110,7 @@ namespace WodiLib.Map
         /// </summary>
         public TilePathSetting()
         {
+            InnerSetting.PropertyChanged += OnInnerSettingPropertyChanged;
         }
 
         /// <summary>
@@ -80,7 +119,8 @@ namespace WodiLib.Map
         /// <param name="code">コード値</param>
         public TilePathSetting(int code)
         {
-            innerSetting = TilePathSettingFactory.Create(code);
+            InnerSetting = TilePathSettingFactory.Create(code);
+            InnerSetting.PropertyChanged += OnInnerSettingPropertyChanged;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -93,8 +133,8 @@ namespace WodiLib.Map
         /// <param name="cannotPassingFlags">[Nullable] 通行方向設定</param>
         public void ChangePathPermissionAllow(TileCannotPassingFlags cannotPassingFlags = null)
         {
-            innerSetting = TilePathSettingFactory.Create(
-                TilePathPermission.Allow, innerSetting,
+            InnerSetting = TilePathSettingFactory.Create(
+                TilePathPermission.Allow, InnerSetting,
                 cannotPassingFlags: cannotPassingFlags);
         }
 
@@ -104,8 +144,8 @@ namespace WodiLib.Map
         /// <param name="cannotPassingFlags">[Nullable] 通行方向設定</param>
         public void ChangePathPermissionDependent(TileCannotPassingFlags cannotPassingFlags = null)
         {
-            innerSetting = TilePathSettingFactory.Create(
-                TilePathPermission.Dependent, innerSetting,
+            InnerSetting = TilePathSettingFactory.Create(
+                TilePathPermission.Dependent, InnerSetting,
                 cannotPassingFlags: cannotPassingFlags);
         }
 
@@ -114,8 +154,8 @@ namespace WodiLib.Map
         /// </summary>
         public void ChangePathPermissionDeny()
         {
-            innerSetting = TilePathSettingFactory.Create(
-                TilePathPermission.Deny, innerSetting);
+            InnerSetting = TilePathSettingFactory.Create(
+                TilePathPermission.Deny, InnerSetting);
         }
 
         /// <summary>
@@ -124,8 +164,8 @@ namespace WodiLib.Map
         /// <param name="impassableFlags">[Nullable] 通行許可設定</param>
         public void ChangePathPermissionPartialDeny(TileImpassableFlags impassableFlags = null)
         {
-            innerSetting = TilePathSettingFactory.Create(
-                TilePathPermission.PartialDeny, innerSetting,
+            InnerSetting = TilePathSettingFactory.Create(
+                TilePathPermission.PartialDeny, InnerSetting,
                 impassableFlags);
         }
 
@@ -134,11 +174,11 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(TilePathSetting other)
+        public override bool Equals(TilePathSetting other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return innerSetting.Equals(other.innerSetting);
+            return InnerSetting.Equals(other.InnerSetting);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -149,6 +189,6 @@ namespace WodiLib.Map
         /// バイナリ変換する。
         /// </summary>
         /// <returns>バイナリデータ</returns>
-        public byte[] ToBinary() => innerSetting.ToBinary();
+        public byte[] ToBinary() => InnerSetting.ToBinary();
     }
 }

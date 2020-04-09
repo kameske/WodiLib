@@ -178,13 +178,43 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int cDBTypeNumber;
+
         /// <summary>可変DBタイプ番号</summary>
-        public int CDBTypeNumber { get; set; }
+        public int CDBTypeNumber
+        {
+            get => cDBTypeNumber;
+            set
+            {
+                cDBTypeNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int cDBDataNumber;
 
         /// <summary>可変DBデータ番号</summary>
-        public int CDBDataNumber { get; set; }
+        public int CDBDataNumber
+        {
+            get => cDBDataNumber;
+            set
+            {
+                cDBDataNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int cDBItemNumber;
 
         /// <summary>可変DB項目番号</summary>
-        public int CDBItemNumber { get; set; }
+        public int CDBItemNumber
+        {
+            get => cDBItemNumber;
+            set
+            {
+                cDBItemNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }

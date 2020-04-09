@@ -61,7 +61,11 @@ namespace WodiLib.Event.EventCommand
         public int DivisionWidth
         {
             get => _DivisionWidth;
-            set => _DivisionWidth = value;
+            set
+            {
+                _DivisionWidth = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <inheritdoc />
@@ -72,7 +76,11 @@ namespace WodiLib.Event.EventCommand
         public int DivisionHeight
         {
             get => _DivisionHeight;
-            set => _DivisionHeight = value;
+            set
+            {
+                _DivisionHeight = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <inheritdoc />

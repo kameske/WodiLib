@@ -44,14 +44,44 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int length;
+
         /// <summary>文字数</summary>
-        public int Length { get; set; }
+        public int Length
+        {
+            get => length;
+            set
+            {
+                length = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool canCancel;
 
         /// <summary>キャンセル有り</summary>
-        public bool CanCancel { get; set; }
+        public bool CanCancel
+        {
+            get => canCancel;
+            set
+            {
+                canCancel = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isReplaceLeftSide;
 
         /// <summary>左辺を置換</summary>
-        public bool IsReplaceLeftSide { get; set; }
+        public bool IsReplaceLeftSide
+        {
+            get => isReplaceLeftSide;
+            set
+            {
+                isReplaceLeftSide = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Abstract Property

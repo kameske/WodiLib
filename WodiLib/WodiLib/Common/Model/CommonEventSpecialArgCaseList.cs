@@ -19,7 +19,8 @@ namespace WodiLib.Common
     /// 選択肢情報リスト
     /// </summary>
     [Serializable]
-    internal class CommonEventSpecialArgCaseList : RestrictedCapacityCollection<CommonEventSpecialArgCase>
+    public class CommonEventSpecialArgCaseList : RestrictedCapacityCollection<CommonEventSpecialArgCase>,
+        IReadOnlyCommonEventSpecialArgCaseList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -96,8 +97,7 @@ namespace WodiLib.Common
         public string GetDescriptionForCaseNumber(int caseNumber)
         {
             var info = GetForCaseNumber(caseNumber);
-            if (info is null) return null;
-            return GetForCaseNumber(caseNumber).Description;
+            return info?.Description;
         }
 
         /// <summary>

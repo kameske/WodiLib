@@ -18,14 +18,24 @@ namespace WodiLib.Database
     /// DBプロジェクトデータ（XXXDatabase.project）
     /// </summary>
     [Serializable]
-    public class DatabaseProject : IEquatable<DatabaseProject>, ISerializable
+    public class DatabaseProject : ModelBase<DatabaseProject>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private DBKind dbKind;
+
         /// <summary>[Nullable] DB種別</summary>
-        public DBKind DBKind { get; set; }
+        public DBKind DBKind
+        {
+            get => dbKind;
+            set
+            {
+                dbKind = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private DBTypeSettingList typeSettingList = new DBTypeSettingList();
 
@@ -42,6 +52,7 @@ namespace WodiLib.Database
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(TypeSettingList)));
                 typeSettingList = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -71,7 +82,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DatabaseProject other)
+        public override bool Equals(DatabaseProject other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

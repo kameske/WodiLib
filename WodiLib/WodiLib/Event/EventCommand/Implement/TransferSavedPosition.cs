@@ -83,7 +83,11 @@ namespace WodiLib.Event.EventCommand
         public int SavedPositionId
         {
             get => _SavedPositionId;
-            set => _SavedPositionId = value;
+            set
+            {
+                _SavedPositionId = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>[NotNull] 場所移動時トランジションオプション</summary>
@@ -97,6 +101,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(TransferOption)));
                 _TransferOption = value;
+                NotifyPropertyChanged();
             }
         }
     }

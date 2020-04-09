@@ -52,8 +52,20 @@ namespace WodiLib.Event.EventCommand
         /// <summary>X人目</summary>
         private int MemberId { get; set; }
 
+        private bool isTargetingValue;
+
         /// <summary>処理対象数値変数指定フラグ（対象文字列指定のときfalse）</summary>
-        public override bool IsTargetingValue { get; set; }
+        public override bool IsTargetingValue
+        {
+            get => isTargetingValue;
+            set
+            {
+                isTargetingValue = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
+                NotifyPropertyChanged(nameof(StringVariableCount));
+            }
+        }
 
         private readonly IntOrStr loadGraphic = (0, "");
 
@@ -68,6 +80,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(LoadGraphic)));
                 loadGraphic.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 

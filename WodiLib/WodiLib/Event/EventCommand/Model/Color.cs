@@ -8,6 +8,7 @@
 
 using System;
 using WodiLib.Project;
+using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -15,18 +16,48 @@ namespace WodiLib.Event.EventCommand
     /// 色クラス
     /// </summary>
     [Serializable]
-    public class Color : IEquatable<Color>
+    public class Color : ModelBase<Color>
     {
         private const string EventCommandSentenceFormat = "R[{0}] G[{1}] B[{2}]";
 
+        private int r = 100;
+
         /// <summary>赤（int）</summary>
-        public int R { get; set; } = 100;
+        public int R
+        {
+            get => r;
+            set
+            {
+                r = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int g = 100;
 
         /// <summary>緑（int）</summary>
-        public int G { get; set; } = 100;
+        public int G
+        {
+            get => g;
+            set
+            {
+                g = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int b = 100;
 
         /// <summary>青（int）</summary>
-        public int B { get; set; } = 100;
+        public int B
+        {
+            get => b;
+            set
+            {
+                b = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>赤（byte）</summary>
         public byte ByteR
@@ -73,7 +104,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(Color other)
+        public override bool Equals(Color other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

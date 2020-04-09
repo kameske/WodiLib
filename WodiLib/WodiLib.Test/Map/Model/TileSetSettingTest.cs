@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using NUnit.Framework;
 using WodiLib.Map;
+using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
@@ -91,6 +93,8 @@ namespace WodiLib.Test.Map
         public static void NameTest(TileSetName name, bool isError)
         {
             var instance = new TileSetSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -106,12 +110,24 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.Name;
 
-            var setValue = instance.Name;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(name));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(name));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(TileSetSetting.Name)));
+            }
         }
 
         private static readonly object[] BaseTileSetFileNameTestCaseSource =
@@ -124,6 +140,8 @@ namespace WodiLib.Test.Map
         public static void BaseTileSetFileNameTest(BaseTileSetFileName fileName, bool isError)
         {
             var instance = new TileSetSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -139,18 +157,32 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.BaseTileSetFileName;
 
-            var setValue = instance.BaseTileSetFileName;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(fileName));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(fileName));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(TileSetSetting.BaseTileSetFileName)));
+            }
         }
 
         [Test]
         public static void AutoTileFileNameListTest()
         {
             var instance = new TileSetSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -165,12 +197,17 @@ namespace WodiLib.Test.Map
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
         public static void TileTagNumberListTest()
         {
             var instance = new TileSetSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -185,12 +222,17 @@ namespace WodiLib.Test.Map
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
         public static void TilePathSettingListTest()
         {
             var instance = new TileSetSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -205,12 +247,17 @@ namespace WodiLib.Test.Map
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
         public static void SettingLengthTest()
         {
             var instance = new TileSetSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var length = 0;
 
@@ -231,12 +278,38 @@ namespace WodiLib.Test.Map
             // 取得した結果が意図した値であること
             Assert.AreEqual(length, instance.TileTagNumberList.Count);
             Assert.AreEqual(length, instance.TilePathSettingList.Count);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
         public static void ChangeSettingLengthTest()
         {
             var instance = new TileSetSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            var changedTileTagNumberListPropertyList = new List<string>();
+            instance.TileTagNumberList.PropertyChanged += (sender, args) =>
+            {
+                changedTileTagNumberListPropertyList.Add(args.PropertyName);
+            };
+            var changedTileTagNumberListCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.TileTagNumberList.CollectionChanged += (sender, args) =>
+            {
+                changedTileTagNumberListCollectionList.Add(args);
+            };
+            var changedTilePathSettingListPropertyList = new List<string>();
+            instance.TilePathSettingList.PropertyChanged += (sender, args) =>
+            {
+                changedTilePathSettingListPropertyList.Add(args.PropertyName);
+            };
+            var changedTilePathSettingListCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.TilePathSettingList.CollectionChanged += (sender, args) =>
+            {
+                changedTilePathSettingListCollectionList.Add(args);
+            };
+
             const int length = 30;
 
             var errorOccured = false;
@@ -255,6 +328,19 @@ namespace WodiLib.Test.Map
 
             // 取得した結果が意図した値であること
             Assert.AreEqual(length, instance.SettingLength);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 0);
+            Assert.AreEqual(changedTileTagNumberListPropertyList.Count, 2);
+            Assert.IsTrue(changedTileTagNumberListPropertyList[0].Equals(nameof(instance.TileTagNumberList.Count)));
+            Assert.IsTrue(changedTileTagNumberListPropertyList[1].Equals(ListConstant.IndexerName));
+            Assert.AreEqual(changedTileTagNumberListCollectionList.Count, 1);
+            Assert.IsTrue(changedTileTagNumberListCollectionList[0].Action == NotifyCollectionChangedAction.Add);
+            Assert.AreEqual(changedTilePathSettingListPropertyList.Count, 2);
+            Assert.IsTrue(changedTilePathSettingListPropertyList[0].Equals(nameof(instance.TilePathSettingList.Count)));
+            Assert.IsTrue(changedTilePathSettingListPropertyList[1].Equals(ListConstant.IndexerName));
+            Assert.AreEqual(changedTilePathSettingListCollectionList.Count, 1);
+            Assert.IsTrue(changedTilePathSettingListCollectionList[0].Action == NotifyCollectionChangedAction.Add);
         }
 
         [Test]

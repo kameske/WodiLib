@@ -23,7 +23,7 @@ namespace WodiLib.Map
     /// その場合は「通行不可」と同義のため。
     /// </remarks>
     [Serializable]
-    public class TileCannotPassingFlags : IEquatable<TileCannotPassingFlags>
+    public class TileCannotPassingFlags : ModelBase<TileCannotPassingFlags>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Constant
@@ -54,6 +54,9 @@ namespace WodiLib.Map
         /// <summary>
         /// 下方向通過不可フラグ
         /// </summary>
+        /// <exception cref="PropertyException">
+        ///     Left, Right, Up が全て true の状態で true を設定しようとした場合
+        /// </exception>
         public bool Down
         {
             get => down;
@@ -62,6 +65,7 @@ namespace WodiLib.Map
                 if (!value)
                 {
                     down = false;
+                    NotifyPropertyChanged();
                     return;
                 }
 
@@ -71,6 +75,7 @@ namespace WodiLib.Map
                     throw new PropertyException(PropertyAllTrueErrorMessage);
                 }
 
+                NotifyPropertyChanged();
                 down = true;
             }
         }
@@ -80,6 +85,9 @@ namespace WodiLib.Map
         /// <summary>
         /// 左方向通過不可フラグ
         /// </summary>
+        /// <exception cref="PropertyException">
+        ///     Right, Up, Down が全て true の状態で true を設定しようとした場合
+        /// </exception>
         public bool Left
         {
             get => left;
@@ -88,6 +96,7 @@ namespace WodiLib.Map
                 if (!value)
                 {
                     left = false;
+                    NotifyPropertyChanged();
                     return;
                 }
 
@@ -98,6 +107,7 @@ namespace WodiLib.Map
                 }
 
                 left = true;
+                NotifyPropertyChanged();
             }
         }
 
@@ -106,6 +116,9 @@ namespace WodiLib.Map
         /// <summary>
         /// 右方向通過不可フラグ
         /// </summary>
+        /// <exception cref="PropertyException">
+        ///     Left, Up, Down が全て true の状態で true を設定しようとした場合
+        /// </exception>
         public bool Right
         {
             get => right;
@@ -114,6 +127,7 @@ namespace WodiLib.Map
                 if (!value)
                 {
                     right = false;
+                    NotifyPropertyChanged();
                     return;
                 }
 
@@ -124,6 +138,7 @@ namespace WodiLib.Map
                 }
 
                 right = true;
+                NotifyPropertyChanged();
             }
         }
 
@@ -132,6 +147,9 @@ namespace WodiLib.Map
         /// <summary>
         /// 上方向通過不可フラグ
         /// </summary>
+        /// <exception cref="PropertyException">
+        ///     Left, Right, Down が全て true の状態で true を設定しようとした場合
+        /// </exception>
         public bool Up
         {
             get => up;
@@ -140,6 +158,7 @@ namespace WodiLib.Map
                 if (!value)
                 {
                     up = false;
+                    NotifyPropertyChanged();
                     return;
                 }
 
@@ -150,6 +169,7 @@ namespace WodiLib.Map
                 }
 
                 up = true;
+                NotifyPropertyChanged();
             }
         }
 
@@ -189,7 +209,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(TileCannotPassingFlags other)
+        public override bool Equals(TileCannotPassingFlags other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;

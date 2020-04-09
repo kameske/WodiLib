@@ -15,7 +15,7 @@ namespace WodiLib.Database
     /// <summary>
     /// データベース設定値特殊指定インタフェース
     /// </summary>
-    internal interface IDBItemSettingDesc : IEquatable<IDBItemSettingDesc>
+    internal interface IDBItemSettingDesc : IModelBase<IDBItemSettingDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -62,6 +62,11 @@ namespace WodiLib.Database
         /// デフォルト設定値種別
         /// </summary>
         DBItemType DefaultType { get; }
+
+        /// <summary>
+        /// 選択肢リスト
+        /// </summary>
+        IReadOnlyDatabaseValueCaseList ArgCaseList { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method

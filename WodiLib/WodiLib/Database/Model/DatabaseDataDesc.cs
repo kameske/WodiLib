@@ -17,7 +17,7 @@ namespace WodiLib.Database
     /// DBデータ情報クラス
     /// </summary>
     [Serializable]
-    public class DatabaseDataDesc : IEquatable<DatabaseDataDesc>
+    public class DatabaseDataDesc : ModelBase<DatabaseDataDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -39,6 +39,7 @@ namespace WodiLib.Database
                         ErrorMessage.NotNull(nameof(DataName)));
 
                 dataName = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -57,6 +58,7 @@ namespace WodiLib.Database
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ItemValueList)));
                 itemValueList = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -100,7 +102,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DatabaseDataDesc other)
+        public override bool Equals(DatabaseDataDesc other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

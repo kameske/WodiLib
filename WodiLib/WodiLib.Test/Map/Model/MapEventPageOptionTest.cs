@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Map;
 using WodiLib.Test.Tools;
@@ -146,6 +147,9 @@ namespace WodiLib.Test.Map
             bool isPlaceHalfStepUp, byte optionCode)
         {
             var instance = new MapEventPageOption();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             instance.SetOptionFlag(optionCode);
 
             // 各フラグが一致すること
@@ -156,6 +160,16 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(instance.IsAboveHero, isAboveHero);
             Assert.AreEqual(instance.IsHitBox, isHitBox);
             Assert.AreEqual(instance.IsPlaceHalfStepUp, isPlaceHalfStepUp);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 7);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapEventPageOption.IsWaitAnimationOn)));
+            Assert.IsTrue(changedPropertyList[1].Equals(nameof(MapEventPageOption.IsMoveAnimationOn)));
+            Assert.IsTrue(changedPropertyList[2].Equals(nameof(MapEventPageOption.IsFixedDirection)));
+            Assert.IsTrue(changedPropertyList[3].Equals(nameof(MapEventPageOption.IsSkipThrough)));
+            Assert.IsTrue(changedPropertyList[4].Equals(nameof(MapEventPageOption.IsAboveHero)));
+            Assert.IsTrue(changedPropertyList[5].Equals(nameof(MapEventPageOption.IsHitBox)));
+            Assert.IsTrue(changedPropertyList[6].Equals(nameof(MapEventPageOption.IsPlaceHalfStepUp)));
         }
 
         [Test]
@@ -165,8 +179,14 @@ namespace WodiLib.Test.Map
             {
                 IsAboveHero = true,
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
     }
 }

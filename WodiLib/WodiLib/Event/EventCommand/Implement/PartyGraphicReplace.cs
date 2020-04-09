@@ -49,11 +49,33 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int memberId;
+
         /// <summary>X人目</summary>
-        public int MemberId { get; set; }
+        public int MemberId
+        {
+            get => memberId;
+            set
+            {
+                memberId = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isTargetingValue;
 
         /// <summary>処理対象数値変数指定フラグ（対象文字列指定のときfalse）</summary>
-        public override bool IsTargetingValue { get; set; }
+        public override bool IsTargetingValue
+        {
+            get => isTargetingValue;
+            set
+            {
+                isTargetingValue = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCountMin));
+                NotifyPropertyChanged(nameof(StringVariableCountMin));
+            }
+        }
 
         private readonly IntOrStr loadGraphic = (0, "");
 
@@ -68,6 +90,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(LoadGraphic)));
                 loadGraphic.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 

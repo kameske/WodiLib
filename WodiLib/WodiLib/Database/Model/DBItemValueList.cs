@@ -363,8 +363,7 @@ namespace WodiLib.Database
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            if (!(other is RestrictedCapacityCollection<DBItemValue> casted)) return false;
-            return Equals(casted);
+            return Equals((IReadOnlyFixedLengthCollection<DBItemValue>) other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

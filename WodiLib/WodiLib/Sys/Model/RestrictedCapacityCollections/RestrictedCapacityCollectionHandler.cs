@@ -16,6 +16,7 @@ namespace WodiLib.Sys
     /// </summary>
     /// <typeparam name="T">リスト内包クラス</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
     public abstract class RestrictedCapacityCollectionHandler<T>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

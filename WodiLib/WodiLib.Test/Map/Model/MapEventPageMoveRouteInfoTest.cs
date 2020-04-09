@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Event;
 using WodiLib.Event.CharaMoveCommand;
@@ -25,6 +26,9 @@ namespace WodiLib.Test.Map
         public static void AnimateSpeedSetTest(bool isNull, bool isError)
         {
             var instance = new MapEventPageMoveRouteInfo();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var errorOccured = false;
             try
             {
@@ -38,6 +42,17 @@ namespace WodiLib.Test.Map
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapEventPageMoveRouteInfo.AnimateSpeed)));
+            }
         }
 
         [TestCase(false, false)]
@@ -45,6 +60,9 @@ namespace WodiLib.Test.Map
         public static void MoveSpeedSetTest(bool isNull, bool isError)
         {
             var instance = new MapEventPageMoveRouteInfo();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var errorOccured = false;
             try
             {
@@ -58,6 +76,17 @@ namespace WodiLib.Test.Map
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapEventPageMoveRouteInfo.MoveSpeed)));
+            }
         }
 
         [TestCase(false, false)]
@@ -65,6 +94,9 @@ namespace WodiLib.Test.Map
         public static void MoveFrequencySetTest(bool isNull, bool isError)
         {
             var instance = new MapEventPageMoveRouteInfo();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var errorOccured = false;
             try
             {
@@ -78,6 +110,17 @@ namespace WodiLib.Test.Map
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapEventPageMoveRouteInfo.MoveFrequency)));
+            }
         }
 
         [TestCase(false, false)]
@@ -85,6 +128,9 @@ namespace WodiLib.Test.Map
         public static void MoveTypeSetTest(bool isNull, bool isError)
         {
             var instance = new MapEventPageMoveRouteInfo();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var errorOccured = false;
             try
             {
@@ -98,6 +144,17 @@ namespace WodiLib.Test.Map
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapEventPageMoveRouteInfo.MoveType)));
+            }
         }
 
         [TestCase(false, false, false)]
@@ -108,6 +165,9 @@ namespace WodiLib.Test.Map
         {
             var instance = new MapEventPageMoveRouteInfo();
             instance.MoveType = isRouteCustom ? MoveType.Custom : MoveType.Not;
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var errorOccured = false;
             try
             {
@@ -121,6 +181,17 @@ namespace WodiLib.Test.Map
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapEventPageMoveRouteInfo.CustomMoveRoute)));
+            }
         }
 
         [Test]
@@ -179,8 +250,14 @@ namespace WodiLib.Test.Map
             {
                 MoveSpeed = MoveSpeed.Slowest,
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using NUnit.Framework;
 using WodiLib.Common;
 using WodiLib.Database;
@@ -24,21 +25,28 @@ namespace WodiLib.Test.Common.Internal
         public static void ArgTypeTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             // 取得した値が意図した値であること
             var type = instance.ArgType;
             Assert.AreEqual(type, CommonEventArgType.Normal);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
         public static void DatabaseDbKindTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
             {
-                var _ = instance.DatabaseDbKind;
+                var _ = instance.DatabaseUseDbKind;
             }
             catch (Exception ex)
             {
@@ -48,12 +56,17 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
         public static void DatabaseDbTypeIdTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -68,12 +81,17 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
         public static void DatabaseUseAdditionalItemsFlagTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -88,6 +106,47 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
+        }
+
+        [Test]
+        public static void SpecialArgCaseListTest()
+        {
+            var instance = new CommonEventSpecialNumberArgDesc.InnerDescDatabase();
+            var changedDescPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDescPropertyList.Add(args.PropertyName); };
+            var changedSpecialArgCaseListPropertyList = new List<string>();
+            instance.SpecialArgCaseList.PropertyChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListPropertyList.Add(args.PropertyName);
+            };
+            var changedSpecialArgCaseListCollectionArgList = new List<NotifyCollectionChangedEventArgs>();
+            instance.SpecialArgCaseList.CollectionChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListCollectionArgList.Add(args);
+            };
+
+            var errorOccured = false;
+            try
+            {
+                var _ = instance.SpecialArgCaseList;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
+
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDescPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
         }
 
         private static readonly object[] SetDatabaseReferTestCaseSource =
@@ -104,6 +163,8 @@ namespace WodiLib.Test.Common.Internal
             var typeId = (TypeId) dbTypeId;
 
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -118,6 +179,9 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [TestCase(true)]
@@ -125,6 +189,8 @@ namespace WodiLib.Test.Common.Internal
         public static void SetDatabaseUseAdditionalItemsFlagTest(bool flag)
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -139,12 +205,27 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
         public static void GetSpecialCaseTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedDescPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDescPropertyList.Add(args.PropertyName); };
+            var changedSpecialArgCaseListPropertyList = new List<string>();
+            instance.SpecialArgCaseList.PropertyChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListPropertyList.Add(args.PropertyName);
+            };
+            var changedSpecialArgCaseListCollectionArgList = new List<NotifyCollectionChangedEventArgs>();
+            instance.SpecialArgCaseList.CollectionChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListCollectionArgList.Add(args);
+            };
 
             var errorOccured = false;
             try
@@ -163,12 +244,29 @@ namespace WodiLib.Test.Common.Internal
             // 取得した配列数が意図した値と一致すること
             var argCaseLength = instance.GetAllSpecialCase().Count;
             Assert.AreEqual(argCaseLength, 0);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDescPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
         }
 
         [Test]
         public static void GetAllSpecialCaseNumberTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedDescPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDescPropertyList.Add(args.PropertyName); };
+            var changedSpecialArgCaseListPropertyList = new List<string>();
+            instance.SpecialArgCaseList.PropertyChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListPropertyList.Add(args.PropertyName);
+            };
+            var changedSpecialArgCaseListCollectionArgList = new List<NotifyCollectionChangedEventArgs>();
+            instance.SpecialArgCaseList.CollectionChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListCollectionArgList.Add(args);
+            };
 
             var errorOccured = false;
             try
@@ -187,6 +285,11 @@ namespace WodiLib.Test.Common.Internal
             // 取得した配列数が0件であること
             var argCaseLength = instance.GetAllSpecialCase().Count;
             Assert.AreEqual(argCaseLength, 0);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDescPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
         }
 
         private static readonly object[] GetAllSpecialCaseDescriptionTestCaseSource =
@@ -202,6 +305,18 @@ namespace WodiLib.Test.Common.Internal
             string strMinus1, string strMinus2, string strMinus3)
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedDescPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDescPropertyList.Add(args.PropertyName); };
+            var changedSpecialArgCaseListPropertyList = new List<string>();
+            instance.SpecialArgCaseList.PropertyChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListPropertyList.Add(args.PropertyName);
+            };
+            var changedSpecialArgCaseListCollectionArgList = new List<NotifyCollectionChangedEventArgs>();
+            instance.SpecialArgCaseList.CollectionChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListCollectionArgList.Add(args);
+            };
 
             var errorOccured = false;
             try
@@ -220,12 +335,29 @@ namespace WodiLib.Test.Common.Internal
             // 取得した配列数が0件であること
             var argCaseLength = instance.GetAllSpecialCase().Count;
             Assert.AreEqual(argCaseLength, 0);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDescPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
         }
 
         [Test]
         public static void AddSpecialCaseTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedDescPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDescPropertyList.Add(args.PropertyName); };
+            var changedSpecialArgCaseListPropertyList = new List<string>();
+            instance.SpecialArgCaseList.PropertyChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListPropertyList.Add(args.PropertyName);
+            };
+            var changedSpecialArgCaseListCollectionArgList = new List<NotifyCollectionChangedEventArgs>();
+            instance.SpecialArgCaseList.CollectionChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListCollectionArgList.Add(args);
+            };
 
             var errorOccured = false;
             try
@@ -241,12 +373,29 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDescPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
         }
 
         [Test]
         public static void AddRangeSpecialCaseTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedDescPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDescPropertyList.Add(args.PropertyName); };
+            var changedSpecialArgCaseListPropertyList = new List<string>();
+            instance.SpecialArgCaseList.PropertyChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListPropertyList.Add(args.PropertyName);
+            };
+            var changedSpecialArgCaseListCollectionArgList = new List<NotifyCollectionChangedEventArgs>();
+            instance.SpecialArgCaseList.CollectionChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListCollectionArgList.Add(args);
+            };
 
             var errorOccured = false;
             try
@@ -265,12 +414,29 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDescPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
         }
 
         [Test]
         public static void InsertSpecialCaseTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedDescPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDescPropertyList.Add(args.PropertyName); };
+            var changedSpecialArgCaseListPropertyList = new List<string>();
+            instance.SpecialArgCaseList.PropertyChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListPropertyList.Add(args.PropertyName);
+            };
+            var changedSpecialArgCaseListCollectionArgList = new List<NotifyCollectionChangedEventArgs>();
+            instance.SpecialArgCaseList.CollectionChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListCollectionArgList.Add(args);
+            };
 
             var errorOccured = false;
             try
@@ -286,12 +452,29 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDescPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
         }
 
         [Test]
         public static void InsertRangeSpecialCaseTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedDescPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDescPropertyList.Add(args.PropertyName); };
+            var changedSpecialArgCaseListPropertyList = new List<string>();
+            instance.SpecialArgCaseList.PropertyChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListPropertyList.Add(args.PropertyName);
+            };
+            var changedSpecialArgCaseListCollectionArgList = new List<NotifyCollectionChangedEventArgs>();
+            instance.SpecialArgCaseList.CollectionChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListCollectionArgList.Add(args);
+            };
 
             var errorOccured = false;
             try
@@ -310,12 +493,29 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDescPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
         }
 
         [Test]
         public static void UpdateDatabaseSpecialCaseTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedDescPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDescPropertyList.Add(args.PropertyName); };
+            var changedSpecialArgCaseListPropertyList = new List<string>();
+            instance.SpecialArgCaseList.PropertyChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListPropertyList.Add(args.PropertyName);
+            };
+            var changedSpecialArgCaseListCollectionArgList = new List<NotifyCollectionChangedEventArgs>();
+            instance.SpecialArgCaseList.CollectionChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListCollectionArgList.Add(args);
+            };
 
             var errorOccured = false;
             try
@@ -330,12 +530,29 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDescPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
         }
 
         [Test]
         public static void UpdateDatabaseSpecialCase()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedDescPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDescPropertyList.Add(args.PropertyName); };
+            var changedSpecialArgCaseListPropertyList = new List<string>();
+            instance.SpecialArgCaseList.PropertyChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListPropertyList.Add(args.PropertyName);
+            };
+            var changedSpecialArgCaseListCollectionArgList = new List<NotifyCollectionChangedEventArgs>();
+            instance.SpecialArgCaseList.CollectionChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListCollectionArgList.Add(args);
+            };
 
             var errorOccured = false;
             try
@@ -351,12 +568,29 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDescPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
         }
 
         [Test]
         public static void RemoveSpecialCaseAtTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedDescPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDescPropertyList.Add(args.PropertyName); };
+            var changedSpecialArgCaseListPropertyList = new List<string>();
+            instance.SpecialArgCaseList.PropertyChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListPropertyList.Add(args.PropertyName);
+            };
+            var changedSpecialArgCaseListCollectionArgList = new List<NotifyCollectionChangedEventArgs>();
+            instance.SpecialArgCaseList.CollectionChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListCollectionArgList.Add(args);
+            };
 
             var errorOccured = false;
             try
@@ -371,12 +605,29 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDescPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
         }
 
         [Test]
         public static void RemoveSpecialCaseRangeTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedDescPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDescPropertyList.Add(args.PropertyName); };
+            var changedSpecialArgCaseListPropertyList = new List<string>();
+            instance.SpecialArgCaseList.PropertyChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListPropertyList.Add(args.PropertyName);
+            };
+            var changedSpecialArgCaseListCollectionArgList = new List<NotifyCollectionChangedEventArgs>();
+            instance.SpecialArgCaseList.CollectionChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListCollectionArgList.Add(args);
+            };
 
             var errorOccured = false;
             try
@@ -391,12 +642,29 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDescPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
         }
 
         [Test]
         public static void ClearTest()
         {
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedDescPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDescPropertyList.Add(args.PropertyName); };
+            var changedSpecialArgCaseListPropertyList = new List<string>();
+            instance.SpecialArgCaseList.PropertyChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListPropertyList.Add(args.PropertyName);
+            };
+            var changedSpecialArgCaseListCollectionArgList = new List<NotifyCollectionChangedEventArgs>();
+            instance.SpecialArgCaseList.CollectionChanged += (sender, args) =>
+            {
+                changedSpecialArgCaseListCollectionArgList.Add(args);
+            };
 
             var errorOccured = false;
             try
@@ -411,14 +679,25 @@ namespace WodiLib.Test.Common.Internal
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDescPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+            Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
         }
 
         [Test]
         public static void SerializeTest()
         {
             var target = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
     }
 }

@@ -158,6 +158,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(KeyType)));
                 keyType = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -211,10 +212,65 @@ namespace WodiLib.Event.EventCommand
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Protected Abstract Property
+        //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         private ControlStandardKeySet controlKeySet = new ControlStandardKeySet();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// タイプ設定プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnControlKeySetPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(ControlStandardKeySet.Ok):
+                    NotifyPropertyChanged(nameof(IsControlOk));
+                    break;
+
+                case nameof(ControlStandardKeySet.Cancel):
+                    NotifyPropertyChanged(nameof(IsControlCancel));
+                    break;
+
+                case nameof(ControlStandardKeySet.Sub):
+                    NotifyPropertyChanged(nameof(IsControlSub));
+                    break;
+
+                case nameof(ControlStandardKeySet.Down):
+                    NotifyPropertyChanged(nameof(IsControlDown));
+                    break;
+
+                case nameof(ControlStandardKeySet.Left):
+                    NotifyPropertyChanged(nameof(IsControlLeft));
+                    break;
+
+                case nameof(ControlStandardKeySet.Right):
+                    NotifyPropertyChanged(nameof(IsControlRight));
+                    break;
+
+                case nameof(ControlStandardKeySet.Up):
+                    NotifyPropertyChanged(nameof(IsControlUp));
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public StandardKeyInputControl()
+        {
+            controlKeySet.PropertyChanged += OnControlKeySetPropertyChanged;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     VersionCheck

@@ -392,11 +392,23 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(AudioType)));
                 audioType = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
             }
         }
 
+        private int soundId;
+
         /// <summary>BGM/BGS/SEデータID</summary>
-        public int SoundId { get; set; }
+        public int SoundId
+        {
+            get => soundId;
+            set
+            {
+                soundId = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private AudioSpecification specification = AudioSpecification.FileName;
 
@@ -411,26 +423,89 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Specification)));
                 specification = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
+                NotifyPropertyChanged(nameof(StringVariableCount));
             }
         }
 
+        private int fadeTime;
+
         /// <summary>フェード時間</summary>
-        public int FadeTime { get; set; }
+        public int FadeTime
+        {
+            get => fadeTime;
+            set
+            {
+                fadeTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int numberVariable;
 
         /// <summary>参照変数</summary>
-        public int NumberVariable { get; set; }
+        public int NumberVariable
+        {
+            get => numberVariable;
+            set
+            {
+                numberVariable = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int startTime;
 
         /// <summary>再生箇所</summary>
-        public int StartTime { get; set; }
+        public int StartTime
+        {
+            get => startTime;
+            set
+            {
+                startTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int volume = DefaultVolume;
 
         /// <summary>音量</summary>
-        public int Volume { get; set; } = DefaultVolume;
+        public int Volume
+        {
+            get => volume;
+            set
+            {
+                volume = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int frequency = DefaultFrequency;
 
         /// <summary>周波数</summary>
-        public int Frequency { get; set; } = DefaultFrequency;
+        public int Frequency
+        {
+            get => frequency;
+            set
+            {
+                frequency = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int loopPoint = DefaultLoopPoint;
 
         /// <summary>ループ位置（MIDIの場合、キー）</summary>
-        public int LoopPoint { get; set; } = DefaultLoopPoint;
+        public int LoopPoint
+        {
+            get => loopPoint;
+            set
+            {
+                loopPoint = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private string audioFileName = "";
 
@@ -445,6 +520,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(AudioFileName)));
                 audioFileName = value;
+                NotifyPropertyChanged();
             }
         }
 

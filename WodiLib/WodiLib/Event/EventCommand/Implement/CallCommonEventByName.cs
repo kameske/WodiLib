@@ -49,6 +49,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(EventName));
                 EventIdOrName.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 

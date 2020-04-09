@@ -17,7 +17,7 @@ namespace WodiLib.Common
     /// コモンファイルデータクラス
     /// </summary>
     [Serializable]
-    public class CommonFileData : IEquatable<CommonFileData>
+    public class CommonFileData : ModelBase<CommonFileData>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -30,10 +30,28 @@ namespace WodiLib.Common
         };
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Property
+        //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private CommonEventList CommonEventList { get; set; } = new CommonEventList();
+        private CommonEventList commonEventList = new CommonEventList();
+
+        /// <summary>
+        /// コモンイベントリスト
+        /// </summary>
+        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
+        public CommonEventList CommonEventList
+        {
+            get => commonEventList;
+            set
+            {
+                if (value is null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(CommonEventList)));
+
+                commonEventList = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
@@ -45,6 +63,7 @@ namespace WodiLib.Common
         /// <param name="commonEvents">[NotNull] コモンイベントリスト</param>
         /// <exception cref="ArgumentNullException">commonEventsがnullの場合</exception>
         /// <exception cref="ArgumentException">commonEventsの要素数が0の場合</exception>
+        [Obsolete("CommonEventList プロパティを直接操作してください。 Ver1.4で削除します。")]
         public void SetCommonEventList(IEnumerable<CommonEvent> commonEvents)
         {
             if (commonEvents is null)
@@ -64,6 +83,7 @@ namespace WodiLib.Common
         /// すべてのコモンイベントを返す。
         /// </summary>
         /// <returns>コモンイベント</returns>
+        [Obsolete("CommonEventList プロパティを直接操作してください。 Ver1.4で削除します。")]
         public IEnumerable<CommonEvent> GetAllCommonEvent()
         {
             return CommonEventList.ToList();
@@ -74,7 +94,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(CommonFileData other)
+        public override bool Equals(CommonFileData other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

@@ -35,11 +35,31 @@ namespace WodiLib.Event.EventCommand
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private bool isSetReturnValue;
+
         /// <summary> 返戻値セットフラグ </summary>
-        private bool IsSetReturnValue { get; set; }
+        private bool IsSetReturnValue
+        {
+            get => isSetReturnValue;
+            set
+            {
+                isSetReturnValue = value;
+                NotifyPropertyChanged(nameof(NumberVariableCount));
+            }
+        }
+
+        private bool isSetStringArg;
 
         /// <summary> 文字列引数セットフラグ </summary>
-        private bool IsSetStringArg { get; set; }
+        private bool IsSetStringArg
+        {
+            get => isSetStringArg;
+            set
+            {
+                isSetStringArg = value;
+                NotifyPropertyChanged(nameof(StringVariableCount));
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     OverrideMethod
@@ -368,7 +388,7 @@ namespace WodiLib.Event.EventCommand
             => EventCommandColorSet.DeepRed;
 
         /// <summary>
-        /// 名前に文字列を使用する。ラグ
+        /// 名前に文字列を使用するフラグ
         /// </summary>
         private class NameUseStrFlag
         {

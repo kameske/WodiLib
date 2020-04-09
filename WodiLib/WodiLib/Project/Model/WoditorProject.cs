@@ -25,7 +25,7 @@ namespace WodiLib.Project
     /// ウディタプロジェクトクラス
     /// </summary>
     [Serializable]
-    public class WoditorProject
+    public class WoditorProject : ModelBase<WoditorProject>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -62,42 +62,132 @@ namespace WodiLib.Project
         /// </summary>
         public TileSetSettingList TileSetSettingList => TileSetData.TileSetSettingList;
 
+        private DatabaseMergedData changeableDatabase;
+
         /// <summary>
         /// 可変DB
         /// </summary>
-        public DatabaseMergedData ChangeableDatabase { get; private set; }
+        public DatabaseMergedData ChangeableDatabase
+        {
+            get => changeableDatabase;
+            private set
+            {
+                changeableDatabase = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DatabaseMergedData userDatabase;
 
         /// <summary>
         /// ユーザDB
         /// </summary>
-        public DatabaseMergedData UserDatabase { get; private set; }
+        public DatabaseMergedData UserDatabase
+        {
+            get => userDatabase;
+            private set
+            {
+                userDatabase = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private DatabaseMergedData systemDatabase;
 
         /// <summary>
         /// システムDB
         /// </summary>
-        public DatabaseMergedData SystemDatabase { get; private set; }
+        public DatabaseMergedData SystemDatabase
+        {
+            get => systemDatabase;
+            private set
+            {
+                systemDatabase = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private EditorIniData editorIni;
 
         /// <summary>
         /// Editor.iniデータ
         /// </summary>
-        public EditorIniData EditorIni { get; private set; }
+        public EditorIniData EditorIni
+        {
+            get => editorIni;
+            private set
+            {
+                editorIni = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private GameIniData gameIni;
 
         /// <summary>
         /// Game.iniデータ
         /// </summary>
-        public GameIniData GameIni { get; private set; }
+        public GameIniData GameIni
+        {
+            get => gameIni;
+            private set
+            {
+                gameIni = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private CommonEventData CommonEventData { get; set; }
+        private CommonEventData commonEventData;
 
-        private MapTreeData MapTreeData { get; set; }
+        private CommonEventData CommonEventData
+        {
+            get => commonEventData;
+            set
+            {
+                commonEventData = value;
+                NotifyPropertyChanged(nameof(CommonEventList));
+            }
+        }
 
-        private MapTreeOpenStatusData MapTreeOpenStatusData { get; set; }
+        private MapTreeData mapTreeData;
 
-        private TileSetData TileSetData { get; set; }
+        private MapTreeData MapTreeData
+        {
+            get => mapTreeData;
+            set
+            {
+                mapTreeData = value;
+                NotifyPropertyChanged(nameof(MapTreeNodeList));
+            }
+        }
+
+        private MapTreeOpenStatusData mapTreeOpenStatusData;
+
+        private MapTreeOpenStatusData MapTreeOpenStatusData
+        {
+            get => mapTreeOpenStatusData;
+            set
+            {
+                mapTreeOpenStatusData = value;
+                NotifyPropertyChanged(nameof(MapTreeOpenStatusList));
+            }
+        }
+
+        private TileSetData tileSetData;
+
+        private TileSetData TileSetData
+        {
+            get => tileSetData;
+            set
+            {
+                tileSetData = value;
+                NotifyPropertyChanged(nameof(TileSetSettingList));
+            }
+        }
 
         private CommonEventDatFilePath CommonEventDatFilePath => $"{TargetDirectory}/Data/BasicData/CommonEvent.dat";
 
@@ -187,6 +277,28 @@ namespace WodiLib.Project
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public override bool Equals(WoditorProject other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(other, null)) return false;
+
+            return changeableDatabase.Equals(other.changeableDatabase)
+                   && userDatabase.Equals(userDatabase)
+                   && systemDatabase.Equals(systemDatabase)
+                   && editorIni.Equals(editorIni)
+                   && gameIni.Equals(gameIni)
+                   && commonEventData.Equals(commonEventData)
+                   && mapTreeData.Equals(mapTreeData)
+                   && userDatabase.Equals(userDatabase)
+                   && mapTreeOpenStatusData.Equals(mapTreeOpenStatusData)
+                   && tileSetData.Equals(tileSetData);
+        }
 
         #region ReadMethod
 

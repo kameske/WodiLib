@@ -19,7 +19,7 @@ namespace WodiLib.Map
     ///     MapDataクラス
     /// </summary>
     [Serializable]
-    public class MapData : IEquatable<MapData>
+    public class MapData : ModelBase<MapData>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
@@ -32,11 +32,28 @@ namespace WodiLib.Map
         public MapDataMemo Memo
         {
             get => memo;
-            set => memo = value ?? throw new PropertyNullException(ErrorMessage.NotNull(nameof(Memo)));
+            set
+            {
+                if (value is null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(Memo)));
+                memo = value;
+                NotifyPropertyChanged();
+            }
         }
 
+        private TileSetId tileSetId = 0;
+
         /// <summary>タイルセットID</summary>
-        public TileSetId TileSetId { get; set; } = 0;
+        public TileSetId TileSetId
+        {
+            get => tileSetId;
+            set
+            {
+                tileSetId = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>マップサイズ横</summary>
         public MapSizeWidth MapSizeWidth => Layer1.Width;
@@ -53,12 +70,24 @@ namespace WodiLib.Map
             get => layer1;
             set
             {
-                layer1 = value ?? throw new PropertyNullException(ErrorMessage.NotNull(nameof(Layer1)));
+                if (value is null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(Layer1)));
+
+                layer1.PropertyChanged -= OnLayer1PropertyChanged;
+
+                layer1 = value;
 
                 Layer2.UpdateWidth(value.Width);
                 Layer2.UpdateHeight(value.Height);
                 Layer3.UpdateWidth(value.Width);
                 Layer3.UpdateHeight(value.Height);
+
+                Layer1.PropertyChanged += OnLayer1PropertyChanged;
+
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(MapSizeWidth));
+                NotifyPropertyChanged(nameof(MapSizeHeight));
             }
         }
 
@@ -77,6 +106,7 @@ namespace WodiLib.Map
                     throw new PropertyException(
                         $"{nameof(Layer2)}のマップサイズは{nameof(Layer1)}のマップサイズと同じサイズである必要があります。");
                 layer2 = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -95,6 +125,7 @@ namespace WodiLib.Map
                     throw new PropertyException(
                         $"{nameof(Layer3)}のマップサイズは{nameof(Layer1)}のマップサイズと同じサイズである必要があります。");
                 layer3 = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -104,7 +135,15 @@ namespace WodiLib.Map
         public MapEventList MapEvents
         {
             get => mapEvents;
-            set => mapEvents = value ?? throw new PropertyNullException(ErrorMessage.NotNull(nameof(MapEvents)));
+            set
+            {
+                if (value is null)
+                    throw new PropertyNullException(
+                        ErrorMessage.NotNull(nameof(MapEvents)));
+
+                mapEvents = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>
@@ -178,6 +217,40 @@ namespace WodiLib.Map
         public static readonly byte[] Footer = {0x66};
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// レイヤ1プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnLayer1PropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(Layer.Width):
+                    NotifyPropertyChanged(nameof(MapSizeWidth));
+                    break;
+                case nameof(Layer.Height):
+                    NotifyPropertyChanged(nameof(MapSizeHeight));
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public MapData()
+        {
+            layer1.PropertyChanged += OnLayer1PropertyChanged;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -216,9 +289,9 @@ namespace WodiLib.Map
         /// <param name="width">マップサイズ横</param>
         public void UpdateMapSizeWidth(MapSizeWidth width)
         {
-            Layer1.UpdateWidth(width);
             Layer2.UpdateWidth(width);
             Layer3.UpdateWidth(width);
+            Layer1.UpdateWidth(width);
         }
 
         /// <summary>
@@ -228,9 +301,9 @@ namespace WodiLib.Map
         /// <param name="height">マップサイズ縦</param>
         public void UpdateMapSizeHeight(MapSizeHeight height)
         {
-            Layer1.UpdateHeight(height);
             Layer2.UpdateHeight(height);
             Layer3.UpdateHeight(height);
+            Layer1.UpdateHeight(height);
         }
 
         /// <summary>
@@ -281,7 +354,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(MapData other)
+        public override bool Equals(MapData other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

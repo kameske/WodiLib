@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -16,7 +17,7 @@ namespace WodiLib.Map
     /// Layer実装クラス
     /// </summary>
     [Serializable]
-    public class Layer : IEquatable<Layer>
+    public class Layer : ModelBase<Layer>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
@@ -34,14 +35,17 @@ namespace WodiLib.Map
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Chips)));
+                chips.PropertyChanged -= OnChipsPropertyChanged;
                 chips = value;
+                chips.PropertyChanged += OnChipsPropertyChanged;
+                NotifyPropertyChanged();
             }
         }
 
-        /// <summary>サイズ横</summary>
+        /// <summary>[Range(20, 99999)] サイズ横</summary>
         public MapSizeWidth Width => chips.Width;
 
-        /// <summary>[Range(15, 9999999)] サイズ縦</summary>
+        /// <summary>[Range(15, 99999)] サイズ縦</summary>
         public MapSizeHeight Height => chips.Height;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -82,11 +86,43 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(Layer other)
+        public override bool Equals(Layer other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
             return chips.Equals(other.chips);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// マップチッププロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnChipsPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(MapChipList.Width):
+                case nameof(MapChipList.Height):
+                    NotifyPropertyChanged(args.PropertyName);
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public Layer()
+        {
+            chips.PropertyChanged += OnChipsPropertyChanged;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

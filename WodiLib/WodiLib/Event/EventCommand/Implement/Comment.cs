@@ -136,6 +136,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Text)));
                 text = value;
+                NotifyPropertyChanged();
             }
         }
     }

@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using NUnit.Framework;
 using WodiLib.Database;
+using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
@@ -166,6 +168,10 @@ namespace WodiLib.Test.Database
             var instance = initList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
 
             var errorOccured = false;
             try
@@ -181,11 +187,27 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                // データ数が一致すること
+                var beforeLength = initDataLength == -1 ? 1 : initDataLength;
+                Assert.AreEqual(instance.Count, beforeLength + 1);
+            }
 
-            // データ数が一致すること
-            var beforeLength = initDataLength == -1 ? 1 : initDataLength;
-            Assert.AreEqual(instance.Count, beforeLength + 1);
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 2);
+                Assert.IsTrue(changedDataPropertyList[0].Equals(nameof(DBItemValuesList.Count)));
+                Assert.IsTrue(changedDataPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedDataCollectionList.Count, 1);
+                Assert.IsTrue((changedDataCollectionList[0].Action == NotifyCollectionChangedAction.Add));
+            }
         }
 
         [TestCase(-1, -1, true)]
@@ -210,6 +232,10 @@ namespace WodiLib.Test.Database
             var instance = initList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
 
             var errorOccured = false;
             try
@@ -225,11 +251,27 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                // データ数が一致すること
+                var beforeLength = initDataLength == -1 ? 1 : initDataLength;
+                Assert.AreEqual(instance.Count, beforeLength + count);
+            }
 
-            // データ数が一致すること
-            var beforeLength = initDataLength == -1 ? 1 : initDataLength;
-            Assert.AreEqual(instance.Count, beforeLength + count);
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 2);
+                Assert.IsTrue(changedDataPropertyList[0].Equals(nameof(DBItemValuesList.Count)));
+                Assert.IsTrue(changedDataPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedDataCollectionList.Count, 1);
+                Assert.IsTrue((changedDataCollectionList[0].Action == NotifyCollectionChangedAction.Add));
+            }
         }
 
         [TestCase(-1, -1, true)]
@@ -255,6 +297,10 @@ namespace WodiLib.Test.Database
             var instance = initList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
 
             var errorOccured = false;
             try
@@ -270,11 +316,27 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                // データ数が一致すること
+                var beforeLength = initDataLength == -1 ? 1 : initDataLength;
+                Assert.AreEqual(instance.Count, beforeLength + 1);
+            }
 
-            // データ数が一致すること
-            var beforeLength = initDataLength == -1 ? 1 : initDataLength;
-            Assert.AreEqual(instance.Count, beforeLength + 1);
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 2);
+                Assert.IsTrue(changedDataPropertyList[0].Equals(nameof(DBItemValuesList.Count)));
+                Assert.IsTrue(changedDataPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedDataCollectionList.Count, 1);
+                Assert.IsTrue((changedDataCollectionList[0].Action == NotifyCollectionChangedAction.Add));
+            }
         }
 
         [TestCase(-1, -1, -1, true)]
@@ -346,6 +408,10 @@ namespace WodiLib.Test.Database
             var instance = initList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
 
             var errorOccured = false;
             try
@@ -361,11 +427,27 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                // データ数が一致すること
+                var beforeLength = initDataLength == -1 ? 1 : initDataLength;
+                Assert.AreEqual(instance.Count, beforeLength + count);
+            }
 
-            // データ数が一致すること
-            var beforeLength = initDataLength == -1 ? 1 : initDataLength;
-            Assert.AreEqual(instance.Count, beforeLength + count);
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 2);
+                Assert.IsTrue(changedDataPropertyList[0].Equals(nameof(DBItemValuesList.Count)));
+                Assert.IsTrue(changedDataPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedDataCollectionList.Count, 1);
+                Assert.IsTrue((changedDataCollectionList[0].Action == NotifyCollectionChangedAction.Add));
+            }
         }
 
         [TestCase(null)]
@@ -389,7 +471,10 @@ namespace WodiLib.Test.Database
             var instance = items == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(new List<IReadOnlyList<DBItemValue>> {items});
-
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
 
             IFixedLengthDBItemValueList madeInstance = null;
 
@@ -435,6 +520,10 @@ namespace WodiLib.Test.Database
                     Assert.Fail();
                 }
             }
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDataPropertyList.Count, 0);
+            Assert.AreEqual(changedDataCollectionList.Count, 0);
         }
 
         [TestCase(null, null, true)]
@@ -465,6 +554,10 @@ namespace WodiLib.Test.Database
             var instance = items == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(new List<IReadOnlyList<DBItemValue>> {items});
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
 
             // itemValuesCodeも同様に変換する。
             // ただし格納する値はデフォルト値ではなくindexに絡めた値
@@ -492,22 +585,50 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
-
-            // この時点でinitValuesはnullではないはずだが、念のため
-            Assert.NotNull(initValues);
-
-            // 基準データが存在しない場合
-            if (items == null)
+            if (!errorOccured)
             {
-                // 取得した項目数がセットした項目数と同じであること
-                Assert.AreEqual(madeInstance.Count, initValues.Count);
+                // この時点でinitValuesはnullではないはずだが、念のため
+                Assert.NotNull(initValues);
+
+                // 基準データが存在しない場合
+                if (items == null)
+                {
+                    // 取得した項目数がセットした項目数と同じであること
+                    Assert.AreEqual(madeInstance.Count, initValues.Count);
+
+                    // 値リストインスタンス中の値種別が意図した順序になっていること。
+                    // また、各値に意図した値が格納されていること
+                    for (var i = 0; i < madeInstance.Count; i++)
+                    {
+                        Assert.AreEqual(madeInstance[i].Type, initValues[i].Type);
+                        if (madeInstance[i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(madeInstance[i], (DBItemValue) (DBValueInt) i);
+                        }
+                        else if (madeInstance[i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(madeInstance[i], (DBItemValue) (DBValueString) i.ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
+                    }
+
+                    return;
+                }
+
+                // 基準データが存在する場合
+
+                // 取得した項目数が基準項目数と同じであること
+                Assert.AreEqual(madeInstance.Count, items.Count);
 
                 // 値リストインスタンス中の値種別が意図した順序になっていること。
                 // また、各値に意図した値が格納されていること
                 for (var i = 0; i < madeInstance.Count; i++)
                 {
-                    Assert.AreEqual(madeInstance[i].Type, initValues[i].Type);
+                    Assert.AreEqual(madeInstance[i].Type, items[i].Type);
                     if (madeInstance[i].Type == DBItemType.Int)
                     {
                         Assert.AreEqual(madeInstance[i], (DBItemValue) (DBValueInt) i);
@@ -522,34 +643,11 @@ namespace WodiLib.Test.Database
                         Assert.Fail();
                     }
                 }
-
-                return;
             }
 
-            // 基準データが存在する場合
-
-            // 取得した項目数が基準項目数と同じであること
-            Assert.AreEqual(madeInstance.Count, items.Count);
-
-            // 値リストインスタンス中の値種別が意図した順序になっていること。
-            // また、各値に意図した値が格納されていること
-            for (var i = 0; i < madeInstance.Count; i++)
-            {
-                Assert.AreEqual(madeInstance[i].Type, items[i].Type);
-                if (madeInstance[i].Type == DBItemType.Int)
-                {
-                    Assert.AreEqual(madeInstance[i], (DBItemValue) (DBValueInt) i);
-                }
-                else if (madeInstance[i].Type == DBItemType.String)
-                {
-                    Assert.AreEqual(madeInstance[i], (DBItemValue) (DBValueString) i.ToString());
-                }
-                else
-                {
-                    // 来ないはず
-                    Assert.Fail();
-                }
-            }
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedDataPropertyList.Count, 0);
+            Assert.AreEqual(changedDataCollectionList.Count, 0);
         }
 
 
@@ -585,6 +683,14 @@ namespace WodiLib.Test.Database
             var instance = initItemList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
 
             var errorOccured = false;
             try
@@ -600,74 +706,93 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
-
-            // データ数が変化していないこと
-            Assert.AreEqual(instance[0].Count, initLength);
-
-            // 元のデータ（更新箇所より前）が変化していないこと
-            var i = 0;
-            if (initItemList != null)
+            if (!errorOccured)
             {
-                for (; i < index; i++)
+                // データ数が変化していないこと
+                Assert.AreEqual(instance[0].Count, initLength);
+
+                // 元のデータ（更新箇所より前）が変化していないこと
+                var i = 0;
+                if (initItemList != null)
                 {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
-                    if (instance[0][i].Type == DBItemType.Int)
+                    for (; i < index; i++)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
                     }
-                    else if (instance[0][i].Type == DBItemType.String)
+                }
+
+                // 更新したデータが反映されていること
+                Assert.AreEqual(instance[0][i].Type, type);
+                if (instance[0][i].Type == DBItemType.Int)
+                {
+                    // 元の値種別がIntだったため、値が変化していないこと
+                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                }
+                else if (instance[0][i].Type == DBItemType.String)
+                {
+                    // 元の値種別がIntだったため、デフォルト値で初期化されていること
+                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) "");
+                }
+                else
+                {
+                    // 来ないはず
+                    Assert.Fail();
+                }
+
+                i++;
+
+                // 元のデータ（更新箇所より後）が変化していないこと
+                if (initItemList != null)
+                {
+                    for (; i < initLength; i++)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
-                    }
-                    else
-                    {
-                        // 来ないはず
-                        Assert.Fail();
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
                     }
                 }
             }
 
-            // 更新したデータが反映されていること
-            Assert.AreEqual(instance[0][i].Type, type);
-            if (instance[0][i].Type == DBItemType.Int)
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
             {
-                // 元の値種別がIntだったため、値が変化していないこと
-                Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
-            }
-            else if (instance[0][i].Type == DBItemType.String)
-            {
-                // 元の値種別がIntだったため、デフォルト値で初期化されていること
-                Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) "");
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 0);
+                Assert.AreEqual(changedFieldCollectionList.Count, 0);
             }
             else
             {
-                // 来ないはず
-                Assert.Fail();
-            }
-
-            i++;
-
-            // 元のデータ（更新箇所より後）が変化していないこと
-            if (initItemList != null)
-            {
-                for (; i < initLength; i++)
-                {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
-                    if (instance[0][i].Type == DBItemType.Int)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
-                    }
-                    else if (instance[0][i].Type == DBItemType.String)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
-                    }
-                    else
-                    {
-                        // 来ないはず
-                        Assert.Fail();
-                    }
-                }
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 1);
+                Assert.IsTrue(changedFieldPropertyList[0].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Replace);
             }
         }
 
@@ -703,6 +828,14 @@ namespace WodiLib.Test.Database
             var instance = initItemList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
 
             var errorOccured = false;
             try
@@ -718,58 +851,77 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
-
-            // データ数が変化していないこと
-            Assert.AreEqual(instance[0].Count, initLength);
-
-            // 元のデータ（更新箇所より前）が変化していないこと
-            var i = 0;
-            if (initItemList != null)
+            if (!errorOccured)
             {
-                for (; i < index; i++)
+                // データ数が変化していないこと
+                Assert.AreEqual(instance[0].Count, initLength);
+
+                // 元のデータ（更新箇所より前）が変化していないこと
+                var i = 0;
+                if (initItemList != null)
                 {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
-                    if (instance[0][i].Type == DBItemType.Int)
+                    for (; i < index; i++)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
                     }
-                    else if (instance[0][i].Type == DBItemType.String)
+                }
+
+                // 更新したデータが反映されていること
+                Assert.AreEqual(instance[0][i].Type, value.Type);
+                Assert.AreEqual(instance[0][i], value);
+
+                // 元のデータ（更新箇所より後）が変化していないこと
+                if (initItemList != null)
+                {
+                    for (; i < index; i++)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
-                    }
-                    else
-                    {
-                        // 来ないはず
-                        Assert.Fail();
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
                     }
                 }
             }
 
-            // 更新したデータが反映されていること
-            Assert.AreEqual(instance[0][i].Type, value.Type);
-            Assert.AreEqual(instance[0][i], value);
-
-            // 元のデータ（更新箇所より後）が変化していないこと
-            if (initItemList != null)
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
             {
-                for (; i < index; i++)
-                {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
-                    if (instance[0][i].Type == DBItemType.Int)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
-                    }
-                    else if (instance[0][i].Type == DBItemType.String)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
-                    }
-                    else
-                    {
-                        // 来ないはず
-                        Assert.Fail();
-                    }
-                }
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 0);
+                Assert.AreEqual(changedFieldCollectionList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 1);
+                Assert.IsTrue(changedFieldPropertyList[0].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Replace);
             }
         }
 
@@ -796,6 +948,14 @@ namespace WodiLib.Test.Database
             var instance = initItemList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
 
             var errorOccured = false;
             try
@@ -811,50 +971,70 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
-
-            // データ数が意図した数であること
-            var beforeLength = initLength == -1 ? 0 : initLength;
-            var resultLength = beforeLength + 1;
-            Assert.AreEqual(instance[0].Count, resultLength);
-
-            // 元のデータが変化していないこと
-            var i = 0;
-            if (initItemList != null)
+            if (!errorOccured)
             {
-                for (; i < beforeLength; i++)
+                // データ数が意図した数であること
+                var beforeLength = initLength == -1 ? 0 : initLength;
+                var resultLength = beforeLength + 1;
+                Assert.AreEqual(instance[0].Count, resultLength);
+
+                // 元のデータが変化していないこと
+                var i = 0;
+                if (initItemList != null)
                 {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
-                    if (instance[0][i].Type == DBItemType.Int)
+                    for (; i < beforeLength; i++)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
                     }
-                    else if (instance[0][i].Type == DBItemType.String)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
-                    }
-                    else
-                    {
-                        // 来ないはず
-                        Assert.Fail();
-                    }
+                }
+
+                // 追加したデータが反映されていること
+                Assert.AreEqual(instance[0][i].Type, type);
+                if (instance[0][i].Type == DBItemType.Int)
+                {
+                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) 0);
+                }
+                else if (instance[0][i].Type == DBItemType.String)
+                {
+                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) "");
+                }
+                else
+                {
+                    // 来ないはず
+                    Assert.Fail();
                 }
             }
 
-            // 追加したデータが反映されていること
-            Assert.AreEqual(instance[0][i].Type, type);
-            if (instance[0][i].Type == DBItemType.Int)
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
             {
-                Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) 0);
-            }
-            else if (instance[0][i].Type == DBItemType.String)
-            {
-                Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) "");
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 0);
+                Assert.AreEqual(changedFieldCollectionList.Count, 0);
             }
             else
             {
-                // 来ないはず
-                Assert.Fail();
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 2);
+                Assert.IsTrue(changedFieldPropertyList[0].Equals(nameof(DBItemValueList.Count)));
+                Assert.IsTrue(changedFieldPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Add);
             }
         }
 
@@ -881,6 +1061,14 @@ namespace WodiLib.Test.Database
             var instance = initItemList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
 
             var errorOccured = false;
             try
@@ -896,39 +1084,59 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
-
-            // データ数が意図した数であること
-            var beforeLength = initLength == -1 ? 0 : initLength;
-            var resultLength = beforeLength + 1;
-            Assert.AreEqual(instance[0].Count, resultLength);
-
-            // 元のデータが変化していないこと
-            var i = 0;
-            if (initItemList != null)
+            if (!errorOccured)
             {
-                for (; i < beforeLength; i++)
+                // データ数が意図した数であること
+                var beforeLength = initLength == -1 ? 0 : initLength;
+                var resultLength = beforeLength + 1;
+                Assert.AreEqual(instance[0].Count, resultLength);
+
+                // 元のデータが変化していないこと
+                var i = 0;
+                if (initItemList != null)
                 {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
-                    if (instance[0][i].Type == DBItemType.Int)
+                    for (; i < beforeLength; i++)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
-                    }
-                    else if (instance[0][i].Type == DBItemType.String)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
-                    }
-                    else
-                    {
-                        // 来ないはず
-                        Assert.Fail();
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
                     }
                 }
+
+                // 追加したデータが反映されていること
+                Assert.AreEqual(instance[0][i].Type, value.Type);
+                Assert.AreEqual(instance[0][i], value);
             }
 
-            // 追加したデータが反映されていること
-            Assert.AreEqual(instance[0][i].Type, value.Type);
-            Assert.AreEqual(instance[0][i], value);
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 0);
+                Assert.AreEqual(changedFieldCollectionList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 2);
+                Assert.IsTrue(changedFieldPropertyList[0].Equals(nameof(DBItemValueList.Count)));
+                Assert.IsTrue(changedFieldPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Add);
+            }
         }
 
         private static readonly object[] AddFieldRangeTestCaseSource =
@@ -966,6 +1174,14 @@ namespace WodiLib.Test.Database
             var instance = initItemList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
 
             var types = setTypeCode?.Select(c =>
             {
@@ -988,30 +1204,50 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
-
-            // typesはnullではないはずだが念の為
-            Assert.NotNull(types);
-
-            // データ数が意図した数であること
-            var beforeLength = initLength == -1 ? 0 : initLength;
-            var resultLength = beforeLength + types.Count;
-            Assert.AreEqual(instance[0].Count, resultLength);
-
-            // 元のデータが変化していないこと
-            var i = 0;
-            if (initItemList != null)
+            if (!errorOccured)
             {
-                for (; i < beforeLength; i++)
+                // typesはnullではないはずだが念の為
+                Assert.NotNull(types);
+
+                // データ数が意図した数であること
+                var beforeLength = initLength == -1 ? 0 : initLength;
+                var resultLength = beforeLength + types.Count;
+                Assert.AreEqual(instance[0].Count, resultLength);
+
+                // 元のデータが変化していないこと
+                var i = 0;
+                if (initItemList != null)
                 {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                    for (; i < beforeLength; i++)
+                    {
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
+                    }
+                }
+
+                for (; i < resultLength; i++)
+                {
+                    // 追加したデータが反映されていること
+                    Assert.AreEqual(instance[0][i].Type, types[i - beforeLength]);
                     if (instance[0][i].Type == DBItemType.Int)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) 0);
                     }
                     else if (instance[0][i].Type == DBItemType.String)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) "");
                     }
                     else
                     {
@@ -1021,23 +1257,23 @@ namespace WodiLib.Test.Database
                 }
             }
 
-            for (; i < resultLength; i++)
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
             {
-                // 追加したデータが反映されていること
-                Assert.AreEqual(instance[0][i].Type, types[i - beforeLength]);
-                if (instance[0][i].Type == DBItemType.Int)
-                {
-                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) 0);
-                }
-                else if (instance[0][i].Type == DBItemType.String)
-                {
-                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) "");
-                }
-                else
-                {
-                    // 来ないはず
-                    Assert.Fail();
-                }
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 0);
+                Assert.AreEqual(changedFieldCollectionList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 2);
+                Assert.IsTrue(changedFieldPropertyList[0].Equals(nameof(DBItemValueList.Count)));
+                Assert.IsTrue(changedFieldPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Add);
             }
         }
 
@@ -1048,6 +1284,14 @@ namespace WodiLib.Test.Database
             var instance = initItemList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
 
             var values = setTypeCode?.Select(c =>
             {
@@ -1070,44 +1314,64 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
-
-            // valuesはnullではないはずだが念の為
-            Assert.NotNull(values);
-
-            // データ数が意図した数であること
-            var beforeLength = initLength == -1 ? 0 : initLength;
-            var resultLength = beforeLength + values.Count;
-            Assert.AreEqual(instance[0].Count, resultLength);
-
-            // 元のデータが変化していないこと
-            var i = 0;
-            if (initItemList != null)
+            if (!errorOccured)
             {
-                for (; i < beforeLength; i++)
+                // valuesはnullではないはずだが念の為
+                Assert.NotNull(values);
+
+                // データ数が意図した数であること
+                var beforeLength = initLength == -1 ? 0 : initLength;
+                var resultLength = beforeLength + values.Count;
+                Assert.AreEqual(instance[0].Count, resultLength);
+
+                // 元のデータが変化していないこと
+                var i = 0;
+                if (initItemList != null)
                 {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
-                    if (instance[0][i].Type == DBItemType.Int)
+                    for (; i < beforeLength; i++)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
                     }
-                    else if (instance[0][i].Type == DBItemType.String)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
-                    }
-                    else
-                    {
-                        // 来ないはず
-                        Assert.Fail();
-                    }
+                }
+
+                for (; i < resultLength; i++)
+                {
+                    // 追加したデータが反映されていること
+                    Assert.AreEqual(instance[0][i].Type, values[i - beforeLength].Type);
+                    Assert.AreEqual(instance[0][i], values[i - beforeLength]);
                 }
             }
 
-            for (; i < resultLength; i++)
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
             {
-                // 追加したデータが反映されていること
-                Assert.AreEqual(instance[0][i].Type, values[i - beforeLength].Type);
-                Assert.AreEqual(instance[0][i], values[i - beforeLength]);
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 0);
+                Assert.AreEqual(changedFieldCollectionList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 2);
+                Assert.IsTrue(changedFieldPropertyList[0].Equals(nameof(DBItemValueList.Count)));
+                Assert.IsTrue(changedFieldPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Add);
             }
         }
 
@@ -1165,6 +1429,14 @@ namespace WodiLib.Test.Database
             var instance = initItemList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
 
             var errorOccured = false;
             try
@@ -1180,74 +1452,94 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
-
-            // データ数が意図した数であること
-            var beforeLength = initLength == -1 ? 0 : initLength;
-            var resultLength = beforeLength + 1;
-            Assert.AreEqual(instance[0].Count, resultLength);
-
-            // 元のデータ（挿入箇所より前）が変化していないこと
-            var i = 0;
-            if (initItemList != null)
+            if (!errorOccured)
             {
-                for (; i < index; i++)
+                // データ数が意図した数であること
+                var beforeLength = initLength == -1 ? 0 : initLength;
+                var resultLength = beforeLength + 1;
+                Assert.AreEqual(instance[0].Count, resultLength);
+
+                // 元のデータ（挿入箇所より前）が変化していないこと
+                var i = 0;
+                if (initItemList != null)
                 {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
-                    if (instance[0][i].Type == DBItemType.Int)
+                    for (; i < index; i++)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
                     }
-                    else if (instance[0][i].Type == DBItemType.String)
+                }
+
+                // 挿入したデータが反映されていること
+                Assert.AreEqual(instance[0][i].Type, type);
+                if (instance[0][i].Type == DBItemType.Int)
+                {
+                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) 0);
+                }
+                else if (instance[0][i].Type == DBItemType.String)
+                {
+                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) "");
+                }
+                else
+                {
+                    // 来ないはず
+                    Assert.Fail();
+                }
+
+                i++;
+
+                // 元のデータ（挿入箇所より後）が変化していないこと
+                if (initItemList != null)
+                {
+                    for (; i < resultLength; i++)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
-                    }
-                    else
-                    {
-                        // 来ないはず
-                        Assert.Fail();
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i - 1].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) (i - 1));
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) (i - 1).ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
                     }
                 }
             }
 
-            // 挿入したデータが反映されていること
-            Assert.AreEqual(instance[0][i].Type, type);
-            if (instance[0][i].Type == DBItemType.Int)
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
             {
-                Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) 0);
-            }
-            else if (instance[0][i].Type == DBItemType.String)
-            {
-                Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) "");
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 0);
+                Assert.AreEqual(changedFieldCollectionList.Count, 0);
             }
             else
             {
-                // 来ないはず
-                Assert.Fail();
-            }
-
-            i++;
-
-            // 元のデータ（挿入箇所より後）が変化していないこと
-            if (initItemList != null)
-            {
-                for (; i < resultLength; i++)
-                {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i - 1].Type);
-                    if (instance[0][i].Type == DBItemType.Int)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) (i - 1));
-                    }
-                    else if (instance[0][i].Type == DBItemType.String)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) (i - 1).ToString());
-                    }
-                    else
-                    {
-                        // 来ないはず
-                        Assert.Fail();
-                    }
-                }
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 2);
+                Assert.IsTrue(changedFieldPropertyList[0].Equals(nameof(DBItemValueList.Count)));
+                Assert.IsTrue(changedFieldPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Add);
             }
         }
 
@@ -1305,6 +1597,14 @@ namespace WodiLib.Test.Database
             var instance = initItemList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
 
             var errorOccured = false;
             try
@@ -1320,62 +1620,82 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
-
-            // データ数が意図した数であること
-            var beforeLength = initLength == -1 ? 0 : initLength;
-            var resultLength = beforeLength + 1;
-            Assert.AreEqual(instance[0].Count, resultLength);
-
-            // 元のデータ（挿入箇所より前）が変化していないこと
-            var i = 0;
-            if (initItemList != null)
+            if (!errorOccured)
             {
-                for (; i < index; i++)
+                // データ数が意図した数であること
+                var beforeLength = initLength == -1 ? 0 : initLength;
+                var resultLength = beforeLength + 1;
+                Assert.AreEqual(instance[0].Count, resultLength);
+
+                // 元のデータ（挿入箇所より前）が変化していないこと
+                var i = 0;
+                if (initItemList != null)
                 {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
-                    if (instance[0][i].Type == DBItemType.Int)
+                    for (; i < index; i++)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
                     }
-                    else if (instance[0][i].Type == DBItemType.String)
+                }
+
+                // 挿入したデータが反映されていること
+                Assert.AreEqual(instance[0][i].Type, value.Type);
+                Assert.AreEqual(instance[0][i], value);
+
+                i++;
+
+                // 元のデータ（挿入箇所より後）が変化していないこと
+                if (initItemList != null)
+                {
+                    for (; i < resultLength; i++)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
-                    }
-                    else
-                    {
-                        // 来ないはず
-                        Assert.Fail();
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i - 1].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) (i - 1));
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) (i - 1).ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
                     }
                 }
             }
 
-            // 挿入したデータが反映されていること
-            Assert.AreEqual(instance[0][i].Type, value.Type);
-            Assert.AreEqual(instance[0][i], value);
-
-            i++;
-
-            // 元のデータ（挿入箇所より後）が変化していないこと
-            if (initItemList != null)
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
             {
-                for (; i < resultLength; i++)
-                {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i - 1].Type);
-                    if (instance[0][i].Type == DBItemType.Int)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) (i - 1));
-                    }
-                    else if (instance[0][i].Type == DBItemType.String)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) (i - 1).ToString());
-                    }
-                    else
-                    {
-                        // 来ないはず
-                        Assert.Fail();
-                    }
-                }
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 0);
+                Assert.AreEqual(changedFieldCollectionList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 2);
+                Assert.IsTrue(changedFieldPropertyList[0].Equals(nameof(DBItemValueList.Count)));
+                Assert.IsTrue(changedFieldPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Add);
             }
         }
 
@@ -1503,6 +1823,14 @@ namespace WodiLib.Test.Database
             var instance = initItemList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
 
             var types = setTypeCode?.Select(c =>
             {
@@ -1525,85 +1853,106 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
-
-            // typesはnullではないはずだが念の為
-            Assert.NotNull(types);
-
-            // データ数が意図した数であること
-            var beforeLength = initLength == -1 ? 0 : initLength;
-            var resultLength = beforeLength + types.Count;
-            Assert.AreEqual(instance[0].Count, resultLength);
-
-            // 元のデータ（挿入箇所より前）が変化していないこと
-            var i = 0;
-            if (initItemList != null)
+            if (!errorOccured)
             {
-                for (; i < index; i++)
+                // typesはnullではないはずだが念の為
+                Assert.NotNull(types);
+
+                // データ数が意図した数であること
+                var beforeLength = initLength == -1 ? 0 : initLength;
+                var resultLength = beforeLength + types.Count;
+                Assert.AreEqual(instance[0].Count, resultLength);
+
+                // 元のデータ（挿入箇所より前）が変化していないこと
+                var i = 0;
+                if (initItemList != null)
                 {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                    for (; i < index; i++)
+                    {
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
+                    }
+                }
+
+                var typesIndex = 0;
+                for (; i < index + types.Count; i++)
+                {
+                    // 追加したデータが反映されていること
+                    Assert.AreEqual(instance[0][i].Type, types[typesIndex]);
                     if (instance[0][i].Type == DBItemType.Int)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) 0);
                     }
                     else if (instance[0][i].Type == DBItemType.String)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) "");
                     }
                     else
                     {
                         // 来ないはず
                         Assert.Fail();
                     }
+
+                    typesIndex++;
+                }
+
+                // 元のデータ（挿入箇所より後）が変化していないこと
+                var offset = types.Count;
+                if (initItemList != null)
+                {
+                    for (; i < resultLength; i++)
+                    {
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i - offset].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) (i - offset));
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) (i - offset).ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
+                    }
                 }
             }
 
-            var typesIndex = 0;
-            for (; i < index + types.Count; i++)
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
             {
-                // 追加したデータが反映されていること
-                Assert.AreEqual(instance[0][i].Type, types[typesIndex]);
-                if (instance[0][i].Type == DBItemType.Int)
-                {
-                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) 0);
-                }
-                else if (instance[0][i].Type == DBItemType.String)
-                {
-                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) "");
-                }
-                else
-                {
-                    // 来ないはず
-                    Assert.Fail();
-                }
-
-                typesIndex++;
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 0);
+                Assert.AreEqual(changedFieldCollectionList.Count, 0);
             }
-
-            // 元のデータ（挿入箇所より後）が変化していないこと
-            var offset = types.Count;
-            if (initItemList != null)
+            else
             {
-                for (; i < resultLength; i++)
-                {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i - offset].Type);
-                    if (instance[0][i].Type == DBItemType.Int)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) (i - offset));
-                    }
-                    else if (instance[0][i].Type == DBItemType.String)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) (i - offset).ToString());
-                    }
-                    else
-                    {
-                        // 来ないはず
-                        Assert.Fail();
-                    }
-                }
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 2);
+                Assert.IsTrue(changedFieldPropertyList[0].Equals(nameof(DBItemValueList.Count)));
+                Assert.IsTrue(changedFieldPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Add);
             }
         }
 
+        [TestCaseSource(nameof(InsertFieldRangeTestCaseSource))]
         public static void InsertFieldRangeTestB(int initLength, string setTypeCode,
             int index, bool isError)
         {
@@ -1611,6 +1960,14 @@ namespace WodiLib.Test.Database
             var instance = initItemList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
 
             var values = setTypeCode?.Select(c =>
             {
@@ -1633,70 +1990,90 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
-
-            // typesはnullではないはずだが念の為
-            Assert.NotNull(values);
-
-            // データ数が意図した数であること
-            var beforeLength = initLength == -1 ? 0 : initLength;
-            var resultLength = beforeLength + values.Count;
-            Assert.AreEqual(instance[0].Count, resultLength);
-
-            // 元のデータ（挿入箇所より前）が変化していないこと
-            var i = 0;
-            if (initItemList != null)
+            if (!errorOccured)
             {
-                for (; i < index; i++)
+                // typesはnullではないはずだが念の為
+                Assert.NotNull(values);
+
+                // データ数が意図した数であること
+                var beforeLength = initLength == -1 ? 0 : initLength;
+                var resultLength = beforeLength + values.Count;
+                Assert.AreEqual(instance[0].Count, resultLength);
+
+                // 元のデータ（挿入箇所より前）が変化していないこと
+                var i = 0;
+                if (initItemList != null)
                 {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
-                    if (instance[0][i].Type == DBItemType.Int)
+                    for (; i < index; i++)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
                     }
-                    else if (instance[0][i].Type == DBItemType.String)
+                }
+
+                var typesIndex = 0;
+                for (; i < index + values.Count; i++)
+                {
+                    // 追加したデータが反映されていること
+                    Assert.AreEqual(instance[0][i].Type, values[typesIndex].Type);
+                    Assert.AreEqual(instance[0][i], values[typesIndex]);
+
+                    typesIndex++;
+                }
+
+                // 元のデータ（挿入箇所より後）が変化していないこと
+                var offset = values.Count;
+                if (initItemList != null)
+                {
+                    for (; i < resultLength; i++)
                     {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
-                    }
-                    else
-                    {
-                        // 来ないはず
-                        Assert.Fail();
+                        Assert.AreEqual(instance[0][i].Type, initItemList[0][i - offset].Type);
+                        if (instance[0][i].Type == DBItemType.Int)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) (i - offset));
+                        }
+                        else if (instance[0][i].Type == DBItemType.String)
+                        {
+                            Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) (i - offset).ToString());
+                        }
+                        else
+                        {
+                            // 来ないはず
+                            Assert.Fail();
+                        }
                     }
                 }
             }
 
-            var typesIndex = 0;
-            for (; i < index + values.Count; i++)
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
             {
-                // 追加したデータが反映されていること
-                Assert.AreEqual(instance[0][i].Type, values[typesIndex].Type);
-                Assert.AreEqual(instance[0][i], values[typesIndex]);
-
-                typesIndex++;
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 0);
+                Assert.AreEqual(changedFieldCollectionList.Count, 0);
             }
-
-            // 元のデータ（挿入箇所より後）が変化していないこと
-            var offset = values.Count;
-            if (initItemList != null)
+            else
             {
-                for (; i < resultLength; i++)
-                {
-                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i - offset].Type);
-                    if (instance[0][i].Type == DBItemType.Int)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) (i - offset));
-                    }
-                    else if (instance[0][i].Type == DBItemType.String)
-                    {
-                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) (i - offset).ToString());
-                    }
-                    else
-                    {
-                        // 来ないはず
-                        Assert.Fail();
-                    }
-                }
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 2);
+                Assert.IsTrue(changedFieldPropertyList[0].Equals(nameof(DBItemValueList.Count)));
+                Assert.IsTrue(changedFieldPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Add);
             }
         }
 
@@ -1724,6 +2101,14 @@ namespace WodiLib.Test.Database
             var instance = initItemList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
 
             var errorOccured = false;
             try
@@ -1739,51 +2124,71 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured || initItemList == null) return;
-
-            // データ数が意図した数であること
-            var beforeLength = initLength;
-            var resultLength = beforeLength - 1;
-            Assert.AreEqual(instance[0].Count, resultLength);
-
-            // 元のデータ（除去箇所より前）が変化していないこと
-            var i = 0;
-            for (; i < index; i++)
+            if (!(errorOccured || initItemList == null))
             {
-                Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
-                if (instance[0][i].Type == DBItemType.Int)
+                // データ数が意図した数であること
+                var beforeLength = initLength;
+                var resultLength = beforeLength - 1;
+                Assert.AreEqual(instance[0].Count, resultLength);
+
+                // 元のデータ（除去箇所より前）が変化していないこと
+                var i = 0;
+                for (; i < index; i++)
                 {
-                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                    if (instance[0][i].Type == DBItemType.Int)
+                    {
+                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                    }
+                    else if (instance[0][i].Type == DBItemType.String)
+                    {
+                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                    }
+                    else
+                    {
+                        // 来ないはず
+                        Assert.Fail();
+                    }
                 }
-                else if (instance[0][i].Type == DBItemType.String)
+
+                // 元のデータ（除去箇所より後）が変化していないこと
+                var offset = 1;
+                for (; i < resultLength; i++)
                 {
-                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
-                }
-                else
-                {
-                    // 来ないはず
-                    Assert.Fail();
+                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i + offset].Type);
+                    if (instance[0][i].Type == DBItemType.Int)
+                    {
+                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) (i + offset));
+                    }
+                    else if (instance[0][i].Type == DBItemType.String)
+                    {
+                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) (i + offset).ToString());
+                    }
+                    else
+                    {
+                        // 来ないはず
+                        Assert.Fail();
+                    }
                 }
             }
 
-            // 元のデータ（除去箇所より後）が変化していないこと
-            var offset = 1;
-            for (; i < resultLength; i++)
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured || initItemList == null)
             {
-                Assert.AreEqual(instance[0][i].Type, initItemList[0][i + offset].Type);
-                if (instance[0][i].Type == DBItemType.Int)
-                {
-                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) (i + offset));
-                }
-                else if (instance[0][i].Type == DBItemType.String)
-                {
-                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) (i + offset).ToString());
-                }
-                else
-                {
-                    // 来ないはず
-                    Assert.Fail();
-                }
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 0);
+                Assert.AreEqual(changedFieldCollectionList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 2);
+                Assert.IsTrue(changedFieldPropertyList[0].Equals(nameof(DBItemValueList.Count)));
+                Assert.IsTrue(changedFieldPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Remove);
             }
         }
 
@@ -1836,6 +2241,14 @@ namespace WodiLib.Test.Database
             var instance = initItemList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
 
             var errorOccured = false;
             try
@@ -1851,51 +2264,71 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured || initItemList == null) return;
-
-            // データ数が意図した数であること
-            var beforeLength = initLength;
-            var resultLength = beforeLength - count;
-            Assert.AreEqual(instance[0].Count, resultLength);
-
-            // 元のデータ（除去箇所より前）が変化していないこと
-            var i = 0;
-            for (; i < index; i++)
+            if (!(errorOccured || initItemList == null))
             {
-                Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
-                if (instance[0][i].Type == DBItemType.Int)
+                // データ数が意図した数であること
+                var beforeLength = initLength;
+                var resultLength = beforeLength - count;
+                Assert.AreEqual(instance[0].Count, resultLength);
+
+                // 元のデータ（除去箇所より前）が変化していないこと
+                var i = 0;
+                for (; i < index; i++)
                 {
-                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i].Type);
+                    if (instance[0][i].Type == DBItemType.Int)
+                    {
+                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) i);
+                    }
+                    else if (instance[0][i].Type == DBItemType.String)
+                    {
+                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
+                    }
+                    else
+                    {
+                        // 来ないはず
+                        Assert.Fail();
+                    }
                 }
-                else if (instance[0][i].Type == DBItemType.String)
+
+                // 元のデータ（除去箇所より後）が変化していないこと
+                var offset = count;
+                for (; i < resultLength; i++)
                 {
-                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) i.ToString());
-                }
-                else
-                {
-                    // 来ないはず
-                    Assert.Fail();
+                    Assert.AreEqual(instance[0][i].Type, initItemList[0][i + offset].Type);
+                    if (instance[0][i].Type == DBItemType.Int)
+                    {
+                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) (i + offset));
+                    }
+                    else if (instance[0][i].Type == DBItemType.String)
+                    {
+                        Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) (i + offset).ToString());
+                    }
+                    else
+                    {
+                        // 来ないはず
+                        Assert.Fail();
+                    }
                 }
             }
 
-            // 元のデータ（除去箇所より後）が変化していないこと
-            var offset = count;
-            for (; i < resultLength; i++)
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured || initItemList == null)
             {
-                Assert.AreEqual(instance[0][i].Type, initItemList[0][i + offset].Type);
-                if (instance[0][i].Type == DBItemType.Int)
-                {
-                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueInt) (i + offset));
-                }
-                else if (instance[0][i].Type == DBItemType.String)
-                {
-                    Assert.AreEqual(instance[0][i], (DBItemValue) (DBValueString) (i + offset).ToString());
-                }
-                else
-                {
-                    // 来ないはず
-                    Assert.Fail();
-                }
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 0);
+                Assert.AreEqual(changedFieldCollectionList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 2);
+                Assert.IsTrue(changedFieldPropertyList[0].Equals(nameof(DBItemValueList.Count)));
+                Assert.IsTrue(changedFieldPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Remove);
             }
         }
 
@@ -1908,6 +2341,14 @@ namespace WodiLib.Test.Database
             var instance = initItemList == null
                 ? new DBItemValuesList()
                 : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
 
             var errorOccured = false;
             try
@@ -1925,6 +2366,15 @@ namespace WodiLib.Test.Database
 
             // 項目数が0であること
             Assert.AreEqual(instance[0].Count, 0);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedDataPropertyList.Count, 0);
+            Assert.AreEqual(changedDataCollectionList.Count, 0);
+            Assert.AreEqual(changedFieldPropertyList.Count, 2);
+            Assert.IsTrue(changedFieldPropertyList[0].Equals(nameof(DBItemValueList.Count)));
+            Assert.IsTrue(changedFieldPropertyList[1].Equals(ListConstant.IndexerName));
+            Assert.AreEqual(changedFieldCollectionList.Count, 1);
+            Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Reset);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -1986,6 +2436,434 @@ namespace WodiLib.Test.Database
             // 引数ありで新規Valuesインスタンス生成 - 正常に生成されること
             var _ = instance.CreateValueListInstance(new DBItemValue[]
                 {(DBValueInt) 0, (DBValueInt) 10, (DBValueString) "test"});
+        }
+
+        /// <summary>
+        /// PropertyChanged, CollectionChanged, FieldPropertyChanged, FieldPropertyChanged イベントのテスト
+        /// </summary>
+        /// <remarks>
+        /// DBItemValuesList のインスタンスに対し 各種操作メソッドを実行したうえで
+        /// Field変更が正しく検知できることをテストする。
+        /// </remarks>
+        [Test]
+        public static void ChangedEventTest()
+        {
+            var instance = new DBItemValuesList();
+            var changedPropertyNameList = new List<string>();
+            instance.PropertyChanged += (sender, args) => changedPropertyNameList.Add(args.PropertyName);
+            var changedCollectionArgsList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => changedCollectionArgsList.Add(args);
+            var changedFieldPropertyNameList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => changedFieldPropertyNameList.Add(args.PropertyName);
+            var changedFieldCollectionArgsList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => changedFieldCollectionArgsList.Add(args);
+
+            var clearNotifications = new Action(() =>
+            {
+                changedPropertyNameList.Clear();
+                changedCollectionArgsList.Clear();
+                changedFieldPropertyNameList.Clear();
+                changedFieldCollectionArgsList.Clear();
+            });
+
+            var checkChangeFieldState = new Action(() =>
+            {
+                instance.AddField(DBItemType.Int);
+
+                // 各変更通知が意図したとおり発火していること
+                Assert.AreEqual(changedPropertyNameList.Count, 0);
+                Assert.AreEqual(changedCollectionArgsList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyNameList.Count, 2);
+                Assert.IsTrue(changedFieldPropertyNameList[0].Equals(nameof(instance.Count)));
+                Assert.IsTrue(changedFieldPropertyNameList[1].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionArgsList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Add));
+            });
+
+            {
+                // Before
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // Add
+                {
+                    // Execute
+                    instance.Add(instance.CreateValueListInstance());
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 2);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(nameof(instance.Count)));
+                    Assert.IsTrue(changedPropertyNameList[1].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Add));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // AddRange
+                {
+                    // Execute
+                    instance.AddRange(new[] {instance.CreateValueListInstance(), instance.CreateValueListInstance()});
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 2);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(nameof(instance.Count)));
+                    Assert.IsTrue(changedPropertyNameList[1].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Add));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // Insert Index 1
+                {
+                    // Execute
+                    instance.Insert(1, instance.CreateValueListInstance());
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 2);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(nameof(instance.Count)));
+                    Assert.IsTrue(changedPropertyNameList[1].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Add));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // Insert Index 0
+                {
+                    // Execute
+                    instance.Insert(0, instance.CreateValueListInstance());
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 2);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(nameof(instance.Count)));
+                    Assert.IsTrue(changedPropertyNameList[1].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Add));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // InsertRange Index 1
+                {
+                    // Execute
+                    instance.InsertRange(1,
+                        new[]
+                        {
+                            instance.CreateValueListInstance(), instance.CreateValueListInstance(),
+                            instance.CreateValueListInstance(), instance.CreateValueListInstance()
+                        });
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 2);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(nameof(instance.Count)));
+                    Assert.IsTrue(changedPropertyNameList[1].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Add));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // InsertRange Index 0
+                {
+                    // Execute
+                    instance.InsertRange(0,
+                        new[]
+                        {
+                            instance.CreateValueListInstance(), instance.CreateValueListInstance(),
+                            instance.CreateValueListInstance(), instance.CreateValueListInstance()
+                        });
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 2);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(nameof(instance.Count)));
+                    Assert.IsTrue(changedPropertyNameList[1].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Add));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // Move 1 to 2
+                {
+                    // Execute
+                    instance.Move(1, 2);
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 1);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Move));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // Move 0 to 2
+                {
+                    // Execute
+                    instance.Move(0, 2);
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 1);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Move));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // Move 2 to 0
+                {
+                    // Execute
+                    instance.Move(0, 2);
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 1);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Move));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // Move 0 to 0
+                {
+                    // Execute
+                    instance.Move(0, 0);
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 1);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Move));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // Remove 1
+                {
+                    // Execute
+                    instance.RemoveAt(1);
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 2);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(nameof(instance.Count)));
+                    Assert.IsTrue(changedPropertyNameList[1].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Remove));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // Remove 0
+                {
+                    // Execute
+                    instance.RemoveAt(0);
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 2);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(nameof(instance.Count)));
+                    Assert.IsTrue(changedPropertyNameList[1].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Remove));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // RemoveRange 1 of 2
+                {
+                    // Execute
+                    instance.RemoveRange(1, 2);
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 2);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(nameof(instance.Count)));
+                    Assert.IsTrue(changedPropertyNameList[1].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Remove));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // RemoveRange 0 of 2
+                {
+                    // Execute
+                    instance.RemoveRange(0, 2);
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 2);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(nameof(instance.Count)));
+                    Assert.IsTrue(changedPropertyNameList[1].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Remove));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // Set 1
+                {
+                    // Execute
+                    instance[1] = instance.CreateValueListInstance();
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 1);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Replace));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // Set 0
+                {
+                    // Execute
+                    instance[0] = instance.CreateValueListInstance();
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 1);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Replace));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
+
+            {
+                // Clear
+                {
+                    // Execute
+                    instance.Clear();
+
+                    // 各変更通知が意図したとおり発火していること
+                    Assert.AreEqual(changedPropertyNameList.Count, 2);
+                    Assert.IsTrue(changedPropertyNameList[0].Equals(nameof(instance.Count)));
+                    Assert.IsTrue(changedPropertyNameList[1].Equals(ListConstant.IndexerName));
+                    Assert.AreEqual(changedCollectionArgsList.Count, 1);
+                    Assert.IsTrue(changedCollectionArgsList[0].Action.Equals(NotifyCollectionChangedAction.Reset));
+                    Assert.AreEqual(changedFieldPropertyNameList.Count, 0);
+                    Assert.AreEqual(changedFieldCollectionArgsList.Count, 0);
+                }
+                clearNotifications.Invoke();
+
+                // Change Field state
+                checkChangeFieldState();
+                clearNotifications.Invoke();
+            }
         }
 
         [Test]

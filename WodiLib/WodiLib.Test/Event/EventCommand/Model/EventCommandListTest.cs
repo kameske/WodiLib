@@ -81,9 +81,14 @@ namespace WodiLib.Test.Event.EventCommand.Model
         {
             var instance = new EventCommandList(commands);
             var validFlag = instance.Validate();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             // エラーフラグが一致すること
             Assert.AreEqual(validFlag, result);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Map;
 using WodiLib.Sys.Cmn;
@@ -48,6 +49,8 @@ namespace WodiLib.Test.Map
         public static void PathPermissionTest()
         {
             var instance = new TilePathSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -62,6 +65,9 @@ namespace WodiLib.Test.Map
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [TestCase(0x00_00, true)]
@@ -70,6 +76,8 @@ namespace WodiLib.Test.Map
         public static void ImpassableFlagsTest(int code, bool isError)
         {
             var instance = new TilePathSetting(code);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -84,6 +92,9 @@ namespace WodiLib.Test.Map
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] PathOptionTestCaseSource =
@@ -96,6 +107,8 @@ namespace WodiLib.Test.Map
         public static void PathOptionTest(TilePathOption option, bool isError)
         {
             var instance = new TilePathSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -111,12 +124,24 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var value = instance.PathOption;
 
-            var value = instance.PathOption;
+                // セットした値と取得した値が一致すること
+                Assert.AreEqual(value, option);
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.AreEqual(value, option);
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(TilePathSetting.PathOption)));
+            }
         }
 
         [TestCase(0x00_00, false)]
@@ -125,6 +150,8 @@ namespace WodiLib.Test.Map
         public static void CannotPassingFlagsTest(int code, bool isError)
         {
             var instance = new TilePathSetting(code);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -139,6 +166,9 @@ namespace WodiLib.Test.Map
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
@@ -146,6 +176,8 @@ namespace WodiLib.Test.Map
         {
             const bool setValue = true;
             var instance = new TilePathSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -165,6 +197,10 @@ namespace WodiLib.Test.Map
 
             // セットした値と取得した値が一致すること
             Assert.AreEqual(value, setValue);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(TilePathSetting.IsCounter)));
         }
 
         private static readonly object[] ChangePathPermissionAllowTestCaseSource =
@@ -177,6 +213,8 @@ namespace WodiLib.Test.Map
         public static void ChangePathPermissionAllowTest(TileCannotPassingFlags flags, bool isError)
         {
             var instance = new TilePathSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -192,13 +230,29 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                // 通行許可設定が"許可"になっていること
+                Assert.AreEqual(instance.PathPermission, TilePathPermission.Allow);
 
-            // 通行許可設定が"許可"になっていること
-            Assert.AreEqual(instance.PathPermission, TilePathPermission.Allow);
+                // 通行方向設定がセットした値と一致すること（設定を指定しなかった場合デフォルト値が設定されていること）
+                Assert.IsTrue(instance.CannotPassingFlags.Equals(flags ?? new TileCannotPassingFlags()));
+            }
 
-            // 通行方向設定がセットした値と一致すること（設定を指定しなかった場合デフォルト値が設定されていること）
-            Assert.IsTrue(instance.CannotPassingFlags.Equals(flags ?? new TileCannotPassingFlags()));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 5);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(TilePathSetting.PathPermission)));
+                Assert.IsTrue(changedPropertyList[1].Equals(nameof(TilePathSetting.ImpassableFlags)));
+                Assert.IsTrue(changedPropertyList[2].Equals(nameof(TilePathSetting.PathOption)));
+                Assert.IsTrue(changedPropertyList[3].Equals(nameof(TilePathSetting.CannotPassingFlags)));
+                Assert.IsTrue(changedPropertyList[4].Equals(nameof(TilePathSetting.IsCounter)));
+            }
         }
 
         private static readonly object[] ChangePathPermissionDependentTestCaseSource =
@@ -211,6 +265,8 @@ namespace WodiLib.Test.Map
         public static void ChangePathPermissionDependentTest(TileCannotPassingFlags flags, bool isError)
         {
             var instance = new TilePathSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -226,19 +282,37 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                // 通行許可設定が"下レイヤーに依存"になっていること
+                Assert.AreEqual(instance.PathPermission, TilePathPermission.Dependent);
 
-            // 通行許可設定が"下レイヤーに依存"になっていること
-            Assert.AreEqual(instance.PathPermission, TilePathPermission.Dependent);
+                // 通行方向設定がセットした値と一致すること（設定を指定しなかった場合デフォルト値が設定されていること）
+                Assert.IsTrue(instance.CannotPassingFlags.Equals(flags ?? new TileCannotPassingFlags()));
+            }
 
-            // 通行方向設定がセットした値と一致すること（設定を指定しなかった場合デフォルト値が設定されていること）
-            Assert.IsTrue(instance.CannotPassingFlags.Equals(flags ?? new TileCannotPassingFlags()));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 5);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(TilePathSetting.PathPermission)));
+                Assert.IsTrue(changedPropertyList[1].Equals(nameof(TilePathSetting.ImpassableFlags)));
+                Assert.IsTrue(changedPropertyList[2].Equals(nameof(TilePathSetting.PathOption)));
+                Assert.IsTrue(changedPropertyList[3].Equals(nameof(TilePathSetting.CannotPassingFlags)));
+                Assert.IsTrue(changedPropertyList[4].Equals(nameof(TilePathSetting.IsCounter)));
+            }
         }
 
         [Test]
         public static void ChangePathPermissionDenyTest()
         {
             var instance = new TilePathSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -256,6 +330,14 @@ namespace WodiLib.Test.Map
 
             // 通行許可設定が"通行不可"になっていること
             Assert.AreEqual(instance.PathPermission, TilePathPermission.Deny);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 5);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(TilePathSetting.PathPermission)));
+            Assert.IsTrue(changedPropertyList[1].Equals(nameof(TilePathSetting.ImpassableFlags)));
+            Assert.IsTrue(changedPropertyList[2].Equals(nameof(TilePathSetting.PathOption)));
+            Assert.IsTrue(changedPropertyList[3].Equals(nameof(TilePathSetting.CannotPassingFlags)));
+            Assert.IsTrue(changedPropertyList[4].Equals(nameof(TilePathSetting.IsCounter)));
         }
 
         private static readonly object[] ChangePathPermissionPartialDenyTestCaseSource =
@@ -268,6 +350,8 @@ namespace WodiLib.Test.Map
         public static void ChangePathPermissionPartialDenyTest(TileImpassableFlags flags, bool isError)
         {
             var instance = new TilePathSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -283,13 +367,29 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                // 通行許可設定が"部分的に通行不可"になっていること
+                Assert.AreEqual(instance.PathPermission, TilePathPermission.PartialDeny);
 
-            // 通行許可設定が"部分的に通行不可"になっていること
-            Assert.AreEqual(instance.PathPermission, TilePathPermission.PartialDeny);
+                // 通行許可設定がセットした値と一致すること（設定を指定しなかった場合デフォルト値が設定されていること）
+                Assert.IsTrue(instance.ImpassableFlags.Equals(flags ?? new TileImpassableFlags()));
+            }
 
-            // 通行許可設定がセットした値と一致すること（設定を指定しなかった場合デフォルト値が設定されていること）
-            Assert.IsTrue(instance.ImpassableFlags.Equals(flags ?? new TileImpassableFlags()));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 5);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(TilePathSetting.PathPermission)));
+                Assert.IsTrue(changedPropertyList[1].Equals(nameof(TilePathSetting.ImpassableFlags)));
+                Assert.IsTrue(changedPropertyList[2].Equals(nameof(TilePathSetting.PathOption)));
+                Assert.IsTrue(changedPropertyList[3].Equals(nameof(TilePathSetting.CannotPassingFlags)));
+                Assert.IsTrue(changedPropertyList[4].Equals(nameof(TilePathSetting.IsCounter)));
+            }
         }
 
         [Test]

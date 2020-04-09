@@ -176,6 +176,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ShakeType)));
                 shakeType = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -190,6 +191,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Power)));
                 power = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -204,10 +206,21 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Speed)));
                 speed = value;
+                NotifyPropertyChanged();
             }
         }
 
+        private int duration;
+
         /// <summary>処理時間</summary>
-        public int Duration { get; set; }
+        public int Duration
+        {
+            get => duration;
+            set
+            {
+                duration = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }

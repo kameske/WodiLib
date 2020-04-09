@@ -88,42 +88,66 @@ namespace WodiLib.Event.EventCommand
         public int Target
         {
             get => _Target;
-            set => _Target = value;
+            set
+            {
+                _Target = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>移動先マップ</summary>
         public int DestinationMapId
         {
             get => _DestinationMapId;
-            set => _DestinationMapId = value;
+            set
+            {
+                _DestinationMapId = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>同じマップ</summary>
         public bool IsSameMap
         {
             get => _IsSameMap;
-            set => _IsSameMap = value;
+            set
+            {
+                _IsSameMap = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>移動先座標X</summary>
         public int PositionX
         {
             get => _PositionX;
-            set => _PositionX = value;
+            set
+            {
+                _PositionX = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>移動先座標Y</summary>
         public int PositionY
         {
             get => _PositionY;
-            set => _PositionY = value;
+            set
+            {
+                _PositionY = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>精密座標</summary>
         public bool IsPreciseCoordinates
         {
             get => _IsPreciseCoordinates;
-            set => _IsPreciseCoordinates = value;
+            set
+            {
+                _IsPreciseCoordinates = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>[NotNull] 場所移動時トランジションオプション</summary>
@@ -137,6 +161,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(TransferOption)));
                 _TransferOption = value;
+                NotifyPropertyChanged();
             }
         }
     }

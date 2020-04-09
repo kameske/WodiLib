@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using WodiLib.Database;
 using WodiLib.Sys;
@@ -18,8 +19,8 @@ namespace WodiLib.Common
     /// コモンイベント数値引数特殊指定情報クラス
     /// </summary>
     [Serializable]
-    public partial class CommonEventSpecialNumberArgDesc : ICommonEventSpecialArgDesc,
-        IEquatable<CommonEventSpecialNumberArgDesc>
+    public partial class CommonEventSpecialNumberArgDesc : ModelBase<CommonEventSpecialNumberArgDesc>,
+        ICommonEventSpecialArgDesc
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -40,6 +41,7 @@ namespace WodiLib.Common
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ArgName)));
                 argName = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -52,7 +54,7 @@ namespace WodiLib.Common
         /// DB参照時のDB種別
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
-        public DBKind DatabaseUseDbKind => InnerDesc.DatabaseDbKind;
+        public DBKind DatabaseUseDbKind => InnerDesc.DatabaseUseDbKind;
 
         /// <summary>
         /// DB参照時のタイプID
@@ -67,19 +69,73 @@ namespace WodiLib.Common
         /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
         public bool DatabaseUseAdditionalItemsFlag => InnerDesc.DatabaseUseAdditionalItemsFlag;
 
+        private CommonEventNumberArgInitValue initValue;
+
         /// <summary>
         /// 数値引数の初期値
         /// </summary>
-        public CommonEventNumberArgInitValue InitValue { get; set; }
+        public CommonEventNumberArgInitValue InitValue
+        {
+            get => initValue;
+            set
+            {
+                initValue = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// 【読み取り専用】選択肢情報リスト
+        /// </summary>
+        public IReadOnlyCommonEventSpecialArgCaseList SpecialArgCaseList
+            => InnerDesc.SpecialArgCaseList;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private IInnerDesc innerDesc = new InnerDescNormal();
+
         /// <summary>
         /// 情報内部クラス
         /// </summary>
-        private IInnerDesc InnerDesc { get; set; } = new InnerDescNormal();
+        private IInnerDesc InnerDesc
+        {
+            get => innerDesc;
+            set
+            {
+                innerDesc.PropertyChanged -= InnerDescNotifyChanged;
+                innerDesc = value;
+                innerDesc.PropertyChanged += InnerDescNotifyChanged;
+                NotifyPropertyChanged(nameof(ArgType));
+                NotifyPropertyChanged(nameof(DatabaseUseDbKind));
+                NotifyPropertyChanged(nameof(DatabaseDbTypeId));
+                NotifyPropertyChanged(nameof(DatabaseUseAdditionalItemsFlag));
+                NotifyPropertyChanged(nameof(SpecialArgCaseList));
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 情報内部クラスプロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void InnerDescNotifyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(IInnerDesc.ArgType):
+                case nameof(IInnerDesc.DatabaseUseDbKind):
+                case nameof(IInnerDesc.DatabaseDbTypeId):
+                case nameof(IInnerDesc.DatabaseUseAdditionalItemsFlag):
+                    NotifyPropertyChanged(args.PropertyName);
+                    break;
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
@@ -91,7 +147,8 @@ namespace WodiLib.Common
         /// <param name="type">[NotNull] 特殊指定タイプ</param>
         /// <param name="argCases">[Nullable] 選択肢リスト</param>
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
-        public void ChangeArgType(CommonEventArgType type, IEnumerable<CommonEventSpecialArgCase> argCases)
+        public void ChangeArgType(CommonEventArgType type,
+            IEnumerable<CommonEventSpecialArgCase> argCases)
         {
             if (type is null)
                 throw new ArgumentNullException(
@@ -166,7 +223,7 @@ namespace WodiLib.Common
 
             if (!(other is CommonEventSpecialNumberArgDesc casted)) return false;
 
-            return Equals(casted);
+            return Equals((IEquatable<CommonEventSpecialNumberArgDesc>) casted);
         }
 
         /// <summary>
@@ -174,7 +231,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(CommonEventSpecialNumberArgDesc other)
+        public override bool Equals(CommonEventSpecialNumberArgDesc other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

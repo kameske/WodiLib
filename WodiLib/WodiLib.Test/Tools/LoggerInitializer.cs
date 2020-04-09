@@ -5,6 +5,9 @@ namespace WodiLib.Test.Tools
 {
     public static class LoggerInitializer
     {
+        public static readonly string KeyNameForDebug = "forDebug";
+        public static readonly string KeyNameForProjectTest = "forProjectTest";
+
         /// <summary>
         /// デバッグ用WodiLibLoggerのセットを行う
         /// </summary>
@@ -17,7 +20,7 @@ namespace WodiLib.Test.Tools
                 Console.WriteLine
             );
 
-            WodiLibLogger.ChangeTargetKey("forDebug");
+            WodiLibLogger.ChangeTargetKey(KeyNameForDebug);
             WodiLibLogger.SetLogHandler(logHandler);
         }
 
@@ -32,7 +35,7 @@ namespace WodiLib.Test.Tools
                 Console.WriteLine
             );
 
-            WodiLibLogger.ChangeTargetKey("forProjectTest");
+            WodiLibLogger.ChangeTargetKey(KeyNameForProjectTest);
             WodiLibLogger.SetLogHandler(logHandler);
         }
     }

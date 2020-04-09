@@ -180,14 +180,44 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int transitionId;
+
         /// <summary>トランジション</summary>
-        public int TransitionId { get; set; }
+        public int TransitionId
+        {
+            get => transitionId;
+            set
+            {
+                transitionId = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int fadeTime;
 
         /// <summary>フェード時間</summary>
-        public int FadeTime { get; set; }
+        public int FadeTime
+        {
+            get => fadeTime;
+            set
+            {
+                fadeTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isWaitForComplete;
 
         /// <summary>完了までウェイト</summary>
-        public bool IsWaitForComplete { get; set; }
+        public bool IsWaitForComplete
+        {
+            get => isWaitForComplete;
+            set
+            {
+                isWaitForComplete = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Property

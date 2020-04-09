@@ -55,7 +55,11 @@ namespace WodiLib.Event.EventCommand
         public int EventId
         {
             get => EventIdOrName.ToInt();
-            set => EventIdOrName = value;
+            set
+            {
+                EventIdOrName = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <inheritdoc />

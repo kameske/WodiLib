@@ -138,6 +138,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(LabelName)));
                 labelName = value;
+                NotifyPropertyChanged();
             }
         }
     }

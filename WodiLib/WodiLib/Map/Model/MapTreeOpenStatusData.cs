@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// マップツリー開閉状態データ
     /// </summary>
     [Serializable]
-    public class MapTreeOpenStatusData : IEquatable<MapTreeOpenStatusData>
+    public class MapTreeOpenStatusData : ModelBase<MapTreeOpenStatusData>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -58,6 +58,7 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(StatusList)));
                 statusList = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -70,7 +71,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(MapTreeOpenStatusData other)
+        public override bool Equals(MapTreeOpenStatusData other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

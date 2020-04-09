@@ -50,34 +50,55 @@ namespace WodiLib.Database
                         ErrorMessage.NotNull(nameof(DatabaseReferKind)));
 
                 databaseDbKind = value;
+                NotifyPropertyChanged();
             }
         }
+
+        private TypeId databaseDbTypeId = 0;
 
         /// <inheritdoc />
         /// <summary>
         /// DB参照時のタイプID
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
-        public override TypeId DatabaseDbTypeId { get; set; } = 0;
+        public override TypeId DatabaseDbTypeId
+        {
+            get => databaseDbTypeId;
+            set
+            {
+                databaseDbTypeId = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool databaseUseAdditionalItemsFlag;
 
         /// <inheritdoc />
         /// <summary>
         /// DB参照時の追加項目使用フラグ
         /// </summary>
         /// <exception cref="PropertyException">参照種別が「データベース参照」以外の場合</exception>
-        public override bool DatabaseUseAdditionalItemsFlag { get; set; }
+        public override bool DatabaseUseAdditionalItemsFlag
+        {
+            get => databaseUseAdditionalItemsFlag;
+            set
+            {
+                databaseUseAdditionalItemsFlag = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// デフォルト設定値種別
         /// </summary>
         public override DBItemType DefaultType => DBItemType.Int;
 
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        private DatabaseValueCaseList argCaseList = new DatabaseValueCaseList();
 
-        /// <summary>選択肢リスト</summary>
-        private DatabaseValueCaseList ArgCaseList { get; set; }
+        /// <summary>
+        /// 選択肢リスト
+        /// </summary>
+        public override IReadOnlyDatabaseValueCaseList ArgCaseList => argCaseList;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -104,7 +125,7 @@ namespace WodiLib.Database
         {
             // -1～-3を使用しない場合は空リストで良い
             if (!DatabaseUseAdditionalItemsFlag) return new List<DatabaseValueCase>();
-            return ArgCaseList.ToList();
+            return argCaseList.ToList();
         }
 
         /// <inheritdoc />
@@ -131,7 +152,7 @@ namespace WodiLib.Database
         {
             if (!DatabaseUseAdditionalItemsFlag) return new List<DatabaseValueCaseDescription>();
 
-            return ArgCaseList.Select(x => x.Description)
+            return argCaseList.Select(x => x.Description)
                 .ToList();
         }
 
@@ -150,7 +171,7 @@ namespace WodiLib.Database
             var argCase = new DatabaseValueCase(caseNumber, description);
             var innerCaseNumber = caseNumber * -1 - 1;
 
-            ArgCaseList[innerCaseNumber] = argCase;
+            argCaseList[innerCaseNumber] = argCase;
         }
 
         /// <summary>
@@ -188,6 +209,21 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
+        public override bool Equals(DBItemSettingDescBase other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            if (!(other is DBItemSettingDescDatabase casted)) return false;
+
+            return Equals(casted);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
         public bool Equals(DBItemSettingDescDatabase other)
         {
             if (ReferenceEquals(this, other)) return true;
@@ -196,7 +232,7 @@ namespace WodiLib.Database
             return DatabaseDbTypeId == other.DatabaseDbTypeId
                    && DatabaseUseAdditionalItemsFlag == other.DatabaseUseAdditionalItemsFlag
                    && DatabaseReferKind == other.DatabaseReferKind
-                   && ArgCaseList.Equals(other.ArgCaseList);
+                   && argCaseList.Equals(other.argCaseList);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -209,7 +245,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
         private void ClearDatabaseSpecialCase()
         {
-            ArgCaseList = new DatabaseValueCaseList(new[]
+            argCaseList = new DatabaseValueCaseList(new[]
             {
                 new DatabaseValueCase(-1, ""),
                 new DatabaseValueCase(-2, ""),
@@ -232,7 +268,7 @@ namespace WodiLib.Database
             info.AddValue(nameof(databaseDbKind), databaseDbKind.Code);
             info.AddValue(nameof(DatabaseDbTypeId), DatabaseDbTypeId);
             info.AddValue(nameof(DatabaseUseAdditionalItemsFlag), DatabaseUseAdditionalItemsFlag);
-            info.AddValue(nameof(ArgCaseList), ArgCaseList);
+            info.AddValue(nameof(argCaseList), argCaseList);
         }
 
         /// <summary>
@@ -246,7 +282,7 @@ namespace WodiLib.Database
             databaseDbKind = DBReferType.FromCode(info.GetInt32(nameof(databaseDbKind)));
             DatabaseDbTypeId = info.GetInt32(nameof(DatabaseDbTypeId));
             DatabaseUseAdditionalItemsFlag = info.GetBoolean(nameof(DatabaseUseAdditionalItemsFlag));
-            ArgCaseList = info.GetValue<DatabaseValueCaseList>(nameof(ArgCaseList));
+            argCaseList = info.GetValue<DatabaseValueCaseList>(nameof(argCaseList));
         }
     }
 }

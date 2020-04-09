@@ -185,6 +185,8 @@ namespace WodiLib.Event.EventCommand
             {
                 isReset = value;
                 if (value) changeChipId = InitializeChipId;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(ChangeChipId));
             }
         }
 
@@ -198,6 +200,8 @@ namespace WodiLib.Event.EventCommand
             {
                 changeChipId = value;
                 isReset = changeChipId == InitializeChipId;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(IsReset));
             }
         }
 
@@ -258,6 +262,48 @@ namespace WodiLib.Event.EventCommand
             get => settings.IsCounter;
             set => settings.IsCounter = value;
         }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// マップチップ通行設定プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(MapChipSettings.IsNoUp):
+                case nameof(MapChipSettings.IsNoLeft):
+                case nameof(MapChipSettings.IsNoRight):
+                case nameof(MapChipSettings.IsNoDown):
+                case nameof(MapChipSettings.IsAboveHero):
+                case nameof(MapChipSettings.IsHalfTrans):
+                case nameof(MapChipSettings.IsMatchLowerLayer):
+                case nameof(MapChipSettings.IsCounter):
+                    NotifyPropertyChanged(args.PropertyName);
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public ChangeMapChipSetting()
+        {
+            settings.PropertyChanged += OnSettingsPropertyChanged;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Inner Class
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         /// 内部マップチップIDを表示マップチップIDに変換するためのクラス

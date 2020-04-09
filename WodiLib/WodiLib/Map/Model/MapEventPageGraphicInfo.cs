@@ -20,16 +20,26 @@ namespace WodiLib.Map
     /// マップイベントページグラフィック情報クラス
     /// </summary>
     [Serializable]
-    public class MapEventPageGraphicInfo : IEquatable<MapEventPageGraphicInfo>, ISerializable
+    public class MapEventPageGraphicInfo : ModelBase<MapEventPageGraphicInfo>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private bool isGraphicTileChip;
+
         /// <summary>
         /// キャラ画像タイルセットフラグ
         /// </summary>
-        public bool IsGraphicTileChip { get; set; }
+        public bool IsGraphicTileChip
+        {
+            get => isGraphicTileChip;
+            set
+            {
+                isGraphicTileChip = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private MapEventTileId graphicTileId;
 
@@ -49,6 +59,7 @@ namespace WodiLib.Map
                     throw new PropertyAccessException(
                         $"{nameof(IsGraphicTileChip)}がtrueの場合のみセットできます。");
                 graphicTileId = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -69,6 +80,7 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(CharaChipFilePath)));
                 charaChipFilePath = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -87,14 +99,35 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(InitDirection)));
                 initDirection = value;
+                NotifyPropertyChanged();
             }
         }
 
+        private AnimationId initAnimationId = 1;
+
         /// <summary>初期キャラアニメーションID</summary>
-        public AnimationId InitAnimationId { get; set; } = (AnimationId) 1;
+        public AnimationId InitAnimationId
+        {
+            get => initAnimationId;
+            set
+            {
+                initAnimationId = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private MapEventOpacity charaChipOpacity = 255;
 
         /// <summary>キャラチップ透過度</summary>
-        public MapEventOpacity CharaChipOpacity { get; set; } = (MapEventOpacity) 255;
+        public MapEventOpacity CharaChipOpacity
+        {
+            get => charaChipOpacity;
+            set
+            {
+                charaChipOpacity = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private PictureDrawType charaChipDrawType = PictureDrawType.Normal;
 
@@ -107,6 +140,7 @@ namespace WodiLib.Map
             {
                 if (value is null) throw new PropertyNullException(ErrorMessage.NotNull(nameof(CharaChipDrawType)));
                 charaChipDrawType = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -117,6 +151,7 @@ namespace WodiLib.Map
         public void SetGraphicTileId(MapEventTileId tileId)
         {
             graphicTileId = tileId;
+            NotifyPropertyChanged(nameof(GraphicTileId));
 
             if (tileId != MapEventTileId.NotUse)
             {
@@ -126,6 +161,7 @@ namespace WodiLib.Map
 
             IsGraphicTileChip = false;
             charaChipFilePath = "";
+            NotifyPropertyChanged(nameof(CharaChipFilePath));
         }
 
         /// <summary>
@@ -164,7 +200,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(MapEventPageGraphicInfo other)
+        public override bool Equals(MapEventPageGraphicInfo other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

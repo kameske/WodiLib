@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Map;
 using WodiLib.Sys.Cmn;
@@ -85,6 +86,8 @@ namespace WodiLib.Test.Map
         public static void PathPermissionTest()
         {
             var instance = new TilePathSettingDependent();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             TilePathPermission result = null;
 
@@ -104,12 +107,17 @@ namespace WodiLib.Test.Map
 
             // 結果が意図した値と一致すること
             Assert.AreEqual(result, TilePathPermission.Dependent);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
         public static void ImpassableFlagsTest()
         {
             var instance = new TilePathSettingDependent();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -124,6 +132,9 @@ namespace WodiLib.Test.Map
 
             // エラーが発生すること
             Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] PathOptionTestCaseSource =
@@ -136,6 +147,8 @@ namespace WodiLib.Test.Map
         public static void PathOptionTest(TilePathOption option, bool isError)
         {
             var instance = new TilePathSettingDependent();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -151,25 +164,37 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
-
-            TilePathOption result = null;
-
-            try
+            if (!errorOccured)
             {
-                result = instance.PathOption;
+                TilePathOption result = null;
+
+                try
+                {
+                    result = instance.PathOption;
+                }
+                catch (Exception ex)
+                {
+                    logger.Exception(ex);
+                    errorOccured = true;
+                }
+
+                // エラーが発生しないこと
+                Assert.IsFalse(errorOccured);
+
+                // 結果が意図した値と一致すること
+                Assert.AreEqual(result, option);
             }
-            catch (Exception ex)
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
             {
-                logger.Exception(ex);
-                errorOccured = true;
+                Assert.AreEqual(changedPropertyList.Count, 0);
             }
-
-            // エラーが発生しないこと
-            Assert.IsFalse(errorOccured);
-
-            // 結果が意図した値と一致すること
-            Assert.AreEqual(result, option);
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(TilePathSettingDependent.PathOption)));
+            }
         }
 
         [Test]
@@ -177,6 +202,8 @@ namespace WodiLib.Test.Map
         {
             var setValue = new TileCannotPassingFlags(0x02);
             var instance = new TilePathSettingDependent(setValue);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             TileCannotPassingFlags result = null;
             var errorOccured = false;
@@ -195,6 +222,9 @@ namespace WodiLib.Test.Map
 
             // 結果が意図した値であること
             Assert.AreEqual(result, setValue);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
@@ -202,7 +232,8 @@ namespace WodiLib.Test.Map
         {
             const bool setValue = true;
             var instance = new TilePathSettingDependent();
-
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -235,6 +266,10 @@ namespace WodiLib.Test.Map
 
             // 結果が意図した値と一致すること
             Assert.AreEqual(result, setValue);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(TilePathSettingDependent.IsCounter)));
         }
 
         [Test]
@@ -244,8 +279,14 @@ namespace WodiLib.Test.Map
             {
                 IsCounter = true
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
     }
 }

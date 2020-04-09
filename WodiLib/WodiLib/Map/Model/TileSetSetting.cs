@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// タイルセット設定
     /// </summary>
     [Serializable]
-    public class TileSetSetting : IEquatable<TileSetSetting>
+    public class TileSetSetting : ModelBase<TileSetSetting>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -50,6 +50,7 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Name)));
                 name = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -68,6 +69,7 @@ namespace WodiLib.Map
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(BaseTileSetFileName)));
                 baseTileSetFileName = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -170,7 +172,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(TileSetSetting other)
+        public override bool Equals(TileSetSetting other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

@@ -14,6 +14,7 @@ namespace WodiLib.Sys
     /// RestrictedCapacityCollection.SetItemイベントハンドラ
     /// </summary>
     /// <typeparam name="T">リスト内包クラス</typeparam>
+    [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
     public class OnSetItemHandler<T> : RestrictedCapacityCollectionHandler<T>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

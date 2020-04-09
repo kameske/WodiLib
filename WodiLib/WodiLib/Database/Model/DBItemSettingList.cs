@@ -141,8 +141,8 @@ namespace WodiLib.Database
             // ---------- 項目メモ、特殊指定文字列パラメータ、特殊指定す内パラメータ、初期値
 
             var itemMemos = new List<ItemMemo>();
-            var specialCaseDescriptions = new List<List<DatabaseValueCaseDescription>>();
-            var specialCaseNumbers = new List<List<DatabaseValueCaseNumber>>();
+            var specialCaseDescriptions = new List<IReadOnlyList<DatabaseValueCaseDescription>>();
+            var specialCaseNumbers = new List<IReadOnlyList<DatabaseValueCaseNumber>>();
             var initValues = new List<DBItemValue>();
 
             var useDataList = Items.Select(x => x.SpecialSettingDesc);
@@ -170,7 +170,7 @@ namespace WodiLib.Database
                 // 文字列パラメータ数
                 result.AddRange(x.Count.ToBytes(Endian.Woditor));
                 // 文字列パラメータ
-                x.ForEach(y =>
+                x.ForEach((y, _) =>
                     result.AddRange(y.ToWoditorStringBytes()));
             });
 
@@ -183,7 +183,7 @@ namespace WodiLib.Database
                 // 数値パラメータ数
                 result.AddRange(x.Count.ToBytes(Endian.Woditor));
                 // 数値パラメータ
-                x.ForEach(y =>
+                x.ForEach((y, _) =>
                     result.AddRange(y.ToBytes(Endian.Woditor)));
             });
 

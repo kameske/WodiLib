@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Database;
 using WodiLib.Sys.Cmn;
@@ -28,6 +29,8 @@ namespace WodiLib.Test.Database
         public static void ItemNameTest(ItemName itemName, bool isSetError)
         {
             var instance = new DBItemSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -65,6 +68,17 @@ namespace WodiLib.Test.Database
                 // 設定した値と取得した値が一致すること
                 Assert.AreEqual(getResult, itemName);
             }
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (isSetError)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBItemSetting.ItemName)));
+            }
         }
 
 
@@ -78,6 +92,8 @@ namespace WodiLib.Test.Database
         public static void SpecialSettingDescTest(DBItemSpecialSettingDesc desc, bool isSetError)
         {
             var instance = new DBItemSetting();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -106,6 +122,17 @@ namespace WodiLib.Test.Database
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (isSetError)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBItemSetting.SpecialSettingDesc)));
+            }
         }
 
         private static readonly object[] ItemTypeTestCaseSource =
@@ -134,6 +161,8 @@ namespace WodiLib.Test.Database
             {
                 SpecialSettingDesc = specialDesc
             };
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -162,6 +191,17 @@ namespace WodiLib.Test.Database
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (isSetError)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBItemSetting.ItemType)));
+            }
         }
 
         [TestCase("Same")]
@@ -180,6 +220,8 @@ namespace WodiLib.Test.Database
                 ItemType = DBItemType.Int,
                 SpecialSettingDesc = specialDesc
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             DBItemSetting another = null;
             bool result = false;
@@ -225,6 +267,9 @@ namespace WodiLib.Test.Database
 
             // 結果が意図した値と一致すること
             Assert.AreEqual(target.Equals(another), result);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [Test]
@@ -234,8 +279,14 @@ namespace WodiLib.Test.Database
             {
                 ItemName = "ItemName"
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
     }
 }

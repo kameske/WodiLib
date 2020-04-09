@@ -41,8 +41,18 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int memberId;
+
         /// <summary>X人目</summary>
-        public int MemberId { get; set; }
+        public int MemberId
+        {
+            get => memberId;
+            set
+            {
+                memberId = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>処理内容</summary>
         protected override byte ExecCode

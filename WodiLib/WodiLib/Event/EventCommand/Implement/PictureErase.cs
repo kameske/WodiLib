@@ -208,20 +208,70 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int pictureNumber;
+
         /// <summary>ピクチャ番号</summary>
-        public int PictureNumber { get; set; }
+        public int PictureNumber
+        {
+            get => pictureNumber;
+            set
+            {
+                pictureNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isMultiTarget;
 
         /// <summary>連続ピクチャ操作フラグ</summary>
-        public bool IsMultiTarget { get; set; }
+        public bool IsMultiTarget
+        {
+            get => isMultiTarget;
+            set
+            {
+                isMultiTarget = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int sequenceValue;
 
         /// <summary>連続ピクチャ数</summary>
-        public int SequenceValue { get; set; }
+        public int SequenceValue
+        {
+            get => sequenceValue;
+            set
+            {
+                sequenceValue = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int processTime;
 
         /// <summary>処理時間</summary>
-        public int ProcessTime { get; set; }
+        public int ProcessTime
+        {
+            get => processTime;
+            set
+            {
+                processTime = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private int delay;
 
         /// <summary>発動ディレイ</summary>
-        public int Delay { get; set; }
+        public int Delay
+        {
+            get => delay;
+            set
+            {
+                delay = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Const

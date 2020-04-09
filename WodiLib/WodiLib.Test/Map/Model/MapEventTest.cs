@@ -25,6 +25,9 @@ namespace WodiLib.Test.Map
         public static void SetMapEventPagesTest(int length, bool isError)
         {
             var instance = new MapEvent();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var setPages = length == -1 ? null : GenerateMapEventOnePageList(length);
 
             var errorOccured = false;
@@ -46,6 +49,18 @@ namespace WodiLib.Test.Map
                 // ページ数が正しく取得できること
                 Assert.AreEqual(instance.PageValue, length);
             }
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 2);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapEvent.MapEventPageList)));
+                Assert.IsTrue(changedPropertyList[1].Equals(nameof(MapEvent.PageValue)));
+            }
         }
 
         [Test]
@@ -55,8 +70,14 @@ namespace WodiLib.Test.Map
             {
                 EventName = "Name",
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static MapEventPageList GenerateMapEventOnePageList(int length)

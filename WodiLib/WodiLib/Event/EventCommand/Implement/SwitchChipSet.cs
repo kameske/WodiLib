@@ -129,7 +129,17 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int chipSetId;
+
         /// <summary>チップセットID</summary>
-        public int ChipSetId { get; set; }
+        public int ChipSetId
+        {
+            get => chipSetId;
+            set
+            {
+                chipSetId = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }

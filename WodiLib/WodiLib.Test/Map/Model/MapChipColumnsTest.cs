@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using NUnit.Framework;
 using WodiLib.Map;
@@ -216,6 +217,10 @@ namespace WodiLib.Test.Map
             var chips = MakeMapChipList(initLength);
 
             var instance = new MapChipColumns(chips);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            var changedCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedCollectionList.Add(args); };
 
             var errorOccured = false;
             try
@@ -257,8 +262,14 @@ namespace WodiLib.Test.Map
             {
                 [3] = 10,
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
 

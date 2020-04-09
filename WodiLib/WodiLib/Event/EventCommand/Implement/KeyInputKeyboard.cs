@@ -51,7 +51,7 @@ namespace WodiLib.Event.EventCommand
             get
             {
                 if (VersionConfig.IsGreaterVersion(WoditorVersion.Ver2_00)) return 0x04;
-                
+
                 // ver 2.00 より前
                 return IsOnlySpecificKey ? (byte) 0x04 : (byte) 0x03;
             }
@@ -173,11 +173,32 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private bool isOnlySpecificKey;
+
         /// <summary>特定キーのみ判定フラグ</summary>
-        public bool IsOnlySpecificKey { get; set; }
+        public bool IsOnlySpecificKey
+        {
+            get => isOnlySpecificKey;
+            set
+            {
+                isOnlySpecificKey = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
+            }
+        }
+
+        private int specificKeyCode;
 
         /// <summary>特定キーコード</summary>
-        public int SpecificKeyCode { get; set; }
+        public int SpecificKeyCode
+        {
+            get => specificKeyCode;
+            set
+            {
+                specificKeyCode = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>取得対象（内部保持用）</summary>
         private byte targetCode;

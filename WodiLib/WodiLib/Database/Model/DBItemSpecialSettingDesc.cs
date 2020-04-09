@@ -18,7 +18,7 @@ namespace WodiLib.Database
     /// DB項目特殊指定情報クラス
     /// </summary>
     [Serializable]
-    public class DBItemSpecialSettingDesc : IEquatable<DBItemSpecialSettingDesc>
+    public class DBItemSpecialSettingDesc : ModelBase<DBItemSpecialSettingDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -82,9 +82,24 @@ namespace WodiLib.Database
         }
 
         /// <summary>
+        /// 選択肢リスト
+        /// </summary>
+        public IReadOnlyDatabaseValueCaseList ArgCaseList => InnerDesc.ArgCaseList;
+
+        private DBValueInt initValue = 0;
+
+        /// <summary>
         /// 項目の初期値
         /// </summary>
-        public DBValueInt InitValue { get; set; } = 0;
+        public DBValueInt InitValue
+        {
+            get => initValue;
+            set
+            {
+                initValue = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private ItemMemo itemMemo = "";
 
@@ -102,6 +117,7 @@ namespace WodiLib.Database
                         ErrorMessage.NotNull(nameof(ItemMemo)));
 
                 itemMemo = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -118,10 +134,45 @@ namespace WodiLib.Database
         //     private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private IDBItemSettingDesc innerDesc = new DBItemSettingDescNormal();
+
         /// <summary>
         /// 情報内部クラス
         /// </summary>
-        private IDBItemSettingDesc InnerDesc { get; set; } = new DBItemSettingDescNormal();
+        private IDBItemSettingDesc InnerDesc
+        {
+            get => innerDesc;
+            set
+            {
+                innerDesc.PropertyChanged -= OnInnerDescPropertyChanged;
+                innerDesc = value;
+                innerDesc.PropertyChanged += OnInnerDescPropertyChanged;
+                NotifyPropertyChanged(nameof(SettingType));
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 情報内部クラスプロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnInnerDescPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(IDBItemSettingDesc.DatabaseReferKind):
+                case nameof(IDBItemSettingDesc.DatabaseDbTypeId):
+                case nameof(IDBItemSettingDesc.DatabaseUseAdditionalItemsFlag):
+                case nameof(IDBItemSettingDesc.FolderName):
+                case nameof(IDBItemSettingDesc.OmissionFolderNameFlag):
+                    NotifyPropertyChanged(args.PropertyName);
+                    break;
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -182,7 +233,7 @@ namespace WodiLib.Database
         /// すべての選択肢を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public List<DatabaseValueCase> GetAllSpecialCase()
+        public IReadOnlyList<DatabaseValueCase> GetAllSpecialCase()
         {
             return InnerDesc.GetAllSpecialCase();
         }
@@ -192,7 +243,7 @@ namespace WodiLib.Database
         /// <para>特殊指定が「データベース参照」の場合、返却されるリストは[-1, -2, -3]ではなく[DB種別コード, DBタイプID, -1～-3追加フラグ]。</para>
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public List<DatabaseValueCaseNumber> GetAllSpecialCaseNumber()
+        public IReadOnlyList<DatabaseValueCaseNumber> GetAllSpecialCaseNumber()
         {
             return InnerDesc.GetAllSpecialCaseNumber();
         }
@@ -201,7 +252,7 @@ namespace WodiLib.Database
         /// すべての選択肢文字列を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public List<DatabaseValueCaseDescription> GetAllSpecialCaseDescription()
+        public IReadOnlyList<DatabaseValueCaseDescription> GetAllSpecialCaseDescription()
         {
             return InnerDesc.GetAllSpecialCaseDescription();
         }
@@ -334,7 +385,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DBItemSpecialSettingDesc other)
+        public override bool Equals(DBItemSpecialSettingDesc other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;

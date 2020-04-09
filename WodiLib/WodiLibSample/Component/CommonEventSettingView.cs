@@ -5,7 +5,6 @@ using WodiLib.Event;
 
 namespace WodiLibSample.Component
 {
-
     public partial class CommonEventSettingView : UserControl
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -36,26 +35,30 @@ namespace WodiLibSample.Component
         /// <param name="commonEvent">[NotNull] コモンイベント</param>
         public void SetCommonEvent(CommonEvent commonEvent)
         {
-            if(commonEvent == null) throw new ArgumentNullException(nameof(commonEvent));
+            if (commonEvent == null) throw new ArgumentNullException(nameof(commonEvent));
 
             CommonEvent = commonEvent;
 
             UpdateCommonEventNameText(commonEvent.Name);
             UpdateMemoText(commonEvent.Memo);
-            UpdateNumberArg1NameText(commonEvent.GetSpecialNumberArgDesc(0).ArgName);
-            UpdateNumberArg2NameText(commonEvent.GetSpecialNumberArgDesc(1).ArgName);
-            UpdateNumberArg3NameText(commonEvent.GetSpecialNumberArgDesc(2).ArgName);
-            UpdateNumberArg4NameText(commonEvent.GetSpecialNumberArgDesc(3).ArgName);
-            UpdateStringArg1NameText(commonEvent.GetSpecialStringArgDesc(0).ArgName);
-            UpdateStringArg2NameText(commonEvent.GetSpecialStringArgDesc(1).ArgName);
-            UpdateStringArg3NameText(commonEvent.GetSpecialStringArgDesc(2).ArgName);
-            UpdateStringArg4NameText(commonEvent.GetSpecialStringArgDesc(3).ArgName);
+            UpdateNumberArg1NameText(commonEvent.NumberArgDescList[0].ArgName);
+            UpdateNumberArg2NameText(commonEvent.NumberArgDescList[1].ArgName);
+            UpdateNumberArg3NameText(commonEvent.NumberArgDescList[2].ArgName);
+            UpdateNumberArg4NameText(commonEvent.NumberArgDescList[3].ArgName);
+            UpdateStringArg1NameText(commonEvent.StringArgDescList[0].ArgName);
+            UpdateStringArg2NameText(commonEvent.StringArgDescList[1].ArgName);
+            UpdateStringArg3NameText(commonEvent.StringArgDescList[2].ArgName);
+            UpdateStringArg4NameText(commonEvent.StringArgDescList[3].ArgName);
             UpdateBootConditionText(GetBootTypeText(commonEvent.BootCondition.CommonEventBootType));
             UpdateLeftSideText(commonEvent.BootCondition.LeftSide.ToString());
             UpdateRightSideText(commonEvent.BootCondition.RightSide.ToString());
             UpdateBootOperationText(GetOperationText(commonEvent.BootCondition.Operation));
-            UpdateReturnVarValueText(commonEvent.IsReturnValue ? $"セルフ変数{commonEvent.ReturnVariableIndex.ToString()}" : "戻り値なし");
-            UpdateReturnVarNameText(commonEvent.IsReturnValue ? commonEvent.ReturnValueDescription.ToString() : string.Empty);
+            UpdateReturnVarValueText(commonEvent.IsReturnValue
+                ? $"セルフ変数{commonEvent.ReturnVariableIndex.ToString()}"
+                : "戻り値なし");
+            UpdateReturnVarNameText(commonEvent.IsReturnValue
+                ? commonEvent.ReturnValueDescription.ToString()
+                : string.Empty);
         }
 
         /// <summary>
@@ -116,7 +119,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateCommonEventNameText(commonEventName)));
+                Invoke((MethodInvoker) (() => UpdateCommonEventNameText(commonEventName)));
                 return;
             }
 
@@ -127,7 +130,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateMemoText(description)));
+                Invoke((MethodInvoker) (() => UpdateMemoText(description)));
                 return;
             }
 
@@ -138,7 +141,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateNumberArg1NameText(argName)));
+                Invoke((MethodInvoker) (() => UpdateNumberArg1NameText(argName)));
                 return;
             }
 
@@ -149,7 +152,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateNumberArg2NameText(argName)));
+                Invoke((MethodInvoker) (() => UpdateNumberArg2NameText(argName)));
                 return;
             }
 
@@ -160,7 +163,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateNumberArg3NameText(argName)));
+                Invoke((MethodInvoker) (() => UpdateNumberArg3NameText(argName)));
                 return;
             }
 
@@ -171,7 +174,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateNumberArg4NameText(argName)));
+                Invoke((MethodInvoker) (() => UpdateNumberArg4NameText(argName)));
                 return;
             }
 
@@ -182,7 +185,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateStringArg1NameText(argName)));
+                Invoke((MethodInvoker) (() => UpdateStringArg1NameText(argName)));
                 return;
             }
 
@@ -193,7 +196,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateStringArg2NameText(argName)));
+                Invoke((MethodInvoker) (() => UpdateStringArg2NameText(argName)));
                 return;
             }
 
@@ -204,7 +207,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateStringArg3NameText(argName)));
+                Invoke((MethodInvoker) (() => UpdateStringArg3NameText(argName)));
                 return;
             }
 
@@ -215,7 +218,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateStringArg4NameText(argName)));
+                Invoke((MethodInvoker) (() => UpdateStringArg4NameText(argName)));
                 return;
             }
 
@@ -226,7 +229,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateBootConditionText(bootText)));
+                Invoke((MethodInvoker) (() => UpdateBootConditionText(bootText)));
                 return;
             }
 
@@ -237,7 +240,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateLeftSideText(leftSideText)));
+                Invoke((MethodInvoker) (() => UpdateLeftSideText(leftSideText)));
                 return;
             }
 
@@ -248,7 +251,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateRightSideText(rightSideText)));
+                Invoke((MethodInvoker) (() => UpdateRightSideText(rightSideText)));
                 return;
             }
 
@@ -259,7 +262,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateBootOperationText(operationText)));
+                Invoke((MethodInvoker) (() => UpdateBootOperationText(operationText)));
                 return;
             }
 
@@ -270,7 +273,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateReturnVarValueText(valueText)));
+                Invoke((MethodInvoker) (() => UpdateReturnVarValueText(valueText)));
                 return;
             }
 
@@ -281,7 +284,7 @@ namespace WodiLibSample.Component
         {
             if (InvokeRequired)
             {
-                Invoke((MethodInvoker)(() => UpdateReturnVarNameText(nameText)));
+                Invoke((MethodInvoker) (() => UpdateReturnVarNameText(nameText)));
                 return;
             }
 

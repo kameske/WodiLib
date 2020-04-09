@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -72,11 +73,15 @@ namespace WodiLib.Ini
         private const int IndexCommonEvent = 17;
         private const int IndexDownload = 18;
 
-        private int[] NotUseIndexes { get; }
+        private int[] NotUseIndexes { get; set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /*
+         * 各プロパティの変更通知は自身のCollectionChangedイベントを購読して発火する。
+         */
 
         /// <summary>
         /// [NotNull] 「文章の表示」コマンドのショートカットキー
@@ -383,6 +388,107 @@ namespace WodiLib.Ini
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 自身リスト要素変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnThisCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            if (args.OldStartingIndex != -1) NotifyKeyPropertyChanged(args.OldStartingIndex);
+            if (args.NewStartingIndex != -1) NotifyKeyPropertyChanged(args.NewStartingIndex);
+        }
+
+        /// <summary>
+        /// 変化したインデックスからプロパティ変更通知を発火する。
+        /// </summary>
+        /// <param name="index">変化インデックス</param>
+        private void NotifyKeyPropertyChanged(int index)
+        {
+            switch (index)
+            {
+                case IndexMessage:
+                    NotifyPropertyChanged(nameof(Message));
+                    break;
+
+                case IndexChoice:
+                    NotifyPropertyChanged(nameof(Choice));
+                    break;
+
+                case IndexSetVariable:
+                    NotifyPropertyChanged(nameof(SetVariable));
+                    break;
+
+                case IndexDbManagement:
+                    NotifyPropertyChanged(nameof(DBManagement));
+                    break;
+
+                case IndexSetString:
+                    NotifyPropertyChanged(nameof(SetString));
+                    break;
+
+                case IndexSetVariablePlus:
+                    NotifyPropertyChanged(nameof(SetVariablePlus));
+                    break;
+
+                case IndexConditionNumber:
+                    NotifyPropertyChanged(nameof(ConditionNumber));
+                    break;
+
+                case IndexConditionString:
+                    NotifyPropertyChanged(nameof(ConditionString));
+                    break;
+
+                case IndexKeyInput:
+                    NotifyPropertyChanged(nameof(KeyInput));
+                    break;
+
+                case IndexPicture:
+                    NotifyPropertyChanged(nameof(Picture));
+                    break;
+
+                case IndexEffect:
+                    NotifyPropertyChanged(nameof(Effect));
+                    break;
+
+                case IndexSound:
+                    NotifyPropertyChanged(nameof(Sound));
+                    break;
+
+                case IndexSaveAndLoad:
+                    NotifyPropertyChanged(nameof(SaveAndLoad));
+                    break;
+
+                case IndexPartyGraphic:
+                    NotifyPropertyChanged(nameof(PartyGraphic));
+                    break;
+
+                case IndexMapChip:
+                    NotifyPropertyChanged(nameof(MapChip));
+                    break;
+
+                case IndexTransfer:
+                    NotifyPropertyChanged(nameof(Transfer));
+                    break;
+
+                case IndexEventControl:
+                    NotifyPropertyChanged(nameof(EventControl));
+                    break;
+
+                case IndexCommonEvent:
+                    NotifyPropertyChanged(nameof(CommonEvent));
+                    break;
+
+                case IndexDownload:
+                    NotifyPropertyChanged(nameof(Download));
+                    break;
+            }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -435,6 +541,15 @@ namespace WodiLib.Ini
         /// </exception>
         /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
         public EventCommandShortCutKeyList(IReadOnlyCollection<EventCommandShortCutKey> list) : base(list)
+        {
+            InitializeNotUseIndexes();
+            CollectionChanged += OnThisCollectionChanged;
+        }
+
+        /// <summary>
+        /// <see cref="NotUseIndexes"/>を初期化する。
+        /// </summary>
+        private void InitializeNotUseIndexes()
         {
             var notUseIndexes = new List<int>();
             for (var i = UseMaxIndex + 1; i < MaxCapacity; i++)
@@ -580,6 +695,7 @@ namespace WodiLib.Ini
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected EventCommandShortCutKeyList(SerializationInfo info, StreamingContext context) : base(ReadList(info))
         {
+            InitializeNotUseIndexes();
         }
 
         /// <summary>

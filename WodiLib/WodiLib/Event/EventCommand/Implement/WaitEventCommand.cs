@@ -131,7 +131,17 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int waitTime;
+
         /// <summary>ウェイト時間</summary>
-        public int WaitTime { get; set; }
+        public int WaitTime
+        {
+            get => waitTime;
+            set
+            {
+                waitTime = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }

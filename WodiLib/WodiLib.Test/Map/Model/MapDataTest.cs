@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,9 @@ namespace WodiLib.Test.Map
         public static void SetMemoTest()
         {
             var instance = new MapData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var value = (MapDataMemo) "test";
             var errorOccured = false;
             try
@@ -47,6 +51,10 @@ namespace WodiLib.Test.Map
 
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapData.Memo)));
         }
 
         [TestCase(-1, true)]
@@ -65,6 +73,8 @@ namespace WodiLib.Test.Map
                 Layer2 = layer2,
                 Layer3 = layer3,
             };
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             Layer getResult = null;
@@ -100,6 +110,9 @@ namespace WodiLib.Test.Map
                 // 取得したインスタンスが初期化内容と一致すること
                 Assert.AreSame(getResult, setObject);
             }
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [TestCase(-1, false, true)]
@@ -110,6 +123,9 @@ namespace WodiLib.Test.Map
         public static void SetLayerTest(int index, bool isNull, bool isError)
         {
             var instance = new MapData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             Layer layer = null;
             if (!isNull) layer = new Layer();
             var errorOccured = false;
@@ -145,6 +161,32 @@ namespace WodiLib.Test.Map
 
                 Assert.AreSame(setObject, layer);
             }
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                switch (index)
+                {
+                    case 0:
+                        Assert.AreEqual(changedPropertyList.Count, 3);
+                        Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapData.Layer1)));
+                        Assert.IsTrue(changedPropertyList[1].Equals(nameof(MapData.MapSizeWidth)));
+                        Assert.IsTrue(changedPropertyList[2].Equals(nameof(MapData.MapSizeHeight)));
+                        break;
+                    case 1:
+                        Assert.AreEqual(changedPropertyList.Count, 1);
+                        Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapData.Layer2)));
+                        break;
+                    case 2:
+                        Assert.AreEqual(changedPropertyList.Count, 1);
+                        Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapData.Layer3)));
+                        break;
+                }
+            }
         }
 
         [TestCase(0, false, false)]
@@ -156,6 +198,9 @@ namespace WodiLib.Test.Map
         public static void SetLayerTest2(int index, bool isNull, bool isError)
         {
             var instance = new MapData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var errorOccured = false;
             try
             {
@@ -180,12 +225,40 @@ namespace WodiLib.Test.Map
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                switch (index)
+                {
+                    case 0:
+                        Assert.AreEqual(changedPropertyList.Count, 3);
+                        Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapData.Layer1)));
+                        Assert.IsTrue(changedPropertyList[1].Equals(nameof(MapData.MapSizeWidth)));
+                        Assert.IsTrue(changedPropertyList[2].Equals(nameof(MapData.MapSizeHeight)));
+                        break;
+                    case 1:
+                        Assert.AreEqual(changedPropertyList.Count, 1);
+                        Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapData.Layer2)));
+                        break;
+                    case 2:
+                        Assert.AreEqual(changedPropertyList.Count, 1);
+                        Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapData.Layer3)));
+                        break;
+                }
+            }
         }
 
         [Test]
         public static void SetLayer1Test()
         {
             var instance = new MapData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var width = (MapSizeWidth) 30;
             var height = (MapSizeHeight) 24;
@@ -218,6 +291,12 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(instance.Layer2.Height, height);
             Assert.AreEqual(instance.Layer3.Width, width);
             Assert.AreEqual(instance.Layer3.Height, height);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 3);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapData.Layer1)));
+            Assert.IsTrue(changedPropertyList[1].Equals(nameof(MapData.MapSizeWidth)));
+            Assert.IsTrue(changedPropertyList[2].Equals(nameof(MapData.MapSizeHeight)));
         }
 
         [TestCase(true, true, false)]
@@ -232,6 +311,8 @@ namespace WodiLib.Test.Map
             var height = (MapSizeHeight) 24;
 
             instance.UpdateMapSize(width, height);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var layerWidth = isEqualWidth ? width : (MapSizeWidth) (width + 1);
             var layerHeight = isEqualHeight ? height : (MapSizeHeight) (height + 1);
@@ -253,19 +334,31 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                // マップサイズが変化していないこと
+                Assert.AreEqual(instance.MapSizeWidth, width);
+                Assert.AreEqual(instance.MapSizeHeight, height);
 
-            // マップサイズが変化していないこと
-            Assert.AreEqual(instance.MapSizeWidth, width);
-            Assert.AreEqual(instance.MapSizeHeight, height);
+                // レイヤーのサイズも変化していないこと
+                Assert.AreEqual(instance.Layer1.Width, width);
+                Assert.AreEqual(instance.Layer1.Height, height);
+                Assert.AreEqual(instance.Layer2.Width, width);
+                Assert.AreEqual(instance.Layer2.Height, height);
+                Assert.AreEqual(instance.Layer3.Width, width);
+                Assert.AreEqual(instance.Layer3.Height, height);
+            }
 
-            // レイヤーのサイズも変化していないこと
-            Assert.AreEqual(instance.Layer1.Width, width);
-            Assert.AreEqual(instance.Layer1.Height, height);
-            Assert.AreEqual(instance.Layer2.Width, width);
-            Assert.AreEqual(instance.Layer2.Height, height);
-            Assert.AreEqual(instance.Layer3.Width, width);
-            Assert.AreEqual(instance.Layer3.Height, height);
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapData.Layer2)));
+            }
         }
 
         [TestCase(true, true, false)]
@@ -280,6 +373,8 @@ namespace WodiLib.Test.Map
             var height = (MapSizeHeight) 24;
 
             instance.UpdateMapSize(width, height);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var layerWidth = isEqualWidth ? width : (MapSizeWidth) (width + 1);
             var layerHeight = isEqualHeight ? height : (MapSizeHeight) (height + 1);
@@ -301,25 +396,40 @@ namespace WodiLib.Test.Map
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                // マップサイズが変化していないこと
+                Assert.AreEqual(instance.MapSizeWidth, width);
+                Assert.AreEqual(instance.MapSizeHeight, height);
 
-            // マップサイズが変化していないこと
-            Assert.AreEqual(instance.MapSizeWidth, width);
-            Assert.AreEqual(instance.MapSizeHeight, height);
+                // レイヤーのサイズも変化していないこと
+                Assert.AreEqual(instance.Layer1.Width, width);
+                Assert.AreEqual(instance.Layer1.Height, height);
+                Assert.AreEqual(instance.Layer2.Width, width);
+                Assert.AreEqual(instance.Layer2.Height, height);
+                Assert.AreEqual(instance.Layer3.Width, width);
+                Assert.AreEqual(instance.Layer3.Height, height);
+            }
 
-            // レイヤーのサイズも変化していないこと
-            Assert.AreEqual(instance.Layer1.Width, width);
-            Assert.AreEqual(instance.Layer1.Height, height);
-            Assert.AreEqual(instance.Layer2.Width, width);
-            Assert.AreEqual(instance.Layer2.Height, height);
-            Assert.AreEqual(instance.Layer3.Width, width);
-            Assert.AreEqual(instance.Layer3.Height, height);
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapData.Layer3)));
+            }
         }
 
         [Test]
         public static void UpdateMapSizeWidthTest()
         {
             var instance = new MapData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var width = (MapSizeWidth) 30;
 
             var errorOccured = false;
@@ -343,12 +453,19 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(instance.Layer1.Width, width);
             Assert.AreEqual(instance.Layer2.Width, width);
             Assert.AreEqual(instance.Layer3.Width, width);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapData.MapSizeWidth)));
         }
 
         [Test]
         public static void UpdateMapSizeHeightTest()
         {
             var instance = new MapData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var height = (MapSizeHeight) 30;
 
             var errorOccured = false;
@@ -372,6 +489,10 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(instance.Layer1.Height, height);
             Assert.AreEqual(instance.Layer2.Height, height);
             Assert.AreEqual(instance.Layer3.Height, height);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapData.MapSizeHeight)));
         }
 
         [Test]
@@ -537,8 +658,14 @@ namespace WodiLib.Test.Map
             {
                 TileSetId = 2,
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         [OneTimeTearDown]

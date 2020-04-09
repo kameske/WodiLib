@@ -125,7 +125,7 @@ namespace WodiLib.Project
 
             // 該当引数が設定されていないときは値をそのまま表示
             if (intArgIndex >= target.NumberArgsLength) return value.ToString();
-            var argDesc = target.GetSpecialNumberArgDesc(intArgIndex);
+            var argDesc = target.NumberArgDescList[intArgIndex];
 
             // 引数の値種別によって表示内容を決定
             if (argDesc.ArgType == CommonEventArgType.Normal) return value.ToString();

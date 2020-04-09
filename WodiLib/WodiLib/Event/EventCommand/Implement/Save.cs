@@ -137,7 +137,17 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int saveNumber;
+
         /// <summary>セーブデータ番号</summary>
-        public int SaveNumber { get; set; }
+        public int SaveNumber
+        {
+            get => saveNumber;
+            set
+            {
+                saveNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
     }
 }

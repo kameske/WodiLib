@@ -29,12 +29,17 @@ namespace WodiLib.Database
         /// </summary>
         public override DBItemSpecialSettingType SettingType => DBItemSpecialSettingType.Manual;
 
+        /// <summary>
+        /// 選択肢リスト
+        /// </summary>
+        public override IReadOnlyDatabaseValueCaseList ArgCaseList => argCaseList;
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>選択肢リスト</summary>
-        private DatabaseValueCaseList ArgCaseList { get; } = new DatabaseValueCaseList();
+        private DatabaseValueCaseList argCaseList = new DatabaseValueCaseList();
 
         /// <summary>
         /// デフォルト設定値種別
@@ -53,7 +58,7 @@ namespace WodiLib.Database
         {
             if (!(argCaseList is null))
             {
-                ArgCaseList = argCaseList;
+                this.argCaseList = argCaseList;
             }
         }
 
@@ -68,7 +73,7 @@ namespace WodiLib.Database
         /// <returns>すべての選択肢リスト</returns>
         public override List<DatabaseValueCase> GetAllSpecialCase()
         {
-            return ArgCaseList.ToList();
+            return argCaseList.ToList();
         }
 
         /// <inheritdoc />
@@ -102,7 +107,7 @@ namespace WodiLib.Database
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(argCase)));
 
-            ArgCaseList.Add(argCase);
+            argCaseList.Add(argCase);
         }
 
         /// <summary>
@@ -116,7 +121,7 @@ namespace WodiLib.Database
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(argCases)));
 
-            ArgCaseList.AddRange(argCases);
+            argCaseList.AddRange(argCases);
         }
 
         /// <summary>
@@ -128,7 +133,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException"></exception>
         public override void InsertSpecialCase(int index, DatabaseValueCase argCase)
         {
-            var max = ArgCaseList.Count;
+            var max = argCaseList.Count;
             const int min = 0;
             if (index < min || max < index)
                 throw new ArgumentOutOfRangeException(
@@ -138,7 +143,7 @@ namespace WodiLib.Database
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(argCase)));
 
-            ArgCaseList.Insert(index, argCase);
+            argCaseList.Insert(index, argCase);
         }
 
         /// <summary>
@@ -150,7 +155,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException"></exception>
         public override void InsertRangeSpecialCase(int index, IReadOnlyCollection<DatabaseValueCase> argCases)
         {
-            var max = ArgCaseList.Count;
+            var max = argCaseList.Count;
             const int min = 0;
             if (index < min || max < index)
                 throw new ArgumentOutOfRangeException(
@@ -160,7 +165,7 @@ namespace WodiLib.Database
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(argCases)));
 
-            ArgCaseList.InsertRange(index, argCases);
+            argCaseList.InsertRange(index, argCases);
         }
 
         /// <summary>
@@ -173,7 +178,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
         public override void UpdateManualSpecialCase(int index, DatabaseValueCase argCase)
         {
-            var max = ArgCaseList.Count;
+            var max = argCaseList.Count;
             const int min = 0;
             if (index < min || max < index)
                 throw new ArgumentOutOfRangeException(
@@ -182,7 +187,7 @@ namespace WodiLib.Database
                 throw new ArgumentNullException(
                     ErrorMessage.NotEmpty(nameof(argCase)));
 
-            ArgCaseList[index] = argCase;
+            argCaseList[index] = argCase;
         }
 
         /// <summary>
@@ -192,13 +197,13 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
         public override void RemoveSpecialCaseAt(int index)
         {
-            var max = ArgCaseList.Count - 1;
+            var max = argCaseList.Count - 1;
             const int min = 0;
             if (index < min || max < index)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
-            ArgCaseList.RemoveAt(index);
+            argCaseList.RemoveAt(index);
         }
 
         /// <summary>
@@ -210,7 +215,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentException">リストの範囲を超えて削除しようとする場合</exception>
         public override void RemoveSpecialCaseRange(int index, int count)
         {
-            var allLength = ArgCaseList.Count;
+            var allLength = argCaseList.Count;
 
             var indexMax = allLength - 1;
             const int min = 0;
@@ -228,7 +233,7 @@ namespace WodiLib.Database
                     $"リストの範囲を超えて削除しようとしています。" +
                     $"{nameof(index)}:{index}, {nameof(count)}:{count}");
 
-            ArgCaseList.RemoveRange(index, count);
+            argCaseList.RemoveRange(index, count);
         }
 
         /// <summary>
@@ -237,7 +242,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
         public override void ClearSpecialCase()
         {
-            ArgCaseList.Clear();
+            argCaseList.Clear();
         }
 
         /// <summary>
@@ -270,12 +275,32 @@ namespace WodiLib.Database
             return Equals(casted);
         }
 
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public override bool Equals(DBItemSettingDescBase other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            if (!(other is DBItemSettingDescManual casted)) return false;
+
+            return Equals(casted);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
         public bool Equals(DBItemSettingDescManual other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return ArgCaseList.Equals(other.ArgCaseList);
+            return argCaseList.Equals(other.argCaseList);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -289,7 +314,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">特殊指定が「選択肢手動生成」以外の場合</exception>
         private IEnumerable<DatabaseValueCase> GetAllManualCase()
         {
-            return ArgCaseList.ToList();
+            return argCaseList.ToList();
         }
     }
 }

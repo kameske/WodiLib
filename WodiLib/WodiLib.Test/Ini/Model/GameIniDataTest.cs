@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using WodiLib.Ini;
 using WodiLib.Sys.Cmn;
@@ -22,6 +23,9 @@ namespace WodiLib.Test.Ini.Model
         public static void StartCodeTest(int code)
         {
             var instance = new GameIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
 
             var errorOccured = false;
             try
@@ -41,12 +45,19 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(code));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(GameIniData.StartCode)));
         }
 
         [TestCase(false)]
         public static void IsSoftGraphicModeTest(bool isSoftGraphicMode)
         {
             var instance = new GameIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
 
             var errorOccured = false;
             try
@@ -66,12 +77,19 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(isSoftGraphicMode));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(GameIniData.IsSoftGraphicMode)));
         }
 
         [TestCase(true)]
         public static void IsWindowModeTest(bool isWindowMode)
         {
             var instance = new GameIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
 
             var errorOccured = false;
             try
@@ -91,12 +109,19 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(isWindowMode));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(GameIniData.IsWindowMode)));
         }
 
         [TestCase(true)]
         public static void IsPlayBgmTest(bool isPlayBgm)
         {
             var instance = new GameIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
 
             var errorOccured = false;
             try
@@ -116,12 +141,19 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(isPlayBgm));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(GameIniData.IsPlayBgm)));
         }
 
         [TestCase(true)]
         public static void IsPlaySeTest(bool isPlaySe)
         {
             var instance = new GameIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
 
             var errorOccured = false;
             try
@@ -141,6 +173,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(isPlaySe));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(GameIniData.IsPlaySe)));
         }
 
         private static readonly object[] FrameSkipTypeTestCaseSource =
@@ -153,6 +189,9 @@ namespace WodiLib.Test.Ini.Model
         public static void FrameSkipTypeTest(FrameSkipType type, bool isError)
         {
             var instance = new GameIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
 
             var errorOccured = false;
             try
@@ -168,24 +207,39 @@ namespace WodiLib.Test.Ini.Model
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.FrameSkipType;
 
-            var setValue = instance.FrameSkipType;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(type));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(type));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(GameIniData.FrameSkipType)));
+            }
         }
 
         private static readonly object[] ProxyAddressTestCaseSource =
         {
             new object[] {null, true},
-            new object[] {(ProxyAddress)"address", false},
+            new object[] {(ProxyAddress) "address", false},
         };
 
         [TestCaseSource(nameof(ProxyAddressTestCaseSource))]
         public static void ProxyAddressTest(ProxyAddress address, bool isError)
         {
             var instance = new GameIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
 
             var errorOccured = false;
             try
@@ -201,23 +255,38 @@ namespace WodiLib.Test.Ini.Model
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            if (errorOccured) return;
+            if (!errorOccured)
+            {
+                var setValue = instance.ProxyAddress;
 
-            var setValue = instance.ProxyAddress;
+                // セットした値と取得した値が一致すること
+                Assert.IsTrue(setValue.Equals(address));
+            }
 
-            // セットした値と取得した値が一致すること
-            Assert.IsTrue(setValue.Equals(address));
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(GameIniData.ProxyAddress)));
+            }
         }
 
         private static readonly object[] ProxyPortTestCaseSource =
         {
-            new object[] {(ProxyPort)222},
+            new object[] {(ProxyPort) 222},
         };
 
         [TestCaseSource(nameof(ProxyPortTestCaseSource))]
         public static void ProxyPortTest(ProxyPort port)
         {
             var instance = new GameIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
 
             var errorOccured = false;
             try
@@ -237,12 +306,19 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(port));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(GameIniData.ProxyPort)));
         }
 
         [TestCase(false)]
         public static void CanTakeScreenShotTest(bool canTakeScreenShot)
         {
             var instance = new GameIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
 
             var errorOccured = false;
             try
@@ -262,12 +338,19 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(canTakeScreenShot));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(GameIniData.CanTakeScreenShot)));
         }
 
         [TestCase(false)]
         public static void CanResetTest(bool canReset)
         {
             var instance = new GameIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
 
             var errorOccured = false;
             try
@@ -287,17 +370,24 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(canReset));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(GameIniData.CanReset)));
         }
 
         private static readonly object[] DisplayNumberTestCaseSource =
         {
-            new object[] {(DisplayNumber)0},
+            new object[] {(DisplayNumber) 0},
         };
 
         [TestCaseSource(nameof(DisplayNumberTestCaseSource))]
         public static void DisplayNumberTest(DisplayNumber displayNumber)
         {
             var instance = new GameIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
 
             var errorOccured = false;
             try
@@ -317,12 +407,19 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(displayNumber));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(GameIniData.DisplayNumber)));
         }
 
         [TestCase(false)]
         public static void IsUseOldDirectXTest(bool isUseOldDirectX)
         {
             var instance = new GameIniData();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
 
             var errorOccured = false;
             try
@@ -342,6 +439,10 @@ namespace WodiLib.Test.Ini.Model
 
             // セットした値と取得した値が一致すること
             Assert.IsTrue(setValue.Equals(isUseOldDirectX));
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 1);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(GameIniData.IsUseOldDirectX)));
         }
 
         [Test]
@@ -351,8 +452,14 @@ namespace WodiLib.Test.Ini.Model
             {
                 DisplayNumber = 2,
             };
+            var changedPropertyList = new List<string>();
+            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
     }
 }

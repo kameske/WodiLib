@@ -24,7 +24,7 @@ namespace WodiLib.Common
     /// コモンイベントクラス
     /// </summary>
     [Serializable]
-    public class CommonEvent : IEquatable<CommonEvent>, ISerializable
+    public class CommonEvent : ModelBase<CommonEvent>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Internal Constant
@@ -82,8 +82,18 @@ namespace WodiLib.Common
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private CommonEventId id;
+
         /// <summary>コモンイベントID</summary>
-        public CommonEventId Id { get; set; }
+        public CommonEventId Id
+        {
+            get => id;
+            set
+            {
+                id = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private CommonEventBootCondition condition = new CommonEventBootCondition();
 
@@ -100,10 +110,11 @@ namespace WodiLib.Common
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(CriteriaOperator)));
                 condition = value;
+                NotifyPropertyChanged();
             }
         }
 
-        private int numberArgsLength = CommonEventNumberArgIndex.MinValue;
+        private int numberArgsLength;
 
         /// <summary>
         /// [Range(0, 4)] 数値引数の数
@@ -119,10 +130,11 @@ namespace WodiLib.Common
                         ErrorMessage.OutOfRange(nameof(NumberArgsLength), CommonEventNumberArgIndex.MinValue,
                             CommonEventNumberArgIndex.MaxValue, value));
                 numberArgsLength = value;
+                NotifyPropertyChanged();
             }
         }
 
-        private int strArgsLength = CommonEventStringArgIndex.MinValue;
+        private int strArgsLength;
 
         /// <summary>
         /// [Range(0, 4)] 文字列引数の数
@@ -138,6 +150,7 @@ namespace WodiLib.Common
                         ErrorMessage.OutOfRange(nameof(StrArgsLength), CommonEventStringArgIndex.MinValue,
                             CommonEventStringArgIndex.MaxValue, value));
                 strArgsLength = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -156,6 +169,7 @@ namespace WodiLib.Common
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Name)));
                 name = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -176,8 +190,9 @@ namespace WodiLib.Common
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(EventCommands)));
+                value.Owner = TargetAddressOwner.CommonEvent;
                 eventCommands = value;
-                eventCommands.Owner = TargetAddressOwner.CommonEvent;
+                NotifyPropertyChanged();
             }
         }
 
@@ -196,6 +211,7 @@ namespace WodiLib.Common
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Description)));
                 description = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -214,6 +230,7 @@ namespace WodiLib.Common
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Memo)));
                 memo = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -230,6 +247,7 @@ namespace WodiLib.Common
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(LabelColor)));
                 labelColor = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -249,6 +267,7 @@ namespace WodiLib.Common
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(FooterString)));
                 footerString = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -291,18 +310,51 @@ namespace WodiLib.Common
                         ErrorMessage.NotNull(nameof(SelfVariableNameList)));
 
                 selfVariableNameList = value;
+                NotifyPropertyChanged();
             }
         }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         /// 引数特殊指定情報リスト
         /// </summary>
         private CommonEventSpecialArgDescList CommonEventSpecialArgDescList { get; } =
             new CommonEventSpecialArgDescList();
+
+        /// <summary>
+        /// 数値引数特殊指定情報リスト
+        /// </summary>
+        public CommonEventSpecialNumberArgDescList NumberArgDescList
+            => CommonEventSpecialArgDescList.NumberArgDescList;
+
+        /// <summary>
+        /// 文字列引数特殊指定情報リスト
+        /// </summary>
+        public CommonEventSpecialStringArgDescList StringArgDescList
+            => CommonEventSpecialArgDescList.StringArgDescList;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     InnerNotifyChanged
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コモンイベント返戻値プロパティ変更通知
+        /// </summary>
+        /// <param name="sender">送信元</param>
+        /// <param name="args">情報</param>
+        private void OnReturnValueInfoPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case nameof(CommonEventReturnValue.IsReturnValue):
+                case nameof(CommonEventReturnValue.ReturnVariableIndex):
+                    NotifyPropertyChanged(args.PropertyName);
+                    break;
+
+                case nameof(CommonEventReturnValue.Description):
+                    NotifyPropertyChanged(nameof(ReturnValueDescription));
+                    break;
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -313,6 +365,7 @@ namespace WodiLib.Common
         /// </summary>
         public CommonEvent()
         {
+            returnValueInfo.PropertyChanged += OnReturnValueInfoPropertyChanged;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -325,7 +378,9 @@ namespace WodiLib.Common
         /// <param name="index">インデックス</param>
         /// <param name="desc">[NotNull] 情報</param>
         /// <exception cref="ArgumentNullException">descがnullの場合</exception>
-        public void UpdateSpecialNumberArgDesc(CommonEventNumberArgIndex index, CommonEventSpecialNumberArgDesc desc)
+        [Obsolete("NumberArgDescList を直接更新してください。Ver1.4で削除します。")]
+        public void UpdateSpecialNumberArgDesc(CommonEventNumberArgIndex index,
+            CommonEventSpecialNumberArgDesc desc)
         {
             if (desc is null)
                 throw new ArgumentNullException(
@@ -339,6 +394,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <returns>情報インスタンス</returns>
+        [Obsolete("NumberArgDescList を参照更新してください。Ver1.4で削除します。")]
         public CommonEventSpecialNumberArgDesc GetSpecialNumberArgDesc(CommonEventNumberArgIndex index)
         {
             return CommonEventSpecialArgDescList.GetSpecialNumberArgDesc(index);
@@ -350,7 +406,9 @@ namespace WodiLib.Common
         /// <param name="index">インデックス</param>
         /// <param name="desc">[NotNull] 情報</param>
         /// <exception cref="ArgumentNullException">descがnullの場合</exception>
-        public void UpdateSpecialStringArgDesc(CommonEventStringArgIndex index, CommonEventSpecialStringArgDesc desc)
+        [Obsolete("StringArgDescList を直接更新してください。Ver1.4で削除します。")]
+        public void UpdateSpecialStringArgDesc(CommonEventStringArgIndex index,
+            CommonEventSpecialStringArgDesc desc)
         {
             if (desc is null)
                 throw new ArgumentNullException(
@@ -363,6 +421,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <returns>情報インスタンス</returns>
+        [Obsolete("StringArgDescList を直接参照してください。Ver1.4で削除します。")]
         public CommonEventSpecialStringArgDesc GetSpecialStringArgDesc(CommonEventStringArgIndex index)
         {
             return CommonEventSpecialArgDescList.GetSpecialStringArgDesc(index);
@@ -412,7 +471,8 @@ namespace WodiLib.Common
         /// </exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public IReadOnlyList<EventCommandSentenceInfo> MakeEventCommandSentenceInfoList(
-            EventCommandSentenceResolver resolver, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolver resolver,
+            EventCommandSentenceResolveDesc desc)
         {
             var sentenceType = EventCommandSentenceType.Common;
 
@@ -425,7 +485,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(CommonEvent other)
+        public override bool Equals(CommonEvent other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
