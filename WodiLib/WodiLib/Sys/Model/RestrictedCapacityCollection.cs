@@ -141,6 +141,7 @@ namespace WodiLib.Sys
             {
                 throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
             }
+
             FillMinCapacity();
         }
 
@@ -437,6 +438,7 @@ namespace WodiLib.Sys
             if (insertCnt > 0 && Count + insertCnt > GetMaxCapacity())
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(GetMaxCapacity()));
+
             PrivateOverwriteItem(index, list, updateCnt);
         }
 
@@ -740,7 +742,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(IEnumerable<T> other)
+        public bool Equals(IReadOnlyList<T> other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -759,6 +761,19 @@ namespace WodiLib.Sys
             if (ReferenceEquals(this, other)) return true;
 
             return All().SequenceEqual(other.All());
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(IEnumerable<T> other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            return All().SequenceEqual(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

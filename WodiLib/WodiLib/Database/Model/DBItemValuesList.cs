@@ -714,7 +714,7 @@ namespace WodiLib.Database
             MadeInstances.ReflectInsertValueRange(index, valueArr);
             var handlerIndex = index;
 #pragma warning disable 618
-            foreach (var value in values)
+            foreach (var value in valueArr)
             {
                 InsertFieldHandlerList.Execute(handlerIndex, value);
                 handlerIndex++;

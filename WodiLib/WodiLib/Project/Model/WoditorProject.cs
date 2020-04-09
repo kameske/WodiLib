@@ -897,6 +897,7 @@ namespace WodiLib.Project
         /// <param name="filePath">[NotNull] 読み込むMpsファイルパス</param>
         /// <param name="mapEventId">マップイベントID</param>
         /// <param name="eventPageNumber">マップイベントページ番号</param>
+        /// <param name="isOutputFullSentence">イベントコマンド文字列完全出力フラグ</param>
         /// <param name="useCache">
         ///     プール使用フラグ
         ///     （読み込みプール内に該当データが存在する場合、プールデータを返す）
@@ -904,14 +905,22 @@ namespace WodiLib.Project
         /// <returns>イベントコマンド文字列情報リスト</returns>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         /// <exception cref="InvalidOperationException">Mpsファイルが正しく読み込めない場合</exception>
+        /// <remarks>
+        ///     <paramref name="isOutputFullSentence"/>がtrueの場合、ウディタ標準では省略される特定のイベントコマンド文字列を省略せずに出力する。
+        ///     次のコマンドが対象になる。「移動ルート」
+        /// </remarks>
         public IReadOnlyList<EventCommandSentenceInfo> GetMapEventEventCommandSentenceInfoListSync(
-            MpsFilePath filePath, MapEventId mapEventId, int eventPageNumber, bool useCache = true)
+            MpsFilePath filePath, MapEventId mapEventId, int eventPageNumber,
+            bool isOutputFullSentence = false, bool useCache = true)
         {
             var mpsData = ReadMpsFileSync(filePath, useCache);
 
             var resolver = new EventCommandSentenceResolver(CommonEventList,
                 ChangeableDatabase, UserDatabase, SystemDatabase, mpsData);
-            var desc = new EventCommandSentenceResolveDesc();
+            var desc = new EventCommandSentenceResolveDesc
+            {
+                IsOutputFullSentence = isOutputFullSentence
+            };
 
             return mpsData.MakeEventCommandSentenceInfoList(resolver, desc, mapEventId, eventPageNumber);
         }
@@ -922,6 +931,7 @@ namespace WodiLib.Project
         /// <param name="filePath">[NotNull] 読み込むMpsファイルパス</param>
         /// <param name="mapEventId">マップイベントID</param>
         /// <param name="eventPageNumber">マップイベントページ番号</param>
+        /// <param name="isOutputFullSentence">イベントコマンド文字列完全出力フラグ</param>
         /// <param name="useCache">
         ///     プール使用フラグ
         ///     （読み込みプール内に該当データが存在する場合、プールデータを返す）
@@ -930,12 +940,16 @@ namespace WodiLib.Project
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         /// <exception cref="InvalidOperationException">Mpsファイルが正しく読み込めない場合</exception>
         public async Task<IReadOnlyList<EventCommandSentenceInfo>> GetMapEventEventCommandSentenceInfoListAsync(
-            MpsFilePath filePath, MapEventId mapEventId, int eventPageNumber, bool useCache = true)
+            MpsFilePath filePath, MapEventId mapEventId, int eventPageNumber,
+            bool isOutputFullSentence = false, bool useCache = true)
         {
             var mpsData = await ReadMpsFileAsync(filePath, useCache);
 
             var resolver = MakeEventCommandSentenceResolver(mpsData);
-            var desc = new EventCommandSentenceResolveDesc();
+            var desc = new EventCommandSentenceResolveDesc
+            {
+                IsOutputFullSentence = isOutputFullSentence
+            };
 
             return mpsData.MakeEventCommandSentenceInfoList(resolver, desc, mapEventId, eventPageNumber);
         }
@@ -974,6 +988,7 @@ namespace WodiLib.Project
         /// </summary>
         /// <param name="commonEventId">コモンイベントID</param>
         /// <param name="filePath">[Nullable] 表示対象マップファイルパス</param>
+        /// <param name="isOutputFullSentence">イベントコマンド文字列完全出力フラグ</param>
         /// <param name="useCache">
         ///     プール使用フラグ
         ///     （読み込みプール内に該当データが存在する場合、プールデータを返す）
@@ -988,15 +1003,24 @@ namespace WodiLib.Project
         ///     "開いているマップ情報"の代わりとする。
         ///     マップイベント情報は指定しないことも可能。このとき、マップイベント名は表示されない。
         /// </remarks>
+        /// <remarks>
+        ///     <paramref name="isOutputFullSentence"/>がtrueの場合、ウディタ標準では省略される特定のイベントコマンド文字列を省略せずに出力する。
+        ///     次のコマンドが対象になる。「移動ルート」
+        /// </remarks>
         public IReadOnlyList<EventCommandSentenceInfo> GetCommonEventEventCommandSentenceInfoListSync(
-            CommonEventId commonEventId, MpsFilePath filePath = null, bool useCache = true)
+            CommonEventId commonEventId, MpsFilePath filePath = null,
+            bool isOutputFullSentence = false, bool useCache = true)
         {
             var mapData = filePath != null
                 ? ReadMpsFileSync(filePath, useCache)
                 : null;
 
             var resolver = MakeEventCommandSentenceResolver(mapData);
-            var desc = new EventCommandSentenceResolveDesc {CommonEventId = commonEventId};
+            var desc = new EventCommandSentenceResolveDesc
+            {
+                CommonEventId = commonEventId,
+                IsOutputFullSentence = isOutputFullSentence
+            };
 
             return CommonEventList.GetCommonEventEventCommandSentenceInfoList(commonEventId, resolver, desc);
         }
@@ -1006,6 +1030,7 @@ namespace WodiLib.Project
         /// </summary>
         /// <param name="commonEventId">コモンイベントID</param>
         /// <param name="filePath">[Nullable] 表示対象マップファイルパス</param>
+        /// <param name="isOutputFullSentence">イベントコマンド文字列完全出力フラグ</param>
         /// <param name="useCache">
         ///     プール使用フラグ
         ///     （読み込みプール内に該当データが存在する場合、プールデータを返す）
@@ -1014,14 +1039,19 @@ namespace WodiLib.Project
         /// <exception cref="ArgumentOutOfRangeException">指定されたcommonEventIdが存在しない場合</exception>
         /// <exception cref="InvalidOperationException">Mpsファイルが正しく読み込めない場合</exception>
         public async Task<IReadOnlyList<EventCommandSentenceInfo>> GetCommonEventEventCommandSentenceInfoListAsync(
-            CommonEventId commonEventId, MpsFilePath filePath = null, bool useCache = true)
+            CommonEventId commonEventId, MpsFilePath filePath = null,
+            bool isOutputFullSentence = false, bool useCache = true)
         {
             var mapData = filePath != null
                 ? await ReadMpsFileAsync(filePath, useCache)
                 : null;
 
             var resolver = MakeEventCommandSentenceResolver(mapData);
-            var desc = new EventCommandSentenceResolveDesc {CommonEventId = commonEventId};
+            var desc = new EventCommandSentenceResolveDesc
+            {
+                CommonEventId = commonEventId,
+                IsOutputFullSentence = isOutputFullSentence
+            };
 
             return CommonEventList.GetCommonEventEventCommandSentenceInfoList(commonEventId, resolver, desc);
         }

@@ -324,7 +324,6 @@ namespace WodiLib.Sys
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-
             return All().SequenceEqual(other.All());
         }
 
@@ -334,6 +333,19 @@ namespace WodiLib.Sys
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
         public bool Equals(IReadOnlyFixedLengthCollection<T> other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            return All().SequenceEqual(other.All());
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(IReadOnlyList<T> other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
