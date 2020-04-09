@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using System.Threading.Tasks;
 using WodiLib.Database;
 using WodiLib.Sys;
 
@@ -16,62 +15,18 @@ namespace WodiLib.IO
     /// <summary>
     /// DBファイル
     /// </summary>
-    public class DatabaseDatFile
+    public class DatabaseDatFile : WoditorFileBase<DatabaseDatFilePath, DatabaseDat,
+        DatabaseDatFileWriter, DatabaseDatFileReader>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// ファイル名
+        /// 読み取り/書き出しデータ
         /// </summary>
-        public DatabaseDatFilePath FileName { get; }
-
-        /// <summary>
-        /// [Nullable] 読み取り/書き出しDBファイル
-        /// </summary>
-        public DatabaseDat Data { get; private set; }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Static Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// ファイル書き出しクラスを生成する。
-        /// </summary>
-        /// <param name="fileName">[NotNull] 書き出しファイル名</param>
-        /// <param name="data">[NotNull] 書き出しDBファイル</param>
-        /// <returns>ライターインスタンス</returns>
-        /// <exception cref="ArgumentNullException">filePath, data がnullの場合</exception>
-        private static DatabaseDatFileWriter BuildFileWriter(DatabaseDatFilePath fileName, DatabaseDat data)
-        {
-            if (fileName is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(fileName)));
-
-            if (data is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(data)));
-
-            var writer = new DatabaseDatFileWriter(data, fileName);
-            return writer;
-        }
-
-        /// <summary>
-        /// ファイル読み込みクラスを生成する。
-        /// </summary>
-        /// <param name="fileName">[NotNull] 読み込みファイル名</param>
-        /// <returns>リーダーインスタンス</returns>
-        /// <exception cref="ArgumentNullException">fileNameがnullの場合</exception>
-        private static DatabaseDatFileReader BuildFileReader(DatabaseDatFilePath fileName)
-        {
-            if (fileName is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(fileName)));
-
-            var reader = new DatabaseDatFileReader(fileName, fileName.DBKind);
-            return reader;
-        }
+        [Obsolete("入出力データは Read/Write メソッドの戻値を使用してください。 Ver1.3 で削除します。")]
+        public DatabaseDat DatabaseDat { get; private set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -80,85 +35,53 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="fileName">[NotNull] ファイル名</param>
-        /// <exception cref="ArgumentNullException">fileNameがnullの場合</exception>
-        public DatabaseDatFile(DatabaseDatFilePath fileName)
+        /// <param name="filePath">ファイルパス</param>
+        /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
+        public DatabaseDatFile(DatabaseDatFilePath filePath) : base(filePath)
         {
-            if (fileName is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(fileName)));
-
-            FileName = fileName;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Method
+        //     Private Static Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// ファイルを同期的に書き出す。
+        /// ファイル書き出しクラスを生成する。
         /// </summary>
-        /// <param name="data">[NotNull] 書き出しデータ</param>
-        /// <exception cref="ArgumentNullException">data がnullの場合</exception>
-        public void WriteSync(DatabaseDat data)
+        /// <param name="filePath">書き出しファイル名</param>
+        /// <returns>ライターインスタンス</returns>
+        /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
+        protected override DatabaseDatFileWriter MakeFileWriter(DatabaseDatFilePath filePath)
         {
-            if (data is null)
+            if (filePath is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(data)));
+                    ErrorMessage.NotNull(nameof(filePath)));
 
-            // 出力データのDB種別が指定されている場合のみ、ファイル名との整合性チェック
-            if (!(data.DBKind is null))
-            {
-                if (FileName.DBKind != data.DBKind)
-                    throw new ArgumentException(
-                        "ファイル名のDB種別と出力データのDB種別が異なります、");
-            }
-
-            Data = data;
-
-            var writer = BuildFileWriter(FileName, Data);
-            writer.WriteSync();
+            var writer = new DatabaseDatFileWriter(filePath);
+            return writer;
         }
 
         /// <summary>
-        /// ファイルを非同期的に書き出す。
+        /// ファイル読み込みクラスを生成する。
         /// </summary>
-        /// <param name="data">[NotNull] 書き出しデータ</param>
-        /// <returns>非同期処理タスク</returns>
-        /// <exception cref="ArgumentNullException">data がnullの場合</exception>
-        public async Task WriteAsync(DatabaseDat data)
+        /// <param name="filePath">読み込みファイル名</param>
+        /// <returns>リーダーインスタンス</returns>
+        /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
+        protected override DatabaseDatFileReader MakeFileReader(DatabaseDatFilePath filePath)
         {
-            if (data is null)
+            if (filePath is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(data)));
+                    ErrorMessage.NotNull(nameof(filePath)));
 
-            Data = data;
-
-            var writer = BuildFileWriter(FileName, Data);
-            await writer.WriteAsync();
+            var reader = new DatabaseDatFileReader(filePath, filePath.DBKind);
+            return reader;
         }
 
-        /// <summary>
-        /// ファイルを同期的に読み込む。
-        /// </summary>
-        /// <returns>読み込みデータ</returns>
-        public DatabaseDat ReadSync()
+        /// <inheritdoc />
+        [Obsolete("Ver1.1 以前と互換性を持たせるためだけのメソッドです。 Ver1.3 で削除します。")]
+        protected override void CallbackIO(DatabaseDat data)
         {
-            var reader = BuildFileReader(FileName);
-            Data = reader.ReadSync();
-            return Data;
-        }
-
-        /// <summary>
-        /// ファイルを非同期的に読み込む。
-        /// </summary>
-        /// <returns>読み込みデータを返すタスク</returns>
-        public async Task<DatabaseDat> ReadAsync()
-        {
-            var reader = BuildFileReader(FileName);
-            await reader.ReadAsync();
-            Data = reader.Data;
-            return Data;
+            DatabaseDat = data;
         }
     }
 }

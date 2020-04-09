@@ -23,12 +23,12 @@ namespace WodiLib.Test.IO.ValueObject
         [TestCase("", true)]
         [TestCase("Game.ini", false)]
         [TestCase("GAME.INI", false)]
-        [TestCase("GameIni", true)]
-        [TestCase("Game.ini.bak", true)]
+        [TestCase("GameIni", false)]
+        [TestCase("Game.ini.bak", false)]
         [TestCase("./game.ini", false)]
         [TestCase(@".\Data\Game.ini", false)]
         [TestCase(@"c:\MyProject\Data\Game.ini", false)]
-        [TestCase(@"c:\MyProject\Data\Game.in", true)]
+        [TestCase(@"c:\MyProject\Data\Game.in", false)]
         public static void ConstructorTest(string path, bool isError)
         {
             GameIniFilePath instance = null;

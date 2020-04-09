@@ -13,26 +13,28 @@ namespace WodiLib.Test.IO
             new object[]
             {
                 DatabaseProjectFileTestItemGenerator.GenerateDatabase0Project(),
+                (UserDatabaseProjectFilePath)
                 $@"{DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\OutputDatabase0.project"
             },
             new object[]
             {
                 DatabaseProjectFileTestItemGenerator.GenerateCDatabase0Project(),
+                (ChangeableDatabaseProjectFilePath)
                 $@"{DatabaseProjectFileTestItemGenerator.TestWorkRootDir}\OutputCDatabase0.project"
             },
         };
 
         [TestCaseSource(nameof(WriteSyncTestCaseSource))]
-        public static void WriteSyncTest(DatabaseProject outputData, string outputFileName)
+        public static void WriteSyncTest(DatabaseProject outputData, DatabaseProjectFilePath outputFileName)
         {
-            var writer = new DatabaseProjectFileWriter(outputData, outputFileName);
+            var writer = new DatabaseProjectFileWriter(outputFileName);
 
             var isSuccess = false;
             var errorMessage = "";
 
             try
             {
-                writer.WriteSync();
+                writer.WriteSync(outputData);
                 isSuccess = true;
             }
             catch (Exception e)

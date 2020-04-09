@@ -11,6 +11,8 @@
     <PackageLicenseUrl>https://github.com/kameske/WodiLib/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/kameske/WodiLib.git</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
+    <AssemblyVersion>1.1.65534.0</AssemblyVersion>
+    <FileVersion>1.1.65534.0</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DocumentationFile>bin\Debug\netstandard2.0\WodiLib.xml</DocumentationFile>

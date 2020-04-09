@@ -26,19 +26,39 @@ namespace WodiLib.Test.IO
             DatabaseDatFileTestItemGenerator.OutputFile();
         }
 
-        [TestCase("Database1.dat", "OutputDatabase1.dat")]
-        [TestCase("CDatabase1.dat", "OutputCDatabase1.dat")]
-        [TestCase("SysDatabase1.dat", "OutputSysDatabase1.dat")]
-        public static void DatabaseDatIOTest(string inputFileName, string outputFileName)
+        private static readonly object[] DatabaseDatIOTestCaseSource =
+        {
+            new object[]
+            {
+                (UserDatabaseDatFilePath) $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\Database1.dat",
+                (UserDatabaseDatFilePath) $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\OutputDatabase1.dat",
+            },
+            new object[]
+            {
+                (ChangeableDatabaseDatFilePath) $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\CDatabase1.dat",
+                (ChangeableDatabaseDatFilePath)
+                $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\OutputCDatabase1.dat",
+            },
+            new object[]
+            {
+                (SystemDatabaseDatFilePath) $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\SysDatabase1.dat",
+                (SystemDatabaseDatFilePath)
+                $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\OutputSysDatabase1.dat",
+            },
+        };
+
+        [TestCaseSource(nameof(DatabaseDatIOTestCaseSource))]
+        public static void DatabaseDatIOTest(DatabaseDatFilePath inputFileName, DatabaseDatFilePath outputFileName)
         {
             var reader =
                 new DatabaseDatFileReader(
-                    $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\{inputFileName}",
+                    inputFileName,
                     DBKind.User);
             var isSuccessRead = false;
+            DatabaseDat data = null;
             try
             {
-                reader.ReadAsync().GetAwaiter().GetResult();
+                data = reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -48,14 +68,11 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var data = reader.Data;
-
-            var writer = new DatabaseDatFileWriter(data,
-                $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+            var writer = new DatabaseDatFileWriter(outputFileName);
             var isSuccessWrite = false;
             try
             {
-                writer.WriteAsync().GetAwaiter().GetResult();
+                writer.WriteAsync(data).GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
             catch (Exception ex)

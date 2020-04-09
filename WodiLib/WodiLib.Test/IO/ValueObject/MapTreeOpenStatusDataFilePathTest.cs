@@ -23,12 +23,12 @@ namespace WodiLib.Test.IO.ValueObject
         [TestCase("", true)]
         [TestCase("MapTreeOpenStatus.dat", false)]
         [TestCase("MAPTREEOPENSTATUS.DAT", false)]
-        [TestCase("MapTreeOpenStatus_.dat", true)]
-        [TestCase("MapTreeOpenStatus.dat.bak", true)]
+        [TestCase("MapTreeOpenStatus_.dat", false)]
+        [TestCase("MapTreeOpenStatus.dat.bak", false)]
         [TestCase("./MapTreeOpenStatus.dat", false)]
         [TestCase(@".\Data\MapTreeOpenStatus.dat", false)]
         [TestCase(@"c:\MyProject\Data\MapTreeOpenStatus.dat", false)]
-        [TestCase(@"c:\MyProject\Data\MapTreeOpenStatus.data", true)]
+        [TestCase(@"c:\MyProject\Data\MapTreeOpenStatus.data", false)]
         public static void ConstructorTest(string path, bool isError)
         {
             MapTreeOpenStatusDataFilePath instance = null;

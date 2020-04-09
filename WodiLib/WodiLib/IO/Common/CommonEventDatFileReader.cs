@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using System.Threading.Tasks;
 using WodiLib.Common;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
@@ -17,16 +16,11 @@ namespace WodiLib.IO
     /// <summary>
     /// コモンイベントデータファイル読み込みクラス
     /// </summary>
-    internal class CommonEventDatFileReader
+    public class CommonEventDatFileReader : WoditorFileReaderBase<CommonEventDatFilePath, CommonEventData>
     {
-        /// <summary>読み込みファイルパス</summary>
-        // テストを考慮してstring型で管理する
-        public string FilePath { get; }
+        private FileReadStatus ReadStatus { get; }
 
-        /// <summary>[Nullable] 読み込んだコモンイベントデータ</summary>
-        public CommonEventData CommonEventData { get; private set; }
-
-        private FileReadStatus ReadStatus { get; set; }
+        private readonly object readLock = new object();
 
         /// <summary>ロガー</summary>
         private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
@@ -34,15 +28,10 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込みファイルパス</param>
+        /// <param name="filePath">読み込みファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        public CommonEventDatFileReader(string filePath)
+        public CommonEventDatFileReader(CommonEventDatFilePath filePath) : base(filePath)
         {
-            if (filePath is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(filePath)));
-
-            FilePath = filePath;
             ReadStatus = new FileReadStatus(FilePath);
         }
 
@@ -51,44 +40,29 @@ namespace WodiLib.IO
         /// </summary>
         /// <returns>読み込んだデータ</returns>
         /// <exception cref="InvalidOperationException">
-        ///     すでにファイルを読み込んでいる場合、
-        ///     またはファイルが正しく読み込めなかった場合
+        ///     ファイルが正しく読み込めなかった場合
         /// </exception>
-        public CommonEventData ReadSync()
+        public override CommonEventData ReadSync()
         {
-            if (!(CommonEventData is null))
-                throw new InvalidOperationException(
-                    $"すでに読み込み完了しています。");
+            lock (readLock)
+            {
+                Logger.Info(FileIOMessage.StartFileRead(GetType()));
 
-            Logger.Info(FileIOMessage.StartFileRead(GetType()));
+                var commonEventData = new CommonEventData();
 
-            CommonEventData = new CommonEventData();
+                // ヘッダチェック
+                ReadHeader(ReadStatus);
 
-            // ヘッダチェック
-            ReadHeader(ReadStatus);
+                // コモンイベント
+                ReadCommonEvent(ReadStatus, commonEventData);
 
-            // コモンイベント
-            ReadCommonEvent(ReadStatus, CommonEventData);
+                // フッタチェック
+                ReadFooter(ReadStatus);
 
-            // フッタチェック
-            ReadFooter(ReadStatus);
+                Logger.Info(FileIOMessage.EndFileRead(GetType()));
 
-            Logger.Info(FileIOMessage.EndFileRead(GetType()));
-
-            return CommonEventData;
-        }
-
-        /// <summary>
-        /// ファイルを非同期的に読み込む
-        /// </summary>
-        /// <returns>読み込み成否</returns>
-        /// <exception cref="InvalidOperationException">
-        ///     すでにファイルを読み込んでいる場合、
-        ///     またはファイルが正しく読み込めなかった場合
-        /// </exception>
-        public async Task<CommonEventData> ReadAsync()
-        {
-            return await Task.Run(ReadSync);
+                return commonEventData;
+            }
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

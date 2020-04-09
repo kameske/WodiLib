@@ -1,6 +1,7 @@
 using System;
 using NUnit.Framework;
 using WodiLib.IO;
+using WodiLib.Map;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
@@ -37,10 +38,11 @@ namespace WodiLib.Test.IO
             const string outputFileName = "OutputSampleMapA.mps";
 
             var reader = new MpsFileReader($@"{MapFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
+            MapData data = null;
             var isSuccessRead = false;
             try
             {
-                reader.ReadAsync().GetAwaiter().GetResult();
+                data = reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -50,14 +52,12 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var mapData = reader.MapData;
-
-            var writer = new MpsFileWriter(mapData,
+            var writer = new MpsFileWriter(
                 $@"{MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
             try
             {
-                writer.WriteAsync().GetAwaiter().GetResult();
+                writer.WriteAsync(data).GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
             catch (Exception ex)
@@ -77,10 +77,11 @@ namespace WodiLib.Test.IO
             const string outputFileName = "OutputSampleMapB.mps";
 
             var reader = new MpsFileReader($@"{MapFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
+            MapData data = null;
             var isSuccessRead = false;
             try
             {
-                reader.ReadAsync().GetAwaiter().GetResult();
+                data = reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -90,14 +91,12 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var mapData = reader.MapData;
-
-            var writer = new MpsFileWriter(mapData,
+            var writer = new MpsFileWriter(
                 $@"{MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
             try
             {
-                writer.WriteAsync().GetAwaiter().GetResult();
+                writer.WriteAsync(data).GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
             catch (Exception ex)
@@ -117,10 +116,11 @@ namespace WodiLib.Test.IO
             const string outputFileName = "OutputDungeon.mps";
 
             var reader = new MpsFileReader($@"{MapFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
+            MapData data = null;
             var isSuccessRead = false;
             try
             {
-                reader.ReadSync();
+                data = reader.ReadSync();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -130,14 +130,12 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var mapData = reader.MapData;
-
-            var writer = new MpsFileWriter(mapData, $@"{MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
+            var writer = new MpsFileWriter(
+                $@"{MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
-
             try
             {
-                writer.WriteSync();
+                writer.WriteSync(data);
                 isSuccessWrite = true;
             }
             catch (Exception ex)
@@ -155,10 +153,11 @@ namespace WodiLib.Test.IO
             const string outputFileName = "OutputMap100.mps";
 
             var readFile = new MpsFile($@"{MapFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
+            MapData data = null;
             var isSuccessRead = false;
             try
             {
-                readFile.ReadSync();
+                data = readFile.ReadSync();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -168,14 +167,12 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var mapData = readFile.MapData;
-
             var writeFile = new MpsFile($@"{MapFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
 
             try
             {
-                writeFile.WriteSync(mapData);
+                writeFile.WriteSync(data);
                 isSuccessWrite = true;
             }
             catch (Exception ex)

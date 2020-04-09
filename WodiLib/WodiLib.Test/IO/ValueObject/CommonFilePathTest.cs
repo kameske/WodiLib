@@ -22,12 +22,12 @@ namespace WodiLib.Test.IO.ValueObject
         [TestCase("", true)]
         [TestCase("Common0000.common", false)]
         [TestCase("com123.COMMON", false)]
-        [TestCase("Common.com", true)]
-        [TestCase("CommonEvent0000.common.bak", true)]
+        [TestCase("Common.com", false)]
+        [TestCase("CommonEvent0000.common.bak", false)]
         [TestCase("./common0000_to1234.common", false)]
         [TestCase(@".\Data\Common.Common", false)]
         [TestCase(@"c:\MyProject\Data\Common0000.common", false)]
-        [TestCase(@"c:\MyProject\Data\Common0000.co", true)]
+        [TestCase(@"c:\MyProject\Data\Common0000.co", false)]
         public static void ConstructorTest(string path, bool isError)
         {
             CommonFilePath instance = null;

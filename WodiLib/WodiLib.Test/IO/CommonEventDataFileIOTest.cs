@@ -1,5 +1,6 @@
 using System;
 using NUnit.Framework;
+using WodiLib.Common;
 using WodiLib.IO;
 using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
@@ -40,9 +41,10 @@ namespace WodiLib.Test.IO
                 new CommonEventDatFileReader(
                     $@"{CommonEventDataFileTestItemGenerator.TestWorkRootDir}\{inputFileName}");
             var isSuccessRead = false;
+            CommonEventData commonEventData = null;
             try
             {
-                reader.ReadAsync().GetAwaiter().GetResult();
+                commonEventData = reader.ReadAsync().GetAwaiter().GetResult();
                 isSuccessRead = true;
             }
             catch (Exception ex)
@@ -52,14 +54,12 @@ namespace WodiLib.Test.IO
 
             Assert.IsTrue(isSuccessRead);
 
-            var commonEventData = reader.CommonEventData;
-
-            var writer = new CommonEventDatFileWriter(commonEventData,
+            var writer = new CommonEventDatFileWriter(
                 $@"{CommonEventDataFileTestItemGenerator.TestWorkRootDir}\{outputFileName}");
             var isSuccessWrite = false;
             try
             {
-                writer.WriteAsync().GetAwaiter().GetResult();
+                writer.WriteAsync(commonEventData).GetAwaiter().GetResult();
                 isSuccessWrite = true;
             }
             catch (Exception ex)

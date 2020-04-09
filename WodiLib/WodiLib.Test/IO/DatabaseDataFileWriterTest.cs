@@ -13,26 +13,27 @@ namespace WodiLib.Test.IO
             new object[]
             {
                 DatabaseDatFileTestItemGenerator.GenerateDataBaseDat0Data(),
-                $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\OutputDatabase0.dat"
+                (UserDatabaseDatFilePath) $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\OutputDatabase0.dat"
             },
             new object[]
             {
                 DatabaseDatFileTestItemGenerator.GenerateCDatabaseData0Data(),
+                (ChangeableDatabaseDatFilePath)
                 $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\OutputCDatabase0.dat"
             },
         };
 
         [TestCaseSource(nameof(WriteSyncTestCaseSource))]
-        public static void WriteSyncTest(DatabaseDat outputDat, string outputFileName)
+        public static void WriteSyncTest(DatabaseDat outputDat, DatabaseDatFilePath outputFileName)
         {
-            var writer = new DatabaseDatFileWriter(outputDat, outputFileName);
+            var writer = new DatabaseDatFileWriter(outputFileName);
 
             var isSuccess = false;
             var errorMessage = "";
 
             try
             {
-                writer.WriteSync();
+                writer.WriteSync(outputDat);
                 isSuccess = true;
             }
             catch (Exception e)

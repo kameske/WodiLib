@@ -34,26 +34,28 @@ namespace WodiLib.Test.IO
             new object[]
             {
                 DatabaseDatFileTestItemGenerator.GenerateDataBaseDat0Data(),
-                "Database0.dat", DBKind.User
+                (UserDatabaseDatFilePath) $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\Database0.dat",
+                DBKind.User
             },
             new object[]
             {
                 DatabaseDatFileTestItemGenerator.GenerateCDatabaseData0Data(),
-                "CDatabase0.dat", DBKind.Changeable
+                (ChangeableDatabaseDatFilePath) $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\CDatabase0.dat",
+                DBKind.Changeable
             },
         };
 
         [TestCaseSource(nameof(DatabaseDatReadTestCaseSource))]
-        public static void DatabaseDatReadTest(DatabaseDat resultDat, string readFileName, DBKind dbKind)
+        public static void DatabaseDatReadTest(DatabaseDat resultDat, DatabaseDatFilePath readFileName, DBKind dbKind)
         {
-            var filePath = $@"{DatabaseDatFileTestItemGenerator.TestWorkRootDir}\{readFileName}";
-            var reader = new DatabaseDatFileReader(filePath, dbKind);
+            var reader = new DatabaseDatFileReader(readFileName, dbKind);
 
+            DatabaseDat data = null;
             var readResult = false;
             var errorMessage = "";
             try
             {
-                reader.ReadSync();
+                data = reader.ReadSync();
                 readResult = true;
             }
             catch (Exception ex)
@@ -72,10 +74,10 @@ namespace WodiLib.Test.IO
 
             Console.WriteLine("Write Test Clear.");
 
-            var readResultDataBytes = reader.Data.ToBinary().ToArray();
+            var readResultDataBytes = data.ToBinary().ToArray();
 
             // 元のデータと一致すること
-            using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            using (var stream = new FileStream(readFileName, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 var bufLength = (int) stream.Length;
                 var buf = new byte[bufLength];

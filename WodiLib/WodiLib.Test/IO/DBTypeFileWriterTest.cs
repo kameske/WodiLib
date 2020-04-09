@@ -25,14 +25,14 @@ namespace WodiLib.Test.IO
         [TestCaseSource(nameof(WriteSyncTestCaseSource))]
         public static void WriteSyncTest(DBType outputDat, string outputFileName)
         {
-            var writer = new DBTypeFileWriter(outputDat, outputFileName);
+            var writer = new DBTypeFileWriter(outputFileName);
 
             var isSuccess = false;
             var errorMessage = "";
 
             try
             {
-                writer.WriteSync();
+                writer.WriteSync(outputDat);
                 isSuccess = true;
             }
             catch (Exception e)

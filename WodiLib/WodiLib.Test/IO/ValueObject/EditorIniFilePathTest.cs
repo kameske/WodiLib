@@ -23,12 +23,12 @@ namespace WodiLib.Test.IO.ValueObject
         [TestCase("", true)]
         [TestCase("Editor.ini", false)]
         [TestCase("EDITOR.INI", false)]
-        [TestCase("EditorIni", true)]
-        [TestCase("Editor.ini.bak", true)]
+        [TestCase("EditorIni", false)]
+        [TestCase("Editor.ini.bak", false)]
         [TestCase("./editor.ini", false)]
         [TestCase(@".\Data\Editor.ini", false)]
         [TestCase(@"c:\MyProject\Data\Editor.ini", false)]
-        [TestCase(@"c:\MyProject\Data\Editor.in", true)]
+        [TestCase(@"c:\MyProject\Data\Editor.in", false)]
         public static void ConstructorTest(string path, bool isError)
         {
             EditorIniFilePath instance = null;
