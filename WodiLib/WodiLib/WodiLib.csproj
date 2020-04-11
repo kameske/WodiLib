@@ -2,7 +2,7 @@
   <PropertyGroup>
     <RootNamespace>WodiLib</RootNamespace>
     <TargetFrameworks>net461;netstandard2.0;netcoreapp2.1</TargetFrameworks>
-    <PackageVersion>1.1.0.7</PackageVersion>
+    <PackageVersion>1.1.65534</PackageVersion>
     <Title>WodiLib</Title>
     <Authors>kameske</Authors>
     <Copyright>MIT License Copyright(c) 2019 kameske</Copyright>

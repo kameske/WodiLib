@@ -1,6 +1,8 @@
 WodiLib
-Ver 1.1.0
+Ver 1.1.65534
 ====
+
+<b>developブランチの更新は当更新をもって終了します。今後は ```vX.x/develop``` を運用します。</b>
 
 Description
 ----------
