@@ -27,6 +27,25 @@ License
 
 [MIT License](https://github.com/kameske/WodiLib/blob/master/LICENSE)
 
+Branches
+----------
+
+- master
+  - releaseしたDLLの元となったプロジェクトのみをコミットするブランチ。
+  - Ver 2.X 公開以降は最もメジャーバージョンが大きなmasterブランチと同期。
+- develop
+  - Ver 1.2 未満のバージョンで機能追加や不具合修正を行った際に反映するブランチ。
+  - Ver 1.2 および Ver 2.2 公開以降は廃止。代わりにメジャーバージョンごとのブランチを作成。
+- XXX/master (XXX = Version)
+  - Ver XXX 専用のmasterブランチ。メジャーバージョンごとに存在。
+  - Ver 1.2 公開以降で使用される。
+- XXX/develop (XXX = Version)
+  - Ver XXX 専用のdevelopブランチ。メジャーバージョンごとに存在。
+  - Ver 1.2 公開以降で使用される。
+- features (XXX/features)
+  - 機能追加時、developブランチに反映する前に作成されることがあるブランチ。
+  - master ブランチに取り込まれたあとは削除される。
+
 Loadmap
 ----------
 
