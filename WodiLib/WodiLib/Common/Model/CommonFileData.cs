@@ -60,19 +60,19 @@ namespace WodiLib.Common
         /// <summary>
         /// コモンイベントリストをセットする。
         /// </summary>
-        /// <param name="commonEvents">[NotNull] コモンイベントリスト</param>
+        /// <param name="commonEvents">コモンイベントリスト</param>
         /// <exception cref="ArgumentNullException">commonEventsがnullの場合</exception>
         /// <exception cref="ArgumentException">commonEventsの要素数が0の場合</exception>
-        [Obsolete("CommonEventList プロパティを直接操作してください。 Ver1.4で削除します。")]
+        [Obsolete("CommonEventList プロパティを直接操作してください。 Ver2.4で削除します。")]
         public void SetCommonEventList(IEnumerable<CommonEvent> commonEvents)
         {
             if (commonEvents is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(commonEvents)));
 
-            var eventList = commonEvents.ToArray();
+            var eventList = commonEvents.ToList();
 
-            if (eventList.Length == 0)
+            if (eventList.Count == 0)
                 throw new ArgumentException(
                     $"{nameof(commonEvents)}の要素数は1以上である必要があります。");
 
@@ -83,7 +83,7 @@ namespace WodiLib.Common
         /// すべてのコモンイベントを返す。
         /// </summary>
         /// <returns>コモンイベント</returns>
-        [Obsolete("CommonEventList プロパティを直接操作してください。 Ver1.4で削除します。")]
+        [Obsolete("CommonEventList プロパティを直接操作してください。 Ver2.4で削除します。")]
         public IEnumerable<CommonEvent> GetAllCommonEvent()
         {
             return CommonEventList.ToList();
@@ -94,7 +94,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(CommonFileData other)
+        public override bool Equals(CommonFileData? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

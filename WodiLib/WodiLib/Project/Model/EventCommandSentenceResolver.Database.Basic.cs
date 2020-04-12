@@ -56,7 +56,7 @@ namespace WodiLib.Project
         /// <summary>
         /// タイプIDを指定してDBのタイプ名を取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="id">タイプID</param>
         /// <returns>
         ///     存在フラグとタイプ名。
@@ -83,7 +83,7 @@ namespace WodiLib.Project
         /// <summary>
         /// タイプID、データIDを指定して可変DBのデータ名を取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">タイプID</param>
         /// <param name="dataId">データID</param>
         /// <returns>
@@ -150,7 +150,7 @@ namespace WodiLib.Project
         /// <summary>
         /// タイプID、項目IDを指定してDBの項目名を取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">タイプID</param>
         /// <param name="itemId">項目ID</param>
         /// <returns>
@@ -185,8 +185,8 @@ namespace WodiLib.Project
         /// <summary>
         /// タイプ名を指定してタイプIDを取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
-        /// <param name="name">[NotNull] タイプ名</param>
+        /// <param name="dbKind">DB種別</param>
+        /// <param name="name">タイプ名</param>
         /// <returns>タイプID。見つからない場合null。</returns>
         /// <exception cref="ArgumentNullException">dbKind または name が null の場合</exception>
         public (int?, string) GetDatabaseTypeId(DBKind dbKind, string name)
@@ -218,9 +218,9 @@ namespace WodiLib.Project
         /// <summary>
         /// タイプID、データ名を指定してデータIDを取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">タイプID</param>
-        /// <param name="dataName">[NotNull] データ名</param>
+        /// <param name="dataName">データ名</param>
         /// <returns>
         ///     データID。
         ///     データが見つからない場合、null。
@@ -258,9 +258,9 @@ namespace WodiLib.Project
         /// <summary>
         /// タイプID、項目名を指定して項目IDを取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">タイプID</param>
-        /// <param name="itemName">[NotNull] 項目名</param>
+        /// <param name="itemName">項目名</param>
         /// <returns>
         ///     項目ID。
         ///     項目が見つからない場合、null。
@@ -298,9 +298,9 @@ namespace WodiLib.Project
         /// タイプID、項目名を指定して項目IDを取得する。
         /// イベントコマンド「DB書込」専用。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">タイプID</param>
-        /// <param name="itemName">[NotNull] 項目名</param>
+        /// <param name="itemName">項目名</param>
         /// <returns>
         ///     項目ID。
         ///     項目が見つからない場合、null。
@@ -341,7 +341,7 @@ namespace WodiLib.Project
         /// <summary>
         /// DBマージデータの参照を取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <returns>DBマージデータ</returns>
         /// <exception cref="InvalidOperationException">意図しない処理の場合</exception>
         private DatabaseMergedData GetDatabaseRefer(DBKind dbKind)

@@ -141,7 +141,7 @@ namespace WodiLib.Event.EventCommand
         /// 文字列変数を設定する。
         /// </summary>
         /// <param name="index">[Range(0, -)] インデックス</param>
-        /// <param name="value">[NotNull] 設定値</param>
+        /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">常に</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void SetSafetyStringVariable(int index, string value)
@@ -153,7 +153,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             if (KeyType == DeviceInputControlType.KeyboardKey)
             {
@@ -172,7 +172,7 @@ namespace WodiLib.Event.EventCommand
 
         private DeviceInputControlType keyType = DeviceInputControlType.AllDevices;
 
-        /// <summary>[NotNull] 入力制御タイプ</summary>
+        /// <summary>入力制御タイプ</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DeviceInputControlType KeyType
         {
@@ -183,15 +183,27 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(KeyType)));
                 keyType = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(NumberVariableCount));
             }
         }
 
+        private int keyCode;
+
         /// <summary>キーコード</summary>
-        public int KeyCode { get; set; }
+        public int KeyCode
+        {
+            get => keyCode;
+            set
+            {
+                keyCode = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private DeviceKeyInputControlType controlType = DeviceKeyInputControlType.Allow;
 
-        /// <summary>[NotNull] コントロール</summary>
+        /// <summary>コントロール</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DeviceKeyInputControlType ControlType
         {
@@ -202,6 +214,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(ControlType)));
                 controlType = value;
+                NotifyPropertyChanged();
             }
         }
 

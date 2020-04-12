@@ -7,8 +7,8 @@
 // ========================================
 
 using System;
+using Commons;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Map
 {
@@ -94,11 +94,11 @@ namespace WodiLib.Map
                     ErrorMessage.OutOfRange(nameof(height), MinValue_Height, MaxValue_Height, height));
 
             if (width < SafetyMinValue_Width || SafetyMaxValue_Width < width)
-                WodiLibLogger.GetInstance().Warning(
+                Logger.GetInstance().Warning(
                     WarningMessage.OutOfRange(nameof(width), SafetyMinValue_Width,
                         SafetyMaxValue_Width, width));
             if (height < SafetyMinValue_Height || SafetyMaxValue_Height < height)
-                WodiLibLogger.GetInstance().Warning(
+                Logger.GetInstance().Warning(
                     WarningMessage.OutOfRange(nameof(height), SafetyMinValue_Height,
                         SafetyMaxValue_Height, height));
 
@@ -117,7 +117,7 @@ namespace WodiLib.Map
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is HitExtendRange other && Equals(other);
         }

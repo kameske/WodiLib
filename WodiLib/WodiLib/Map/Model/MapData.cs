@@ -27,7 +27,7 @@ namespace WodiLib.Map
 
         private MapDataMemo memo = "";
 
-        /// <summary>[NotNull] メモ</summary>
+        /// <summary>メモ</summary>
         /// <exception cref="PropertyNullException">nullをセットしようとした場合</exception>
         public MapDataMemo Memo
         {
@@ -63,7 +63,7 @@ namespace WodiLib.Map
 
         private Layer layer1 = new Layer();
 
-        /// <summary>[NotNull] レイヤー1</summary>
+        /// <summary>レイヤー1</summary>
         /// <exception cref="PropertyNullException">nullをセットしようとした場合</exception>
         public Layer Layer1
         {
@@ -93,7 +93,7 @@ namespace WodiLib.Map
 
         private Layer layer2 = new Layer();
 
-        /// <summary>[NotNull] レイヤー2</summary>
+        /// <summary>レイヤー2</summary>
         /// <exception cref="PropertyNullException">nullをセットしようとした場合</exception>
         /// <exception cref="PropertyException">Layer1と異なるマップサイズのインスタンスをセットしようとした場合</exception>
         public Layer Layer2
@@ -112,7 +112,7 @@ namespace WodiLib.Map
 
         private Layer layer3 = new Layer();
 
-        /// <summary>[NotNull] レイヤー3</summary>
+        /// <summary>レイヤー3</summary>
         /// <exception cref="PropertyNullException">nullをセットしようとした場合</exception>
         /// <exception cref="PropertyException">Layer1と異なるマップサイズのインスタンスをセットしようとした場合</exception>
         public Layer Layer3
@@ -131,7 +131,7 @@ namespace WodiLib.Map
 
         private MapEventList mapEvents = new MapEventList();
 
-        /// <summary>[NotNull] マップイベントリスト</summary>
+        /// <summary>マップイベントリスト</summary>
         public MapEventList MapEvents
         {
             get => mapEvents;
@@ -172,7 +172,7 @@ namespace WodiLib.Map
         /// レイヤー情報をセットする。
         /// </summary>
         /// <param name="index">[Range(0, 2)] インデックス</param>
-        /// <param name="layer">[NotNull] セットするレイヤー情報</param>
+        /// <param name="layer">セットするレイヤー情報</param>
         /// <exception cref="ArgumentNullException">レイヤー情報が null の場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">インデックスが 0～2 以外の場合</exception>
         public void SetLayer(int index, Layer layer)
@@ -320,8 +320,8 @@ namespace WodiLib.Map
         /// <summary>
         /// イベントコマンド文字列情報リストを取得する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="desc">付加情報</param>
         /// <param name="eventId">[Range(0, MapEvents.Count - 1)] マップイベントID</param>
         /// <param name="page">[Range(0, PageValue-1)] ページインデックス</param>
         /// <returns>イベントコマンド文字列</returns>
@@ -333,7 +333,7 @@ namespace WodiLib.Map
         /// <exception cref="ArgumentOutOfRangeException">eventId, pageが指定された範囲外の場合</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public IReadOnlyList<EventCommandSentenceInfo> MakeEventCommandSentenceInfoList(
-            EventCommandSentenceResolver resolver, EventCommandSentenceResolveDesc desc,
+            EventCommandSentenceResolver resolver, EventCommandSentenceResolveDesc? desc,
             MapEventId eventId, int page)
         {
             if (eventId == MapEventId.ThisMapEvent)
@@ -354,7 +354,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(MapData other)
+        public override bool Equals(MapData? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

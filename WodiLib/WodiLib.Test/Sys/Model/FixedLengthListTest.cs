@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using Commons;
 using NUnit.Framework;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Sys
@@ -12,13 +12,13 @@ namespace WodiLib.Test.Sys
     [TestFixture]
     public class FixedLengthListTest
     {
-        private static WodiLibLogger logger;
+        private static Logger logger;
 
         [SetUp]
         public static void Setup()
         {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
+            LoggerInitializer.SetupLoggerForDebug();
+            logger = Logger.GetInstance();
         }
 
         [TestCase(TestClassType.Type1, false)]

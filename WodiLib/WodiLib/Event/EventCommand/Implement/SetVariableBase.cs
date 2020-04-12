@@ -71,7 +71,7 @@ namespace WodiLib.Event.EventCommand
         /// 文字列変数を設定する。
         /// </summary>
         /// <param name="index">[Range(0, -)] インデックス</param>
-        /// <param name="value">[NotNull] 設定値</param>
+        /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">常に</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void SetSafetyStringVariable(int index, string value)
@@ -83,7 +83,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var leftSideStr = MakeLeftSideStr(resolver, type, desc);
             var rightSideStr = MakeRightSideStr(resolver, type, desc);
@@ -97,16 +97,16 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文字列の左辺部分を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列の左辺部分</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected abstract string MakeLeftSideStr(EventCommandSentenceResolver resolver,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc);
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc);
 
         private string MakeRightSideStr(EventCommandSentenceResolver resolver,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             string rightSideStr1;
             if (IsNotReferRight1) rightSideStr1 = RightSide1.ToString();
@@ -171,7 +171,7 @@ namespace WodiLib.Event.EventCommand
 
         private NumberAssignmentOperator assignmentOperator = NumberAssignmentOperator.Assign;
 
-        /// <summary>[NotNull] 代入演算子</summary>
+        /// <summary>代入演算子</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public NumberAssignmentOperator AssignmentOperator
         {
@@ -201,7 +201,7 @@ namespace WodiLib.Event.EventCommand
 
         private CalculateOperator calculateOperator = CalculateOperator.Addition;
 
-        /// <summary>[NotNull] 計算演算子</summary>
+        /// <summary>計算演算子</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CalculateOperator CalculateOperator
         {

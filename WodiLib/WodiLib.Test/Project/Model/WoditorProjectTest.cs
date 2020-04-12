@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Commons;
 using NUnit.Framework;
 using WodiLib.IO;
 using WodiLib.Project;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Project.Model
@@ -16,7 +16,7 @@ namespace WodiLib.Test.Project.Model
     [TestFixture]
     public class WoditorProjectTest
     {
-        private static WodiLibLogger logger;
+        private static Logger logger;
 
         [OneTimeSetUp]
         public static void OneTimeSetUp()
@@ -28,8 +28,8 @@ namespace WodiLib.Test.Project.Model
         public static void Setup()
         {
             // デバッグ情報等まで出力すると出力に時間がかかりすぎてAbortするためログレベルを抑える
-            LoggerInitializer.SetupWodiLibLoggerForProjectTest();
-            logger = WodiLibLogger.GetInstance(LoggerInitializer.KeyNameForDebug);
+            LoggerInitializer.SetupLoggerForProjectTest();
+            logger = Logger.GetInstance(LoggerInitializer.KeyNameForDebug);
         }
 
         private static readonly string TestProjectDir
@@ -706,7 +706,7 @@ namespace WodiLib.Test.Project.Model
             {
                 resultList = instance.GetMapEventEventCommandSentenceInfoListSync(
                     testInfo.MapEventInfo.FilePath, testInfo.MapEventInfo.MapEventId,
-                    testInfo.MapEventInfo.PageIndex, false, false);
+                    testInfo.MapEventInfo.PageIndex, false);
             }
             catch (Exception ex)
             {
@@ -752,15 +752,6 @@ namespace WodiLib.Test.Project.Model
 
             // プロパティ変更通知が発火していないこと
             Assert.AreEqual(changedPropertyList.Count, 0);
-
-            // 省略しないイベントコマンド文字列を出力
-            var resultList2 = instance.GetMapEventEventCommandSentenceInfoListSync(
-                testInfo.MapEventInfo.FilePath, testInfo.MapEventInfo.MapEventId,
-                testInfo.MapEventInfo.PageIndex, true);
-            resultList2.ForEach((result, i) =>
-            {
-                logger.Info($"{i}行目:{result.Sentence}");
-            });
         }
 
         [TestCaseSource(nameof(GetMapEventEventCommandSentenceInfoListTestCaseSource))]
@@ -777,7 +768,7 @@ namespace WodiLib.Test.Project.Model
             {
                 resultList = await instance.GetMapEventEventCommandSentenceInfoListAsync(
                     testInfo.MapEventInfo.FilePath, testInfo.MapEventInfo.MapEventId,
-                    testInfo.MapEventInfo.PageIndex, false, false);
+                    testInfo.MapEventInfo.PageIndex, false);
             }
             catch (Exception ex)
             {
@@ -843,7 +834,7 @@ namespace WodiLib.Test.Project.Model
             try
             {
                 resultList = instance.GetCommonEventEventCommandSentenceInfoListSync(
-                    testInfo.CommonEventInfo.CommonEventId, testInfo.CommonEventInfo.MpsFilePath, false, false);
+                    testInfo.CommonEventInfo.CommonEventId, testInfo.CommonEventInfo.MpsFilePath, false);
             }
             catch (Exception ex)
             {
@@ -889,14 +880,6 @@ namespace WodiLib.Test.Project.Model
 
             // プロパティ変更通知が発火していないこと
             Assert.AreEqual(changedPropertyList.Count, 0);
-
-            // 省略しないイベントコマンド文字列を出力
-            var resultList2 = instance.GetCommonEventEventCommandSentenceInfoListSync(
-                testInfo.CommonEventInfo.CommonEventId, testInfo.CommonEventInfo.MpsFilePath, true);
-            resultList2.ForEach((result, i) =>
-            {
-                logger.Info($"{i}行目:{result.Sentence}");
-            });
         }
 
         [TestCaseSource(nameof(GetCommonEventEventCommandSentenceInfoListTestCaseSource))]
@@ -913,7 +896,7 @@ namespace WodiLib.Test.Project.Model
             try
             {
                 resultList = await instance.GetCommonEventEventCommandSentenceInfoListAsync(
-                    testInfo.CommonEventInfo.CommonEventId, testInfo.CommonEventInfo.MpsFilePath, false, false);
+                    testInfo.CommonEventInfo.CommonEventId, testInfo.CommonEventInfo.MpsFilePath, false);
             }
             catch (Exception ex)
             {

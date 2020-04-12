@@ -27,7 +27,7 @@ namespace WodiLib.Common
         private CommonEventArgName argName = "";
 
         /// <summary>
-        /// [NotNull] 引数名
+        /// 引数名
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CommonEventArgName ArgName
@@ -63,7 +63,7 @@ namespace WodiLib.Common
         /// 引数種別によらずすべての選択肢を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public IReadOnlyList<CommonEventSpecialArgCase> GetAllSpecialCase()
+        public List<CommonEventSpecialArgCase> GetAllSpecialCase()
         {
             // 文字列引数は選択肢なし
             return new List<CommonEventSpecialArgCase>();
@@ -73,7 +73,7 @@ namespace WodiLib.Common
         /// すべての選択肢番号を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public IReadOnlyList<int> GetAllSpecialCaseNumber()
+        public List<int> GetAllSpecialCaseNumber()
         {
             // 文字列引数は選択肢なし
             return new List<int>();
@@ -83,7 +83,7 @@ namespace WodiLib.Common
         /// すべての選択肢文字列を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public IReadOnlyList<string> GetAllSpecialCaseDescription()
+        public List<string> GetAllSpecialCaseDescription()
         {
             // 文字列引数は選択肢なし
             return new List<string>();
@@ -94,7 +94,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(ICommonEventSpecialArgDesc other)
+        public bool Equals(ICommonEventSpecialArgDesc? other)
         {
             if (ReferenceEquals(other, this)) return true;
             if (ReferenceEquals(other, null)) return false;
@@ -107,7 +107,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(CommonEventSpecialStringArgDesc other)
+        public override bool Equals(CommonEventSpecialStringArgDesc? other)
         {
             if (ReferenceEquals(other, this)) return true;
             if (ReferenceEquals(other, null)) return false;

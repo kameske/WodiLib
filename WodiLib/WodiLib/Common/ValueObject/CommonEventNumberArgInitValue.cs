@@ -8,8 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using Commons;
+using Commons.Convertible;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Common
 {
@@ -19,7 +20,7 @@ namespace WodiLib.Common
     ///     コモンイベント数値引数初期値
     /// </summary>
     [Serializable]
-    public readonly struct CommonEventNumberArgInitValue : IConvertibleInt, IEquatable<CommonEventNumberArgInitValue>
+    public readonly struct CommonEventNumberArgInitValue : IConvertibleInt32, IEquatable<CommonEventNumberArgInitValue>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -64,7 +65,7 @@ namespace WodiLib.Common
                     ErrorMessage.OutOfRange(nameof(value), MinValue, MaxValue, value));
 
             if (value < SafetyMinValue || SafetyMaxValue < value)
-                WodiLibLogger.GetInstance().Warning(
+                Logger.GetInstance().Warning(
                     WarningMessage.OutOfRange(nameof(value), SafetyMinValue, SafetyMaxValue, value));
 
             Value = value;
@@ -81,7 +82,7 @@ namespace WodiLib.Common
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is CommonEventNumberArgInitValue other && Equals(other);
         }
@@ -101,6 +102,12 @@ namespace WodiLib.Common
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => this;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
 
         /// <summary>
         /// byte配列に変換する。

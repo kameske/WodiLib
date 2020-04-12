@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Commons;
 using NUnit.Framework;
 using WodiLib.Ini;
-using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Ini.Model
@@ -10,13 +10,13 @@ namespace WodiLib.Test.Ini.Model
     [TestFixture]
     public class EditorIniDataTest
     {
-        private static WodiLibLogger logger;
+        private static Logger logger;
 
         [SetUp]
         public static void Setup()
         {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
+            LoggerInitializer.SetupLoggerForDebug();
+            logger = Logger.GetInstance();
         }
 
         private static readonly object[] StartFlagTestCaseSource =

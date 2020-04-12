@@ -106,12 +106,12 @@ namespace WodiLib.Project
         /// <param name="id">コモンイベントID</param>
         /// <param name="intArgIndex">[Range(0, 0～4)]引数インデックス</param>
         /// <param name="value">引数設定値</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>コモンイベント数値引数の文字列</returns>
         public string GetCommonEventIntArgSentence(CommonEventId id,
             CommonEventNumberArgIndex intArgIndex, int value,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             // 値が変数アドレス値の場合は引数の設定によらず変数アドレスの文字列だけを表示
             if (value.IsVariableAddressSimpleCheck())
@@ -172,7 +172,7 @@ namespace WodiLib.Project
         /// </summary>
         /// <param name="targetCommonEventId">相対指定のコモンイベントID</param>
         /// <param name="thisCommonEventId">走査対象のコモンイベントID</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
+        /// <param name="type">イベントコマンド種別</param>
         /// <returns>絶対指定したコモンイベントID</returns>
         /// <exception cref="InvalidOperationException">イベントコマンド種別がCommon、かつthisCommonEventIdがnullの場合</exception>
         public CommonEventId GetCorrectEventIdByRelativeId(int targetCommonEventId,
@@ -189,13 +189,13 @@ namespace WodiLib.Project
             int targetId;
             switch (type)
             {
-                case EventCommandSentenceType t when t == EventCommandSentenceType.Common:
+                case { } t when t == EventCommandSentenceType.Common:
                     if (thisCommonEventId is null) throw new InvalidOperationException();
 
                     targetId = thisCommonEventId.Value + difference;
                     break;
 
-                case EventCommandSentenceType t when t == EventCommandSentenceType.Map:
+                case { } t when t == EventCommandSentenceType.Map:
                     // マップイベントの場合、自身のコモンイベントID＝0として表示判定を行う
                     targetId = 0 + difference;
                     break;

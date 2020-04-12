@@ -128,7 +128,7 @@ namespace WodiLib.Sys
         /// <inheritdoc />
         public override string ToString() => String;
 
-        public bool Equals(WoditorString other)
+        public bool Equals(WoditorString? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -140,7 +140,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="obj">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -153,7 +153,7 @@ namespace WodiLib.Sys
             return String.GetHashCode();
         }
 
-        public static bool operator ==(WoditorString left, WoditorString right)
+        public static bool operator ==(WoditorString? left, WoditorString? right)
         {
             if (ReferenceEquals(left, right)) return true;
             if (ReferenceEquals(null, left)) return false;
@@ -161,7 +161,7 @@ namespace WodiLib.Sys
             return left.Equals(right);
         }
 
-        public static bool operator !=(WoditorString left, WoditorString right)
+        public static bool operator !=(WoditorString? left, WoditorString? right)
         {
             return !(left == right);
         }

@@ -24,7 +24,7 @@ namespace WodiLib.Database
 
         private TypeName typeName = "";
 
-        /// <summary>[NotNull] DBタイプ名</summary>
+        /// <summary>DBタイプ名</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public TypeName TypeName
         {
@@ -43,7 +43,7 @@ namespace WodiLib.Database
         private DataNameList dataNameList = new DataNameList();
 
         /// <summary>
-        /// [NotNull] データ名リスト
+        /// データ名リスト
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DataNameList DataNameList
@@ -62,7 +62,7 @@ namespace WodiLib.Database
         private DBItemSettingList itemSettingList = new DBItemSettingList();
 
         /// <summary>
-        /// [NotNull] 項目設定リスト
+        /// 項目設定リスト
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DBItemSettingList ItemSettingList
@@ -80,7 +80,7 @@ namespace WodiLib.Database
 
         private DatabaseMemo memo = "";
 
-        /// <summary>[NotNull] メモ</summary>
+        /// <summary>メモ</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DatabaseMemo Memo
         {
@@ -105,7 +105,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DBTypeSetting other)
+        public override bool Equals(DBTypeSetting? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

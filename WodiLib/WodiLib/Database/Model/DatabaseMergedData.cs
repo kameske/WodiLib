@@ -41,8 +41,8 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="typeSettingList">[NotNull] タイプ設定リスト</param>
-        /// <param name="dataSettingList">[NotNull] データ設定リスト</param>
+        /// <param name="typeSettingList">タイプ設定リスト</param>
+        /// <param name="dataSettingList">データ設定リスト</param>
         /// <exception cref="ArgumentNullException">
         ///     typeSettingList, dataSettingList が null の場合
         /// </exception>
@@ -58,8 +58,8 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="dat">[NotNull] DBデータ</param>
-        /// <param name="project">[NotNull] DBプロジェクト</param>
+        /// <param name="dat">DBデータ</param>
+        /// <param name="project">DBプロジェクト</param>
         /// <exception cref="ArgumentNullException">
         ///     dat, project が null の場合
         /// </exception>
@@ -82,8 +82,8 @@ namespace WodiLib.Database
         /// <summary>
         /// TypeDescListを初期化する。
         /// </summary>
-        /// <param name="typeSettingList">[NotNull] タイプ設定リスト</param>
-        /// <param name="dataSettingList">[NotNull] データ設定リスト</param>
+        /// <param name="typeSettingList">タイプ設定リスト</param>
+        /// <param name="dataSettingList">データ設定リスト</param>
         /// <exception cref="ArgumentNullException">
         ///     typeSettingList, dataSettingList が null の場合
         /// </exception>
@@ -167,9 +167,9 @@ namespace WodiLib.Database
         /// <summary>
         /// 自身が持つ情報からDatabaseDatインスタンスを生成する。
         /// </summary>
-        /// <param name="dbKind">[Nullable] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <returns>DatabaseDatインスタンス</returns>
-        public DatabaseDat GenerateDatabaseDat(DBKind dbKind = null)
+        public DatabaseDat GenerateDatabaseDat(DBKind? dbKind = null)
         {
             return new DatabaseDat
             {
@@ -181,9 +181,9 @@ namespace WodiLib.Database
         /// <summary>
         /// 自身が持つ情報からDatabaseProjectインスタンスを生成する。
         /// </summary>
-        /// <param name="dbKind">[Nullable] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <returns>DatabaseProjectインスタンス</returns>
-        public DatabaseProject GenerateDatabaseProject(DBKind dbKind = null)
+        public DatabaseProject GenerateDatabaseProject(DBKind? dbKind = null)
         {
             var result = new DatabaseProject
             {
@@ -268,7 +268,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DatabaseMergedData other)
+        public override bool Equals(DatabaseMergedData? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

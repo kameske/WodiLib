@@ -16,6 +16,6 @@ namespace WodiLib.IO
         /// <summary>
         /// セクション名
         /// </summary>
-        string SectionName { get; }
+        string? SectionName { get; }
     }
 }

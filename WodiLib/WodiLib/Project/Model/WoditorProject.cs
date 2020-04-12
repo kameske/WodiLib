@@ -62,7 +62,7 @@ namespace WodiLib.Project
         /// </summary>
         public TileSetSettingList TileSetSettingList => TileSetData.TileSetSettingList;
 
-        private DatabaseMergedData changeableDatabase;
+        private DatabaseMergedData changeableDatabase = default!;
 
         /// <summary>
         /// 可変DB
@@ -77,7 +77,7 @@ namespace WodiLib.Project
             }
         }
 
-        private DatabaseMergedData userDatabase;
+        private DatabaseMergedData userDatabase = default!;
 
         /// <summary>
         /// ユーザDB
@@ -92,7 +92,7 @@ namespace WodiLib.Project
             }
         }
 
-        private DatabaseMergedData systemDatabase;
+        private DatabaseMergedData systemDatabase = default!;
 
         /// <summary>
         /// システムDB
@@ -107,7 +107,7 @@ namespace WodiLib.Project
             }
         }
 
-        private EditorIniData editorIni;
+        private EditorIniData editorIni = default!;
 
         /// <summary>
         /// Editor.iniデータ
@@ -122,7 +122,7 @@ namespace WodiLib.Project
             }
         }
 
-        private GameIniData gameIni;
+        private GameIniData gameIni = default!;
 
         /// <summary>
         /// Game.iniデータ
@@ -141,7 +141,7 @@ namespace WodiLib.Project
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private CommonEventData commonEventData;
+        private CommonEventData commonEventData = default!;
 
         private CommonEventData CommonEventData
         {
@@ -153,7 +153,7 @@ namespace WodiLib.Project
             }
         }
 
-        private MapTreeData mapTreeData;
+        private MapTreeData mapTreeData = default!;
 
         private MapTreeData MapTreeData
         {
@@ -165,7 +165,7 @@ namespace WodiLib.Project
             }
         }
 
-        private MapTreeOpenStatusData mapTreeOpenStatusData;
+        private MapTreeOpenStatusData mapTreeOpenStatusData = default!;
 
         private MapTreeOpenStatusData MapTreeOpenStatusData
         {
@@ -177,7 +177,7 @@ namespace WodiLib.Project
             }
         }
 
-        private TileSetData tileSetData;
+        private TileSetData tileSetData = default!;
 
         private TileSetData TileSetData
         {
@@ -228,7 +228,7 @@ namespace WodiLib.Project
         /// コンストラクタ
         /// </summary>
         /// <param name="targetDirectory">
-        ///     [NotNullOrEmpty][NotNewLine]
+        ///     [NotEmpty][NotNewLine]
         ///     対象プロジェクトのルートディレクトリ（Game.exe等があるフォルダ）
         /// </param>
         /// <exception cref="ArgumentNullException">
@@ -283,7 +283,7 @@ namespace WodiLib.Project
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(WoditorProject other)
+        public override bool Equals(WoditorProject? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(other, null)) return false;
@@ -413,26 +413,6 @@ namespace WodiLib.Project
         }
 
         /// <summary>
-        /// タイルセットデータを同期的に再読込する。
-        /// </summary>
-        /// <exception cref="InvalidOperationException">ファイルが正しく読み込めなかった場合</exception>
-        public void ReadTileSetDataSync()
-        {
-            var file = new TileSetDataFile(TileSetDataFilePath);
-            TileSetData = file.ReadSync();
-        }
-
-        /// <summary>
-        /// タイルセットデータを非同期的に再読込する。
-        /// </summary>
-        /// <exception cref="InvalidOperationException">ファイルが正しく読み込めなかった場合</exception>
-        public async Task ReadTileSetDataAsync()
-        {
-            var file = new TileSetDataFile(TileSetDataFilePath);
-            TileSetData = await file.ReadAsync();
-        }
-
-        /// <summary>
         /// MapTreeData に合わせて MapTreeOpenStatusData を補完する。
         /// </summary>
         private void ComplementNapTreeOpenStatusData()
@@ -447,7 +427,7 @@ namespace WodiLib.Project
         /// <summary>
         /// マップファイルを同期的に読み込む。
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込みファイルパス</param>
+        /// <param name="filePath">読み込みファイルパス</param>
         /// <param name="useCache">
         ///     プール使用フラグ
         ///     （読み込みプール内に該当データが存在する場合、プールデータを返す）
@@ -474,7 +454,7 @@ namespace WodiLib.Project
         /// <summary>
         /// マップファイルを非同期的に読み込む。
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込みファイルパス</param>
+        /// <param name="filePath">読み込みファイルパス</param>
         /// <param name="useCache">
         ///     プール使用フラグ
         ///     （読み込みプール内に該当データが存在する場合、プールデータを返す）
@@ -495,6 +475,26 @@ namespace WodiLib.Project
             var mapData = await file.ReadAsync();
             MpsFilesPool.Add(filePath, mapData);
             return mapData;
+        }
+
+        /// <summary>
+        /// タイルセットデータを同期的に再読込する。
+        /// </summary>
+        /// <exception cref="InvalidOperationException">ファイルが正しく読み込めなかった場合</exception>
+        public void ReadTileSetDataSync()
+        {
+            var file = new TileSetDataFile(TileSetDataFilePath);
+            TileSetData = file.ReadSync();
+        }
+
+        /// <summary>
+        /// タイルセットデータを非同期的に再読込する。
+        /// </summary>
+        /// <exception cref="InvalidOperationException">ファイルが正しく読み込めなかった場合</exception>
+        public async Task ReadTileSetDataAsync()
+        {
+            var file = new TileSetDataFile(TileSetDataFilePath);
+            TileSetData = await file.ReadAsync();
         }
 
         /// <summary>
@@ -670,7 +670,7 @@ namespace WodiLib.Project
         /// <summary>
         /// プール内のマップファイルを同期的に書き出す。
         /// </summary>
-        /// <param name="filePath">[NotNull] ファイルパス</param>
+        /// <param name="filePath">ファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         /// <exception cref="InvalidOperationException">指定されたファイルデータがプール内に存在しない場合</exception>
         public void WriteMpsFileInCacheSync(MpsFilePath filePath)
@@ -687,7 +687,7 @@ namespace WodiLib.Project
         /// <summary>
         /// プール内のマップファイルを非同期的に書き出す。
         /// </summary>
-        /// <param name="filePath">[NotNull] ファイルパス</param>
+        /// <param name="filePath">ファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         /// <exception cref="InvalidOperationException">指定されたファイルデータがプール内に存在しない場合</exception>
         public async Task WriteMpsFileAsync(MpsFilePath filePath)
@@ -817,7 +817,7 @@ namespace WodiLib.Project
         /// マップファイルプールから指定したファイルのプールを削除する。
         /// プールが存在しない場合は何もしない。
         /// </summary>
-        /// <param name="filePath">[NotNull] ファイルパス</param>
+        /// <param name="filePath">ファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         public void RemoveMpsFilesCache(MpsFilePath filePath)
         {
@@ -839,7 +839,7 @@ namespace WodiLib.Project
         /// <summary>
         /// 指定したマップデータ・マップイベントIDのマップイベントを取得する。
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込むMpsファイルパス</param>
+        /// <param name="filePath">読み込むMpsファイルパス</param>
         /// <param name="mapEventId">マップイベントID</param>
         /// <param name="useCache">
         ///     プール使用フラグ
@@ -855,7 +855,7 @@ namespace WodiLib.Project
         /// <summary>
         /// 指定したマップデータ・マップイベントIDのマップイベントページリストを取得する。
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込むMpsファイルパス</param>
+        /// <param name="filePath">読み込むMpsファイルパス</param>
         /// <param name="mapEventId">マップイベントID</param>
         /// <param name="useCache">
         ///     プール使用フラグ
@@ -873,7 +873,7 @@ namespace WodiLib.Project
         /// <summary>
         /// 指定したマップデータ・マップイベントID、ページインデックスのマップイベントページ情報を取得する。
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込むMpsファイルパス</param>
+        /// <param name="filePath">読み込むMpsファイルパス</param>
         /// <param name="mapEventId">マップイベントID</param>
         /// <param name="pageIndex">[Range(1, {対象イベントのページ数})] マップイベントページインデックス</param>
         /// <param name="useCache">
@@ -894,10 +894,9 @@ namespace WodiLib.Project
         /// <summary>
         /// 指定したマップデータ・マップイベント・ページのイベントコマンド文字列情報を返す。
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込むMpsファイルパス</param>
+        /// <param name="filePath">読み込むMpsファイルパス</param>
         /// <param name="mapEventId">マップイベントID</param>
         /// <param name="eventPageNumber">マップイベントページ番号</param>
-        /// <param name="isOutputFullSentence">イベントコマンド文字列完全出力フラグ</param>
         /// <param name="useCache">
         ///     プール使用フラグ
         ///     （読み込みプール内に該当データが存在する場合、プールデータを返す）
@@ -905,22 +904,14 @@ namespace WodiLib.Project
         /// <returns>イベントコマンド文字列情報リスト</returns>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         /// <exception cref="InvalidOperationException">Mpsファイルが正しく読み込めない場合</exception>
-        /// <remarks>
-        ///     <paramref name="isOutputFullSentence"/>がtrueの場合、ウディタ標準では省略される特定のイベントコマンド文字列を省略せずに出力する。
-        ///     次のコマンドが対象になる。「移動ルート」
-        /// </remarks>
         public IReadOnlyList<EventCommandSentenceInfo> GetMapEventEventCommandSentenceInfoListSync(
-            MpsFilePath filePath, MapEventId mapEventId, int eventPageNumber,
-            bool isOutputFullSentence = false, bool useCache = true)
+            MpsFilePath filePath, MapEventId mapEventId, int eventPageNumber, bool useCache = true)
         {
             var mpsData = ReadMpsFileSync(filePath, useCache);
 
             var resolver = new EventCommandSentenceResolver(CommonEventList,
                 ChangeableDatabase, UserDatabase, SystemDatabase, mpsData);
-            var desc = new EventCommandSentenceResolveDesc
-            {
-                IsOutputFullSentence = isOutputFullSentence
-            };
+            var desc = new EventCommandSentenceResolveDesc();
 
             return mpsData.MakeEventCommandSentenceInfoList(resolver, desc, mapEventId, eventPageNumber);
         }
@@ -928,10 +919,9 @@ namespace WodiLib.Project
         /// <summary>
         /// 指定したマップデータ・マップイベント・ページのイベントコマンド文字列情報を返す。
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込むMpsファイルパス</param>
+        /// <param name="filePath">読み込むMpsファイルパス</param>
         /// <param name="mapEventId">マップイベントID</param>
         /// <param name="eventPageNumber">マップイベントページ番号</param>
-        /// <param name="isOutputFullSentence">イベントコマンド文字列完全出力フラグ</param>
         /// <param name="useCache">
         ///     プール使用フラグ
         ///     （読み込みプール内に該当データが存在する場合、プールデータを返す）
@@ -940,16 +930,12 @@ namespace WodiLib.Project
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         /// <exception cref="InvalidOperationException">Mpsファイルが正しく読み込めない場合</exception>
         public async Task<IReadOnlyList<EventCommandSentenceInfo>> GetMapEventEventCommandSentenceInfoListAsync(
-            MpsFilePath filePath, MapEventId mapEventId, int eventPageNumber,
-            bool isOutputFullSentence = false, bool useCache = true)
+            MpsFilePath filePath, MapEventId mapEventId, int eventPageNumber, bool useCache = true)
         {
             var mpsData = await ReadMpsFileAsync(filePath, useCache);
 
             var resolver = MakeEventCommandSentenceResolver(mpsData);
-            var desc = new EventCommandSentenceResolveDesc
-            {
-                IsOutputFullSentence = isOutputFullSentence
-            };
+            var desc = new EventCommandSentenceResolveDesc();
 
             return mpsData.MakeEventCommandSentenceInfoList(resolver, desc, mapEventId, eventPageNumber);
         }
@@ -987,8 +973,7 @@ namespace WodiLib.Project
         /// 指定したコモンイベントのイベントコマンド文字列情報を返す。
         /// </summary>
         /// <param name="commonEventId">コモンイベントID</param>
-        /// <param name="filePath">[Nullable] 表示対象マップファイルパス</param>
-        /// <param name="isOutputFullSentence">イベントコマンド文字列完全出力フラグ</param>
+        /// <param name="filePath">表示対象マップファイルパス</param>
         /// <param name="useCache">
         ///     プール使用フラグ
         ///     （読み込みプール内に該当データが存在する場合、プールデータを返す）
@@ -1003,24 +988,15 @@ namespace WodiLib.Project
         ///     "開いているマップ情報"の代わりとする。
         ///     マップイベント情報は指定しないことも可能。このとき、マップイベント名は表示されない。
         /// </remarks>
-        /// <remarks>
-        ///     <paramref name="isOutputFullSentence"/>がtrueの場合、ウディタ標準では省略される特定のイベントコマンド文字列を省略せずに出力する。
-        ///     次のコマンドが対象になる。「移動ルート」
-        /// </remarks>
         public IReadOnlyList<EventCommandSentenceInfo> GetCommonEventEventCommandSentenceInfoListSync(
-            CommonEventId commonEventId, MpsFilePath filePath = null,
-            bool isOutputFullSentence = false, bool useCache = true)
+            CommonEventId commonEventId, MpsFilePath? filePath = null, bool useCache = true)
         {
-            var mapData = filePath != null
+            var mapData = !(filePath is null)
                 ? ReadMpsFileSync(filePath, useCache)
                 : null;
 
             var resolver = MakeEventCommandSentenceResolver(mapData);
-            var desc = new EventCommandSentenceResolveDesc
-            {
-                CommonEventId = commonEventId,
-                IsOutputFullSentence = isOutputFullSentence
-            };
+            var desc = new EventCommandSentenceResolveDesc {CommonEventId = commonEventId};
 
             return CommonEventList.GetCommonEventEventCommandSentenceInfoList(commonEventId, resolver, desc);
         }
@@ -1029,8 +1005,7 @@ namespace WodiLib.Project
         /// 指定したコモンイベントのイベントコマンド文字列情報を返す。
         /// </summary>
         /// <param name="commonEventId">コモンイベントID</param>
-        /// <param name="filePath">[Nullable] 表示対象マップファイルパス</param>
-        /// <param name="isOutputFullSentence">イベントコマンド文字列完全出力フラグ</param>
+        /// <param name="filePath">表示対象マップファイルパス</param>
         /// <param name="useCache">
         ///     プール使用フラグ
         ///     （読み込みプール内に該当データが存在する場合、プールデータを返す）
@@ -1039,19 +1014,14 @@ namespace WodiLib.Project
         /// <exception cref="ArgumentOutOfRangeException">指定されたcommonEventIdが存在しない場合</exception>
         /// <exception cref="InvalidOperationException">Mpsファイルが正しく読み込めない場合</exception>
         public async Task<IReadOnlyList<EventCommandSentenceInfo>> GetCommonEventEventCommandSentenceInfoListAsync(
-            CommonEventId commonEventId, MpsFilePath filePath = null,
-            bool isOutputFullSentence = false, bool useCache = true)
+            CommonEventId commonEventId, MpsFilePath? filePath = null, bool useCache = true)
         {
-            var mapData = filePath != null
+            var mapData = !(filePath is null)
                 ? await ReadMpsFileAsync(filePath, useCache)
                 : null;
 
             var resolver = MakeEventCommandSentenceResolver(mapData);
-            var desc = new EventCommandSentenceResolveDesc
-            {
-                CommonEventId = commonEventId,
-                IsOutputFullSentence = isOutputFullSentence
-            };
+            var desc = new EventCommandSentenceResolveDesc {CommonEventId = commonEventId};
 
             return CommonEventList.GetCommonEventEventCommandSentenceInfoList(commonEventId, resolver, desc);
         }
@@ -1063,12 +1033,12 @@ namespace WodiLib.Project
         /// <summary>
         /// DB種別を指定してDatabaseMergedDataのインスタンスを取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException">dbKind が null の場合</exception>
         public DatabaseMergedData GetDatabaseMergedData(DBKind dbKind)
         {
-            if (dbKind == null)
+            if (dbKind is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(dbKind)));
 
@@ -1083,7 +1053,7 @@ namespace WodiLib.Project
         /// <summary>
         /// 指定したDB、タイプIDのタイプ情報を取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">[Range(0, {対象DBのタイプ数} - 1)] タイプID</param>
         /// <returns>DBタイプ情報</returns>
         /// <exception cref="ArgumentNullException">dbKind が null の場合</exception>
@@ -1097,7 +1067,7 @@ namespace WodiLib.Project
         /// <summary>
         /// 指定したDB、タイプIDのデータ名リストを取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">[Range(0, {対象DBのタイプ数} - 1)] タイプID</param>
         /// <returns>DBデータ情報リスト</returns>
         /// <exception cref="ArgumentNullException">dbKind が null の場合</exception>
@@ -1111,7 +1081,7 @@ namespace WodiLib.Project
         /// <summary>
         /// 指定したDB、タイプIDのデータ情報リストを取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">[Range(0, {対象DBのタイプ数} - 1)] タイプID</param>
         /// <returns>DBデータ情報リスト</returns>
         /// <exception cref="ArgumentNullException">dbKind が null の場合</exception>
@@ -1125,7 +1095,7 @@ namespace WodiLib.Project
         /// <summary>
         /// 指定したDB、タイプIDのデータ情報リストを取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">[Range(0, {対象DBのタイプ数} - 1)] タイプID</param>
         /// <param name="dataId">[Range(0, {対象DB・タイプのデータ数} - 1)] データID</param>
         /// <returns>DBデータ情報リスト</returns>
@@ -1140,7 +1110,7 @@ namespace WodiLib.Project
         /// <summary>
         /// 指定したDB、タイプID、データIDの項目値リストを取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">[Range(0, {対象DBのタイプ数} - 1)] タイプID</param>
         /// <param name="dataId">[Range(0, {対象DB・タイプのデータ数} - 1)] データID</param>
         /// <returns>DB項目値リスト</returns>
@@ -1155,7 +1125,7 @@ namespace WodiLib.Project
         /// <summary>
         /// 指定したDB、タイプID、データID、項目IDの項目値を取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">[Range(0, {対象DBのタイプ数} - 1)] タイプID</param>
         /// <param name="dataId">[Range(0, {対象DB・タイプのデータ数} - 1)] データID</param>
         /// <param name="itemId">[Range(0, {対象DB・タイプ・データの項目数} - 1)] データID</param>
@@ -1177,9 +1147,9 @@ namespace WodiLib.Project
         /// <summary>
         /// イベントコマンド文字列解決クラスを生成する。
         /// </summary>
-        /// <param name="mpsData">[Nullable] 表示に使用するマップデータ</param>
+        /// <param name="mpsData">表示に使用するマップデータ</param>
         /// <returns></returns>
-        private EventCommandSentenceResolver MakeEventCommandSentenceResolver(MapData mpsData)
+        private EventCommandSentenceResolver MakeEventCommandSentenceResolver(MapData? mpsData)
         {
             return new EventCommandSentenceResolver(CommonEventList,
                 ChangeableDatabase, UserDatabase, SystemDatabase, mpsData);

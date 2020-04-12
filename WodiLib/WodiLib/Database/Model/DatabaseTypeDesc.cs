@@ -26,7 +26,7 @@ namespace WodiLib.Database
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// [NotNull] DBタイプ名
+        /// DBタイプ名
         /// </summary>
         /// <exception cref="PropertyNullException">nullがセットされた場合</exception>
         public TypeName TypeName
@@ -43,7 +43,7 @@ namespace WodiLib.Database
         }
 
         /// <summary>
-        /// [NotNull] メモ
+        /// メモ
         /// </summary>
         /// <exception cref="PropertyNullException">nullがセットされた場合</exception>
         public DatabaseMemo Memo
@@ -176,8 +176,8 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="typeSetting">[NotNull] タイプ設定</param>
-        /// <param name="dataSetting">[NotNull] データ設定</param>
+        /// <param name="typeSetting">タイプ設定</param>
+        /// <param name="dataSetting">データ設定</param>
         /// <exception cref="ArgumentNullException">typeSetting, dataSetting が null の場合</exception>
         internal DatabaseTypeDesc(DBTypeSetting typeSetting,
             DBDataSetting dataSetting)
@@ -352,15 +352,15 @@ namespace WodiLib.Database
         /// <summary>
         /// データの設定方法をセットする。
         /// </summary>
-        /// <param name="settingType">[NotNull] データの設定方法種別</param>
-        /// <param name="dbKind">[Nullable] 種別が「データベース参照」の場合の参照DB種別</param>
-        /// <param name="typeId">[Nullable] 種別が「データベース参照」の場合のタイプID</param>
+        /// <param name="settingType">データの設定方法種別</param>
+        /// <param name="dbKind">種別が「データベース参照」の場合の参照DB種別</param>
+        /// <param name="typeId">種別が「データベース参照」の場合のタイプID</param>
         /// <exception cref="ArgumentNullException">
         ///     settingTypeがnullの場合、
         ///     またはsettingType が DesignatedType かつ dbKindまたはtypeIdがnullの場合
         /// </exception>
         public void SetDataSettingType(DBDataSettingType settingType,
-            DBKind dbKind = null, TypeId? typeId = null)
+            DBKind? dbKind = null, TypeId? typeId = null)
         {
             DataSetting.SetDataSettingType(settingType, dbKind, typeId);
         }
@@ -455,7 +455,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DatabaseTypeDesc other)
+        public override bool Equals(DatabaseTypeDesc? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -555,7 +555,7 @@ namespace WodiLib.Database
         /// デシリアライズコールバック
         /// </summary>
         /// <param name="sender">コールバック開始オブジェクト</param>
-        public void OnDeserialization(object sender)
+        public void OnDeserialization(object? sender)
         {
             RegisterDataDescListHandlerDataDescList();
             RegisterItemDescListHandlerItemDescList();

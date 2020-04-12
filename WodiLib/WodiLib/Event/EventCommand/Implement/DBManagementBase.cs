@@ -221,7 +221,7 @@ namespace WodiLib.Event.EventCommand
         /// 文字列変数を設定する。
         /// </summary>
         /// <param name="index">[Range(0, 3)] インデックス</param>
-        /// <param name="value">[NotNull] 設定値</param>
+        /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -271,7 +271,7 @@ namespace WodiLib.Event.EventCommand
         private readonly IntOrStr dbDataId = 0;
         private readonly IntOrStr dbItemId = 0;
 
-        /// <summary>[NotNull] DB種別</summary>
+        /// <summary>DB種別</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         protected virtual DBKind _DBKind
         {
@@ -285,7 +285,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <summary>[NotNull] タイプID</summary>
+        /// <summary>タイプID</summary>
         /// <exception cref="PropertyNullException">nullまたはStrOrInt.Noneをセットした場合</exception>
         protected virtual IntOrStr _DBTypeId
         {
@@ -302,7 +302,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <summary>[NotNull] データID</summary>
+        /// <summary>データID</summary>
         /// <exception cref="PropertyNullException">nullまたはStrOrInt.Noneをセットした場合</exception>
         protected virtual IntOrStr _DBDataId
         {
@@ -319,7 +319,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <summary>[NotNull] 項目ID</summary>
+        /// <summary>項目ID</summary>
         /// <exception cref="PropertyNullException">nullまたはStrOrInt.Noneをセットした場合</exception>
         protected virtual IntOrStr _DBItemId
         {

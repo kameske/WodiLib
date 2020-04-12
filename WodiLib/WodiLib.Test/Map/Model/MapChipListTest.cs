@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using Commons;
+using Commons.Linq.Extension;
 using NUnit.Framework;
 using WodiLib.Map;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
@@ -13,13 +14,13 @@ namespace WodiLib.Test.Map
     [TestFixture]
     public class MapChipListTest
     {
-        private static WodiLibLogger logger;
+        private static Logger logger;
 
         [SetUp]
         public static void Setup()
         {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
+            LoggerInitializer.SetupLoggerForDebug();
+            logger = Logger.GetInstance();
         }
 
 

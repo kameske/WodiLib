@@ -8,8 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using Commons;
+using Commons.Convertible;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.CharaMoveCommand
 {
@@ -19,7 +20,7 @@ namespace WodiLib.Event.CharaMoveCommand
     ///     キャラ動作指定コマンド設定値
     /// </summary>
     [Serializable]
-    public readonly struct CharaMoveCommandValue : IConvertibleInt, IEquatable<CharaMoveCommandValue>
+    public readonly struct CharaMoveCommandValue : IConvertibleInt32, IEquatable<CharaMoveCommandValue>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -64,7 +65,7 @@ namespace WodiLib.Event.CharaMoveCommand
                     ErrorMessage.OutOfRange(nameof(value), MinValue, MaxValue, value));
 
             if (value < SafetyMinValue || SafetyMaxValue < value)
-                WodiLibLogger.GetInstance().Warning(
+                Logger.GetInstance().Warning(
                     WarningMessage.OutOfRange(nameof(value), SafetyMinValue, SafetyMaxValue, value));
 
             Value = value;
@@ -81,7 +82,7 @@ namespace WodiLib.Event.CharaMoveCommand
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is CharaMoveCommandValue other && Equals(other);
         }
@@ -101,6 +102,12 @@ namespace WodiLib.Event.CharaMoveCommand
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => this;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
 
         /// <summary>
         /// byte配列に変換する。

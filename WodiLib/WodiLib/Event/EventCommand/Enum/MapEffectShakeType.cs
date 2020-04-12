@@ -7,7 +7,8 @@
 // ========================================
 
 using System.ComponentModel;
-using WodiLib.Sys;
+using System.Linq;
+using Commons;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -56,7 +57,7 @@ namespace WodiLib.Event.EventCommand
         /// <returns>インスタンス</returns>
         public static MapEffectShakeType FromByte(byte code)
         {
-            return _FindFirst(x => x.Code == code);
+            return AllItems.First(x => x.Code == code);
         }
     }
 }

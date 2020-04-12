@@ -44,13 +44,13 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="items">初期DB項目設定リスト</param>
+        /// <param name="list">初期DB項目設定リスト</param>
         /// <exception cref="ArgumentNullException">
-        ///     itemsがnullの場合、
-        ///     またはitems中にnullが含まれる場合
+        ///     listがnullの場合、
+        ///     またはlist中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
-        public DatabaseTypeDescList(IEnumerable<DatabaseTypeDesc> items) : base(items)
+        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
+        public DatabaseTypeDescList(IReadOnlyCollection<DatabaseTypeDesc> list) : base(list)
         {
         }
 

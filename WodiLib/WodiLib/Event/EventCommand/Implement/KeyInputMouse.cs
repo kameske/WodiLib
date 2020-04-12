@@ -110,7 +110,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandRightSideSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var inputItemStr = acceptStatus.GetEventCommandSentence();
 
@@ -128,7 +128,7 @@ namespace WodiLib.Event.EventCommand
 
         private AcceptStatus acceptStatus = new AcceptStatus();
 
-        /// <summary>[NotNull] 読み込み対象</summary>
+        /// <summary>読み込み対象</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public KeyInputMouseTarget Target
         {

@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -16,7 +17,7 @@ namespace WodiLib.Map
     /// [Range(int.MinValue, int.MaxValue)] マップキャラクタID
     /// </summary>
     [Serializable]
-    public readonly struct MapCharacterId : IConvertibleInt, IEquatable<MapCharacterId>, IComparable<MapCharacterId>
+    public readonly struct MapCharacterId : IConvertibleInt32, IEquatable<MapCharacterId>, IComparable<MapCharacterId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -84,7 +85,7 @@ namespace WodiLib.Map
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is MapCharacterId other && Equals(other);
         }
@@ -104,6 +105,12 @@ namespace WodiLib.Map
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => Value;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
 
         /// <summary>
         /// byte配列に変換する。

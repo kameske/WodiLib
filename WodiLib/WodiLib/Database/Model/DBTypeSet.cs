@@ -35,7 +35,7 @@ namespace WodiLib.Database
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>[NotNull] DBタイプ名</summary>
+        /// <summary>DBタイプ名</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public TypeName TypeName
         {
@@ -46,7 +46,7 @@ namespace WodiLib.Database
         /// <summary>項目設定リスト</summary>
         public DBItemSettingList ItemSettingList => TypeDesc.WritableItemSettingList;
 
-        /// <summary>[NotNull] メモ</summary>
+        /// <summary>メモ</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DatabaseMemo Memo
         {
@@ -99,7 +99,7 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="itemSettingList">[NotNull] 初期項目設定リスト</param>
+        /// <param name="itemSettingList">初期項目設定リスト</param>
         /// <exception cref="ArgumentNullException">dataNameList, itemSettingList が null の場合</exception>
         /// <exception cref="ArgumentException">dataNameList, itemSettingList に null 要素が含まれる場合</exception>
         public DBTypeSet(DBItemSettingList itemSettingList) : this()
@@ -116,7 +116,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DBTypeSet other)
+        public override bool Equals(DBTypeSet? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

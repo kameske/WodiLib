@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Event
@@ -16,7 +17,7 @@ namespace WodiLib.Event
     /// [Range(1, 10)] マップイベントページインデックス
     /// </summary>
     [Serializable]
-    public readonly struct MapEventPageIndex : IConvertibleInt, IEquatable<MapEventPageIndex>
+    public readonly struct MapEventPageIndex : IConvertibleInt32, IEquatable<MapEventPageIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -63,7 +64,7 @@ namespace WodiLib.Event
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is MapEventPageIndex other && Equals(other);
         }
@@ -83,6 +84,12 @@ namespace WodiLib.Event
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => Value;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => Value;
 
         /// <summary>
         /// byte配列に変換する。

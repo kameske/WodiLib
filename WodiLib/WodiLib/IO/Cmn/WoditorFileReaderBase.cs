@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using WodiLib.Cmn;
 using WodiLib.Sys;
@@ -23,15 +24,16 @@ namespace WodiLib.IO
     public abstract class WoditorFileReaderBase<TFilePath, TFileData>
         where TFilePath : FilePath
     {
-        /// <summary>[NotNull] 読み込みファイルパス</summary>
+        /// <summary>読み込みファイルパス</summary>
+        [NotNull]
         public TFilePath FilePath { get; }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="filePath">[NotNull] 読み込みファイルパス</param>
+        /// <param name="filePath">読み込みファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        public WoditorFileReaderBase(TFilePath filePath)
+        public WoditorFileReaderBase([NotNull] TFilePath filePath)
         {
             if (filePath is null)
                 throw new ArgumentNullException(

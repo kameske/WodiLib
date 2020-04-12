@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -16,7 +17,7 @@ namespace WodiLib.Common
     /// コモンイベント引数名
     /// </summary>
     [Serializable]
-    public class CommonEventArgName : IConvertibleString, IEquatable<CommonEventArgName>
+    public class CommonEventArgName : IEquatable<CommonEventArgName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -32,7 +33,7 @@ namespace WodiLib.Common
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[NotNull][NotNewLine] コモンイベント引数名</param>
+        /// <param name="value">[NotNewLine] コモンイベント引数名</param>
         /// <exception cref="ArgumentNullException">valueがnullの場合</exception>
         /// <exception cref="ArgumentNewLineException">valueに改行を含む場合</exception>
         public CommonEventArgName(string value)
@@ -58,7 +59,7 @@ namespace WodiLib.Common
         public override string ToString() => Value;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is CommonEventArgName other && Equals(other);
         }
@@ -88,7 +89,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(CommonEventArgName other)
+        public bool Equals(CommonEventArgName? other)
         {
             if (other is null) return false;
             return Value.Equals(other.Value);
@@ -98,11 +99,13 @@ namespace WodiLib.Common
         //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+#nullable disable
         /// <summary>
         /// string -> CommonEventArgName への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator CommonEventArgName(string src)
         {
             if (src is null) return null;
@@ -115,10 +118,12 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator string(CommonEventArgName src)
         {
             return src?.Value;
         }
+#nullable restore
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Operator
@@ -130,7 +135,7 @@ namespace WodiLib.Common
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(CommonEventArgName left, CommonEventArgName right)
+        public static bool operator ==(CommonEventArgName? left, CommonEventArgName? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -145,7 +150,7 @@ namespace WodiLib.Common
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(CommonEventArgName left, CommonEventArgName right)
+        public static bool operator !=(CommonEventArgName? left, CommonEventArgName? right)
         {
             return !(left == right);
         }

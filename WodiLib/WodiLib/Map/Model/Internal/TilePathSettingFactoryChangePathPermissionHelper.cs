@@ -21,15 +21,15 @@ namespace WodiLib.Map
 
         private readonly TilePathPermission pathPermission;
         private readonly ITilePathSetting src;
-        private readonly TileImpassableFlags impassableFlags;
-        private readonly TileCannotPassingFlags cannotPassingFlags;
+        private readonly TileImpassableFlags? impassableFlags;
+        private readonly TileCannotPassingFlags? cannotPassingFlags;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         public TilePathSettingFactoryChangePathPermissionHelper(TilePathPermission pathPermission,
-            ITilePathSetting src, TileImpassableFlags impassableFlags, TileCannotPassingFlags cannotPassingFlags)
+            ITilePathSetting src, TileImpassableFlags? impassableFlags, TileCannotPassingFlags? cannotPassingFlags)
         {
             this.pathPermission = pathPermission;
             this.src = src;
@@ -73,7 +73,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         private static ITilePathSetting Create_CannotPassingToCannotPassing(TilePathPermission pathPermission,
-            ITilePathSetting src, TileCannotPassingFlags cannotPassingFlags)
+            ITilePathSetting src, TileCannotPassingFlags? cannotPassingFlags)
         {
             if (pathPermission == TilePathPermission.Allow)
             {
@@ -97,7 +97,7 @@ namespace WodiLib.Map
         }
 
         private static ITilePathSetting Create_ImpassableToImpassable(TilePathPermission pathPermission,
-            ITilePathSetting src, TileImpassableFlags impassableFlags)
+            ITilePathSetting src, TileImpassableFlags? impassableFlags)
         {
             if (pathPermission == TilePathPermission.PartialDeny)
             {

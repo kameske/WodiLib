@@ -149,7 +149,7 @@ namespace WodiLib.Event.EventCommand
             return result;
         }
 
-        public override bool Equals(MapChipSettings other)
+        public override bool Equals(MapChipSettings? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

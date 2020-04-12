@@ -24,7 +24,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// [NotNull] タイル通行許可
+        /// タイル通行許可
         /// </summary>
         public override TilePathPermission PathPermission => TilePathPermission.Deny;
 
@@ -57,7 +57,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(TilePathSettingDeny other)
+        public bool Equals(TilePathSettingDeny? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;

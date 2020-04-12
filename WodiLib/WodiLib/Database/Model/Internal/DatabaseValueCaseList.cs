@@ -46,13 +46,13 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="items">初期選択肢情報リスト</param>
+        /// <param name="list">初期選択肢情報リスト</param>
         /// <exception cref="ArgumentNullException">
-        ///     itemsがnullの場合、
-        ///     またはitems中にnullが含まれる場合
+        ///     listがnullの場合、
+        ///     またはlist中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
-        public DatabaseValueCaseList(IEnumerable<DatabaseValueCase> items) : base(items)
+        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
+        public DatabaseValueCaseList(IReadOnlyCollection<DatabaseValueCase> list) : base(list)
         {
         }
 
@@ -83,7 +83,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="caseNumber">選択肢番号</param>
         /// <returns>選択肢文字列。番号に対応した情報が存在しない場合null。</returns>
-        public string GetDescriptionForCaseNumber(int caseNumber)
+        public string? GetDescriptionForCaseNumber(int caseNumber)
         {
             var info = GetForCaseNumber(caseNumber);
             return info?.Description;
@@ -94,7 +94,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="caseNumber">選択肢番号</param>
         /// <returns>選択肢情報。情報が存在しない場合DatabaseValueCase.Empty</returns>
-        public DatabaseValueCase GetForCaseNumber(int caseNumber)
+        public DatabaseValueCase? GetForCaseNumber(int caseNumber)
         {
             return Items.FirstOrDefault(x => x.CaseNumber == caseNumber);
         }

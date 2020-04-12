@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using Commons;
 using WodiLib.Cmn;
 using WodiLib.Event;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Common
 {
@@ -29,7 +29,7 @@ namespace WodiLib.Common
 
         private CommonEventBootType commonEventBootType = CommonEventBootType.OnlyCall;
 
-        /// <summary>[NotNull] イベント起動タイプ</summary>
+        /// <summary>イベント起動タイプ</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CommonEventBootType CommonEventBootType
         {
@@ -59,7 +59,7 @@ namespace WodiLib.Common
                 if (!(NormalNumberVariableAddress.MinValue <= value && value <= NormalNumberVariableAddress.MaxValue)
                     && !(SpareNumberVariableAddress.MinValue <= value && value <= SpareNumberVariableAddress.MaxValue))
                 {
-                    WodiLibLogger.GetInstance()
+                    Logger.GetInstance()
                         .Warning($"[Warning]イベントコマンドの起動条件が意図しない値です。（設定値：{value}）");
                 }
 
@@ -70,7 +70,7 @@ namespace WodiLib.Common
 
         private CriteriaOperator operation = CriteriaOperator.Equal;
 
-        /// <summary>[NotNull] 条件演算子</summary>
+        /// <summary>条件演算子</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CriteriaOperator Operation
         {
@@ -118,7 +118,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(CommonEventBootCondition other)
+        public override bool Equals(CommonEventBootCondition? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

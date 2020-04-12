@@ -8,9 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using Commons;
 using WodiLib.Ini;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -20,7 +20,7 @@ namespace WodiLib.IO
     public class EditorIniFileReader : WoditorFileReaderBase<EditorIniFilePath, EditorIniData>
     {
         /// <summary>ロガー</summary>
-        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private Logger Logger { get; } = Logger.GetInstance();
 
         private readonly object readLock = new object();
 

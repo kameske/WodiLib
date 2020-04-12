@@ -36,7 +36,7 @@ namespace WodiLib.Event.EventCommand
 
         private PartyGraphicSpecialType subject = PartyGraphicSpecialType.PushCharactersFront;
 
-        /// <summary>[NotNull] 特殊処理内容</summary>
+        /// <summary>特殊処理内容</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public PartyGraphicSpecialType Subject
         {
@@ -86,14 +86,14 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文字列の処理内容部分を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列の処理内容部分</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandExecSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             return Subject.EventCommandSentence;
         }

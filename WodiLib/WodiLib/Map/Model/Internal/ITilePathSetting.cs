@@ -27,7 +27,7 @@ namespace WodiLib.Map
         TileImpassableFlags ImpassableFlags { get; }
 
         /// <summary>
-        /// [NotNull] タイル通行設定オプション
+        /// タイル通行設定オプション
         /// </summary>
         /// <exception cref="PropertyNullException">nullを設定した場合</exception>
         TilePathOption PathOption { get; set; }

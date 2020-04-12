@@ -131,7 +131,7 @@ namespace WodiLib.Event.EventCommand
         /// 文字列変数を設定する。
         /// </summary>
         /// <param name="index">[Range(0, -)] インデックス</param>
-        /// <param name="value">[NotNull] 設定値</param>
+        /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">常に</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void SetSafetyStringVariable(int index, string value)
@@ -143,7 +143,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             if (ShakeType == MapEffectShakeType.Stop)
             {
@@ -165,7 +165,7 @@ namespace WodiLib.Event.EventCommand
         private MapEffectShakePower power = MapEffectShakePower.Power1;
         private MapEffectShakeSpeed speed = MapEffectShakeSpeed.Speed1;
 
-        /// <summary>[NotNull] 揺れ</summary>
+        /// <summary>揺れ</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MapEffectShakeType ShakeType
         {
@@ -180,7 +180,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <summary>[NotNull] 強さ</summary>
+        /// <summary>強さ</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MapEffectShakePower Power
         {
@@ -195,7 +195,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <summary>[NotNull] 拡大率</summary>
+        /// <summary>拡大率</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MapEffectShakeSpeed Speed
         {

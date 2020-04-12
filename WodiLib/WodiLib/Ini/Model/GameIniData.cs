@@ -111,7 +111,7 @@ namespace WodiLib.Ini
         private FrameSkipType frameSkipType = FrameSkipType.HighSpec;
 
         /// <summary>
-        /// [NotNull] フレームスキップ種別
+        /// フレームスキップ種別
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public FrameSkipType FrameSkipType
@@ -131,7 +131,7 @@ namespace WodiLib.Ini
         private ProxyAddress proxyAddress = "";
 
         /// <summary>
-        /// [NotNull] プロキシアドレス
+        /// プロキシアドレス
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public ProxyAddress ProxyAddress
@@ -276,7 +276,7 @@ namespace WodiLib.Ini
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(GameIniData other)
+        public override bool Equals(GameIniData? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

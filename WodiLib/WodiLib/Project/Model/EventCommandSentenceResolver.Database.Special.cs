@@ -90,14 +90,14 @@ namespace WodiLib.Project
             {
                 paramType = Master.GetNumericVariableAddressStringIfVariableAddress(desc.TypeId.Value, type,
                     commonDesc);
-                typeName = Master.GetDatabaseTypeName(desc.DbKind, desc.TypeId.Value).Item2;
+                typeName = Master.GetDatabaseTypeName(desc.DbKind!, desc.TypeId.Value).Item2;
                 typeId = desc.TypeId;
             }
             else
             {
                 // !(desc.TypeName is null)
                 paramType = desc.TypeName;
-                var searchTypeId = Master.GetDatabaseTypeId(desc.DbKind, desc.TypeName).Item1;
+                var searchTypeId = Master.GetDatabaseTypeId(desc.DbKind!, paramType).Item1;
                 typeId = searchTypeId;
                 typeName = searchTypeId is null
                     ? EventCommandSentenceResolver_Database_Basic.DatabaseDataNotFound
@@ -110,7 +110,7 @@ namespace WodiLib.Project
             {
                 paramData = Master.GetNumericVariableAddressStringIfVariableAddress(desc.DataId.Value, type,
                     commonDesc);
-                dataName = Master.GetDatabaseDataName(desc.DbKind, typeId, desc.DataId.Value).Item2;
+                dataName = Master.GetDatabaseDataName(desc.DbKind!, typeId, desc.DataId.Value).Item2;
             }
             else
             {
@@ -124,17 +124,17 @@ namespace WodiLib.Project
             {
                 // 指定されたタイプIDまたはデータIDが変数アドレスの場合は専用フォーマット
                 return string.Format(CsvIoEventCommandSentenceFormatWithReferX,
-                    desc.DbKind.EventCommandSentence, paramType, paramData);
+                    desc.DbKind!.EventCommandSentence, paramType, paramData);
             }
 
             return string.Format(CsvIoEventCommandSentenceFormatWithoutReferX,
-                desc.DbKind.EventCommandSentence, paramType, paramData,
+                desc.DbKind!.EventCommandSentence, paramType, paramData,
                 typeName, dataName);
         }
 
         public string GetDatabaseCommandSentenceForSetVariable(
             int typeId, int dataId, int itemId, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var typeStr = Master.GetVariableAddressStringIfVariableAddress(
                 typeId, type, desc);

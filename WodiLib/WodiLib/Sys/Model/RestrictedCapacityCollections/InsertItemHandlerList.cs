@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace WodiLib.Sys
 {
@@ -14,7 +15,7 @@ namespace WodiLib.Sys
     /// RestrictedCapacityCollection.InsertItemイベントハンドラリスト
     /// </summary>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
+    [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
     public class InsertItemHandlerList<T> : RestrictedCapacityCollectionHandlerList<T, OnInsertItemHandler<T>>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -26,9 +27,9 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="item">対象インスタンス</param>
-        internal void Execute(int index, T item)
+        internal void Execute(int index, [NotNull] T item)
         {
-            var @params = new object[] {index, item};
+            var @params = new object[] {index, item!};
             Execute(@params);
         }
     }

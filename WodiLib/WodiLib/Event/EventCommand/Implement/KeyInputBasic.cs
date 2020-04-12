@@ -117,7 +117,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandRightSideSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var acceptStrList = new List<string>();
             acceptStrList.Add(DirectionKeyType.EventCommandSentence);
@@ -141,7 +141,7 @@ namespace WodiLib.Event.EventCommand
 
         private DirectionKeyType directionKeyType = DirectionKeyType.FourDirections;
 
-        /// <summary>[NotNull] 方向キー種別</summary>
+        /// <summary>方向キー種別</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DirectionKeyType DirectionKeyType
         {

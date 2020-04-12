@@ -77,7 +77,7 @@ namespace WodiLib.Event.EventCommand
 
         private readonly IntOrStr loadGraphic = (0, "");
 
-        /// <summary>[NotNull] 読み込み画像ファイル名または変数</summary>
+        /// <summary>読み込み画像ファイル名または変数</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public IntOrStr LoadGraphic
         {
@@ -106,7 +106,7 @@ namespace WodiLib.Event.EventCommand
             set => MemberId = value;
         }
 
-        /// <summary>[NotNull] 対象指定変数または対象ファイル名</summary>
+        /// <summary>対象指定変数または対象ファイル名</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         protected override IntOrStr Target
         {
@@ -127,14 +127,14 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文字列の処理内容部分を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列の処理内容部分</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandExecSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var memberStr = resolver.GetNumericVariableAddressStringIfVariableAddress(MemberId, type, desc);
             var insertStr = IsTargetingValue

@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -60,7 +61,7 @@ namespace WodiLib.Database
         }
 
         /// <summary>
-        /// [NotNull] ファイル読み込み時の初期フォルダ
+        /// ファイル読み込み時の初期フォルダ
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「ファイル読み込み」以外の場合</exception>
         public DBSettingFolderName FolderName
@@ -187,11 +188,11 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="type">[NotNull] 特殊指定タイプ</param>
-        /// <param name="argCases">[Nullable] 選択肢リスト</param>
+        /// <param name="type">特殊指定タイプ</param>
+        /// <param name="argCases">選択肢リスト</param>
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         public DBItemSpecialSettingDesc(DBItemSpecialSettingType type,
-            IEnumerable<DatabaseValueCase> argCases)
+            IEnumerable<DatabaseValueCase>? argCases)
         {
             if (type is null)
                 throw new ArgumentNullException(
@@ -199,7 +200,7 @@ namespace WodiLib.Database
 
             var argCaseList = argCases is null
                 ? null
-                : new DatabaseValueCaseList(argCases);
+                : new DatabaseValueCaseList(argCases.ToArray());
 
             InnerDesc = DBItemSettingDescFactory.Create(type, argCaseList);
         }
@@ -211,11 +212,11 @@ namespace WodiLib.Database
         /// <summary>
         /// 引数特殊指定タイプを変更する。
         /// </summary>
-        /// <param name="type">[NotNull] 特殊指定タイプ</param>
-        /// <param name="argCases">[Nullable] 選択肢リスト</param>
+        /// <param name="type">特殊指定タイプ</param>
+        /// <param name="argCases">選択肢リスト</param>
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         public void ChangeValueType(DBItemSpecialSettingType type,
-            IEnumerable<DatabaseValueCase> argCases)
+            IEnumerable<DatabaseValueCase>? argCases)
         {
             if (type is null)
                 throw new ArgumentNullException(
@@ -223,7 +224,7 @@ namespace WodiLib.Database
 
             var argCaseList = argCases is null
                 ? null
-                : new DatabaseValueCaseList(argCases);
+                : new DatabaseValueCaseList(argCases.ToArray());
 
             InnerDesc = DBItemSettingDescFactory.Create(type, argCaseList);
         }
@@ -259,7 +260,7 @@ namespace WodiLib.Database
         /// <summary>
         /// 選択肢を追加する。
         /// </summary>
-        /// <param name="argCase">[NotNull] 追加する選択肢</param>
+        /// <param name="argCase">追加する選択肢</param>
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
         /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
         public void AddSpecialCase(DatabaseValueCase argCase)
@@ -270,10 +271,10 @@ namespace WodiLib.Database
         /// <summary>
         /// 選択肢を追加する。
         /// </summary>
-        /// <param name="argCases">[NotNull] 追加する選択肢</param>
+        /// <param name="argCases">追加する選択肢</param>
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
         /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
-        public void AddSpecialCaseRange(IEnumerable<DatabaseValueCase> argCases)
+        public void AddSpecialCaseRange(IReadOnlyCollection<DatabaseValueCase> argCases)
         {
             InnerDesc.AddRangeSpecialCase(argCases);
         }
@@ -282,7 +283,7 @@ namespace WodiLib.Database
         /// 選択肢を挿入する。
         /// </summary>
         /// <param name="index">[Range(0, 選択肢数)] 追加する選択肢</param>
-        /// <param name="argCase">[NotNull] 追加する選択肢</param>
+        /// <param name="argCase">追加する選択肢</param>
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
@@ -295,11 +296,11 @@ namespace WodiLib.Database
         /// 選択肢を挿入する。
         /// </summary>
         /// <param name="index">[Range(0, 選択肢数)] 追加する選択肢</param>
-        /// <param name="argCases">[NotNull] 追加する選択肢</param>
+        /// <param name="argCases">追加する選択肢</param>
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
-        public void InsertSpecialCaseRange(int index, IEnumerable<DatabaseValueCase> argCases)
+        public void InsertSpecialCaseRange(int index, IReadOnlyCollection<DatabaseValueCase> argCases)
         {
             InnerDesc.InsertRangeSpecialCase(index, argCases);
         }
@@ -308,7 +309,7 @@ namespace WodiLib.Database
         /// DB参照時の追加選択肢文字列を更新する。
         /// </summary>
         /// <param name="caseNumber">[Range[-3, -1)] 選択肢番号</param>
-        /// <param name="description">[NotNull][NotNewLine] 文字列</param>
+        /// <param name="description">[NotNewLine] 文字列</param>
         /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">caseNumberが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">descriptionがEmptyの場合</exception>
@@ -367,7 +368,7 @@ namespace WodiLib.Database
         /// <summary>
         /// 指定した値種別が設定可能かどうかを判定する。
         /// </summary>
-        /// <param name="type">[NotNull] 値種別</param>
+        /// <param name="type">値種別</param>
         /// <returns>設定可能な場合true</returns>
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         public bool CanSetItemType(DBItemType type)
@@ -384,7 +385,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DBItemSpecialSettingDesc other)
+        public override bool Equals(DBItemSpecialSettingDesc? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;

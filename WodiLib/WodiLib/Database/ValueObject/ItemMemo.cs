@@ -8,15 +8,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
 {
     /// <summary>
-    /// [NotNull] 項目メモ
+    /// 項目メモ
     /// </summary>
     [Serializable]
-    public class ItemMemo : IConvertibleString, IEquatable<ItemMemo>
+    public class ItemMemo : IEquatable<ItemMemo>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -32,7 +33,7 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[NotNull] 項目メモ</param>
+        /// <param name="value">項目メモ</param>
         /// <exception cref="ArgumentNullException">valueがnullの場合</exception>
         public ItemMemo(string value)
         {
@@ -54,7 +55,7 @@ namespace WodiLib.Database
         public override string ToString() => Value;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -87,7 +88,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(ItemMemo other)
+        public bool Equals(ItemMemo? other)
         {
             if (other is null) return false;
             return Value.Equals(other.Value);
@@ -97,11 +98,13 @@ namespace WodiLib.Database
         //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+#nullable disable
         /// <summary>
         /// string -> ItemMemo への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator ItemMemo(string src)
         {
             if (src is null) return null;
@@ -114,10 +117,12 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator string(ItemMemo src)
         {
             return src?.Value;
         }
+#nullable restore
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Operator
@@ -129,7 +134,7 @@ namespace WodiLib.Database
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(ItemMemo left, ItemMemo right)
+        public static bool operator ==(ItemMemo? left, ItemMemo? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -144,7 +149,7 @@ namespace WodiLib.Database
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(ItemMemo left, ItemMemo right)
+        public static bool operator !=(ItemMemo? left, ItemMemo? right)
         {
             return !(left == right);
         }

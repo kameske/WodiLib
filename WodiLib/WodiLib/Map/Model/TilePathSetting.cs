@@ -34,7 +34,7 @@ namespace WodiLib.Map
         public TileImpassableFlags ImpassableFlags => InnerSetting.ImpassableFlags;
 
         /// <summary>
-        /// [NotNull] タイル通行設定オプション
+        /// タイル通行設定オプション
         /// </summary>
         /// <exception cref="PropertyNullException">nullを設定した場合</exception>
         public TilePathOption PathOption
@@ -130,8 +130,8 @@ namespace WodiLib.Map
         /// <summary>
         /// 通行許可設定を"許可"に変更する。
         /// </summary>
-        /// <param name="cannotPassingFlags">[Nullable] 通行方向設定</param>
-        public void ChangePathPermissionAllow(TileCannotPassingFlags cannotPassingFlags = null)
+        /// <param name="cannotPassingFlags">通行方向設定</param>
+        public void ChangePathPermissionAllow(TileCannotPassingFlags? cannotPassingFlags = null)
         {
             InnerSetting = TilePathSettingFactory.Create(
                 TilePathPermission.Allow, InnerSetting,
@@ -141,8 +141,8 @@ namespace WodiLib.Map
         /// <summary>
         /// 通行許可設定を"下レイヤーに依存"に変更する。
         /// </summary>
-        /// <param name="cannotPassingFlags">[Nullable] 通行方向設定</param>
-        public void ChangePathPermissionDependent(TileCannotPassingFlags cannotPassingFlags = null)
+        /// <param name="cannotPassingFlags">通行方向設定</param>
+        public void ChangePathPermissionDependent(TileCannotPassingFlags? cannotPassingFlags = null)
         {
             InnerSetting = TilePathSettingFactory.Create(
                 TilePathPermission.Dependent, InnerSetting,
@@ -161,8 +161,8 @@ namespace WodiLib.Map
         /// <summary>
         /// 通行許可設定を"部分的に通行不可"に変更する。
         /// </summary>
-        /// <param name="impassableFlags">[Nullable] 通行許可設定</param>
-        public void ChangePathPermissionPartialDeny(TileImpassableFlags impassableFlags = null)
+        /// <param name="impassableFlags">通行許可設定</param>
+        public void ChangePathPermissionPartialDeny(TileImpassableFlags? impassableFlags = null)
         {
             InnerSetting = TilePathSettingFactory.Create(
                 TilePathPermission.PartialDeny, InnerSetting,
@@ -174,7 +174,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(TilePathSetting other)
+        public override bool Equals(TilePathSetting? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

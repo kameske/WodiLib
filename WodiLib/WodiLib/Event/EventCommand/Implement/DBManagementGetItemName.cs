@@ -32,7 +32,7 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>[NotNull] DB種別</summary>
+        /// <summary>DB種別</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DBKind DBKind
         {
@@ -43,10 +43,11 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBKind)));
                 _DBKind = value;
+                NotifyPropertyChanged();
             }
         }
 
-        /// <summary>[NotNull] タイプID</summary>
+        /// <summary>タイプID</summary>
         /// <exception cref="PropertyNullException">nullまたはStrOrInt.Noneをセットした場合</exception>
         public IntOrStr DBTypeId
         {
@@ -60,6 +61,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBTypeId)));
                 _DBTypeId.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 
@@ -76,14 +78,22 @@ namespace WodiLib.Event.EventCommand
         public int DBItemIndex
         {
             get => _DBItemId.ToInt();
-            set => _DBItemId.Merge(value);
+            set
+            {
+                _DBItemId.Merge(value);
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>タイプID文字列指定フラグ</summary>
         public bool IsTypeIdUseStr
         {
             get => _IsTypeIdUseStr;
-            set => _IsTypeIdUseStr = value;
+            set
+            {
+                _IsTypeIdUseStr = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <inheritdoc />
@@ -110,7 +120,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandRightSideSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             string paramType;
             string targetType;

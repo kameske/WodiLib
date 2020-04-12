@@ -11,8 +11,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.Serialization;
+using Commons.Linq.Extension;
 
 namespace WodiLib.Sys
 {
@@ -31,7 +33,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
-        [field: NonSerialized] private event NotifyCollectionChangedEventHandler _collectionChanged;
+        [field: NonSerialized] private event NotifyCollectionChangedEventHandler? _collectionChanged;
 
         /// <summary>
         /// 要素変更通知
@@ -69,7 +71,7 @@ namespace WodiLib.Sys
             get => Items[index];
             set
             {
-                if (value == null)
+                if (value is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(value)));
 
@@ -88,7 +90,7 @@ namespace WodiLib.Sys
         /// </summary>
         [field: NonSerialized]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
+        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
         public SetItemHandlerList<T> SetItemHandlerList { get; private set; } = new SetItemHandlerList<T>();
 
         /// <summary>
@@ -96,7 +98,7 @@ namespace WodiLib.Sys
         /// </summary>
         [field: NonSerialized]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
+        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
         public InsertItemHandlerList<T> InsertItemHandlerList { get; private set; } = new InsertItemHandlerList<T>();
 
         /// <summary>
@@ -104,7 +106,7 @@ namespace WodiLib.Sys
         /// </summary>
         [field: NonSerialized]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
+        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
         public RemoveItemHandlerList<T> RemoveItemHandlerList { get; private set; } = new RemoveItemHandlerList<T>();
 
         /// <summary>
@@ -112,7 +114,7 @@ namespace WodiLib.Sys
         /// </summary>
         [field: NonSerialized]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
+        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
         public ClearItemHandlerList<T> ClearItemHandlerList { get; private set; } = new ClearItemHandlerList<T>();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -148,14 +150,14 @@ namespace WodiLib.Sys
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="initItems">[NotNull] 初期要素</param>
+        /// <param name="list">初期リスト</param>
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         /// <exception cref="ArgumentNullException">
-        ///     initItemsがnullの場合、
-        ///     またはinitItems中にnullが含まれる場合
+        ///     listがnullの場合、
+        ///     またはlist中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">initItemsの要素数が不適切な場合</exception>
-        protected RestrictedCapacityCollection(IEnumerable<T> initItems)
+        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
+        protected RestrictedCapacityCollection(IReadOnlyCollection<T> list)
         {
             try
             {
@@ -167,17 +169,15 @@ namespace WodiLib.Sys
                 throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
             }
 
-            if (initItems is null)
+            if (list is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(initItems)));
+                    ErrorMessage.NotNull(nameof(list)));
 
-            var initList = initItems.ToArray();
-
-            if (initList.HasNullItem())
+            if (list.HasNullItem())
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNullInList(nameof(initItems)));
+                    ErrorMessage.NotNullInList(nameof(list)));
 
-            var cnt = initList.Length;
+            var cnt = list.Count;
             if (cnt < GetMinCapacity())
                 throw new InvalidOperationException(
                     ErrorMessage.UnderListLength(GetMinCapacity()));
@@ -185,40 +185,7 @@ namespace WodiLib.Sys
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(GetMaxCapacity()));
 
-            PrivateInsertItemRange(0, initList);
-        }
-
-        /// <summary>
-        /// 容量上下限チェック
-        /// </summary>
-        /// <exception cref="InvalidOperationException">
-        ///     容量下限が 0 未満の場合、
-        ///     または容量上限が容量下限未満の場合
-        /// </exception>
-        private void ValidateCapacity()
-        {
-            var maxCapacity = GetMaxCapacity();
-            var minCapacity = GetMinCapacity();
-
-            if (minCapacity < 0)
-                throw new InvalidOperationException(
-                    ErrorMessage.GreaterOrEqual("最小容量", 0, maxCapacity));
-
-            if (maxCapacity < minCapacity)
-                throw new InvalidOperationException(
-                    ErrorMessage.GreaterOrEqual("最大容量", $"最小容量（{minCapacity}）", maxCapacity));
-        }
-
-        /// <summary>
-        /// デフォルト値チェック
-        /// </summary>
-        /// <exception cref="InvalidOperationException"><see cref="MakeDefaultItem"/>がnullを返却する場合</exception>
-        private void ValidateDefaultItem()
-        {
-            var value = MakeDefaultItem(0);
-            if (ReferenceEquals(value,null))
-                throw new InvalidOperationException(
-                    ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}メソッドの返戻値"));
+            PrivateInsertItemRange(0, list);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -283,12 +250,12 @@ namespace WodiLib.Sys
         /// <summary>
         /// リストの末尾に要素を追加する。
         /// </summary>
-        /// <param name="item">[NotNull] 追加する要素</param>
+        /// <param name="item">追加する要素</param>
         /// <exception cref="ArgumentNullException">itemがnullの場合</exception>
         /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
         public void Add(T item)
         {
-            if (item == null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(item)));
+            if (item is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(item)));
 
             var addedLength = Count + 1;
             if (addedLength > GetMaxCapacity())
@@ -302,36 +269,34 @@ namespace WodiLib.Sys
         /// <summary>
         /// リストの末尾に要素を追加する。
         /// </summary>
-        /// <param name="items">[NotNull] 追加する要素</param>
+        /// <param name="items">追加する要素</param>
         /// <exception cref="ArgumentNullException">
         ///     itemsがnullの場合、
         ///     またはitemsにnull要素が含まれる場合
         /// </exception>
         /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
-        public void AddRange(IEnumerable<T> items)
+        public void AddRange(IReadOnlyCollection<T> items)
         {
             if (items is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
 
-            var list = items.ToArray();
-
-            if (list.HasNullItem())
+            if (items.HasNullItem())
                 throw new ArgumentNullException(
                     ErrorMessage.NotNullInList(nameof(items)));
 
-            var addedLength = Count + list.Length;
+            var addedLength = Count + items.Count;
             if (addedLength > GetMaxCapacity())
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(GetMaxCapacity()));
 
             var insertIndex = Count;
-            PrivateInsertItemRange(insertIndex, list);
+            PrivateInsertItemRange(insertIndex, items);
         }
 
         /// <summary>
         /// 指定したインデックスの位置に要素を挿入する。
         /// </summary>
         /// <param name="index">[Range(0, Count)] インデックス</param>
-        /// <param name="item">[NotNull] 挿入する要素</param>
+        /// <param name="item">挿入する要素</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">itemがnullの場合</exception>
         /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
@@ -343,7 +308,7 @@ namespace WodiLib.Sys
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), min, max, index));
 
-            if (item == null)
+            if (item is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(item)));
 
@@ -359,14 +324,14 @@ namespace WodiLib.Sys
         /// 指定したインデックスの位置に要素を挿入する。
         /// </summary>
         /// <param name="index">[Range(0, Count)] インデックス</param>
-        /// <param name="items">[NotNull] 追加する要素</param>
+        /// <param name="items">追加する要素</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">
         ///     itemsがnullの場合、
         ///     またはitemsにnull要素が含まれる場合
         /// </exception>
         /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
-        public void InsertRange(int index, IEnumerable<T> items)
+        public void InsertRange(int index, IReadOnlyCollection<T> items)
         {
             var max = Count;
             const int min = 0;
@@ -376,28 +341,26 @@ namespace WodiLib.Sys
 
             if (items is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
 
-            var list = items.ToArray();
-
-            if (list.HasNullItem())
+            if (items.HasNullItem())
                 throw new ArgumentNullException(
                     ErrorMessage.NotNullInList(nameof(items)));
 
-            var addedLength = Count + list.Length;
+            var addedLength = Count + items.Count;
             if (addedLength > GetMaxCapacity())
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(GetMaxCapacity()));
 
-            PrivateInsertItemRange(index, list);
+            PrivateInsertItemRange(index, items);
         }
 
         /// <summary>
         /// 指定したインデックスを起点として、要素の上書き/追加を行う。
         /// </summary>
         /// <param name="index">[Range(0, Count)] インデックス</param>
-        /// <param name="items">[NotNull] 上書き/追加リスト</param>
+        /// <param name="list">上書き/追加リスト</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
-        /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
-        /// <exception cref="ArgumentException">items中にnull要素が含まれる場合</exception>
+        /// <exception cref="ArgumentNullException">listがnullの場合</exception>
+        /// <exception cref="ArgumentException">list中にnull要素が含まれる場合</exception>
         /// <exception cref="InvalidOperationException">追加操作によって要素数がMaxCapacityを超える場合</exception>
         /// <example>
         ///     <code>
@@ -413,7 +376,7 @@ namespace WodiLib.Sys
         ///     // target is { 0, 1, 10, 3 }
         ///     </code>
         /// </example>
-        public void Overwrite(int index, IEnumerable<T> items)
+        public void Overwrite(int index, IReadOnlyList<T> list)
         {
             var indexMax = Count;
             const int indexMin = 0;
@@ -421,19 +384,16 @@ namespace WodiLib.Sys
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(index), indexMin, indexMax, index));
 
-            if (items is null)
+            if (list is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(items)));
-
-            var list = items.ToArray();
-
+                    ErrorMessage.NotNull(nameof(list)));
             if (list.HasNullItem())
                 throw new ArgumentException(
-                    ErrorMessage.NotNullInList(nameof(items)));
+                    ErrorMessage.NotNullInList(nameof(list)));
 
-            var updateCnt = list.Length;
+            var updateCnt = list.Count;
             if (updateCnt + index > Count) updateCnt = Count - index;
-            var insertCnt = list.Length - updateCnt;
+            var insertCnt = list.Count - updateCnt;
 
             if (insertCnt > 0 && Count + insertCnt > GetMaxCapacity())
                 throw new InvalidOperationException(
@@ -509,12 +469,12 @@ namespace WodiLib.Sys
         /// <summary>
         /// 特定のオブジェクトを要素として持つとき、最初に出現したものを削除する。
         /// </summary>
-        /// <param name="item">[Nullable] 削除する要素</param>
+        /// <param name="item">削除する要素</param>
         /// <returns>削除成否</returns>
         /// <exception cref="InvalidOperationException">削除した結果要素数がMinValue未満になる場合</exception>
-        public bool Remove(T item)
+        public bool Remove([AllowNull] T item)
         {
-            if (item == null) return false;
+            if (item is null) return false;
 
             var index = Items.IndexOf(item);
             if (index < 0) return false;
@@ -622,7 +582,7 @@ namespace WodiLib.Sys
                 for (var i = Count; i < length; i++)
                 {
                     var addItem = MakeDefaultItem(i);
-                    if (addItem == null)
+                    if (addItem is null)
                         throw new ArgumentException(
                             ErrorMessage.NotExecute($"{nameof(MakeDefaultItem)}({i})の結果がnullのため、"));
 
@@ -673,21 +633,21 @@ namespace WodiLib.Sys
         /// <summary>
         /// 指定の要素が含まれているか判断する。
         /// </summary>
-        /// <param name="item">[Nullable] 対象要素</param>
+        /// <param name="item">対象要素</param>
         /// <returns>指定の要素が含まれる場合はtrue</returns>
-        public bool Contains(T item) => Items.Contains(item);
+        public bool Contains([AllowNull] T item) => Items.Contains(item);
 
         /// <summary>
         /// 指定したオブジェクトを検索し、最初に出現する位置のインデックスを返す。
         /// </summary>
-        /// <param name="item">[Nullable] 対象要素</param>
+        /// <param name="item">対象要素</param>
         /// <returns>要素が含まれていない場合、-1</returns>
-        public int IndexOf(T item) => Items.IndexOf(item);
+        public int IndexOf([AllowNull] T item) => Items.IndexOf(item);
 
         /// <summary>
         /// すべての要素を、指定された配列のインデックスから始まる部分にコピーする。
         /// </summary>
-        /// <param name="array">[NotNull] コピー先の配列</param>
+        /// <param name="array">コピー先の配列</param>
         /// <param name="index">[Range(0, Count - 1)] コピー開始インデックス</param>
         /// <exception cref="ArgumentNullException">arrayがnullの場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">indexが0未満の場合</exception>
@@ -705,7 +665,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(IReadOnlyRestrictedCapacityCollection<T> other)
+        public bool Equals(IReadOnlyRestrictedCapacityCollection<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -717,7 +677,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(RestrictedCapacityCollection<T> other)
+        public override bool Equals(RestrictedCapacityCollection<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -742,7 +702,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(IReadOnlyList<T> other)
+        public bool Equals(IReadOnlyList<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -755,25 +715,12 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(IFixedLengthCollection<T> other)
+        public bool Equals(IFixedLengthCollection<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return All().SequenceEqual(other.All());
-        }
-
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool Equals(IEnumerable<T> other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return All().SequenceEqual(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -881,6 +828,39 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
+        /// 容量上下限チェック
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        ///     容量下限が 0 未満の場合、
+        ///     または容量上限が容量下限未満の場合
+        /// </exception>
+        protected void ValidateCapacity()
+        {
+            var maxCapacity = GetMaxCapacity();
+            var minCapacity = GetMinCapacity();
+
+            if (minCapacity < 0)
+                throw new InvalidOperationException(
+                    ErrorMessage.GreaterOrEqual("最小容量", 0, maxCapacity));
+
+            if (maxCapacity < minCapacity)
+                throw new InvalidOperationException(
+                    ErrorMessage.GreaterOrEqual("最大容量", $"最小容量（{minCapacity}）", maxCapacity));
+        }
+
+        /// <summary>
+        /// デフォルト値チェック
+        /// </summary>
+        /// <exception cref="InvalidOperationException"><see cref="MakeDefaultItem"/>がnullを返却する場合</exception>
+        protected void ValidateDefaultItem()
+        {
+            var value = MakeDefaultItem(0);
+            if (value is null)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}メソッドの返戻値"));
+        }
+
+        /// <summary>
         /// 要素最小数に充足するまでデフォルト要素を追加する。
         /// </summary>
         protected void FillMinCapacity()
@@ -934,7 +914,7 @@ namespace WodiLib.Sys
 #pragma warning restore 618
             NotifyPropertyChanged(ListConstant.IndexerName);
             _collectionChanged?.Invoke(this,
-                NotifyCollectionChangedEventArgsHelper.Set(item, oldItem, index));
+                NotifyCollectionChangedEventArgsHelper.Set(item, oldItem!, index));
         }
 
         /// <summary>
@@ -977,7 +957,7 @@ namespace WodiLib.Sys
              * ・itemのnullチェック
              * を実施済み。
              */
-            var itemList = items.ToArray();
+            var itemList = items.ToList();
 
             itemList.ForEach((item, i) =>
             {
@@ -1065,7 +1045,7 @@ namespace WodiLib.Sys
 
             NotifyPropertyChanged(ListConstant.IndexerName);
             _collectionChanged?.Invoke(this,
-                NotifyCollectionChangedEventArgsHelper.Move(moveItem, newIndex, oldIndex));
+                NotifyCollectionChangedEventArgsHelper.Move(moveItem!, newIndex, oldIndex));
         }
 
         /// <summary>
@@ -1132,7 +1112,7 @@ namespace WodiLib.Sys
             NotifyPropertyChanged(nameof(Count));
             NotifyPropertyChanged(ListConstant.IndexerName);
             _collectionChanged?.Invoke(this,
-                NotifyCollectionChangedEventArgsHelper.Remove(removeItem, index));
+                NotifyCollectionChangedEventArgsHelper.Remove(removeItem!, index));
         }
 
         /// <summary>

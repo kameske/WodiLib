@@ -42,7 +42,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMoveParamSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             if (SavedPositionId.IsVariableAddressSimpleCheck())
             {
@@ -69,7 +69,7 @@ namespace WodiLib.Event.EventCommand
 
         private string MakeEventCommandMoveParamSentence_TargetVariableAddress(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var idStr = resolver.GetNumericVariableAddressString(SavedPositionId, type, desc);
             return string.Format(EventCommandSentenceFormat_Variable, idStr);
@@ -90,7 +90,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <summary>[NotNull] 場所移動時トランジションオプション</summary>
+        /// <summary>場所移動時トランジションオプション</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public TransferOption TransferOption
         {

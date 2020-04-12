@@ -40,7 +40,7 @@ namespace WodiLib.Event.EventCommand
 
             public static string MouseWheel(int value,
                 EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-                EventCommandSentenceResolveDesc desc)
+                EventCommandSentenceResolveDesc? desc)
             {
                 var varName = value.IsVariableAddressSimpleCheck()
                     ? resolver.GetNumericVariableAddressStringIfVariableAddress(value, type, desc)
@@ -51,7 +51,7 @@ namespace WodiLib.Event.EventCommand
 
             public static string MouseMove(int x, int y,
                 EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-                EventCommandSentenceResolveDesc desc)
+                EventCommandSentenceResolveDesc? desc)
             {
                 var xName = x.IsVariableAddressSimpleCheck()
                     ? resolver.GetNumericVariableAddressStringIfVariableAddress(x, type, desc)
@@ -184,7 +184,7 @@ namespace WodiLib.Event.EventCommand
         /// 文字列変数を設定する。
         /// </summary>
         /// <param name="index">[Range(0, -)] インデックス</param>
-        /// <param name="value">[NotNull] 設定値</param>
+        /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">常に</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void SetSafetyStringVariable(int index, string value)
@@ -196,7 +196,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var builder = new StringBuilder();
 

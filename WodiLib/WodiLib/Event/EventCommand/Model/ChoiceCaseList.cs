@@ -77,7 +77,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="index">[Range(0, CaseValue - 1)] 選択肢番号</param>
         /// <returns>選択肢番号に対応した文字列</returns>
         /// <exception cref="ArgumentOutOfRangeException">0～選択肢最大番号以外の値を設定した場合</exception>
-        [Obsolete("インデクサを通じて値を取得してください。 Ver1.4で削除します。")]
+        [Obsolete("インデクサを通じて値を取得してください。 Ver2.4で削除します。")]
         public string Get(int index)
         {
             if (index < 0 || CaseValue <= index)
@@ -93,7 +93,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="src">[NotNull] 更新文字列</param>
         /// <exception cref="ArgumentOutOfRangeException">0～選択肢最大番号以外の値を設定した場合</exception>
         /// <exception cref="ArgumentNullException">srcがnullの場合</exception>
-        [Obsolete("インデクサを通じて値を設定してください。 Ver1.4で削除します。")]
+        [Obsolete("インデクサを通じて値を設定してください。 Ver2.4で削除します。")]
         public void Set(int index, string src)
         {
             if (index < 0 || CaseValue <= index)
@@ -119,10 +119,12 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="items">初期リスト</param>
-        /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
-        /// <exception cref="InvalidOperationException">itemsの要素数が12以外の場合</exception>
-        public ChoiceCaseList(IEnumerable<string> items) : base(items)
+        /// <param name="list">初期リスト</param>
+        /// <exception cref="ArgumentNullException">listがnullの場合</exception>
+        /// <exception cref="InvalidOperationException">listの要素数が12以外の場合</exception>
+        public ChoiceCaseList(
+            IReadOnlyCollection<string> list)
+            : base(list)
         {
         }
 

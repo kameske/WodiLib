@@ -9,9 +9,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Commons;
 using WodiLib.Database;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -31,7 +31,7 @@ namespace WodiLib.IO
         private int Length { get; }
 
         /// <summary>ロガー</summary>
-        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private Logger Logger { get; } = Logger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -141,7 +141,7 @@ namespace WodiLib.IO
                 "データID設定方法", settingType));
 
             // 「指定DBの指定タイプ」の場合、DB種別とタイプIDを取り出す
-            DBKind dbKind = null;
+            DBKind? dbKind = null;
             TypeId typeId = 0;
             if (settingType == DBDataSettingType.DesignatedType)
             {
@@ -284,7 +284,7 @@ namespace WodiLib.IO
                 }
                 else if (itemType == DBItemType.String)
                 {
-                    valueList.Add(stringItems[stringIndex]);
+                    valueList.Add(stringItems[stringIndex]!);
                     stringIndex++;
                 }
                 else

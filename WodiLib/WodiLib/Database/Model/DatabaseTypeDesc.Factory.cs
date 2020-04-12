@@ -31,7 +31,7 @@ namespace WodiLib.Database
             /// <summary>
             /// DBTypeSet用のDatabaseDatabaseTypeDescインスタンスを生成する。
             /// </summary>
-            /// <param name="itemSettingList">[NotNull] 項目設定リスト</param>
+            /// <param name="itemSettingList">項目設定リスト</param>
             /// <returns>インスタンス</returns>
             /// <exception cref="ArgumentNullException">dataNameList, itemSettingList が null の場合</exception>
             public static DatabaseTypeDesc CreateForDBTypeSet(DBItemSettingList itemSettingList)
@@ -60,8 +60,8 @@ namespace WodiLib.Database
             /// DBType用のDatabaseDatabaseTypeDescインスタンスを生成する。
             /// </summary>
             /// <returns>インスタンス</returns>
-            /// <param name="dataDescList">[NotNull] データ情報リスト</param>
-            /// <param name="itemDescList">[NotNull] 項目情報リスト</param>
+            /// <param name="dataDescList">データ情報リスト</param>
+            /// <param name="itemDescList">項目情報リスト</param>
             /// <exception cref="ArgumentNullException">dataDescList, itemDescList が null の場合</exception>
             public static DatabaseTypeDesc CreateForDBType(DatabaseDataDescList dataDescList,
                 DatabaseItemDescList itemDescList)
@@ -94,7 +94,7 @@ namespace WodiLib.Database
             /// <summary>
             /// DBData用のDatabaseDatabaseTypeDescインスタンスを生成する。
             /// </summary>
-            /// <param name="dataDescList">[NotNull] DBデータ情報</param>
+            /// <param name="dataDescList">DBデータ情報</param>
             /// <returns>インスタンス</returns>
             /// <exception cref="ArgumentNullException">dataDescList が null の場合</exception>
             public static DatabaseTypeDesc CreateForDBData(DatabaseDataDescList dataDescList)

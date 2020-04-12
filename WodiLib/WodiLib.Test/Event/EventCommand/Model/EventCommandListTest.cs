@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Commons;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
-using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand.Model
@@ -10,13 +10,13 @@ namespace WodiLib.Test.Event.EventCommand.Model
     [TestFixture]
     public class EventCommandListTest
     {
-        private static WodiLibLogger logger;
+        private static Logger logger;
 
         [SetUp]
         public static void Setup()
         {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
+            LoggerInitializer.SetupLoggerForDebug();
+            logger = Logger.GetInstance();
         }
 
         /// <summary>

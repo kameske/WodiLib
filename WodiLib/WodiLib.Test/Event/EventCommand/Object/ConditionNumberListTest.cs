@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Commons;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
-using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand
@@ -10,13 +10,13 @@ namespace WodiLib.Test.Event.EventCommand
     [TestFixture]
     public class ConditionNumberListTest
     {
-        private static WodiLibLogger logger;
+        private static Logger logger;
 
         [SetUp]
         public static void Setup()
         {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
+            LoggerInitializer.SetupLoggerForDebug();
+            logger = Logger.GetInstance();
         }
 
         [Test]

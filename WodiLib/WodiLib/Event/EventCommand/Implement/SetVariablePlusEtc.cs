@@ -34,7 +34,7 @@ namespace WodiLib.Event.EventCommand
 
         private NumberPlusEtcInfoType infoType = NumberPlusEtcInfoType.CurrentMapId;
 
-        /// <summary>[NotNull] 取得情報種別</summary>
+        /// <summary>取得情報種別</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public NumberPlusEtcInfoType InfoType
         {
@@ -95,7 +95,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandRightSideSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             return InfoType.EventCommandSentence;
         }

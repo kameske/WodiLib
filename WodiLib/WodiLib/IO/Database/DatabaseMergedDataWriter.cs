@@ -8,9 +8,9 @@
 
 using System;
 using System.Threading.Tasks;
+using Commons;
 using WodiLib.Database;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -41,7 +41,7 @@ namespace WodiLib.IO
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>ロガー</summary>
-        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private Logger Logger { get; } = Logger.GetInstance();
 
         private readonly object writeLock = new object();
 
@@ -119,6 +119,7 @@ namespace WodiLib.IO
             Data = outputData;
             DatFilePath = datFilePath;
             ProjectFilePath = projectFilePath;
+            DbKind = default!; // 呼び出し元で設定する
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

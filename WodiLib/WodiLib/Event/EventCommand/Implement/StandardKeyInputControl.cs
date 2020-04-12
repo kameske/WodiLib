@@ -121,7 +121,7 @@ namespace WodiLib.Event.EventCommand
         /// 文字列変数を設定する。
         /// </summary>
         /// <param name="index">[Range(0, -)] インデックス</param>
-        /// <param name="value">[NotNull] 設定値</param>
+        /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">常に</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void SetSafetyStringVariable(int index, string value)
@@ -133,7 +133,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var targetKeyStr = controlKeySet.MakeEventCommandTargetKeySentence();
 
@@ -147,7 +147,7 @@ namespace WodiLib.Event.EventCommand
 
         private StandardKeyInputControlType keyType = StandardKeyInputControlType.OkMoveOkInput;
 
-        /// <summary>[NotNull] 入力制御タイプ</summary>
+        /// <summary>入力制御タイプ</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public StandardKeyInputControlType KeyType
         {

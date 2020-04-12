@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Cmn
@@ -15,7 +16,7 @@ namespace WodiLib.Cmn
     /// [Range(0, 999999)] ランダム変数ランダム量
     /// </summary>
     [Serializable]
-    public readonly struct RandomVariableValue : IConvertibleInt, IEquatable<RandomVariableValue>
+    public readonly struct RandomVariableValue : IConvertibleInt32, IEquatable<RandomVariableValue>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -62,7 +63,7 @@ namespace WodiLib.Cmn
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is RandomVariableValue other && Equals(other);
         }
@@ -82,6 +83,12 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => this;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
 
         /// <summary>
         /// 値を比較する。

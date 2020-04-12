@@ -243,7 +243,7 @@ namespace WodiLib.Ini
         private DatabaseValueNumberDrawType databaseValueNumberDrawType = DatabaseValueNumberDrawType.Off;
 
         /// <summary>
-        /// [NotNull] DBウィンドウ項目番号表示種別
+        /// DBウィンドウ項目番号表示種別
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DatabaseValueNumberDrawType DatabaseValueNumberDrawType
@@ -263,7 +263,7 @@ namespace WodiLib.Ini
         private EditTimeDrawType editTimeDrawType = EditTimeDrawType.On;
 
         /// <summary>
-        /// [NotNull]【Ver2.00以降】ウディタ作業時間表示種別
+        /// 【Ver2.00以降】ウディタ作業時間表示種別
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EditTimeDrawType EditTimeDrawType
@@ -328,7 +328,7 @@ namespace WodiLib.Ini
         private LaterTransparentType layerTransparent = LaterTransparentType.SomewhatDark;
 
         /// <summary>
-        /// [NotNull] Ver2.00以降】マップ編集・下レイヤーの暗さ
+        /// Ver2.00以降】マップ編集・下レイヤーの暗さ
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public LaterTransparentType LayerTransparent
@@ -348,7 +348,7 @@ namespace WodiLib.Ini
         private EventLayerOpacityType eventLayerOpacity = EventLayerOpacityType.Quoter;
 
         /// <summary>
-        /// [NotNull]【Ver2.00以降】マップ編集・Evレイヤー不透明度
+        /// 【Ver2.00以降】マップ編集・Evレイヤー不透明度
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventLayerOpacityType EventLayerOpacity
@@ -368,7 +368,7 @@ namespace WodiLib.Ini
         private CommandColorType commandColorType = CommandColorType.Type1;
 
         /// <summary>
-        /// [NotNull]【Ver2.00以降】イベントコマンド配色
+        /// 【Ver2.00以降】イベントコマンド配色
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CommandColorType CommandColorType
@@ -407,7 +407,7 @@ namespace WodiLib.Ini
         });
 
         /// <summary>
-        /// [NotNull]【Ver2.00以降】ゲームデータ作成時にコピーしないファイル拡張子
+        /// 【Ver2.00以降】ゲームデータ作成時にコピーしないファイル拡張子
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public ExtensionList NotCopyExtList
@@ -443,7 +443,7 @@ namespace WodiLib.Ini
         private ProjectBackupType backupType = ProjectBackupType.ThreeTimes;
 
         /// <summary>
-        /// [NotNull]【Ver2.20以降】Datファイル自動バックアップ
+        /// 【Ver2.20以降】Datファイル自動バックアップ
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public ProjectBackupType BackupType
@@ -463,7 +463,7 @@ namespace WodiLib.Ini
         private IFixedLengthEventCommandShortCutKeyList shortCutKeyList = new EventCommandShortCutKeyList();
 
         /// <summary>
-        /// [NotNull]【Ver2.00以降】イベントコマンドウィンドウショートカットキーリスト
+        /// 【Ver2.00以降】イベントコマンドウィンドウショートカットキーリスト
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public IFixedLengthEventCommandShortCutKeyList ShortCutKeyList
@@ -483,7 +483,7 @@ namespace WodiLib.Ini
         private IFixedLengthShortCutPositionList commandPositionList = new ShortCutPositionList();
 
         /// <summary>
-        /// [NotNull]【Ver2.00以降】イベントコマンド表示順リスト
+        /// 【Ver2.00以降】イベントコマンド表示順リスト
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public IFixedLengthShortCutPositionList CommandPositionList
@@ -691,7 +691,7 @@ namespace WodiLib.Ini
         ///     設定値が適切である場合、null。
         /// </param>
         /// <returns>設定値が適切である場合、true</returns>
-        public bool Validate(out string errorMsg)
+        public bool Validate(out string? errorMsg)
         {
             if (!ShortCutKeyList.Validate(out errorMsg))
             {
@@ -707,7 +707,7 @@ namespace WodiLib.Ini
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(EditorIniData other)
+        public override bool Equals(EditorIniData? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

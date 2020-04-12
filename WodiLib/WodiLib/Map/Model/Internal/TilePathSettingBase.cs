@@ -46,7 +46,7 @@ namespace WodiLib.Map
         private TilePathOption pathOption = TilePathOption.Nothing;
 
         /// <summary>
-        /// [NotNull] タイル通行設定オプション
+        /// タイル通行設定オプション
         /// </summary>
         /// <exception cref="PropertyNullException">nullを設定した場合</exception>
         public TilePathOption PathOption
@@ -63,7 +63,7 @@ namespace WodiLib.Map
         }
 
         /// <summary>
-        /// [NotNull] タイル通行方向設定
+        /// タイル通行方向設定
         /// </summary>
         /// <exception cref="PropertyAccessException">タイル通行許可が"通行不可"、"部分的に通行不可"の場合</exception>
         public virtual TileCannotPassingFlags CannotPassingFlags =>
@@ -110,7 +110,7 @@ namespace WodiLib.Map
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        public bool Equals(ITilePathSetting other)
+        public bool Equals(ITilePathSetting? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
@@ -121,7 +121,7 @@ namespace WodiLib.Map
                    && IsCounter == other.IsCounter;
         }
 
-        public override bool Equals(TilePathSettingBase other)
+        public override bool Equals(TilePathSettingBase? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;

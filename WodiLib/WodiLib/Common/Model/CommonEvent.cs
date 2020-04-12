@@ -98,7 +98,7 @@ namespace WodiLib.Common
         private CommonEventBootCondition condition = new CommonEventBootCondition();
 
         /// <summary>
-        /// [NotNull] 起動条件
+        /// 起動条件
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CommonEventBootCondition BootCondition
@@ -157,7 +157,7 @@ namespace WodiLib.Common
         private CommonEventName name = "";
 
         /// <summary>
-        /// [NotNull] コモンイベント名
+        /// コモンイベント名
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CommonEventName Name
@@ -179,7 +179,7 @@ namespace WodiLib.Common
         };
 
         /// <summary>
-        /// [NotNull] イベントコマンド
+        /// イベントコマンド
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandList EventCommands
@@ -199,7 +199,7 @@ namespace WodiLib.Common
         private CommonEventDescription description = "";
 
         /// <summary>
-        /// [NotNull] 説明文
+        /// 説明文
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public CommonEventDescription Description
@@ -218,7 +218,7 @@ namespace WodiLib.Common
         private CommonEventMemo memo = "";
 
         /// <summary>
-        /// [NotNull] メモ
+        /// メモ
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CommonEventMemo Memo
@@ -236,7 +236,7 @@ namespace WodiLib.Common
 
         private CommonEventLabelColor labelColor = CommonEventLabelColor.Black;
 
-        /// <summary>[NotNull] ラベル色</summary>
+        /// <summary>ラベル色</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CommonEventLabelColor LabelColor
         {
@@ -254,7 +254,7 @@ namespace WodiLib.Common
         private CommonEventFooterString footerString = "";
 
         /// <summary>
-        /// [NotNull] フッタ文字列
+        /// フッタ文字列
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -275,7 +275,7 @@ namespace WodiLib.Common
         private readonly CommonEventReturnValue returnValueInfo = new CommonEventReturnValue();
 
         /// <summary>
-        /// [NotNull] 返戻値の意味（Ver2.00～）
+        /// 返戻値の意味（Ver2.00～）
         /// </summary>
         /// <exception cref="PropertyNullException">nullを設定した場合</exception>
         public CommonEventResultDescription ReturnValueDescription
@@ -297,7 +297,7 @@ namespace WodiLib.Common
         private CommonEventSelfVariableNameList selfVariableNameList = new CommonEventSelfVariableNameList();
 
         /// <summary>
-        /// [NotNull] 変数名リスト
+        /// 変数名リスト
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CommonEventSelfVariableNameList SelfVariableNameList
@@ -376,9 +376,9 @@ namespace WodiLib.Common
         /// 数値引数の情報を更新する。
         /// </summary>
         /// <param name="index">インデックス</param>
-        /// <param name="desc">[NotNull] 情報</param>
+        /// <param name="desc">情報</param>
         /// <exception cref="ArgumentNullException">descがnullの場合</exception>
-        [Obsolete("NumberArgDescList を直接更新してください。Ver1.4で削除します。")]
+        [Obsolete("NumberArgDescList を直接更新してください。Ver2.4で削除します。")]
         public void UpdateSpecialNumberArgDesc(CommonEventNumberArgIndex index,
             CommonEventSpecialNumberArgDesc desc)
         {
@@ -394,7 +394,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <returns>情報インスタンス</returns>
-        [Obsolete("NumberArgDescList を参照更新してください。Ver1.4で削除します。")]
+        [Obsolete("NumberArgDescList を参照更新してください。Ver2.4で削除します。")]
         public CommonEventSpecialNumberArgDesc GetSpecialNumberArgDesc(CommonEventNumberArgIndex index)
         {
             return CommonEventSpecialArgDescList.GetSpecialNumberArgDesc(index);
@@ -404,9 +404,9 @@ namespace WodiLib.Common
         /// 文字列引数の情報を更新する。
         /// </summary>
         /// <param name="index">インデックス</param>
-        /// <param name="desc">[NotNull] 情報</param>
+        /// <param name="desc">情報</param>
         /// <exception cref="ArgumentNullException">descがnullの場合</exception>
-        [Obsolete("StringArgDescList を直接更新してください。Ver1.4で削除します。")]
+        [Obsolete("StringArgDescList を直接更新してください。Ver2.4で削除します。")]
         public void UpdateSpecialStringArgDesc(CommonEventStringArgIndex index,
             CommonEventSpecialStringArgDesc desc)
         {
@@ -421,7 +421,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <returns>情報インスタンス</returns>
-        [Obsolete("StringArgDescList を直接参照してください。Ver1.4で削除します。")]
+        [Obsolete("StringArgDescList を直接参照してください。Ver2.4で削除します。")]
         public CommonEventSpecialStringArgDesc GetSpecialStringArgDesc(CommonEventStringArgIndex index)
         {
             return CommonEventSpecialArgDescList.GetSpecialStringArgDesc(index);
@@ -462,8 +462,8 @@ namespace WodiLib.Common
         /// <summary>
         /// イベントコマンド文字列情報リストを取得する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列</returns>
         /// <exception cref="ArgumentNullException">
         ///     resolver または type が null の場合、
@@ -472,7 +472,7 @@ namespace WodiLib.Common
         [EditorBrowsable(EditorBrowsableState.Never)]
         public IReadOnlyList<EventCommandSentenceInfo> MakeEventCommandSentenceInfoList(
             EventCommandSentenceResolver resolver,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var sentenceType = EventCommandSentenceType.Common;
 
@@ -485,7 +485,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(CommonEvent other)
+        public override bool Equals(CommonEvent? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

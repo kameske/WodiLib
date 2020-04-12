@@ -149,7 +149,7 @@ namespace WodiLib.Event.EventCommand
         /// 文字列変数を設定する。
         /// </summary>
         /// <param name="index">[Range(0, -1～0)] インデックス</param>
-        /// <param name="value">[NotNull] 設定値</param>
+        /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -178,7 +178,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var leftSideStr = resolver.GetVariableAddressStringIfVariableAddress(LeftSide, type, desc);
             if (IsIndicateNumberVariable) leftSideStr = $"V[{leftSideStr}]";
@@ -190,14 +190,14 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文字列の右辺部分を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列の右辺部分</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected abstract string MakeEventCommandRightSideSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc);
+            EventCommandSentenceResolveDesc? desc);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
@@ -231,7 +231,7 @@ namespace WodiLib.Event.EventCommand
 
         private StringAssignmentOperator assignmentOperator = StringAssignmentOperator.Assign;
 
-        /// <summary>[NotNull] 代入演算子</summary>
+        /// <summary>代入演算子</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public StringAssignmentOperator AssignmentOperator
         {

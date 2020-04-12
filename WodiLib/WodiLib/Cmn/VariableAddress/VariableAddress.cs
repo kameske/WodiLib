@@ -9,9 +9,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Commons;
+using Commons.Convertible;
 using WodiLib.Project;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Cmn
 {
@@ -19,7 +20,7 @@ namespace WodiLib.Cmn
     /// 変数アドレス値基底クラス
     /// </summary>
     [Serializable]
-    public abstract class VariableAddress : IConvertibleInt, IEquatable<VariableAddress>
+    public abstract class VariableAddress : IConvertibleInt32, IEquatable<VariableAddress>
     {
         /*
          * 演算子をオーバーロードしたいため、インタフェースは使用しない
@@ -81,7 +82,7 @@ namespace WodiLib.Cmn
                     ErrorMessage.OutOfRange(nameof(value), _MinValue, _MaxValue, value));
 
             if (value < _SafetyMinValue || _SafetyMaxValue < value)
-                WodiLibLogger.GetInstance().Warning(
+                Logger.GetInstance().Warning(
                     WarningMessage.OutOfRange(nameof(value), _SafetyMinValue, _SafetyMaxValue, value));
 
             Value = value;
@@ -98,7 +99,7 @@ namespace WodiLib.Cmn
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -123,6 +124,12 @@ namespace WodiLib.Cmn
         public virtual int ToInt() => this;
 
         /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
+
+        /// <summary>
         /// byte配列に変換する。
         /// </summary>
         /// <param name="endian">エンディアン</param>
@@ -134,7 +141,7 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(VariableAddress other)
+        public bool Equals(VariableAddress? other)
         {
             return !(other is null) && Value == other.Value;
         }
@@ -142,10 +149,10 @@ namespace WodiLib.Cmn
         /// <summary>
         /// イベントコマンド文用文字列を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="sentenceType">[NotNull] イベントコマンド種別</param>
-        /// <param name="valueType">[NotNull] 変数種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="sentenceType">イベントコマンド種別</param>
+        /// <param name="valueType">変数種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列</returns>
         /// <exception cref="ArgumentNullException">
         ///     resolver, type が null の場合、
@@ -153,7 +160,7 @@ namespace WodiLib.Cmn
         /// </exception>
         public string MakeEventCommandString(EventCommandSentenceResolver resolver,
             EventCommandSentenceType sentenceType, VariableAddressValueType valueType,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             if (resolver is null)
                 throw new ArgumentNullException(
@@ -181,13 +188,13 @@ namespace WodiLib.Cmn
         /// <summary>
         /// イベントコマンド文用文字列を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected abstract string ResolveEventCommandString(EventCommandSentenceResolver resolver,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc);
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Implicit

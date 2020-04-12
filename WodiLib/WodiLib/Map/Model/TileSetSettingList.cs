@@ -44,7 +44,7 @@ namespace WodiLib.Map
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="list">[NotNull] 初期リスト</param>
+        /// <param name="list">初期リスト</param>
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         /// <exception cref="ArgumentNullException">
         ///     listがnullの場合、

@@ -32,7 +32,7 @@ namespace WodiLib.Event.EventCommand
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>[NotNull] DB種別</summary>
+        /// <summary>DB種別</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DBKind DBKind
         {
@@ -43,11 +43,12 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBKind)));
                 _DBKind = value;
+                NotifyPropertyChanged();
             }
         }
 
         /// <summary>
-        /// [NotNull] タイプ名
+        /// タイプ名
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public string DBTypeName
@@ -59,6 +60,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBTypeName)));
                 _DBTypeId.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 
@@ -109,7 +111,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandRightSideSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var paramType = DBTypeName;
             var targetType = resolver.GetDatabaseTypeId(_DBKind, DBTypeName).Item2;

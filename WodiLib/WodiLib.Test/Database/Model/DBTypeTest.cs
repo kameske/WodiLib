@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Commons;
 using NUnit.Framework;
 using WodiLib.Database;
-using WodiLib.Sys.Cmn;
 using WodiLib.Test.IO;
 using WodiLib.Test.Tools;
 
@@ -13,13 +13,13 @@ namespace WodiLib.Test.Database
     [TestFixture]
     public class DBTypeTest
     {
-        private static WodiLibLogger logger;
+        private static Logger logger;
 
         [SetUp]
         public static void Setup()
         {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
+            LoggerInitializer.SetupLoggerForDebug();
+            logger = Logger.GetInstance();
         }
 
         [OneTimeSetUp]

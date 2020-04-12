@@ -26,7 +26,7 @@ namespace WodiLib.Database
         private DataName dataName = "";
 
         /// <summary>
-        /// [NotNull] データ名
+        /// データ名
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DataName DataName
@@ -46,7 +46,7 @@ namespace WodiLib.Database
         private DBItemValueList itemValueList = new DBItemValueList();
 
         /// <summary>
-        /// [NotNull] DB項目値リスト
+        /// DB項目値リスト
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DBItemValueList ItemValueList
@@ -76,8 +76,8 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="dataName">[NotNull] データ名</param>
-        /// <param name="itemValueList">[NotNull] 項目値リスト</param>
+        /// <param name="dataName">データ名</param>
+        /// <param name="itemValueList">項目値リスト</param>
         /// <exception cref="ArgumentNullException">dataName, itemValuesがnullの場合</exception>
         internal DatabaseDataDesc(DataName dataName, DBItemValueList itemValueList)
         {
@@ -102,7 +102,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DatabaseDataDesc other)
+        public override bool Equals(DatabaseDataDesc? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -129,7 +129,7 @@ namespace WodiLib.Database
             var numValues = ItemValueList.Where(x => x.Type == DBItemType.Int)
                 .Select(x => (int) (DBValueInt) x).ToList();
             var strValues = ItemValueList.Where(x => x.Type == DBItemType.String)
-                .Select(x => (string) (DBValueString) x).ToList();
+                .Select(x => (string) (DBValueString) x!).ToList();
 
             // 数値項目数
             result.AddRange(numValues.Count.ToWoditorIntBytes());

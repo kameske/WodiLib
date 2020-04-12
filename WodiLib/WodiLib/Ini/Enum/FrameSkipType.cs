@@ -7,6 +7,8 @@
 // ========================================
 
 using System;
+using System.Linq;
+using Commons;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -48,7 +50,7 @@ namespace WodiLib.Ini
         /// <summary>
         ///     対象コードからオブジェクトを取得する。
         /// </summary>
-        /// <param name="code">[NotNull] コード</param>
+        /// <param name="code">コード</param>
         /// <returns>FrameSkipType</returns>
         /// <exception cref="ArgumentNullException">code が null の場合</exception>
         /// <exception cref="ArgumentException">存在しない値の場合</exception>
@@ -60,7 +62,7 @@ namespace WodiLib.Ini
 
             try
             {
-                return _FindFirst(x => x.Code == code);
+                return AllItems.First(x => x.Code == code);
             }
             catch
             {

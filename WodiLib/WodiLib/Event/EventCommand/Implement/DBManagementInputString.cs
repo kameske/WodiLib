@@ -31,7 +31,7 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>[NotNull] 代入演算子</summary>
+        /// <summary>代入演算子</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DBStringAssignmentOperator AssignmentOperator
         {
@@ -42,12 +42,13 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBStringAssignmentOperator)));
                 NumberAssignOperationCode = (byte) (value.Code & 0xF0);
+                NotifyPropertyChanged();
             }
         }
 
         private string rightSide = "";
 
-        /// <summary>[NotNull] 右辺</summary>
+        /// <summary>右辺</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public string RightSide
         {
@@ -58,6 +59,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(RightSide)));
                 rightSide = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -71,7 +73,7 @@ namespace WodiLib.Event.EventCommand
 
         /// <inheritdoc />
         /// <summary>代入文字列またはCSVファイル名</summary>
-        protected sealed override string _StrValue { get; set; }
+        protected sealed override string _StrValue { get; set; } = "";
 
         /// <inheritdoc />
         /// <summary>代入演算子コード</summary>
@@ -93,7 +95,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandRightSideSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             return string.Format(EventCommandSentenceFormat,
                 AssignmentOperator.EventCommandSentence, StrValue);

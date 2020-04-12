@@ -8,6 +8,7 @@
 
 using System;
 using System.Linq;
+using Commons;
 
 namespace WodiLib.Sys
 {
@@ -170,7 +171,7 @@ namespace WodiLib.Sys
         /// <returns>バージョンインスタンス</returns>
         public static WoditorVersion FromCode(int versionCode)
         {
-            return _FindFirst(x => x.VersionCode == versionCode);
+            return AllItems.First(x => x.VersionCode == versionCode);
         }
 
         /// <summary>
@@ -180,7 +181,7 @@ namespace WodiLib.Sys
         /// <returns>バージョンインスタンス</returns>
         public static WoditorVersion FromName(string versionName)
         {
-            var resultWithoutSpecial = _FindAll().FirstOrDefault(x => x.VersionName.Equals(versionName));
+            var resultWithoutSpecial = AllItems.FirstOrDefault(x => x.VersionName.Equals(versionName));
             if (!(resultWithoutSpecial is null))
             {
                 return resultWithoutSpecial;

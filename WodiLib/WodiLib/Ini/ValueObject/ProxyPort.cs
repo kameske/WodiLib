@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -15,7 +16,7 @@ namespace WodiLib.Ini
     /// [Range(-1, 65535)] プロキシポート番号
     /// </summary>
     [Serializable]
-    public readonly struct ProxyPort : IConvertibleInt, IEquatable<ProxyPort>
+    public readonly struct ProxyPort : IConvertibleInt32, IEquatable<ProxyPort>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -69,7 +70,7 @@ namespace WodiLib.Ini
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is ProxyPort other && Equals(other);
         }
@@ -89,6 +90,12 @@ namespace WodiLib.Ini
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => this;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
 
         /// <summary>
         /// 値を比較する。

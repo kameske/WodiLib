@@ -134,7 +134,7 @@ namespace WodiLib.Event.EventCommand
         /// 文字列変数を設定する。
         /// </summary>
         /// <param name="index">[Range(0, 0)] インデックス</param>
-        /// <param name="value">[NotNull] 設定値</param>
+        /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -155,7 +155,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var speedStr = resolver.GetNumericVariableAddressStringIfVariableAddress(PlaybackSpeed, type, desc);
             var volStr = resolver.GetNumericVariableAddressStringIfVariableAddress(Volume, type, desc);
@@ -224,7 +224,7 @@ namespace WodiLib.Event.EventCommand
 
         private string playbackText = "";
 
-        /// <summary>[NotNull] 再生文章</summary>
+        /// <summary>再生文章</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public string PlaybackText
         {

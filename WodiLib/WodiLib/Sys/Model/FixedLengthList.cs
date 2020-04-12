@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.Serialization;
 
@@ -22,7 +23,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
-        [field: NonSerialized] private event NotifyCollectionChangedEventHandler _collectionChanged;
+        [field: NonSerialized] private event NotifyCollectionChangedEventHandler? _collectionChanged;
 
         /// <summary>
         /// 要素変更通知
@@ -60,7 +61,7 @@ namespace WodiLib.Sys
             get => Items[index];
             set
             {
-                if (ReferenceEquals(value, null))
+                if (value is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(value)));
 
@@ -79,7 +80,7 @@ namespace WodiLib.Sys
         /// </summary>
         [field: NonSerialized]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
+        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
         public SetItemHandlerList<T> SetItemHandlerList { get; private set; } = new SetItemHandlerList<T>();
 
         /// <summary>
@@ -87,7 +88,7 @@ namespace WodiLib.Sys
         /// </summary>
         [field: NonSerialized]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
+        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
         public ClearItemHandlerList<T> ClearItemHandlerList { get; private set; } = new ClearItemHandlerList<T>();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -123,15 +124,15 @@ namespace WodiLib.Sys
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="initItems">[NotNull] 初期リスト</param>
+        /// <param name="list">初期リスト</param>
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         /// <exception cref="ArgumentNullException">
-        ///     initItemsがnullの場合、
-        ///     またはinitItems中にnullが含まれる場合、
-        ///     またはinitItemsの要素数が Capacity と一致しない場合
+        ///     listがnullの場合、
+        ///     またはlist中にnullが含まれる場合、
+        ///     またはlistの要素数が Capacity と一致しない場合
         /// </exception>
         /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
-        public FixedLengthList(IEnumerable<T> initItems)
+        public FixedLengthList(IReadOnlyCollection<T> list)
         {
             try
             {
@@ -142,19 +143,17 @@ namespace WodiLib.Sys
                 throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
             }
 
-            if (initItems is null)
+            if (list is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(initItems)));
-
-            var list = initItems.ToArray();
+                    ErrorMessage.NotNull(nameof(list)));
 
             if (list.HasNullItem())
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNullInList(nameof(initItems)));
+                    ErrorMessage.NotNullInList(nameof(list)));
 
-            if (list.Length != GetCapacity())
+            if (list.Count != GetCapacity())
                 throw new InvalidOperationException(
-                    ErrorMessage.NotEqual($"{nameof(initItems)}の要素数", $"{nameof(GetCapacity)}({GetCapacity()})"));
+                    ErrorMessage.NotEqual($"{nameof(list)}の要素数", $"{nameof(GetCapacity)}({GetCapacity()})"));
 
             Items = new T[GetCapacity()];
             var insertIndex = 0;
@@ -288,21 +287,21 @@ namespace WodiLib.Sys
         /// <summary>
         /// 指定の要素が含まれているか判断する。
         /// </summary>
-        /// <param name="item">[Nullable] 対象要素</param>
+        /// <param name="item">対象要素</param>
         /// <returns>指定の要素が含まれる場合はtrue</returns>
-        public bool Contains(T item) => ((IList<T>) Items).Contains(item);
+        public bool Contains([AllowNull] T item) => ((IList<T>) Items).Contains(item);
 
         /// <summary>
         /// 指定したオブジェクトを検索し、最初に出現する位置のインデックスを返す。
         /// </summary>
-        /// <param name="item">[Nullable] 対象要素</param>
+        /// <param name="item">対象要素</param>
         /// <returns>要素が含まれていない場合、-1</returns>
-        public int IndexOf(T item) => Array.IndexOf(Items, item);
+        public int IndexOf([AllowNull] T item) => Array.IndexOf(Items, item);
 
         /// <summary>
         /// すべての要素を、指定された配列のインデックスから始まる部分にコピーする。
         /// </summary>
-        /// <param name="array">[NotNull] コピー先の配列</param>
+        /// <param name="array">コピー先の配列</param>
         /// <param name="index">[Range(0, Count - 1)] コピー開始インデックス</param>
         /// <exception cref="ArgumentNullException">arrayがnullの場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">indexが0未満の場合</exception>
@@ -320,7 +319,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(FixedLengthList<T> other)
+        public override bool Equals(FixedLengthList<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -332,7 +331,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(IReadOnlyFixedLengthCollection<T> other)
+        public bool Equals(IReadOnlyFixedLengthCollection<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -345,20 +344,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(IReadOnlyList<T> other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return All().SequenceEqual(other);
-        }
-
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool Equals(IEnumerable<T> other)
+        public bool Equals(IReadOnlyList<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -463,7 +449,7 @@ namespace WodiLib.Sys
         protected void ValidateDefaultItem()
         {
             var value = MakeDefaultItem(0);
-            if (ReferenceEquals(value, null))
+            if (value is null)
                 throw new InvalidOperationException(
                     ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}メソッドの返戻値"));
         }
@@ -500,7 +486,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="item">要素</param>
-        private void PrivateSetItem(int index, T item)
+        private void PrivateSetItem(int index, [NotNull] T item)
         {
             /*
              * 呼び出し元で
@@ -517,7 +503,7 @@ namespace WodiLib.Sys
 #pragma warning restore 618
             NotifyPropertyChanged(ListConstant.IndexerName);
             _collectionChanged?.Invoke(this,
-                NotifyCollectionChangedEventArgsHelper.Set(item, ordinal, index));
+                NotifyCollectionChangedEventArgsHelper.Set(item, ordinal!, index));
         }
 
         /// <summary>
@@ -539,7 +525,7 @@ namespace WodiLib.Sys
 
             NotifyPropertyChanged(ListConstant.IndexerName);
             _collectionChanged?.Invoke(this,
-                NotifyCollectionChangedEventArgsHelper.Move(moveItem, newIndex, oldIndex));
+                NotifyCollectionChangedEventArgsHelper.Move(moveItem!, newIndex, oldIndex));
         }
 
         /// <summary>

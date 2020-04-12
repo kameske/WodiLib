@@ -1,11 +1,3 @@
-// ========================================
-// Project Name : WodiLib
-// File Name    : ListConstant.cs
-//
-// MIT License Copyright(c) 2019 kameske
-// see LICENSE file
-// ========================================
-
 namespace WodiLib.Sys
 {
     /// <summary>

@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -61,9 +62,10 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        /// <summary>[NotNull] 動作指定</summary>
+        /// <summary>動作指定</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public override ActionEntry ActionEntry
+        [NotNull]
+        public override ActionEntry? ActionEntry
         {
             get => actionEntry;
             set
@@ -94,10 +96,10 @@ namespace WodiLib.Event.EventCommand
         //     Internal Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private TargetAddressOwner owner;
+        private TargetAddressOwner? owner;
 
-        /// <summary>[Nullable] 所有イベント種別</summary>
-        internal TargetAddressOwner Owner
+        /// <summary>所有イベント種別</summary>
+        internal TargetAddressOwner? Owner
         {
             get => owner;
             set
@@ -211,7 +213,7 @@ namespace WodiLib.Event.EventCommand
         /// 文字列変数を設定する。
         /// </summary>
         /// <param name="index">[Range(0, -)] インデックス</param>
-        /// <param name="value">[NotNull] 設定値</param>
+        /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">常に</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void SetSafetyStringVariable(int index, string value)
@@ -223,7 +225,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var targetName = GetTargetEventName(resolver, type, desc);
             var moveRouteStr = ActionEntry.GetEventCommandSentence(resolver, type, desc);
@@ -234,7 +236,7 @@ namespace WodiLib.Event.EventCommand
             var result = string.Format(EventCommandSentenceFormat,
                 targetName, moveRouteStr, waitStr);
 
-            var encode = Encoding.Default;
+            var encode = Encoding.GetEncoding("Shift_Jis");
 
             var resultBytes = encode.GetBytes(result);
 
@@ -261,7 +263,7 @@ namespace WodiLib.Event.EventCommand
 
         private string GetTargetEventName(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             if (Target.IsVariableAddressSimpleCheck())
             {
@@ -296,7 +298,7 @@ namespace WodiLib.Event.EventCommand
             info.AddValue(nameof(actionEntry), actionEntry);
             info.AddValue(nameof(Target), Target);
             info.AddValue(nameof(HasOwner), HasOwner);
-            if (HasOwner) info.AddValue(nameof(owner), owner.Id);
+            if (HasOwner) info.AddValue(nameof(owner), owner!.Id);
         }
 
         /// <summary>

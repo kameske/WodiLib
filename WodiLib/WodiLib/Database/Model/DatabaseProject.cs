@@ -24,10 +24,10 @@ namespace WodiLib.Database
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private DBKind dbKind;
+        private DBKind? dbKind;
 
-        /// <summary>[Nullable] DB種別</summary>
-        public DBKind DBKind
+        /// <summary>DB種別</summary>
+        public DBKind? DBKind
         {
             get => dbKind;
             set
@@ -40,7 +40,7 @@ namespace WodiLib.Database
         private DBTypeSettingList typeSettingList = new DBTypeSettingList();
 
         /// <summary>
-        /// [NotNull] タイプ設定リスト
+        /// タイプ設定リスト
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DBTypeSettingList TypeSettingList
@@ -82,7 +82,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DatabaseProject other)
+        public override bool Equals(DatabaseProject? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -120,7 +120,7 @@ namespace WodiLib.Database
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(HasDbKind), HasDbKind);
-            if (HasDbKind) info.AddValue(nameof(DBKind), DBKind.Code);
+            if (HasDbKind) info.AddValue(nameof(DBKind), DBKind!.Code);
             info.AddValue(nameof(typeSettingList), typeSettingList);
         }
 

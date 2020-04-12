@@ -19,7 +19,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <summary>
         /// コード値から動作指定コマンドを返す。
         /// </summary>
-        /// <param name="code">[NotNull] 動作指定コマンドコード</param>
+        /// <param name="code">動作指定コマンドコード</param>
         /// <returns>キャラ動作指定コマンドインスタンス</returns>
         /// <exception cref="ArgumentNullException">codeがnullの場合</exception>
         public static ICharaMoveCommand CreateRaw(CharaMoveCommandCode code)

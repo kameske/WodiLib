@@ -49,7 +49,7 @@ namespace WodiLib.Map
 
         private CriteriaOperator operation = CriteriaOperator.Equal;
 
-        /// <summary>[NotNull] 条件演算子</summary>
+        /// <summary>条件演算子</summary>
         public CriteriaOperator Operation
         {
             get => operation;
@@ -121,7 +121,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(MapEventBootCondition other)
+        public override bool Equals(MapEventBootCondition? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

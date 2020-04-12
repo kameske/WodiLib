@@ -7,9 +7,9 @@
 // ========================================
 
 using System;
+using Commons;
 using WodiLib.Database;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -29,7 +29,7 @@ namespace WodiLib.IO
         private FileReadStatus ReadStatus { get; }
 
         /// <summary>ロガー</summary>
-        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private Logger Logger { get; } = Logger.GetInstance();
 
         private readonly object readLock = new object();
 

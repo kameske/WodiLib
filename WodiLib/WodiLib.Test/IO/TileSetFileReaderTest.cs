@@ -1,10 +1,10 @@
 using System;
 using System.IO;
 using System.Linq;
+using Commons;
 using NUnit.Framework;
 using WodiLib.IO;
 using WodiLib.Map;
-using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.IO
@@ -12,13 +12,13 @@ namespace WodiLib.Test.IO
     [TestFixture]
     public class TileSetFileReaderTest
     {
-        private static WodiLibLogger logger;
+        private static Logger logger;
 
         [SetUp]
         public static void Setup()
         {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
+            LoggerInitializer.SetupLoggerForDebug();
+            logger = Logger.GetInstance();
         }
 
         [OneTimeSetUp]

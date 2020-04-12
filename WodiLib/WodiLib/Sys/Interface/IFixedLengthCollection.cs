@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace WodiLib.Sys
 {
@@ -29,6 +30,6 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="item">対象要素</param>
         /// <returns>要素が含まれていない場合、-1</returns>
-        int IndexOf(T item);
+        int IndexOf([AllowNull] T item);
     }
 }

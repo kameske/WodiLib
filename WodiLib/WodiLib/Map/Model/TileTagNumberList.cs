@@ -45,7 +45,7 @@ namespace WodiLib.Map
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="list">[NotNull] 初期リスト</param>
+        /// <param name="list">初期リスト</param>
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         /// <exception cref="ArgumentNullException">
         ///     listがnullの場合、
@@ -83,7 +83,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(TileTagNumberList other)
+        public bool Equals(TileTagNumberList? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;

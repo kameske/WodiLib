@@ -24,7 +24,7 @@ namespace WodiLib.Database
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// [NotNull] 項目名
+        /// 項目名
         /// </summary>
         /// <exception cref="PropertyNullException">nullを設定した場合</exception>
         public ItemName ItemName
@@ -34,7 +34,7 @@ namespace WodiLib.Database
         }
 
         /// <summary>
-        /// [NotNull DB項目特殊指定
+        /// DB項目特殊指定
         /// </summary>
         /// <exception cref="PropertyNullException">nullがセットされた場合</exception>
         public DBItemSpecialSettingDesc SpecialSettingDesc
@@ -127,7 +127,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DatabaseItemDesc other)
+        public override bool Equals(DatabaseItemDesc? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

@@ -38,7 +38,7 @@ namespace WodiLib.Event.CharaMoveCommand
 
         private AnimateSpeed animateSpeed = AnimateSpeed.Frame;
 
-        /// <summary>[NotNull] 頻度</summary>
+        /// <summary>頻度</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public AnimateSpeed Value
         {
@@ -70,7 +70,7 @@ namespace WodiLib.Event.CharaMoveCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override string GetEventCommandSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             return string.Format(EventCommandSentenceFormat, Value.Code);
         }

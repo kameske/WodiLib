@@ -47,7 +47,7 @@ namespace WodiLib.Project
         public DatabaseMergedData SystemDatabase { get; }
 
         /// <summary>読み込んだマップデータ</summary>
-        public MapData MapData { get; }
+        public MapData? MapData { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
@@ -71,7 +71,7 @@ namespace WodiLib.Project
         /// <returns>インデント用文字列</returns>
         public static string MakeIndentString(Indent indent)
         {
-            int repeat = indent.ToSbyte();
+            int repeat = indent.ToSByte();
 
             var builder = new StringBuilder();
             for (var i = 0; i < repeat; i++)
@@ -89,15 +89,15 @@ namespace WodiLib.Project
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="commonEventList">[NotNull] イベントコマンドリスト</param>
-        /// <param name="changeableDatabase">[NotNull] 可変DB</param>
-        /// <param name="userDatabase">[NotNull] ユーザDB</param>
-        /// <param name="systemDatabase">[NotNull] システムDB</param>
-        /// <param name="mapData">[Nullable] マップデータ</param>
+        /// <param name="commonEventList">イベントコマンドリスト</param>
+        /// <param name="changeableDatabase">可変DB</param>
+        /// <param name="userDatabase">ユーザDB</param>
+        /// <param name="systemDatabase">システムDB</param>
+        /// <param name="mapData">マップデータ</param>
         public EventCommandSentenceResolver(CommonEventList commonEventList,
             DatabaseMergedData changeableDatabase,
             DatabaseMergedData userDatabase, DatabaseMergedData systemDatabase,
-            MapData mapData)
+            MapData? mapData)
         {
             CommonEventList = commonEventList ??
                               throw new ArgumentNullException(ErrorMessage.NotNull(nameof(commonEventList)));
@@ -163,12 +163,12 @@ namespace WodiLib.Project
         /// <param name="id">コモンイベントID</param>
         /// <param name="intArgIndex">[Range(0, 0～4)]引数インデックス</param>
         /// <param name="value">引数設定値</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>コモンイベント数値引数の文字列</returns>
         public string GetCommonEventIntArgSentence(CommonEventId id,
             CommonEventNumberArgIndex intArgIndex, int value,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
             => CommonEvent.GetCommonEventIntArgSentence(id, intArgIndex, value,
                 type, desc);
 
@@ -178,7 +178,7 @@ namespace WodiLib.Project
         /// </summary>
         /// <param name="targetCommonEventId">相対指定のコモンイベントID</param>
         /// <param name="thisCommonEventId">走査対象のコモンイベントID</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
+        /// <param name="type">イベントコマンド種別</param>
         /// <returns>絶対指定したコモンイベントID</returns>
         /// <exception cref="InvalidOperationException">イベントコマンド種別がCommon、かつthisCommonEventIdがnullの場合</exception>
         public CommonEventId GetCorrectEventIdByRelativeId(int targetCommonEventId,
@@ -192,7 +192,7 @@ namespace WodiLib.Project
         /// <summary>
         /// タイプIDを指定してDBのタイプ名を取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="id">タイプID</param>
         /// <returns>
         ///     存在フラグとタイプ名。
@@ -206,7 +206,7 @@ namespace WodiLib.Project
         /// <summary>
         /// タイプID、データIDを指定してDBのデータ名を取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">タイプID</param>
         /// <param name="dataId">データID</param>
         /// <returns>
@@ -222,7 +222,7 @@ namespace WodiLib.Project
         /// <summary>
         /// タイプID、項目IDを指定してDBの項目名を取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">タイプID</param>
         /// <param name="itemId">項目ID</param>
         /// <returns>
@@ -238,8 +238,8 @@ namespace WodiLib.Project
         /// <summary>
         /// タイプ名を指定してタイプIDを取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
-        /// <param name="name">[NotNull] タイプ名</param>
+        /// <param name="dbKind">DB種別</param>
+        /// <param name="name">タイプ名</param>
         /// <returns>タイプID。見つからない場合null。</returns>
         /// <exception cref="ArgumentNullException">dbKind または name が null の場合</exception>
         public (TypeId?, string) GetDatabaseTypeId(DBKind dbKind, TypeName name)
@@ -248,9 +248,9 @@ namespace WodiLib.Project
         /// <summary>
         /// タイプID、データ名を指定してデータIDを取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">タイプID</param>
-        /// <param name="dataName">[NotNull] データ名</param>
+        /// <param name="dataName">データ名</param>
         /// <returns>
         ///     データID。
         ///     データが見つからない場合、null。
@@ -263,9 +263,9 @@ namespace WodiLib.Project
         /// <summary>
         /// タイプID、項目名を指定して項目IDを取得する。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">タイプID</param>
-        /// <param name="itemName">[NotNull] 項目名</param>
+        /// <param name="itemName">項目名</param>
         /// <returns>
         ///     項目ID。
         ///     項目が見つからない場合、null。
@@ -279,9 +279,9 @@ namespace WodiLib.Project
         /// タイプID、項目名を指定して項目IDを取得する。
         /// イベントコマンド「DB書込」専用。
         /// </summary>
-        /// <param name="dbKind">[NotNull] DB種別</param>
+        /// <param name="dbKind">DB種別</param>
         /// <param name="typeId">タイプID</param>
-        /// <param name="itemName">[NotNull] 項目名</param>
+        /// <param name="itemName">項目名</param>
         /// <returns>
         ///     項目ID。
         ///     項目が見つからない場合、null。
@@ -294,9 +294,9 @@ namespace WodiLib.Project
         /// <summary>
         /// CSV入出力のイベントコマンドDB文字列を取得する。
         /// </summary>
-        /// <param name="desc">[NotNull] DBイベントコマンド文字列解決情報</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="commonDesc">[NotNull] 付加情報</param>
+        /// <param name="desc">DBイベントコマンド文字列解決情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="commonDesc">付加情報</param>
         /// <returns>
         ///     イベントコマンド文字列
         /// </returns>
@@ -312,12 +312,12 @@ namespace WodiLib.Project
         /// <param name="typeId">タイプID</param>
         /// <param name="dataId">データID</param>
         /// <param name="itemId">項目ID</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列</returns>
         public string GetDatabaseCommandSentenceForSetVariable(
             int typeId, int dataId, int itemId, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
             => DatabaseSpecial.GetDatabaseCommandSentenceForSetVariable(
                 typeId, dataId, itemId, type, desc);
 
@@ -329,29 +329,29 @@ namespace WodiLib.Project
         /// マップイベントID文字列を取得する。
         /// </summary>
         /// <param name="mapEventId">マップイベントID</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>
         ///     マップイベントID文字列。
         ///     mapEventIdがマップイベントIDとして不適切な場合、専用の文字列。
         ///     該当マップがプロジェクト内に読み込まれていない場合、空文字。
         /// </returns>
         public (bool, MapEventName) GetMapEventIdStrByNumericEventId(MapEventId mapEventId,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
             => MapEvent.GetMapEventIdStrByNumericEventId(mapEventId, type, desc);
 
         /// <summary>
         /// マップイベントID文字列を取得する。
         /// </summary>
         /// <param name="characterId">キャラクターID</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>
         ///     イベントID文字列。
         ///     該当マップがプロジェクト内に読み込まれていない場合、空文字。
         /// </returns>
         public (bool, MapEventName) GetMapEventIdStr(MapCharacterId characterId,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
             => MapEvent.GetMapEventIdStr(characterId, type, desc);
 
         /// <summary>
@@ -368,41 +368,41 @@ namespace WodiLib.Project
         /// マップイベント名を取得する。
         /// </summary>
         /// <param name="mapEventId">マップイベントID</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>
         ///     イベント名。
         ///     該当マップがプロジェクト内に読み込まれていない場合、空文字。
         /// </returns>
         public (bool, MapEventName) GetMapEventName(MapEventId mapEventId,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
             => MapEvent.GetMapEventName(mapEventId, type, desc);
 
         /// <summary>
         /// キャラクター名を取得する。
         /// </summary>
         /// <param name="characterId">キャラクターID</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>
         ///     マップイベント名。
         ///     該当マップがプロジェクト内に読み込まれていない場合、空文字。
         /// </returns>
         public MapEventName GetCharacterName(MapCharacterId characterId,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
             => MapEvent.GetCharacterName(characterId, type, desc);
 
         /// <summary>
         /// 場所移動対象のイベント名を取得する。
         /// </summary>
         /// <param name="eventId">イベントID</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>
         ///     イベント名。
         /// </returns>
         public MapEventName GetTransferEventName(int eventId,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
             => MapEvent.GetTransferEventName(eventId, type, desc);
 
         #endregion
@@ -459,15 +459,15 @@ namespace WodiLib.Project
         /// int値からVariableAddressのイベントコマンド文字列（数値変数、文字列変数両用）を取得する。
         /// </summary>
         /// <param name="value">対象</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>VariableAddressのイベントコマンド文字列</returns>
         /// <exception cref="ArgumentNullException">
         ///     typeがnullの場合、
         ///     または必要なときにdescがnullの場合
         /// </exception>
         public string GetVariableAddressString(int value,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
             => VariableAddress.GetVariableAddressString(value, type, desc);
 
         /// <summary>
@@ -475,8 +475,8 @@ namespace WodiLib.Project
         /// 指定した値がVariableAddressの範囲外の場合（999999以下の場合）、int値を文字列に変換して返す。
         /// </summary>
         /// <param name="value">対象</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>
         ///     VariableAddressのイベントコマンド文字列。
         ///     変数アドレス値でない場合、value（を文字列化した値）。
@@ -486,7 +486,7 @@ namespace WodiLib.Project
         ///     または必要なときにdescがnullの場合
         /// </exception>
         public string GetVariableAddressStringIfVariableAddress(int value,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
             => VariableAddress.GetVariableAddressStringIfVariableAddress(value,
                 type, desc);
 
@@ -494,15 +494,15 @@ namespace WodiLib.Project
         /// VariableAddress値からイベントコマンド文字列（数値変数）を取得する。
         /// </summary>
         /// <param name="value">対象</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>VariableAddressのイベントコマンド文字列</returns>
         /// <exception cref="ArgumentNullException">
         ///     typeがnullの場合、
         ///     または必要なときにdescがnullの場合
         /// </exception>
         public string GetNumericVariableAddressString(int value,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
             => VariableAddress.GetNumericVariableAddressString(value, type, desc);
 
         /// <summary>
@@ -510,8 +510,8 @@ namespace WodiLib.Project
         /// 指定した値がVariableAddressの範囲外の場合（999999以下の場合）、int値を文字列に変換して返す。
         /// </summary>
         /// <param name="value">対象</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>
         ///     VariableAddressのイベントコマンド文字列
         ///     変数アドレス値でない場合、value（を文字列化した値）。
@@ -521,7 +521,7 @@ namespace WodiLib.Project
         ///     または必要なときにdescがnullの場合
         /// </exception>
         public string GetNumericVariableAddressStringIfVariableAddress(int value,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
             => VariableAddress.GetNumericVariableAddressStringIfVariableAddress(
                 value, type, desc);
 
@@ -529,15 +529,15 @@ namespace WodiLib.Project
         /// int値からVariableAddressのイベントコマンド文字列（文字列変数）を取得する。
         /// </summary>
         /// <param name="value">対象</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>VariableAddressのイベントコマンド文字列</returns>
         /// <exception cref="ArgumentNullException">
         ///     typeがnullの場合、
         ///     または必要なときにdescがnullの場合
         /// </exception>
         public string GetStringVariableAddressString(int value,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
             => VariableAddress.GetStringVariableAddressString(value, type, desc);
 
         #endregion

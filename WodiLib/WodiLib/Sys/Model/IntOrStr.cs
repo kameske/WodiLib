@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
 namespace WodiLib.Sys
@@ -23,7 +24,7 @@ namespace WodiLib.Sys
         private readonly Guid guidForHash = Guid.NewGuid();
 
         private int numValue;
-        private string strValue;
+        private string? strValue;
 
         /// <summary>
         /// int値を持つインスタンスを生成するコンストラクタ
@@ -145,7 +146,7 @@ namespace WodiLib.Sys
         public string ToStr()
         {
             if (!HasStr) throw new InvalidCastException();
-            return strValue;
+            return strValue!;
         }
 
         /// <summary>
@@ -160,6 +161,7 @@ namespace WodiLib.Sys
             return "";
         }
 
+#nullable disable
         /// <summary>
         /// int -> IntOrStr 暗黙型変換
         /// </summary>
@@ -175,6 +177,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator IntOrStr(string src)
         {
             if (src is null) return null;
@@ -201,6 +204,7 @@ namespace WodiLib.Sys
         {
             return new IntOrStr(tuple.Item1, tuple.Item2);
         }
+#nullable restore
 
         /// <inheritdoc />
         public override string ToString()
@@ -209,7 +213,7 @@ namespace WodiLib.Sys
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -229,13 +233,13 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(IntOrStr other)
+        public override bool Equals(IntOrStr? other)
         {
             if (other is null) return false;
 
             if (InstanceIntOrStrType != other.InstanceIntOrStrType) return false;
             if (HasInt && numValue != other.numValue) return false;
-            if (HasStr && !strValue.Equals(other.strValue)) return false;
+            if (HasStr && !strValue!.Equals(other.strValue)) return false;
 
             return true;
         }

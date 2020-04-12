@@ -7,8 +7,9 @@
 // ========================================
 
 using System.ComponentModel;
+using System.Linq;
+using Commons;
 using WodiLib.Project;
-using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -102,15 +103,15 @@ namespace WodiLib.Event.EventCommand
         /// <returns>インスタンス</returns>
         public static PictureEffectType FromByte(byte code)
         {
-            return _FindFirst(x => x.Code == code);
+            return AllItems.First(x => x.Code == code);
         }
 
         /// <summary>
         /// イベントコマンド文字列を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <param name="value1">値1</param>
         /// <param name="value2">値2</param>
         /// <param name="value3">値3</param>
@@ -118,7 +119,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         public string MakeEventCommandSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc, int value1, int value2, int value3)
+            EventCommandSentenceResolveDesc? desc, int value1, int value2, int value3)
         {
             var value1Name = resolver.GetNumericVariableAddressStringIfVariableAddress(value1, type, desc);
             var value2Name = resolver.GetNumericVariableAddressStringIfVariableAddress(value2, type, desc);

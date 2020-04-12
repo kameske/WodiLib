@@ -51,7 +51,7 @@ namespace WodiLib.Event.EventCommand
 
         private string rightSide = "";
 
-        /// <summary>[NotNull] 右辺（文字列）</summary>
+        /// <summary>右辺（文字列）</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public string RightSide
         {
@@ -66,7 +66,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <summary>[NotNull] 右辺置換先文字列</summary>
+        /// <summary>右辺置換先文字列</summary>
         /// <exception cref="PropertyNullException">nullをセットしようとした場合</exception>
         public string RightSideReplaceNewStr
         {
@@ -89,7 +89,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandRightSideSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             if (AssignmentOperator == StringAssignmentOperator.Replace)
             {

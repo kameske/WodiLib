@@ -36,8 +36,8 @@ namespace WodiLib.Project
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="colorSet">[NotNull] カラーセット</param>
-        /// <param name="sentence">[NotNull] コマンド文</param>
+        /// <param name="colorSet">カラーセット</param>
+        /// <param name="sentence">コマンド文</param>
         /// <exception cref="ArgumentNullException">colorSet, sentence が null の場合</exception>
         public EventCommandSentenceInfo(EventCommandColorSet colorSet,
             EventCommandSentence sentence)
@@ -60,7 +60,7 @@ namespace WodiLib.Project
         /// <summary>
         /// コマンドカラー種別からコマンドカラーを取得する。
         /// </summary>
-        /// <param name="type">[NotNull] コマンドカラー種別</param>
+        /// <param name="type">コマンドカラー種別</param>
         /// <returns>コマンドカラー</returns>
         /// <exception cref="ArgumentNullException">type が null の場合</exception>
         public Color GetCommandColor(CommandColorType type)
@@ -71,7 +71,7 @@ namespace WodiLib.Project
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(EventCommandSentenceInfo other)
+        public bool Equals(EventCommandSentenceInfo? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

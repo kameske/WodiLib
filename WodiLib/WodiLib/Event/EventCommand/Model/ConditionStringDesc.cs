@@ -34,7 +34,7 @@ namespace WodiLib.Event.EventCommand
 
         private IntOrStr rightSide = "";
 
-        /// <summary>[NotNull] 右辺</summary>
+        /// <summary>右辺</summary>
         /// <exception cref="PropertyNullException">nullをセットしようとした場合</exception>
         /// <exception cref="PropertyException">IntOrStrType.None をセットしようとした場合</exception>
         public IntOrStr RightSide
@@ -54,7 +54,7 @@ namespace WodiLib.Event.EventCommand
 
         private StringConditionalOperator condition = StringConditionalOperator.Equal;
 
-        /// <summary>[NotNull] 条件演算子</summary>
+        /// <summary>条件演算子</summary>
         /// <exception cref="PropertyNullException">nullを設定しようとした場合</exception>
         public StringConditionalOperator Condition
         {
@@ -103,7 +103,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(ConditionStringDesc other)
+        public override bool Equals(ConditionStringDesc? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

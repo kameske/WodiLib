@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -16,7 +17,7 @@ namespace WodiLib.Map
     ///     [Range(0, 1604444)] マップチップ
     /// </summary>
     [Serializable]
-    public readonly struct MapChip : IConvertibleInt, IEquatable<MapChip>
+    public readonly struct MapChip : IConvertibleInt32, IEquatable<MapChip>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -181,7 +182,7 @@ namespace WodiLib.Map
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is MapChip other && Equals(other);
         }
@@ -201,6 +202,12 @@ namespace WodiLib.Map
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => this;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
 
         /// <summary>
         /// byte配列に変換する。

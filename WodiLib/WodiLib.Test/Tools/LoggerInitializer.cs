@@ -1,5 +1,5 @@
 using System;
-using WodiLib.Sys.Cmn;
+using Commons;
 
 namespace WodiLib.Test.Tools
 {
@@ -9,34 +9,47 @@ namespace WodiLib.Test.Tools
         public static readonly string KeyNameForProjectTest = "forProjectTest";
 
         /// <summary>
-        /// デバッグ用WodiLibLoggerのセットを行う
+        /// デバッグ用Loggerのセットを行う
         /// </summary>
-        public static void SetupWodiLibLoggerForDebug()
+        public static void SetupLoggerForDebug()
         {
-            var logHandler = new WodiLibLogHandler(
+            var logHandler = new LogHandler(
                 Console.WriteLine,
                 Console.WriteLine,
                 Console.WriteLine,
-                Console.WriteLine
+                Console.WriteLine,
+                ExceptionAction
             );
 
-            WodiLibLogger.ChangeTargetKey(KeyNameForDebug);
-            WodiLibLogger.SetLogHandler(logHandler);
+            Logger.ChangeTargetKey(KeyNameForDebug);
+            Logger.SetLogHandler(logHandler);
         }
 
         /// <summary>
         /// Project テスト用のロガーインスタンスを生成する。
         /// </summary>
         /// <returns></returns>
-        public static void SetupWodiLibLoggerForProjectTest()
+        public static void SetupLoggerForProjectTest()
         {
-            var logHandler = new WodiLibLogHandler(
+            var logHandler = new LogHandler(
                 Console.WriteLine,
-                Console.WriteLine
+                Console.WriteLine,
+                exceptionAction: ExceptionAction
             );
 
-            WodiLibLogger.ChangeTargetKey(KeyNameForProjectTest);
-            WodiLibLogger.SetLogHandler(logHandler);
+            Logger.ChangeTargetKey(KeyNameForProjectTest);
+            Logger.SetLogHandler(logHandler);
+        }
+
+        /// <summary>
+        /// エラー情報を出力する。
+        /// </summary>
+        /// <param name="ex">例外</param>
+        private static void ExceptionAction(Exception ex)
+        {
+            if (ex == null) throw new ArgumentNullException(nameof(ex));
+
+            Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace);
         }
     }
 }

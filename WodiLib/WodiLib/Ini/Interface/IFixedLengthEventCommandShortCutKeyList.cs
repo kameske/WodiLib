@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -28,6 +29,6 @@ namespace WodiLib.Ini
         ///     設定値が適切である場合、null。
         /// </param>
         /// <returns>設定値が適切である場合、true</returns>
-        bool Validate(out string errorMsg);
+        bool Validate([NotNullWhen(false)] out string? errorMsg);
     }
 }

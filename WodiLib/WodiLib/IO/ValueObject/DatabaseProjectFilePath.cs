@@ -9,10 +9,10 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
+using Commons;
 using WodiLib.Cmn;
 using WodiLib.Database;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -50,7 +50,10 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[NotNull][NotNewLine] ファイルパス</param>
+        /// <remarks>
+        ///     ファイル名が "CommonEvent.dat" ではない場合、警告ログを出力する。
+        /// </remarks>
+        /// <param name="value">[NotNewLine] ファイルパス</param>
         /// <exception cref="ArgumentNullException">valueがnullの場合</exception>
         /// <exception cref="ArgumentNewLineException">
         ///     valueに改行が含まれる場合、
@@ -61,6 +64,11 @@ namespace WodiLib.IO
         /// </exception>
         public DatabaseProjectFilePath(string value) : base(value)
         {
+            /*
+             * 継承元でチェックしているのでエラーにはならないが、
+             * コンパイラに value が null ではないことを解釈させるために
+             * nullチェックが必要
+             */
             if (value is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(value)));
@@ -68,7 +76,7 @@ namespace WodiLib.IO
             var fileName = Path.GetFileName(value);
             if (!_FilePathRegex.IsMatch(fileName))
             {
-                WodiLibLogger.GetInstance().Warning(
+                Logger.GetInstance().Warning(
                     WarningMessage.UnsuitableFileName(value, _FilePathRegex));
             }
         }
@@ -84,7 +92,7 @@ namespace WodiLib.IO
         public override string ToString() => Value;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -107,7 +115,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DatabaseProjectFilePath other)
+        public bool Equals(DatabaseProjectFilePath? other)
         {
             if (other is null) return false;
             return Value.Equals(other.Value);
@@ -123,7 +131,7 @@ namespace WodiLib.IO
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(DatabaseProjectFilePath left, DatabaseProjectFilePath right)
+        public static bool operator ==(DatabaseProjectFilePath? left, DatabaseProjectFilePath? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -138,7 +146,7 @@ namespace WodiLib.IO
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(DatabaseProjectFilePath left, DatabaseProjectFilePath right)
+        public static bool operator !=(DatabaseProjectFilePath? left, DatabaseProjectFilePath? right)
         {
             return !(left == right);
         }

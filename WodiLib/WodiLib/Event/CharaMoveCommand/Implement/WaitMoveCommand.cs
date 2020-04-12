@@ -50,7 +50,7 @@ namespace WodiLib.Event.CharaMoveCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override string GetEventCommandSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var frameStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
                 Frame, type, desc);

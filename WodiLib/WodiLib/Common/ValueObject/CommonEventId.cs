@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -16,7 +17,7 @@ namespace WodiLib.Common
     /// [Range(0, 9999)] コモンイベントID
     /// </summary>
     [Serializable]
-    public readonly struct CommonEventId : IConvertibleInt, IEquatable<CommonEventId>
+    public readonly struct CommonEventId : IConvertibleInt32, IEquatable<CommonEventId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -81,7 +82,7 @@ namespace WodiLib.Common
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is CommonEventId other && Equals(other);
         }
@@ -101,6 +102,12 @@ namespace WodiLib.Common
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => this;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
 
         /// <summary>
         /// byte配列に変換する。

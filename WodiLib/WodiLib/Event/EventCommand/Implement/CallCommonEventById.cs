@@ -74,7 +74,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentenceInner(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc,
+            EventCommandSentenceResolveDesc? desc,
             string argsCommandString, string returnVarString)
         {
             if (EventId.IsMapEventId())
@@ -93,7 +93,7 @@ namespace WodiLib.Event.EventCommand
             {
                 var difference = EventId - CommonEventId.CommonEventRelativeOffset;
 
-                int targetId = resolver.GetCorrectEventIdByRelativeId(EventId, desc.CommonEventId, type);
+                int targetId = resolver.GetCorrectEventIdByRelativeId(EventId, desc!.CommonEventId, type);
 
                 return MakeEventCommandCallCommonRelativeEventSentence(
                     resolver, targetId, difference, argsCommandString);
@@ -144,7 +144,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         private string MakeEventCommandCallMapEventSentence(
             EventCommandSentenceResolver resolver,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             var eventIdStr = resolver.GetMapEventIdStrByNumericEventId(EventId, type, desc).Item2;
             var eventName = resolver.GetMapEventName(EventId, type, desc).Item2;
@@ -158,7 +158,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         private string MakeEventCommandCallMapEventByVariableAddressSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var varAddressStr = resolver.GetNumericVariableAddressString(EventId, type, desc);
 

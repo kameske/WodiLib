@@ -54,7 +54,7 @@ namespace WodiLib.Map
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="chips">[NotNull][LengthRange(MinCapacity, MaxCapacity)] マップチップリスト</param>
+        /// <param name="chips">[LengthRange(MinCapacity, MaxCapacity)] マップチップリスト</param>
         /// <exception cref="ArgumentNullException">
         ///     chips が null の場合、
         ///     または chips に null 要素が含まれる場合
@@ -124,7 +124,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(MapChipColumns other)
+        public bool Equals(MapChipColumns? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
@@ -137,7 +137,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(IFixedLengthMapChipColumns other)
+        public bool Equals(IFixedLengthMapChipColumns? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;

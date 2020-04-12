@@ -84,7 +84,7 @@ namespace WodiLib.Sys
         /// <param name="itemName">対象項目名</param>
         /// <param name="option">メッセージに付与する文字列</param>
         /// <returns></returns>
-        public static string CheckOk(Type readerClassType, string itemName, string option = null)
+        public static string CheckOk(Type readerClassType, string itemName, string? option = null)
         {
             return $"{readerClassType} {itemName}チェックOK {option ?? ""}";
         }

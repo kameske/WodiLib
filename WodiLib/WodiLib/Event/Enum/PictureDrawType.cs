@@ -6,7 +6,8 @@
 // see LICENSE file
 // ========================================
 
-using WodiLib.Sys;
+using System.Linq;
+using Commons;
 
 namespace WodiLib.Event
 {
@@ -59,7 +60,7 @@ namespace WodiLib.Event
         /// <returns>DBType</returns>
         public static PictureDrawType FromByte(byte code)
         {
-            return _FindFirst(x => x.Code == code);
+            return AllItems.First(x => x.Code == code);
         }
     }
 }

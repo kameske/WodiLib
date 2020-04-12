@@ -107,7 +107,7 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -130,7 +130,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(CalledEventVariableAddress other)
+        public bool Equals(CalledEventVariableAddress? other)
         {
             return !(other is null) && Value == other.Value;
         }
@@ -142,13 +142,13 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <summary>
         /// イベントコマンド文用文字列を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string ResolveEventCommandString(EventCommandSentenceResolver resolver,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             if (IsThisCommonEventVariableAddress)
             {
@@ -204,7 +204,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(CalledEventVariableAddress left, CalledEventVariableAddress right)
+        public static bool operator ==(CalledEventVariableAddress? left, CalledEventVariableAddress? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -219,7 +219,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(CalledEventVariableAddress left, CalledEventVariableAddress right)
+        public static bool operator !=(CalledEventVariableAddress? left, CalledEventVariableAddress? right)
         {
             return !(left == right);
         }

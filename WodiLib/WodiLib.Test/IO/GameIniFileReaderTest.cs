@@ -1,8 +1,8 @@
 using System;
+using Commons;
 using NUnit.Framework;
 using WodiLib.Ini;
 using WodiLib.IO;
-using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.IO
@@ -10,13 +10,13 @@ namespace WodiLib.Test.IO
     [TestFixture]
     public class GameIniFileReaderTest
     {
-        private static WodiLibLogger logger;
+        private static Logger logger;
 
         [SetUp]
         public static void Setup()
         {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
+            LoggerInitializer.SetupLoggerForDebug();
+            logger = Logger.GetInstance();
         }
 
         [OneTimeSetUp]

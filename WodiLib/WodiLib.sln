@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WodiLib", "WodiLib\WodiLib.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WodiLib.Test", "WodiLib.Test\WodiLib.Test.csproj", "{30FFF963-2E39-4DCF-B845-FD5031F8D724}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WodiLibSample", "WodiLibSample\WodiLibSample.csproj", "{8FFB952F-0CB1-4F1A-B009-6F6D1D975642}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WodiLibSample", "WodiLibSample\WodiLibSample.csproj", "{7EC8343F-EE7F-47C5-93FF-D1603E44207B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{30FFF963-2E39-4DCF-B845-FD5031F8D724}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30FFF963-2E39-4DCF-B845-FD5031F8D724}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30FFF963-2E39-4DCF-B845-FD5031F8D724}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8FFB952F-0CB1-4F1A-B009-6F6D1D975642}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8FFB952F-0CB1-4F1A-B009-6F6D1D975642}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8FFB952F-0CB1-4F1A-B009-6F6D1D975642}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8FFB952F-0CB1-4F1A-B009-6F6D1D975642}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EC8343F-EE7F-47C5-93FF-D1603E44207B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EC8343F-EE7F-47C5-93FF-D1603E44207B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EC8343F-EE7F-47C5-93FF-D1603E44207B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EC8343F-EE7F-47C5-93FF-D1603E44207B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

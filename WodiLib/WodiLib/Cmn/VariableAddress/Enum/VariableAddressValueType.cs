@@ -7,7 +7,7 @@
 // ========================================
 
 using System.ComponentModel;
-using WodiLib.Sys;
+using Commons;
 
 namespace WodiLib.Cmn
 {
@@ -60,14 +60,14 @@ namespace WodiLib.Cmn
         /// <summary>
         /// 自身のタイプ種別に指定したタイプ種別が適合するか判定する。
         /// </summary>
-        /// <param name="target">[Nullable] 判定対象</param>
+        /// <param name="target">判定対象</param>
         /// <returns>targetがnullの場合false、適合する場合true。</returns>
         /// <remarks>
         ///     自身がBothの場合、targetがBoth, Numeric, String いずれの場合もtrue。
         ///     自身がNumericの場合、targetがNumericの場合のみtrue。
         ///     自身がStringの場合、targetがStringの場合のみtrue。
         /// </remarks>
-        public bool CheckTypeInclude(VariableAddressValueType target)
+        public bool CheckTypeInclude(VariableAddressValueType? target)
         {
             if (target is null) return false;
             return (TypeFlag & target.TypeFlag) != 0;

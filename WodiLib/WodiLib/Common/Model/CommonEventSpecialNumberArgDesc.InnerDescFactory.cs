@@ -22,13 +22,13 @@ namespace WodiLib.Common
             /// <summary>
             /// 特殊引数タイプと引数から情報内部クラスのインスタンスを取得する。
             /// </summary>
-            /// <param name="type">[NotNull] 特殊引数タイプ</param>
-            /// <param name="argCaseList">[Nullable] 選択肢と文字列リスト</param>
+            /// <param name="type">特殊引数タイプ</param>
+            /// <param name="argCaseList">選択肢と文字列リスト</param>
             /// <returns>内部情報クラスインスタンス</returns>
             /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
             /// <exception cref="ArgumentException">typeに対応したファクトリメソッドが定義されていない場合</exception>
             public static IInnerDesc Create(
-                CommonEventArgType type, CommonEventSpecialArgCaseList argCaseList)
+                CommonEventArgType type, CommonEventSpecialArgCaseList? argCaseList)
             {
                 if (type is null)
                     throw new ArgumentNullException(
@@ -65,10 +65,10 @@ namespace WodiLib.Common
             /// <summary>
             /// 「データベース参照」内部情報クラスのインスタンスを生成する。
             /// </summary>
-            /// <param name="argCaseList">[Nullable] 引数と文字列リスト</param>
+            /// <param name="argCaseList">引数と文字列リスト</param>
             /// <returns>内部情報クラスインスタンス</returns>
             public static IInnerDesc CreateReferDatabase(
-                CommonEventSpecialArgCaseList argCaseList)
+                CommonEventSpecialArgCaseList? argCaseList)
             {
                 var argCaseMinus1 = "";
                 var argCaseMinus2 = "";
@@ -91,10 +91,10 @@ namespace WodiLib.Common
             /// <summary>
             /// 「選択肢手動生成」内部情報クラスのインスタンスを生成する。
             /// </summary>
-            /// <param name="argCaseList">[Nullable] 引数と文字列リスト</param>
+            /// <param name="argCaseList">引数と文字列リスト</param>
             /// <returns>内部情報クラスインスタンス</returns>
             public static IInnerDesc CreateManual(
-                CommonEventSpecialArgCaseList argCaseList)
+                CommonEventSpecialArgCaseList? argCaseList)
             {
                 return new InnerDescManual(argCaseList);
             }

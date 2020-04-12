@@ -42,13 +42,13 @@ namespace WodiLib.Common
         /// <summary>
         /// コンストラクタ（初期配列指定）
         /// </summary>
-        /// <param name="items">[NotNull] 初期リスト</param>
-        /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
+        /// <param name="list">初期リスト</param>
+        /// <exception cref="ArgumentNullException">listがnullの場合</exception>
         /// <exception cref="InvalidOperationException">
-        ///     itemsの要素数がMinLength未満の場合、
-        ///     またはitemsの要素数がMaxLengthを超える場合
+        ///     listの要素数がMinLength未満の場合、
+        ///     またはlistの要素数がMaxLengthを超える場合
         /// </exception>
-        public CommonEventList(IEnumerable<CommonEvent> items) : base(items)
+        public CommonEventList(IReadOnlyCollection<CommonEvent> list) : base(list)
         {
         }
 
@@ -95,8 +95,8 @@ namespace WodiLib.Common
         /// 指定したコモンイベントのイベントコマンド文字列情報を返す。
         /// </summary>
         /// <param name="commonEventId">[Range(0, Count - 1)] コモンイベントID</param>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列情報リスト</returns>
         /// <exception cref="ArgumentOutOfRangeException">commonEventIdが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">
@@ -105,7 +105,7 @@ namespace WodiLib.Common
         /// </exception>
         public IReadOnlyList<EventCommandSentenceInfo> GetCommonEventEventCommandSentenceInfoList(
             CommonEventId commonEventId, EventCommandSentenceResolver resolver,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var max = Count;
             const int min = 0;

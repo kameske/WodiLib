@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -16,7 +17,7 @@ namespace WodiLib.Map
     /// [Range(0, 10000)] タイルセットID
     /// </summary>
     [Serializable]
-    public readonly struct TileSetId : IConvertibleInt, IEquatable<TileSetId>
+    public readonly struct TileSetId : IConvertibleInt32, IEquatable<TileSetId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -63,7 +64,7 @@ namespace WodiLib.Map
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is TileSetId other && Equals(other);
         }
@@ -83,6 +84,12 @@ namespace WodiLib.Map
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => this;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
 
         /// <summary>
         /// byte配列に変換する。

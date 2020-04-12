@@ -131,7 +131,7 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         protected override string MakeEventCommandDrawItemSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
             => "";
     }
 }

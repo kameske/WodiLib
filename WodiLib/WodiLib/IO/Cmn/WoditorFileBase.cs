@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using WodiLib.Cmn;
@@ -33,8 +34,9 @@ namespace WodiLib.IO
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// [NotNull] ファイルパス
+        /// ファイルパス
         /// </summary>
+        [NotNull]
         public TFilePath FilePath { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -50,9 +52,9 @@ namespace WodiLib.IO
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="filePath">[NotNull] ファイル名</param>
+        /// <param name="filePath">ファイル名</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
-        public WoditorFileBase(TFilePath filePath)
+        public WoditorFileBase([NotNull] TFilePath filePath)
         {
             if (filePath is null)
                 throw new ArgumentNullException(
@@ -68,11 +70,11 @@ namespace WodiLib.IO
         /// <summary>
         /// ファイルを同期的に書き出す。
         /// </summary>
-        /// <param name="data">[NotNull] 書き出しデータ</param>
+        /// <param name="data">書き出しデータ</param>
         /// <exception cref="ArgumentNullException">data がnullの場合</exception>
-        public void WriteSync(TFileData data)
+        public void WriteSync([NotNull] TFileData data)
         {
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 
@@ -94,12 +96,12 @@ namespace WodiLib.IO
         /// <summary>
         /// ファイルを非同期的に書き出す。
         /// </summary>
-        /// <param name="data">[NotNull] 書き出しデータ</param>
+        /// <param name="data">書き出しデータ</param>
         /// <returns>非同期処理タスク</returns>
         /// <exception cref="ArgumentNullException">data がnullの場合</exception>
-        public async Task WriteAsync(TFileData data)
+        public async Task WriteAsync([NotNull] TFileData data)
         {
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 
@@ -189,8 +191,8 @@ namespace WodiLib.IO
         /// ファイルの入出力が終わったときに呼び出されるコールバック。
         /// </summary>
         /// <param name="data">入出力データ</param>
-        /* 継承先のクラスに Ver1.1 と互換性を持たせるための処理。 Ver1.3 で削除。 */
-        [Obsolete("Ver1.1 以前と互換性を持たせるためだけのメソッドです。 Ver1.3 で削除します。")]
+        /* 継承先のクラスに Ver1.1 と互換性を持たせるための処理。 Ver2.3 で削除。 */
+        [Obsolete("Ver1.1 以前と互換性を持たせるためだけのメソッドです。 Ver2.3 で削除します。")]
         protected abstract void CallbackIO(TFileData data);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

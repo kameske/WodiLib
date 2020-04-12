@@ -8,9 +8,9 @@
 
 using System;
 using System.Threading.Tasks;
+using Commons;
 using WodiLib.Database;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -31,17 +31,17 @@ namespace WodiLib.IO
         public DatabaseProjectFilePath ProjectFilePath { get; }
 
         /// <summary>読み込んだデータ</summary>
-        public DatabaseMergedData Data { get; private set; }
+        public DatabaseMergedData? Data { get; private set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>ロガー</summary>
-        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private Logger Logger { get; } = Logger.GetInstance();
 
         /// <summary>DB種別</summary>
-        private DBKind DbKind { get; }
+        private DBKind DbKind { get; } = default!;
 
         private readonly object readLock = new object();
 

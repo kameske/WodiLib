@@ -46,7 +46,7 @@ namespace WodiLib.Map
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="events">[NotNull] 1ページ毎のマップイベント</param>
+        /// <param name="events">1ページ毎のマップイベント</param>
         /// <exception cref="ArgumentException">events内のイベントIDが重複している場合</exception>
         /// <exception cref="ArgumentNullException">eventsがnullの場合</exception>
         public MapEventList(IReadOnlyList<MapEvent> events) : base(events)
@@ -186,7 +186,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="mapEventId">マップイベントID</param>
         /// <returns>マップイベント（取得できない場合null）</returns>
-        public MapEvent GetForMapEventId(MapEventId mapEventId)
+        public MapEvent? GetForMapEventId(MapEventId mapEventId)
         {
             return Items.FirstOrDefault(x => x.MapEventId == mapEventId);
         }

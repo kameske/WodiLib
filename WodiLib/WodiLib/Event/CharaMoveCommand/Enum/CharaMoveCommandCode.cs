@@ -6,7 +6,8 @@
 // see LICENSE file
 // ========================================
 
-using WodiLib.Sys;
+using System.Linq;
+using Commons;
 
 namespace WodiLib.Event.CharaMoveCommand
 {
@@ -262,7 +263,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <returns>インスタンス</returns>
         public static CharaMoveCommandCode FromByte(byte code)
         {
-            return _FindFirst(x => x.Code == code);
+            return AllItems.First(x => x.Code == code);
         }
     }
 }

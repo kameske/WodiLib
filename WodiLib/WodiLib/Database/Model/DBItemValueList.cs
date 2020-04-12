@@ -36,10 +36,10 @@ namespace WodiLib.Database
         //     Internal Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        [NonSerialized] private DBItemValuesList outer;
+        [NonSerialized] private DBItemValuesList? outer;
 
         /// <summary>外部クラス</summary>
-        internal DBItemValuesList Outer
+        internal DBItemValuesList? Outer
         {
             get => outer;
             private set => outer = value;
@@ -59,19 +59,19 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="items">[NotNull] 初期リスト</param>
+        /// <param name="list">初期リスト</param>
         /// <exception cref="ArgumentNullException">
-        ///     itemsがnullの場合、
-        ///     またはitems中にnullが含まれる場合
+        ///     listがnullの場合、
+        ///     またはlist中にnullが含まれる場合
         /// </exception>
-        public DBItemValueList(IEnumerable<DBItemValue> items) : base(items)
+        public DBItemValueList(IReadOnlyCollection<DBItemValue> list) : base(list)
         {
         }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="outer">[NotNull] 外部クラス</param>
+        /// <param name="outer">外部クラス</param>
         /// <exception cref="ArgumentNullException">outerがnullの場合</exception>
         internal DBItemValueList(DBItemValuesList outer)
         {
@@ -93,37 +93,37 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="outer">[NotNull] 外部クラス</param>
-        /// <param name="items">値列挙</param>
-        /// <exception cref="ArgumentNullException">outer, itemsがnullの場合</exception>
+        /// <param name="outer">外部クラス</param>
+        /// <param name="list">値リスト</param>
+        /// <exception cref="ArgumentNullException">outer, listがnullの場合</exception>
         /// <exception cref="ArgumentException">
-        ///     itemsの要素数、
-        ///     またはitems中の値種別が不適切な場合
+        ///     listの要素数、
+        ///     またはlist中の値種別が不適切な場合
         /// </exception>
         internal DBItemValueList(DBItemValuesList outer,
-            IEnumerable<DBItemValue> items)
+            IReadOnlyCollection<DBItemValue> list)
         {
             if (outer is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(outer)));
-            if (items is null)
+            if (list is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(items)));
+                    ErrorMessage.NotNull(nameof(list)));
 
             Outer = outer;
 
             // validationのためにここで追加する。validation後には追加しない。
-            Items.AddRange(items);
+            Items.AddRange(list);
 
             var validateResult = outer.ValidateListItem(this);
             switch (validateResult)
             {
                 case DBItemValuesList.ValidationResult.LengthError:
                     throw new ArgumentException(
-                        $"{nameof(items)}の要素数が異なります。");
+                        $"{nameof(list)}の要素数が異なります。");
                 case DBItemValuesList.ValidationResult.ItemError:
                     throw new ArgumentException(
-                        $"{nameof(items)}中に種類の異なる項目があります。");
+                        $"{nameof(list)}中に種類の異なる項目があります。");
             }
         }
 
@@ -168,7 +168,7 @@ namespace WodiLib.Database
         /// <summary>
         /// リストの末尾に要素を追加する。
         /// </summary>
-        /// <param name="item">[NotNull] 追加する要素</param>
+        /// <param name="item">追加する要素</param>
         /// <exception cref="ArgumentNullException">itemがnullの場合</exception>
         /// <exception cref="InvalidOperationException">
         ///     紐付けされているDBItemValuesListが存在する場合、
@@ -187,7 +187,7 @@ namespace WodiLib.Database
         /// <summary>
         /// リストの末尾に要素を追加する。
         /// </summary>
-        /// <param name="items">[NotNull] 追加する要素</param>
+        /// <param name="items">追加する要素</param>
         /// <exception cref="ArgumentNullException">
         ///     itemsがnullの場合、
         ///     またはitemsにnull要素が含まれる場合
@@ -196,7 +196,7 @@ namespace WodiLib.Database
         ///     紐付けされているDBItemValuesListが存在する場合、
         ///     または要素数がMaxCapacityを超える場合
         /// </exception>
-        public new void AddRange(IEnumerable<DBItemValue> items)
+        public new void AddRange(IReadOnlyCollection<DBItemValue> items)
         {
             if (!(Outer is null))
                 throw new InvalidOperationException(
@@ -210,7 +210,7 @@ namespace WodiLib.Database
         /// 指定したインデックスの位置に要素を挿入する。
         /// </summary>
         /// <param name="index">[Range(0, Count)] インデックス</param>
-        /// <param name="item">[NotNull] 挿入する要素</param>
+        /// <param name="item">挿入する要素</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">itemがnullの場合</exception>
         /// <exception cref="InvalidOperationException">
@@ -231,7 +231,7 @@ namespace WodiLib.Database
         /// 指定したインデックスの位置に要素を挿入する。
         /// </summary>
         /// <param name="index">[Range(0, Count)] インデックス</param>
-        /// <param name="items">[NotNull] 追加する要素</param>
+        /// <param name="items">追加する要素</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">
         ///     itemsがnullの場合、
@@ -241,7 +241,7 @@ namespace WodiLib.Database
         ///     紐付けされているDBItemValuesListが存在する場合、
         ///     または要素数がMaxCapacityを超える場合
         /// </exception>
-        public new void InsertRange(int index, IEnumerable<DBItemValue> items)
+        public new void InsertRange(int index, IReadOnlyCollection<DBItemValue> items)
         {
             if (!(Outer is null))
                 throw new InvalidOperationException(
@@ -254,13 +254,13 @@ namespace WodiLib.Database
         /// <summary>
         /// 特定のオブジェクトを要素として持つとき、最初に出現したものを削除する。
         /// </summary>
-        /// <param name="item">[Nullable] 削除する要素</param>
+        /// <param name="item">削除する要素</param>
         /// <returns>削除成否</returns>
         /// <exception cref="InvalidOperationException">
         ///     紐付けされているDBItemValuesListが存在する場合、
         ///     または削除した結果要素数がMinValue未満になる場合
         /// </exception>
-        public new bool Remove(DBItemValue item)
+        public new bool Remove(DBItemValue? item)
         {
             if (!(Outer is null))
                 throw new InvalidOperationException(
@@ -346,7 +346,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DBItemValueList other)
+        public bool Equals(DBItemValueList? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -358,7 +358,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(IFixedLengthDBItemValueList other)
+        public bool Equals(IFixedLengthDBItemValueList? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -373,7 +373,7 @@ namespace WodiLib.Database
         /// <summary>
         /// DBItemValuesList に紐づけする。
         /// </summary>
-        /// <param name="outer">[NotNull] 紐付け対象クラス</param>
+        /// <param name="outer">紐付け対象クラス</param>
         /// <exception cref="InvalidOperationException">既に紐付けされている場合</exception>
         /// <exception cref="ArgumentNullException">outerがnullの場合</exception>
         internal void Attach(DBItemValuesList outer)
@@ -393,7 +393,7 @@ namespace WodiLib.Database
         /// <summary>
         /// リストの末尾に要素を追加する。
         /// </summary>
-        /// <param name="item">[NotNull] 追加する要素</param>
+        /// <param name="item">追加する要素</param>
         /// <exception cref="ArgumentNullException">itemがnullの場合</exception>
         /// <exception cref="InvalidOperationException">
         ///     紐付けされているDBItemValuesListが存在する場合、
@@ -407,7 +407,7 @@ namespace WodiLib.Database
         /// <summary>
         /// リストの末尾に要素を追加する。
         /// </summary>
-        /// <param name="items">[NotNull] 追加する要素</param>
+        /// <param name="items">追加する要素</param>
         /// <exception cref="ArgumentNullException">
         ///     itemsがnullの場合、
         ///     またはitemsにnull要素が含まれる場合
@@ -416,7 +416,7 @@ namespace WodiLib.Database
         ///     紐付けされているDBItemValuesListが存在する場合、
         ///     または要素数がMaxCapacityを超える場合
         /// </exception>
-        internal void AddRangeForValuesListInstanceManager(IEnumerable<DBItemValue> items)
+        internal void AddRangeForValuesListInstanceManager(IReadOnlyCollection<DBItemValue> items)
         {
             base.AddRange(items);
         }
@@ -425,7 +425,7 @@ namespace WodiLib.Database
         /// 指定したインデックスの位置に要素を挿入する。
         /// </summary>
         /// <param name="index">[Range(0, Count)] インデックス</param>
-        /// <param name="item">[NotNull] 挿入する要素</param>
+        /// <param name="item">挿入する要素</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">itemがnullの場合</exception>
         /// <exception cref="InvalidOperationException">
@@ -441,7 +441,7 @@ namespace WodiLib.Database
         /// 指定したインデックスの位置に要素を挿入する。
         /// </summary>
         /// <param name="index">[Range(0, Count)] インデックス</param>
-        /// <param name="items">[NotNull] 追加する要素</param>
+        /// <param name="items">追加する要素</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">
         ///     itemsがnullの場合、
@@ -452,7 +452,7 @@ namespace WodiLib.Database
         ///     または要素数がMaxCapacityを超える場合
         /// </exception>
         internal void InsertRangeForValuesListInstanceManager(int index,
-            IEnumerable<DBItemValue> items)
+            IReadOnlyCollection<DBItemValue> items)
         {
             base.InsertRange(index, items);
         }

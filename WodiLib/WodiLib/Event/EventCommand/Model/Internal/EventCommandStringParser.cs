@@ -10,8 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Commons;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -88,7 +88,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// ロガー
         /// </summary>
-        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private Logger Logger { get; } = Logger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -97,7 +97,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="eventCodeString">[NotNullOrEmpty] コマンドコード文字列</param>
+        /// <param name="eventCodeString">[NotEmpty] コマンドコード文字列</param>
         /// <exception cref="ArgumentNullException">eventCodeString が null の場合</exception>
         /// <exception cref="ArgumentException">eventCodeString が空文字の場合</exception>
         public EventCommandStringParser(string eventCodeString)

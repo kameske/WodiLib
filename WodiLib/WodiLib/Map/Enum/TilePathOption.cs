@@ -7,7 +7,7 @@
 // ========================================
 
 using System.Linq;
-using WodiLib.Sys;
+using Commons;
 
 namespace WodiLib.Map
 {
@@ -51,10 +51,10 @@ namespace WodiLib.Map
         /// <returns>インスタンス</returns>
         public static TilePathOption FromCode(int code)
         {
-            var searchedWithoutCodeZero = _FindAll().Where(x => x.Code != 0).FirstOrDefault(x => (x.Code & code) != 0);
+            var searchedWithoutCodeZero = AllItems.Where(x => x.Code != 0).FirstOrDefault(x => (x.Code & code) != 0);
             if (!(searchedWithoutCodeZero is null)) return searchedWithoutCodeZero;
 
-            return _FindAll().First(x => x.Code == 0);
+            return AllItems.First(x => x.Code == 0);
         }
     }
 }

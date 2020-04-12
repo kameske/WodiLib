@@ -19,7 +19,7 @@ namespace WodiLib.Common
     public interface ICommonEventSpecialArgDesc : IEquatable<ICommonEventSpecialArgDesc>
     {
         /// <summary>
-        /// [NotNull] 引数名
+        /// 引数名
         /// </summary>
         CommonEventArgName ArgName { get; }
 
@@ -38,18 +38,18 @@ namespace WodiLib.Common
         /// 引数種別によらずすべての選択肢を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        IReadOnlyList<CommonEventSpecialArgCase> GetAllSpecialCase();
+        List<CommonEventSpecialArgCase> GetAllSpecialCase();
 
         /// <summary>
         /// すべての選択肢番号を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        IReadOnlyList<int> GetAllSpecialCaseNumber();
+        List<int> GetAllSpecialCaseNumber();
 
         /// <summary>
         /// すべての選択肢文字列を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        IReadOnlyList<string> GetAllSpecialCaseDescription();
+        List<string> GetAllSpecialCaseDescription();
     }
 }

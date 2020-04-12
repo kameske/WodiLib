@@ -25,8 +25,8 @@ namespace WodiLib.IO
         /// <summary>
         /// 読み取り/書き出しデータ
         /// </summary>
-        [Obsolete("入出力データは Read/Write メソッドの戻値を使用してください。 Ver1.3 で削除します。")]
-        public GameIniData GameIniData { get; private set; }
+        [Obsolete("入出力データは Read/Write メソッドの戻値を使用してください。 Ver2.3 で削除します。")]
+        public GameIniData? GameIniData { get; private set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -78,7 +78,7 @@ namespace WodiLib.IO
         }
 
         /// <inheritdoc />
-        [Obsolete("Ver1.1 以前と互換性を持たせるためだけのメソッドです。 Ver1.3 で削除します。")]
+        [Obsolete("Ver1.1 以前と互換性を持たせるためだけのメソッドです。 Ver2.3 で削除します。")]
         protected override void CallbackIO(GameIniData data)
         {
             GameIniData = data;

@@ -152,10 +152,10 @@ namespace WodiLib.Database
         /// <summary>
         /// 選択肢を追加する。
         /// </summary>
-        /// <param name="argCases">[NotNull] 追加する選択肢</param>
+        /// <param name="argCases">追加する選択肢</param>
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
         /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
-        public virtual void AddRangeSpecialCase(IEnumerable<DatabaseValueCase> argCases)
+        public virtual void AddRangeSpecialCase(IReadOnlyCollection<DatabaseValueCase> argCases)
         {
             throw new InvalidOperationException(
                 "特殊指定が「手動生成」ではないため処理できません");
@@ -179,11 +179,11 @@ namespace WodiLib.Database
         /// 選択肢を挿入する。
         /// </summary>
         /// <param name="index">[Range(0, 選択肢数)] 追加する選択肢</param>
-        /// <param name="argCases">[NotNull] 追加する選択肢</param>
+        /// <param name="argCases">追加する選択肢</param>
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
-        public virtual void InsertRangeSpecialCase(int index, IEnumerable<DatabaseValueCase> argCases)
+        public virtual void InsertRangeSpecialCase(int index, IReadOnlyCollection<DatabaseValueCase> argCases)
         {
             throw new InvalidOperationException(
                 "特殊指定が「手動生成」ではないため処理できません");
@@ -193,7 +193,7 @@ namespace WodiLib.Database
         /// DB参照時の追加選択肢文字列を更新する。
         /// </summary>
         /// <param name="caseNumber">[Range[-3, -1)] 選択肢番号</param>
-        /// <param name="description">[NotNull][NotNewLine] 文字列</param>
+        /// <param name="description">[NotNewLine] 文字列</param>
         /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">caseNumberが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">descriptionがEmptyの場合</exception>
@@ -258,7 +258,7 @@ namespace WodiLib.Database
         /// <summary>
         /// ファイル読み込み時のデフォルトフォルダを更新する。
         /// </summary>
-        /// <param name="folderName">[NotNull] デフォルトフォルダ</param>
+        /// <param name="folderName">デフォルトフォルダ</param>
         /// <exception cref="InvalidOperationException">特殊指定が「フォルダ読み込み」以外の場合</exception>
         /// <exception cref="ArgumentNullException">folderNameがnullの場合</exception>
         public virtual void UpdateDefaultFolder(DBSettingFolderName folderName)
@@ -281,7 +281,7 @@ namespace WodiLib.Database
         /// <summary>
         /// 指定した値種別が設定可能かどうかを判定する。
         /// </summary>
-        /// <param name="type">[NotNull] 値種別</param>
+        /// <param name="type">値種別</param>
         /// <returns>設定可能な場合true</returns>
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         public abstract bool CanSetItemType(DBItemType type);
@@ -291,6 +291,6 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public abstract bool Equals(IDBItemSettingDesc other);
+        public abstract bool Equals(IDBItemSettingDesc? other);
     }
 }

@@ -31,7 +31,7 @@ namespace WodiLib.Event.EventCommand
 
         private string printString = "";
 
-        /// <summary>[NotNull] 表示文字列</summary>
+        /// <summary>表示文字列</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public string PrintString
         {
@@ -118,7 +118,7 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         protected override string MakeEventCommandDrawItemSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             return string.Format(EventCommandSentenceFormat, PrintString);
         }

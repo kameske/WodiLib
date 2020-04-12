@@ -6,6 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System.Linq;
+using Commons;
+
 namespace WodiLib.Sys
 {
     /// <summary>
@@ -39,7 +42,7 @@ namespace WodiLib.Sys
 
         internal static IntOrStrType FromId(string id)
         {
-            return _FindFirst(x => x.Id.Equals(id));
+            return AllItems.First(x => x.Id.Equals(id));
         }
     }
 }

@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Commons;
 
 namespace WodiLib.Sys
 {
@@ -24,7 +25,7 @@ namespace WodiLib.Sys
         /// <summary>
         /// 指定したキー名のコンテナ内に指定したクラスの生成メソッドが登録されているかどうかを返す。
         /// </summary>
-        /// <param name="key">[NotNull] キー名</param>
+        /// <param name="key">キー名</param>
         /// <typeparam name="T">チェック対象のクラス型</typeparam>
         /// <returns>生成メソッドが登録されている場合true</returns>
         /// <exception cref="ArgumentNullException">keyがnullの場合</exception>
@@ -53,7 +54,7 @@ namespace WodiLib.Sys
         public static void Register<T>(Func<T> createMethod, Lifetime lifetime, string key = "default")
         {
             // 登録情報作成
-            var createObjMethod = new Func<object>(() => (object) createMethod());
+            var createObjMethod = new Func<object>(() => (object) createMethod()!);
             var createInfo = new CreateInfo(createObjMethod, lifetime);
 
             // 登録先コンテナ取得
@@ -152,7 +153,7 @@ namespace WodiLib.Sys
         {
             private Lifetime Lifetime { get; }
             private Func<object> CreateMethod { get; }
-            private object instance;
+            private object? instance;
 
             public CreateInfo(Func<object> createMethod, Lifetime lifetime)
             {
@@ -176,7 +177,7 @@ namespace WodiLib.Sys
                 if (Lifetime == Lifetime.Container)
                 {
                     // コンテナ内で一意
-                    return instance ?? (instance = CreateMethod());
+                    return instance ??= CreateMethod();
                 }
 
                 throw new InvalidOperationException();

@@ -40,7 +40,7 @@ namespace WodiLib.Event.EventCommand
             set { }
         }
 
-        /// <summary>[NotNull] タイプID</summary>
+        /// <summary>タイプID</summary>
         /// <exception cref="PropertyNullException">nullまたはStrOrInt.Noneをセットした場合</exception>
         public IntOrStr DBTypeId
         {
@@ -58,7 +58,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <summary>[NotNull] データID</summary>
+        /// <summary>データID</summary>
         /// <exception cref="PropertyNullException">nullまたはStrOrInt.Noneをセットした場合</exception>
         public IntOrStr DBDataId
         {
@@ -122,7 +122,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var paramType = IsTypeIdUseStr
                 ? DBTypeId.ToStr()

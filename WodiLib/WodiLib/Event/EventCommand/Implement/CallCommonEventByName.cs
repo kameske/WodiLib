@@ -38,7 +38,7 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>[NotNull] コモンイベント名</summary>
+        /// <summary>コモンイベント名</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public string EventName
         {
@@ -65,7 +65,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentenceInner(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc,
+            EventCommandSentenceResolveDesc? desc,
             string argsCommandString, string returnVarString)
         {
             var id = resolver.GetCommonEventIdString(EventName);

@@ -7,6 +7,8 @@
 // ========================================
 
 using System;
+using System.Linq;
+using Commons;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -59,7 +61,7 @@ namespace WodiLib.Database
         {
             try
             {
-                return _FindFirst(x => x.Code == code);
+                return AllItems.First(x => x.Code == code);
             }
             catch
             {
@@ -96,7 +98,7 @@ namespace WodiLib.Database
 
             try
             {
-                return _FindFirst(x => x.Code == value);
+                return AllItems.First(x => x.Code == value);
             }
             catch
             {

@@ -97,8 +97,8 @@ namespace WodiLib.Event.CharaMoveCommand
         //     Internal Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>[Nullable] 所有イベント種別</summary>
-        internal TargetAddressOwner Owner { get; set; }
+        /// <summary>所有イベント種別</summary>
+        internal TargetAddressOwner? Owner { get; set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
@@ -128,7 +128,7 @@ namespace WodiLib.Event.CharaMoveCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override string GetEventCommandSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var targetStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
                 TargetAddress, type, desc);
@@ -160,7 +160,7 @@ namespace WodiLib.Event.CharaMoveCommand
         {
             info.AddValue(nameof(NumberValues), NumberValues);
             info.AddValue(nameof(HasOwner), HasOwner);
-            if (HasOwner) info.AddValue(nameof(Owner), Owner.Id);
+            if (HasOwner) info.AddValue(nameof(Owner), Owner!.Id);
         }
 
         /// <summary>

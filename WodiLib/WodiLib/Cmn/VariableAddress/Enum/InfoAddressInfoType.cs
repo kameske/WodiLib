@@ -8,8 +8,9 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using Commons;
 using WodiLib.Map;
-using WodiLib.Sys;
 
 namespace WodiLib.Cmn
 {
@@ -65,7 +66,7 @@ namespace WodiLib.Cmn
                 "{0}のキャラチップ画像");
 
             Empty = new InfoAddressInfoType(nameof(Empty), EmptyCodeList[0],
-                null); // この文字列はWodiLib内で使用しない
+                ""); // この文字列はWodiLib内で使用しない
         }
 
         private InfoAddressInfoType(string id, int code, string eventCommandStringFormat) : base(id)
@@ -137,7 +138,7 @@ namespace WodiLib.Cmn
             // Empty判定
             if (EmptyCodeList.Contains(code)) return Empty;
 
-            return _FindFirst(x => x.Code == code);
+            return AllItems.First(x => x.Code == code);
         }
     }
 }

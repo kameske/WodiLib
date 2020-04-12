@@ -47,7 +47,7 @@ namespace WodiLib.Event.EventCommand
             set { }
         }
 
-        /// <summary>[NotNull] タイプID</summary>
+        /// <summary>タイプID</summary>
         /// <exception cref="PropertyNullException">nullまたはStrOrInt.Noneをセットした場合</exception>
         public IntOrStr DBTypeId
         {
@@ -61,10 +61,11 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBTypeId)));
                 _DBTypeId.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 
-        /// <summary>[NotNull] データID</summary>
+        /// <summary>データID</summary>
         /// <exception cref="PropertyNullException">nullまたはStrOrInt.Noneをセットした場合</exception>
         public IntOrStr DBDataId
         {
@@ -78,10 +79,11 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBDataId)));
                 _DBDataId.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 
-        /// <summary>[NotNull] 項目ID</summary>
+        /// <summary>項目ID</summary>
         /// <exception cref="PropertyNullException">nullまたはStrOrInt.Noneをセットした場合</exception>
         public IntOrStr DBItemId
         {
@@ -95,6 +97,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBItemId)));
                 _DBItemId.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 
@@ -113,21 +116,33 @@ namespace WodiLib.Event.EventCommand
         public bool IsTypeIdUseStr
         {
             get => _IsTypeIdUseStr;
-            set => _IsTypeIdUseStr = value;
+            set
+            {
+                _IsTypeIdUseStr = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>データID文字列指定フラグ</summary>
         public bool IsDataIdUseStr
         {
             get => _IsDataIdUseStr;
-            set => _IsDataIdUseStr = value;
+            set
+            {
+                _IsDataIdUseStr = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>項目ID文字列指定フラグ</summary>
         public bool IsItemIdUseStr
         {
             get => _IsItemIdUseStr;
-            set => _IsItemIdUseStr = value;
+            set
+            {
+                _IsItemIdUseStr = value;
+                NotifyPropertyChanged();
+            }
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -138,7 +153,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             string paramType;
             string targetType;
@@ -208,9 +223,9 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文字列の右辺部分を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列のメイン部分</returns>
         /// <exception cref="ArgumentNullException">
         ///     resolver または type が null の場合、
@@ -219,6 +234,6 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected abstract string MakeEventCommandRightSideSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc);
+            EventCommandSentenceResolveDesc? desc);
     }
 }

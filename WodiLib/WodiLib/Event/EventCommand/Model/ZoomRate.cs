@@ -33,7 +33,7 @@ namespace WodiLib.Event.EventCommand
         private ZoomRateType zoomRateType = ZoomRateType.Normal;
 
         /// <summary>
-        /// [NotNull] 拡大率種別
+        /// 拡大率種別
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットしようとした場合</exception>
         public ZoomRateType ZoomRateType
@@ -143,12 +143,12 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文字列を取得する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列</returns>
         public string GetEventCommandSentence(EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             if (IsSame) return EventCommandSentenceFormatSame;
 
@@ -174,7 +174,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(ZoomRate other)
+        public override bool Equals(ZoomRate? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

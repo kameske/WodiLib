@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
+using Commons.Linq.Extension;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -53,13 +54,13 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="items">初期DB項目設定リスト</param>
+        /// <param name="list">初期DB項目設定リスト</param>
         /// <exception cref="ArgumentNullException">
-        ///     itemsがnullの場合、
-        ///     またはitems中にnullが含まれる場合
+        ///     listがnullの場合、
+        ///     またはlist中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
-        public DBItemSettingList(IEnumerable<DBItemSetting> items) : base(items)
+        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
+        public DBItemSettingList(IReadOnlyCollection<DBItemSetting> list) : base(list)
         {
         }
 
@@ -170,7 +171,7 @@ namespace WodiLib.Database
                 // 文字列パラメータ数
                 result.AddRange(x.Count.ToBytes(Endian.Woditor));
                 // 文字列パラメータ
-                x.ForEach((y, _) =>
+                x.ForEach(y =>
                     result.AddRange(y.ToWoditorStringBytes()));
             });
 
@@ -183,7 +184,7 @@ namespace WodiLib.Database
                 // 数値パラメータ数
                 result.AddRange(x.Count.ToBytes(Endian.Woditor));
                 // 数値パラメータ
-                x.ForEach((y, _) =>
+                x.ForEach(y =>
                     result.AddRange(y.ToBytes(Endian.Woditor)));
             });
 

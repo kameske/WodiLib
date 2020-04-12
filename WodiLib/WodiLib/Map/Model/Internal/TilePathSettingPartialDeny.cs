@@ -24,12 +24,12 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// [NotNull] タイル通行許可
+        /// タイル通行許可
         /// </summary>
         public override TilePathPermission PathPermission => TilePathPermission.PartialDeny;
 
         /// <summary>
-        /// [NotNull] タイル通行不可フラグ
+        /// タイル通行不可フラグ
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         /// <exception cref="PropertyAccessException">タイル通行許可が"通行不可"以外の場合</exception>
@@ -49,7 +49,7 @@ namespace WodiLib.Map
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="impassableFlags">[NotNull] 通行設定フラグ</param>
+        /// <param name="impassableFlags">通行設定フラグ</param>
         /// <exception cref="ArgumentNullException">cannotPattingFlagsがnullの場合</exception>
         public TilePathSettingPartialDeny(TileImpassableFlags impassableFlags)
         {
@@ -78,7 +78,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(TilePathSettingPartialDeny other)
+        public bool Equals(TilePathSettingPartialDeny? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

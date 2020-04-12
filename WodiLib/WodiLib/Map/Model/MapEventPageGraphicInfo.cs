@@ -65,7 +65,7 @@ namespace WodiLib.Map
 
         private CharaChipFilePath charaChipFilePath = "";
 
-        /// <summary>[NotNull] キャラチップファイル名</summary>
+        /// <summary>キャラチップファイル名</summary>
         /// <exception cref="PropertyAccessException">IsGraphicTileChip = true のときにセットした場合</exception>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CharaChipFilePath CharaChipFilePath
@@ -87,7 +87,7 @@ namespace WodiLib.Map
         private CharaChipDirection initDirection = CharaChipDirection.Down;
 
         /// <summary>
-        /// [NotNull] キャラ画像初期向き
+        /// キャラ画像初期向き
         /// </summary>
         /// <exception cref="PropertyNullException">nullセットした場合</exception>
         public CharaChipDirection InitDirection
@@ -131,7 +131,7 @@ namespace WodiLib.Map
 
         private PictureDrawType charaChipDrawType = PictureDrawType.Normal;
 
-        /// <summary>[NotNull] キャラチップ表示タイプ</summary>
+        /// <summary>キャラチップ表示タイプ</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public PictureDrawType CharaChipDrawType
         {
@@ -168,7 +168,7 @@ namespace WodiLib.Map
         /// キャラ画像ファイル名をセットする。
         /// （タイルID使用フラグをfalseに強制更新する）
         /// </summary>
-        /// <param name="filePath">[NotNull] 画像ファイル名</param>
+        /// <param name="filePath">画像ファイル名</param>
         /// <returns>キャラ画像ファイル名</returns>
         public void SetGraphicFileName(CharaChipFilePath filePath)
         {
@@ -200,7 +200,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(MapEventPageGraphicInfo other)
+        public override bool Equals(MapEventPageGraphicInfo? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

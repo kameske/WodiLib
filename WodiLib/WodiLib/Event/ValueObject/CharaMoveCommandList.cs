@@ -36,10 +36,10 @@ namespace WodiLib.Event
         //     Internal Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private TargetAddressOwner owner;
+        private TargetAddressOwner? owner;
 
-        /// <summary>[Nullable] 所有イベント種別</summary>
-        internal TargetAddressOwner Owner
+        /// <summary>所有イベント種別</summary>
+        internal TargetAddressOwner? Owner
         {
             get => owner;
             set
@@ -73,13 +73,13 @@ namespace WodiLib.Event
         /// <summary>
         /// コンストラクタ（初期値指定）
         /// </summary>
-        /// <param name="items">[NotNull] 初期要素</param>
+        /// <param name="list">初期リスト</param>
         /// <exception cref="ArgumentNullException">
-        ///     itemsがnullの場合、
-        ///     またはitems中にnullが含まれる場合
+        ///     listがnullの場合、
+        ///     またはlist中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
-        public CharaMoveCommandList(IEnumerable<ICharaMoveCommand> items) : base(items)
+        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
+        public CharaMoveCommandList(IReadOnlyCollection<ICharaMoveCommand> list) : base(list)
         {
         }
 
@@ -148,7 +148,7 @@ namespace WodiLib.Event
         {
             base.GetObjectData(info, context);
             info.AddValue(nameof(HasOwner), HasOwner);
-            if (HasOwner) info.AddValue(nameof(owner), owner.Id);
+            if (HasOwner) info.AddValue(nameof(owner), owner!.Id);
         }
 
         /// <summary>

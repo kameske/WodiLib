@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using Commons;
 using WodiLib.Event;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Map
 {
@@ -24,18 +24,12 @@ namespace WodiLib.Map
     public class MapEventPageMoveRouteInfo : ModelBase<MapEventPageMoveRouteInfo>, ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        [field: NonSerialized] private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         private AnimateSpeed animateSpeed = AnimateSpeed.Middle;
 
-        /// <summary>[NotNull] アニメ速度</summary>
+        /// <summary>アニメ速度</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         /// <exception cref="ArgumentException">マップイベントでは設定できない値を指定した場合</exception>
         public AnimateSpeed AnimateSpeed
@@ -57,7 +51,7 @@ namespace WodiLib.Map
 
         private MoveSpeed moveSpeed = MoveSpeed.Normal;
 
-        /// <summary>[NotNull] 移動速度</summary>
+        /// <summary>移動速度</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MoveSpeed MoveSpeed
         {
@@ -78,7 +72,7 @@ namespace WodiLib.Map
 
         private MoveFrequency moveFrequency = MoveFrequency.Middle;
 
-        /// <summary>[NotNull] 移動頻度</summary>
+        /// <summary>移動頻度</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MoveFrequency MoveFrequency
         {
@@ -95,7 +89,7 @@ namespace WodiLib.Map
 
         private MoveType moveType = MoveType.Not;
 
-        /// <summary>[NotNull] 移動ルート種別</summary>
+        /// <summary>移動ルート種別</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MoveType MoveType
         {
@@ -125,7 +119,7 @@ namespace WodiLib.Map
         /// <summary><para>[CanBeNull] カスタム移動ルート</para>
         /// <para>移動ルート＝カスタムの場合、必須</para></summary>
         /// <exception cref="PropertyNullException">移動ルート＝カスタムのときにnullをセットした場合</exception>
-        public ActionEntry CustomMoveRoute
+        public ActionEntry? CustomMoveRoute
         {
             get => customMoveRoute;
             set
@@ -141,6 +135,11 @@ namespace WodiLib.Map
                 NotifyPropertyChanged();
             }
         }
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        [field: NonSerialized] private Logger Logger { get; } = Logger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -162,7 +161,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(MapEventPageMoveRouteInfo other)
+        public override bool Equals(MapEventPageMoveRouteInfo? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

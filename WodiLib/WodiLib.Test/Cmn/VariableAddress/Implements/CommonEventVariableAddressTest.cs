@@ -1,8 +1,8 @@
 using System;
+using Commons;
 using NUnit.Framework;
 using WodiLib.Cmn;
 using WodiLib.Common;
-using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Cmn
@@ -10,13 +10,13 @@ namespace WodiLib.Test.Cmn
     [TestFixture]
     public class CommonEventVariableAddressTest
     {
-        private static WodiLibLogger logger;
+        private static Logger logger;
 
         [SetUp]
         public static void Setup()
         {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
+            LoggerInitializer.SetupLoggerForDebug();
+            logger = Logger.GetInstance();
         }
 
         [TestCase(14999999, true)]
@@ -39,6 +39,7 @@ namespace WodiLib.Test.Cmn
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
+
         [TestCase(15000020, 0)]
         [TestCase(15004103, 41)]
         [TestCase(15012899, 128)]

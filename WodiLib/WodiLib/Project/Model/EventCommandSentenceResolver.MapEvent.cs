@@ -53,15 +53,15 @@ namespace WodiLib.Project
         /// マップキャラID文字列を取得する。
         /// </summary>
         /// <param name="characterId">キャラID</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>
         ///     マップイベントID文字列。
         ///     mapEventIdがマップイベントIDとして不適切な場合、専用の文字列。
         ///     該当マップがプロジェクト内に読み込まれていない場合、空文字。
         /// </returns>
         public (bool, MapEventName) GetMapEventIdStrByNumericEventId(int characterId,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             try
             {
@@ -78,14 +78,14 @@ namespace WodiLib.Project
         /// マップキャラID文字列を取得する。
         /// </summary>
         /// <param name="characterId">キャラID</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>
         ///     マップイベントID文字列。
         ///     該当マップがプロジェクト内に読み込まれていない場合、空文字。
         /// </returns>
         public (bool, MapEventName) GetMapEventIdStr(MapCharacterId characterId,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             const string notFound = "";
 
@@ -125,14 +125,14 @@ namespace WodiLib.Project
         /// マップイベント名を取得する。
         /// </summary>
         /// <param name="mapEventId">マップイベントID</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>
         ///     イベント名。
         ///     該当マップがプロジェクト内に読み込まれていない場合、空文字。
         /// </returns>
         public (bool, MapEventName) GetMapEventName(MapEventId mapEventId,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             const string notFound = "";
 
@@ -148,14 +148,14 @@ namespace WodiLib.Project
         /// キャラクター名を取得する。
         /// </summary>
         /// <param name="characterId">キャラクターID</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>
         ///     マップイベント名。
         ///     該当マップがプロジェクト内に読み込まれていない場合、空文字。
         /// </returns>
         public MapEventName GetCharacterName(MapCharacterId characterId,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             if (characterId == -1) return "このイベント";
             if (characterId == -2) return "主人公";
@@ -171,13 +171,13 @@ namespace WodiLib.Project
         /// 場所移動対象のイベント名を取得する。
         /// </summary>
         /// <param name="eventId">イベントID</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>
         ///     イベント名。
         /// </returns>
         public MapEventName GetTransferEventName(int eventId,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             if (eventId == -1 || eventId == -10001) return "主人公";
             if (eventId == -2) return "このEv";

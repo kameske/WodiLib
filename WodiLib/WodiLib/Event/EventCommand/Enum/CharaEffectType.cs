@@ -6,9 +6,10 @@
 // see LICENSE file
 // ========================================
 
+using System.Linq;
+using Commons;
 using WodiLib.Map;
 using WodiLib.Project;
-using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -57,9 +58,9 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文文字列を取得する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <param name="characterId">キャラクターID</param>
         /// <param name="numArg1">引数1（R値またはXシェイク値）</param>
         /// <param name="numArg2">引数2（G値またはYシェイク値）</param>
@@ -68,7 +69,7 @@ namespace WodiLib.Event.EventCommand
         /// <returns>イベントコマンド文字列</returns>
         public string GetEventCommandSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc,
+            EventCommandSentenceResolveDesc? desc,
             MapCharacterId characterId, int numArg1,
             int numArg2, int numArg3, int processTime)
         {
@@ -90,7 +91,7 @@ namespace WodiLib.Event.EventCommand
         /// <returns>インスタンス</returns>
         public static CharaEffectType FromByte(byte src)
         {
-            return _FindFirst(x => x.Code == src);
+            return AllItems.First(x => x.Code == src);
         }
     }
 }

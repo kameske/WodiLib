@@ -100,7 +100,7 @@ namespace WodiLib.Event
 
         private CharaMoveCommandList commandList = new CharaMoveCommandList();
 
-        /// <summary>[NotNull] 動作指定コマンドリスト</summary>
+        /// <summary>動作指定コマンドリスト</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CharaMoveCommandList CommandList
         {
@@ -121,10 +121,10 @@ namespace WodiLib.Event
         //     Internal Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private TargetAddressOwner owner;
+        private TargetAddressOwner? owner;
 
-        /// <summary>[Nullable] 所有イベント種別</summary>
-        internal TargetAddressOwner Owner
+        /// <summary>所有イベント種別</summary>
+        internal TargetAddressOwner? Owner
         {
             get => owner;
             set
@@ -149,11 +149,12 @@ namespace WodiLib.Event
         /// コンストラクタ
         /// </summary>
         /// <param name="commands">動作指定コマンド</param>
-        public ActionEntry(IEnumerable<ICharaMoveCommand> commands = null)
+        public ActionEntry(IEnumerable<ICharaMoveCommand>? commands = null)
         {
             if (commands is null) return;
 
-            CommandList = new CharaMoveCommandList(commands);
+            var charaMoveCommands = commands as ICharaMoveCommand[] ?? commands.ToArray();
+            CommandList = new CharaMoveCommandList(charaMoveCommands);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -196,7 +197,7 @@ namespace WodiLib.Event
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(ActionEntry other)
+        public override bool Equals(ActionEntry? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -240,13 +241,13 @@ namespace WodiLib.Event
         /// <summary>
         /// イベントコマンド文字列を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列のメイン部分</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public object GetEventCommandSentence(EventCommandSentenceResolver resolver,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             return string.Join(EventCommandSentenceMoveRouteJoinStr,
                 CommandList.Select(x => x.GetEventCommandSentence(resolver, type, desc)));
@@ -269,7 +270,7 @@ namespace WodiLib.Event
             info.AddValue(nameof(IsSkipIfCannotMove), IsSkipIfCannotMove);
             info.AddValue(nameof(commandList), commandList);
             info.AddValue(nameof(HasOwner), HasOwner);
-            if (HasOwner) info.AddValue(nameof(owner), owner.Id);
+            if (HasOwner) info.AddValue(nameof(owner), owner!.Id);
         }
 
         /// <summary>

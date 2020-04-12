@@ -94,7 +94,7 @@ namespace WodiLib.Event.EventCommand
         /// 文字列変数を設定する。
         /// </summary>
         /// <param name="index">[Range(0, 0)] インデックス</param>
-        /// <param name="value">[NotNull] 設定値</param>
+        /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -115,7 +115,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             return string.Format(EventCommandSentenceFormat,
                 Text);
@@ -127,7 +127,7 @@ namespace WodiLib.Event.EventCommand
 
         private string text = "";
 
-        /// <summary>[NotNull] デバッグ文</summary>
+        /// <summary>デバッグ文</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public string Text
         {
@@ -138,6 +138,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Text)));
                 text = value;
+                NotifyPropertyChanged();
             }
         }
 

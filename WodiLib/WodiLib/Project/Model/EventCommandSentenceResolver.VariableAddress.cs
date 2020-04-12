@@ -46,15 +46,15 @@ namespace WodiLib.Project
         /// int値からVariableAddressのイベントコマンド文字列（数値変数、文字列変数両用）を取得する。
         /// </summary>
         /// <param name="value">対象</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>VariableAddressのイベントコマンド文字列</returns>
         /// <exception cref="ArgumentNullException">
         ///     typeがnullの場合、
         ///     または必要なときにdescがnullの場合
         /// </exception>
         public string GetVariableAddressString(int value,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             if (type is null)
                 throw new ArgumentNullException(
@@ -75,8 +75,8 @@ namespace WodiLib.Project
         /// 指定した値がVariableAddressの範囲外の場合（999999以下の場合）、int値を文字列に変換して返す。
         /// </summary>
         /// <param name="value">対象</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>
         ///     VariableAddressのイベントコマンド文字列。
         ///     変数アドレス値でない場合、value（を文字列化した値）。
@@ -86,7 +86,7 @@ namespace WodiLib.Project
         ///     または必要なときにdescがnullの場合
         /// </exception>
         public string GetVariableAddressStringIfVariableAddress(int value,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             if (type is null)
                 throw new ArgumentNullException(
@@ -101,15 +101,15 @@ namespace WodiLib.Project
         /// int値からVariableAddressのイベントコマンド文字列（数値変数）を取得する。
         /// </summary>
         /// <param name="value">対象</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>VariableAddressのイベントコマンド文字列</returns>
         /// <exception cref="ArgumentNullException">
         ///     typeがnullの場合、
         ///     または必要なときにdescがnullの場合
         /// </exception>
         public string GetNumericVariableAddressString(int value,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             if (type is null)
                 throw new ArgumentNullException(
@@ -130,8 +130,8 @@ namespace WodiLib.Project
         /// 指定した値がVariableAddressの範囲外の場合（999999以下の場合）、int値を文字列に変換して返す。
         /// </summary>
         /// <param name="value">対象</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>
         ///     VariableAddressのイベントコマンド文字列
         ///     変数アドレス値でない場合、value（を文字列化した値）。
@@ -141,7 +141,7 @@ namespace WodiLib.Project
         ///     または必要なときにdescがnullの場合
         /// </exception>
         public string GetNumericVariableAddressStringIfVariableAddress(int value,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             if (type is null)
                 throw new ArgumentNullException(
@@ -156,15 +156,15 @@ namespace WodiLib.Project
         /// int値からVariableAddressのイベントコマンド文字列（文字列変数）を取得する。
         /// </summary>
         /// <param name="value">対象</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>VariableAddressのイベントコマンド文字列</returns>
         /// <exception cref="ArgumentNullException">
         ///     typeがnullの場合、
         ///     または必要なときにdescがnullの場合
         /// </exception>
         public string GetStringVariableAddressString(int value,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             if (type is null)
                 throw new ArgumentNullException(

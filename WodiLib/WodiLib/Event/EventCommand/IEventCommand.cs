@@ -64,7 +64,7 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>キャラ動作指定
         /// <para>動作指定を持たないコマンドの場合、null</para></summary>
-        ActionEntry ActionEntry { get; set; }
+        ActionEntry? ActionEntry { get; set; }
 
         /// <summary>拡張文字列</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
@@ -158,9 +158,9 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文字列情報を取得する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列</returns>
         /// <exception cref="ArgumentNullException">
         ///     resolver または type が null の場合、
@@ -168,7 +168,7 @@ namespace WodiLib.Event.EventCommand
         /// </exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         EventCommandSentenceInfo GetEventCommandSentenceInfo(EventCommandSentenceResolver resolver,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc);
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc);
 
         /// <summary>バイナリデータに変換する。</summary>
         /// <returns>バイナリデータ</returns>

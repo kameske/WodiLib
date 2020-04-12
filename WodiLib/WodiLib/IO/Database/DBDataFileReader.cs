@@ -8,9 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using Commons;
 using WodiLib.Database;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -27,7 +27,7 @@ namespace WodiLib.IO
         private FileReadStatus ReadStatus { get; }
 
         /// <summary>ロガー</summary>
-        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private Logger Logger { get; } = Logger.GetInstance();
 
         private readonly object readLock = new object();
 
@@ -197,7 +197,11 @@ namespace WodiLib.IO
                     $"  文字列項目{i,2}", value));
 
                 DBValueString dbValueString = value.String;
-                result.Add(dbValueString);
+                /*
+                 * dbValueString が null ではないことを認識しないので null-forgiving でもみ消し。
+                 * 暗黙的な型変換を使用しているせい？
+                 */
+                result.Add(dbValueString!);
             }
 
             values = result;

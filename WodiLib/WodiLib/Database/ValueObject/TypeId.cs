@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -16,7 +17,7 @@ namespace WodiLib.Database
     /// [Range(0, 99)] DBタイプID
     /// </summary>
     [Serializable]
-    public readonly struct TypeId : IConvertibleInt, IEquatable<TypeId>
+    public readonly struct TypeId : IConvertibleInt32, IEquatable<TypeId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -63,7 +64,7 @@ namespace WodiLib.Database
         public override string ToString() => Value.ToString();
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is TypeId other && Equals(other);
         }
@@ -83,6 +84,12 @@ namespace WodiLib.Database
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => this;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
 
         /// <summary>
         /// byte配列に変換する。

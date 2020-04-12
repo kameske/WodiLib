@@ -7,6 +7,8 @@
 // ========================================
 
 using System;
+using System.Linq;
+using Commons;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -44,7 +46,7 @@ namespace WodiLib.Ini
         /// <summary>
         ///     対象コードからオブジェクトを取得する。
         /// </summary>
-        /// <param name="code">[NotNull] コード</param>
+        /// <param name="code">コード</param>
         /// <returns>EditTimeDrawType</returns>
         /// <exception cref="ArgumentNullException">code が null の場合</exception>
         /// <exception cref="ArgumentException">存在しない値の場合</exception>
@@ -56,7 +58,7 @@ namespace WodiLib.Ini
 
             try
             {
-                return _FindFirst(x => x.Code == code);
+                return AllItems.First(x => x.Code == code);
             }
             catch
             {
@@ -69,9 +71,9 @@ namespace WodiLib.Ini
         ///     対象コードからオブジェクトを取得する。
         ///     対象コードが存在しない場合はデフォルト値を返す。
         /// </summary>
-        /// <param name="code">[Nullable] コード</param>
+        /// <param name="code">コード</param>
         /// <returns>EventCommandShortCutKey</returns>
-        public static EditTimeDrawType FromCodeOrDefault(string code)
+        public static EditTimeDrawType FromCodeOrDefault(string? code)
         {
             if (code is null || code.Equals(string.Empty)) return On;
             return FromCode(code);

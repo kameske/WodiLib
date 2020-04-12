@@ -7,6 +7,7 @@
 // ========================================
 
 using System.Linq;
+using Commons;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -39,7 +40,7 @@ namespace WodiLib.Map
             Deny = new TilePathPermission(nameof(Deny), 0x0F, null, InnerFlagGroup.Not);
         }
 
-        private TilePathPermission(string id, int code, WoditorVersion supportVersion, InnerFlagGroup groupCode) :
+        private TilePathPermission(string id, int code, WoditorVersion? supportVersion, InnerFlagGroup groupCode) :
             base(id)
         {
             Code = code;
@@ -50,13 +51,13 @@ namespace WodiLib.Map
         /// <summary>
         /// ロガー
         /// </summary>
-        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private Logger Logger { get; } = Logger.GetInstance();
 
         /// <summary>コード値</summary>
         public int Code { get; }
 
         /// <summary>サポート最小バージョン（nullの場合制限なし）</summary>
-        private WoditorVersion SupportVersion { get; }
+        private WoditorVersion? SupportVersion { get; }
 
         /// <summary>内部処理用グループコード</summary>
         internal InnerFlagGroup GroupCode { get; }
@@ -86,10 +87,10 @@ namespace WodiLib.Map
         public static TilePathPermission FromCode(int code)
         {
             var searchedWithoutCodeZero =
-                _FindAll().Where(x => x.Code != 0).FirstOrDefault(x => (x.Code & code) == x.Code);
+                AllItems.Where(x => x.Code != 0).FirstOrDefault(x => (x.Code & code) == x.Code);
             if (!(searchedWithoutCodeZero is null)) return searchedWithoutCodeZero;
 
-            return _FindAll().First(x => x.Code == 0);
+            return AllItems.First(x => x.Code == 0);
         }
 
         internal enum InnerFlagGroup

@@ -53,7 +53,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             if (desc is null)
                 throw new ArgumentNullException(
@@ -100,7 +100,7 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>[NotNull] DB種別</summary>
+        /// <summary>DB種別</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DBKind DBKind
         {
@@ -115,7 +115,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <summary>[NotNull] タイプID</summary>
+        /// <summary>タイプID</summary>
         /// <exception cref="PropertyNullException">nullまたはStrOrInt.Noneをセットした場合</exception>
         public IntOrStr DBTypeId
         {
@@ -133,7 +133,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <summary>[NotNull] データID</summary>
+        /// <summary>データID</summary>
         /// <exception cref="PropertyNullException">nullまたはStrOrInt.Noneをセットした場合</exception>
         public IntOrStr DBDataId
         {
@@ -182,7 +182,7 @@ namespace WodiLib.Event.EventCommand
 
         private CsvIOMode mode = CsvIOMode.Input;
 
-        /// <summary>[NotNull] CSV入出力モード</summary>
+        /// <summary>CSV入出力モード</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CsvIOMode Mode
         {
@@ -212,7 +212,7 @@ namespace WodiLib.Event.EventCommand
 
         private string fileName = "";
 
-        /// <summary>[NotNull] 出力/入力ファイル名</summary>
+        /// <summary>出力/入力ファイル名</summary>
         public string FileName
         {
             get => fileName;

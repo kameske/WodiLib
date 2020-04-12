@@ -40,7 +40,7 @@ namespace WodiLib.Event.EventCommand
 
         private DBNumberAssignmentOperator assignmentOperator = DBNumberAssignmentOperator.Assign;
 
-        /// <summary>[NotNull] 代入演算子</summary>
+        /// <summary>代入演算子</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DBNumberAssignmentOperator AssignmentOperator
         {
@@ -51,14 +51,35 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(AssignmentOperator)));
                 assignmentOperator = value;
+                NotifyPropertyChanged();
             }
         }
 
+        private int leftSide;
+
         /// <summary>左辺（代入先）</summary>
-        public int LeftSide { get; set; }
+        public int LeftSide
+        {
+            get => leftSide;
+            set
+            {
+                leftSide = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+        private bool isLeftSideReferX;
 
         /// <summary>左辺X番の変数呼び出し</summary>
-        public bool IsLeftSideReferX { get; set; }
+        public bool IsLeftSideReferX
+        {
+            get => isLeftSideReferX;
+            set
+            {
+                isLeftSideReferX = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <inheritdoc />
         /// <summary>入出力値または代入先</summary>
@@ -108,7 +129,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var rightSide = MakeEventCommandRightSideSentence(resolver, type, desc);
 
@@ -127,9 +148,9 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文字列の右辺を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列のメイン部分</returns>
         /// <exception cref="ArgumentNullException">
         ///     resolver または type が null の場合、
@@ -138,6 +159,6 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected abstract string MakeEventCommandRightSideSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc);
+            EventCommandSentenceResolveDesc? desc);
     }
 }

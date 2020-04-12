@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.Serialization;
 using WodiLib.Sys;
@@ -73,7 +74,7 @@ namespace WodiLib.Ini
         private const int IndexCommonEvent = 17;
         private const int IndexDownload = 18;
 
-        private int[] NotUseIndexes { get; set; }
+        private int[] NotUseIndexes { get; set; } = default!;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -84,7 +85,7 @@ namespace WodiLib.Ini
          */
 
         /// <summary>
-        /// [NotNull] 「文章の表示」コマンドのショートカットキー
+        /// 「文章の表示」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey Message
@@ -100,7 +101,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「選択肢」コマンドのショートカットキー
+        /// 「選択肢」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey Choice
@@ -116,7 +117,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「変数操作」コマンドのショートカットキー
+        /// 「変数操作」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey SetVariable
@@ -132,7 +133,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「DB操作」コマンドのショートカットキー
+        /// 「DB操作」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey DBManagement
@@ -148,7 +149,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「文字列操作」コマンドのショートカットキー
+        /// 「文字列操作」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey SetString
@@ -164,7 +165,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「変数操作＋」コマンドのショートカットキー
+        /// 「変数操作＋」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey SetVariablePlus
@@ -180,7 +181,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「条件（変数）」コマンドのショートカットキー
+        /// 「条件（変数）」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey ConditionNumber
@@ -196,7 +197,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「条件（文字列）」コマンドのショートカットキー
+        /// 「条件（文字列）」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey ConditionString
@@ -212,7 +213,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「キー入力」コマンドのショートカットキー
+        /// 「キー入力」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey KeyInput
@@ -228,7 +229,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「ピクチャ」コマンドのショートカットキー
+        /// 「ピクチャ」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey Picture
@@ -244,7 +245,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「エフェクト」コマンドのショートカットキー
+        /// 「エフェクト」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey Effect
@@ -260,7 +261,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「サウンド」コマンドのショートカットキー
+        /// 「サウンド」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey Sound
@@ -276,7 +277,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「セーブ・ロード操作」コマンドのショートカットキー
+        /// 「セーブ・ロード操作」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey SaveAndLoad
@@ -292,7 +293,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「パーティ画像」コマンドのショートカットキー
+        /// 「パーティ画像」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey PartyGraphic
@@ -308,7 +309,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「チップ処理」コマンドのショートカットキー
+        /// 「チップ処理」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey MapChip
@@ -324,7 +325,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「場所移動」コマンドのショートカットキー
+        /// 「場所移動」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey Transfer
@@ -340,7 +341,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「イベント制御」コマンドのショートカットキー
+        /// 「イベント制御」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey EventControl
@@ -356,7 +357,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「コモンイベント」コマンドのショートカットキー
+        /// 「コモンイベント」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey CommonEvent
@@ -372,7 +373,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// [NotNull] 「ダウンロード処理」コマンドのショートカットキー
+        /// 「ダウンロード処理」コマンドのショートカットキー
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandShortCutKey Download
@@ -595,7 +596,7 @@ namespace WodiLib.Ini
         ///     設定値が適切である場合、null。
         /// </param>
         /// <returns>設定値が適切である場合、true</returns>
-        public bool Validate(out string errorMsg)
+        public bool Validate([NotNullWhen(false)] out string? errorMsg)
         {
             if (!ValidateDuplicateKey(out errorMsg)) return false;
 
@@ -613,7 +614,7 @@ namespace WodiLib.Ini
         /// 使用しているキーが重複していないことを検証する。
         /// </summary>
         /// <returns>キー重複が存在しない場合、true</returns>
-        public bool ValidateDuplicateKey(out string errorMsg)
+        public bool ValidateDuplicateKey([NotNullWhen(false)] out string? errorMsg)
         {
             var cloneList = Items.Where(x => !x.Equals(EventCommandShortCutKey.None)).ToList();
             cloneList.Sort((left, right) =>
@@ -649,7 +650,7 @@ namespace WodiLib.Ini
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(EventCommandShortCutKeyList other)
+        public bool Equals(EventCommandShortCutKeyList? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;

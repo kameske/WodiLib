@@ -1,22 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <IsPackable>false</IsPackable>
-    <RootNamespace>WodiLib.Test</RootNamespace>
-    <TargetFramework>net461</TargetFramework>
-    <Version>0.1.0</Version>
-    <Authors>kameske</Authors>
-    <Company />
-    <Copyright>MIT License Copyright(c) 2019 kameske</Copyright>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
-    <PackageReference Include="nunit" Version="3.12.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.13.0" />
-    <PackageReference Include="System.Reactive" Version="4.2.0-preview.63" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WodiLib\WodiLib.csproj" />
-  </ItemGroup>
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+
+        <IsPackable>false</IsPackable>
+
+        <RootNamespace>WodiLib.Test</RootNamespace>
+
+        <Nullable>disable</Nullable>
+
+        <AssemblyName>WodiLib.Test</AssemblyName>
+
+        <LangVersion>8</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="nunit" Version="3.12.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\WodiLib\WodiLib.csproj" />
+    </ItemGroup>
+
   <ItemGroup>
     <Compile Update="TestResources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -30,7 +37,26 @@
       <LastGenOutput>TestResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Windows" Condition="'$(TargetFramework)' == 'net461'" />
-  </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="Commons.Convertible, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\lib\Commons.Convertible\Commons.Convertible.dll</HintPath>
+        </Reference>
+        <Reference Include="Commons.DIContainer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\lib\Commons.DIContainer\Commons.DIContainer.dll</HintPath>
+        </Reference>
+        <Reference Include="Commons.Linq.Extension, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\lib\Commons.Linq.Extension\Commons.Linq.Extension.dll</HintPath>
+        </Reference>
+        <Reference Include="Commons.Logger, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\lib\Commons.Logger\Commons.Logger.dll</HintPath>
+        </Reference>
+        <Reference Include="Commons.TypeSafeEnum, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\lib\Commons.TypeSafeEnum\Commons.TypeSafeEnum.dll</HintPath>
+        </Reference>
+        <Reference Include="Commons.Validator">
+          <HintPath>..\lib\Commons.Validator\Commons.Validator.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
 </Project>

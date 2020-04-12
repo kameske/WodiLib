@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Cmn
@@ -15,7 +16,7 @@ namespace WodiLib.Cmn
     /// [Range(0, 99999)] 予備変数インデックス
     /// </summary>
     [Serializable]
-    public readonly struct SpareNumberVariableIndex : IConvertibleInt, IEquatable<SpareNumberVariableIndex>
+    public readonly struct SpareNumberVariableIndex : IConvertibleInt32, IEquatable<SpareNumberVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -62,7 +63,7 @@ namespace WodiLib.Cmn
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is SpareNumberVariableIndex other && Equals(other);
         }
@@ -82,6 +83,12 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => this;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
 
         /// <summary>
         /// 値を比較する。

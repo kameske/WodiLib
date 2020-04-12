@@ -37,7 +37,7 @@ namespace WodiLib.Map
 
         private MapEventPageGraphicInfo graphicInfo = new MapEventPageGraphicInfo();
 
-        /// <summary>[NotNull] 画像情報</summary>
+        /// <summary>画像情報</summary>
         /// <exception cref="PropertyNullException">nullをセットしようとした場合</exception>
         public MapEventPageGraphicInfo GraphicInfo
         {
@@ -54,7 +54,7 @@ namespace WodiLib.Map
 
         private MapEventPageBootInfo bootInfo = new MapEventPageBootInfo();
 
-        /// <summary>[NotNull] 起動条件</summary>
+        /// <summary>起動条件</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MapEventPageBootInfo BootInfo
         {
@@ -71,7 +71,7 @@ namespace WodiLib.Map
 
         private MapEventPageMoveRouteInfo moveRouteInfo = new MapEventPageMoveRouteInfo();
 
-        /// <summary>[NotNull] 移動ルート</summary>
+        /// <summary>移動ルート</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MapEventPageMoveRouteInfo MoveRouteInfo
         {
@@ -88,7 +88,7 @@ namespace WodiLib.Map
 
         private MapEventPageOption option = new MapEventPageOption();
 
-        /// <summary>[NotNull] オプション</summary>
+        /// <summary>オプション</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MapEventPageOption Option
         {
@@ -131,7 +131,7 @@ namespace WodiLib.Map
 
         private EventCommandList eventCommands = new EventCommandList(new[] {new Blank()});
 
-        /// <summary>[NotNull] イベントコマンド</summary>
+        /// <summary>イベントコマンド</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandList EventCommands
         {
@@ -153,8 +153,8 @@ namespace WodiLib.Map
         /// <summary>
         /// イベントコマンド文字列情報リストを取得する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列</returns>
         /// <exception cref="ArgumentNullException">
         ///     resolver または type が null の場合、
@@ -162,7 +162,7 @@ namespace WodiLib.Map
         /// </exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public IReadOnlyList<EventCommandSentenceInfo> MakeEventCommandSentenceInfoList(
-            EventCommandSentenceResolver resolver, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolver resolver, EventCommandSentenceResolveDesc? desc)
         {
             var sentenceType = EventCommandSentenceType.Map;
 
@@ -174,7 +174,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(MapEventPage other)
+        public override bool Equals(MapEventPage? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

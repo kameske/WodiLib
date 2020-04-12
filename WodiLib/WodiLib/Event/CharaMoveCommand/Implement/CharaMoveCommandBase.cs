@@ -9,9 +9,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Commons;
 using WodiLib.Project;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.CharaMoveCommand
 {
@@ -79,14 +79,14 @@ namespace WodiLib.Event.CharaMoveCommand
         /// <summary>
         /// イベントコマンド文字列を取得する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public abstract string GetEventCommandSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc);
+            EventCommandSentenceResolveDesc? desc);
 
         /// <summary>
         /// 終了バイトコード
@@ -94,7 +94,7 @@ namespace WodiLib.Event.CharaMoveCommand
         public static byte[] EndBlockCode => new byte[] {0x01, 0x00};
 
         /// <summary>ロガー</summary>
-        protected static readonly WodiLibLogger Logger = WodiLibLogger.GetInstance();
+        protected readonly Logger Logger = Logger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -117,7 +117,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(ICharaMoveCommand other)
+        public bool Equals(ICharaMoveCommand? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
@@ -138,7 +138,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(CharaMoveCommandBase other)
+        public override bool Equals(CharaMoveCommandBase? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;

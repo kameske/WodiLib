@@ -8,9 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using Commons;
 using WodiLib.Map;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -24,7 +24,7 @@ namespace WodiLib.IO
         private readonly object readLock = new object();
 
         /// <summary>ロガー</summary>
-        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private Logger Logger { get; } = Logger.GetInstance();
 
         /// <summary>
         /// コンストラクタ

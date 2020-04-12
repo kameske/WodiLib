@@ -83,13 +83,13 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文字列を取得する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列</returns>
         public string GetEventCommandSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var rStr = resolver.GetNumericVariableAddressStringIfVariableAddress(R, type, desc);
             var gStr = resolver.GetNumericVariableAddressStringIfVariableAddress(G, type, desc);
@@ -104,7 +104,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(Color other)
+        public override bool Equals(Color? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

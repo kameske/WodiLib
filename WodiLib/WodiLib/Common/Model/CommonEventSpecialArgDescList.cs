@@ -52,23 +52,21 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 選択肢リストの文字列をバイト配列データにして列挙する。
+        /// 選択肢リストの文字列をバイト配列データにしてリストに格納する。
         /// </summary>
-        /// <param name="specialStringArgCases">対象選択肢列挙</param>
+        /// <param name="specialStringArgCasesList">対象選択肢リスト</param>
         private static IEnumerable<byte> MakeSpecialArgCaseStringByte(
-            IEnumerable<IEnumerable<string>> specialStringArgCases)
+            IEnumerable<List<string>> specialStringArgCasesList)
         {
             var result = new List<byte>();
 
-            foreach (var caseStrings in specialStringArgCases)
+            foreach (var caseStringList in specialStringArgCasesList)
             {
-                var caseStrArr = caseStrings.ToArray();
-
                 // 選択肢数
-                result.AddRange(caseStrArr.Length.ToBytes(Endian.Woditor));
+                result.AddRange(caseStringList.Count.ToBytes(Endian.Woditor));
 
                 // 選択肢文字列
-                foreach (var caseString in caseStrArr)
+                foreach (var caseString in caseStringList)
                 {
                     var caseWoditorString = new WoditorString(caseString);
                     result.AddRange(caseWoditorString.StringByte);
@@ -79,23 +77,21 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 選択肢リストの数値をバイト配列データにして列挙する。
+        /// 選択肢リストの数値をバイト配列データにしてリストに格納する。
         /// </summary>
-        /// <param name="specialNumberArgCases">対象選択肢列挙</param>
+        /// <param name="specialNumberArgCasesList">対象選択肢リスト</param>
         private static IEnumerable<byte> MakeSpecialArgCaseIntByte(
-            IEnumerable<IEnumerable<int>> specialNumberArgCases)
+            IEnumerable<List<int>> specialNumberArgCasesList)
         {
             var result = new List<byte>();
 
-            foreach (var caseNumbers in specialNumberArgCases)
+            foreach (var caseNumberList in specialNumberArgCasesList)
             {
-                var caseNumArr = caseNumbers.ToArray();
-
                 // 選択肢数
-                result.AddRange(caseNumArr.Length.ToBytes(Endian.Woditor));
+                result.AddRange(caseNumberList.Count.ToBytes(Endian.Woditor));
 
                 // 選択肢値
-                foreach (var caseInt in caseNumArr)
+                foreach (var caseInt in caseNumberList)
                 {
                     result.AddRange(caseInt.ToBytes(Endian.Woditor));
                 }
@@ -112,10 +108,10 @@ namespace WodiLib.Common
         /// 数値引数の情報を更新する。
         /// </summary>
         /// <param name="index">インデックス</param>
-        /// <param name="desc">[NotNull] 情報</param>
+        /// <param name="desc">情報</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
         /// <exception cref="ArgumentNullException">descがnullの場合</exception>
-        [Obsolete("NumberArgDescList を直接更新してください。Ver1.4で削除します。")]
+        [Obsolete("NumberArgDescList を直接更新してください。Ver2.4で削除します。")]
         public void UpdateSpecialNumberArgDesc(CommonEventNumberArgIndex index,
             CommonEventSpecialNumberArgDesc desc)
         {
@@ -131,7 +127,7 @@ namespace WodiLib.Common
         /// <param name="index">インデックス</param>
         /// <returns>情報インスタンス</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
-        [Obsolete("NumberArgDescList を直接参照してください。Ver1.4で削除します。")]
+        [Obsolete("NumberArgDescList を直接参照してください。Ver2.4で削除します。")]
         public CommonEventSpecialNumberArgDesc GetSpecialNumberArgDesc(CommonEventNumberArgIndex index)
         {
             return NumberArgDescList[index];
@@ -141,9 +137,9 @@ namespace WodiLib.Common
         /// 文字列引数の情報を更新する。
         /// </summary>
         /// <param name="index">インデックス</param>
-        /// <param name="desc">[NotNull] 情報</param>
+        /// <param name="desc">情報</param>
         /// <exception cref="ArgumentNullException">descがnullの場合</exception>
-        [Obsolete("StringArgDescList を直接更新してください。Ver1.4で削除します。")]
+        [Obsolete("StringArgDescList を直接更新してください。Ver2.4で削除します。")]
         public void UpdateSpecialStringArgDesc(CommonEventStringArgIndex index,
             CommonEventSpecialStringArgDesc desc)
         {
@@ -159,7 +155,7 @@ namespace WodiLib.Common
         /// <param name="index">インデックス</param>
         /// <returns>情報インスタンス</returns>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
-        [Obsolete("StringArgDescList を直接更新してください。Ver1.4で削除します。")]
+        [Obsolete("StringArgDescList を直接更新してください。Ver2.4で削除します。")]
         public CommonEventSpecialStringArgDesc GetSpecialStringArgDesc(CommonEventStringArgIndex index)
         {
             return StringArgDescList[index];
@@ -170,7 +166,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(CommonEventSpecialArgDescList other)
+        public bool Equals(CommonEventSpecialArgDescList? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

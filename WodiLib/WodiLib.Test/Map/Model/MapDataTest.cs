@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Commons;
 using NUnit.Framework;
 using WodiLib.Map;
-using WodiLib.Sys.Cmn;
 using WodiLib.Test.IO;
 using WodiLib.Test.Tools;
 
@@ -14,13 +14,13 @@ namespace WodiLib.Test.Map
     [TestFixture]
     public class MapDataTest
     {
-        private static WodiLibLogger logger;
+        private static Logger logger;
 
         [SetUp]
         public static void Setup()
         {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
+            LoggerInitializer.SetupLoggerForDebug();
+            logger = Logger.GetInstance();
         }
 
         [OneTimeSetUp]

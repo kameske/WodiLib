@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using WodiLib.Database;
 using WodiLib.Sys;
@@ -51,7 +52,7 @@ namespace WodiLib.IO
         /// <remarks>
         ///     ファイル名が "CDataBase.project" ではない場合、警告ログを出力する。
         /// </remarks>
-        /// <param name="value">[NotNull][NotNewLine] ファイルパス</param>
+        /// <param name="value">[NotNewLine] ファイルパス</param>
         /// <exception cref="ArgumentNullException">valueがnullの場合</exception>
         /// <exception cref="ArgumentNewLineException">
         ///     valueに改行が含まれる場合、
@@ -75,7 +76,7 @@ namespace WodiLib.IO
         public override string ToString() => Value;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -98,7 +99,7 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(ChangeableDatabaseProjectFilePath other)
+        public bool Equals(ChangeableDatabaseProjectFilePath? other)
         {
             if (other is null) return false;
             return Value.Equals(other.Value);
@@ -108,11 +109,13 @@ namespace WodiLib.IO
         //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+#nullable disable
         /// <summary>
         /// string -> ChangeableDatabaseProjectFilePath への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator ChangeableDatabaseProjectFilePath(string src)
         {
             if (src is null) return null;
@@ -125,10 +128,12 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator string(ChangeableDatabaseProjectFilePath src)
         {
             return src?.Value;
         }
+#nullable restore
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Operator
@@ -140,7 +145,8 @@ namespace WodiLib.IO
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(ChangeableDatabaseProjectFilePath left, ChangeableDatabaseProjectFilePath right)
+        public static bool operator ==(ChangeableDatabaseProjectFilePath? left,
+            ChangeableDatabaseProjectFilePath? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -155,7 +161,8 @@ namespace WodiLib.IO
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(ChangeableDatabaseProjectFilePath left, ChangeableDatabaseProjectFilePath right)
+        public static bool operator !=(ChangeableDatabaseProjectFilePath? left,
+            ChangeableDatabaseProjectFilePath? right)
         {
             return !(left == right);
         }

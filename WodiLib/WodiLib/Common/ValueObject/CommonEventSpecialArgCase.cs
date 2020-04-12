@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -36,7 +37,7 @@ namespace WodiLib.Common
         public int CaseNumber { get; }
 
         /// <summary>
-        /// [NotNull][NotNewLine] 選択肢文字列
+        /// [NotNewLine] 選択肢文字列
         /// </summary>
         public string Description { get; }
 
@@ -48,7 +49,7 @@ namespace WodiLib.Common
         /// コンストラクタ
         /// </summary>
         /// <param name="caseNumber">[Range(-2000000000, 2000000000)] 選択肢番号</param>
-        /// <param name="description">[NotNull][NotNewLine] 選択肢文字列</param>
+        /// <param name="description">[NotNewLine] 選択肢文字列</param>
         /// <exception cref="ArgumentOutOfRangeException">caseNumberが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">descriptionがnullの場合</exception>
         /// <exception cref="ArgumentNewLineException">descriptionに改行を含む場合</exception>
@@ -79,7 +80,7 @@ namespace WodiLib.Common
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is CommonEventSpecialArgCase other && Equals(other);
         }
@@ -102,7 +103,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(CommonEventSpecialArgCase other)
+        public bool Equals(CommonEventSpecialArgCase? other)
         {
             if (other is null) return false;
             return CaseNumber == other.CaseNumber
@@ -118,7 +119,8 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
-        public static implicit operator CommonEventSpecialArgCase(Tuple<int, string> tuple)
+        [return: NotNullIfNotNull("tuple")]
+        public static implicit operator CommonEventSpecialArgCase?(Tuple<int, string>? tuple)
         {
             if (tuple is null) return null;
             return new CommonEventSpecialArgCase(tuple.Item1, tuple.Item2);
@@ -139,7 +141,8 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
-        public static implicit operator Tuple<int, string>(CommonEventSpecialArgCase src)
+        [return: NotNullIfNotNull("src")]
+        public static implicit operator Tuple<int, string>?(CommonEventSpecialArgCase? src)
         {
             if (src is null) return null;
             return new Tuple<int, string>(src.CaseNumber, src.Description);
@@ -172,7 +175,7 @@ namespace WodiLib.Common
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺と右辺の</returns>
-        public static bool operator ==(CommonEventSpecialArgCase left, CommonEventSpecialArgCase right)
+        public static bool operator ==(CommonEventSpecialArgCase? left, CommonEventSpecialArgCase? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -187,7 +190,7 @@ namespace WodiLib.Common
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(CommonEventSpecialArgCase left, CommonEventSpecialArgCase right)
+        public static bool operator !=(CommonEventSpecialArgCase? left, CommonEventSpecialArgCase? right)
         {
             return !(left == right);
         }

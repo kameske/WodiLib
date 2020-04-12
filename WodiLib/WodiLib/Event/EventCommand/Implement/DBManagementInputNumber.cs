@@ -31,12 +31,22 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        private int rightSide;
+
         /// <summary>右辺</summary>
-        public int RightSide { get; set; }
+        public int RightSide
+        {
+            get => rightSide;
+            set
+            {
+                rightSide = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         private DBNumberAssignmentOperator assignmentOperator = DBNumberAssignmentOperator.Assign;
 
-        /// <summary>[NotNull] 代入演算子</summary>
+        /// <summary>代入演算子</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DBNumberAssignmentOperator AssignmentOperator
         {
@@ -47,6 +57,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(AssignmentOperator)));
                 assignmentOperator = value;
+                NotifyPropertyChanged();
             }
         }
 
@@ -90,7 +101,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandRightSideSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var varName = resolver.GetVariableAddressStringIfVariableAddress(RightSide, type, desc);
             if (IsRightSideReferX) varName = $"V[{varName}]";

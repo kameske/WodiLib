@@ -32,7 +32,7 @@ namespace WodiLib.Event.EventCommand
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>[NotNull] DB種別</summary>
+        /// <summary>DB種別</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DBKind DBKind
         {
@@ -43,10 +43,11 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBKind)));
                 _DBKind = value;
+                NotifyPropertyChanged();
             }
         }
 
-        /// <summary>[NotNull] タイプID</summary>
+        /// <summary>タイプID</summary>
         /// <exception cref="PropertyNullException">nullまたはStrOrInt.Noneをセットした場合</exception>
         public IntOrStr DBTypeId
         {
@@ -60,10 +61,11 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBTypeId)));
                 _DBTypeId.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 
-        /// <summary>[NotNull] データID</summary>
+        /// <summary>データID</summary>
         /// <exception cref="PropertyNullException">nullまたはStrOrInt.Noneをセットした場合</exception>
         public IntOrStr DBDataId
         {
@@ -77,10 +79,11 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBDataId)));
                 _DBDataId.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 
-        /// <summary>[NotNull] 項目ID</summary>
+        /// <summary>項目ID</summary>
         /// <exception cref="PropertyNullException">nullまたはStrOrInt.Noneをセットした場合</exception>
         public IntOrStr DBItemId
         {
@@ -94,6 +97,7 @@ namespace WodiLib.Event.EventCommand
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(DBItemId)));
                 _DBItemId.Merge(value);
+                NotifyPropertyChanged();
             }
         }
 
@@ -101,21 +105,33 @@ namespace WodiLib.Event.EventCommand
         public bool IsTypeIdUseStr
         {
             get => _IsTypeIdUseStr;
-            set => _IsTypeIdUseStr = value;
+            set
+            {
+                _IsTypeIdUseStr = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>データID文字列指定フラグ</summary>
         public bool IsDataIdUseStr
         {
             get => _IsDataIdUseStr;
-            set => _IsDataIdUseStr = value;
+            set
+            {
+                _IsDataIdUseStr = value;
+                NotifyPropertyChanged();
+            }
         }
 
         /// <summary>項目ID文字列指定フラグ</summary>
         public bool IsItemIdUseStr
         {
             get => _IsItemIdUseStr;
-            set => _IsItemIdUseStr = value;
+            set
+            {
+                _IsItemIdUseStr = value;
+                NotifyPropertyChanged();
+            }
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -123,9 +139,10 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        protected override string MakeEventCommandRightSideSentence(EventCommandSentenceResolver resolver,
+        protected override string MakeEventCommandRightSideSentence(
+            EventCommandSentenceResolver resolver,
             EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             string paramType;
             string targetType;

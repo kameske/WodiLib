@@ -100,7 +100,7 @@ namespace WodiLib.Map
             }
         }
 
-        /// <summary>[NotNull] イベント起動条件1</summary>
+        /// <summary>イベント起動条件1</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MapEventBootCondition MapEventBootCondition1
         {
@@ -118,7 +118,7 @@ namespace WodiLib.Map
             }
         }
 
-        /// <summary>[NotNull] イベント起動条件2</summary>
+        /// <summary>イベント起動条件2</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MapEventBootCondition MapEventBootCondition2
         {
@@ -136,7 +136,7 @@ namespace WodiLib.Map
             }
         }
 
-        /// <summary>[NotNull] イベント起動条件3</summary>
+        /// <summary>イベント起動条件3</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MapEventBootCondition MapEventBootCondition3
         {
@@ -154,7 +154,7 @@ namespace WodiLib.Map
             }
         }
 
-        /// <summary>[NotNull] イベント起動条件4</summary>
+        /// <summary>イベント起動条件4</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MapEventBootCondition MapEventBootCondition4
         {
@@ -176,7 +176,7 @@ namespace WodiLib.Map
         /// 起動条件を設定する。
         /// </summary>
         /// <param name="index">[Range(0, 3)] 条件インデックス</param>
-        /// <param name="condition">[NotNull] 条件</param>
+        /// <param name="condition">条件</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが 0～3 以外</exception>
         /// <exception cref="ArgumentNullException">conditionがnull</exception>
         public void SetEventBootCondition(int index, MapEventBootCondition condition)
@@ -266,7 +266,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(MapEventPageBootInfo other)
+        public override bool Equals(MapEventPageBootInfo? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

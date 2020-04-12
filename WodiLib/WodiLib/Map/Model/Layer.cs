@@ -25,7 +25,7 @@ namespace WodiLib.Map
 
         private MapChipList chips = new MapChipList(MapSizeWidth.MinValue, MapSizeHeight.MinValue);
 
-        /// <summary>[NotNull] マップチップ番号リスト</summary>
+        /// <summary>マップチップ番号リスト</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MapChipList Chips
         {
@@ -86,7 +86,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(Layer other)
+        public override bool Equals(Layer? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

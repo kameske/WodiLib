@@ -12,6 +12,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Commons;
 using WodiLib.Cmn;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
@@ -35,7 +36,7 @@ namespace WodiLib.IO
         public IReadOnlyCollection<TIniTarget> Data { get; }
 
         /// <summary>ロガー</summary>
-        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private Logger Logger { get; } = Logger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property

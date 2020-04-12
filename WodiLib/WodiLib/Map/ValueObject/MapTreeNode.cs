@@ -69,7 +69,7 @@ namespace WodiLib.Map
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is MapTreeNode other && Equals(other);
         }

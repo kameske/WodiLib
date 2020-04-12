@@ -39,7 +39,7 @@ namespace WodiLib.Map
 
         private MapEventName eventName = "";
 
-        /// <summary>[NotNull] マップイベント名</summary>
+        /// <summary>マップイベント名</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public MapEventName EventName
         {
@@ -75,7 +75,7 @@ namespace WodiLib.Map
             new MapEventPage()
         });
 
-        /// <summary>[NotNull] 1ページ毎のマップイベント</summary>
+        /// <summary>1ページ毎のマップイベント</summary>
         /// <exception cref="ArgumentNullException">pagesがnullの場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">pagesの長さが1～10以外の場合</exception>
         public MapEventPageList MapEventPageList
@@ -134,8 +134,8 @@ namespace WodiLib.Map
         /// <summary>
         /// イベントコマンド文字列情報リストを取得する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="desc">付加情報</param>
         /// <param name="page">[Range(0, PageValue-1)] ページインデックス</param>
         /// <returns>イベントコマンド文字列</returns>
         /// <exception cref="ArgumentNullException">
@@ -145,7 +145,7 @@ namespace WodiLib.Map
         /// <exception cref="ArgumentOutOfRangeException">pageが指定された範囲外の場合</exception>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public IReadOnlyList<EventCommandSentenceInfo> MakeEventCommandSentenceInfoList(
-            EventCommandSentenceResolver resolver, EventCommandSentenceResolveDesc desc,
+            EventCommandSentenceResolver resolver, EventCommandSentenceResolveDesc? desc,
             int page)
         {
             var targetPage = MapEventPageList[page];
@@ -158,7 +158,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(MapEvent other)
+        public override bool Equals(MapEvent? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

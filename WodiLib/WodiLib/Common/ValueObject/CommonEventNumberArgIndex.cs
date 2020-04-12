@@ -16,7 +16,7 @@ namespace WodiLib.Common
     /// [Range(0, 4)] コモンイベント数値引数インデックス
     /// </summary>
     [Serializable]
-    public readonly struct CommonEventNumberArgIndex : IConvertibleInt, IEquatable<CommonEventNumberArgIndex>
+    public readonly struct CommonEventNumberArgIndex : IEquatable<CommonEventNumberArgIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -63,7 +63,7 @@ namespace WodiLib.Common
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is CommonEventId other && Equals(other);
         }

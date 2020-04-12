@@ -46,11 +46,11 @@ namespace WodiLib.Common
         /// <summary>
         /// コンストラクタ（初期値指定）
         /// </summary>
-        /// <param name="items">[NotNull] 初期リスト</param>
-        /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
-        /// <exception cref="InvalidOperationException">itemsの要素数がMaxLengthを超える場合</exception>
+        /// <param name="list">初期リスト</param>
+        /// <exception cref="ArgumentNullException">listがnullの場合</exception>
+        /// <exception cref="InvalidOperationException">listの要素数がMaxLengthを超える場合</exception>
         public CommonEventSpecialArgCaseList(
-            IEnumerable<CommonEventSpecialArgCase> items) : base(items)
+            IReadOnlyCollection<CommonEventSpecialArgCase> list) : base(list)
         {
         }
 
@@ -94,7 +94,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="caseNumber">選択肢番号</param>
         /// <returns>選択肢文字列。番号に対応した情報が存在しない場合null。</returns>
-        public string GetDescriptionForCaseNumber(int caseNumber)
+        public string? GetDescriptionForCaseNumber(int caseNumber)
         {
             var info = GetForCaseNumber(caseNumber);
             return info?.Description;
@@ -105,7 +105,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="caseNumber">選択肢番号</param>
         /// <returns>選択肢情報。情報が存在しない場合CommonEventSpecialArgCase.Empty</returns>
-        public CommonEventSpecialArgCase GetForCaseNumber(int caseNumber)
+        public CommonEventSpecialArgCase? GetForCaseNumber(int caseNumber)
         {
             return Items.FirstOrDefault(x => x.CaseNumber == caseNumber);
         }

@@ -14,7 +14,7 @@ namespace WodiLib.Sys
     /// RestrictedCapacityCollection.RemoveItemイベントハンドラリスト
     /// </summary>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
+    [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
     public class RemoveItemHandlerList<T> : RestrictedCapacityCollectionHandlerList<T, OnRemoveItemHandler<T>>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

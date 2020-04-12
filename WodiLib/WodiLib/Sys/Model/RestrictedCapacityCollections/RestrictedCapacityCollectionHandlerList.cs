@@ -20,7 +20,7 @@ namespace WodiLib.Sys
     /// <typeparam name="TItem">リスト内包クラス</typeparam>
     /// <typeparam name="THandler">ハンドラクラス</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
+    [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
     public abstract class
         RestrictedCapacityCollectionHandlerList<TItem, THandler> : Collection<THandler>
         where THandler : RestrictedCapacityCollectionHandler<TItem>
@@ -46,7 +46,7 @@ namespace WodiLib.Sys
         /// <summary>
         /// コンストラクタ（初期値指定）
         /// </summary>
-        /// <param name="list">[NotNull] 初期リスト</param>
+        /// <param name="list">初期リスト</param>
         /// <exception cref="ArgumentNullException">
         ///     listがnullの場合、
         ///     またはlist中にnullが含まれる場合
@@ -125,7 +125,7 @@ namespace WodiLib.Sys
         protected void Execute(params object[] @params)
         {
             Items.Where(x => x.Enabled).ToList()
-                .ForEach(x => x.AnyAction.Execute(@params));
+                .ForEach(x => x.AnyAction?.Execute(@params));
         }
     }
 }

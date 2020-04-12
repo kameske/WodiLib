@@ -7,6 +7,8 @@
 // ========================================
 
 using System;
+using System.Linq;
+using Commons;
 using WodiLib.Cmn;
 using WodiLib.Sys;
 
@@ -38,9 +40,14 @@ namespace WodiLib.Event.CharaMoveCommand
         /// </summary>
         /// <param name="target">対象</param>
         /// <returns>変換後のアドレス値</returns>
+        /// <exception cref="ArgumentNullException">target が null の場合</exception>
         /// <exception cref="InvalidOperationException">サポート外の場合</exception>
         internal VariableAddress ConvertVariableAddress(CalledEventVariableAddress target)
         {
+            if (target is null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(target)));
+
             var index = ((int) target).SubInt(0, 1);
             if (this == MapEvent)
             {
@@ -58,7 +65,7 @@ namespace WodiLib.Event.CharaMoveCommand
 
         internal static TargetAddressOwner FromId(string id)
         {
-            return _FindFirst(x => x.Id.Equals(id));
+            return AllItems.First(x => x.Id.Equals(id));
         }
     }
 }

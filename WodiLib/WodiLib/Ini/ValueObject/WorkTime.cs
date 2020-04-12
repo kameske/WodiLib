@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -15,7 +16,7 @@ namespace WodiLib.Ini
     /// [Range(0, int.MaxValue)] 作業時間（単位は1/2minute）
     /// </summary>
     [Serializable]
-    public readonly struct WorkTime : IConvertibleInt, IEquatable<WorkTime>
+    public readonly struct WorkTime : IConvertibleInt32, IEquatable<WorkTime>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -62,7 +63,7 @@ namespace WodiLib.Ini
         public override string ToString() => Value.ToString();
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is WorkTime other && Equals(other);
         }
@@ -82,6 +83,12 @@ namespace WodiLib.Ini
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => this;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
 
         /// <summary>
         /// 値を比較する。

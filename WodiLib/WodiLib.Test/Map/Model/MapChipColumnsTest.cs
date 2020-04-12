@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using Commons;
 using NUnit.Framework;
 using WodiLib.Map;
-using WodiLib.Sys.Cmn;
+using WodiLib.Sys;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
@@ -12,13 +13,13 @@ namespace WodiLib.Test.Map
     [TestFixture]
     public class MapChipColumnsTest
     {
-        private static WodiLibLogger logger;
+        private static Logger logger;
 
         [SetUp]
         public static void Setup()
         {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
+            LoggerInitializer.SetupLoggerForDebug();
+            logger = Logger.GetInstance();
         }
 
 
@@ -252,6 +253,26 @@ namespace WodiLib.Test.Map
             for (; i < instance.Count; i++)
             {
                 Assert.AreEqual(instance[i], MapChip.Default);
+            }
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            Assert.AreEqual(changedPropertyList.Count, 2);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapChipColumns.Count)));
+            Assert.IsTrue(changedPropertyList[1].Equals(ListConstant.IndexerName));
+            if (initLength > height)
+            {
+                Assert.AreEqual(changedCollectionList.Count, 1);
+                Assert.IsTrue(changedCollectionList[0].Action == NotifyCollectionChangedAction.Remove);
+            }
+            else if (initLength == height)
+            {
+                Assert.AreEqual(changedCollectionList.Count, 0);
+            }
+            else
+            {
+                // initLength < height
+                Assert.AreEqual(changedCollectionList.Count, 1);
+                Assert.IsTrue(changedCollectionList[0].Action == NotifyCollectionChangedAction.Add);
             }
         }
 

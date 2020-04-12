@@ -44,10 +44,10 @@ namespace WodiLib.Database
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private DBKind dbKind;
+        private DBKind? dbKind;
 
         /// <summary>DB種別</summary>
-        public DBKind DBKind
+        public DBKind? DBKind
         {
             get => dbKind;
             set
@@ -60,7 +60,7 @@ namespace WodiLib.Database
         private DBDataSettingList settingList = new DBDataSettingList();
 
         /// <summary>
-        /// [NotNull] タイプ設定リスト
+        /// タイプ設定リスト
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DBDataSettingList SettingList
@@ -102,7 +102,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DatabaseDat other)
+        public override bool Equals(DatabaseDat? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -147,7 +147,7 @@ namespace WodiLib.Database
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(IsNullDBKind), IsNullDBKind);
-            if (!IsNullDBKind) info.AddValue(nameof(DBKind), DBKind.Code);
+            if (!IsNullDBKind) info.AddValue(nameof(DBKind), DBKind!.Code);
             info.AddValue(nameof(settingList), settingList);
         }
 

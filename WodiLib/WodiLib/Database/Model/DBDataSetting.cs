@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using WodiLib.Sys;
 
@@ -98,7 +99,7 @@ namespace WodiLib.Database
 
         private DBItemValuesList settingValuesList = new DBItemValuesList();
 
-        /// <summary>[NotNull]項目設定値リスト</summary>
+        /// <summary>項目設定値リスト</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public DBItemValuesList SettingValuesList
         {
@@ -128,15 +129,15 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="settingType">[NotNull] データの設定方法種別</param>
-        /// <param name="dbKind">[Nullable] 種別が「データベース参照」の場合の参照DB種別</param>
-        /// <param name="typeId">[Nullable] 種別が「データベース参照」の場合のタイプID</param>
+        /// <param name="settingType">データの設定方法種別</param>
+        /// <param name="dbKind">種別が「データベース参照」の場合の参照DB種別</param>
+        /// <param name="typeId">種別が「データベース参照」の場合のタイプID</param>
         /// <exception cref="ArgumentNullException">
         ///     settingTypeがnullの場合、
         ///     またはsettingType が DesignatedType かつ dbKindがnullの場合
         /// </exception>
         public DBDataSetting(DBDataSettingType settingType,
-            DBKind dbKind = null, TypeId? typeId = null)
+            DBKind? dbKind = null, TypeId? typeId = null)
         {
             SetDataSettingType(settingType, dbKind, typeId);
         }
@@ -148,15 +149,15 @@ namespace WodiLib.Database
         /// <summary>
         /// データの設定方法をセットする。
         /// </summary>
-        /// <param name="settingType">[NotNull] データの設定方法種別</param>
-        /// <param name="dbKind">[Nullable] 種別が「データベース参照」の場合の参照DB種別</param>
-        /// <param name="typeId">[Nullable] 種別が「データベース参照」の場合のタイプID</param>
+        /// <param name="settingType">データの設定方法種別</param>
+        /// <param name="dbKind">種別が「データベース参照」の場合の参照DB種別</param>
+        /// <param name="typeId">種別が「データベース参照」の場合のタイプID</param>
         /// <exception cref="ArgumentNullException">
         ///     settingTypeがnullの場合、
         ///     またはsettingType が DesignatedType かつ dbKindまたはtypeIdがnullの場合
         /// </exception>
         public void SetDataSettingType(DBDataSettingType settingType,
-            DBKind dbKind = null, TypeId? typeId = null)
+            DBKind? dbKind = null, [NotNullIfNotNull(nameof(dbKind))] TypeId? typeId = null)
         {
             if (settingType is null)
                 throw new ArgumentNullException(
@@ -190,7 +191,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DBDataSetting other)
+        public override bool Equals(DBDataSetting? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

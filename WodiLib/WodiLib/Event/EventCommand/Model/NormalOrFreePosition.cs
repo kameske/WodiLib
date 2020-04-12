@@ -183,7 +183,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         public string GetEventCommandSentenceNormal(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var xStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
                 NormalPositionX, type, desc);
@@ -201,7 +201,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         public string GetEventCommandSentenceFree(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var leftUpXStr = resolver.GetNumericVariableAddressStringIfVariableAddress(
                 FreePositionLeftUpX, type, desc);
@@ -230,7 +230,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(NormalOrFreePosition other)
+        public override bool Equals(NormalOrFreePosition? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

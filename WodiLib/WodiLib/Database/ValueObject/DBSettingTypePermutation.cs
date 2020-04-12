@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -16,7 +17,7 @@ namespace WodiLib.Database
     /// <summary>[Range(0, 99)] DB設定種別順列</summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Serializable]
-    public readonly struct DBSettingTypePermutation : IConvertibleInt, IEquatable<DBSettingTypePermutation>
+    public readonly struct DBSettingTypePermutation : IConvertibleInt32, IEquatable<DBSettingTypePermutation>
     {
         /*
          * 現時点では未使用なオブジェクト
@@ -68,7 +69,7 @@ namespace WodiLib.Database
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is DBSettingTypePermutation other && Equals(other);
         }
@@ -88,6 +89,12 @@ namespace WodiLib.Database
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => this;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
 
         /// <summary>
         /// byte配列に変換する。

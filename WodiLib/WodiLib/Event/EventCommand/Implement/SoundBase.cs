@@ -227,7 +227,7 @@ namespace WodiLib.Event.EventCommand
         /// 文字列変数を設定する。
         /// </summary>
         /// <param name="index">[Range(0, 0)] インデックス</param>
-        /// <param name="value">[NotNull] 設定値</param>
+        /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -250,7 +250,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             if (!UseDetailStringByEventCommandSentence) return MakeEventCommandSentenceSimple(resolver, type, desc);
 
@@ -274,7 +274,7 @@ namespace WodiLib.Event.EventCommand
 
         private string MakeEventCommandSentenceSimple(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var mainSentence = MakeEventCommandExecMainSentence(resolver, type, desc);
             return string.Format(EventCommandSentenceFormat, mainSentence);
@@ -283,18 +283,18 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文字列の実行内容部分を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列の実行内容部分</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected abstract string MakeEventCommandExecMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc);
+            EventCommandSentenceResolveDesc? desc);
 
         private string MakeEventCommandExecSentenceForFileName(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc, string execMainStr)
+            EventCommandSentenceResolveDesc? desc, string execMainStr)
         {
             var volStr = resolver.GetNumericVariableAddressStringIfVariableAddress(Volume, type, desc);
             var frequencyStr = resolver.GetNumericVariableAddressStringIfVariableAddress(Frequency, type, desc);
@@ -307,7 +307,7 @@ namespace WodiLib.Event.EventCommand
 
         private string MakeEventCommandLoopSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             if (Specification != AudioSpecification.FileName)
             {
@@ -325,7 +325,7 @@ namespace WodiLib.Event.EventCommand
 
         private string MakeEventCommandExecSentenceForSdbDirect(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc, string execMainStr)
+            EventCommandSentenceResolveDesc? desc, string execMainStr)
         {
             if (SoundId == -1)
             {
@@ -368,7 +368,7 @@ namespace WodiLib.Event.EventCommand
 
         private string MakeEventCommandExecSentenceForSdbRefer(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc, string execMainStr)
+            EventCommandSentenceResolveDesc? desc, string execMainStr)
         {
             var varAddressName = resolver.GetNumericVariableAddressStringIfVariableAddress(NumberVariable, type, desc);
             return string.Format(EventCommandSentenceFormatExecBaseVariableAddress,
@@ -381,7 +381,7 @@ namespace WodiLib.Event.EventCommand
 
         private AudioType audioType = AudioType.Bgm;
 
-        /// <summary>[NotNull] 処理対象</summary>
+        /// <summary>処理対象</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public AudioType AudioType
         {
@@ -412,7 +412,7 @@ namespace WodiLib.Event.EventCommand
 
         private AudioSpecification specification = AudioSpecification.FileName;
 
-        /// <summary>[NotNull] 指定方法</summary>
+        /// <summary>指定方法</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public AudioSpecification Specification
         {
@@ -509,7 +509,7 @@ namespace WodiLib.Event.EventCommand
 
         private string audioFileName = "";
 
-        /// <summary>[NotNull] 音声ファイル名</summary>
+        /// <summary>音声ファイル名</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public string AudioFileName
         {

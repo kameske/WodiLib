@@ -37,7 +37,7 @@ namespace WodiLib.Event.EventCommand
 
         private PictureAnchorPosition anchorPosition = PictureAnchorPosition.LeftUp;
 
-        /// <summary>[NotNull] ピクチャ表示位置</summary>
+        /// <summary>ピクチャ表示位置</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public PictureAnchorPosition AnchorPosition
         {

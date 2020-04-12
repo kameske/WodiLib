@@ -18,25 +18,25 @@ namespace WodiLib.Project
     public class CommonEventSentenceResolveDatabaseDesc
     {
         /// <summary>DB種別</summary>
-        public DBKind DbKind { get; private set; }
+        public DBKind? DbKind { get; private set; }
 
         /// <summary>タイプID</summary>
         public int? TypeId { get; private set; }
 
         /// <summary>タイプ名</summary>
-        public TypeName TypeName { get; private set; }
+        public TypeName? TypeName { get; private set; }
 
         /// <summary>データID</summary>
         public int? DataId { get; private set; }
 
         /// <summary>データ名</summary>
-        public DataName DataName { get; private set; }
+        public DataName? DataName { get; private set; }
 
         /// <summary>項目ID</summary>
         public int? ItemId { get; private set; }
 
         /// <summary>項目名</summary>
-        public ItemName ItemName { get; private set; }
+        public ItemName? ItemName { get; private set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
@@ -45,9 +45,9 @@ namespace WodiLib.Project
         /// <summary>
         /// DB種別を設定する。
         /// </summary>
-        /// <param name="kind">[Nullable] DB種別</param>
+        /// <param name="kind">DB種別</param>
         /// <returns>自分自身</returns>
-        public CommonEventSentenceResolveDatabaseDesc SetDbKind(DBKind kind)
+        public CommonEventSentenceResolveDatabaseDesc SetDbKind(DBKind? kind)
         {
             DbKind = kind;
             return this;
@@ -68,9 +68,9 @@ namespace WodiLib.Project
         /// <summary>
         /// タイプ名を設定する。タイプIDにnullが設定される。
         /// </summary>
-        /// <param name="name">[Nullable] タイプ名</param>
+        /// <param name="name">タイプ名</param>
         /// <returns>自分自身</returns>
-        public CommonEventSentenceResolveDatabaseDesc SetTypeName(TypeName name)
+        public CommonEventSentenceResolveDatabaseDesc SetTypeName(TypeName? name)
         {
             TypeId = null;
             TypeName = name;
@@ -103,9 +103,9 @@ namespace WodiLib.Project
         /// <summary>
         /// データ名を設定する。データIDにnullが設定される。
         /// </summary>
-        /// <param name="name">[Nullable] データ名</param>
+        /// <param name="name">データ名</param>
         /// <returns>自分自身</returns>
-        public CommonEventSentenceResolveDatabaseDesc SetDataName(DataName name)
+        public CommonEventSentenceResolveDatabaseDesc SetDataName(DataName? name)
         {
             DataId = null;
             DataName = name;
@@ -138,9 +138,9 @@ namespace WodiLib.Project
         /// <summary>
         /// 項目名を設定する。項目IDにnullが設定される。
         /// </summary>
-        /// <param name="name">[Nullable] 項目名</param>
+        /// <param name="name">項目名</param>
         /// <returns>自分自身</returns>
-        public CommonEventSentenceResolveDatabaseDesc SetItemName(ItemName name)
+        public CommonEventSentenceResolveDatabaseDesc SetItemName(ItemName? name)
         {
             ItemId = null;
             ItemName = name;

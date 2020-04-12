@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Event
@@ -15,7 +16,7 @@ namespace WodiLib.Event
     /// [Range(-128, 127)] インデント
     /// </summary>
     [Serializable]
-    public readonly struct Indent : IConvertibleSbyte, IEquatable<Indent>
+    public readonly struct Indent : IConvertibleSByte, IEquatable<Indent>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -71,7 +72,7 @@ namespace WodiLib.Event
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is Indent other && Equals(other);
         }
@@ -90,7 +91,7 @@ namespace WodiLib.Event
         /// sbyte に変換する。
         /// </summary>
         /// <returns>int値</returns>
-        public sbyte ToSbyte() => Value;
+        public sbyte ToSByte() => Value;
 
         /// <summary>
         /// 値を比較する。

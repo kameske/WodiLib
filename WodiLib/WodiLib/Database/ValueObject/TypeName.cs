@@ -8,15 +8,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
 {
     /// <summary>
-    /// [NotNull][NotNewLine] タイプ名
+    /// [NotNewLine] タイプ名
     /// </summary>
     [Serializable]
-    public class TypeName : IConvertibleString, IEquatable<TypeName>
+    public class TypeName : IEquatable<TypeName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -32,7 +33,7 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[NotNull][NotNewLine] タイプ名</param>
+        /// <param name="value">[NotNewLine] タイプ名</param>
         /// <exception cref="ArgumentNullException">valueがnullの場合</exception>
         /// <exception cref="ArgumentNewLineException">valueに改行が含まれる場合</exception>
         public TypeName(string value)
@@ -55,10 +56,10 @@ namespace WodiLib.Database
         /// string に変換する。
         /// </summary>
         /// <returns>string値</returns>
-        public override string ToString() => this;
+        public override string ToString() => Value;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -91,7 +92,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(TypeName other)
+        public bool Equals(TypeName? other)
         {
             if (other is null) return false;
             return Value.Equals(other.Value);
@@ -101,11 +102,13 @@ namespace WodiLib.Database
         //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+#nullable disable
         /// <summary>
         /// string -> TypeName への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator TypeName(string src)
         {
             if (src is null) return null;
@@ -118,10 +121,12 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator string(TypeName src)
         {
             return src?.Value;
         }
+#nullable restore
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Operator
@@ -133,7 +138,7 @@ namespace WodiLib.Database
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(TypeName left, TypeName right)
+        public static bool operator ==(TypeName? left, TypeName? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -148,7 +153,7 @@ namespace WodiLib.Database
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(TypeName left, TypeName right)
+        public static bool operator !=(TypeName? left, TypeName? right)
         {
             return !(left == right);
         }

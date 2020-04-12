@@ -45,7 +45,7 @@ namespace WodiLib.Map
         private TileSetSettingList settingList = new TileSetSettingList();
 
         /// <summary>
-        /// [NotNull] タイルセット設定リスト
+        /// タイルセット設定リスト
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public TileSetSettingList TileSetSettingList
@@ -70,7 +70,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(TileSetData other)
+        public override bool Equals(TileSetData? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

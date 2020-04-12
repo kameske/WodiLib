@@ -23,7 +23,7 @@ namespace WodiLib.Ini
         /// <summary>
         /// セクション名
         /// </summary>
-        public string SectionName => null;
+        public string? SectionName => null;
 
         /// <summary>
         /// Game.exe起動済みフラグ

@@ -7,11 +7,12 @@
 // ========================================
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using Commons;
 using WodiLib.Cmn;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -25,14 +26,14 @@ namespace WodiLib.IO
         where TFilePath : FilePath
     {
         /// <summary>ロガー</summary>
-        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private Logger Logger { get; } = Logger.GetInstance();
 
         private readonly object writeLock = new object();
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="filePath">[NotNull] 書き出しファイルパス</param>
+        /// <param name="filePath">書き出しファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
         public WoditorBinaryFileWriterBase(TFilePath filePath) : base(filePath)
         {
@@ -41,7 +42,7 @@ namespace WodiLib.IO
         /// <summary>
         /// ファイルを同期的に書き出す。
         /// </summary>
-        /// <param name="data">[NotNull] 出力データ</param>
+        /// <param name="data">出力データ</param>
         /// <exception cref="ArgumentNullException">
         ///    data が null の場合
         /// </exception>
@@ -49,9 +50,9 @@ namespace WodiLib.IO
         ///     ファイル名が正しくない場合、
         ///     またはFilePathが非ファイルデバイスを参照している場合
         /// </exception>
-        public override void WriteSync(TFileData data)
+        public override void WriteSync([NotNull] TFileData data)
         {
-            if (data == null)
+            if (data is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(data)));
 
@@ -74,6 +75,6 @@ namespace WodiLib.IO
         /// </summary>
         /// <param name="data">出力データ</param>
         /// <returns>出力バイナリデータ</returns>
-        protected abstract byte[] GetDataBytes(TFileData data);
+        protected abstract byte[] GetDataBytes([NotNull] TFileData data);
     }
 }

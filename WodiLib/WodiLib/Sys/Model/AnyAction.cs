@@ -13,7 +13,7 @@ namespace WodiLib.Sys
     /// <summary>
     /// いずれかのActionデリゲートを保有するクラス
     /// </summary>
-    [Obsolete("Ver1.3削除クラス")]
+    [Obsolete("Ver2.3削除クラス")]
     internal class AnyAction<T>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -22,11 +22,11 @@ namespace WodiLib.Sys
 
         private ActionType Type { get; }
 
-        private Action Action1 { get; }
+        private Action? Action1 { get; }
 
-        private Action<int> Action2 { get; }
+        private Action<int>? Action2 { get; }
 
-        private Action<int, T> Action3 { get; }
+        private Action<int, T>? Action3 { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -63,13 +63,13 @@ namespace WodiLib.Sys
             switch (Type)
             {
                 case ActionType.Type1:
-                    Action1.Invoke();
+                    Action1!.Invoke();
                     break;
                 case ActionType.Type2:
-                    Action2.Invoke((int) @params[0]);
+                    Action2!.Invoke((int) @params[0]);
                     break;
                 case ActionType.Type3:
-                    Action3.Invoke((int) @params[0], (T) @params[1]);
+                    Action3!.Invoke((int) @params[0], (T) @params[1]);
                     break;
             }
         }

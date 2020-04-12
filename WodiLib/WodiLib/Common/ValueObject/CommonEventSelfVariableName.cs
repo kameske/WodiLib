@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -16,7 +17,7 @@ namespace WodiLib.Common
     /// コモンイベントセルフ変数名
     /// </summary>
     [Serializable]
-    public class CommonEventSelfVariableName : IConvertibleString, IEquatable<CommonEventSelfVariableName>
+    public class CommonEventSelfVariableName : IEquatable<CommonEventSelfVariableName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -32,7 +33,7 @@ namespace WodiLib.Common
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[NotNull] コモンイベントセルフ変数名</param>
+        /// <param name="value">[NotNewLine] コモンイベントセルフ変数名</param>
         /// <exception cref="ArgumentNullException">valueがnullの場合</exception>
         /// <exception cref="ArgumentNewLineException">valueに改行を含む場合</exception>
         public CommonEventSelfVariableName(string value)
@@ -55,10 +56,10 @@ namespace WodiLib.Common
         /// string に変換する。
         /// </summary>
         /// <returns>string値</returns>
-        public override string ToString() => this;
+        public override string ToString() => Value;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is CommonEventSelfVariableName other && Equals(other);
         }
@@ -88,7 +89,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(CommonEventSelfVariableName other)
+        public bool Equals(CommonEventSelfVariableName? other)
         {
             if (other is null) return false;
             return Value.Equals(other.Value);
@@ -98,11 +99,13 @@ namespace WodiLib.Common
         //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+#nullable disable
         /// <summary>
         /// string -> CommonEventSelfVariableName への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator CommonEventSelfVariableName(string src)
         {
             if (src is null) return null;
@@ -115,10 +118,12 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator string(CommonEventSelfVariableName src)
         {
             return src?.Value;
         }
+#nullable restore
 
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -131,7 +136,7 @@ namespace WodiLib.Common
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(CommonEventSelfVariableName left, CommonEventSelfVariableName right)
+        public static bool operator ==(CommonEventSelfVariableName? left, CommonEventSelfVariableName? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -146,7 +151,7 @@ namespace WodiLib.Common
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(CommonEventSelfVariableName left, CommonEventSelfVariableName right)
+        public static bool operator !=(CommonEventSelfVariableName? left, CommonEventSelfVariableName? right)
         {
             return !(left == right);
         }

@@ -275,7 +275,7 @@ namespace WodiLib.Event.EventCommand
         /// 文字列変数を設定する。
         /// </summary>
         /// <param name="index">[Range(0, -1～5)] インデックス</param>
-        /// <param name="value">[NotNull] 設定値</param>
+        /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -303,7 +303,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             if (desc is null)
                 throw new ArgumentNullException(
@@ -321,16 +321,16 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// CallCommonEventのイベントコマンドを取得する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <param name="argsCommandString">引数イベントコマンド文字列</param>
         /// <param name="returnVarString">返戻先イベントコマンド文字列</param>
         /// <returns></returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected abstract string MakeEventCommandMainSentenceInner(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc,
+            EventCommandSentenceResolveDesc? desc,
             string argsCommandString, string returnVarString);
 
 
@@ -340,7 +340,7 @@ namespace WodiLib.Event.EventCommand
 
         private IntOrStr eventIdOrName = 0;
 
-        /// <summary>[NotNull] イベントID、または名前</summary>
+        /// <summary>イベントID、または名前</summary>
         /// <exception cref="ArgumentNullException">nullを指定した場合</exception>
         protected IntOrStr EventIdOrName
         {
@@ -514,7 +514,7 @@ namespace WodiLib.Event.EventCommand
         public CommonEventStrArgList StrArgList { get; }
             = new CommonEventStrArgList();
 
-        /// <summary>[NotNull] 文字列引数1</summary>
+        /// <summary>文字列引数1</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public IntOrStr StringArg1
         {
@@ -529,7 +529,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <summary>[NotNull] 文字列引数2</summary>
+        /// <summary>文字列引数2</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public IntOrStr StringArg2
         {
@@ -544,7 +544,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <summary>[NotNull] 文字列引数3</summary>
+        /// <summary>文字列引数3</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public IntOrStr StringArg3
         {
@@ -559,7 +559,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <summary>[NotNull] 文字列引数4</summary>
+        /// <summary>文字列引数4</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public IntOrStr StringArg4
         {
@@ -609,7 +609,7 @@ namespace WodiLib.Event.EventCommand
             var intArgsStrList = IntArgList.Where((_, idx) => idx < IntArgValue)
                 .Select((x, idx) =>
                 {
-                    // 三項演算子のみを用いた場合、コード分析が "eventId == null is always false" と認識する。
+                    // 三項演算子のみを用いた場合、コード分析が "eventId is null is always false" と認識する。
                     // クロージャ化することで警告表示を回避。
                     var eventId = ((Func<int?>) (() =>
                             IsOrderByString
@@ -642,7 +642,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         private string MakeEventCommandSentenceReturnVariableStr(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             if (!IsGetReturnValue) return "";
 

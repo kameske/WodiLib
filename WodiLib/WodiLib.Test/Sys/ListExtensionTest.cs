@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Commons;
 using NUnit.Framework;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Sys
@@ -10,13 +10,13 @@ namespace WodiLib.Test.Sys
     [TestFixture]
     public class ListExtensionTest
     {
-        private static WodiLibLogger logger;
+        private static Logger logger;
 
         [SetUp]
         public static void Setup()
         {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
+            LoggerInitializer.SetupLoggerForDebug();
+            logger = Logger.GetInstance();
         }
 
         [TestCase(3, 1, -1, true)]

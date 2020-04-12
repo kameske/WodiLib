@@ -32,7 +32,7 @@ namespace WodiLib.Event.EventCommand
 
         private string loadFileName = "";
 
-        /// <summary>[NotNull] 読み込みファイル名</summary>
+        /// <summary>読み込みファイル名</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public string LoadFileName
         {
@@ -123,7 +123,7 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         protected override string MakeEventCommandDrawItemSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var sizeWidthStr = resolver.GetNumericVariableAddressStringIfVariableAddress(DivisionWidth, type, desc);
             var sizeHeightStr = resolver.GetNumericVariableAddressStringIfVariableAddress(DivisionHeight, type, desc);

@@ -92,7 +92,7 @@ namespace WodiLib.Ini
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(ShortCutPositionList other)
+        public bool Equals(ShortCutPositionList? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;

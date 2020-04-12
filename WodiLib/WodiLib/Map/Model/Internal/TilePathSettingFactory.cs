@@ -53,13 +53,13 @@ namespace WodiLib.Map
         /// <summary>
         /// 通行設定を変更したインスタンスを生成する。
         /// </summary>
-        /// <param name="pathPermission">[NotNull] 通行設定</param>
-        /// <param name="src">[NotNull] 元データ</param>
-        /// <param name="impassableFlags">[Nullable] 通行許可設定</param>
-        /// <param name="cannotPassingFlags">[Nullable] 通行方向設定</param>
+        /// <param name="pathPermission">通行設定</param>
+        /// <param name="src">元データ</param>
+        /// <param name="impassableFlags">通行許可設定</param>
+        /// <param name="cannotPassingFlags">通行方向設定</param>
         /// <returns>変更後のインスタンス</returns>
         public static ITilePathSetting Create(TilePathPermission pathPermission, ITilePathSetting src,
-            TileImpassableFlags impassableFlags = null, TileCannotPassingFlags cannotPassingFlags = null)
+            TileImpassableFlags? impassableFlags = null, TileCannotPassingFlags? cannotPassingFlags = null)
         {
             return new TilePathSettingFactoryChangePathPermissionHelper(pathPermission, src,
                 impassableFlags, cannotPassingFlags).Execute();

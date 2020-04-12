@@ -47,7 +47,7 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         protected override string MakeEventCommandMainSentenceInner(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc, string argsCommandString,
+            EventCommandSentenceResolveDesc? desc, string argsCommandString,
             string returnVarString)
         {
             if (desc is null)
@@ -87,7 +87,7 @@ namespace WodiLib.Event.EventCommand
 
         private string MakeEventCommandMainSentenceCallByVariableAddress(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var idStr = resolver.GetNumericVariableAddressStringIfVariableAddress(EventId, type, desc);
 
@@ -119,7 +119,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         private (bool, string) TryGetEventName(EventCommandSentenceResolver resolver,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc,
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc,
             int correctId)
         {
             if (EventId.IsMapEventId())

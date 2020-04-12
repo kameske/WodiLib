@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 using System.Text;
 using WodiLib.Sys;
@@ -84,11 +85,11 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="stringValue">[NotNull] 文字列設定値</param>
+        /// <param name="stringValue">文字列設定値</param>
         /// <exception cref="ArgumentNullException">stringValueがnullの場合</exception>
         public DBItemValue(DBValueString stringValue)
         {
-            if (stringValue == null)
+            if (stringValue is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(stringValue)));
 
@@ -118,7 +119,7 @@ namespace WodiLib.Database
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -132,8 +133,8 @@ namespace WodiLib.Database
             unchecked
             {
                 var hashCode = intValue.GetHashCode();
-                hashCode = (hashCode * 397) ^ (stringValue != null ? stringValue.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (Type != null ? Type.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (!(stringValue is null) ? stringValue.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (!(Type is null) ? Type.GetHashCode() : 0);
                 return hashCode;
             }
         }
@@ -171,9 +172,9 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DBItemValue other)
+        public bool Equals(DBItemValue? other)
         {
-            if (other == null) return false;
+            if (other is null) return false;
 
             if (Type != other.Type) return false;
 
@@ -213,9 +214,15 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        ///
+        /// <exception cref="InvalidCastException">
+        ///     src が null の場合、または
+        ///     src が数値を含まない場合
+        /// </exception>
         public static implicit operator DBValueInt(DBItemValue src)
         {
+            if (src == null)
+                throw new InvalidCastException(
+                    ErrorMessage.InvalidCastFromNull(nameof(src), nameof(DBItemValue)));
             if (src.Type != DBItemType.Int)
                 throw new InvalidCastException(
                     ErrorMessage.NotCast(NotCastIntReason));
@@ -227,8 +234,10 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        public static implicit operator DBItemValue(DBValueString src)
+        [return: NotNullIfNotNull("src")]
+        public static implicit operator DBItemValue?(DBValueString? src)
         {
+            if (src is null) return null;
             var result = new DBItemValue(src);
             return result;
         }
@@ -238,9 +247,16 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        ///
-        public static implicit operator DBValueString(DBItemValue src)
+        /// <exception cref="InvalidCastException">
+        ///     src が null の場合、または
+        ///     src が文字列を含まない場合
+        /// </exception>
+        [return: NotNullIfNotNull("src")]
+        public static implicit operator DBValueString?(DBItemValue? src)
         {
+            if (src is null)
+                throw new InvalidCastException(
+                    ErrorMessage.InvalidCastFromNull(nameof(src), nameof(DBItemValue)));
             if (src.Type != DBItemType.String)
                 throw new InvalidCastException(
                     ErrorMessage.NotCast(NotCastStringReason));
@@ -257,7 +273,7 @@ namespace WodiLib.Database
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(DBItemValue left, DBItemValue right)
+        public static bool operator ==(DBItemValue? left, DBItemValue? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -272,7 +288,7 @@ namespace WodiLib.Database
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(DBItemValue left, DBItemValue right)
+        public static bool operator !=(DBItemValue? left, DBItemValue? right)
         {
             return !(left == right);
         }

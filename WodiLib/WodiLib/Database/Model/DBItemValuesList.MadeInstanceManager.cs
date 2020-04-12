@@ -47,7 +47,7 @@ namespace WodiLib.Database
                 Refresh();
 
                 // タイプ変化チェックメソッド 後のロジックのため匿名関数にする
-                Func<DBItemValueList, bool> typeCheckFunc = target => target[itemId].Type == type;
+                Func<DBItemValueList, bool>? typeCheckFunc = target => target[itemId].Type == type;
                 var isSameType = false;
 
                 foreach (var reference in MadeInstanceList)
@@ -121,17 +121,15 @@ namespace WodiLib.Database
             /// 追加された項目はデフォルト値で初期化される。
             /// </summary>
             /// <param name="types">値種別リスト</param>
-            public void ReflectAddValueTypeRange(IEnumerable<DBItemType> types)
+            public void ReflectAddValueTypeRange(IReadOnlyCollection<DBItemType> types)
             {
                 Refresh();
-
-                var typeArr = types.ToArray();
 
                 foreach (var reference in MadeInstanceList)
                 {
                     if (!reference.TryGetTarget(out var target)) continue;
 
-                    var defaultValues = typeArr.Select(x => x.DBItemDefaultValue);
+                    var defaultValues = types.Select(x => x.DBItemDefaultValue).ToList();
                     target.AddRangeForValuesListInstanceManager(defaultValues);
                 }
             }
@@ -141,17 +139,15 @@ namespace WodiLib.Database
             /// 追加された項目は引数で指定された値で初期化される。
             /// </summary>
             /// <param name="values">値リスト</param>
-            public void ReflectAddValueRange(IEnumerable<DBItemValue> values)
+            public void ReflectAddValueRange(IReadOnlyCollection<DBItemValue> values)
             {
                 Refresh();
-
-                var valuesArr = values.ToArray();
 
                 foreach (var reference in MadeInstanceList)
                 {
                     if (!reference.TryGetTarget(out var target)) continue;
 
-                    target.AddRangeForValuesListInstanceManager(valuesArr);
+                    target.AddRangeForValuesListInstanceManager(values);
                 }
             }
 
@@ -196,17 +192,15 @@ namespace WodiLib.Database
             /// </summary>
             /// <param name="index">インデックス</param>
             /// <param name="types">値種別リスト</param>
-            public void ReflectInsertValueTypeRange(int index, IEnumerable<DBItemType> types)
+            public void ReflectInsertValueTypeRange(int index, IReadOnlyCollection<DBItemType> types)
             {
                 Refresh();
-
-                var typeArr = types.ToArray();
 
                 foreach (var reference in MadeInstanceList)
                 {
                     if (!reference.TryGetTarget(out var target)) continue;
 
-                    var defaultValues = typeArr.Select(x => x.DBItemDefaultValue);
+                    var defaultValues = types.Select(x => x.DBItemDefaultValue).ToList();
                     target.InsertRangeForValuesListInstanceManager(index, defaultValues);
                 }
             }
@@ -217,17 +211,15 @@ namespace WodiLib.Database
             /// </summary>
             /// <param name="index">インデックス</param>
             /// <param name="values">値リスト</param>
-            public void ReflectInsertValueRange(int index, IEnumerable<DBItemValue> values)
+            public void ReflectInsertValueRange(int index, IReadOnlyCollection<DBItemValue> values)
             {
                 Refresh();
-
-                var valuesArr = values.ToArray();
 
                 foreach (var reference in MadeInstanceList)
                 {
                     if (!reference.TryGetTarget(out var target)) continue;
 
-                    target.InsertRangeForValuesListInstanceManager(index, valuesArr);
+                    target.InsertRangeForValuesListInstanceManager(index, values);
                 }
             }
 

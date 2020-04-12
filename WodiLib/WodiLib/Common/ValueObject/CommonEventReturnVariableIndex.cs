@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -16,7 +17,7 @@ namespace WodiLib.Common
     /// [Range(-1, 99)] コモンイベント返戻セルフ変数インデックス
     /// </summary>
     [Serializable]
-    public readonly struct CommonEventReturnVariableIndex : IConvertibleInt, IEquatable<CommonEventReturnVariableIndex>
+    public readonly struct CommonEventReturnVariableIndex : IConvertibleInt32, IEquatable<CommonEventReturnVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -66,7 +67,7 @@ namespace WodiLib.Common
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is CommonEventReturnVariableIndex other && Equals(other);
         }
@@ -86,6 +87,12 @@ namespace WodiLib.Common
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => this;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
 
         /// <summary>
         /// byte配列に変換する。

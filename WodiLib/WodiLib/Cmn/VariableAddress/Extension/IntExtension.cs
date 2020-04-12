@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace WodiLib.Cmn
 {
     /// <summary>
@@ -115,7 +117,7 @@ namespace WodiLib.Cmn
         ///     変換に失敗した場合、null。
         /// </param>
         /// <returns>変換に成功した場合、true</returns>
-        public static bool TryToVariableAddress(this int src, out VariableAddress result)
+        public static bool TryToVariableAddress(this int src, [NotNullWhen(true)] out VariableAddress? result)
         {
             if (!src.IsVariableAddress())
             {

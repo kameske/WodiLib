@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -38,7 +39,7 @@ namespace WodiLib.Database
         /// コンストラクタ
         /// </summary>
         /// <param name="caseNumber">選択肢番号</param>
-        /// <param name="description">[NotNull] 選択肢文字列</param>
+        /// <param name="description">選択肢文字列</param>
         /// <exception cref="ArgumentOutOfRangeException">caseNumberが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">descriptionがnullの場合</exception>
         /// <exception cref="ArgumentNewLineException">descriptionに改行を含む場合</exception>
@@ -64,7 +65,7 @@ namespace WodiLib.Database
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is DatabaseValueCase other && Equals(other);
         }
@@ -87,7 +88,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DatabaseValueCase other)
+        public bool Equals(DatabaseValueCase? other)
         {
             if (other is null) return false;
             return CaseNumber == other.CaseNumber
@@ -103,7 +104,8 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
-        public static implicit operator DatabaseValueCase(Tuple<int, string> tuple)
+        [return: NotNullIfNotNull("tuple")]
+        public static implicit operator DatabaseValueCase?(Tuple<int, string>? tuple)
         {
             if (tuple is null) return null;
             return new DatabaseValueCase(tuple.Item1, tuple.Item2);
@@ -124,7 +126,8 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
-        public static implicit operator Tuple<int, string>(DatabaseValueCase src)
+        [return: NotNullIfNotNull("src")]
+        public static implicit operator Tuple<int, string>?(DatabaseValueCase? src)
         {
             if (src == null) return null;
             return new Tuple<int, string>(src.CaseNumber, src.Description);
@@ -150,7 +153,7 @@ namespace WodiLib.Database
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺と右辺の</returns>
-        public static bool operator ==(DatabaseValueCase left, DatabaseValueCase right)
+        public static bool operator ==(DatabaseValueCase? left, DatabaseValueCase? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -165,7 +168,7 @@ namespace WodiLib.Database
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(DatabaseValueCase left, DatabaseValueCase right)
+        public static bool operator !=(DatabaseValueCase? left, DatabaseValueCase? right)
         {
             return !(left == right);
         }

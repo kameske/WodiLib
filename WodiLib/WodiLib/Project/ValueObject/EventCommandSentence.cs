@@ -7,15 +7,16 @@
 // ========================================
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
 
 namespace WodiLib.Project
 {
     /// <summary>
-    /// [NotNull] イベントコマンド文
+    /// イベントコマンド文
     /// </summary>
     [Serializable]
-    public class EventCommandSentence : IConvertibleString, IEquatable<EventCommandSentence>
+    public class EventCommandSentence : IEquatable<EventCommandSentence>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -31,7 +32,7 @@ namespace WodiLib.Project
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[NotNull] 文字列</param>
+        /// <param name="value">文字列</param>
         /// <exception cref="ArgumentNullException">valueがnullの場合</exception>
         public EventCommandSentence(string value)
         {
@@ -53,7 +54,7 @@ namespace WodiLib.Project
         public override string ToString() => Value;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -76,7 +77,7 @@ namespace WodiLib.Project
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(EventCommandSentence other)
+        public bool Equals(EventCommandSentence? other)
         {
             if (other is null) return false;
             return Value.Equals(other.Value);
@@ -86,11 +87,13 @@ namespace WodiLib.Project
         //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+#nullable disable
         /// <summary>
         /// string -> EventCommandSentence への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator EventCommandSentence(string src)
         {
             if (src is null) return null;
@@ -103,10 +106,12 @@ namespace WodiLib.Project
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator string(EventCommandSentence src)
         {
             return src?.Value;
         }
+#nullable restore
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Operator
@@ -118,7 +123,7 @@ namespace WodiLib.Project
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(EventCommandSentence left, EventCommandSentence right)
+        public static bool operator ==(EventCommandSentence? left, EventCommandSentence? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -133,7 +138,7 @@ namespace WodiLib.Project
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(EventCommandSentence left, EventCommandSentence right)
+        public static bool operator !=(EventCommandSentence? left, EventCommandSentence? right)
         {
             return !(left == right);
         }

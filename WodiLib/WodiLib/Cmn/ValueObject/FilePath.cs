@@ -8,16 +8,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using WodiLib.Sys;
 
 namespace WodiLib.Cmn
 {
     /// <summary>
-    /// [NotNull][NotNewLine] ファイルパス
+    /// [NotNewLine] ファイルパス
     /// </summary>
     [Serializable]
-    public class FilePath : IConvertibleString, IEquatable<FilePath>
+    public class FilePath : IEquatable<FilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -50,7 +52,7 @@ namespace WodiLib.Cmn
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[NotNull][NotNewLine] ファイル名</param>
+        /// <param name="value">[NotNewLine] ファイル名</param>
         /// <exception cref="ArgumentNullException">valueがnullの場合</exception>
         /// <exception cref="ArgumentNewLineException">
         ///     valueに改行が含まれる場合、
@@ -85,6 +87,8 @@ namespace WodiLib.Cmn
                     ErrorMessage.OverDataSize(MaxLength));
 
             // フルパスチェック
+            //   .NET Standard 2.1 では一部の不正な文字列がパス中に含まれていても例外が発生しない
+            //   そのためこのあとの処理を変更して対応
             try
             {
                 var _ = Path.GetFullPath(value);
@@ -96,11 +100,21 @@ namespace WodiLib.Cmn
             }
 
             // ファイル名が適切かどうかチェック
-            var fileName = Path.GetFileName(value);
-            if (fileName.HasInvalidFileNameChars())
+            //   Ver 1.X とはロジックが異なる
+            var dirsAndFile = value.Split(@"\");
+            for (var i = 0; i < dirsAndFile.Length; i++)
             {
-                throw new ArgumentException(
-                    ErrorMessage.Unsuitable("ファイル名", $"（パス：{value}）"));
+                var path = dirsAndFile[i];
+                if (path.All(c => c.Equals('.'))) continue;
+
+                var fileName = Path.GetFileName(path);
+                if (fileName.IsEmpty()) continue;
+
+                if (fileName.HasInvalidFileNameChars())
+                {
+                    throw new ArgumentException(
+                        ErrorMessage.Unsuitable("ファイル名", $"（パス：{value}）"));
+                }
             }
 
             Value = value;
@@ -117,7 +131,7 @@ namespace WodiLib.Cmn
         public override string ToString() => Value;
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -150,7 +164,7 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(FilePath other)
+        public bool Equals(FilePath? other)
         {
             if (other is null) return false;
             return Value.Equals(other.Value);
@@ -160,11 +174,13 @@ namespace WodiLib.Cmn
         //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+#nullable disable
         /// <summary>
         /// string -> FilePath への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator FilePath(string src)
         {
             if (src is null) return null;
@@ -177,10 +193,12 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator string(FilePath src)
         {
             return src?.Value;
         }
+#nullable restore
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Operator
@@ -192,7 +210,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(FilePath left, FilePath right)
+        public static bool operator ==(FilePath? left, FilePath? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -207,7 +225,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(FilePath left, FilePath right)
+        public static bool operator !=(FilePath? left, FilePath? right)
         {
             return !(left == right);
         }

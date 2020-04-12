@@ -10,9 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Commons;
 using WodiLib.Project;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -153,7 +153,7 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         /// <summary>キャラ動作指定
         /// <para>動作指定を持たないコマンドの場合、null</para></summary>
-        public virtual ActionEntry ActionEntry
+        public virtual ActionEntry? ActionEntry
         {
             get => null;
             set { }
@@ -256,7 +256,7 @@ namespace WodiLib.Event.EventCommand
         public abstract void SetSafetyStringVariable(int index, string value);
 
         /// <inheritdoc />
-        public bool Equals(IEventCommand other)
+        public bool Equals(IEventCommand? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
@@ -300,7 +300,7 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         [EditorBrowsable(EditorBrowsableState.Never)]
         public EventCommandSentenceInfo GetEventCommandSentenceInfo(EventCommandSentenceResolver resolver,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             if (resolver is null)
                 throw new ArgumentNullException(
@@ -324,8 +324,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// ロガー
         /// </summary>
-        [field: NonSerialized]
-        protected WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        protected Logger Logger => Logger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Virtual Method
@@ -364,16 +363,16 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文字列のメイン部分（インデント以降の部分）を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列のメイン部分</returns>
         /// <exception cref="ArgumentNullException">
         ///     resolver または type が null の場合、
         ///     または必要なときに desc が null の場合
         /// </exception>
         protected abstract string MakeEventCommandMainSentence(EventCommandSentenceResolver resolver,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc);
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
@@ -417,7 +416,7 @@ namespace WodiLib.Event.EventCommand
 
         private byte[] MakeIndentBytes()
         {
-            return new[] {Indent.ToSbyte().ToByte()};
+            return new[] {Indent.ToSByte().ToByte()};
         }
 
         private byte[] MakeStringVariableBytes()

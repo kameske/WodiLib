@@ -405,7 +405,7 @@ namespace WodiLib.Event.EventCommand
         /// 文字列変数を設定する。
         /// </summary>
         /// <param name="index">[Range(0, -1～0)] インデックス</param>
-        /// <param name="value">[NotNull] 設定値</param>
+        /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -438,7 +438,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var pictureNumberStr = resolver.GetNumericVariableAddressStringIfVariableAddress(PictureNumber, type, desc);
             string pictureEndStr;
@@ -504,13 +504,13 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文字列の表示内容部分を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列の表示内容部分</returns>
         protected abstract string MakeEventCommandDrawItemSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc);
+            EventCommandSentenceResolveDesc? desc);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Abstract Property
@@ -595,7 +595,7 @@ namespace WodiLib.Event.EventCommand
 
         private NormalOrFreePosition position = new NormalOrFreePosition();
 
-        /// <summary>[NotNull] 座標</summary>
+        /// <summary>座標</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public NormalOrFreePosition Position
         {
@@ -690,7 +690,7 @@ namespace WodiLib.Event.EventCommand
 
         private PictureDrawType printType = PictureDrawType.Normal;
 
-        /// <summary>[NotNull] 表示形式</summary>
+        /// <summary>表示形式</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public PictureDrawType PrintType
         {
@@ -799,7 +799,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// [NotNull] 拡大率種別
+        /// 拡大率種別
         /// </summary>
         /// <exception cref="PropertyNullException">nullを設定した場合</exception>
         public ZoomRateType ZoomRateType

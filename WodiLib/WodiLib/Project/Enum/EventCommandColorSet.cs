@@ -8,6 +8,8 @@
 
 using System;
 using System.Drawing;
+using System.Linq;
+using Commons;
 using WodiLib.Ini;
 using WodiLib.Sys;
 
@@ -115,7 +117,7 @@ namespace WodiLib.Project
         /// <summary>
         /// コマンドカラー種別からコマンドカラーを取得する。
         /// </summary>
-        /// <param name="type">[NotNull] コマンドカラー種別</param>
+        /// <param name="type">コマンドカラー種別</param>
         /// <returns>コマンドカラー</returns>
         /// <exception cref="ArgumentNullException">type が null の場合</exception>
         public Color GetCommandColor(CommandColorType type)
@@ -139,7 +141,7 @@ namespace WodiLib.Project
         /// <returns>IDで検索したインスタンス</returns>
         public static EventCommandColorSet FromId(string id)
         {
-            return _FindFirst(x => x.Id.Equals(id));
+            return AllItems.First(x => x.Id.Equals(id));
         }
     }
 }

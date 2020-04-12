@@ -44,26 +44,26 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="items">初期DB項目設定リスト</param>
+        /// <param name="list">初期DB項目設定リスト</param>
         /// <exception cref="ArgumentNullException">
-        ///     itemsがnullの場合、
-        ///     またはitems中にnullが含まれる場合
+        ///     listがnullの場合、
+        ///     またはlist中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
-        public DatabaseDataDescList(IEnumerable<DatabaseDataDesc> items) : base(items)
+        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
+        public DatabaseDataDescList(IReadOnlyCollection<DatabaseDataDesc> list) : base(list)
         {
         }
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="dataNameList">[NotNull] データ名リスト</param>
-        /// <param name="valuesList">[NotNull] 値リスト</param>
+        /// <param name="dataNameList">データ名リスト</param>
+        /// <param name="valuesList">値リスト</param>
         /// <exception cref="ArgumentNullException">dataNameList, valuesList が null の場合</exception>
         /// <exception cref="ArgumentException">dataNameListとvaluesListの要素数が異なる場合</exception>
         internal DatabaseDataDescList(DataNameList dataNameList,
             DBItemValuesList valuesList)
-            : base(new Func<IEnumerable<DatabaseDataDesc>>(() =>
+            : base(new Func<IReadOnlyCollection<DatabaseDataDesc>>(() =>
             {
                 if (dataNameList is null)
                     throw new ArgumentNullException(

@@ -12,7 +12,7 @@ namespace WodiLib.Sys
         /// Serializationストアから値を返す。
         /// </summary>
         /// <param name="info">自分自身</param>
-        /// <param name="name">[NotNull] 取得する値に関連付けられた名前</param>
+        /// <param name="name">取得する値に関連付けられた名前</param>
         /// <typeparam name="T">取得するインスタンスの型</typeparam>
         /// <returns>Serializationストア内の値</returns>
         /// <exception cref="ArgumentNullException">name が null の場合</exception>

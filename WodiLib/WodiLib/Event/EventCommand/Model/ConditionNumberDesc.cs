@@ -47,7 +47,7 @@ namespace WodiLib.Event.EventCommand
 
         private NumberConditionalOperator condition = NumberConditionalOperator.Equal;
 
-        /// <summary>[NotNull] 条件演算子</summary>
+        /// <summary>条件演算子</summary>
         /// <exception cref="PropertyNullException">nullをセットしようとした場合</exception>
         public NumberConditionalOperator Condition
         {
@@ -96,7 +96,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(ConditionNumberDesc other)
+        public override bool Equals(ConditionNumberDesc? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

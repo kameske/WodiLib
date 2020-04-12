@@ -6,7 +6,8 @@
 // see LICENSE file
 // ========================================
 
-using WodiLib.Sys;
+using System.Linq;
+using Commons;
 
 namespace WodiLib.Map
 {
@@ -42,7 +43,7 @@ namespace WodiLib.Map
         /// <returns>インスタンス</returns>
         public static MapTreeOpenState FromCode(byte code)
         {
-            return _FindFirst(x => x.Code == code);
+            return AllItems.First(x => x.Code == code);
         }
     }
 }

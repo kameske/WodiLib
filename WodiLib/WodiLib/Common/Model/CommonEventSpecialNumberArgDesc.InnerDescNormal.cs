@@ -70,7 +70,7 @@ namespace WodiLib.Common
             /// <summary>
             /// DB参照時の参照DBをセットする。
             /// </summary>
-            /// <param name="dbKind">[NotNull] DB種別</param>
+            /// <param name="dbKind">DB種別</param>
             /// <param name="dbTypeId">タイプID</param>
             /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
             /// <exception cref="ArgumentNullException">dbKindがnullの場合</exception>
@@ -97,7 +97,7 @@ namespace WodiLib.Common
             /// 引数種別によらずすべての選択肢を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            public IReadOnlyList<CommonEventSpecialArgCase> GetAllSpecialCase()
+            public List<CommonEventSpecialArgCase> GetAllSpecialCase()
             {
                 // 空リストでよい
                 return new List<CommonEventSpecialArgCase>();
@@ -108,7 +108,7 @@ namespace WodiLib.Common
             /// すべての選択肢番号を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            public IReadOnlyList<int> GetAllSpecialCaseNumber()
+            public List<int> GetAllSpecialCaseNumber()
             {
                 // 空リストでよい
                 return new List<int>();
@@ -119,7 +119,7 @@ namespace WodiLib.Common
             /// すべての選択肢文字列を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            public IReadOnlyList<string> GetAllSpecialCaseDescription()
+            public List<string> GetAllSpecialCaseDescription()
             {
                 // 空リストでよい
                 return new List<string>();
@@ -140,7 +140,7 @@ namespace WodiLib.Common
             /// <summary>
             /// 選択肢を追加する。
             /// </summary>
-            /// <param name="argCases">[NotNull] 追加する選択肢</param>
+            /// <param name="argCases">追加する選択肢</param>
             /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
             /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
             public void AddRangeSpecialCase(IEnumerable<CommonEventSpecialArgCase> argCases)
@@ -167,7 +167,7 @@ namespace WodiLib.Common
             /// 選択肢を挿入する。
             /// </summary>
             /// <param name="index">[Range(0, 選択肢数)] 追加する選択肢</param>
-            /// <param name="argCases">[NotNull] 追加する選択肢</param>
+            /// <param name="argCases">追加する選択肢</param>
             /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
             /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
             /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
@@ -181,7 +181,7 @@ namespace WodiLib.Common
             /// DB参照時の追加選択肢文字列を更新する。
             /// </summary>
             /// <param name="caseNumber">[Range[-3, -1)] 選択肢番号</param>
-            /// <param name="description">[NotNull][NotNewLine] 文字列</param>
+            /// <param name="description">[NotNewLine] 文字列</param>
             /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
             /// <exception cref="ArgumentOutOfRangeException">caseNumberが指定範囲外の場合</exception>
             /// <exception cref="ArgumentNullException">descriptionがEmptyの場合</exception>
@@ -247,7 +247,7 @@ namespace WodiLib.Common
             /// </summary>
             /// <param name="other">比較対象</param>
             /// <returns>一致する場合、true</returns>
-            public bool Equals(IInnerDesc other)
+            public bool Equals(IInnerDesc? other)
             {
                 if (ReferenceEquals(this, other)) return true;
                 if (ReferenceEquals(null, other)) return false;
@@ -260,7 +260,7 @@ namespace WodiLib.Common
             /// </summary>
             /// <param name="other">比較対象</param>
             /// <returns>一致する場合、true</returns>
-            public override bool Equals(InnerDescNormal other)
+            public override bool Equals(InnerDescNormal? other)
             {
                 if (ReferenceEquals(this, other)) return true;
                 if (ReferenceEquals(null, other)) return false;

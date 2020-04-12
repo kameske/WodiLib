@@ -53,8 +53,8 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="argCaseList">[Nullable] 選択肢とその文字列リスト</param>
-        public DBItemSettingDescManual(DatabaseValueCaseList argCaseList = null)
+        /// <param name="argCaseList">選択肢とその文字列リスト</param>
+        public DBItemSettingDescManual(DatabaseValueCaseList? argCaseList = null)
         {
             if (!(argCaseList is null))
             {
@@ -99,7 +99,7 @@ namespace WodiLib.Database
         /// <summary>
         /// 選択肢を追加する。
         /// </summary>
-        /// <param name="argCase">[NotNull] 選択肢情報</param>
+        /// <param name="argCase">選択肢情報</param>
         /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
         public override void AddSpecialCase(DatabaseValueCase argCase)
         {
@@ -113,9 +113,9 @@ namespace WodiLib.Database
         /// <summary>
         /// 選択肢を追加する。
         /// </summary>
-        /// <param name="argCases">[NotNull] 選択肢</param>
+        /// <param name="argCases">選択肢</param>
         /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
-        public override void AddRangeSpecialCase(IEnumerable<DatabaseValueCase> argCases)
+        public override void AddRangeSpecialCase(IReadOnlyCollection<DatabaseValueCase> argCases)
         {
             if (argCases is null)
                 throw new ArgumentNullException(
@@ -128,7 +128,7 @@ namespace WodiLib.Database
         /// 選択肢を挿入する。
         /// </summary>
         /// <param name="index">[Range(0, ManualCaseLength)] インデックス</param>
-        /// <param name="argCase">[NotNull] 選択肢情報</param>
+        /// <param name="argCase">選択肢情報</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
         public override void InsertSpecialCase(int index, DatabaseValueCase argCase)
@@ -150,10 +150,10 @@ namespace WodiLib.Database
         /// 選択肢を挿入する。
         /// </summary>
         /// <param name="index">[Range(0, ManualCaseLength)] インデックス</param>
-        /// <param name="argCases">[NotNull] 選択肢</param>
+        /// <param name="argCases">選択肢</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void InsertRangeSpecialCase(int index, IEnumerable<DatabaseValueCase> argCases)
+        public override void InsertRangeSpecialCase(int index, IReadOnlyCollection<DatabaseValueCase> argCases)
         {
             var max = argCaseList.Count;
             const int min = 0;
@@ -172,7 +172,7 @@ namespace WodiLib.Database
         /// 選択肢を更新する。
         /// </summary>
         /// <param name="index">[Range(0, 選択肢数-1)] 更新する選択肢</param>
-        /// <param name="argCase">[NotNull] 更新する選択肢内容</param>
+        /// <param name="argCase">更新する選択肢内容</param>
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
@@ -248,7 +248,7 @@ namespace WodiLib.Database
         /// <summary>
         /// 指定した値種別が設定可能かどうかを判定する。
         /// </summary>
-        /// <param name="type">[NotNull] 値種別</param>
+        /// <param name="type">値種別</param>
         /// <returns>設定可能な場合true</returns>
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         public override bool CanSetItemType(DBItemType type)
@@ -265,7 +265,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(IDBItemSettingDesc other)
+        public override bool Equals(IDBItemSettingDesc? other)
         {
             if (ReferenceEquals(null, this)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -280,7 +280,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DBItemSettingDescBase other)
+        public override bool Equals(DBItemSettingDescBase? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -295,7 +295,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DBItemSettingDescManual other)
+        public bool Equals(DBItemSettingDescManual? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

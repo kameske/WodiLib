@@ -7,7 +7,8 @@
 // ========================================
 
 using System.ComponentModel;
-using WodiLib.Sys;
+using System.Linq;
+using Commons;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -76,7 +77,7 @@ namespace WodiLib.Event.EventCommand
         /// <returns>インスタンス</returns>
         public static NumberConditionalOperator FromByte(byte src)
         {
-            return _FindFirst(x => x.Code == src);
+            return AllItems.First(x => x.Code == src);
         }
     }
 }

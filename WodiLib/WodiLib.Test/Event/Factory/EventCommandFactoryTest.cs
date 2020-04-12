@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Commons;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event
@@ -17,13 +17,13 @@ namespace WodiLib.Test.Event
     [TestFixture]
     public class EventCommandFactoryTest
     {
-        private static WodiLibLogger logger;
+        private static Logger logger;
 
         [SetUp]
         public static void Setup()
         {
-            LoggerInitializer.SetupWodiLibLoggerForDebug();
-            logger = WodiLibLogger.GetInstance();
+            LoggerInitializer.SetupLoggerForDebug();
+            logger = Logger.GetInstance();
         }
 
         /// <summary>
@@ -1463,7 +1463,7 @@ namespace WodiLib.Test.Event
             Assert.AreEqual(instance.AllStringArgList.Count, strArgLength);
 
             var indent = (sbyte) int.Parse(split[2]);
-            Assert.AreEqual(instance.Indent.ToSbyte(), indent);
+            Assert.AreEqual(instance.Indent.ToSByte(), indent);
 
             var numArgs = split[3].IsEmpty() ? new string[] { } : split[3].Split(',');
             var instanceAllNumberList = instance.AllNumberArgList;

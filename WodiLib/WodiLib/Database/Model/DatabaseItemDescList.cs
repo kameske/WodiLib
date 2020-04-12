@@ -58,7 +58,7 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="itemSettingList">[NotNull] 項目設定リスト</param>
+        /// <param name="itemSettingList">項目設定リスト</param>
         /// <exception cref="ArgumentNullException">itemSettingList が null の場合</exception>
         internal DatabaseItemDescList(DBItemSettingList itemSettingList)
             : base(new Func<IReadOnlyCollection<DatabaseItemDesc>>(() =>

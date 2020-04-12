@@ -7,6 +7,8 @@
 // ========================================
 
 using System;
+using System.Linq;
+using Commons;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -53,7 +55,7 @@ namespace WodiLib.Database
             get
             {
                 if (this == Int) return new DBValueInt(0);
-                if (this == String) return new DBValueString("");
+                if (this == String) return new DBValueString("")!;
                 throw new InvalidOperationException();
             }
         }
@@ -68,7 +70,7 @@ namespace WodiLib.Database
         {
             try
             {
-                return _FindFirst(x => x.Code == code);
+                return AllItems.First(x => x.Code == code);
             }
             catch (Exception)
             {
@@ -87,7 +89,7 @@ namespace WodiLib.Database
         {
             try
             {
-                return _FindFirst(x => x.Code == value.SubInt(3, 1));
+                return AllItems.First(x => x.Code == value.SubInt(3, 1));
             }
             catch (Exception)
             {

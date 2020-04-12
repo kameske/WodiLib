@@ -8,9 +8,9 @@
 
 using System;
 using System.Collections.Generic;
+using Commons;
 using WodiLib.Map;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -27,7 +27,7 @@ namespace WodiLib.IO
         private FileReadStatus Status { get; }
 
         /// <summary>ロガー</summary>
-        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private Logger Logger { get; } = Logger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor

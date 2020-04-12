@@ -70,8 +70,8 @@ namespace WodiLib.Common
             /// <summary>
             /// コンストラクタ
             /// </summary>
-            /// <param name="argCaseList">[Nullable] 選択肢とその文字列リスト</param>
-            public InnerDescManual(CommonEventSpecialArgCaseList argCaseList)
+            /// <param name="argCaseList">選択肢とその文字列リスト</param>
+            public InnerDescManual(CommonEventSpecialArgCaseList? argCaseList)
             {
                 if (!(argCaseList is null))
                 {
@@ -87,7 +87,7 @@ namespace WodiLib.Common
             /// <summary>
             /// DB参照時の参照DBをセットする。
             /// </summary>
-            /// <param name="dbKind">[NotNull] DB種別</param>
+            /// <param name="dbKind">DB種別</param>
             /// <param name="dbTypeId">タイプID</param>
             /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
             /// <exception cref="ArgumentNullException">dbKindがnullの場合</exception>
@@ -114,7 +114,7 @@ namespace WodiLib.Common
             /// 引数種別によらずすべての選択肢を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            public IReadOnlyList<CommonEventSpecialArgCase> GetAllSpecialCase()
+            public List<CommonEventSpecialArgCase> GetAllSpecialCase()
             {
                 return ArgCaseList.ToList();
             }
@@ -124,7 +124,7 @@ namespace WodiLib.Common
             /// すべての選択肢番号を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            public IReadOnlyList<int> GetAllSpecialCaseNumber()
+            public List<int> GetAllSpecialCaseNumber()
             {
                 return GetAllManualCase().Select(x => x.CaseNumber).ToList();
             }
@@ -134,7 +134,7 @@ namespace WodiLib.Common
             /// すべての選択肢文字列を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            public IReadOnlyList<string> GetAllSpecialCaseDescription()
+            public List<string> GetAllSpecialCaseDescription()
             {
                 return GetAllManualCase().Select(x => x.Description).ToList();
             }
@@ -142,7 +142,7 @@ namespace WodiLib.Common
             /// <summary>
             /// 選択肢を追加する。
             /// </summary>
-            /// <param name="argCase">[NotNull] 選択肢情報</param>
+            /// <param name="argCase">選択肢情報</param>
             /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
             public void AddSpecialCase(CommonEventSpecialArgCase argCase)
             {
@@ -156,7 +156,7 @@ namespace WodiLib.Common
             /// <summary>
             /// 選択肢を追加する。
             /// </summary>
-            /// <param name="argCases">[NotNull] 選択肢</param>
+            /// <param name="argCases">選択肢</param>
             /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
             public void AddRangeSpecialCase(IEnumerable<CommonEventSpecialArgCase> argCases)
             {
@@ -164,14 +164,14 @@ namespace WodiLib.Common
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(argCases)));
 
-                ArgCaseList.AddRange(argCases);
+                ArgCaseList.AddRange(argCases.ToList());
             }
 
             /// <summary>
             /// 選択肢を挿入する。
             /// </summary>
             /// <param name="index">[Range(0, ManualCaseLength)] インデックス</param>
-            /// <param name="argCase">[NotNull] 選択肢情報</param>
+            /// <param name="argCase">選択肢情報</param>
             /// <exception cref="ArgumentOutOfRangeException"></exception>
             /// <exception cref="ArgumentNullException"></exception>
             public void InsertSpecialCase(int index, CommonEventSpecialArgCase argCase)
@@ -193,7 +193,7 @@ namespace WodiLib.Common
             /// 選択肢を挿入する。
             /// </summary>
             /// <param name="index">[Range(0, ManualCaseLength)] インデックス</param>
-            /// <param name="argCases">[NotNull] 選択肢</param>
+            /// <param name="argCases">選択肢</param>
             /// <exception cref="ArgumentOutOfRangeException"></exception>
             /// <exception cref="ArgumentNullException"></exception>
             public void InsertRangeSpecialCase(int index, IEnumerable<CommonEventSpecialArgCase> argCases)
@@ -208,14 +208,14 @@ namespace WodiLib.Common
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(argCases)));
 
-                ArgCaseList.InsertRange(index, argCases);
+                ArgCaseList.InsertRange(index, argCases.ToList());
             }
 
             /// <summary>
             /// DB参照時の追加選択肢文字列を更新する。
             /// </summary>
             /// <param name="caseNumber">[Range[-3, -1)] 選択肢番号</param>
-            /// <param name="description">[NotNull][NotNewLine] 文字列</param>
+            /// <param name="description">[NotNewLine] 文字列</param>
             /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
             /// <exception cref="ArgumentOutOfRangeException">caseNumberが指定範囲外の場合</exception>
             /// <exception cref="ArgumentNullException">descriptionがEmptyの場合</exception>
@@ -230,7 +230,7 @@ namespace WodiLib.Common
             /// 選択肢を更新する。
             /// </summary>
             /// <param name="index">[Range(0, 選択肢数-1)] 更新する選択肢</param>
-            /// <param name="argCase">[NotNull] 更新する選択肢内容</param>
+            /// <param name="argCase">更新する選択肢内容</param>
             /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
             /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
             /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
@@ -308,7 +308,7 @@ namespace WodiLib.Common
             /// </summary>
             /// <param name="other">比較対象</param>
             /// <returns>一致する場合、true</returns>
-            public bool Equals(IInnerDesc other)
+            public bool Equals(IInnerDesc? other)
             {
                 if (ReferenceEquals(null, other)) return false;
                 if (ReferenceEquals(this, other)) return true;
@@ -321,7 +321,7 @@ namespace WodiLib.Common
             /// </summary>
             /// <param name="other">比較対象</param>
             /// <returns>一致する場合、true</returns>
-            public override bool Equals(InnerDescManual other)
+            public override bool Equals(InnerDescManual? other)
             {
                 if (ReferenceEquals(null, other)) return false;
                 if (ReferenceEquals(this, other)) return true;

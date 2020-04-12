@@ -94,7 +94,7 @@ namespace WodiLib.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -117,7 +117,7 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(ChangeableDatabaseAddress other)
+        public bool Equals(ChangeableDatabaseAddress? other)
         {
             return !(other is null) && Value == other.Value;
         }
@@ -129,13 +129,13 @@ namespace WodiLib.Cmn
         /// <summary>
         /// イベントコマンド文用文字列を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベントコマンド種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベントコマンド種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string ResolveEventCommandString(EventCommandSentenceResolver resolver,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             var dataName = resolver.GetDatabaseDataName(DBKind.Changeable, TypeId, DataId).Item2;
             var itemName = resolver.GetDatabaseItemName(DBKind.Changeable, TypeId, ItemId).Item2;
@@ -267,7 +267,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(ChangeableDatabaseAddress left, VariableAddress right)
+        public static bool operator ==(ChangeableDatabaseAddress? left, VariableAddress? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -282,7 +282,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(ChangeableDatabaseAddress left, VariableAddress right)
+        public static bool operator !=(ChangeableDatabaseAddress? left, VariableAddress? right)
         {
             return !(left == right);
         }
@@ -318,7 +318,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(ChangeableDatabaseAddress left, ChangeableDatabaseAddress right)
+        public static bool operator ==(ChangeableDatabaseAddress? left, ChangeableDatabaseAddress? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -333,7 +333,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(ChangeableDatabaseAddress left, ChangeableDatabaseAddress right)
+        public static bool operator !=(ChangeableDatabaseAddress? left, ChangeableDatabaseAddress? right)
         {
             return !(left == right);
         }

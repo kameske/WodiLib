@@ -57,7 +57,7 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="dataDescList">[NotNull] 初期データ情報リスト</param>
+        /// <param name="dataDescList">初期データ情報リスト</param>
         /// <exception cref="ArgumentNullException">dataDescList が null の場合</exception>
         public DBData(DatabaseDataDescList dataDescList)
         {
@@ -77,7 +77,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DBData other)
+        public bool Equals(DBData? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

@@ -8,15 +8,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
 {
     /// <summary>
-    /// [NotNull][NotNewLine] 基本タイルセットファイル名
+    /// [NotNewLine] 基本タイルセットファイル名
     /// </summary>
     [Serializable]
-    public class BaseTileSetFileName : IConvertibleString, IEquatable<BaseTileSetFileName>
+    public class BaseTileSetFileName : IEquatable<BaseTileSetFileName>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -32,7 +33,7 @@ namespace WodiLib.Map
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="value">[NotNull][NotNewLine] 基本タイルセットファイル名</param>
+        /// <param name="value">[NotNewLine] 基本タイルセットファイル名</param>
         /// <exception cref="ArgumentNullException">valueがnullの場合</exception>
         /// <exception cref="ArgumentNewLineException">valueが改行を含む場合</exception>
         public BaseTileSetFileName(string value)
@@ -72,7 +73,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(BaseTileSetFileName other)
+        public bool Equals(BaseTileSetFileName? other)
         {
             if (other is null) return false;
             return Value.Equals(other.Value);
@@ -83,7 +84,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(string other)
+        public bool Equals(string? other)
         {
             if (other is null) return false;
             return Value.Equals(other);
@@ -93,11 +94,13 @@ namespace WodiLib.Map
         //     Implicit
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+#nullable disable
         /// <summary>
         /// int -> BaseTileSetFileName への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator BaseTileSetFileName(string src)
         {
             if (src is null) return null;
@@ -110,10 +113,12 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
+        [return: NotNullIfNotNull("src")]
         public static implicit operator string(BaseTileSetFileName src)
         {
             return src?.Value;
         }
+#nullable restore
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Operator
@@ -125,7 +130,7 @@ namespace WodiLib.Map
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(BaseTileSetFileName left, BaseTileSetFileName right)
+        public static bool operator ==(BaseTileSetFileName? left, BaseTileSetFileName? right)
         {
             if (ReferenceEquals(left, right)) return true;
 
@@ -140,13 +145,13 @@ namespace WodiLib.Map
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(BaseTileSetFileName left, BaseTileSetFileName right)
+        public static bool operator !=(BaseTileSetFileName? left, BaseTileSetFileName? right)
         {
             return !(left == right);
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             switch (obj)
             {

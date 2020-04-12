@@ -36,7 +36,7 @@ namespace WodiLib.Database
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// [NotNull] DBタイプ名
+        /// DBタイプ名
         /// </summary>
         /// <exception cref="PropertyNullException">nullがセットされた場合</exception>
         public TypeName TypeName
@@ -46,7 +46,7 @@ namespace WodiLib.Database
         }
 
         /// <summary>
-        /// [NotNull] メモ
+        /// メモ
         /// </summary>
         /// <exception cref="PropertyNullException">nullがセットされた場合</exception>
         public DatabaseMemo Memo
@@ -128,15 +128,15 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="settingType">[NotNull] データの設定方法種別</param>
-        /// <param name="dbKind">[Nullable] 種別が「データベース参照」の場合の参照DB種別</param>
-        /// <param name="typeId">[Nullable] 種別が「データベース参照」の場合のタイプID</param>
+        /// <param name="settingType">データの設定方法種別</param>
+        /// <param name="dbKind">種別が「データベース参照」の場合の参照DB種別</param>
+        /// <param name="typeId">種別が「データベース参照」の場合のタイプID</param>
         /// <exception cref="ArgumentNullException">
         ///     settingTypeがnullの場合、
         ///     またはsettingType が DesignatedType かつ dbKindまたはtypeIdがnullの場合
         /// </exception>
         public DBType(DBDataSettingType settingType,
-            DBKind dbKind = null, TypeId? typeId = null) : this()
+            DBKind? dbKind = null, TypeId? typeId = null) : this()
         {
             TypeDesc.SetDataSettingType(settingType, dbKind, typeId);
         }
@@ -144,8 +144,8 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="dataDescList">[NotNull][LengthRange(1, 10000)] データ情報リスト</param>
-        /// <param name="itemDescList">[NotNull][LengthRange(0, 100)] 項目情報リスト</param>
+        /// <param name="dataDescList">[LengthRange(1, 10000)] データ情報リスト</param>
+        /// <param name="itemDescList">[LengthRange(0, 100)] 項目情報リスト</param>
         /// <exception cref="ArgumentNullException">dataDescList, itemDescList が null の場合</exception>
         /// <exception cref="ArgumentException">
         ///     dataDescList, itemDescList に null 要素が含まれる場合、
@@ -169,11 +169,11 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="dataDescList">[NotNull] データ情報リスト</param>
-        /// <param name="itemDescList">[NotNull] 項目情報リスト</param>
-        /// <param name="settingType">[NotNull] データの設定方法種別</param>
-        /// <param name="dbKind">[Nullable] 種別が「データベース参照」の場合の参照DB種別</param>
-        /// <param name="typeId">[Nullable] 種別が「データベース参照」の場合のタイプID</param>
+        /// <param name="dataDescList">データ情報リスト</param>
+        /// <param name="itemDescList">項目情報リスト</param>
+        /// <param name="settingType">データの設定方法種別</param>
+        /// <param name="dbKind">種別が「データベース参照」の場合の参照DB種別</param>
+        /// <param name="typeId">種別が「データベース参照」の場合のタイプID</param>
         /// <exception cref="ArgumentNullException">
         ///     dataDescList, itemDescList, settingTypeがnullの場合、
         ///     またはsettingType が DesignatedType かつ dbKindまたはtypeIdがnullの場合
@@ -181,8 +181,9 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentException">dataDescList, itemDescList に null 要素が含まれる場合</exception>
         public DBType(DatabaseDataDescList dataDescList,
             DatabaseItemDescList itemDescList,
-            DBDataSettingType settingType, DBKind dbKind = null, TypeId? typeId = null) : this(dataDescList,
-            itemDescList)
+            DBDataSettingType settingType,
+            DBKind? dbKind = null, TypeId? typeId = null)
+            : this(dataDescList, itemDescList)
         {
             TypeDesc.SetDataSettingType(settingType, dbKind, typeId);
             TypeDesc.PropertyChanged += OnDatabaseTypeDescPropertyChanged;
@@ -195,15 +196,15 @@ namespace WodiLib.Database
         /// <summary>
         /// データの設定方法をセットする。
         /// </summary>
-        /// <param name="settingType">[NotNull] データの設定方法種別</param>
-        /// <param name="dbKind">[Nullable] 種別が「データベース参照」の場合の参照DB種別</param>
-        /// <param name="typeId">[Nullable] 種別が「データベース参照」の場合のタイプID</param>
+        /// <param name="settingType">データの設定方法種別</param>
+        /// <param name="dbKind">種別が「データベース参照」の場合の参照DB種別</param>
+        /// <param name="typeId">種別が「データベース参照」の場合のタイプID</param>
         /// <exception cref="ArgumentNullException">
         ///     settingTypeがnullの場合、
         ///     またはsettingType が DesignatedType かつ dbKindまたはtypeIdがnullの場合
         /// </exception>
         public void SetDataSettingType(DBDataSettingType settingType,
-            DBKind dbKind = null, TypeId? typeId = null)
+            DBKind? dbKind = null, TypeId? typeId = null)
         {
             TypeDesc.SetDataSettingType(settingType, dbKind, typeId);
         }
@@ -211,7 +212,7 @@ namespace WodiLib.Database
         /// <summary>
         /// データの設定方法をセットする。
         /// </summary>
-        /// <param name="setting">[NotNull] DBデータ設定</param>
+        /// <param name="setting">DBデータ設定</param>
         /// <exception cref="ArgumentNullException">
         ///     settingがnullの場合
         /// </exception>
@@ -236,7 +237,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DBType other)
+        public override bool Equals(DBType? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

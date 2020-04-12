@@ -79,7 +79,7 @@ namespace WodiLib.Database
         /// <summary>
         /// 指定した値種別が設定可能かどうかを判定する。
         /// </summary>
-        /// <param name="type">[NotNull] 値種別</param>
+        /// <param name="type">値種別</param>
         /// <returns>設定可能な場合true</returns>
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         public override bool CanSetItemType(DBItemType type)
@@ -97,7 +97,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(IDBItemSettingDesc other)
+        public override bool Equals(IDBItemSettingDesc? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -112,7 +112,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DBItemSettingDescBase other)
+        public override bool Equals(DBItemSettingDescBase? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -127,7 +127,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(DBItemSettingDescNormal other)
+        public bool Equals(DBItemSettingDescNormal? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

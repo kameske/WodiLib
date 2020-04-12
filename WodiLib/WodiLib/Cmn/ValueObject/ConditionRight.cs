@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Cmn
@@ -16,7 +17,7 @@ namespace WodiLib.Cmn
     /// [Range(-999999, 999999)] 条件右辺
     /// </summary>
     [Serializable]
-    public readonly struct ConditionRight : IConvertibleInt, IEquatable<ConditionRight>
+    public readonly struct ConditionRight : IConvertibleInt32, IEquatable<ConditionRight>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -63,7 +64,7 @@ namespace WodiLib.Cmn
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             return obj is ConditionRight other && Equals(other);
@@ -84,6 +85,12 @@ namespace WodiLib.Cmn
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => this;
+
+        /// <summary>
+        /// int に変換する。
+        /// </summary>
+        /// <returns>int値</returns>
+        public int ToInt32() => this;
 
         /// <summary>
         /// byte配列に変換する。
@@ -137,7 +144,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺==右辺の場合true</returns>
-        public static bool operator ==(ConditionRight left, ConditionRight right)
+        public static bool operator ==(ConditionRight? left, ConditionRight? right)
         {
             return left.Equals(right);
         }
@@ -148,7 +155,7 @@ namespace WodiLib.Cmn
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(ConditionRight left, ConditionRight right)
+        public static bool operator !=(ConditionRight? left, ConditionRight? right)
         {
             return !(left == right);
         }

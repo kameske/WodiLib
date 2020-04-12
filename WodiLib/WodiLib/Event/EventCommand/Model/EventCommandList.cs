@@ -40,10 +40,10 @@ namespace WodiLib.Event.EventCommand
         //     Internal Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private TargetAddressOwner owner;
+        private TargetAddressOwner? owner;
 
-        /// <summary>[Nullable] 所有イベント種別</summary>
-        internal TargetAddressOwner Owner
+        /// <summary>所有イベント種別</summary>
+        internal TargetAddressOwner? Owner
         {
             get => owner;
             set
@@ -75,13 +75,13 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="items">初期イベントコマンド列挙</param>
+        /// <param name="list">初期イベントコマンドリスト</param>
         /// <exception cref="ArgumentNullException">
-        ///     itemsがnullの場合、
-        ///     またはitems中にnullが含まれる場合
+        ///     listがnullの場合、
+        ///     またはlist中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
-        public EventCommandList(IEnumerable<IEventCommand> items) : base(items)
+        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
+        public EventCommandList(IReadOnlyCollection<IEventCommand> list) : base(list)
         {
         }
 
@@ -128,9 +128,9 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文字列情報リストを取得する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列</returns>
         /// <exception cref="ArgumentNullException">
         ///     resolver または type が null の場合、
@@ -139,7 +139,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         public IReadOnlyList<EventCommandSentenceInfo> MakeEventCommandSentenceInfoList(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
             => Items.Select((x, idx) => x.GetEventCommandSentenceInfo(resolver, type, desc)).ToList();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -230,7 +230,7 @@ namespace WodiLib.Event.EventCommand
         {
             base.GetObjectData(info, context);
             info.AddValue(nameof(HasOwner), HasOwner);
-            if (HasOwner) info.AddValue(nameof(owner), owner.Id);
+            if (HasOwner) info.AddValue(nameof(owner), owner!.Id);
         }
 
         /// <summary>

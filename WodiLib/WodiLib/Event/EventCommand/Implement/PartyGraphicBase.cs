@@ -140,7 +140,7 @@ namespace WodiLib.Event.EventCommand
         /// 文字列変数を設定する。
         /// </summary>
         /// <param name="index">[Range(0, 0)] インデックス</param>
-        /// <param name="value">[NotNull] 設定値</param>
+        /// <param name="value">設定値</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外</exception>
         /// <exception cref="ArgumentNullException">valueがnull</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -162,7 +162,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMainSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var execStr = MakeEventCommandExecSentence(resolver, type, desc);
 
@@ -172,14 +172,14 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// イベントコマンド文字列の処理内容部分を生成する。
         /// </summary>
-        /// <param name="resolver">[NotNull] 名前解決クラスインスタンス</param>
-        /// <param name="type">[NotNull] イベント種別</param>
-        /// <param name="desc">[Nullable] 付加情報</param>
+        /// <param name="resolver">名前解決クラスインスタンス</param>
+        /// <param name="type">イベント種別</param>
+        /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列の処理内容部分</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected abstract string MakeEventCommandExecSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc);
+            EventCommandSentenceResolveDesc? desc);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Abstract Property
@@ -194,7 +194,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>操作対象序列</summary>
         protected abstract int TargetIndex { get; set; }
 
-        /// <summary>[NotNull] 対象指定変数または対象ファイル名</summary>
+        /// <summary>対象指定変数または対象ファイル名</summary>
         protected abstract IntOrStr Target { get; set; }
     }
 }

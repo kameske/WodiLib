@@ -38,7 +38,7 @@ namespace WodiLib.Event.CharaMoveCommand
 
         private MoveSpeed moveSpeed = MoveSpeed.Slowest;
 
-        /// <summary>[NotNull] 速度</summary>
+        /// <summary>速度</summary>
         public MoveSpeed Value
         {
             get => moveSpeed;
@@ -69,7 +69,7 @@ namespace WodiLib.Event.CharaMoveCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override string GetEventCommandSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             return string.Format(EventCommandSentenceFormat, Value.Code);
         }

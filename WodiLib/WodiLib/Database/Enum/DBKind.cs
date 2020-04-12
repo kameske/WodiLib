@@ -8,7 +8,8 @@
 
 using System;
 using System.ComponentModel;
-using WodiLib.Sys;
+using System.Linq;
+using Commons;
 
 namespace WodiLib.Database
 {
@@ -72,7 +73,7 @@ namespace WodiLib.Database
         {
             try
             {
-                return _FindFirst(x => x.TargetCode == num);
+                return AllItems.First(x => x.TargetCode == num);
             }
             catch (Exception)
             {
@@ -91,7 +92,7 @@ namespace WodiLib.Database
         {
             try
             {
-                return _FindFirst(x => x.Code == code);
+                return AllItems.First(x => x.Code == code);
             }
             catch (Exception)
             {
@@ -110,7 +111,7 @@ namespace WodiLib.Database
         {
             try
             {
-                return _FindFirst(x => x.SpecialArgCode == num);
+                return AllItems.First(x => x.SpecialArgCode == num);
             }
             catch (Exception)
             {
@@ -129,7 +130,7 @@ namespace WodiLib.Database
         {
             try
             {
-                return _FindFirst(x => x.DBDataSettingTypeCode == num);
+                return AllItems.First(x => x.DBDataSettingTypeCode == num);
             }
             catch (Exception)
             {

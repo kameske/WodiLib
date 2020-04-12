@@ -164,7 +164,7 @@ namespace WodiLib.Event.EventCommand
         /// <inheritdoc />
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeLeftSideStr(EventCommandSentenceResolver resolver,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
         {
             var leftSideStr = resolver.GetDatabaseCommandSentenceForSetVariable(CDBTypeNumber,
                 CDBDataNumber, CDBItemNumber, type, desc);

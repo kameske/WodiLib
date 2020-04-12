@@ -8,6 +8,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -27,7 +28,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
-        [field: NonSerialized] private event PropertyChangedEventHandler _propertyChanged;
+        [field: NonSerialized] private event PropertyChangedEventHandler? _propertyChanged;
 
         /// <summary>
         /// プロパティ変更通知
@@ -61,11 +62,11 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public abstract bool Equals(TChild other);
+        public abstract bool Equals([AllowNull] TChild other);
 
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(obj, this)) return true;
             if (ReferenceEquals(obj, null)) return false;
@@ -80,7 +81,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(ModelBase<TChild> other)
+        public bool Equals(ModelBase<TChild>? other)
         {
             if (ReferenceEquals(other, this)) return true;
             if (ReferenceEquals(other, null)) return false;
@@ -117,7 +118,7 @@ namespace WodiLib.Sys
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺と右辺が同じ参照を示す場合true</returns>
-        public static bool operator ==(ModelBase<TChild> left, ModelBase<TChild> right)
+        public static bool operator ==(ModelBase<TChild>? left, ModelBase<TChild>? right)
         {
             return ReferenceEquals(left, right);
         }
@@ -128,7 +129,7 @@ namespace WodiLib.Sys
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
         /// <returns>左辺と右辺が異なる参照の場合true</returns>
-        public static bool operator !=(ModelBase<TChild> left, ModelBase<TChild> right)
+        public static bool operator !=(ModelBase<TChild>? left, ModelBase<TChild>? right)
         {
             return !(left == right);
         }

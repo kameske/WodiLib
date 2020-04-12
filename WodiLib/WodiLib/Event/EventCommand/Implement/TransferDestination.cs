@@ -47,7 +47,7 @@ namespace WodiLib.Event.EventCommand
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override string MakeEventCommandMoveParamSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             var moveMapStr = Target == TargetHero
                 ? MakeEventCommandMoveMapSentence(resolver, type, desc) + " "
@@ -64,7 +64,7 @@ namespace WodiLib.Event.EventCommand
 
         private string MakeEventCommandMoveMapSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
-            EventCommandSentenceResolveDesc desc)
+            EventCommandSentenceResolveDesc? desc)
         {
             if (IsSameMap) return EventCommandSentenceThisMap;
 
@@ -150,7 +150,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <summary>[NotNull] 場所移動時トランジションオプション</summary>
+        /// <summary>場所移動時トランジションオプション</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public TransferOption TransferOption
         {

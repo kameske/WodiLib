@@ -8,11 +8,11 @@
 
 using System;
 using System.Collections.Generic;
+using Commons;
 using WodiLib.Common;
 using WodiLib.Database;
 using WodiLib.Event;
 using WodiLib.Sys;
-using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -28,7 +28,7 @@ namespace WodiLib.IO
         private int Length { get; }
 
         /// <summary>ロガー</summary>
-        private WodiLibLogger Logger { get; } = WodiLibLogger.GetInstance();
+        private Logger Logger { get; } = Logger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -434,7 +434,7 @@ namespace WodiLib.IO
             //   基本システムVer2のコモンイベント14などで確認。
             if (stringArgListCount != numberArgListCount)
             {
-                WodiLibLogger.GetInstance().Warning(
+                Logger.GetInstance().Warning(
                     $"[Warning] 文字列引数リストと数値引数リストの長さが一致しません。（文字列数：{stringArgListCount}, 数値数：{numberArgListCount}）");
             }
 

@@ -19,13 +19,13 @@ namespace WodiLib.Database
         /// <summary>
         /// 特殊引数タイプと引数から情報内部クラスのインスタンスを取得する。
         /// </summary>
-        /// <param name="type">[NotNull] 特殊引数タイプ</param>
-        /// <param name="argCaseList">[Nullable] 選択肢と文字列リスト</param>
+        /// <param name="type">特殊引数タイプ</param>
+        /// <param name="argCaseList">選択肢と文字列リスト</param>
         /// <returns>内部情報クラスインスタンス</returns>
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         /// <exception cref="ArgumentException">typeに対応したファクトリメソッドが定義されていない場合</exception>
         public static IDBItemSettingDesc Create(
-            DBItemSpecialSettingType type, DatabaseValueCaseList argCaseList)
+            DBItemSpecialSettingType type, DatabaseValueCaseList? argCaseList)
         {
             if (type is null)
                 throw new ArgumentNullException(
@@ -67,9 +67,9 @@ namespace WodiLib.Database
         /// <summary>
         /// 「ファイル読み込み」情報内部クラスのインスタンスを生成する。
         /// </summary>
-        /// <returns>[Nullable][ItemLength(1)] 内部情報クラスインスタンス</returns>
+        /// <returns>[ItemLength(1)] 内部情報クラスインスタンス</returns>
         /// <exception cref="ArgumentException">argCaseList.Countが1以外の場合</exception>
-        public static IDBItemSettingDesc CreateLoadFile(DatabaseValueCaseList argCaseList)
+        public static IDBItemSettingDesc CreateLoadFile(DatabaseValueCaseList? argCaseList)
         {
             if (argCaseList is null)
             {
@@ -88,10 +88,10 @@ namespace WodiLib.Database
         /// <summary>
         /// 「データベース参照」内部情報クラスのインスタンスを生成する。
         /// </summary>
-        /// <param name="argCaseList">[Nullable] 引数と文字列リスト</param>
+        /// <param name="argCaseList">引数と文字列リスト</param>
         /// <returns>内部情報クラスインスタンス</returns>
         public static IDBItemSettingDesc CreateReferDatabase(
-            DatabaseValueCaseList argCaseList)
+            DatabaseValueCaseList? argCaseList)
         {
             var argCaseMinus1 = "";
             var argCaseMinus2 = "";
@@ -114,10 +114,10 @@ namespace WodiLib.Database
         /// <summary>
         /// 「選択肢手動生成」内部情報クラスのインスタンスを生成する。
         /// </summary>
-        /// <param name="argCaseList">[Nullable] 引数と文字列リスト</param>
+        /// <param name="argCaseList">引数と文字列リスト</param>
         /// <returns>内部情報クラスインスタンス</returns>
         public static IDBItemSettingDesc CreateManual(
-            DatabaseValueCaseList argCaseList)
+            DatabaseValueCaseList? argCaseList)
         {
             return new DBItemSettingDescManual(argCaseList);
         }
