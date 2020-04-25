@@ -1,271 +1,382 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
+    <!--
+      Microsoft ResX Schema
 
-    Version 2.0
+      Version 2.0
 
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
-    associated with the data types.
+      The primary goals of this format is to allow a simple XML format
+      that is mostly human readable. The generation and parsing of the
+      various data types are done through the TypeConverter classes
+      associated with the data types.
 
-    Example:
+      Example:
 
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
+      ... ado.net/XML headers & schema ...
+      <resheader name="resmimetype">text/microsoft-resx</resheader>
+      <resheader name="version">2.0</resheader>
+      <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+      <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+      <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+      <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+      <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+          <value>[base64 mime encoded serialized .NET Framework object]</value>
+      </data>
+      <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+          <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+          <comment>This is a comment</comment>
+      </data>
+
+      There are any number of "resheader" rows that contain simple
+      name/value pairs.
+
+      Each data row contains a name, and value. The row also contains a
+      type or mimetype. Type corresponds to a .NET class that support
+      text/value conversion through the TypeConverter architecture.
+      Classes that don't support this are serialized and stored with the
+      mimetype set.
+
+      The mimetype is used for serialized objects, and tells the
+      ResXResourceReader how to depersist the object. This is currently not
+      extensible. For a given mimetype the value must be set accordingly:
+
+      Note - application/x-microsoft.net.object.binary.base64 is the format
+      that the ResXResourceWriter will generate, however the reader can
+      read any of the formats listed below.
+
+      mimetype: application/x-microsoft.net.object.binary.base64
+      value   : The object must be serialized with
+              : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+              : and then encoded with base64 encoding.
+
+      mimetype: application/x-microsoft.net.object.soap.base64
+      value   : The object must be serialized with
+              : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+              : and then encoded with base64 encoding.
+
+      mimetype: application/x-microsoft.net.object.bytearray.base64
+      value   : The object must be serialized into a byte array
+              : using a System.ComponentModel.TypeConverter
+              : and then encoded with base64 encoding.
+      -->
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+        <xsd:element name="root" msdata:IsDataSet="true">
+            <xsd:complexType>
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="metadata">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" use="required" type="xsd:string"/>
+                            <xsd:attribute name="type" type="xsd:string"/>
+                            <xsd:attribute name="mimetype" type="xsd:string"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assembly">
+                        <xsd:complexType>
+                            <xsd:attribute name="alias" type="xsd:string"/>
+                            <xsd:attribute name="name" type="xsd:string"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:complexType>
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <assembly alias="System.Windows.Forms"
+              name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"/>
+    <data name="MapFile_Map023" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>Resources\Map023.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
     </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
+    <data name="MapFile_Map024" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>Resources\Map024.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
     </data>
-
-    There are any number of "resheader" rows that contain simple
-    name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
-    mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
-    extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
-    read any of the formats listed below.
-
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
-    <xsd:element name="root" msdata:IsDataSet="true">
-      <xsd:complexType>
-        <xsd:choice maxOccurs="unbounded">
-          <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
-            </xsd:complexType>
-          </xsd:element>
-        </xsd:choice>
-      </xsd:complexType>
-    </xsd:element>
-  </xsd:schema>
-  <resheader name="resmimetype">
-    <value>text/microsoft-resx</value>
-  </resheader>
-  <resheader name="version">
-    <value>2.0</value>
-  </resheader>
-  <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="MapFile_Map023" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\Map023.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MapFile_Map024" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\Map024.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MapFile_Map025" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\Map025.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MapFile_Map100" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\Map100.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MapFile_Dungeon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\Dungeon.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MapFile_SampleMapA" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\SampleMapA.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MapFile_SampleMapB" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\SampleMapB.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CommonEvent_00" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\CommonEvent_00.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="c000_コモンイベント000" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\000_コモンイベント000.common;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Common003to005_コモンイベント003" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Common003to005_コモンイベント003.common;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Common005to006_コモンイベント005" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Common005to006_コモンイベント005.common;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Database0Dat" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Database0.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Database0Project" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Database0.project;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CDatabase0Dat" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\CDatabase0.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CDatabase0Project" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\CDatabase0.project;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Database1Dat" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Database1.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Database1Project" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Database1.project;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CDatabase1Dat" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\CDatabase1.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CDatabase1Project" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\CDatabase1.project;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="SysDatabase1Dat" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\SysDatabase1.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="SysDatabase1Project" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\SysDatabase1.project;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="UDB0DBTypeSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\タイプ設定_000_UDB0.dbtypeset;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CDB0DBTypeSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\タイプ設定_000_あいうえお.dbtypeset;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CDB2DBTypeSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\タイプ設定_002_┣ 主人公行動AI.dbtypeset;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="UDB8DBTypeSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\タイプ設定_008_状態設定.dbtypeset;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="UDB0_1to3DBData" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\UDB0_データ_001to003_7.dbdata;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CDB0_0to0DBData" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\あいうえお_データ_000to000_a.dbdata;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CDB2_3to18DBData" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\┣ 主人公行動AI_データ_003to018_.dbdata;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="UDB8_0to23DBData" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\状態設定_データ_000to023_戦闘不能.dbdata;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="UDB0DBType" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\タイプ(データ含む)_000_UDB0.dbtype;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CDB0DBType" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\タイプ(データ含む)_000_あいうえお.dbtype;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="CDB2DBType" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\タイプ(データ含む)_002_┣ 主人公行動AI.dbtype;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="UDB8DBType" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\タイプ(データ含む)_008_状態設定.dbtype;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MapTree0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Dir0\MapTree.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MapTree1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Dir1\MapTree.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MapTreeOpenStatus0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Dir0\MapTreeOpenStatus.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="MapTreeOpenStatus1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Dir1\MapTreeOpenStatus.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="title000_設定名" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\000_設定名.tile;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="title001_aaa" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\001_aaa.tile;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="title000_街" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\000_街.tile;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="TileSetData0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Dir0\TileSetData.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="TileSetData1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Dir1\TileSetData.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="EditorIni0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Dir0\Editor.ini;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="EditorIni1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Dir1\Editor.ini;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="GameIni0" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Dir0\Game.ini;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="GameIni1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\Dir1\Game.ini;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="各種メニュー呼出" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\014_各種メニュー呼出.common;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="TestProject_Ver224Zip" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\TestProject_Ver224.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="EventCommandSentence_Ver224_CommonEvent" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\EventCommandSentence/Ver224_CommonEvent.txt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="EventCommandSentence_Ver224_MapEvent" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>resources\EventCommandSentence/Ver224_MapEvent.txt;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
+    <data name="MapFile_Map025" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>Resources\Map025.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="MapFile_Map100" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>Resources\Map100.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="MapFile_Dungeon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>Resources\Dungeon.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="MapFile_SampleMapA" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>Resources\SampleMapA.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="MapFile_SampleMapB" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>Resources\SampleMapB.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="FixMap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>Resources\fix.mps;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="CommonEvent_00" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\CommonEvent_00.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="c000_コモンイベント000" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\000_コモンイベント000.common;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="Common003to005_コモンイベント003" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Common003to005_コモンイベント003.common;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="Common005to006_コモンイベント005" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Common005to006_コモンイベント005.common;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="Database0Dat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Database0.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="Database0Project" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Database0.project;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="CDatabase0Dat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\CDatabase0.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="CDatabase0Project" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\CDatabase0.project;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="Database1Dat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Database1.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="Database1Project" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Database1.project;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="CDatabase1Dat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\CDatabase1.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="CDatabase1Project" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\CDatabase1.project;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="SysDatabase1Dat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\SysDatabase1.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="SysDatabase1Project" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\SysDatabase1.project;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="UDB0DBTypeSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\タイプ設定_000_UDB0.dbtypeset;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="CDB0DBTypeSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\タイプ設定_000_あいうえお.dbtypeset;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="CDB2DBTypeSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\タイプ設定_002_┣ 主人公行動AI.dbtypeset;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="UDB8DBTypeSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\タイプ設定_008_状態設定.dbtypeset;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="UDB0_1to3DBData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\UDB0_データ_001to003_7.dbdata;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="CDB0_0to0DBData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\あいうえお_データ_000to000_a.dbdata;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="CDB2_3to18DBData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\┣ 主人公行動AI_データ_003to018_.dbdata;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="UDB8_0to23DBData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\状態設定_データ_000to023_戦闘不能.dbdata;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="UDB0DBType" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\タイプ(データ含む)_000_UDB0.dbtype;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="CDB0DBType" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\タイプ(データ含む)_000_あいうえお.dbtype;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="CDB2DBType" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\タイプ(データ含む)_002_┣ 主人公行動AI.dbtype;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="UDB8DBType" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\タイプ(データ含む)_008_状態設定.dbtype;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="MapTree0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Dir0\MapTree.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="MapTree1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Dir1\MapTree.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="MapTreeOpenStatus0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Dir0\MapTreeOpenStatus.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="MapTreeOpenStatus1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Dir1\MapTreeOpenStatus.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="title000_設定名" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\000_設定名.tile;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="title001_aaa" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\001_aaa.tile;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="title000_街" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\000_街.tile;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="TileSetData0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Dir0\TileSetData.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="TileSetData1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Dir1\TileSetData.dat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="EditorIni0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Dir0\Editor.ini;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="EditorIni1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Dir1\Editor.ini;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="GameIni0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Dir0\Game.ini;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="GameIni1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Dir1\Game.ini;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="各種メニュー呼出" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>Resources\014_各種メニュー呼出.common;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="TestProject_Ver224Zip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\TestProject_Ver224.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="EventCommandSentence_Ver224_CommonEvent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\EventCommandSentence/Ver224_CommonEvent.txt;System.Byte[], mscorlib, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="EventCommandSentence_Ver224_MapEvent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\EventCommandSentence/Ver224_MapEvent.txt;System.Byte[], mscorlib, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
 </root>

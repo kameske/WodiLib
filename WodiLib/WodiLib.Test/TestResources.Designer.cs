@@ -283,6 +283,16 @@ namespace WodiLib.Test {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] FixMap {
+            get {
+                object obj = ResourceManager.GetObject("FixMap", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] GameIni0 {
             get {
                 object obj = ResourceManager.GetObject("GameIni0", resourceCulture);
