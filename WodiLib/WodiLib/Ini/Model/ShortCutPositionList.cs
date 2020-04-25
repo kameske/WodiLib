@@ -55,13 +55,13 @@ namespace WodiLib.Ini
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="list">初期設定リスト</param>
+        /// <param name="items">初期設定リスト</param>
         /// <exception cref="ArgumentNullException">
-        ///     listがnullの場合、
-        ///     またはlist中にnullが含まれる場合
+        ///     itemsがnullの場合、
+        ///     またはitems中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
-        public ShortCutPositionList(IReadOnlyCollection<ShortCutPosition> list) : base(list)
+        /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
+        public ShortCutPositionList(IEnumerable<ShortCutPosition> items) : base(items)
         {
         }
 

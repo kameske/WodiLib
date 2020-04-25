@@ -15,7 +15,7 @@
         <Authors>Kameske</Authors>
         <RootNamespace>WodiLib</RootNamespace>
         <Product>WodiLib</Product>
-        <AssemblyVersion></AssemblyVersion>
+        <AssemblyVersion>2.2.0</AssemblyVersion>
         <AssemblyName>WodiLib</AssemblyName>
         <LangVersion>8</LangVersion>
     </PropertyGroup>

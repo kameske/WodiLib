@@ -99,34 +99,39 @@ namespace WodiLib.Map
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="mapChipList">マップチップ番号リスト</param>
-        /// <exception cref="ArgumentNullException">mapChipListがnullの場合</exception>
-        /// <exception cref="ArgumentOutOfRangeException">mapChipListの横幅、または縦幅が指定範囲以外の場合</exception>
+        /// <param name="mapChips">マップチップ番号リスト</param>
+        /// <exception cref="ArgumentNullException">mapChipsがnullの場合</exception>
+        /// <exception cref="ArgumentOutOfRangeException">mapChipsの横幅、または縦幅が指定範囲以外の場合</exception>
         /// <exception cref="ArgumentException">縦幅が異なる列データが存在する場合</exception>
-        public MapChipList(IReadOnlyList<IReadOnlyList<MapChip>> mapChipList)
+        public MapChipList(IEnumerable<IEnumerable<MapChip>> mapChips)
         {
-            if (mapChipList is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(mapChipList)));
+            if (mapChips is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(mapChips)));
 
-            var width = mapChipList.Count;
+            var mapChipsArr = mapChips.ToArray();
+
+            var width = mapChipsArr.Length;
             if (width < MapSizeWidth.MinValue || MapSizeWidth.MaxValue < width)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange("mapChipListの要素数", MapSizeWidth.MinValue, MapSizeWidth.MaxValue, width));
-            var height = mapChipList.First().Count;
+                    ErrorMessage.OutOfRange("mapChipsの要素数", MapSizeWidth.MinValue, MapSizeWidth.MaxValue, width));
+
+            var height = mapChipsArr.First().Count();
 
             var chips = new List<IFixedLengthMapChipColumns>();
 
             var h = 0;
-            foreach (var line in mapChipList)
+            foreach (var line in mapChipsArr)
             {
-                var lineHeight = line.Count;
+                var lineArr = line.ToArray();
+
+                var lineHeight = lineArr.Length;
                 if (lineHeight < MapSizeHeight.MinValue || MapSizeHeight.MaxValue < lineHeight)
                     throw new ArgumentOutOfRangeException(
-                        ErrorMessage.OutOfRange($"mapChipList[{h}の要素数", MapSizeHeight.MinValue, MapSizeHeight.MaxValue,
+                        ErrorMessage.OutOfRange($"mapChips[{h}の要素数", MapSizeHeight.MinValue, MapSizeHeight.MaxValue,
                             lineHeight));
-                if (line.Count != height)
+                if (lineHeight != height)
                     throw new ArgumentException($"{h}行目の縦幅が他の行と異なります。（マップ縦幅はすべての行で同じにする必要があります。）");
 
-                chips.Add(new MapChipColumns(line));
+                chips.Add(new MapChipColumns(lineArr));
 
                 h++;
             }

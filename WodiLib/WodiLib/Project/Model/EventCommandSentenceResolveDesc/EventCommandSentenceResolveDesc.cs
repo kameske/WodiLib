@@ -28,6 +28,9 @@ namespace WodiLib.Project
         /// <summary>コモンイベントID</summary>
         public CommonEventId? CommonEventId { get; set; }
 
+        /// <summary>イベントコマンド文字列完全出力フラグ</summary>
+        public bool IsOutputFullSentence { get; set; }
+
         private readonly Stack<BranchType> branchTypeStack = new Stack<BranchType>();
 
         /// <summary>選択肢種別スタック</summary>

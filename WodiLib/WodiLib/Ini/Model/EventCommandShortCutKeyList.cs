@@ -535,13 +535,13 @@ namespace WodiLib.Ini
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="list">初期DB項目設定リスト</param>
+        /// <param name="items">初期DB項目設定リスト</param>
         /// <exception cref="ArgumentNullException">
-        ///     listがnullの場合、
-        ///     またはlist中にnullが含まれる場合
+        ///     itemsがnullの場合、
+        ///     またはitems中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
-        public EventCommandShortCutKeyList(IReadOnlyCollection<EventCommandShortCutKey> list) : base(list)
+        /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
+        public EventCommandShortCutKeyList(IEnumerable<EventCommandShortCutKey> items) : base(items)
         {
             InitializeNotUseIndexes();
             CollectionChanged += OnThisCollectionChanged;

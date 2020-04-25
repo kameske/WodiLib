@@ -47,7 +47,7 @@ namespace WodiLib.Common
             /// <summary>
             /// 【読み取り専用】選択肢情報リスト
             /// </summary>
-            public IReadOnlyCommonEventSpecialArgCaseList SpecialArgCaseList { get; }
+            IReadOnlyCommonEventSpecialArgCaseList SpecialArgCaseList { get; }
 
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Public Method
@@ -73,19 +73,19 @@ namespace WodiLib.Common
             /// 引数種別によらずすべての選択肢を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            List<CommonEventSpecialArgCase> GetAllSpecialCase();
+            IReadOnlyList<CommonEventSpecialArgCase> GetAllSpecialCase();
 
             /// <summary>
             /// すべての選択肢番号を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            List<int> GetAllSpecialCaseNumber();
+            IReadOnlyList<int> GetAllSpecialCaseNumber();
 
             /// <summary>
             /// すべての選択肢文字列を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            List<string> GetAllSpecialCaseDescription();
+            IReadOnlyList<string> GetAllSpecialCaseDescription();
 
             /// <summary>
             /// 選択肢を追加する。

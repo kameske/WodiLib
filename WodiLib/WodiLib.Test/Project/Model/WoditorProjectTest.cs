@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Commons;
+using Commons.Linq.Extension;
 using NUnit.Framework;
 using WodiLib.IO;
 using WodiLib.Project;
@@ -706,7 +707,7 @@ namespace WodiLib.Test.Project.Model
             {
                 resultList = instance.GetMapEventEventCommandSentenceInfoListSync(
                     testInfo.MapEventInfo.FilePath, testInfo.MapEventInfo.MapEventId,
-                    testInfo.MapEventInfo.PageIndex, false);
+                    testInfo.MapEventInfo.PageIndex, false, false);
             }
             catch (Exception ex)
             {
@@ -752,6 +753,15 @@ namespace WodiLib.Test.Project.Model
 
             // プロパティ変更通知が発火していないこと
             Assert.AreEqual(changedPropertyList.Count, 0);
+
+            // 省略しないイベントコマンド文字列を出力
+            var resultList2 = instance.GetMapEventEventCommandSentenceInfoListSync(
+                testInfo.MapEventInfo.FilePath, testInfo.MapEventInfo.MapEventId,
+                testInfo.MapEventInfo.PageIndex, true);
+            resultList2.ForEach((result, i) =>
+            {
+                logger.Info($"{i}行目:{result.Sentence}");
+            });
         }
 
         [TestCaseSource(nameof(GetMapEventEventCommandSentenceInfoListTestCaseSource))]
@@ -768,7 +778,7 @@ namespace WodiLib.Test.Project.Model
             {
                 resultList = await instance.GetMapEventEventCommandSentenceInfoListAsync(
                     testInfo.MapEventInfo.FilePath, testInfo.MapEventInfo.MapEventId,
-                    testInfo.MapEventInfo.PageIndex, false);
+                    testInfo.MapEventInfo.PageIndex, false, false);
             }
             catch (Exception ex)
             {
@@ -834,7 +844,7 @@ namespace WodiLib.Test.Project.Model
             try
             {
                 resultList = instance.GetCommonEventEventCommandSentenceInfoListSync(
-                    testInfo.CommonEventInfo.CommonEventId, testInfo.CommonEventInfo.MpsFilePath, false);
+                    testInfo.CommonEventInfo.CommonEventId, testInfo.CommonEventInfo.MpsFilePath, false, false);
             }
             catch (Exception ex)
             {
@@ -880,6 +890,14 @@ namespace WodiLib.Test.Project.Model
 
             // プロパティ変更通知が発火していないこと
             Assert.AreEqual(changedPropertyList.Count, 0);
+
+            // 省略しないイベントコマンド文字列を出力
+            var resultList2 = instance.GetCommonEventEventCommandSentenceInfoListSync(
+                testInfo.CommonEventInfo.CommonEventId, testInfo.CommonEventInfo.MpsFilePath, true);
+            resultList2.ForEach((result, i) =>
+            {
+                logger.Info($"{i}行目:{result.Sentence}");
+            });
         }
 
         [TestCaseSource(nameof(GetCommonEventEventCommandSentenceInfoListTestCaseSource))]
@@ -896,7 +914,7 @@ namespace WodiLib.Test.Project.Model
             try
             {
                 resultList = await instance.GetCommonEventEventCommandSentenceInfoListAsync(
-                    testInfo.CommonEventInfo.CommonEventId, testInfo.CommonEventInfo.MpsFilePath, false);
+                    testInfo.CommonEventInfo.CommonEventId, testInfo.CommonEventInfo.MpsFilePath, false, false);
             }
             catch (Exception ex)
             {

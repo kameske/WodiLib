@@ -236,6 +236,12 @@ namespace WodiLib.Event.EventCommand
             var result = string.Format(EventCommandSentenceFormat,
                 targetName, moveRouteStr, waitStr);
 
+            // イベントコマンド文字列を省略しない場合はこの時点の文字列を返せばよい
+            if (desc?.IsOutputFullSentence ?? false)
+            {
+                return result;
+            }
+
             var encode = Encoding.GetEncoding("Shift_Jis");
 
             var resultBytes = encode.GetBytes(result);

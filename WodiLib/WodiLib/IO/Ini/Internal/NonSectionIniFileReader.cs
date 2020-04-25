@@ -61,7 +61,7 @@ namespace WodiLib.IO
         ///     filePath, targetsがnullの場合、
         ///    またはtargetsにnull要素が含まれる場合
         /// </exception>
-        public NonSectionIniFileReader(FilePath filePath, IReadOnlyCollection<TIniTarget> targets)
+        public NonSectionIniFileReader(FilePath filePath, IEnumerable<TIniTarget> targets)
         {
             if (filePath is null)
                 throw new ArgumentNullException(
@@ -70,12 +70,15 @@ namespace WodiLib.IO
             if (targets is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(targets)));
-            if (targets.HasNullItem())
+
+            var targetList = targets.ToList();
+
+            if (targetList.HasNullItem())
                 throw new ArgumentNullException(
                     ErrorMessage.NotNullInList(nameof(targets)));
 
             FilePath = filePath;
-            Data = targets;
+            Data = targetList;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

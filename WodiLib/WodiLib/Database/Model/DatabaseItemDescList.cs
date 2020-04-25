@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using WodiLib.Sys;
 
@@ -44,13 +45,13 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        /// <param name="list">初期DB項目設定リスト</param>
+        /// <param name="items">初期DB項目設定リスト</param>
         /// <exception cref="ArgumentNullException">
-        ///     listがnullの場合、
-        ///     またはlist中にnullが含まれる場合
+        ///     itemsがnullの場合、
+        ///     またはitems中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
-        public DatabaseItemDescList(IReadOnlyCollection<DatabaseItemDesc> list) : base(list)
+        /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
+        public DatabaseItemDescList(IEnumerable<DatabaseItemDesc> items) : base(items)
         {
         }
 
@@ -61,25 +62,18 @@ namespace WodiLib.Database
         /// <param name="itemSettingList">項目設定リスト</param>
         /// <exception cref="ArgumentNullException">itemSettingList が null の場合</exception>
         internal DatabaseItemDescList(DBItemSettingList itemSettingList)
-            : base(new Func<IReadOnlyCollection<DatabaseItemDesc>>(() =>
+            : base(new Func<IEnumerable<DatabaseItemDesc>>(() =>
             {
                 if (itemSettingList is null)
                     throw new ArgumentNullException(
                         ErrorMessage.NotNull(nameof(itemSettingList)));
 
-                var list = new List<DatabaseItemDesc>();
-
-                foreach (var setting in itemSettingList)
+                return itemSettingList.Select(setting => new DatabaseItemDesc
                 {
-                    list.Add(new DatabaseItemDesc
-                    {
-                        ItemType = setting.ItemType,
-                        ItemName = setting.ItemName,
-                        SpecialSettingDesc = setting.SpecialSettingDesc
-                    });
-                }
-
-                return list;
+                    ItemType = setting.ItemType,
+                    ItemName = setting.ItemName,
+                    SpecialSettingDesc = setting.SpecialSettingDesc
+                });
             })())
         {
         }
