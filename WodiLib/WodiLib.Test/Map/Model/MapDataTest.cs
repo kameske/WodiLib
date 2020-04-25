@@ -534,7 +534,7 @@ namespace WodiLib.Test.Map
                 {
                     if (i == fileData.Length)
                         Assert.Fail(
-                            $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map023DataBuf.Length}）");
+                            $"データ長が異なります。（期待値：{fileData.Length}, 実際：{map023DataBuf.Length}）");
 
                     if (fileData[i] != map023DataBuf[i])
                         Assert.Fail(
@@ -543,7 +543,7 @@ namespace WodiLib.Test.Map
 
                 if (fileData.Length != map023DataBuf.Length)
                     Assert.Fail(
-                        $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map023DataBuf.Length}）");
+                        $"データ長が異なります。（期待値：{fileData.Length}, 実際：{map023DataBuf.Length}）");
             }
         }
 
@@ -586,7 +586,7 @@ namespace WodiLib.Test.Map
                 {
                     if (i == fileData.Length)
                         Assert.Fail(
-                            $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map024DataBuf.Length}）");
+                            $"データ長が異なります。（期待値：{fileData.Length}, 実際：{map024DataBuf.Length}）");
 
                     if (fileData[i] != map024DataBuf[i])
                         Assert.Fail(
@@ -595,7 +595,7 @@ namespace WodiLib.Test.Map
 
                 if (fileData.Length != map024DataBuf.Length)
                     Assert.Fail(
-                        $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map024DataBuf.Length}）");
+                        $"データ長が異なります。（期待値：{fileData.Length}, 実際：{map024DataBuf.Length}）");
             }
         }
 
@@ -638,7 +638,7 @@ namespace WodiLib.Test.Map
                 {
                     if (i == fileData.Length)
                         Assert.Fail(
-                            $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map025DataBuf.Length}）");
+                            $"データ長が異なります。（期待値：{fileData.Length}, 実際：{map025DataBuf.Length}）");
 
                     if (fileData[i] != map025DataBuf[i])
                         Assert.Fail(
@@ -647,7 +647,59 @@ namespace WodiLib.Test.Map
 
                 if (fileData.Length != map025DataBuf.Length)
                     Assert.Fail(
-                        $"データ帳が異なります。（期待値：{fileData.Length}, 実際：{map025DataBuf.Length}）");
+                        $"データ長が異なります。（期待値：{fileData.Length}, 実際：{map025DataBuf.Length}）");
+            }
+        }
+
+        [Test]
+        public static void ToBinaryFixMapTest()
+        {
+            MapFileTestItemGenerator.OutputMapFile();
+            var fixMapData = MapFileTestItemGenerator.GenerateFixMapData();
+            var fixMapDataBuf = fixMapData.ToBinary();
+
+            using (var fs = new FileStream($@"{MapFileTestItemGenerator.TestWorkRootDir}\fix.mps", FileMode.Open))
+            {
+                var length = (int) fs.Length;
+                // ファイルサイズが規定でない場合誤作動防止の為テスト失敗にする
+                Assert.AreEqual(length, 4398);
+
+                var fileData = new byte[length];
+                fs.Read(fileData, 0, length);
+
+                // binデータ出力用
+                var builder = new StringBuilder();
+                foreach (var str in fileData.Select((s, index) => $"=\"[{index}] = {{byte}} {s}\""))
+                {
+                    builder.AppendLine(str);
+                }
+
+                var result = builder.ToString();
+                Console.WriteLine(result);
+
+                builder = new StringBuilder();
+                foreach (var str in fixMapDataBuf.Select((s, index) => $"=\"[{index}] = {{byte}} {s}\""))
+                {
+                    builder.AppendLine(str);
+                }
+
+                result = builder.ToString();
+                Console.WriteLine(result);
+
+                for (var i = 0; i < fixMapDataBuf.Length; i++)
+                {
+                    if (i == fileData.Length)
+                        Assert.Fail(
+                            $"データ長が異なります。（期待値：{fileData.Length}, 実際：{fixMapDataBuf.Length}）");
+
+                    if (fileData[i] != fixMapDataBuf[i])
+                        Assert.Fail(
+                            $"offset: {i} のバイナリが異なります。（期待値：{fileData[i]}, 実際：{fixMapDataBuf[i]}）");
+                }
+
+                if (fileData.Length != fixMapDataBuf.Length)
+                    Assert.Fail(
+                        $"データ長が異なります。（期待値：{fileData.Length}, 実際：{fixMapDataBuf.Length}）");
             }
         }
 
