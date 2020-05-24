@@ -9,6 +9,7 @@
 using System;
 using System.ComponentModel;
 using System.Text;
+using USEncoder;
 using WodiLib.Project;
 using WodiLib.Sys;
 
@@ -119,8 +120,7 @@ namespace WodiLib.Event.EventCommand
 
             if (isPadRight)
             {
-                var encoding = Encoding.GetEncoding("Shift-Jis");
-                var correctLength = EventCommandSentenceCaseMinLength - encoding.GetByteCount(str);
+                var correctLength = EventCommandSentenceCaseMinLength - ToEncoding.ToSJIS(str).Length;
                 if (correctLength < 0) correctLength = 0;
 
                 for (var i = 0; i < correctLength; i++)

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using USEncoder;
 
 namespace WodiLib.Sys
 {
@@ -19,16 +20,6 @@ namespace WodiLib.Sys
     [Serializable]
     internal class WoditorString : IEquatable<WoditorString>
     {
-        /// <summary>ウディタ内部のエンコーディング</summary>
-        public static Encoding WoditorEncoding
-        {
-            get
-            {
-                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-                return Encoding.GetEncoding("shift-jis");
-            }
-        }
-
         /// <summary>
         /// 特殊変換文字群
         /// </summary>
@@ -83,7 +74,7 @@ namespace WodiLib.Sys
             var chars = new byte[removeZeroLength];
             Array.Copy(src, innerOffset, chars, 0, removeZeroLength);
 
-            String = WoditorEncoding.GetString(chars);
+            String = ToEncoding.ToUnicode(chars);
 
             // 長さ
             ByteLength = (int) (innerOffset - offset) + length;
@@ -113,7 +104,7 @@ namespace WodiLib.Sys
                 unityNewLineString += '\0';
             }
 
-            var stringByte = WoditorEncoding.GetBytes(unityNewLineString);
+            var stringByte = ToEncoding.ToSJIS(unityNewLineString);
             var lengthByte = stringByte.Length.ToBytes(Endian.Woditor);
 
             var strBytes = new List<byte>();

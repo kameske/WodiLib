@@ -20,4 +20,12 @@
   <ItemGroup>
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.5.1" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="I18N">
+      <HintPath>..\..\..\..\..\Unity\Projects\PokeBattle\Assets\Plugins\I18N.dll</HintPath>
+    </Reference>
+    <Reference Include="I18N.CJK">
+      <HintPath>..\..\..\..\..\Unity\Projects\PokeBattle\Assets\Plugins\I18N.CJK.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
