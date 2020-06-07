@@ -81,9 +81,6 @@ namespace WodiLib.IO
             {
                 var writer = BuildFileWriter(FilePath);
                 writer.WriteSync(data);
-#pragma warning disable 618
-                CallbackIO(data);
-#pragma warning restore 618
             }
             finally
             {
@@ -108,9 +105,6 @@ namespace WodiLib.IO
             {
                 var writer = BuildFileWriter(FilePath);
                 await writer.WriteAsync(data);
-#pragma warning disable 618
-                CallbackIO(data);
-#pragma warning restore 618
             }
             finally
             {
@@ -129,10 +123,6 @@ namespace WodiLib.IO
             {
                 var reader = BuildFileReader(FilePath);
                 var result = reader.ReadSync();
-
-#pragma warning disable 618
-                CallbackIO(result);
-#pragma warning restore 618
 
                 return result;
             }
@@ -153,10 +143,6 @@ namespace WodiLib.IO
             {
                 var reader = BuildFileReader(FilePath);
                 var result = await reader.ReadAsync();
-
-#pragma warning disable 618
-                CallbackIO(result);
-#pragma warning restore 618
 
                 return result;
             }
@@ -184,14 +170,6 @@ namespace WodiLib.IO
         /// <returns>リーダーインスタンス</returns>
         /// <exception cref="ArgumentNullException">fileNameがnullの場合</exception>
         protected abstract TReader MakeFileReader(TFilePath filePath);
-
-        /// <summary>
-        /// ファイルの入出力が終わったときに呼び出されるコールバック。
-        /// </summary>
-        /// <param name="data">入出力データ</param>
-        /* 継承先のクラスに Ver1.1 と互換性を持たせるための処理。 Ver1.3 で削除。 */
-        [Obsolete("Ver1.1 以前と互換性を持たせるためだけのメソッドです。 Ver1.3 で削除します。")]
-        protected abstract void CallbackIO(TFileData data);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Method

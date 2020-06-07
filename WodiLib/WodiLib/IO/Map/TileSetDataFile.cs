@@ -76,12 +76,5 @@ namespace WodiLib.IO
             var reader = new TileSetDataFileReader(filePath);
             return reader;
         }
-
-        /// <inheritdoc />
-        [Obsolete("Ver1.1 以前と互換性を持たせるためだけのメソッドです。 Ver1.3 で削除します。")]
-        protected override void CallbackIO(TileSetData data)
-        {
-            TileSetData = data;
-        }
     }
 }

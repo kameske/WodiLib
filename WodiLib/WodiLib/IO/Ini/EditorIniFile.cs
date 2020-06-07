@@ -76,12 +76,5 @@ namespace WodiLib.IO
             var reader = new EditorIniFileReader(filePath);
             return reader;
         }
-
-        /// <inheritdoc />
-        [Obsolete("Ver1.1 以前と互換性を持たせるためだけのメソッドです。 Ver1.3 で削除します。")]
-        protected override void CallbackIO(EditorIniData data)
-        {
-            EditorIniData = data;
-        }
     }
 }
