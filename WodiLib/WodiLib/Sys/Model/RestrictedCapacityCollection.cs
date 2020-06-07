@@ -216,7 +216,7 @@ namespace WodiLib.Sys
         private void ValidateDefaultItem()
         {
             var value = MakeDefaultItem(0);
-            if (ReferenceEquals(value,null))
+            if (ReferenceEquals(value, null))
                 throw new InvalidOperationException(
                     ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}メソッドの返戻値"));
         }
@@ -1042,7 +1042,7 @@ namespace WodiLib.Sys
             NotifyPropertyChanged(nameof(Count));
             NotifyPropertyChanged(ListConstant.IndexerName);
             _collectionChanged?.Invoke(this,
-                NotifyCollectionChangedEventArgsHelper.SetRange(replaceOldItems, replaceItems, index));
+                NotifyCollectionChangedEventArgsHelper.SetRange(replaceItems, replaceOldItems, index));
             _collectionChanged?.Invoke(this,
                 NotifyCollectionChangedEventArgsHelper.InsertRange(insertItems, insertStartIndex));
         }
