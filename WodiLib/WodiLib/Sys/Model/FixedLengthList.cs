@@ -290,14 +290,22 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="item">[Nullable] 対象要素</param>
         /// <returns>指定の要素が含まれる場合はtrue</returns>
-        public bool Contains(T item) => ((IList<T>) Items).Contains(item);
+        public bool Contains(T item)
+        {
+            if (item == null) return false;
+            return ((IList<T>) Items).Contains(item);
+        }
 
         /// <summary>
         /// 指定したオブジェクトを検索し、最初に出現する位置のインデックスを返す。
         /// </summary>
         /// <param name="item">[Nullable] 対象要素</param>
         /// <returns>要素が含まれていない場合、-1</returns>
-        public int IndexOf(T item) => Array.IndexOf(Items, item);
+        public int IndexOf(T item)
+        {
+            if (item == null) return -1;
+            return Array.IndexOf(Items, item);
+        }
 
         /// <summary>
         /// すべての要素を、指定された配列のインデックスから始まる部分にコピーする。
