@@ -4,9 +4,9 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <Nullable>enable</Nullable>
         <PackageId>WodiLib</PackageId>
-        <PackageVersion>2.2.0.1</PackageVersion>
+        <PackageVersion>2.2.1.1</PackageVersion>
         <Copyright>MIT License Copyright(c) 2019 kameske</Copyright>
-        <Version>2.2.1</Version>
+        <Version>2.2.1.1</Version>
         <PackageProjectUrl>https://github.com/kameske/WodiLib</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/kameske/WodiLib/blob/master/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/kameske/WodiLib.git</RepositoryUrl>
@@ -15,7 +15,7 @@
         <Authors>Kameske</Authors>
         <RootNamespace>WodiLib</RootNamespace>
         <Product>WodiLib</Product>
-        <AssemblyVersion>2.2.1.0</AssemblyVersion>
+        <AssemblyVersion>2.2.1.1</AssemblyVersion>
         <AssemblyName>WodiLib</AssemblyName>
         <LangVersion>8</LangVersion>
     </PropertyGroup>
