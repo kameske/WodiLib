@@ -1,5 +1,5 @@
 WodiLib
-Ver 2.2.1
+Ver 2.2.2
 ====
 
 Description
@@ -42,6 +42,9 @@ Loadmap
 
 History
 ----------
+
+- 2020/06/07 Ver 2.2.2
+  - RestrictedCapacityCollection.Overwrite() で発生する　CollectionChanged イベントの引数を修正(#10)
 
 - 2020/04/25 Ver 2.2.1
   - バイナリデータ出力時、特定のコマンドが正しく出力されない不具合修正(#8)
