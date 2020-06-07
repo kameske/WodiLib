@@ -38,18 +38,18 @@ namespace WodiLib.Common
         /// 引数種別によらずすべての選択肢を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        List<CommonEventSpecialArgCase> GetAllSpecialCase();
+        IReadOnlyList<CommonEventSpecialArgCase> GetAllSpecialCase();
 
         /// <summary>
         /// すべての選択肢番号を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        List<int> GetAllSpecialCaseNumber();
+        IReadOnlyList<int> GetAllSpecialCaseNumber();
 
         /// <summary>
         /// すべての選択肢文字列を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        List<string> GetAllSpecialCaseDescription();
+        IReadOnlyList<string> GetAllSpecialCaseDescription();
     }
 }

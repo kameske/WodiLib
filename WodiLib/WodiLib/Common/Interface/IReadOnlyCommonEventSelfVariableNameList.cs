@@ -14,7 +14,7 @@ namespace WodiLib.Common
     /// 読み取り専用コモンイベントリスト
     /// </summary>
     public interface IReadOnlyCommonEventSelfVariableNameList
-        : IReadOnlyCollection<CommonEventSelfVariableName>
+        : IReadOnlyList<CommonEventSelfVariableName>
     {
     }
 }

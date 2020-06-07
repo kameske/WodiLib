@@ -173,30 +173,32 @@ namespace WodiLib.Database
         /// <summary>
         /// コンストラクタ（初期値指定）
         /// </summary>
-        /// <param name="list">初期リスト</param>
+        /// <param name="initItems">初期要素</param>
         /// <exception cref="ArgumentNullException">
-        ///     listがnullの場合、
-        ///     またはlist中にnullが含まれる場合
+        ///     initItemsがnullの場合、
+        ///     またはinitItems中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
+        /// <exception cref="InvalidOperationException">initItemsの要素数が不適切な場合</exception>
         /// <exception cref="ArgumentException">
-        ///     list中に要素数の異なるリスト、
+        ///     initItems中に要素数の異なるリスト、
         ///     または要素の種類が異なるリストがある場合
         /// </exception>
-        public DBItemValuesList(IReadOnlyList<IReadOnlyList<DBItemValue>> list)
+        public DBItemValuesList(IEnumerable<IEnumerable<DBItemValue>> initItems)
         {
-            if (list is null)
+            if (initItems is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(list)));
+                    ErrorMessage.NotNull(nameof(initItems)));
 
-            if (list.HasNullItem())
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNullInList(nameof(list)));
-            if (list.Any(x => x.HasNullItem()))
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNullInList($"{nameof(list)}の要素"));
+            var initItemArr = initItems.ToArray();
 
-            var cnt = list.Count;
+            if (initItemArr.HasNullItem())
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNullInList(nameof(initItems)));
+            if (initItemArr.Any(x => x.HasNullItem()))
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNullInList($"{nameof(initItems)}の要素"));
+
+            var cnt = initItemArr.Length;
             if (cnt < GetMinCapacity())
                 throw new InvalidOperationException(
                     ErrorMessage.UnderListLength(GetMinCapacity()));
@@ -209,7 +211,7 @@ namespace WodiLib.Database
             MadeInstances.Clear();
 
             // 基準になるデータを生成
-            if (list.Count == 0)
+            if (initItemArr.Length == 0)
             {
                 // 項目なし
                 Items.Add(CreateValueListInstance());
@@ -218,29 +220,29 @@ namespace WodiLib.Database
             }
 
             // 入力データの1行目を基準データにする
-            Items.Add(CreateValueListInstance(list[0]));
+            Items.Add(CreateValueListInstance(initItemArr[0]));
 
-            if (list.Count == 1)
+            if (initItemArr.Length == 1)
             {
                 AttachFiledCollectionNotification(this[0]);
                 return;
             }
 
             // データが1件以上の場合、2件目以降のデータの並びが1件目と同様であるかチェック
-            for (var i = 1; i < list.Count; i++)
+            for (var i = 1; i < initItemArr.Length; i++)
             {
-                var result = ValidateListItem(list[0], list[i]);
+                var result = ValidateListItem(initItemArr[0], initItemArr[i]);
                 switch (result)
                 {
                     case ValidationResult.LengthError:
                         throw new ArgumentException(
-                            $"{nameof(list)}[{i}の要素数が異なります。");
+                            $"{nameof(initItems)}[{i}の要素数が異なります。");
                     case ValidationResult.ItemError:
                         throw new ArgumentException(
-                            $"{nameof(list)}[{i}]中に種類の異なる項目があります。");
+                            $"{nameof(initItems)}[{i}]中に種類の異なる項目があります。");
                 }
 
-                Items.Add(CreateValueListInstance(list[i]));
+                Items.Add(CreateValueListInstance(initItemArr[i]));
             }
 
             AttachFiledCollectionNotification(this[0]);
@@ -394,7 +396,7 @@ namespace WodiLib.Database
         ///     またはvalues中の値種別が不適切な場合
         /// </exception>
         public IFixedLengthDBItemValueList CreateValueListInstance(
-            IReadOnlyList<DBItemValue> values)
+            IEnumerable<DBItemValue> values)
         {
             var instance = new DBItemValueList(this, values);
             RefreshMadeInstanceReference();
@@ -513,20 +515,22 @@ namespace WodiLib.Database
         /// <param name="types">値種別リスト</param>
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         /// <exception cref="InvalidOperationException">項目数がDBItemValueList.MaxCapacityを超える場合</exception>
-        public void AddFieldRange(IReadOnlyCollection<DBItemType> types)
+        public void AddFieldRange(IEnumerable<DBItemType> types)
         {
             if (types is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(types)));
 
-            var addedLength = Items[0].Count + types.Count;
+            var typeArr = types.ToArray();
+
+            var addedLength = Items[0].Count + typeArr.Length;
             if (addedLength > DBItemValueList.MaxCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
 
             var index = Items[0].Count;
-            MadeInstances.ReflectAddValueTypeRange(types);
-            foreach (var type in types)
+            MadeInstances.ReflectAddValueTypeRange(typeArr);
+            foreach (var type in typeArr)
             {
 #pragma warning disable 618
                 InsertFieldHandlerList.Execute(index, type.DBItemDefaultValue);
@@ -542,21 +546,23 @@ namespace WodiLib.Database
         /// <param name="values">値</param>
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         /// <exception cref="InvalidOperationException">項目数がDBItemValueList.MaxCapacityを超える場合</exception>
-        public void AddFieldRange(IReadOnlyCollection<DBItemValue> values)
+        public void AddFieldRange(IEnumerable<DBItemValue> values)
         {
             if (values is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(values)));
 
-            var addedLength = Items[0].Count + values.Count;
+            var valueArr = values.ToArray();
+
+            var addedLength = Items[0].Count + valueArr.Length;
             if (addedLength > DBItemValueList.MaxCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
 
             var index = Items[0].Count;
-            MadeInstances.ReflectAddValueRange(values);
+            MadeInstances.ReflectAddValueRange(valueArr);
 #pragma warning disable 618
-            foreach (var value in values)
+            foreach (var value in valueArr)
             {
                 InsertFieldHandlerList.Execute(index, value);
                 index++;
@@ -640,7 +646,7 @@ namespace WodiLib.Database
         ///     またはtypesにnull要素が含まれる場合
         /// </exception>
         /// <exception cref="InvalidOperationException">要素数がDBItemValueList.MaxCapacityを超える場合</exception>
-        public void InsertFieldRange(int index, IReadOnlyCollection<DBItemType> types)
+        public void InsertFieldRange(int index, IEnumerable<DBItemType> types)
         {
             var max = Items[0].Count;
             const int min = 0;
@@ -650,19 +656,21 @@ namespace WodiLib.Database
 
             if (types is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(types)));
 
-            if (types.HasNullItem())
+            var typeArr = types.ToArray();
+
+            if (typeArr.HasNullItem())
                 throw new ArgumentNullException(
                     ErrorMessage.NotNullInList(nameof(types)));
 
-            var addedLength = Items[0].Count + types.Count;
+            var addedLength = Items[0].Count + typeArr.Length;
             if (addedLength > DBItemValueList.MaxCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
 
-            MadeInstances.ReflectInsertValueTypeRange(index, types);
+            MadeInstances.ReflectInsertValueTypeRange(index, typeArr);
             var handlerIndex = index;
 #pragma warning disable 618
-            foreach (var type in types)
+            foreach (var type in typeArr)
             {
                 InsertFieldHandlerList.Execute(handlerIndex, type.DBItemDefaultValue);
                 handlerIndex++;
@@ -682,7 +690,7 @@ namespace WodiLib.Database
         ///     またはtypesにnull要素が含まれる場合
         /// </exception>
         /// <exception cref="InvalidOperationException">要素数がDBItemValueList.MaxCapacityを超える場合</exception>
-        public void InsertFieldRange(int index, IReadOnlyCollection<DBItemValue> values)
+        public void InsertFieldRange(int index, IEnumerable<DBItemValue> values)
         {
             var max = Items[0].Count;
             const int min = 0;
@@ -692,19 +700,21 @@ namespace WodiLib.Database
 
             if (values is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(values)));
 
-            if (values.HasNullItem())
+            var valueArr = values.ToArray();
+
+            if (valueArr.HasNullItem())
                 throw new ArgumentNullException(
                     ErrorMessage.NotNullInList(nameof(values)));
 
-            var addedLength = Items[0].Count + values.Count;
+            var addedLength = Items[0].Count + valueArr.Length;
             if (addedLength > DBItemValueList.MaxCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
 
-            MadeInstances.ReflectInsertValueRange(index, values);
+            MadeInstances.ReflectInsertValueRange(index, valueArr);
             var handlerIndex = index;
 #pragma warning disable 618
-            foreach (var value in values)
+            foreach (var value in valueArr)
             {
                 InsertFieldHandlerList.Execute(handlerIndex, value);
                 handlerIndex++;
@@ -981,15 +991,18 @@ namespace WodiLib.Database
         /// <summary>
         /// 項目チェック
         /// </summary>
-        /// <param name="baseList">チェック基準リスト</param>
-        /// <param name="checkList">チェック対象リスト</param>
+        /// <param name="baseItems">チェック基準要素</param>
+        /// <param name="checkItems">チェック対象要素</param>
         /// <returns>チェック結果</returns>
-        private static ValidationResult ValidateListItem(IReadOnlyList<DBItemValue> baseList,
-            IReadOnlyCollection<DBItemValue> checkList)
+        private static ValidationResult ValidateListItem(IEnumerable<DBItemValue> baseItems,
+            IEnumerable<DBItemValue> checkItems)
         {
-            if (baseList.Count != checkList.Count) return ValidationResult.LengthError;
+            var baseArr = baseItems.ToArray();
+            var checkArr = checkItems.ToArray();
 
-            var searchError = checkList.Where((t, i) => t.Type != baseList[i].Type).Any();
+            if (baseArr.Length != checkArr.Length) return ValidationResult.LengthError;
+
+            var searchError = checkArr.Where((t, i) => t.Type != baseArr[i].Type).Any();
             if (searchError)
             {
                 return ValidationResult.ItemError;

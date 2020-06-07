@@ -144,7 +144,7 @@ namespace WodiLib.Common
             /// 引数種別によらずすべての選択肢を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            public List<CommonEventSpecialArgCase> GetAllSpecialCase()
+            public IReadOnlyList<CommonEventSpecialArgCase> GetAllSpecialCase()
             {
                 // -1～-3を使用しない場合は空リストで良い
                 if (!DatabaseUseAdditionalItemsFlag) return new List<CommonEventSpecialArgCase>();
@@ -156,7 +156,7 @@ namespace WodiLib.Common
             /// すべての選択肢番号を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            public List<int> GetAllSpecialCaseNumber()
+            public IReadOnlyList<int> GetAllSpecialCaseNumber()
             {
                 return new List<int>
                 {
@@ -171,7 +171,7 @@ namespace WodiLib.Common
             /// すべての選択肢文字列を取得する。
             /// </summary>
             /// <returns>すべての選択肢リスト</returns>
-            public List<string> GetAllSpecialCaseDescription()
+            public IReadOnlyList<string> GetAllSpecialCaseDescription()
             {
                 if (!DatabaseUseAdditionalItemsFlag) return new List<string>();
 
@@ -209,7 +209,7 @@ namespace WodiLib.Common
             /// <param name="argCase">[NotEmpty] 追加する選択肢</param>
             /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
             /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
-            /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
+            /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
             public void InsertSpecialCase(int index, CommonEventSpecialArgCase argCase)
             {
                 throw new InvalidOperationException(
@@ -254,7 +254,7 @@ namespace WodiLib.Common
             /// <param name="argCase">[NotEmpty] 更新する選択肢内容</param>
             /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
             /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
-            /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
+            /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
             public void UpdateManualSpecialCase(int index, CommonEventSpecialArgCase argCase)
             {
                 throw new InvalidOperationException(
@@ -279,7 +279,7 @@ namespace WodiLib.Common
             /// <param name="index">[Range(0, 選択肢数-1)] 更新する選択肢</param>
             /// <param name="count">[Range(0, 選択肢数-1)] 削除数</param>
             /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
-            /// <exception cref="ArgumentOutOfRangeException">index, countが指定範囲外の場合</exception>
+            /// <exception cref="ArgumentOutOfRangeException">index", countが指定範囲外の場合</exception>
             /// <exception cref="ArgumentException">最大数を超えて削除しようとする場合</exception>
             public void RemoveSpecialCaseRange(int index, int count)
             {

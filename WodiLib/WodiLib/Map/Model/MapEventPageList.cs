@@ -58,11 +58,11 @@ namespace WodiLib.Map
         /// <param name="pages">[LengthRange(1, 10)] 初期リスト</param>
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         /// <exception cref="ArgumentNullException">
-        ///     listがnullの場合、
-        ///     またはlist中にnullが含まれる場合
+        ///     pagesがnullの場合、
+        ///     またはpages中にnullが含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
-        public MapEventPageList(IReadOnlyCollection<MapEventPage> pages) : base(pages)
+        /// <exception cref="InvalidOperationException">pagesの要素数が不適切な場合</exception>
+        public MapEventPageList(IEnumerable<MapEventPage> pages) : base(pages)
         {
         }
 

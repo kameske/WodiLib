@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using WodiLib.Sys;
 
@@ -60,16 +61,19 @@ namespace WodiLib.Map
         ///     または chips に null 要素が含まれる場合
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">chips の要素数が指定範囲外の場合</exception>
-        public MapChipColumns(IReadOnlyList<MapChip> chips)
+        public MapChipColumns(IEnumerable<MapChip> chips)
         {
             if (chips is null)
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(chips)));
-            if (chips.HasNullItem())
+
+            var chipArr = chips.ToArray();
+
+            if (chipArr.HasNullItem())
                 throw new ArgumentNullException(
                     ErrorMessage.NotNullInList(nameof(chips)));
 
-            var length = chips.Count;
+            var length = chipArr.Length;
             if (length < MinCapacity || MaxCapacity < length)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(chips), MinCapacity, MaxCapacity, length));
@@ -77,7 +81,7 @@ namespace WodiLib.Map
             AdjustLength(length);
             for (var i = 0; i < length; i++)
             {
-                this[i] = chips[i];
+                this[i] = chipArr[i];
             }
         }
 

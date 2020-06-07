@@ -46,11 +46,11 @@ namespace WodiLib.Common
         /// <summary>
         /// コンストラクタ（初期値指定）
         /// </summary>
-        /// <param name="list">初期リスト</param>
-        /// <exception cref="ArgumentNullException">listがnullの場合</exception>
-        /// <exception cref="InvalidOperationException">listの要素数がMaxLengthを超える場合</exception>
+        /// <param name="items">要素リスト</param>
+        /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
+        /// <exception cref="InvalidOperationException">itemsの要素数がMaxLengthを超える場合</exception>
         public CommonEventSpecialArgCaseList(
-            IReadOnlyCollection<CommonEventSpecialArgCase> list) : base(list)
+            IEnumerable<CommonEventSpecialArgCase> items) : base(items)
         {
         }
 

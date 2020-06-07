@@ -21,7 +21,6 @@ namespace WodiLib.Test.IO
         /** ========================================
          *  マップデータオブジェクト作成
          *  ======================================== */
-
         public static MapData GenerateMap023Data()
         {
             // マップ情報
@@ -1585,6 +1584,78 @@ namespace WodiLib.Test.IO
             };
         }
 
+        public static MapData GenerateFixMapData()
+        {
+            return new MapData
+            {
+                Memo = "なし",
+                TileSetId = 0,
+                Layer1 = GenerateEmptyLayer(20, 15),
+                Layer2 = GenerateEmptyLayer(20, 15),
+                Layer3 = GenerateEmptyLayer(20, 15),
+                MapEvents = new MapEventList(new[]
+                {
+                    new MapEvent
+                    {
+                        EventName = "不具合修正確認（コマンド）",
+                        MapEventId = 0,
+                        Position = (9, 3),
+                        MapEventPageList = new MapEventPageList(new[]
+                        {
+                            new MapEventPage
+                            {
+                                GraphicInfo = new MapEventPageGraphicInfo
+                                {
+                                    IsGraphicTileChip = false,
+                                    CharaChipFilePath = "",
+                                    CharaChipDrawType = PictureDrawType.Normal,
+                                    CharaChipOpacity = 255
+                                },
+                                BootInfo = new MapEventPageBootInfo
+                                {
+                                    MapEventBootType = MapEventBootType.PushOKKey,
+                                },
+                                MoveRouteInfo = new MapEventPageMoveRouteInfo
+                                {
+                                    MoveType = MoveType.Not,
+                                    MoveSpeed = MoveSpeed.Normal,
+                                    MoveFrequency = MoveFrequency.Middle,
+                                    AnimateSpeed = AnimateSpeed.Middle,
+                                },
+                                Option =
+                                {
+                                    IsWaitAnimationOn = true,
+                                    IsMoveAnimationOn = true,
+                                    IsHitBox = true,
+                                },
+                                HitExtendRange = (0, 0),
+                                ShadowGraphicId = 0,
+                                EventCommands = new EventCommandList(new[]
+                                {
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[103][0,1]<0>()(""イベントコマンドのピクチャ表示がディレイ有りの時出力がおかしくなる #8"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[103][0,1]<0>()(""操作が「表示」「移動」の場合にバグ発生。「消去」「ディレイリセット」は問題なし。"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[150][18,1]<0>(32,3221,0,1,1,1,255,0,0,100,0,0,33554432,51,0,100,100,100)(""ディレイあり、カラー100、同値false"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[150][18,0]<0>(33,65534,0,0,0,1,255,0,0,100,0,0,33554432,234,0,100,100,100)()"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[103][0,1]<0>()(""ピクチャ連続指定時にも同様の不具合あり"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[150][18,1]<0>(16777216,50000,0,1,1,1,255,0,0,100,0,0,33554432,0,50002,100,100,100)(""3000000"")"),
+                                    EventCommandFactory.CreateCommandString(
+                                        @"[150][18,0]<0>(16777217,3,0,0,0,1,255,0,0,100,0,0,33554432,0,4,100,100,100)()"),
+                                    EventCommandFactory.CreateCommandString(@"[99][1,0]<0>(1)()"),
+                                    EventCommandFactory.CreateCommandString(@"[0][0,0]<0>()()"),
+                                })
+                            },
+                        })
+                    },
+                })
+            };
+        }
+
         private static Layer GenerateEmptyLayer(int width, int height)
         {
             var chips = new List<List<MapChip>>();
@@ -1613,7 +1684,6 @@ namespace WodiLib.Test.IO
         /** ========================================
          *  テスト用ファイル出力
          *  ======================================== */
-
         /// <summary>テストディレクトリルート</summary>
         public static string TestWorkRootDir => $@"{Path.GetTempPath()}WodiLibTest";
 
@@ -1627,6 +1697,7 @@ namespace WodiLib.Test.IO
             ("SampleMapA.mps", TestResources.MapFile_SampleMapA),
             ("SampleMapB.mps", TestResources.MapFile_SampleMapB),
             ("Dungeon.mps", TestResources.MapFile_Dungeon),
+            ("fix.mps", TestResources.FixMap),
         };
 
         /// <summary>

@@ -115,7 +115,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="argCases">選択肢</param>
         /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
-        public override void AddRangeSpecialCase(IReadOnlyCollection<DatabaseValueCase> argCases)
+        public override void AddRangeSpecialCase(IEnumerable<DatabaseValueCase> argCases)
         {
             if (argCases is null)
                 throw new ArgumentNullException(
@@ -153,7 +153,7 @@ namespace WodiLib.Database
         /// <param name="argCases">選択肢</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void InsertRangeSpecialCase(int index, IReadOnlyCollection<DatabaseValueCase> argCases)
+        public override void InsertRangeSpecialCase(int index, IEnumerable<DatabaseValueCase> argCases)
         {
             var max = argCaseList.Count;
             const int min = 0;

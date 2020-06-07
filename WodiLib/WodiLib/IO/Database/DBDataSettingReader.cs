@@ -209,7 +209,7 @@ namespace WodiLib.IO
         /// <param name="setting">結果格納インスタンス</param>
         /// <param name="itemTypes">項目種別リスト</param>
         private void ReadDataSettingValue(FileReadStatus status, DBDataSetting setting,
-            IReadOnlyCollection<DBItemType> itemTypes)
+            IEnumerable<DBItemType> itemTypes)
         {
             var length = status.ReadInt();
             status.IncreaseIntOffset();
@@ -217,14 +217,16 @@ namespace WodiLib.IO
             Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
                 "データ数", length));
 
-            var numberItemCount = itemTypes.Count(x => x == DBItemType.Int);
-            var stringItemCount = itemTypes.Count(x => x == DBItemType.String);
+            var itemTypeArr = itemTypes.ToArray();
+
+            var numberItemCount = itemTypeArr.Count(x => x == DBItemType.Int);
+            var stringItemCount = itemTypeArr.Count(x => x == DBItemType.String);
 
             var valuesList = new List<List<DBItemValue>>();
 
             for (var i = 0; i < length; i++)
             {
-                ReadOneDataSettingValue(status, valuesList, itemTypes, numberItemCount, stringItemCount);
+                ReadOneDataSettingValue(status, valuesList, itemTypeArr, numberItemCount, stringItemCount);
             }
 
             setting.SettingValuesList = new DBItemValuesList(valuesList);
@@ -240,7 +242,7 @@ namespace WodiLib.IO
         /// <param name="stringItemCount">文字列項目数</param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        private void ReadOneDataSettingValue(FileReadStatus status, List<List<DBItemValue>> result,
+        private void ReadOneDataSettingValue(FileReadStatus status, ICollection<List<DBItemValue>> result,
             IEnumerable<DBItemType> itemTypes, int numberItemCount, int stringItemCount)
         {
             Logger.Debug(FileIOMessage.StartCommonRead(typeof(DBDataSettingReader),

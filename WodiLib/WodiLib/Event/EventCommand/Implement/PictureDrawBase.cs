@@ -77,9 +77,9 @@ namespace WodiLib.Event.EventCommand
                 }
 
                 // 連続ピクチャ指定あり
-                if (IsMultiTarget) return 0x10;
+                if (IsMultiTarget) return IsSameColor ? (byte) 0x10 : (byte) 0x13;
                 // 発動ディレイ指定
-                if (Delay != 0) return 0x0F;
+                if (Delay != 0) return IsSameColor ? (byte) 0x0F : (byte) 0x13;
                 // カラー同値ON
                 if (IsSameColor) return 0x0E;
                 // 読み込みファイル変数指定
