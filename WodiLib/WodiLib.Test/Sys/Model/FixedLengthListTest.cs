@@ -125,7 +125,7 @@ namespace WodiLib.Test.Sys
         [TestCase(10, true)]
         public static void IndexerGetTest(int index, bool isError)
         {
-            var instance = MakeCollectionForMethodTest(10, out var countDic, out var handlerCalledCount);
+            var instance = MakeCollectionForMethodTest(10, out var countDic);
             var errorOccured = false;
             try
             {
@@ -142,12 +142,6 @@ namespace WodiLib.Test.Sys
 
             // 各Virtualメソッドが一度も呼ばれていないこと
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnSetItemCalled)], 0);
-
-            // 各イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
         }
 
         [TestCase(-1, "abc", true)]
@@ -160,7 +154,7 @@ namespace WodiLib.Test.Sys
         [TestCase(10, null, true)]
         public static void IndexerSetTest(int index, string setItem, bool isError)
         {
-            var instance = MakeCollectionForMethodTest(10, out var countDic, out var handlerCalledCount);
+            var instance = MakeCollectionForMethodTest(10, out var countDic);
 
             var errorOccured = false;
             try
@@ -179,15 +173,6 @@ namespace WodiLib.Test.Sys
             // 各Virtualメソッドが意図した回数呼ばれていること
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnSetItemCalled)], isError ? 0 : 1);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各有効イベントハンドラが意図した回数呼ばれていること
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString],
-                isError ? 0 : 1);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             if (errorOccured) return;
 
@@ -225,7 +210,7 @@ namespace WodiLib.Test.Sys
         [TestCase(10, 1, true)]
         public static void GetRangeTest(int index, int count, bool isError)
         {
-            var instance = MakeCollectionForMethodTest(10, out var countDic, out var handlerCalledCount);
+            var instance = MakeCollectionForMethodTest(10, out var countDic);
             var errorOccured = false;
             IEnumerable<string> result = null;
 
@@ -246,13 +231,7 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnSetItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
 
-            // 各イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
-
-            if (errorOccured || result == null) return;
+            if (errorOccured) return;
 
             var resultArray = result as string[] ?? result.ToArray();
 
@@ -269,7 +248,7 @@ namespace WodiLib.Test.Sys
         [TestCase(10)]
         public static void ClearTest(int initLength)
         {
-            var instance = MakeCollectionForMethodTest(initLength, out var countDic, out var handlerCalledCount);
+            var instance = MakeCollectionForMethodTest(initLength, out var countDic);
 
             var capacity = instance.GetCapacity();
 
@@ -291,14 +270,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnSetItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 1);
 
-            // 各有効イベントハンドラが意図した回数呼ばれていること
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 1);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
-
             // 要素数が容量と一致すること
             Assert.AreEqual(instance.Count, capacity);
 
@@ -314,7 +285,7 @@ namespace WodiLib.Test.Sys
         [TestCase(10, null, false)]
         public static void ContainsTest(int initLength, string item, bool result)
         {
-            var instance = MakeCollectionForMethodTest(initLength, out var countDic, out var handlerCalledCount);
+            var instance = MakeCollectionForMethodTest(initLength, out var countDic);
             var containsResult = false;
 
             var errorOccured = false;
@@ -337,12 +308,6 @@ namespace WodiLib.Test.Sys
             // 各Virtualメソッドが呼ばれていないこと
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnSetItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
         }
 
         [TestCase("1", 1)]
@@ -350,7 +315,7 @@ namespace WodiLib.Test.Sys
         [TestCase(null, -1)]
         public static void IndexOfTest(string item, int result)
         {
-            var instance = MakeCollectionForMethodTest(10, out _, out _);
+            var instance = MakeCollectionForMethodTest(10, out _);
             var indexOfResult = -1;
 
             var errorOccured = false;
@@ -390,7 +355,7 @@ namespace WodiLib.Test.Sys
         [TestCase(11, 2, true)]
         public static void CopyToTest(int arrayLength, int index, bool isError)
         {
-            var instance = MakeCollectionForMethodTest(10, out _, out _);
+            var instance = MakeCollectionForMethodTest(10, out _);
             var copyArray = MakeStringArray(arrayLength);
 
             var errorOccured = false;
@@ -432,7 +397,7 @@ namespace WodiLib.Test.Sys
         [Test]
         public static void GetEnumeratorTest()
         {
-            var instance = MakeCollectionForMethodTest(10, out _, out _);
+            var instance = MakeCollectionForMethodTest(10, out _);
             // foreachを用いた処理で要素が正しく取得できること
             var i = 0;
             foreach (var value in instance)
@@ -445,7 +410,7 @@ namespace WodiLib.Test.Sys
         [Test]
         public static void SerializeTest()
         {
-            var target = MakeCollectionForMethodTest(10, out _, out _);
+            var target = MakeCollectionForMethodTest(10, out _);
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
         }
@@ -478,8 +443,7 @@ namespace WodiLib.Test.Sys
         }
 
         private static CollectionTest1 MakeCollectionForMethodTest(int initLength,
-            out Dictionary<string, int> methodCalledCount,
-            out Dictionary<string, Dictionary<string, int>> handlerCalledCount)
+            out Dictionary<string, int> methodCalledCount)
         {
             var initStringList = MakeStringList(initLength);
             var result = initStringList == null
@@ -495,50 +459,6 @@ namespace WodiLib.Test.Sys
             var ints = methodCalledCount;
             result.OnSetItemCalled = () => ints[nameof(CollectionTest1.OnSetItemCalled)]++;
             result.OnClearItemsCalled = () => ints[nameof(CollectionTest1.OnClearItemsCalled)]++;
-
-            handlerCalledCount = new Dictionary<string, Dictionary<string, int>>
-            {
-                {
-                    nameof(CollectionTest1.OnSetItemCalled),
-                    new Dictionary<string, int>
-                    {
-                        {bool.TrueString, 0}, {bool.FalseString, 0}
-                    }
-                },
-                {
-                    nameof(CollectionTest1.OnClearItemsCalled),
-                    new Dictionary<string, int>
-                    {
-                        {bool.TrueString, 0}, {bool.FalseString, 0}
-                    }
-                },
-            };
-
-            var hccs = handlerCalledCount;
-            result.SetItemHandlerList.Add(
-                new OnSetItemHandler<string>(
-                    (i, s) => { hccs[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString]++; },
-                    bool.TrueString, false
-                )
-            );
-            result.SetItemHandlerList.Add(
-                new OnSetItemHandler<string>(
-                    (i, s) => { hccs[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString]++; }, bool.FalseString,
-                    false, false
-                )
-            );
-            result.ClearItemHandlerList.Add(
-                new OnClearItemHandler<string>(
-                    () => { hccs[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString]++; }, bool.TrueString,
-                    false
-                )
-            );
-            result.ClearItemHandlerList.Add(
-                new OnClearItemHandler<string>(
-                    () => { hccs[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString]++; }, bool.FalseString,
-                    false, false
-                )
-            );
 
             return result;
         }
