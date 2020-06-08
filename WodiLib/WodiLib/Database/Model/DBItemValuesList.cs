@@ -723,6 +723,72 @@ namespace WodiLib.Database
         }
 
         /// <summary>
+        /// 自身が生成したすべての値リストインスタンスに対し、
+        /// 指定したインデックスにある項目をコレクション内の新しい場所へ移動する。
+        /// </summary>
+        /// <param name="oldIndex">[Range(0, Items[0].Count - 1)] 移動する項目のインデックス</param>
+        /// <param name="newIndex">[Range(0, Items[0].Count - 1)] 移動先のインデックス</param>
+        /// <exception cref="InvalidOperationException">
+        ///    要素数が0の場合
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     oldIndex, newIndex が指定範囲外の場合
+        /// </exception>
+        public void MoveField(int oldIndex, int newIndex)
+        {
+            if (Items[0].Count == 0)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotExecute("リストの要素が0個のため"));
+
+            var max = Items[0].Count - 1;
+            const int min = 0;
+            if (oldIndex < min || max < oldIndex)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(oldIndex), min, max, oldIndex));
+            if (newIndex < min || max < newIndex)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(newIndex), min, max, newIndex));
+
+            MadeInstances.ReflectMove(oldIndex, newIndex);
+        }
+
+        /// <summary>
+        /// 自身が生成したすべての値リストインスタンスに対し、
+        /// 指定したインデックスから始まる連続した項目をコレクション内の新しい場所へ移動する。
+        /// </summary>
+        /// <param name="oldIndex">[Range(0, Items[0].Count - 1)] 移動する項目のインデックス開始位置</param>
+        /// <param name="newIndex">[Range(0, Items[0].Count - count)] 移動先のインデックス開始位置</param>
+        /// <param name="count">[Range(0, Items[0].Count - oldIndex)] 移動させる要素数</param>
+        /// <exception cref="InvalidOperationException">
+        ///    要素数が0の場合
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     oldIndex, newIndex, count が指定範囲外の場合
+        /// </exception>
+        public void MoveFieldRange(int oldIndex, int newIndex, int count)
+        {
+            if (Items[0].Count == 0)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotExecute("リストの要素が0個のため"));
+
+            const int min = 0;
+            var oldIndexMax = Items[0].Count - 1;
+            if (oldIndex < min || oldIndexMax < oldIndex)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(oldIndex), min, oldIndexMax, oldIndex));
+            var lengthMax = Items[0].Count - oldIndex;
+            if (count < min || lengthMax < count)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(newIndex), min, lengthMax, newIndex));
+            var newIndexMax = Items[0].Count - count;
+            if (newIndex < min || newIndexMax < newIndex)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(newIndex), min, newIndexMax, newIndex));
+
+            MadeInstances.ReflectMoveRange(oldIndex, newIndex, count);
+        }
+
+        /// <summary>
         /// 自身が生成したすべての値リストインスタンスに対し、指定したインデックスにある項目を削除する。
         /// </summary>
         /// <param name="itemId">[Range(0, Items[0].Count - 1)] インデックス</param>

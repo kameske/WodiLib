@@ -2077,6 +2077,391 @@ namespace WodiLib.Test.Database
             }
         }
 
+        private static readonly object[] MoveFieldTestCaseSource =
+        {
+            new object[] {0, -1, -1, true},
+            new object[] {0, -1, 0, true},
+            new object[] {0, -1, 1, true},
+            new object[] {0, 0, -1, true},
+            new object[] {0, 0, 0, true},
+            new object[] {0, 0, 1, true},
+            new object[] {0, 1, -1, true},
+            new object[] {0, 1, 0, true},
+            new object[] {0, 1, 1, true},
+            new object[] {10, -1, -1, true},
+            new object[] {10, -1, 0, true},
+            new object[] {10, -1, 9, true},
+            new object[] {10, -1, 10, true},
+            new object[] {10, 0, -1, true},
+            new object[] {10, 0, 0, false},
+            new object[] {10, 0, 9, false},
+            new object[] {10, 0, 10, true},
+            new object[] {10, 3, -1, true},
+            new object[] {10, 3, 0, false},
+            new object[] {10, 3, 2, false},
+            new object[] {10, 3, 3, false},
+            new object[] {10, 3, 4, false},
+            new object[] {10, 3, 9, false},
+            new object[] {10, 3, 10, true},
+            new object[] {10, 9, -1, true},
+            new object[] {10, 9, 0, false},
+            new object[] {10, 9, 9, false},
+            new object[] {10, 9, 10, true},
+            new object[] {10, 10, -1, true},
+            new object[] {10, 10, 0, true},
+            new object[] {10, 10, 9, true},
+            new object[] {10, 10, 10, true},
+        };
+
+        [TestCaseSource(nameof(MoveFieldTestCaseSource))]
+        public static void MoveFieldTest(int initLength, int oldIndex, int newIndex, bool isError)
+        {
+            var initItemList = MakeInitList2(initLength);
+            var instance = initItemList == null
+                ? new DBItemValuesList()
+                : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
+
+            var errorOccured = false;
+            try
+            {
+                instance.MoveField(oldIndex, newIndex);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (!(errorOccured || initItemList == null))
+            {
+                // 要素数が変化していないこと
+                Assert.AreEqual(instance[0].Count, initLength);
+
+                // 項目値検証処理
+                Action<int, int> checkValue = (idx, check) =>
+                {
+                    if (instance[0][idx].Type == DBItemType.Int)
+                    {
+                        Assert.AreEqual(instance[0][idx], (DBItemValue) (DBValueInt) check);
+                    }
+                    else if (instance[0][idx].Type == DBItemType.String)
+                    {
+                        Assert.AreEqual(instance[0][idx], (DBItemValue) (DBValueString) check.ToString());
+                    }
+                    else
+                    {
+                        // 来ないはず
+                        Assert.Fail();
+                    }
+                };
+
+                if (oldIndex == newIndex)
+                {
+                    // 移動元と移動先が同じ場合、並び順が変化していないこと
+                    for (var i = 0; i < initLength; i++)
+                    {
+                        checkValue(i, i);
+                    }
+                }
+                else if (oldIndex < newIndex)
+                {
+                    // 後方へ移動させた場合
+                    // 移動させた要素以前の要素が変化していないこと
+                    var i = 0;
+                    for (; i < oldIndex; i++)
+                    {
+                        checkValue(i, i);
+                    }
+
+                    // 移動元番号～移動先番号-1間の要素が一つ前にずれていること
+                    for (; i < newIndex; i++)
+                    {
+                        checkValue(i, i + 1);
+                    }
+
+                    // 移動先番号の要素が移動元要素と一致すること
+                    checkValue(i, oldIndex);
+                    i++;
+
+                    // 移動先番号+1以降の要素が変化していないこと
+                    for (; i < initLength; i++)
+                    {
+                        checkValue(i, i);
+                    }
+                }
+                else
+                {
+                    // 前方へ移動させた場合
+                    // 移動先要素以前の要素が変化していないこと
+                    var i = 0;
+                    for (; i < newIndex; i++)
+                    {
+                        checkValue(i, i);
+                    }
+
+                    // 移動先番号の要素が移動元要素と一致すること
+                    checkValue(i, oldIndex);
+                    i++;
+
+                    // 移動先番号+1～移動元番号間の要素が一つ後ろにずれていること
+                    for (; i <= oldIndex; i++)
+                    {
+                        checkValue(i, i - 1);
+                    }
+
+                    // 移動元番号以降の要素が変化していないこと
+                    for (; i < initLength; i++)
+                    {
+                        checkValue(i, i);
+                    }
+                }
+            }
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured || initItemList == null)
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 0);
+                Assert.AreEqual(changedFieldCollectionList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 1);
+                Assert.IsTrue(changedFieldPropertyList[0].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Move);
+            }
+        }
+
+        private static readonly object[] MoveFieldRangeTestCaseSource =
+        {
+            new object[] {0, -1, -1, 0, true},
+            new object[] {0, -1, 0, 0, true},
+            new object[] {0, -1, 1, 0, true},
+            new object[] {0, 0, -1, 0, true},
+            new object[] {0, 0, 0, 0, true},
+            new object[] {0, 0, 1, 0, true},
+            new object[] {0, 1, -1, 0, true},
+            new object[] {0, 1, 0, 0, true},
+            new object[] {0, 1, 1, 0, true},
+            new object[] {10, -1, -1, 0, true},
+            new object[] {10, -1, 0, 0, true},
+            new object[] {10, -1, 9, 0, true},
+            new object[] {10, -1, 10, 0, true},
+            new object[] {10, 0, -1, 0, true},
+            new object[] {10, 0, 0, -1, true},
+            new object[] {10, 0, 0, 0, false},
+            new object[] {10, 0, 0, 10, false},
+            new object[] {10, 0, 0, 11, true},
+            new object[] {10, 0, 9, -1, true},
+            new object[] {10, 0, 9, 0, false},
+            new object[] {10, 0, 9, 1, false},
+            new object[] {10, 0, 9, 2, true},
+            new object[] {10, 0, 10, -1, true},
+            new object[] {10, 0, 10, 0, false},
+            new object[] {10, 0, 10, 1, true},
+            new object[] {10, 3, -1, 0, true},
+            new object[] {10, 3, 0, -1, true},
+            new object[] {10, 3, 0, 0, false},
+            new object[] {10, 3, 0, 7, false},
+            new object[] {10, 3, 0, 8, true},
+            new object[] {10, 3, 2, -1, true},
+            new object[] {10, 3, 2, 0, false},
+            new object[] {10, 3, 2, 7, false},
+            new object[] {10, 3, 2, 8, true},
+            new object[] {10, 3, 3, -1, true},
+            new object[] {10, 3, 3, 0, false},
+            new object[] {10, 3, 3, 7, false},
+            new object[] {10, 3, 3, 8, true},
+            new object[] {10, 3, 4, -1, true},
+            new object[] {10, 3, 4, 0, false},
+            new object[] {10, 3, 4, 6, false},
+            new object[] {10, 3, 4, 7, true},
+            new object[] {10, 3, 9, -1, true},
+            new object[] {10, 3, 9, 0, false},
+            new object[] {10, 3, 9, 1, false},
+            new object[] {10, 3, 9, 2, true},
+            new object[] {10, 3, 10, -1, true},
+            new object[] {10, 3, 10, 0, false},
+            new object[] {10, 3, 10, 1, true},
+            new object[] {10, 9, -1, 0, true},
+            new object[] {10, 9, 0, -1, true},
+            new object[] {10, 9, 0, 0, false},
+            new object[] {10, 9, 0, 1, false},
+            new object[] {10, 9, 0, 2, true},
+            new object[] {10, 9, 9, -1, true},
+            new object[] {10, 9, 9, 0, false},
+            new object[] {10, 9, 9, 1, false},
+            new object[] {10, 9, 9, 2, true},
+            new object[] {10, 9, 10, -1, true},
+            new object[] {10, 9, 10, 0, false},
+            new object[] {10, 9, 10, 1, true},
+            new object[] {10, 10, -1, 0, true},
+            new object[] {10, 10, 0, -1, true},
+            new object[] {10, 10, 0, 0, true},
+            new object[] {10, 10, 0, 1, true},
+            new object[] {10, 10, 9, -1, true},
+            new object[] {10, 10, 9, 0, true},
+            new object[] {10, 10, 9, 1, true},
+            new object[] {10, 10, 10, -1, true},
+            new object[] {10, 10, 10, 0, true},
+            new object[] {10, 10, 10, 1, true},
+        };
+
+        [TestCaseSource(nameof(MoveFieldRangeTestCaseSource))]
+        public static void MoveFieldRangeTest(int initLength, int oldIndex, int newIndex, int count, bool isError)
+        {
+            var initItemList = MakeInitList2(initLength);
+            var instance = initItemList == null
+                ? new DBItemValuesList()
+                : new DBItemValuesList(initItemList);
+            var changedDataPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedDataPropertyList.Add(args.PropertyName); };
+            var changedDataCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (sender, args) => { changedDataCollectionList.Add(args); };
+            var changedFieldPropertyList = new List<string>();
+            instance.FieldPropertyChanged += (sender, args) => { changedFieldPropertyList.Add(args.PropertyName); };
+            var changedFieldCollectionList = new List<NotifyCollectionChangedEventArgs>();
+            instance.FieldCollectionChanged += (sender, args) => { changedFieldCollectionList.Add(args); };
+
+            var errorOccured = false;
+            try
+            {
+                instance.MoveFieldRange(oldIndex, newIndex, count);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (!(errorOccured || initItemList == null))
+            {
+                // 要素数が変化していないこと
+                Assert.AreEqual(instance[0].Count, initLength);
+
+                // 項目値検証処理
+                Action<int, int> checkValue = (idx, check) =>
+                {
+                    if (instance[0][idx].Type == DBItemType.Int)
+                    {
+                        Assert.AreEqual(instance[0][idx], (DBItemValue) (DBValueInt) check);
+                    }
+                    else if (instance[0][idx].Type == DBItemType.String)
+                    {
+                        Assert.AreEqual(instance[0][idx], (DBItemValue) (DBValueString) check.ToString());
+                    }
+                    else
+                    {
+                        // 来ないはず
+                        Assert.Fail();
+                    }
+                };
+
+                if (oldIndex == newIndex)
+                {
+                    // 移動元と移動先が同じ場合、並び順が変化していないこと
+                    for (var i = 0; i < initLength; i++)
+                    {
+                        checkValue(i, i);
+                    }
+                }
+                else if (oldIndex < newIndex)
+                {
+                    // 後方へ移動させた場合
+                    // 移動させた要素以前の要素が変化していないこと
+                    var i = 0;
+                    for (; i < oldIndex; i++)
+                    {
+                        checkValue(i, i);
+                    }
+
+                    // 移動元番号～移動先番号-1間の要素が移動させる要素数だけ前にずれていること
+                    for (; i < newIndex; i++)
+                    {
+                        checkValue(i, i + count);
+                    }
+
+                    // 移動先番号を始点に移動元要素と一致すること
+                    for (var j = 0; j < count; j++)
+                    {
+                        checkValue(i, oldIndex + j);
+                        i++;
+                    }
+
+                    // 移動先番号+1以降の要素が変化していないこと
+                    for (; i < initLength; i++)
+                    {
+                        checkValue(i, i);
+                    }
+                }
+                else
+                {
+                    // 前方へ移動させた場合
+                    // 移動先要素以前の要素が変化していないこと
+                    var i = 0;
+                    for (; i < newIndex; i++)
+                    {
+                        checkValue(i, i);
+                    }
+
+                    // 移動先番号を始点に移動元要素と一致すること
+                    for (var j = 0; j < count; j++)
+                    {
+                        checkValue(i, oldIndex + j);
+                        i++;
+                    }
+
+                    // 移動先番号+count～移動元番号+count間の要素が移動させる要素数だけ後ろにずれていること
+                    for (; i < oldIndex + count; i++)
+                    {
+                        checkValue(i, i - count);
+                    }
+
+                    // 移動元番号+count以降の要素が変化していないこと
+                    for (; i < initLength; i++)
+                    {
+                        checkValue(i, i);
+                    }
+                }
+            }
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured || initItemList == null)
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 0);
+                Assert.AreEqual(changedFieldCollectionList.Count, 0);
+            }
+            else
+            {
+                Assert.AreEqual(changedDataPropertyList.Count, 0);
+                Assert.AreEqual(changedDataCollectionList.Count, 0);
+                Assert.AreEqual(changedFieldPropertyList.Count, 1);
+                Assert.IsTrue(changedFieldPropertyList[0].Equals(ListConstant.IndexerName));
+                Assert.AreEqual(changedFieldCollectionList.Count, 1);
+                Assert.IsTrue(changedFieldCollectionList[0].Action == NotifyCollectionChangedAction.Move);
+            }
+        }
+
         private static readonly object[] RemoveFieldAtTestCaseSource =
         {
             new object[] {-1, -1, true},
