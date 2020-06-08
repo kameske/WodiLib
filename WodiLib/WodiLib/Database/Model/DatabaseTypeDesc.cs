@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -202,8 +203,8 @@ namespace WodiLib.Database
 
             TypeSetting.PropertyChanged += OnTypeSettingPropertyChanged;
             DataSetting.PropertyChanged += OnDataSettingPropertyChanged;
-            RegisterDataDescListHandlerDataDescList();
-            RegisterItemDescListHandlerItemDescList();
+            DataDescList.CollectionChanged += DataDescListCollectionChanged;
+            ItemDescList.CollectionChanged += ItemDescListCollectionChanged;
         }
 
         private void UpdateItemType(DBTypeSetting typeSetting,
@@ -236,16 +237,16 @@ namespace WodiLib.Database
             {
                 case BaseListType.DBType:
                 case BaseListType.Public:
-                    RegisterDataDescListHandlerDataDescList();
-                    RegisterItemDescListHandlerItemDescList();
+                    DataDescList.CollectionChanged += DataDescListCollectionChanged;
+                    ItemDescList.CollectionChanged += ItemDescListCollectionChanged;
                     break;
                 case BaseListType.DBData:
-                    RegisterDataDescListHandlerDataNameList();
-                    RegisterItemDescListHandlerItemValuesList();
+                    WritableDataNameList.CollectionChanged += WritableDataNameListChanged;
+                    WritableItemValuesList.FieldCollectionChanged += WritableItemValuesListChanged_DBData;
                     break;
                 case BaseListType.DBTypeSet:
-                    RegisterDataDescListHandlerItemValuesList();
-                    RegisterItemDescListHandlerItemSettingList();
+                    WritableItemValuesList.CollectionChanged += WritableItemValuesListChanged_DBTypeSet;
+                    WritableItemSettingList.CollectionChanged += WritableItemSettingListChanged;
                     break;
                 default:
                     // 通常来ない
@@ -253,97 +254,329 @@ namespace WodiLib.Database
             }
         }
 
-#pragma warning disable 618
         /// <summary>
-        /// DataDescList のイベントハンドラ登録を行う。
+        /// DataDescList のイベントハンドラ。
         /// </summary>
-        private void RegisterDataDescListHandlerDataDescList()
+        private void DataDescListCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
-            DataDescList.SetItemHandlerList.Add(
-                new DatabaseTypeDescHandler.DataDescList.DataDesc.SetItemHandler(this));
-            DataDescList.InsertItemHandlerList.Add(
-                new DatabaseTypeDescHandler.DataDescList.DataDesc.InsertItemHandler(this));
-            DataDescList.RemoveItemHandlerList.Add(
-                new DatabaseTypeDescHandler.DataDescList.DataDesc.RemoveItemHandler(this));
-            DataDescList.ClearItemHandlerList.Add(
-                new DatabaseTypeDescHandler.DataDescList.DataDesc.ClearItemHandler(this));
+            var newItems = args.NewItems.Cast<DatabaseDataDesc>().ToArray();
+            switch (args.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    WritableItemValuesList.InsertRange(args.NewStartingIndex,
+                        newItems.Select(item => item.ItemValueList));
+                    WritableDataNameList.InsertRange(args.NewStartingIndex, newItems.Select(item => item.DataName));
+                    break;
+
+                case NotifyCollectionChangedAction.Move:
+                    var newItemsCount = args.NewItems.Count;
+                    WritableItemValuesList.MoveRange(args.OldStartingIndex, args.NewStartingIndex, newItemsCount);
+                    WritableDataNameList.MoveRange(args.OldStartingIndex, args.NewStartingIndex, newItemsCount);
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    var oldItemsCount = args.OldItems.Count;
+                    WritableItemValuesList.RemoveRange(args.OldStartingIndex, oldItemsCount);
+                    WritableDataNameList.RemoveRange(args.OldStartingIndex, oldItemsCount);
+                    break;
+
+                case NotifyCollectionChangedAction.Replace:
+                    var i = 0;
+                    foreach (var item in newItems)
+                    {
+                        WritableItemValuesList[args.NewStartingIndex + i] = new DBItemValueList(item.ItemValueList);
+                        WritableDataNameList[args.NewStartingIndex + i++] = item.DataName;
+                    }
+
+                    break;
+
+                case NotifyCollectionChangedAction.Reset:
+                    WritableItemValuesList.Clear();
+                    WritableDataNameList.Clear();
+                    break;
+
+                default:
+                    // 通常ここには来ない
+                    throw new InvalidOperationException();
+            }
         }
 
         /// <summary>
-        /// DataNameList のイベントハンドラ登録を行う
+        /// WritableDataNameList のイベントハンドラ。
         /// </summary>
-        private void RegisterDataDescListHandlerDataNameList()
+        private void WritableDataNameListChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
-            WritableDataNameList.SetItemHandlerList.Add(
-                new DatabaseTypeDescHandler.DataDescList.DataName.SetItemHandler(this));
-            WritableDataNameList.InsertItemHandlerList.Add(
-                new DatabaseTypeDescHandler.DataDescList.DataName.InsertItemHandler(this));
-            WritableDataNameList.RemoveItemHandlerList.Add(
-                new DatabaseTypeDescHandler.DataDescList.DataName.RemoveItemHandler(this));
-            WritableDataNameList.ClearItemHandlerList.Add(
-                new DatabaseTypeDescHandler.DataDescList.DataName.ClearItemHandler(this));
+            var newItems = args.NewItems.Cast<DataName>().ToArray();
+            switch (args.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    var valuesListAndNameList = newItems.Select(item =>
+                            (item, (DBItemValueList) WritableItemValuesList.CreateValueListInstance()))
+                        .ToList();
+
+                    DataDescList.InsertRange(args.NewStartingIndex,
+                        valuesListAndNameList.Select(valuesListAndName =>
+                            new DatabaseDataDesc(valuesListAndName.item, valuesListAndName.Item2)));
+                    WritableItemValuesList.InsertRange(args.NewStartingIndex,
+                        valuesListAndNameList.Select(item => item.Item2));
+                    break;
+
+                case NotifyCollectionChangedAction.Move:
+                    var newItemsCount = args.NewItems.Count;
+                    DataDescList.MoveRange(args.OldStartingIndex, args.NewStartingIndex, newItemsCount);
+                    WritableItemValuesList.MoveRange(args.OldStartingIndex, args.NewStartingIndex, newItemsCount);
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    var oldItemsCount = args.OldItems.Count;
+                    DataDescList.RemoveRange(args.OldStartingIndex, oldItemsCount);
+                    WritableItemValuesList.RemoveRange(args.OldStartingIndex, oldItemsCount);
+                    break;
+
+                case NotifyCollectionChangedAction.Replace:
+                    var i = 0;
+                    foreach (var item in newItems)
+                    {
+                        var valuesList = WritableItemValuesList.CreateValueListInstance();
+                        DataDescList[args.NewStartingIndex + i] =
+                            new DatabaseDataDesc(item, (DBItemValueList) valuesList);
+                        WritableItemValuesList[args.NewStartingIndex + i++] = valuesList;
+                    }
+
+                    break;
+
+                case NotifyCollectionChangedAction.Reset:
+                    DataDescList.Clear();
+                    WritableItemValuesList.Clear();
+                    break;
+
+                default:
+                    // 通常ここには来ない
+                    throw new InvalidOperationException();
+            }
         }
 
         /// <summary>
-        /// ItemValuesList のイベントハンドラ登録を行う。
+        /// WritableItemValuesList のイベントハンドラ。
         /// </summary>
-        private void RegisterDataDescListHandlerItemValuesList()
+        private void WritableItemValuesListChanged_DBTypeSet(object sender, NotifyCollectionChangedEventArgs args)
         {
-            WritableItemValuesList.SetItemHandlerList.Add(
-                new DatabaseTypeDescHandler.DataDescList.ItemValues.SetItemHandler(this));
-            WritableItemValuesList.InsertItemHandlerList.Add(
-                new DatabaseTypeDescHandler.DataDescList.ItemValues.InsertItemHandler(this));
-            WritableItemValuesList.RemoveItemHandlerList.Add(
-                new DatabaseTypeDescHandler.DataDescList.ItemValues.RemoveItemHandler(this));
-            WritableItemValuesList.ClearItemHandlerList.Add(
-                new DatabaseTypeDescHandler.DataDescList.ItemValues.ClearItemHandler(this));
+            var newItems = args.NewItems.Cast<IFixedLengthDBItemValueList>().ToArray();
+            switch (args.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    var valuesListAndNameList = newItems.Select(item =>
+                            (new DataName(""), (DBItemValueList) item))
+                        .ToList();
+
+                    DataDescList.InsertRange(args.NewStartingIndex,
+                        valuesListAndNameList.Select(valuesListAndName =>
+                            new DatabaseDataDesc(valuesListAndName.Item1, valuesListAndName.Item2)));
+                    WritableDataNameList.InsertRange(args.NewStartingIndex,
+                        valuesListAndNameList.Select(item => item.Item1));
+                    break;
+
+                case NotifyCollectionChangedAction.Move:
+                    var newItemsCount = args.NewItems.Count;
+                    DataDescList.MoveRange(args.OldStartingIndex, args.NewStartingIndex, newItemsCount);
+                    WritableDataNameList.MoveRange(args.OldStartingIndex, args.NewStartingIndex, newItemsCount);
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    var oldItemsCount = args.OldItems.Count;
+                    DataDescList.RemoveRange(args.OldStartingIndex, oldItemsCount);
+                    WritableDataNameList.RemoveRange(args.OldStartingIndex, oldItemsCount);
+                    break;
+
+                case NotifyCollectionChangedAction.Replace:
+                    var i = 0;
+                    foreach (var item in newItems)
+                    {
+                        var name = new DataName("");
+                        DataDescList[args.NewStartingIndex + i] =
+                            new DatabaseDataDesc(name, (DBItemValueList) item);
+                        WritableDataNameList[args.NewStartingIndex + i++] = name;
+                    }
+
+                    break;
+
+                case NotifyCollectionChangedAction.Reset:
+                    DataDescList.Clear();
+                    WritableDataNameList.Clear();
+                    break;
+
+                default:
+                    // 通常ここには来ない
+                    throw new InvalidOperationException();
+            }
         }
 
         /// <summary>
-        /// ItemDescList のイベントハンドラ登録を行う。
+        /// ItemDescList のイベントハンドラ。
         /// </summary>
-        private void RegisterItemDescListHandlerItemDescList()
+        private void ItemDescListCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
-            ItemDescList.SetItemHandlerList.Add(
-                new DatabaseTypeDescHandler.ItemDescList.ItemDesc.SetItemHandler(this));
-            ItemDescList.InsertItemHandlerList.Add(
-                new DatabaseTypeDescHandler.ItemDescList.ItemDesc.InsertItemHandler(this));
-            ItemDescList.RemoveItemHandlerList.Add(
-                new DatabaseTypeDescHandler.ItemDescList.ItemDesc.RemoveItemHandler(this));
-            ItemDescList.ClearItemHandlerList.Add(
-                new DatabaseTypeDescHandler.ItemDescList.ItemDesc.ClearItemHandler(this));
+            var newItems = args.NewItems.Cast<DatabaseItemDesc>().ToArray();
+            switch (args.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    WritableItemSettingList.InsertRange(args.NewStartingIndex,
+                        newItems.Select(item => item.ToDBItemSetting()));
+                    WritableItemValuesList.InsertFieldRange(args.NewStartingIndex,
+                        newItems.Select(item => item.ItemType.DBItemDefaultValue));
+                    break;
+
+                case NotifyCollectionChangedAction.Move:
+                    var newItemsCount = args.NewItems.Count;
+                    WritableItemSettingList.MoveRange(args.OldStartingIndex, args.NewStartingIndex, newItemsCount);
+                    WritableItemValuesList.MoveFieldRange(args.OldStartingIndex, args.NewStartingIndex, newItemsCount);
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    var oldItemsCount = args.OldItems.Count;
+                    WritableItemSettingList.RemoveRange(args.OldStartingIndex, oldItemsCount);
+                    WritableItemValuesList.RemoveFieldRange(args.OldStartingIndex, oldItemsCount);
+                    break;
+
+                case NotifyCollectionChangedAction.Replace:
+                    var i = 0;
+                    foreach (var item in newItems)
+                    {
+                        WritableItemSettingList[args.NewStartingIndex + i] = item.ToDBItemSetting();
+                        WritableItemValuesList.SetField(args.NewStartingIndex + i++, item.ItemType.DBItemDefaultValue);
+                    }
+
+                    break;
+
+                case NotifyCollectionChangedAction.Reset:
+                    WritableItemSettingList.Clear();
+                    WritableItemValuesList.ClearField();
+                    break;
+
+                default:
+                    // 通常ここには来ない
+                    throw new InvalidOperationException();
+            }
         }
 
         /// <summary>
-        /// ItemSettingList のイベントハンドラ登録を行う
+        /// WritableItemSettingList のイベントハンドラ。
         /// </summary>
-        private void RegisterItemDescListHandlerItemSettingList()
+        private void WritableItemSettingListChanged(object sender, NotifyCollectionChangedEventArgs args)
         {
-            WritableItemSettingList.SetItemHandlerList.Add(
-                new DatabaseTypeDescHandler.ItemDescList.ItemSetting.SetItemHandler(this));
-            WritableItemSettingList.InsertItemHandlerList.Add(
-                new DatabaseTypeDescHandler.ItemDescList.ItemSetting.InsertItemHandler(this));
-            WritableItemSettingList.RemoveItemHandlerList.Add(
-                new DatabaseTypeDescHandler.ItemDescList.ItemSetting.RemoveItemHandler(this));
-            WritableItemSettingList.ClearItemHandlerList.Add(
-                new DatabaseTypeDescHandler.ItemDescList.ItemSetting.ClearItemHandler(this));
+            var newItems = args.NewItems.Cast<DBItemSetting>().ToArray();
+            switch (args.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    var descList = newItems.Select(item => new DatabaseItemDesc
+                    {
+                        ItemName = item.ItemName,
+                        SpecialSettingDesc = item.SpecialSettingDesc,
+                        ItemType = item.ItemType,
+                    }).ToList();
+
+                    ItemDescList.InsertRange(args.NewStartingIndex, descList);
+                    WritableItemValuesList.InsertFieldRange(args.NewStartingIndex,
+                        descList.Select(item => item.ItemType.DBItemDefaultValue));
+                    break;
+
+                case NotifyCollectionChangedAction.Move:
+                    var newItemsCount = args.NewItems.Count;
+                    ItemDescList.MoveRange(args.OldStartingIndex, args.NewStartingIndex, newItemsCount);
+                    WritableItemValuesList.MoveFieldRange(args.OldStartingIndex, args.NewStartingIndex, newItemsCount);
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    var oldItemsCount = args.OldItems.Count;
+                    ItemDescList.RemoveRange(args.OldStartingIndex, oldItemsCount);
+                    WritableItemValuesList.RemoveFieldRange(args.OldStartingIndex, oldItemsCount);
+                    break;
+
+                case NotifyCollectionChangedAction.Replace:
+                    var i = 0;
+                    foreach (var item in newItems)
+                    {
+                        var desc = new DatabaseItemDesc
+                        {
+                            ItemName = item.ItemName,
+                            SpecialSettingDesc = item.SpecialSettingDesc,
+                            ItemType = item.ItemType,
+                        };
+                        ItemDescList[args.NewStartingIndex + i] = desc;
+                        WritableItemValuesList.SetField(args.NewStartingIndex + i++, item.ItemType.DBItemDefaultValue);
+                    }
+
+                    break;
+
+                case NotifyCollectionChangedAction.Reset:
+                    ItemDescList.Clear();
+                    WritableItemValuesList.ClearField();
+                    break;
+
+                default:
+                    // 通常ここには来ない
+                    throw new InvalidOperationException();
+            }
         }
 
         /// <summary>
-        /// ItemValuesList のイベントハンドラ登録を行う。
+        /// WritableItemValuesList のイベントハンドラ。
         /// </summary>
-        private void RegisterItemDescListHandlerItemValuesList()
+        private void WritableItemValuesListChanged_DBData(object sender, NotifyCollectionChangedEventArgs args)
         {
-            WritableItemValuesList.SetFieldHandlerList.Add(
-                new DatabaseTypeDescHandler.ItemDescList.ItemValues.SetItemHandler(this));
-            WritableItemValuesList.InsertFieldHandlerList.Add(
-                new DatabaseTypeDescHandler.ItemDescList.ItemValues.InsertItemHandler(this));
-            WritableItemValuesList.RemoveFieldHandlerList.Add(
-                new DatabaseTypeDescHandler.ItemDescList.ItemValues.RemoveItemHandler(this));
-            WritableItemValuesList.ClearFieldHandlerList.Add(
-                new DatabaseTypeDescHandler.ItemDescList.ItemValues.ClearItemHandler(this));
+            var newItems = args.NewItems.Cast<DBItemValue>().ToArray();
+            switch (args.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    var descList = newItems.Select(item => new DatabaseItemDesc
+                    {
+                        ItemName = "",
+                        SpecialSettingDesc = new DBItemSpecialSettingDesc(),
+                        ItemType = item.Type,
+                    }).ToList();
+                    ItemDescList.InsertRange(args.NewStartingIndex, descList);
+                    WritableItemSettingList.InsertRange(args.NewStartingIndex,
+                        descList.Select(item => item.ToDBItemSetting()));
+                    break;
+
+                case NotifyCollectionChangedAction.Move:
+                    var newItemsCount = args.NewItems.Count;
+                    ItemDescList.MoveRange(args.OldStartingIndex, args.NewStartingIndex, newItemsCount);
+                    WritableItemSettingList.MoveRange(args.OldStartingIndex, args.NewStartingIndex, newItemsCount);
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    var oldItemsCount = args.OldItems.Count;
+                    ItemDescList.RemoveRange(args.OldStartingIndex, oldItemsCount);
+                    WritableItemSettingList.RemoveRange(args.OldStartingIndex, oldItemsCount);
+                    break;
+
+                case NotifyCollectionChangedAction.Replace:
+                    var i = 0;
+                    foreach (var item in newItems)
+                    {
+                        var desc = new DatabaseItemDesc
+                        {
+                            ItemName = "",
+                            SpecialSettingDesc = new DBItemSpecialSettingDesc(),
+                            ItemType = item.Type,
+                        };
+                        ItemDescList[args.NewStartingIndex + i] = desc;
+                        WritableItemSettingList[args.NewStartingIndex + i++] = desc.ToDBItemSetting();
+                    }
+
+                    break;
+
+                case NotifyCollectionChangedAction.Reset:
+                    ItemDescList.Clear();
+                    WritableItemSettingList.Clear();
+                    break;
+
+                default:
+                    // 通常ここには来ない
+                    throw new InvalidOperationException();
+            }
         }
-#pragma warning restore 618
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
@@ -557,8 +790,8 @@ namespace WodiLib.Database
         /// <param name="sender">コールバック開始オブジェクト</param>
         public void OnDeserialization(object sender)
         {
-            RegisterDataDescListHandlerDataDescList();
-            RegisterItemDescListHandlerItemDescList();
+            DataDescList.CollectionChanged += DataDescListCollectionChanged;
+            ItemDescList.CollectionChanged += ItemDescListCollectionChanged;
         }
     }
 }

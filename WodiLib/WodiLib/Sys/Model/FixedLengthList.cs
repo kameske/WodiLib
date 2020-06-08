@@ -74,22 +74,6 @@ namespace WodiLib.Sys
             }
         }
 
-        /// <summary>
-        /// SetItemイベントハンドラリスト
-        /// </summary>
-        [field: NonSerialized]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
-        public SetItemHandlerList<T> SetItemHandlerList { get; private set; } = new SetItemHandlerList<T>();
-
-        /// <summary>
-        /// ClearItemイベントハンドラリスト
-        /// </summary>
-        [field: NonSerialized]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver1.3 で削除します。")]
-        public ClearItemHandlerList<T> ClearItemHandlerList { get; private set; } = new ClearItemHandlerList<T>();
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -520,9 +504,6 @@ namespace WodiLib.Sys
 
             SetItem(index, item);
 
-#pragma warning disable 618
-            SetItemHandlerList.Execute(index, item);
-#pragma warning restore 618
             NotifyPropertyChanged(ListConstant.IndexerName);
             _collectionChanged?.Invoke(this,
                 NotifyCollectionChangedEventArgsHelper.Set(item, ordinal, index));
@@ -599,9 +580,6 @@ namespace WodiLib.Sys
         {
             ClearItems();
 
-#pragma warning disable 618
-            ClearItemHandlerList.Execute();
-#pragma warning restore 618
             NotifyPropertyChanged(ListConstant.IndexerName);
             _collectionChanged?.Invoke(this,
                 NotifyCollectionChangedEventArgsHelper.Clear());
@@ -631,10 +609,6 @@ namespace WodiLib.Sys
         protected FixedLengthList(SerializationInfo info, StreamingContext context)
         {
             Items = info.GetValue<T[]>(nameof(Items));
-#pragma warning disable 618
-            SetItemHandlerList = new SetItemHandlerList<T>();
-            ClearItemHandlerList = new ClearItemHandlerList<T>();
-#pragma warning restore 618
         }
     }
 }

@@ -164,7 +164,7 @@ namespace WodiLib.Test.Sys
         public static void IndexerGetTest(int index, int initLength, bool isError)
         {
             var instance = MakeCollectionForMethodTest(initLength, out var countDic,
-                out var handlerCalledCount, out var collectionChangedEventArgsList,
+                out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var errorOccured = false;
             try
@@ -186,16 +186,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが一度も呼ばれていないこと
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count,
@@ -220,7 +210,7 @@ namespace WodiLib.Test.Sys
         public static void IndexerSetTest(int index, string setItem, int initLength, bool isError)
         {
             var instance = MakeCollectionForMethodTest(initLength, out var countDic,
-                out var handlerCalledCount, out var collectionChangedEventArgsList,
+                out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
 
             var errorOccured = false;
@@ -243,19 +233,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各有効イベントハンドラが意図した回数呼ばれていること
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString],
-                isError ? 0 : 1);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが意図した回数呼ばれていること
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count,
@@ -306,7 +283,7 @@ namespace WodiLib.Test.Sys
         public static void GetRangeTest(int index, int count, int initLength, bool isError)
         {
             var instance = MakeCollectionForMethodTest(initLength, out var countDic,
-                out var handlerCalledCount, out var collectionChangedEventArgsList,
+                out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var errorOccured = false;
             IEnumerable<string> result = null;
@@ -330,16 +307,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが一度も呼ばれていないこと
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
@@ -373,7 +340,7 @@ namespace WodiLib.Test.Sys
         public static void AddTest(string item, int initLength, bool isError)
         {
             var instance = MakeCollectionForMethodTest(initLength, out var countDic,
-                out var handlerCalledCount, out var collectionChangedEventArgsList,
+                out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var errorOccured = false;
 
@@ -396,19 +363,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各有効イベントハンドラが意図した回数呼ばれていること
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString],
-                isError ? 0 : 1);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが意図した回数呼ばれていること
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
@@ -466,7 +420,7 @@ namespace WodiLib.Test.Sys
         public static void AddRangeTest(int initLength, int addLength, bool hasNullInAddLength, bool isError)
         {
             var instance = MakeCollectionForMethodTest(initLength, out var countDic,
-                out var handlerCalledCount, out var collectionChangedEventArgsList,
+                out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var addList = MakeStringList2(addLength, hasNullInAddLength);
             var errorOccured = false;
@@ -490,19 +444,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各有効イベントハンドラが意図した回数呼ばれていること
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString],
-                isError ? 0 : addLength);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが意図した回数呼ばれていること
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
@@ -575,7 +516,7 @@ namespace WodiLib.Test.Sys
         public static void InsertTest(int index, string item, int initLength, bool isError)
         {
             var instance = MakeCollectionForMethodTest(initLength, out var countDic,
-                out var handlerCalledCount, out var collectionChangedEventArgsList,
+                out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var errorOccured = false;
 
@@ -598,19 +539,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各有効イベントハンドラが意図した回数呼ばれていること
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString],
-                isError ? 0 : 1);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが意図した回数呼ばれていること
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
@@ -704,7 +632,7 @@ namespace WodiLib.Test.Sys
             bool isError)
         {
             var instance = MakeCollectionForMethodTest(initLength, out var countDic,
-                out var handlerCalledCount, out var collectionChangedEventArgsList,
+                out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var addList = MakeStringList2(addLength, hasNullInAddLength);
             var errorOccured = false;
@@ -728,19 +656,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各有効イベントハンドラが意図した回数呼ばれていること
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString],
-                isError ? 0 : addLength);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが意図した回数呼ばれていること
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
@@ -836,7 +751,7 @@ namespace WodiLib.Test.Sys
             bool isError)
         {
             var instance = MakeCollectionForMethodTest(initLength, out var countDic,
-                out var handlerCalledCount, out var collectionChangedEventArgsList,
+                out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var addList = MakeStringList2(overwriteLength, hasNullInAddLength);
             var errorOccured = false;
@@ -864,20 +779,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各有効イベントハンドラが意図した回数呼ばれていること
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString],
-                isError ? 0 : answerSetCount);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString],
-                isError ? 0 : answerInsertCount);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが意図した回数呼ばれていること
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
@@ -986,7 +887,7 @@ namespace WodiLib.Test.Sys
         {
             var instance =
                 MakeCollectionForMethodTest(initLength, out var countDic,
-                    out var handlerCalledCount, out var collectionChangedEventArgsList,
+                    out var collectionChangedEventArgsList,
                     out var propertyChangedEventCalledCount);
 
             var errorOccured = false;
@@ -1009,18 +910,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], isError ? 0 : 1);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各有効イベントハンドラが呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが意図した回数呼ばれていること
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
@@ -1190,7 +1079,7 @@ namespace WodiLib.Test.Sys
         {
             var instance =
                 MakeCollectionForMethodTest(initLength, out var countDic,
-                    out var handlerCalledCount, out var collectionChangedEventArgsList,
+                    out var collectionChangedEventArgsList,
                     out var propertyChangedEventCalledCount);
 
             var errorOccured = false;
@@ -1213,18 +1102,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], isError ? 0 : count);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各有効イベントハンドラが呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが意図した回数呼ばれていること
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
@@ -1345,7 +1222,7 @@ namespace WodiLib.Test.Sys
 
             var instance =
                 MakeCollection2ForMethodTest(initStrList, initLength, out var countDic,
-                    out var handlerCalledCount, out var collectionChangedEventArgsList,
+                    out var collectionChangedEventArgsList,
                     out var propertyChangedEventCalledCount);
 
             var removeItem = removeIndex == -1 ? null : initStrList[removeIndex];
@@ -1374,19 +1251,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], !isError && removeResult ? 1 : 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各有効イベントハンドラが意図した回数呼ばれていること
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString],
-                !isError && removeResult ? 1 : 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが意図した回数呼ばれていること
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
@@ -1466,7 +1330,7 @@ namespace WodiLib.Test.Sys
             var initStrList = MakeStringList(initLength);
             var instance =
                 MakeCollection2ForMethodTest(initStrList, initLength, out var countDic,
-                    out var handlerCalledCount, out var collectionChangedEventArgsList,
+                    out var collectionChangedEventArgsList,
                     out var propertyChangedEventCalledCount);
 
             var errorOccured = false;
@@ -1489,19 +1353,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], isError ? 0 : 1);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各有効イベントハンドラが意図した回数呼ばれていること
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString],
-                isError ? 0 : 1);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが意図した回数呼ばれていること
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
@@ -1587,7 +1438,7 @@ namespace WodiLib.Test.Sys
             var initStrList = MakeStringList(initLength);
             var instance =
                 MakeCollection2ForMethodTest(initStrList, initLength, out var countDic,
-                    out var handlerCalledCount, out var collectionChangedEventArgsList,
+                    out var collectionChangedEventArgsList,
                     out var propertyChangedEventCalledCount);
 
             var errorOccured = false;
@@ -1610,19 +1461,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], isError ? 0 : count);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各有効イベントハンドラが意図した回数呼ばれていること
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString],
-                isError ? 0 : count);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが意図した回数呼ばれていること
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
@@ -1686,19 +1524,18 @@ namespace WodiLib.Test.Sys
 
             AbsCollectionTest instance = null;
             Dictionary<string, int> countDic = null;
-            Dictionary<string, Dictionary<string, int>> handlerCalledCount = null;
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList = null;
             Dictionary<string, int> propertyChangedEventCalledCount = null;
             switch (classType)
             {
                 case TestClassType.Type1:
                     instance = MakeCollectionForMethodTest(initLength, out countDic,
-                        out handlerCalledCount, out collectionChangedEventArgsList,
+                        out collectionChangedEventArgsList,
                         out propertyChangedEventCalledCount);
                     break;
                 case TestClassType.Type2:
                     instance = MakeCollection2ForMethodTest(initList, initLength, out countDic,
-                        out handlerCalledCount, out collectionChangedEventArgsList,
+                        out collectionChangedEventArgsList,
                         out propertyChangedEventCalledCount);
                     break;
                 default:
@@ -1736,20 +1573,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], removedCnt);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各有効イベントハンドラが意図した回数呼ばれていること
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString],
-                insertedCnt);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString],
-                removedCnt);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが意図した回数呼ばれていること
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
@@ -1849,19 +1672,18 @@ namespace WodiLib.Test.Sys
 
             AbsCollectionTest instance = null;
             Dictionary<string, int> countDic = null;
-            Dictionary<string, Dictionary<string, int>> handlerCalledCount = null;
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList = null;
             Dictionary<string, int> propertyChangedEventCalledCount = null;
             switch (classType)
             {
                 case TestClassType.Type1:
                     instance = MakeCollectionForMethodTest(initLength, out countDic,
-                        out handlerCalledCount, out collectionChangedEventArgsList,
+                        out collectionChangedEventArgsList,
                         out propertyChangedEventCalledCount);
                     break;
                 case TestClassType.Type2:
                     instance = MakeCollection2ForMethodTest(initList, initLength, out countDic,
-                        out handlerCalledCount, out collectionChangedEventArgsList,
+                        out collectionChangedEventArgsList,
                         out propertyChangedEventCalledCount);
                     break;
                 default:
@@ -1894,19 +1716,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnMoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
-
-            // 各有効イベントハンドラが意図した回数呼ばれていること
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString],
-                insertedCnt);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
 
             // 各イベントが意図した回数呼ばれていること
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
@@ -1982,19 +1791,18 @@ namespace WodiLib.Test.Sys
 
             AbsCollectionTest instance = null;
             Dictionary<string, int> countDic = null;
-            Dictionary<string, Dictionary<string, int>> handlerCalledCount = null;
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList = null;
             Dictionary<string, int> propertyChangedEventCalledCount = null;
             switch (classType)
             {
                 case TestClassType.Type1:
                     instance = MakeCollectionForMethodTest(initLength, out countDic,
-                        out handlerCalledCount, out collectionChangedEventArgsList,
+                        out collectionChangedEventArgsList,
                         out propertyChangedEventCalledCount);
                     break;
                 case TestClassType.Type2:
                     instance = MakeCollection2ForMethodTest(initList, initLength, out countDic,
-                        out handlerCalledCount, out collectionChangedEventArgsList,
+                        out collectionChangedEventArgsList,
                         out propertyChangedEventCalledCount);
                     break;
                 default:
@@ -2025,18 +1833,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 1);
 
-            // 各有効イベントハンドラが意図した回数呼ばれていること
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 1);
-
-            // 各無効イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
-
             // 各イベントが意図した回数呼ばれていること
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
@@ -2062,7 +1858,7 @@ namespace WodiLib.Test.Sys
         public static void ContainsTest(int initLength, string item, bool result)
         {
             var instance = MakeCollectionForMethodTest(initLength, out var countDic,
-                out var handlerCalledCount, out var collectionChangedEventArgsList,
+                out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var containsResult = false;
 
@@ -2090,16 +1886,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnRemoveItemCalled)], 0);
             Assert.AreEqual(countDic[nameof(CollectionTest1.OnClearItemsCalled)], 0);
 
-            // 各イベントハンドラが一度も呼ばれていないこと
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString], 0);
-            Assert.AreEqual(handlerCalledCount[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString], 0);
-
             // 各イベントが呼ばれていないこと
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
             Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
@@ -2115,7 +1901,7 @@ namespace WodiLib.Test.Sys
         [TestCase(5, null, -1)]
         public static void IndexOfTest(int initLength, string item, int result)
         {
-            var instance = MakeCollectionForMethodTest(initLength, out _, out _, out _, out _);
+            var instance = MakeCollectionForMethodTest(initLength, out _, out _, out _);
             var indexOfResult = -1;
 
             var errorOccured = false;
@@ -2157,7 +1943,7 @@ namespace WodiLib.Test.Sys
         [TestCase(1, 2, 1, false)]
         public static void CopyToTest(int initLength, int arrayLength, int index, bool isError)
         {
-            var instance = MakeCollectionForMethodTest(initLength, out _, out _, out _, out _);
+            var instance = MakeCollectionForMethodTest(initLength, out _, out _, out _);
             var copyArray = MakeStringArray(arrayLength);
 
             var errorOccured = false;
@@ -2199,7 +1985,7 @@ namespace WodiLib.Test.Sys
         [Test]
         public static void GetEnumeratorTest()
         {
-            var instance = MakeCollectionForMethodTest(5, out _, out _, out _, out _);
+            var instance = MakeCollectionForMethodTest(5, out _, out _, out _);
             // foreachを用いた処理で要素が正しく取得できること
             var i = 0;
             foreach (var value in instance)
@@ -2316,7 +2102,7 @@ namespace WodiLib.Test.Sys
         [Test]
         public static void SerializeTest()
         {
-            var target = MakeCollectionForMethodTest(5, out _, out _, out _, out _);
+            var target = MakeCollectionForMethodTest(5, out _, out _, out _);
             var clone = DeepCloner.DeepClone(target);
             Assert.IsTrue(clone.Equals(target));
         }
@@ -2367,7 +2153,6 @@ namespace WodiLib.Test.Sys
 
         private static CollectionTest1 MakeCollectionForMethodTest(int initLength,
             out Dictionary<string, int> methodCalledCount,
-            out Dictionary<string, Dictionary<string, int>> handlerCalledCount,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList,
             out Dictionary<string, int> propertyChangedEventCalledCount)
         {
@@ -2391,89 +2176,6 @@ namespace WodiLib.Test.Sys
             result.OnMoveItemCalled = () => ints[nameof(CollectionTest1.OnMoveItemCalled)]++;
             result.OnRemoveItemCalled = () => ints[nameof(CollectionTest1.OnRemoveItemCalled)]++;
             result.OnClearItemsCalled = () => ints[nameof(CollectionTest1.OnClearItemsCalled)]++;
-
-            handlerCalledCount = new Dictionary<string, Dictionary<string, int>>
-            {
-                {
-                    nameof(CollectionTest1.OnSetItemCalled),
-                    new Dictionary<string, int>
-                    {
-                        {bool.TrueString, 0}, {bool.FalseString, 0}
-                    }
-                },
-                {
-                    nameof(CollectionTest1.OnInsertItemCalled),
-                    new Dictionary<string, int>
-                    {
-                        {bool.TrueString, 0}, {bool.FalseString, 0}
-                    }
-                },
-                {
-                    nameof(CollectionTest1.OnRemoveItemCalled),
-                    new Dictionary<string, int>
-                    {
-                        {bool.TrueString, 0}, {bool.FalseString, 0}
-                    }
-                },
-                {
-                    nameof(CollectionTest1.OnClearItemsCalled),
-                    new Dictionary<string, int>
-                    {
-                        {bool.TrueString, 0}, {bool.FalseString, 0}
-                    }
-                },
-            };
-
-            var hccs = handlerCalledCount;
-            result.SetItemHandlerList.Add(
-                new OnSetItemHandler<string>(
-                    (i, s) => { hccs[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString]++; },
-                    bool.TrueString, false
-                )
-            );
-            result.SetItemHandlerList.Add(
-                new OnSetItemHandler<string>(
-                    (i, s) => { hccs[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString]++; }, bool.FalseString,
-                    false, false
-                )
-            );
-
-            result.InsertItemHandlerList.Add(
-                new OnInsertItemHandler<string>(
-                    (i, s) => { hccs[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString]++; },
-                    bool.TrueString, false
-                )
-            );
-            result.InsertItemHandlerList.Add(
-                new OnInsertItemHandler<string>(
-                    (i, s) => { hccs[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString]++; },
-                    bool.FalseString, false, false
-                )
-            );
-            result.RemoveItemHandlerList.Add(
-                new OnRemoveItemHandler<string>(
-                    i => { hccs[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString]++; },
-                    bool.TrueString, false
-                )
-            );
-            result.RemoveItemHandlerList.Add(
-                new OnRemoveItemHandler<string>(
-                    i => { hccs[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString]++; }, bool.FalseString,
-                    false, false
-                )
-            );
-            result.ClearItemHandlerList.Add(
-                new OnClearItemHandler<string>(
-                    () => { hccs[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString]++; }, bool.TrueString,
-                    false
-                )
-            );
-            result.ClearItemHandlerList.Add(
-                new OnClearItemHandler<string>(
-                    () => { hccs[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString]++; }, bool.FalseString,
-                    false, false
-                )
-            );
 
             {
                 var makeEmptyList =
@@ -2525,7 +2227,6 @@ namespace WodiLib.Test.Sys
 
         private static CollectionTest2 MakeCollection2ForMethodTest(List<string> initStringList, int initLength,
             out Dictionary<string, int> methodCalledCount,
-            out Dictionary<string, Dictionary<string, int>> handlerCalledCount,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList,
             out Dictionary<string, int> propertyChangedEventCalledCount)
         {
@@ -2548,89 +2249,6 @@ namespace WodiLib.Test.Sys
             result.OnMoveItemCalled = () => ints[nameof(CollectionTest1.OnMoveItemCalled)]++;
             result.OnRemoveItemCalled = () => ints[nameof(CollectionTest1.OnRemoveItemCalled)]++;
             result.OnClearItemsCalled = () => ints[nameof(CollectionTest1.OnClearItemsCalled)]++;
-
-            handlerCalledCount = new Dictionary<string, Dictionary<string, int>>
-            {
-                {
-                    nameof(CollectionTest1.OnSetItemCalled),
-                    new Dictionary<string, int>
-                    {
-                        {bool.TrueString, 0}, {bool.FalseString, 0}
-                    }
-                },
-                {
-                    nameof(CollectionTest1.OnInsertItemCalled),
-                    new Dictionary<string, int>
-                    {
-                        {bool.TrueString, 0}, {bool.FalseString, 0}
-                    }
-                },
-                {
-                    nameof(CollectionTest1.OnRemoveItemCalled),
-                    new Dictionary<string, int>
-                    {
-                        {bool.TrueString, 0}, {bool.FalseString, 0}
-                    }
-                },
-                {
-                    nameof(CollectionTest1.OnClearItemsCalled),
-                    new Dictionary<string, int>
-                    {
-                        {bool.TrueString, 0}, {bool.FalseString, 0}
-                    }
-                },
-            };
-
-            var hccs = handlerCalledCount;
-            result.SetItemHandlerList.Add(
-                new OnSetItemHandler<string>(
-                    (i, s) => { hccs[nameof(CollectionTest1.OnSetItemCalled)][bool.TrueString]++; },
-                    bool.TrueString, false
-                )
-            );
-            result.SetItemHandlerList.Add(
-                new OnSetItemHandler<string>(
-                    (i, s) => { hccs[nameof(CollectionTest1.OnSetItemCalled)][bool.FalseString]++; }, bool.FalseString,
-                    false, false
-                )
-            );
-
-            result.InsertItemHandlerList.Add(
-                new OnInsertItemHandler<string>(
-                    (i, s) => { hccs[nameof(CollectionTest1.OnInsertItemCalled)][bool.TrueString]++; },
-                    bool.TrueString, false
-                )
-            );
-            result.InsertItemHandlerList.Add(
-                new OnInsertItemHandler<string>(
-                    (i, s) => { hccs[nameof(CollectionTest1.OnInsertItemCalled)][bool.FalseString]++; },
-                    bool.FalseString, false, false
-                )
-            );
-            result.RemoveItemHandlerList.Add(
-                new OnRemoveItemHandler<string>(
-                    i => { hccs[nameof(CollectionTest1.OnRemoveItemCalled)][bool.TrueString]++; },
-                    bool.TrueString, false
-                )
-            );
-            result.RemoveItemHandlerList.Add(
-                new OnRemoveItemHandler<string>(
-                    i => { hccs[nameof(CollectionTest1.OnRemoveItemCalled)][bool.FalseString]++; }, bool.FalseString,
-                    false, false
-                )
-            );
-            result.ClearItemHandlerList.Add(
-                new OnClearItemHandler<string>(
-                    () => { hccs[nameof(CollectionTest1.OnClearItemsCalled)][bool.TrueString]++; }, bool.TrueString,
-                    false
-                )
-            );
-            result.ClearItemHandlerList.Add(
-                new OnClearItemHandler<string>(
-                    () => { hccs[nameof(CollectionTest1.OnClearItemsCalled)][bool.FalseString]++; }, bool.FalseString,
-                    false, false
-                )
-            );
 
             {
                 var makeEmptyList =
