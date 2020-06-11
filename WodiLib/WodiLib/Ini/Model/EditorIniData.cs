@@ -460,13 +460,13 @@ namespace WodiLib.Ini
             }
         }
 
-        private IFixedLengthEventCommandShortCutKeyList shortCutKeyList = new EventCommandShortCutKeyList();
+        private EventCommandShortCutKeyList shortCutKeyList = new EventCommandShortCutKeyList();
 
         /// <summary>
         /// 【Ver2.00以降】イベントコマンドウィンドウショートカットキーリスト
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public IFixedLengthEventCommandShortCutKeyList ShortCutKeyList
+        public EventCommandShortCutKeyList ShortCutKeyList
         {
             get => shortCutKeyList;
             set
@@ -480,13 +480,13 @@ namespace WodiLib.Ini
             }
         }
 
-        private IFixedLengthShortCutPositionList commandPositionList = new ShortCutPositionList();
+        private ShortCutPositionList commandPositionList = new ShortCutPositionList();
 
         /// <summary>
         /// 【Ver2.00以降】イベントコマンド表示順リスト
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public IFixedLengthShortCutPositionList CommandPositionList
+        public ShortCutPositionList CommandPositionList
         {
             get => commandPositionList;
             set
@@ -940,9 +940,9 @@ namespace WodiLib.Ini
             IsDrawBackgroundImage = info.GetBoolean(nameof(IsDrawBackgroundImage));
             notCopyExtList = info.GetValue<ExtensionList>(nameof(notCopyExtList));
             CommandViewType = info.GetInt32(nameof(CommandViewType));
-            shortCutKeyList = info.GetValue<IFixedLengthEventCommandShortCutKeyList>(nameof(shortCutKeyList));
+            shortCutKeyList = info.GetValue<EventCommandShortCutKeyList>(nameof(shortCutKeyList));
             backupType = ProjectBackupType.FromCode(info.GetValue<string>(nameof(backupType)));
-            commandPositionList = info.GetValue<IFixedLengthShortCutPositionList>(nameof(commandPositionList));
+            commandPositionList = info.GetValue<ShortCutPositionList>(nameof(commandPositionList));
             IsUseExpertCommand = info.GetBoolean(nameof(IsUseExpertCommand));
         }
     }
