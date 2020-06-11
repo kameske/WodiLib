@@ -73,12 +73,10 @@ namespace WodiLib.Map
             }
         }
 
-        private readonly AutoTileFileNameList autoTileFileNameList = new AutoTileFileNameList();
-
         /// <summary>
         /// オートタイルファイル名リスト
         /// </summary>
-        public IFixedLengthAutoTileFileNameList AutoTileFileNameList => autoTileFileNameList;
+        public AutoTileFileNameList AutoTileFileNameList { get; } = new AutoTileFileNameList();
 
         private readonly TileTagNumberList tileTagNumberList = new TileTagNumberList();
 
@@ -144,7 +142,7 @@ namespace WodiLib.Map
 
             if (!(autoTileFileNames is null))
             {
-                autoTileFileNameList = autoTileFileNames;
+                AutoTileFileNameList = autoTileFileNames;
             }
         }
 
@@ -178,7 +176,7 @@ namespace WodiLib.Map
             if (ReferenceEquals(this, other)) return true;
             return name.Equals(other.name)
                    && baseTileSetFileName.Equals(other.baseTileSetFileName)
-                   && autoTileFileNameList.Equals(other.autoTileFileNameList)
+                   && AutoTileFileNameList.Equals(other.AutoTileFileNameList)
                    && tileTagNumberList.Equals(other.tileTagNumberList)
                    && tilePathSettingList.Equals(other.tilePathSettingList);
         }
@@ -202,7 +200,7 @@ namespace WodiLib.Map
             result.AddRange(new WoditorString(BaseTileSetFileName).StringByte);
 
             // オートタイルファイル名
-            result.AddRange(autoTileFileNameList.ToBinary());
+            result.AddRange(AutoTileFileNameList.ToBinary());
 
             // 固定値
             result.Add(DataSeparator);

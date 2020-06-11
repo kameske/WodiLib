@@ -2,17 +2,17 @@
   <PropertyGroup>
     <RootNamespace>WodiLib</RootNamespace>
     <TargetFrameworks>net461;netstandard2.0;netcoreapp2.1</TargetFrameworks>
-    <PackageVersion>1.2.65534.4</PackageVersion>
+    <PackageVersion>1.2.65534.5</PackageVersion>
     <Title>WodiLib</Title>
     <Authors>kameske</Authors>
     <Copyright>Copyright 2019 kameske</Copyright>
-    <Version>1.2.65534.4</Version>
+    <Version>1.2.65534.5</Version>
     <PackageProjectUrl>https://github.com/kameske/WodiLib</PackageProjectUrl>
     <PackageLicenseUrl />
     <RepositoryUrl>https://github.com/kameske/WodiLib.git</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <AssemblyVersion>1.2.65534.4</AssemblyVersion>
-    <FileVersion>1.2.65534.4</FileVersion>
+    <AssemblyVersion>1.2.65534.5</AssemblyVersion>
+    <FileVersion>1.2.65534.5</FileVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
