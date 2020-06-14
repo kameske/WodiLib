@@ -26,6 +26,7 @@ namespace WodiLib.Database
         /// <summary>
         /// ヘッダ
         /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static readonly byte[] Header =
         {
             0x84, 0x2E, 0x77, 0x02

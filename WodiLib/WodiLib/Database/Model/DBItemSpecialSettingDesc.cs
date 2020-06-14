@@ -29,7 +29,7 @@ namespace WodiLib.Database
         public DBItemSpecialSettingType SettingType => InnerDesc.SettingType;
 
         /// <summary>
-        /// [MotNull] DB参照時のDB種別
+        /// [NotNull] DB参照時のDB種別
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>

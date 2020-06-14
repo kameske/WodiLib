@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -25,6 +26,7 @@ namespace WodiLib.Database
         /// <summary>
         /// ファイルヘッダ
         /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static readonly byte[] Header =
         {
             0x40, 0x78, 0xA1, 0x02,

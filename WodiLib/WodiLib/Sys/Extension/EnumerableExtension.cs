@@ -15,6 +15,7 @@ namespace WodiLib.Sys
     /// <summary>
     /// Enumerable の拡張クラス
     /// </summary>
+    [Obsolete("Ver 1.5 にて非公開クラスとします。代替案を検討してください。")]
     public static class EnumerableExtension
     {
         /// <summary>

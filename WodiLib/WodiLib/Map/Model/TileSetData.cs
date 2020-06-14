@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -25,6 +26,7 @@ namespace WodiLib.Map
         /// <summary>
         /// ヘッダ
         /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static readonly byte[] Header =
         {
             0x00, 0x57, 0x00, 0x00, 0x4F, 0x4C, 0x00, 0x46, 0x4D, 0x00, 0xD1
@@ -33,6 +35,7 @@ namespace WodiLib.Map
         /// <summary>
         /// フッタ
         /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static readonly byte[] Footer =
         {
             0xCF

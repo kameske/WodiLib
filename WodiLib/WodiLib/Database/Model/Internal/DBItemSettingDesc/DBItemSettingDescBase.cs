@@ -35,7 +35,7 @@ namespace WodiLib.Database
 
         /// <inheritdoc />
         /// <summary>
-        /// [MotNull] DB参照時のDB種別
+        /// [NotNull] DB参照時のDB種別
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
@@ -74,7 +74,7 @@ namespace WodiLib.Database
         }
 
         /// <summary>
-        /// [MotNull] ファイル読み込み時の初期フォルダ
+        /// [NotNull] ファイル読み込み時の初期フォルダ
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「ファイル読み込み」以外の場合</exception>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
