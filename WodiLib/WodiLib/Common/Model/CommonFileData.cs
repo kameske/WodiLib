@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using WodiLib.Sys;
 
@@ -24,6 +25,7 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>ヘッダ</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static readonly byte[] Header =
         {
             0x6C, 0x38, 0x0C, 0x03

@@ -33,7 +33,7 @@ namespace WodiLib.Common
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>コモンイベントID</summary>
+        /// <summary>コモンイベント数値引数インデックス</summary>
         private int Value { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

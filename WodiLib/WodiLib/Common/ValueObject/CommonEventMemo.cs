@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
 
@@ -17,6 +18,7 @@ namespace WodiLib.Common
     /// コモンイベントメモ
     /// </summary>
     [Serializable]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
     public class CommonEventMemo : IEquatable<CommonEventMemo>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

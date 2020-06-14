@@ -32,7 +32,7 @@ namespace WodiLib.Database
         private DBSettingFolderName folderName = "";
 
         /// <summary>
-        /// [MotNull] ファイル読み込み時の初期フォルダ
+        /// [NotNull] ファイル読み込み時の初期フォルダ
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「ファイル読み込み」以外の場合</exception>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>

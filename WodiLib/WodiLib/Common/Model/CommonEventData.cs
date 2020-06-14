@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -23,12 +24,14 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>ヘッダ</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static readonly byte[] Header =
         {
             0x00, 0x57, 0x00, 0x00, 0x4F, 0x4C, 0x00, 0x46, 0x43, 0x00, 0x8F
         };
 
         /// <summary>フッタ</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static readonly byte[] Footer =
         {
             0x8F

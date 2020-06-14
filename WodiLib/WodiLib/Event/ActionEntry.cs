@@ -28,6 +28,7 @@ namespace WodiLib.Event
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>ヘッダバイト</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static readonly byte[] HeaderBytes = {0x03, 0x03, 0x03, 0x00, 0x03};
 
         /// <summary>動作完了までウェイトフラグ</summary>

@@ -71,7 +71,7 @@ namespace WodiLib.Common
         };
 
         /// <summary>
-        /// コモンイベント末尾のチェックディジット（Ver2.00以前）
+        /// コモンイベント末尾のチェックディジット（Ver2.00以降）
         /// </summary>
         internal static readonly byte[] FooterBytesAfterVer2_00 =
         {
@@ -119,7 +119,7 @@ namespace WodiLib.Common
         /// <summary>
         /// [Range(0, 4)] 数値引数の数
         /// </summary>
-        /// <exception cref="PropertyOutOfRangeException">指定範囲以外の値がセットされた場合</exception>
+        /// <exception cref="PropertyOutOfRangeException">指定範囲以外の値をセットした場合</exception>
         public int NumberArgsLength
         {
             get => numberArgsLength;
@@ -139,7 +139,7 @@ namespace WodiLib.Common
         /// <summary>
         /// [Range(0, 4)] 文字列引数の数
         /// </summary>
-        /// <exception cref="PropertyOutOfRangeException">指定範囲以外の値がセットされた場合</exception>
+        /// <exception cref="PropertyOutOfRangeException">指定範囲以外の値をセットした場合</exception>
         public int StrArgsLength
         {
             get => strArgsLength;
@@ -221,6 +221,7 @@ namespace WodiLib.Common
         /// メモ
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public CommonEventMemo Memo
         {
             get => memo;
