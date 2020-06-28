@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -17,7 +16,7 @@ namespace WodiLib.Map
     /// [Range(20, 9999)] マップサイズ横
     /// </summary>
     [Serializable]
-    public readonly struct MapSizeWidth : IConvertibleInt32, IEquatable<MapSizeWidth>
+    public readonly struct MapSizeWidth : IConvertibleInt, IEquatable<MapSizeWidth>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

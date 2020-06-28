@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -17,7 +16,7 @@ namespace WodiLib.Common
     /// [Range(0, 4)] コモンイベント数値引数インデックス
     /// </summary>
     [Serializable]
-    public readonly struct CommonEventStringArgIndex : IConvertibleInt32, IEquatable<CommonEventStringArgIndex>
+    public readonly struct CommonEventStringArgIndex : IConvertibleInt, IEquatable<CommonEventStringArgIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -33,7 +32,7 @@ namespace WodiLib.Common
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>コモンイベントID</summary>
+        /// <summary>コモンイベント数値引数インデックス</summary>
         private int Value { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using Commons;
 using WodiLib.Event;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Map
 {
@@ -42,7 +42,7 @@ namespace WodiLib.Map
                         ErrorMessage.NotNull(nameof(AnimateSpeed)));
 
                 if (!value.CanSetForMapEventMoveRoute)
-                    Logger.Warning(WarningMessage.CannotSetValue(nameof(AnimateSpeed), value));
+                    WodiLibLogger.Warning(WarningMessage.CannotSetValue(nameof(AnimateSpeed), value));
 
                 animateSpeed = value;
                 NotifyPropertyChanged();
@@ -63,7 +63,7 @@ namespace WodiLib.Map
                         ErrorMessage.NotNull(nameof(MoveSpeed)));
 
                 if (!value.CanSetForMapEventMoveRoute)
-                    Logger.Warning(WarningMessage.CannotSetValue(nameof(AnimateSpeed), value));
+                    WodiLibLogger.Warning(WarningMessage.CannotSetValue(nameof(AnimateSpeed), value));
 
                 moveSpeed = value;
                 NotifyPropertyChanged();
@@ -139,7 +139,7 @@ namespace WodiLib.Map
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        [field: NonSerialized] private Logger Logger { get; } = Logger.GetInstance();
+        [field: NonSerialized] private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor

@@ -19,16 +19,6 @@ namespace WodiLib.IO
         DatabaseProjectFileWriter, DatabaseProjectFileReader>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// 読み取り/書き出しデータ
-        /// </summary>
-        [Obsolete("入出力データは Read/Write メソッドの戻値を使用してください。 Ver2.3 で削除します。")]
-        public DatabaseProject? DatabaseProject { get; private set; }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -75,13 +65,6 @@ namespace WodiLib.IO
 
             var reader = new DatabaseProjectFileReader(filePath, filePath.DBKind);
             return reader;
-        }
-
-        /// <inheritdoc />
-        [Obsolete("Ver1.1 以前と互換性を持たせるためだけのメソッドです。 Ver2.3 で削除します。")]
-        protected override void CallbackIO(DatabaseProject data)
-        {
-            DatabaseProject = data;
         }
     }
 }

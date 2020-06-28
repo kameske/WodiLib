@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
 
@@ -14,6 +15,7 @@ namespace WodiLib.Ini
     /// <summary>
     /// 【長さ固定】イベントコマンドショートカットキーリスト
     /// </summary>
+    [Obsolete("ShortCutPositionList クラスを参照してください。 Ver 2.5 で削除します。")]
     public interface IFixedLengthEventCommandShortCutKeyList : IFixedLengthCollection<EventCommandShortCutKey>
     {
         /// <summary>

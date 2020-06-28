@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -17,7 +16,7 @@ namespace WodiLib.Common
     /// [Range(-1, 99)] コモンイベント返戻セルフ変数インデックス
     /// </summary>
     [Serializable]
-    public readonly struct CommonEventReturnVariableIndex : IConvertibleInt32, IEquatable<CommonEventReturnVariableIndex>
+    public readonly struct CommonEventReturnVariableIndex : IConvertibleInt, IEquatable<CommonEventReturnVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

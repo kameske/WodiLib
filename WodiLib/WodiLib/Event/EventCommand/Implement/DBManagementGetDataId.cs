@@ -170,7 +170,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         private void OutputVersionWarningLogIfNeed_UnderVer2_10()
         {
-            Logger.Warning(VersionWarningMessage.NotUnderInCommand($"{nameof(DBManagementGetDataId)}",
+            WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommand($"{nameof(DBManagementGetDataId)}",
                 VersionConfig.GetConfigWoditorVersion(),
                 WoditorVersion.Ver2_10));
         }

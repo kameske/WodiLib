@@ -8,9 +8,9 @@
 
 using System;
 using System.Collections.Generic;
-using Commons;
 using WodiLib.Database;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -27,7 +27,7 @@ namespace WodiLib.IO
         private FileReadStatus ReadStatus { get; }
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         private readonly object readLock = new object();
 
@@ -61,7 +61,7 @@ namespace WodiLib.IO
         {
             lock (readLock)
             {
-                Logger.Info(FileIOMessage.StartFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.StartFileRead(GetType()));
 
                 var result = new DBType();
 
@@ -81,7 +81,7 @@ namespace WodiLib.IO
 
                 result.DataDescList.Overwrite(0, MakeDataDescList(typeSetting, dataSetting));
 
-                Logger.Info(FileIOMessage.EndFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.EndFileRead(GetType()));
 
                 return result;
             }
@@ -109,7 +109,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug(FileIOMessage.CheckOk(typeof(DBTypeFileReader),
+            WodiLibLogger.Debug(FileIOMessage.CheckOk(typeof(DBTypeFileReader),
                 "ヘッダ"));
         }
 
@@ -120,7 +120,7 @@ namespace WodiLib.IO
         /// <param name="typeSetting">読み込み結果インスタンス</param>
         private void ReadTypeSetting(FileReadStatus status, out DBTypeSetting typeSetting)
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(typeof(DBTypeFileReader),
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(typeof(DBTypeFileReader),
                 "タイプ設定"));
 
             var reader = new DBTypeSettingReader(status, 1, true);
@@ -128,7 +128,7 @@ namespace WodiLib.IO
             var settings = reader.Read();
             typeSetting = settings[0];
 
-            Logger.Debug(FileIOMessage.EndCommonRead(typeof(DBTypeFileReader),
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(typeof(DBTypeFileReader),
                 "タイプ設定"));
         }
 
@@ -139,7 +139,7 @@ namespace WodiLib.IO
         /// <param name="dataSetting">読み込み結果インスタンス</param>
         private void ReadDataSetting(FileReadStatus status, out DBDataSetting dataSetting)
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(typeof(DBTypeFileReader),
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(typeof(DBTypeFileReader),
                 "データ設定"));
 
             var reader = new DBDataSettingReader(status, 1);
@@ -147,7 +147,7 @@ namespace WodiLib.IO
             var settings = reader.Read();
             dataSetting = settings[0];
 
-            Logger.Debug(FileIOMessage.EndCommonRead(typeof(DBTypeFileReader),
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(typeof(DBTypeFileReader),
                 "データ設定"));
         }
 

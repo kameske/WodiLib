@@ -82,7 +82,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// </summary>
         private void OutputVersionWarningLogIfNeed_UnderVer2_10()
         {
-            Logger.Warning(VersionWarningMessage.NotUnderInCharaMoveCommand($"{nameof(ChangeHeight)}",
+            WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCharaMoveCommand($"{nameof(ChangeHeight)}",
                 VersionConfig.GetConfigWoditorVersion(),
                 WoditorVersion.Ver2_10));
         }

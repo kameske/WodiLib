@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using WodiLib.Sys;
 
@@ -18,7 +19,7 @@ namespace WodiLib.Map
     /// オートタイルファイル名リストクラス
     /// </summary>
     [Serializable]
-    public class AutoTileFileNameList : RestrictedCapacityCollection<AutoTileFileName>,
+    public class AutoTileFileNameList : FixedLengthList<AutoTileFileName>,
         IFixedLengthAutoTileFileNameList, IEquatable<AutoTileFileNameList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -26,10 +27,15 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>リスト最大数</summary>
+        [Obsolete("Capacity プロパティを参照してください。 Ver 2.5 で削除します。")]
         public static readonly int MaxCapacity = 15;
 
         /// <summary>リスト最小数</summary>
+        [Obsolete("Capacity プロパティを参照してください。 Ver 2.5 で削除します。")]
         public static readonly int MinCapacity = 15;
+
+        /// <summary>リスト容量</summary>
+        public static readonly int Capacity = 15;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -60,11 +66,26 @@ namespace WodiLib.Map
         //     Public Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
-        public override int GetMaxCapacity() => MaxCapacity;
+        /// <summary>
+        /// 容量最大値を返す。
+        /// </summary>
+        /// <returns>容量最大値</returns>
+        [Obsolete("GetCapacity() メソッドを参照してください。 Ver 2.5 で削除します。")]
+        public int GetMaxCapacity() => MaxCapacity;
+
+        /// <summary>
+        /// 容量最大値を返す。
+        /// </summary>
+        /// <returns>容量最大値</returns>
+        [Obsolete("GetCapacity() メソッドを参照してください。 Ver 2.5 で削除します。")]
+        public int GetMinCapacity() => MinCapacity;
 
         /// <inheritdoc />
-        public override int GetMinCapacity() => MinCapacity;
+        /// <summary>
+        /// 容量を返す。
+        /// </summary>
+        /// <returns>容量</returns>
+        public override int GetCapacity() => Capacity;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
@@ -79,7 +100,7 @@ namespace WodiLib.Map
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
-            return Equals((RestrictedCapacityCollection<AutoTileFileName>) other);
+            return Items.SequenceEqual(other.Items);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

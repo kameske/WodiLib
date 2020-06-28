@@ -8,9 +8,8 @@
 
 using System;
 using System.Collections.Generic;
-using Commons;
-using Commons.Convertible;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Common
 {
@@ -20,7 +19,7 @@ namespace WodiLib.Common
     ///     コモンイベント数値引数初期値
     /// </summary>
     [Serializable]
-    public readonly struct CommonEventNumberArgInitValue : IConvertibleInt32, IEquatable<CommonEventNumberArgInitValue>
+    public readonly struct CommonEventNumberArgInitValue : IConvertibleInt, IEquatable<CommonEventNumberArgInitValue>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -65,7 +64,7 @@ namespace WodiLib.Common
                     ErrorMessage.OutOfRange(nameof(value), MinValue, MaxValue, value));
 
             if (value < SafetyMinValue || SafetyMaxValue < value)
-                Logger.GetInstance().Warning(
+                WodiLibLogger.GetInstance().Warning(
                     WarningMessage.OutOfRange(nameof(value), SafetyMinValue, SafetyMaxValue, value));
 
             Value = value;

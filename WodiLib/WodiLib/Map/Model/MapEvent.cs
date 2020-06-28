@@ -202,9 +202,11 @@ namespace WodiLib.Map
         }
 
         /// <summary>ヘッダバイト</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static readonly byte[] Header = {0x6F, 0x39, 0x30, 0x00, 0x00};
 
         /// <summary>フッタバイト</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static readonly byte[] Footer = {0x70};
     }
 }

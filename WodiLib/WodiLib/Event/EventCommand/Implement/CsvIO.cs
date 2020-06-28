@@ -318,7 +318,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         private void OutputVersionWarningLogIfNeed_UnderVer2_00()
         {
-            Logger.Warning(VersionWarningMessage.NotUnderInCommand($"{nameof(CsvIO)}",
+            WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommand($"{nameof(CsvIO)}",
                 VersionConfig.GetConfigWoditorVersion(),
                 WoditorVersion.Ver2_00));
         }

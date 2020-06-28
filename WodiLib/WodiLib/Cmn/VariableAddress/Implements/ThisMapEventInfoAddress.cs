@@ -9,9 +9,9 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using Commons;
 using WodiLib.Project;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Cmn
 {
@@ -107,7 +107,7 @@ namespace WodiLib.Cmn
 
             if (infoCode == 7 || infoCode == 8)
             {
-                Logger.GetInstance().Warning(VersionWarningMessage.NotUsingVariableAddress(value));
+                WodiLibLogger.GetInstance().Warning(VersionWarningMessage.NotUsingVariableAddress(value));
             }
         }
 

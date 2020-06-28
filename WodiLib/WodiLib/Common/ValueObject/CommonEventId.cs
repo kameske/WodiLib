@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -17,7 +16,7 @@ namespace WodiLib.Common
     /// [Range(0, 9999)] コモンイベントID
     /// </summary>
     [Serializable]
-    public readonly struct CommonEventId : IConvertibleInt32, IEquatable<CommonEventId>
+    public readonly struct CommonEventId : IConvertibleInt, IEquatable<CommonEventId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

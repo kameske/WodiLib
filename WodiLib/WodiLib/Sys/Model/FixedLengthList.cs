@@ -75,22 +75,6 @@ namespace WodiLib.Sys
             }
         }
 
-        /// <summary>
-        /// SetItemイベントハンドラリスト
-        /// </summary>
-        [field: NonSerialized]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
-        public SetItemHandlerList<T> SetItemHandlerList { get; private set; } = new SetItemHandlerList<T>();
-
-        /// <summary>
-        /// ClearItemイベントハンドラリスト
-        /// </summary>
-        [field: NonSerialized]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
-        public ClearItemHandlerList<T> ClearItemHandlerList { get; private set; } = new ClearItemHandlerList<T>();
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -291,14 +275,22 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="item">対象要素</param>
         /// <returns>指定の要素が含まれる場合はtrue</returns>
-        public bool Contains([AllowNull] T item) => ((IList<T>) Items).Contains(item);
+        public bool Contains([AllowNull] T item)
+        {
+            if (item == null) return false;
+            return ((IList<T>) Items).Contains(item);
+        }
 
         /// <summary>
         /// 指定したオブジェクトを検索し、最初に出現する位置のインデックスを返す。
         /// </summary>
         /// <param name="item">対象要素</param>
         /// <returns>要素が含まれていない場合、-1</returns>
-        public int IndexOf([AllowNull] T item) => Array.IndexOf(Items, item);
+        public int IndexOf([AllowNull] T item)
+        {
+            if (item == null) return -1;
+            return Array.IndexOf(Items, item);
+        }
 
         /// <summary>
         /// すべての要素を、指定された配列のインデックスから始まる部分にコピーする。
@@ -513,12 +505,9 @@ namespace WodiLib.Sys
 
             SetItem(index, item);
 
-#pragma warning disable 618
-            SetItemHandlerList.Execute(index, item);
-#pragma warning restore 618
             NotifyPropertyChanged(ListConstant.IndexerName);
             _collectionChanged?.Invoke(this,
-                NotifyCollectionChangedEventArgsHelper.Set(item, ordinal!, index));
+                NotifyCollectionChangedEventArgsHelper.Set(item!, ordinal!, index));
         }
 
         /// <summary>
@@ -592,9 +581,6 @@ namespace WodiLib.Sys
         {
             ClearItems();
 
-#pragma warning disable 618
-            ClearItemHandlerList.Execute();
-#pragma warning restore 618
             NotifyPropertyChanged(ListConstant.IndexerName);
             _collectionChanged?.Invoke(this,
                 NotifyCollectionChangedEventArgsHelper.Clear());
@@ -610,7 +596,7 @@ namespace WodiLib.Sys
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(Items), Items);
         }
@@ -624,10 +610,6 @@ namespace WodiLib.Sys
         protected FixedLengthList(SerializationInfo info, StreamingContext context)
         {
             Items = info.GetValue<T[]>(nameof(Items));
-#pragma warning disable 618
-            SetItemHandlerList = new SetItemHandlerList<T>();
-            ClearItemHandlerList = new ClearItemHandlerList<T>();
-#pragma warning restore 618
         }
     }
 }

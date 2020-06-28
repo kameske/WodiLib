@@ -8,9 +8,8 @@
 
 using System;
 using System.Collections.Generic;
-using Commons;
-using Commons.Convertible;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Database
 {
@@ -20,7 +19,7 @@ namespace WodiLib.Database
     ///     DB設定数値
     /// </summary>
     [Serializable]
-    public readonly struct DBValueInt : IConvertibleInt32, IEquatable<DBValueInt>
+    public readonly struct DBValueInt : IConvertibleInt, IEquatable<DBValueInt>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -65,7 +64,7 @@ namespace WodiLib.Database
                     ErrorMessage.OutOfRange(nameof(value), MinValue, MaxValue, value));
 
             if (value < SafetyMinValue || SafetyMaxValue < value)
-                Logger.GetInstance().Warning(
+                WodiLibLogger.GetInstance().Warning(
                     WarningMessage.OutOfRange(nameof(value), SafetyMinValue, SafetyMaxValue, value));
 
             Value = value;

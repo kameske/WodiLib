@@ -1,5 +1,5 @@
 WodiLib
-Ver 2.2.2
+Ver 2.3.0
 ====
 
 Description
@@ -49,33 +49,17 @@ Branches
 Loadmap
 ----------
 
-- 2020/06
-  - Ver 1.3.0, 2.3.0
-    - IFixedLengthXXXインタフェースで公開しているリスト型プロパティを実装クラス型プロパティに変更。
-    - 一部クラスのEditorBrowsable属性見直し。
-    - 予告済みのクラス・プロパティ廃止。
-    - （Ver2のみ）外部モジュール化したクラスの再統合。
-
 - 適宜
   - 不具合修正 / 機能追加
 
 History
 ----------
 
-- 2020/06/07 Ver 2.2.2
-  - RestrictedCapacityCollection.Overwrite() で発生する　CollectionChanged イベントの引数を修正(#10)
-
-- 2020/04/25 Ver 2.2.1
-  - バイナリデータ出力時、特定のコマンドが正しく出力されない不具合修正(#8)
-
-- 2020/04/12 Ver 2.2.0
-  - C# 8.0 対応
-  - INotifyPropertyCahgend, INotifyCollectionChanged 対応
-  - メソッドやプロパティで使用するListなどの見直し
-
-- 2019/12/01 Ver 1.1.0
-  - シリアライズ/デシリアライズ対応
-  - イベントコマンド拡張
+- 2020/06/28 Ver 2.3.0, Ver 1.3.0
+  - IFixedLengthXXXインタフェースで公開しているリスト型プロパティを実装クラス型プロパティに変更。
+  - 一部クラスのEditorBrowsable属性見直し。
+  - 予告済みのクラス・プロパティ廃止。
+  - （Ver2のみ）外部モジュール化したクラスの再統合。
 
 - 2019/10/27 Ver 1.0.0
   - 正式版初版公開

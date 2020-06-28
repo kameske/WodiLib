@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -16,7 +15,7 @@ namespace WodiLib.Ini
     /// [Range(0, int.MaxValue)] ディスプレイ番号
     /// </summary>
     [Serializable]
-    public readonly struct DisplayNumber : IConvertibleInt32, IEquatable<DisplayNumber>
+    public readonly struct DisplayNumber : IConvertibleInt, IEquatable<DisplayNumber>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

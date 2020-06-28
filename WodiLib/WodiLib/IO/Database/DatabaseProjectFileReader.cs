@@ -7,9 +7,9 @@
 // ========================================
 
 using System;
-using Commons;
 using WodiLib.Database;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -29,7 +29,7 @@ namespace WodiLib.IO
         private FileReadStatus ReadStatus { get; }
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         private readonly object readLock = new object();
 
@@ -68,7 +68,7 @@ namespace WodiLib.IO
         {
             lock (readLock)
             {
-                Logger.Info(FileIOMessage.StartFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.StartFileRead(GetType()));
 
                 var result = new DatabaseProject();
 
@@ -77,7 +77,7 @@ namespace WodiLib.IO
                 // DB種別
                 result.DBKind = DBKind;
 
-                Logger.Info(FileIOMessage.EndFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.EndFileRead(GetType()));
 
                 return result;
             }
@@ -95,13 +95,13 @@ namespace WodiLib.IO
         /// <exception cref="InvalidOperationException">ファイルヘッダが仕様と異なる場合</exception>
         private void ReadTypeSettingList(FileReadStatus status, DatabaseProject data)
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(typeof(DBTypeSettingReader),
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(typeof(DBTypeSettingReader),
                 "タイプ設定リスト"));
 
             var length = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(DatabaseProjectFileReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DatabaseProjectFileReader),
                 "タイプ設定数", length));
 
             var reader = new DBTypeSettingReader(status, length, true);
@@ -110,7 +110,7 @@ namespace WodiLib.IO
 
             data.TypeSettingList.AddRange(settings);
 
-            Logger.Debug(FileIOMessage.EndCommonRead(typeof(DBTypeSettingReader),
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(typeof(DBTypeSettingReader),
                 "タイプ設定リスト"));
         }
     }

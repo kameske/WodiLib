@@ -7,8 +7,8 @@
 // ========================================
 
 using System;
-using Commons;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Map
 {
@@ -94,11 +94,11 @@ namespace WodiLib.Map
                     ErrorMessage.OutOfRange(nameof(height), MinValue_Height, MaxValue_Height, height));
 
             if (width < SafetyMinValue_Width || SafetyMaxValue_Width < width)
-                Logger.GetInstance().Warning(
+                WodiLibLogger.GetInstance().Warning(
                     WarningMessage.OutOfRange(nameof(width), SafetyMinValue_Width,
                         SafetyMaxValue_Width, width));
             if (height < SafetyMinValue_Height || SafetyMaxValue_Height < height)
-                Logger.GetInstance().Warning(
+                WodiLibLogger.GetInstance().Warning(
                     WarningMessage.OutOfRange(nameof(height), SafetyMinValue_Height,
                         SafetyMaxValue_Height, height));
 

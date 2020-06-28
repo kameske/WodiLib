@@ -232,6 +232,41 @@ namespace WodiLib.Database
             }
 
             /// <summary>
+            /// DB項目移動を生成したすべてのインスタンスに反映する。
+            /// </summary>
+            /// <param name="oldIndex">移動元インデックス</param>
+            /// <param name="newIndex">移動先インデックス</param>
+            public void ReflectMove(int oldIndex, int newIndex)
+            {
+                Refresh();
+
+                foreach (var reference in MadeInstanceList)
+                {
+                    if (!reference.TryGetTarget(out var target)) continue;
+
+                    target.MoveForValuesListInstanceManager(oldIndex, newIndex);
+                }
+            }
+
+            /// <summary>
+            /// DB項目範囲移動を生成したすべてのインスタンスに反映する。
+            /// </summary>
+            /// <param name="oldIndex">移動元インデックス</param>
+            /// <param name="newIndex">移動先インデックス</param>
+            /// <param name="count">移動する要素数</param>
+            public void ReflectMoveRange(int oldIndex, int newIndex, int count)
+            {
+                Refresh();
+
+                foreach (var reference in MadeInstanceList)
+                {
+                    if (!reference.TryGetTarget(out var target)) continue;
+
+                    target.MoveRangeForValuesListInstanceManager(oldIndex, newIndex, count);
+                }
+            }
+
+            /// <summary>
             /// DB項目除去を生成したすべてのインスタンスに反映する。
             /// </summary>
             /// <param name="itemId">項目ID</param>

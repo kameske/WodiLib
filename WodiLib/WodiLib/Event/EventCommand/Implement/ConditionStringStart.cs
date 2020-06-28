@@ -342,7 +342,7 @@ namespace WodiLib.Event.EventCommand
                 var con = conditionList[i];
                 if (con.Condition == StringConditionalOperator.StartWith)
                 {
-                    Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                    WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                         $"{nameof(ConditionStringStart)}.{nameof(conditionList)}[{i}]",
                         $"{StringConditionalOperator.StartWith}",
                         VersionConfig.GetConfigWoditorVersion(),

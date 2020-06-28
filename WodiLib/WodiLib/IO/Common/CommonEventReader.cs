@@ -8,11 +8,11 @@
 
 using System;
 using System.Collections.Generic;
-using Commons;
 using WodiLib.Common;
 using WodiLib.Database;
 using WodiLib.Event;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -28,7 +28,7 @@ namespace WodiLib.IO
         private int Length { get; }
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -47,7 +47,7 @@ namespace WodiLib.IO
         /// <exception cref="InvalidOperationException">ファイルが仕様と異なる場合</exception>
         public List<CommonEvent> Read()
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(GetType(), ""));
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(GetType(), ""));
 
             var list = new List<CommonEvent>();
             for (var i = 0; i < Length; i++)
@@ -55,7 +55,7 @@ namespace WodiLib.IO
                 ReadOneCommonEvent(Status, list);
             }
 
-            Logger.Debug(FileIOMessage.EndCommonRead(GetType(), ""));
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(GetType(), ""));
 
             return list;
         }
@@ -68,7 +68,7 @@ namespace WodiLib.IO
         /// <exception cref="InvalidOperationException">バイナリデータがファイル仕様と異なる場合</exception>
         private void ReadOneCommonEvent(FileReadStatus status, ICollection<CommonEvent> result)
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(typeof(CommonEventReader), "コモンイベント"));
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(typeof(CommonEventReader), "コモンイベント"));
 
             var commonEvent = new CommonEvent();
 
@@ -131,7 +131,7 @@ namespace WodiLib.IO
             // コモンイベント末尾B
             ReadFooterB(status);
 
-            Logger.Debug(FileIOMessage.EndCommonRead(typeof(CommonEventReader), "コモンイベント"));
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(typeof(CommonEventReader), "コモンイベント"));
 
             result.Add(commonEvent);
         }
@@ -151,7 +151,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug(FileIOMessage.CheckOk(typeof(CommonEventReader), "コモンイベントヘッダ"));
+            WodiLibLogger.Debug(FileIOMessage.CheckOk(typeof(CommonEventReader), "コモンイベントヘッダ"));
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace WodiLib.IO
             commonEvent.Id = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "コモンイベントID", commonEvent.Id));
         }
 
@@ -198,9 +198,9 @@ namespace WodiLib.IO
             condition.Operation = CriteriaOperator.FromByte((byte) (b & 0xF0));
             condition.CommonEventBootType = CommonEventBootType.FromByte((byte) (b & 0x0F));
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "起動条件比較演算子", condition.Operation));
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "起動条件", condition.CommonEventBootType));
         }
 
@@ -215,7 +215,7 @@ namespace WodiLib.IO
             condition.LeftSide = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "起動条件左辺", condition.LeftSide));
         }
 
@@ -230,7 +230,7 @@ namespace WodiLib.IO
             condition.RightSide = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "起動条件右辺", condition.RightSide));
         }
 
@@ -244,7 +244,7 @@ namespace WodiLib.IO
             commonEvent.NumberArgsLength = status.ReadByte();
             status.IncreaseByteOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "数値引数の数", commonEvent.NumberArgsLength));
         }
 
@@ -258,7 +258,7 @@ namespace WodiLib.IO
             commonEvent.StrArgsLength = status.ReadByte();
             status.IncreaseByteOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "文字列引数の数", commonEvent.StrArgsLength));
         }
 
@@ -273,7 +273,7 @@ namespace WodiLib.IO
             commonEvent.Name = commonEventName.String;
             status.AddOffset(commonEventName.ByteLength);
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "コモンイベント名", commonEvent.Name));
         }
 
@@ -287,7 +287,7 @@ namespace WodiLib.IO
             var length = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "イベントコマンド数", length));
 
             var reader = new EventCommandListReader(status, length);
@@ -305,7 +305,7 @@ namespace WodiLib.IO
             commonEvent.Description = str.String;
             status.AddOffset(str.ByteLength);
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "メモ前の文字列", commonEvent.Description));
         }
 
@@ -320,7 +320,7 @@ namespace WodiLib.IO
             commonEvent.Memo = str.String;
             status.AddOffset(str.ByteLength);
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "メモ", commonEvent.Memo));
         }
 
@@ -434,7 +434,7 @@ namespace WodiLib.IO
             //   基本システムVer2のコモンイベント14などで確認。
             if (stringArgListCount != numberArgListCount)
             {
-                Logger.GetInstance().Warning(
+                WodiLibLogger.GetInstance().Warning(
                     $"[Warning] 文字列引数リストと数値引数リストの長さが一致しません。（文字列数：{stringArgListCount}, 数値数：{numberArgListCount}）");
             }
 
@@ -496,7 +496,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug(FileIOMessage.CheckOk(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.CheckOk(typeof(CommonEventReader),
                 "引数初期値後のチェックディジット"));
         }
 
@@ -512,7 +512,7 @@ namespace WodiLib.IO
 
             commonEvent.LabelColor = CommonEventLabelColor.FromInt(colorNumber);
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "ラベル色", commonEvent.LabelColor));
         }
 
@@ -534,7 +534,7 @@ namespace WodiLib.IO
 
                 varNameList.Add(varName.String);
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                     $"セルフ変数{i}名", varName.String));
             }
 
@@ -556,7 +556,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug(FileIOMessage.CheckOk(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.CheckOk(typeof(CommonEventReader),
                 "セルフ変数後のチェックディジット", "（返戻値あり）"));
         }
 
@@ -572,7 +572,7 @@ namespace WodiLib.IO
 
             commonEvent.FooterString = footerString.String;
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "フッタ文字列", commonEvent.FooterString));
         }
 
@@ -597,7 +597,7 @@ namespace WodiLib.IO
                 }
 
 
-                Logger.Debug(FileIOMessage.CheckOk(typeof(CommonEventReader),
+                WodiLibLogger.Debug(FileIOMessage.CheckOk(typeof(CommonEventReader),
                     "コモンイベント末尾", "（返戻値あり）"));
 
                 return HasNext.Yes;
@@ -639,7 +639,7 @@ namespace WodiLib.IO
 
             commonEvent.ReturnValueDescription = description.String;
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "返戻値の意味", commonEvent.ReturnValueDescription));
         }
 
@@ -655,7 +655,7 @@ namespace WodiLib.IO
 
             commonEvent.SetReturnVariableIndex(index);
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(CommonEventReader),
                 "返戻セルフ変数インデックス", index));
         }
 
@@ -674,7 +674,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug(FileIOMessage.CheckOk(typeof(CommonEventReader),
+            WodiLibLogger.Debug(FileIOMessage.CheckOk(typeof(CommonEventReader),
                 "コモンイベント末尾B"));
         }
 

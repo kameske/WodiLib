@@ -34,6 +34,7 @@ namespace WodiLib.Event.EventCommand
         public static int MinCapacity => 0;
 
         /// <summary>イベントコマンド終端</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static readonly byte[] EndEventCommand = {0x03, 0x00, 0x00, 0x00};
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

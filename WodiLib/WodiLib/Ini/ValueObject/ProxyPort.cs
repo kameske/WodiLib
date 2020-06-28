@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -16,7 +15,7 @@ namespace WodiLib.Ini
     /// [Range(-1, 65535)] プロキシポート番号
     /// </summary>
     [Serializable]
-    public readonly struct ProxyPort : IConvertibleInt32, IEquatable<ProxyPort>
+    public readonly struct ProxyPort : IConvertibleInt, IEquatable<ProxyPort>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -17,7 +16,7 @@ namespace WodiLib.Map
     ///     [Range(0, 1604444)] マップチップ
     /// </summary>
     [Serializable]
-    public readonly struct MapChip : IConvertibleInt32, IEquatable<MapChip>
+    public readonly struct MapChip : IConvertibleInt, IEquatable<MapChip>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

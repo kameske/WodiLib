@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Cmn
@@ -16,7 +15,7 @@ namespace WodiLib.Cmn
     /// [Range(1, 5)] 仲間ID
     /// </summary>
     [Serializable]
-    public readonly struct MemberId : IConvertibleInt32, IEquatable<MemberId>
+    public readonly struct MemberId : IConvertibleInt, IEquatable<MemberId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

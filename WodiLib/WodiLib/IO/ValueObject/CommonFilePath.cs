@@ -10,9 +10,9 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text.RegularExpressions;
-using Commons;
 using WodiLib.Cmn;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -69,7 +69,7 @@ namespace WodiLib.IO
             var fileName = Path.GetFileName(value);
             if (!FilePathRegex.IsMatch(fileName))
             {
-                Logger.GetInstance().Warning(
+                WodiLibLogger.GetInstance().Warning(
                     WarningMessage.UnsuitableFileName(value, FilePathRegex));
             }
         }

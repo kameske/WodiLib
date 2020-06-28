@@ -8,9 +8,9 @@
 
 using System;
 using System.Threading.Tasks;
-using Commons;
 using WodiLib.Database;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -38,7 +38,7 @@ namespace WodiLib.IO
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>DB種別</summary>
         private DBKind DbKind { get; } = default!;
@@ -131,7 +131,7 @@ namespace WodiLib.IO
         {
             lock (readLock)
             {
-                Logger.Info(FileIOMessage.StartFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.StartFileRead(GetType()));
 
                 if (!(Data is null))
                     throw new InvalidOperationException(
@@ -145,7 +145,7 @@ namespace WodiLib.IO
 
                 Data = new DatabaseMergedData(typeSettingList, dataSettingList);
 
-                Logger.Info(FileIOMessage.EndFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.EndFileRead(GetType()));
 
                 return Data;
             }

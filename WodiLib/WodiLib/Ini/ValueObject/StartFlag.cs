@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -16,7 +15,7 @@ namespace WodiLib.Ini
     /// [Range(int.MinValue, int.MaxValue)] 開始フラグ
     /// </summary>
     [Serializable]
-    public readonly struct StartFlag : IConvertibleInt32, IEquatable<StartFlag>
+    public readonly struct StartFlag : IConvertibleInt, IEquatable<StartFlag>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

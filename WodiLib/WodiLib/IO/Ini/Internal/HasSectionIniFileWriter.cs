@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Commons;
 using WodiLib.Cmn;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
@@ -36,7 +35,7 @@ namespace WodiLib.IO
         public IEnumerable<TIniTarget> Data { get; }
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -74,14 +73,14 @@ namespace WodiLib.IO
         /// </exception>
         public void WriteSync()
         {
-            Logger.Info(FileIOMessage.StartFileWrite(GetType()));
+            WodiLibLogger.Info(FileIOMessage.StartFileWrite(GetType()));
 
             foreach (var target in Data)
             {
                 WriteOneData(target);
             }
 
-            Logger.Info(FileIOMessage.EndFileWrite(GetType()));
+            WodiLibLogger.Info(FileIOMessage.EndFileWrite(GetType()));
         }
 
 

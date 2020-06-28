@@ -21,7 +21,7 @@ namespace WodiLib.Ini
     /// イベントコマンドショートカットキーリスト
     /// </summary>
     [Serializable]
-    public class EventCommandShortCutKeyList : RestrictedCapacityCollection<EventCommandShortCutKey>,
+    public class EventCommandShortCutKeyList : FixedLengthList<EventCommandShortCutKey>,
         IFixedLengthEventCommandShortCutKeyList, IEquatable<EventCommandShortCutKeyList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -29,10 +29,15 @@ namespace WodiLib.Ini
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>最大容量</summary>
-        public static int MaxCapacity => 30;
+        [Obsolete("Capacity プロパティを参照してください。 Ver 2.5 で削除します。")]
+        public static int MaxCapacity => Capacity;
 
         /// <summary>最小容量</summary>
-        public static int MinCapacity => 30;
+        [Obsolete("Capacity プロパティを参照してください。 Ver 2.5 で削除します。")]
+        public static int MinCapacity => Capacity;
+
+        /// <summary>最小容量</summary>
+        public static int Capacity => 30;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Constant
@@ -553,7 +558,7 @@ namespace WodiLib.Ini
         private void InitializeNotUseIndexes()
         {
             var notUseIndexes = new List<int>();
-            for (var i = UseMaxIndex + 1; i < MaxCapacity; i++)
+            for (var i = UseMaxIndex + 1; i < Capacity; i++)
             {
                 notUseIndexes.Add(i);
             }
@@ -565,19 +570,26 @@ namespace WodiLib.Ini
         //     Public Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
         /// <summary>
         /// 容量最大値を返す。
         /// </summary>
         /// <returns>容量最大値</returns>
-        public override int GetMaxCapacity() => MaxCapacity;
+        [Obsolete("GetCapacity() メソッドを参照してください。 Ver 2.5 で削除します。")]
+        public int GetMaxCapacity() => MaxCapacity;
 
-        /// <inheritdoc />
         /// <summary>
         /// 容量最小値を返す。
         /// </summary>
         /// <returns>容量最小値</returns>
-        public override int GetMinCapacity() => MinCapacity;
+        [Obsolete("GetCapacity() メソッドを参照してください。 Ver 2.5 で削除します。")]
+        public int GetMinCapacity() => MinCapacity;
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 容量を返す。
+        /// </summary>
+        /// <returns>容量</returns>
+        public override int GetCapacity() => Capacity;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
@@ -654,7 +666,7 @@ namespace WodiLib.Ini
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
-            return Equals((RestrictedCapacityCollection<EventCommandShortCutKey>) other);
+            return Items.SequenceEqual(other.Items);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -681,8 +693,8 @@ namespace WodiLib.Ini
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(makeSerializationItemsKeyName(-1), Items.Count);
-            for (var i = 0; i < Items.Count; i++)
+            info.AddValue(makeSerializationItemsKeyName(-1), Items.Length);
+            for (var i = 0; i < Items.Length; i++)
             {
                 info.AddValue(makeSerializationItemsKeyName(i), Items[i].Code);
             }

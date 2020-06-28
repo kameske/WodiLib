@@ -205,6 +205,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>ヘッダ</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static readonly byte[] HeaderBytes =
         {
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x57, 0x4F, 0x4C, 0x46, 0x4D,
@@ -214,6 +215,7 @@ namespace WodiLib.Map
         };
 
         /// <summary>フッタ</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public static readonly byte[] Footer = {0x66};
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

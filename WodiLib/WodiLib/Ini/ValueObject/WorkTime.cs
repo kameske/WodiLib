@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -16,7 +15,7 @@ namespace WodiLib.Ini
     /// [Range(0, int.MaxValue)] 作業時間（単位は1/2minute）
     /// </summary>
     [Serializable]
-    public readonly struct WorkTime : IConvertibleInt32, IEquatable<WorkTime>
+    public readonly struct WorkTime : IConvertibleInt, IEquatable<WorkTime>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

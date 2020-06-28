@@ -240,7 +240,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         private void OutputVersionWarningLogIfNeed_UnderVer2_00()
         {
-            Logger.Warning(VersionWarningMessage.NotUnderInCommand($"{nameof(DeviceInputControl)}",
+            WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommand($"{nameof(DeviceInputControl)}",
                 VersionConfig.GetConfigWoditorVersion(),
                 WoditorVersion.Ver2_00));
         }

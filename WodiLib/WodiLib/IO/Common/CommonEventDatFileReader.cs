@@ -7,9 +7,9 @@
 // ========================================
 
 using System;
-using Commons;
 using WodiLib.Common;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -23,7 +23,7 @@ namespace WodiLib.IO
         private readonly object readLock = new object();
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -46,7 +46,7 @@ namespace WodiLib.IO
         {
             lock (readLock)
             {
-                Logger.Info(FileIOMessage.StartFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.StartFileRead(GetType()));
 
                 var commonEventData = new CommonEventData();
 
@@ -59,7 +59,7 @@ namespace WodiLib.IO
                 // フッタチェック
                 ReadFooter(ReadStatus);
 
-                Logger.Info(FileIOMessage.EndFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.EndFileRead(GetType()));
 
                 return commonEventData;
             }
@@ -87,7 +87,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug($"{nameof(CommonEventDatFileReader)} ヘッダチェック完了");
+            WodiLibLogger.Debug($"{nameof(CommonEventDatFileReader)} ヘッダチェック完了");
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace WodiLib.IO
             var length = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug($"{nameof(CommonEventDatFileReader)} コモンイベント数読み込み完了 コモンイベント数：{length}");
+            WodiLibLogger.Debug($"{nameof(CommonEventDatFileReader)} コモンイベント数読み込み完了 コモンイベント数：{length}");
 
             return length;
         }
@@ -154,7 +154,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug($"{nameof(CommonEventDatFileReader)} フッタチェック完了");
+            WodiLibLogger.Debug($"{nameof(CommonEventDatFileReader)} フッタチェック完了");
         }
     }
 }

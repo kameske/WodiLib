@@ -7,9 +7,9 @@
 // ========================================
 
 using System;
-using Commons;
 using WodiLib.Common;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -24,7 +24,7 @@ namespace WodiLib.IO
         private readonly object readLock = new object();
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -55,7 +55,7 @@ namespace WodiLib.IO
                 // コモンイベント
                 ReadCommonEvent(ReadStatus, commonFileData);
 
-                Logger.Info(FileIOMessage.EndFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.EndFileRead(GetType()));
 
                 return commonFileData;
             }
@@ -83,7 +83,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug($"{nameof(CommonFileReader)} ヘッダチェックOK");
+            WodiLibLogger.Debug($"{nameof(CommonFileReader)} ヘッダチェックOK");
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace WodiLib.IO
             var length = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug($"{nameof(CommonFileReader)} コモンイベント数：{length}");
+            WodiLibLogger.Debug($"{nameof(CommonFileReader)} コモンイベント数：{length}");
 
             return length;
         }

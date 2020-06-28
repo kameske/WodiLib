@@ -124,7 +124,7 @@ namespace WodiLib.Event.EventCommand
         {
             if (InfoType == NumberPlusEtcInfoType.ActiveEventId)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusEtc)}.{nameof(InfoType)}",
                     $"{NumberPlusEtcInfoType.ActiveEventId}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -133,7 +133,7 @@ namespace WodiLib.Event.EventCommand
 
             if (InfoType == NumberPlusEtcInfoType.ActiveEventLine)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusEtc)}.{nameof(InfoType)}",
                     $"{NumberPlusEtcInfoType.ActiveEventLine}",
                     VersionConfig.GetConfigWoditorVersion(),

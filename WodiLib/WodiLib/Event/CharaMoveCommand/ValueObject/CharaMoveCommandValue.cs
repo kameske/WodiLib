@@ -8,9 +8,8 @@
 
 using System;
 using System.Collections.Generic;
-using Commons;
-using Commons.Convertible;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.CharaMoveCommand
 {
@@ -20,7 +19,7 @@ namespace WodiLib.Event.CharaMoveCommand
     ///     キャラ動作指定コマンド設定値
     /// </summary>
     [Serializable]
-    public readonly struct CharaMoveCommandValue : IConvertibleInt32, IEquatable<CharaMoveCommandValue>
+    public readonly struct CharaMoveCommandValue : IConvertibleInt, IEquatable<CharaMoveCommandValue>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -65,7 +64,7 @@ namespace WodiLib.Event.CharaMoveCommand
                     ErrorMessage.OutOfRange(nameof(value), MinValue, MaxValue, value));
 
             if (value < SafetyMinValue || SafetyMaxValue < value)
-                Logger.GetInstance().Warning(
+                WodiLibLogger.GetInstance().Warning(
                     WarningMessage.OutOfRange(nameof(value), SafetyMinValue, SafetyMaxValue, value));
 
             Value = value;

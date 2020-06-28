@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Cmn
@@ -16,7 +15,7 @@ namespace WodiLib.Cmn
     /// [Range(0, 99999)] システム変数インデックス
     /// </summary>
     [Serializable]
-    public readonly struct SystemVariableIndex : IConvertibleInt32, IEquatable<SystemVariableIndex>
+    public readonly struct SystemVariableIndex : IConvertibleInt, IEquatable<SystemVariableIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

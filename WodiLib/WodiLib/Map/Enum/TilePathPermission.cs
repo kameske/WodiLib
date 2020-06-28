@@ -7,7 +7,6 @@
 // ========================================
 
 using System.Linq;
-using Commons;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
 
@@ -51,7 +50,7 @@ namespace WodiLib.Map
         /// <summary>
         /// ロガー
         /// </summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>コード値</summary>
         public int Code { get; }
@@ -72,7 +71,7 @@ namespace WodiLib.Map
 
             if (VersionConfig.IsUnderVersion(SupportVersion))
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInSetting(
                     $"{nameof(TilePathPermission)}.{nameof(Dependent)}",
                     VersionConfig.GetConfigWoditorVersion(),
                     SupportVersion));

@@ -37,51 +37,6 @@ namespace WodiLib.Database
         //     Public  Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        [NonSerialized]
-#pragma warning disable 618
-        private readonly SetItemHandlerList<DBItemValue> setFieldHandlerList = new SetItemHandlerList<DBItemValue>();
-#pragma warning restore 618
-
-        /// <summary>
-        /// SetItemイベントハンドラリスト
-        /// </summary>
-        [Obsolete("要素変更通知は各要素のCollectionChangedイベントを利用して取得してください。 Ver2.3 で削除します。")]
-        public SetItemHandlerList<DBItemValue> SetFieldHandlerList => setFieldHandlerList;
-
-#pragma warning disable 618
-        [NonSerialized] private readonly InsertItemHandlerList<DBItemValue> insertFieldHandlerList =
-            new InsertItemHandlerList<DBItemValue>();
-#pragma warning restore 618
-
-        /// <summary>
-        /// InsertItemイベントハンドラリスト
-        /// </summary>
-        [Obsolete("要素変更通知は各要素のCollectionChangedイベントを利用して取得してください。 Ver2.3 で削除します。")]
-        public InsertItemHandlerList<DBItemValue> InsertFieldHandlerList => insertFieldHandlerList;
-
-#pragma warning disable 618
-        [NonSerialized] private readonly RemoveItemHandlerList<DBItemValue> removeFieldHandlerList =
-            new RemoveItemHandlerList<DBItemValue>();
-#pragma warning restore 618
-
-        /// <summary>
-        /// RemoveItemイベントハンドラリスト
-        /// </summary>
-        [Obsolete("要素変更通知は各要素のCollectionChangedイベントを利用して取得してください。 Ver2.3 で削除します。")]
-        public RemoveItemHandlerList<DBItemValue> RemoveFieldHandlerList => removeFieldHandlerList;
-
-#pragma warning disable 618
-        [NonSerialized] private readonly ClearItemHandlerList<DBItemValue> clearFieldHandlerList =
-            new ClearItemHandlerList<DBItemValue>();
-#pragma warning restore 618
-
-        /// <summary>
-        /// ClearItemイベントハンドラリスト
-        /// </summary>
-        [Obsolete("要素変更通知は各要素のCollectionChangedイベントを利用して取得してください。 Ver2.3 で削除します。")]
-        public ClearItemHandlerList<DBItemValue> ClearFieldHandlerList => clearFieldHandlerList;
-
-
         /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
         [field: NonSerialized]
         private event NotifyCollectionChangedEventHandler _fieldCollectionChanged
@@ -427,9 +382,6 @@ namespace WodiLib.Database
                     ErrorMessage.NotNull(nameof(type)));
 
             MadeInstances.ReflectChangedValueType(itemId, type);
-#pragma warning disable 618
-            SetFieldHandlerList.Execute(itemId, type.DBItemDefaultValue);
-#pragma warning restore 618
         }
 
         /// <summary>
@@ -453,9 +405,6 @@ namespace WodiLib.Database
                     ErrorMessage.NotNull(nameof(value)));
 
             MadeInstances.ReflectChangedValue(itemId, value);
-#pragma warning disable 618
-            SetFieldHandlerList.Execute(itemId, value);
-#pragma warning restore 618
         }
 
         /// <summary>
@@ -476,11 +425,7 @@ namespace WodiLib.Database
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
 
-            var index = Items[0].Count;
             MadeInstances.ReflectAddValueType(type);
-#pragma warning disable 618
-            InsertFieldHandlerList.Execute(index, type.DBItemDefaultValue);
-#pragma warning restore 618
         }
 
         /// <summary>
@@ -501,11 +446,7 @@ namespace WodiLib.Database
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
 
-            var index = Items[0].Count;
             MadeInstances.ReflectAddValue(value);
-#pragma warning disable 618
-            InsertFieldHandlerList.Execute(index, value);
-#pragma warning restore 618
         }
 
         /// <summary>
@@ -528,15 +469,7 @@ namespace WodiLib.Database
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
 
-            var index = Items[0].Count;
             MadeInstances.ReflectAddValueTypeRange(typeArr);
-            foreach (var type in typeArr)
-            {
-#pragma warning disable 618
-                InsertFieldHandlerList.Execute(index, type.DBItemDefaultValue);
-#pragma warning restore 618
-                index++;
-            }
         }
 
         /// <summary>
@@ -559,15 +492,7 @@ namespace WodiLib.Database
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
 
-            var index = Items[0].Count;
             MadeInstances.ReflectAddValueRange(valueArr);
-#pragma warning disable 618
-            foreach (var value in valueArr)
-            {
-                InsertFieldHandlerList.Execute(index, value);
-                index++;
-            }
-#pragma warning restore 618
         }
 
         /// <summary>
@@ -597,9 +522,6 @@ namespace WodiLib.Database
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
 
             MadeInstances.ReflectInsertValueType(itemId, type);
-#pragma warning disable 618
-            InsertFieldHandlerList.Execute(itemId, type.DBItemDefaultValue);
-#pragma warning restore 618
         }
 
         /// <summary>
@@ -629,9 +551,6 @@ namespace WodiLib.Database
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
 
             MadeInstances.ReflectInsertValue(itemId, value);
-#pragma warning disable 618
-            InsertFieldHandlerList.Execute(itemId, value);
-#pragma warning restore 618
         }
 
         /// <summary>
@@ -668,14 +587,6 @@ namespace WodiLib.Database
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
 
             MadeInstances.ReflectInsertValueTypeRange(index, typeArr);
-            var handlerIndex = index;
-#pragma warning disable 618
-            foreach (var type in typeArr)
-            {
-                InsertFieldHandlerList.Execute(handlerIndex, type.DBItemDefaultValue);
-                handlerIndex++;
-            }
-#pragma warning restore 618
         }
 
         /// <summary>
@@ -712,14 +623,72 @@ namespace WodiLib.Database
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
 
             MadeInstances.ReflectInsertValueRange(index, valueArr);
-            var handlerIndex = index;
-#pragma warning disable 618
-            foreach (var value in valueArr)
-            {
-                InsertFieldHandlerList.Execute(handlerIndex, value);
-                handlerIndex++;
-            }
-#pragma warning restore 618
+        }
+
+        /// <summary>
+        /// 自身が生成したすべての値リストインスタンスに対し、
+        /// 指定したインデックスにある項目をコレクション内の新しい場所へ移動する。
+        /// </summary>
+        /// <param name="oldIndex">[Range(0, Items[0].Count - 1)] 移動する項目のインデックス</param>
+        /// <param name="newIndex">[Range(0, Items[0].Count - 1)] 移動先のインデックス</param>
+        /// <exception cref="InvalidOperationException">
+        ///    要素数が0の場合
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     oldIndex, newIndex が指定範囲外の場合
+        /// </exception>
+        public void MoveField(int oldIndex, int newIndex)
+        {
+            if (Items[0].Count == 0)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotExecute("リストの要素が0個のため"));
+
+            var max = Items[0].Count - 1;
+            const int min = 0;
+            if (oldIndex < min || max < oldIndex)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(oldIndex), min, max, oldIndex));
+            if (newIndex < min || max < newIndex)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(newIndex), min, max, newIndex));
+
+            MadeInstances.ReflectMove(oldIndex, newIndex);
+        }
+
+        /// <summary>
+        /// 自身が生成したすべての値リストインスタンスに対し、
+        /// 指定したインデックスから始まる連続した項目をコレクション内の新しい場所へ移動する。
+        /// </summary>
+        /// <param name="oldIndex">[Range(0, Items[0].Count - 1)] 移動する項目のインデックス開始位置</param>
+        /// <param name="newIndex">[Range(0, Items[0].Count - count)] 移動先のインデックス開始位置</param>
+        /// <param name="count">[Range(0, Items[0].Count - oldIndex)] 移動させる要素数</param>
+        /// <exception cref="InvalidOperationException">
+        ///    要素数が0の場合
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     oldIndex, newIndex, count が指定範囲外の場合
+        /// </exception>
+        public void MoveFieldRange(int oldIndex, int newIndex, int count)
+        {
+            if (Items[0].Count == 0)
+                throw new InvalidOperationException(
+                    ErrorMessage.NotExecute("リストの要素が0個のため"));
+
+            const int min = 0;
+            var oldIndexMax = Items[0].Count - 1;
+            if (oldIndex < min || oldIndexMax < oldIndex)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(oldIndex), min, oldIndexMax, oldIndex));
+            var lengthMax = Items[0].Count - oldIndex;
+            if (count < min || lengthMax < count)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(newIndex), min, lengthMax, newIndex));
+            var newIndexMax = Items[0].Count - count;
+            if (newIndex < min || newIndexMax < newIndex)
+                throw new ArgumentOutOfRangeException(
+                    ErrorMessage.OutOfRange(nameof(newIndex), min, newIndexMax, newIndex));
+
+            MadeInstances.ReflectMoveRange(oldIndex, newIndex, count);
         }
 
         /// <summary>
@@ -742,9 +711,6 @@ namespace WodiLib.Database
                     ErrorMessage.UnderListLength(DBItemValueList.MinCapacity));
 
             MadeInstances.ReflectRemoveAt(itemId);
-#pragma warning disable 618
-            RemoveFieldHandlerList.Execute(itemId);
-#pragma warning restore 618
         }
 
         /// <summary>
@@ -780,12 +746,6 @@ namespace WodiLib.Database
                     ErrorMessage.UnderListLength(GetMinCapacity()));
 
             MadeInstances.ReflectRemoveRange(index, count);
-#pragma warning disable 618
-            for (var i = 0; i < count; i++)
-            {
-                RemoveFieldHandlerList.Execute(index);
-            }
-#pragma warning restore 618
         }
 
         /// <summary>
@@ -795,9 +755,6 @@ namespace WodiLib.Database
         public void ClearField()
         {
             MadeInstances.ReflectClear();
-#pragma warning disable 618
-            ClearFieldHandlerList.Execute();
-#pragma warning restore 618
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

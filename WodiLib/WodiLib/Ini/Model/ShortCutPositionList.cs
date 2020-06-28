@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using WodiLib.Sys;
 
@@ -18,7 +19,7 @@ namespace WodiLib.Ini
     /// ショートカット位置リスト
     /// </summary>
     [Serializable]
-    public class ShortCutPositionList : RestrictedCapacityCollection<ShortCutPosition>,
+    public class ShortCutPositionList : FixedLengthList<ShortCutPosition>,
         IFixedLengthShortCutPositionList, IEquatable<ShortCutPositionList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -26,10 +27,15 @@ namespace WodiLib.Ini
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>最大容量</summary>
-        public static int MaxCapacity => 31;
+        [Obsolete("Capacity プロパティを参照してください。 Ver 2.5 で削除します。")]
+        public static int MaxCapacity => Capacity;
 
         /// <summary>最小容量</summary>
-        public static int MinCapacity => 31;
+        [Obsolete("Capacity プロパティを参照してください。 Ver 2.5 で削除します。")]
+        public static int MinCapacity => Capacity;
+
+        /// <summary>最小容量</summary>
+        public static int Capacity => 31;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -42,7 +48,7 @@ namespace WodiLib.Ini
         {
             var result = new List<ShortCutPosition>();
 
-            for (var i = 0; i < MaxCapacity; i++)
+            for (var i = 0; i < Capacity; i++)
             {
                 result.Add(i);
             }
@@ -69,19 +75,26 @@ namespace WodiLib.Ini
         //     Public Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
         /// <summary>
         /// 容量最大値を返す。
         /// </summary>
         /// <returns>容量最大値</returns>
-        public override int GetMaxCapacity() => MaxCapacity;
+        [Obsolete("GetCapacity() メソッドを参照してください。 Ver 2.5 で削除します。")]
+        public int GetMaxCapacity() => MaxCapacity;
 
-        /// <inheritdoc />
         /// <summary>
         /// 容量最小値を返す。
         /// </summary>
         /// <returns>容量最小値</returns>
-        public override int GetMinCapacity() => MinCapacity;
+        [Obsolete("GetCapacity() メソッドを参照してください。 Ver 2.5 で削除します。")]
+        public int GetMinCapacity() => MinCapacity;
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 容量を返す。
+        /// </summary>
+        /// <returns>容量</returns>
+        public override int GetCapacity() => Capacity;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
@@ -96,7 +109,7 @@ namespace WodiLib.Ini
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
-            return Equals((RestrictedCapacityCollection<ShortCutPosition>) other);
+            return Items.SequenceEqual(other.Items);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -10,8 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Commons;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -88,7 +88,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// ロガー
         /// </summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -130,22 +130,22 @@ namespace WodiLib.Event.EventCommand
                 throw new InvalidOperationException(
                     "すでにパース済みのため、実行できません。");
 
-            Logger.Debug("イベントコードのパースを開始します。");
+            WodiLibLogger.Debug("イベントコードのパースを開始します。");
 
             IsParsed = true;
 
             var splitText = GetSplitText();
-            Logger.Debug($"コマンドコード文字列の分割に成功しました。{splitText}");
+            WodiLibLogger.Debug($"コマンドコード文字列の分割に成功しました。{splitText}");
 
             var code = ConvertStringToEventCode(splitText[0]);
-            Logger.Debug($"    イベントコード：{code}");
+            WodiLibLogger.Debug($"    イベントコード：{code}");
 
             var (intArgLength, strArgLength) = ConvertStringToArgLengths(splitText[1]);
-            Logger.Debug($"    数値引数の長さ：{intArgLength}");
-            Logger.Debug($"    文字列引数の長さ：{strArgLength}");
+            WodiLibLogger.Debug($"    数値引数の長さ：{intArgLength}");
+            WodiLibLogger.Debug($"    文字列引数の長さ：{strArgLength}");
 
             Indent = ConvertStringToIndent(splitText[2]);
-            Logger.Debug($"    インデント：{Indent}");
+            WodiLibLogger.Debug($"    インデント：{Indent}");
 
             var numArgList = ConvertStringToNumberList(splitText[3], intArgLength);
 
@@ -153,15 +153,15 @@ namespace WodiLib.Event.EventCommand
             numArgList.Insert(0, code);
 
             NumberArgList = numArgList;
-            Logger.Debug($"    数値引数リスト：{NumberArgList}");
+            WodiLibLogger.Debug($"    数値引数リスト：{NumberArgList}");
 
             StrArgList = ConvertStringToStringList(splitText[4], strArgLength);
-            Logger.Debug($"    文字列引数リスト：{StrArgList}");
+            WodiLibLogger.Debug($"    文字列引数リスト：{StrArgList}");
 
-            Logger.Debug($"    拡張文字列：{splitText[5]}");
+            WodiLibLogger.Debug($"    拡張文字列：{splitText[5]}");
             ExpansionString = splitText[5];
 
-            Logger.Debug("イベントコードのパースが完了しました。");
+            WodiLibLogger.Debug("イベントコードのパースが完了しました。");
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -274,7 +274,7 @@ namespace WodiLib.Event.EventCommand
             // 希望する引数の数と実際の数が異なる場合、希望する数を優先する
             if (numArgList.Count != hopeLength)
             {
-                Logger.Warning("指定された数値引数の数と実際の数が異なるため、自動補正します。");
+                WodiLibLogger.Warning("指定された数値引数の数と実際の数が異なるため、自動補正します。");
                 numArgList.AdjustLength(hopeLength, i => default);
             }
 
@@ -301,7 +301,7 @@ namespace WodiLib.Event.EventCommand
             // 希望する引数の数と実際の数が異なる場合、希望する数を優先する
             if (strArgList.Count != hopeLength)
             {
-                Logger.Warning("指定された文字列引数の数と実際の数が異なるため、自動補正します。");
+                WodiLibLogger.Warning("指定された文字列引数の数と実際の数が異なるため、自動補正します。");
                 strArgList.AdjustLength(hopeLength, i => "");
             }
 

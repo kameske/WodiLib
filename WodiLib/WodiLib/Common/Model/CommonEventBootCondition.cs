@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using Commons;
 using WodiLib.Cmn;
 using WodiLib.Event;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Common
 {
@@ -59,7 +59,7 @@ namespace WodiLib.Common
                 if (!(NormalNumberVariableAddress.MinValue <= value && value <= NormalNumberVariableAddress.MaxValue)
                     && !(SpareNumberVariableAddress.MinValue <= value && value <= SpareNumberVariableAddress.MaxValue))
                 {
-                    Logger.GetInstance()
+                    WodiLibLogger.GetInstance()
                         .Warning($"[Warning]イベントコマンドの起動条件が意図しない値です。（設定値：{value}）");
                 }
 

@@ -252,6 +252,50 @@ namespace WodiLib.Database
         }
 
         /// <summary>
+        /// 指定したインデックスにある項目をコレクション内の新しい場所へ移動する。
+        /// </summary>
+        /// <param name="oldIndex">[Range(0, Count - 1)] 移動する項目のインデックス</param>
+        /// <param name="newIndex">[Range(0, Count - 1)] 移動先のインデックス</param>
+        /// <exception cref="InvalidOperationException">
+        ///    要素数が0の場合
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     oldIndex, newIndex が指定範囲外の場合
+        /// </exception>
+        public new void Move(int oldIndex, int newIndex)
+        {
+            if (!(Outer is null))
+                throw new InvalidOperationException(
+                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
+                    $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
+
+            base.Move(oldIndex, newIndex);
+        }
+
+
+        /// <summary>
+        /// 指定したインデックスから始まる連続した項目をコレクション内の新しい場所へ移動する。
+        /// </summary>
+        /// <param name="oldIndex">[Range(0, Count - 1)] 移動する項目のインデックス開始位置</param>
+        /// <param name="newIndex">[Range(0, Count - count)] 移動先のインデックス開始位置</param>
+        /// <param name="count">[Range(0, Count - oldIndex)] 移動させる要素数</param>
+        /// <exception cref="InvalidOperationException">
+        ///    要素数が0の場合
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     oldIndex, newIndex, count が指定範囲外の場合
+        /// </exception>
+        public new void MoveRange(int oldIndex, int newIndex, int count)
+        {
+            if (!(Outer is null))
+                throw new InvalidOperationException(
+                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
+                    $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
+
+            base.MoveRange(oldIndex, newIndex, count);
+        }
+
+        /// <summary>
         /// 特定のオブジェクトを要素として持つとき、最初に出現したものを削除する。
         /// </summary>
         /// <param name="item">削除する要素</param>
@@ -455,6 +499,39 @@ namespace WodiLib.Database
             IEnumerable<DBItemValue> items)
         {
             base.InsertRange(index, items);
+        }
+
+        /// <summary>
+        /// 指定したインデックスにある項目をコレクション内の新しい場所へ移動する。
+        /// </summary>
+        /// <param name="oldIndex">[Range(0, Count - 1)] 移動する項目のインデックス</param>
+        /// <param name="newIndex">[Range(0, Count - 1)] 移動先のインデックス</param>
+        /// <exception cref="InvalidOperationException">
+        ///    要素数が0の場合
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     oldIndex, newIndex が指定範囲外の場合
+        /// </exception>
+        internal void MoveForValuesListInstanceManager(int oldIndex, int newIndex)
+        {
+            base.Move(oldIndex, newIndex);
+        }
+
+        /// <summary>
+        /// 指定したインデックスから始まる連続した項目をコレクション内の新しい場所へ移動する。
+        /// </summary>
+        /// <param name="oldIndex">[Range(0, Count - 1)] 移動する項目のインデックス開始位置</param>
+        /// <param name="newIndex">[Range(0, Count - count)] 移動先のインデックス開始位置</param>
+        /// <param name="count">[Range(0, Count - oldIndex)] 移動させる要素数</param>
+        /// <exception cref="InvalidOperationException">
+        ///    要素数が0の場合
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     oldIndex, newIndex, count が指定範囲外の場合
+        /// </exception>
+        internal void MoveRangeForValuesListInstanceManager(int oldIndex, int newIndex, int count)
+        {
+            base.MoveRange(oldIndex, newIndex, count);
         }
 
         /// <summary>

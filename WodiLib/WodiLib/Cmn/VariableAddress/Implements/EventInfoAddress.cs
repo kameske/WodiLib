@@ -9,7 +9,6 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using Commons;
 using WodiLib.Map;
 using WodiLib.Project;
 using WodiLib.Sys;
@@ -103,7 +102,7 @@ namespace WodiLib.Cmn
                 // ウディタVer2.01未満では非対応
                 if (infoCode == 5 || infoCode == 6)
                 {
-                    Logger.GetInstance().Warning(
+                    WodiLibLogger.GetInstance().Warning(
                         VersionWarningMessage.NotUnderInVariableAddress(
                             value,
                             VersionConfig.GetConfigWoditorVersion(),
@@ -113,7 +112,7 @@ namespace WodiLib.Cmn
 
             if (infoCode == 7 || infoCode == 8)
             {
-                Logger.GetInstance().Warning(
+                WodiLibLogger.GetInstance().Warning(
                     VersionWarningMessage.NotUsingVariableAddress(value));
             }
         }

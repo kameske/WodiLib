@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -13,6 +14,7 @@ namespace WodiLib.Map
     /// <summary>
     /// 長さ固定オートタイルファイル名リスト
     /// </summary>
+    [Obsolete("AutoTileFileNameList クラスを参照してください。 Ver 2.5 で削除します。")]
     public interface IFixedLengthAutoTileFileNameList : IFixedLengthCollection<AutoTileFileName>
     {
     }

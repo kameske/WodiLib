@@ -10,9 +10,9 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using Commons;
 using WodiLib.Cmn;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -26,7 +26,7 @@ namespace WodiLib.IO
         where TFilePath : FilePath
     {
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         private readonly object writeLock = new object();
 
@@ -58,7 +58,7 @@ namespace WodiLib.IO
 
             lock (writeLock)
             {
-                Logger.Info(FileIOMessage.StartFileWrite(GetType()));
+                WodiLibLogger.Info(FileIOMessage.StartFileWrite(GetType()));
 
                 var bin = GetDataBytes(data).ToArray();
                 using (var stream = new FileStream(FilePath, FileMode.Create))
@@ -66,7 +66,7 @@ namespace WodiLib.IO
                     stream.Write(bin, 0, bin.Length);
                 }
 
-                Logger.Info(FileIOMessage.EndFileWrite(GetType()));
+                WodiLibLogger.Info(FileIOMessage.EndFileWrite(GetType()));
             }
         }
 

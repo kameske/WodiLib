@@ -12,7 +12,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Commons;
 using WodiLib.Cmn;
 using WodiLib.Sys;
 using WodiLib.Sys.Cmn;
@@ -36,7 +35,7 @@ namespace WodiLib.IO
         public IReadOnlyCollection<TIniTarget> Data { get; }
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
@@ -98,14 +97,14 @@ namespace WodiLib.IO
                 throw new InvalidOperationException(
                     "すでに読み込み完了しています。");
 
-            Logger.Info(FileIOMessage.StartFileRead(GetType()));
+            WodiLibLogger.Info(FileIOMessage.StartFileRead(GetType()));
 
             foreach (var target in Data)
             {
                 ReadOneData(target);
             }
 
-            Logger.Info(FileIOMessage.EndFileRead(GetType()));
+            WodiLibLogger.Info(FileIOMessage.EndFileRead(GetType()));
 
             IsAlreadyRead = true;
 
@@ -152,7 +151,7 @@ namespace WodiLib.IO
 
                 var result = sb.ToString();
 
-                Logger.Debug(FileIOMessage.SuccessRead(GetType(), $"プロパティ：{propertyInfo.Name}", result));
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(GetType(), $"プロパティ：{propertyInfo.Name}", result));
 
                 propertyInfo.SetValue(target, sb.ToString());
             }

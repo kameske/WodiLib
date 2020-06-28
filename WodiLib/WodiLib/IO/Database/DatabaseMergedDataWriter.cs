@@ -8,9 +8,9 @@
 
 using System;
 using System.Threading.Tasks;
-using Commons;
 using WodiLib.Database;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -41,7 +41,7 @@ namespace WodiLib.IO
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         private readonly object writeLock = new object();
 
@@ -137,7 +137,7 @@ namespace WodiLib.IO
         {
             lock (writeLock)
             {
-                Logger.Info(FileIOMessage.StartFileWrite(GetType()));
+                WodiLibLogger.Info(FileIOMessage.StartFileWrite(GetType()));
 
                 var writeDatabaseDat = Data.GenerateDatabaseDat(DbKind);
                 var datFileWriter = new DatabaseDatFileWriter(DatFilePath);
@@ -147,7 +147,7 @@ namespace WodiLib.IO
                 var projectFileWriter = new DatabaseProjectFileWriter(ProjectFilePath);
                 projectFileWriter.WriteSync(writeDatabaseProject);
 
-                Logger.Info(FileIOMessage.EndFileWrite(GetType()));
+                WodiLibLogger.Info(FileIOMessage.EndFileWrite(GetType()));
             }
         }
 

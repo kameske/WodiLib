@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -16,7 +15,7 @@ namespace WodiLib.Ini
     /// [Range(int.MinValue, int.MaxValue)] ショートカット位置
     /// </summary>
     [Serializable]
-    public readonly struct ShortCutPosition : IConvertibleInt32, IEquatable<ShortCutPosition>
+    public readonly struct ShortCutPosition : IConvertibleInt, IEquatable<ShortCutPosition>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

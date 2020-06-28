@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Cmn
@@ -16,7 +15,7 @@ namespace WodiLib.Cmn
     /// [Range(0, 999999)] ランダム変数ランダム量
     /// </summary>
     [Serializable]
-    public readonly struct RandomVariableValue : IConvertibleInt32, IEquatable<RandomVariableValue>
+    public readonly struct RandomVariableValue : IConvertibleInt, IEquatable<RandomVariableValue>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

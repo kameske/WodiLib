@@ -14,7 +14,6 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.Serialization;
-using Commons.Linq.Extension;
 
 namespace WodiLib.Sys
 {
@@ -84,38 +83,6 @@ namespace WodiLib.Sys
                 PrivateSetItem(index, value);
             }
         }
-
-        /// <summary>
-        /// SetItemイベントハンドラリスト
-        /// </summary>
-        [field: NonSerialized]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
-        public SetItemHandlerList<T> SetItemHandlerList { get; private set; } = new SetItemHandlerList<T>();
-
-        /// <summary>
-        /// InsertItemイベントハンドラリスト
-        /// </summary>
-        [field: NonSerialized]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
-        public InsertItemHandlerList<T> InsertItemHandlerList { get; private set; } = new InsertItemHandlerList<T>();
-
-        /// <summary>
-        /// RemoveItemイベントハンドラリスト
-        /// </summary>
-        [field: NonSerialized]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
-        public RemoveItemHandlerList<T> RemoveItemHandlerList { get; private set; } = new RemoveItemHandlerList<T>();
-
-        /// <summary>
-        /// ClearItemイベントハンドラリスト
-        /// </summary>
-        [field: NonSerialized]
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [Obsolete("要素変更通知は CollectionChanged イベントを利用して取得してください。 Ver2.3 で削除します。")]
-        public ClearItemHandlerList<T> ClearItemHandlerList { get; private set; } = new ClearItemHandlerList<T>();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Protected Property
@@ -677,14 +644,22 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="item">対象要素</param>
         /// <returns>指定の要素が含まれる場合はtrue</returns>
-        public bool Contains([AllowNull] T item) => Items.Contains(item);
+        public bool Contains([AllowNull] T item)
+        {
+            if (item == null) return false;
+            return Items.Contains(item);
+        }
 
         /// <summary>
         /// 指定したオブジェクトを検索し、最初に出現する位置のインデックスを返す。
         /// </summary>
         /// <param name="item">対象要素</param>
         /// <returns>要素が含まれていない場合、-1</returns>
-        public int IndexOf([AllowNull] T item) => Items.IndexOf(item);
+        public int IndexOf([AllowNull] T item)
+        {
+            if (item == null) return -1;
+            return Items.IndexOf(item);
+        }
 
         /// <summary>
         /// すべての要素を、指定された配列のインデックスから始まる部分にコピーする。
@@ -931,12 +906,9 @@ namespace WodiLib.Sys
 
             SetItem(index, item);
 
-#pragma warning disable 618
-            SetItemHandlerList.Execute(index, item);
-#pragma warning restore 618
             NotifyPropertyChanged(ListConstant.IndexerName);
             _collectionChanged?.Invoke(this,
-                NotifyCollectionChangedEventArgsHelper.Set(item, oldItem!, index));
+                NotifyCollectionChangedEventArgsHelper.Set(item!, oldItem!, index));
         }
 
         /// <summary>
@@ -955,14 +927,10 @@ namespace WodiLib.Sys
              */
             InsertItem(index, item);
 
-#pragma warning disable 618
-            InsertItemHandlerList.Execute(index, item);
-#pragma warning restore 618
-
             NotifyPropertyChanged(nameof(Count));
             NotifyPropertyChanged(ListConstant.IndexerName);
             _collectionChanged?.Invoke(this,
-                NotifyCollectionChangedEventArgsHelper.Insert(item, index));
+                NotifyCollectionChangedEventArgsHelper.Insert(item!, index));
         }
 
         /// <summary>
@@ -981,13 +949,7 @@ namespace WodiLib.Sys
              */
             var itemList = items.ToArray();
 
-            itemList.ForEach((item, i) =>
-            {
-                InsertItem(i + startIndex, item);
-#pragma warning disable 618
-                InsertItemHandlerList.Execute(i + startIndex, item);
-#pragma warning restore 618
-            });
+            itemList.ForEach((item, i) => InsertItem(i + startIndex, item));
 
             NotifyPropertyChanged(nameof(Count));
             NotifyPropertyChanged(ListConstant.IndexerName);
@@ -1021,9 +983,6 @@ namespace WodiLib.Sys
                     var item = list[i];
                     SetItem(index + i, item);
                     replaceItems.Add(item);
-#pragma warning disable 618
-                    SetItemHandlerList.Execute(index, item);
-#pragma warning restore 618
                 }
             }
 
@@ -1031,13 +990,7 @@ namespace WodiLib.Sys
             var insertItems = list.Skip(updateCnt).ToList();
             {
                 // 追加
-                insertItems.ForEach((item, i) =>
-                {
-                    InsertItem(i + insertStartIndex, item);
-#pragma warning disable 618
-                    InsertItemHandlerList.Execute(i + insertStartIndex, item);
-#pragma warning restore 618
-                });
+                insertItems.ForEach((item, i) => InsertItem(i + insertStartIndex, item));
             }
 
             // 通知
@@ -1127,10 +1080,6 @@ namespace WodiLib.Sys
 
             RemoveItem(index);
 
-#pragma warning disable 618
-            RemoveItemHandlerList.Execute(index);
-#pragma warning restore 618
-
             NotifyPropertyChanged(nameof(Count));
             NotifyPropertyChanged(ListConstant.IndexerName);
             _collectionChanged?.Invoke(this,
@@ -1155,9 +1104,6 @@ namespace WodiLib.Sys
             for (var i = 0; i < count; i++)
             {
                 RemoveItem(index);
-#pragma warning disable 618
-                RemoveItemHandlerList.Execute(index);
-#pragma warning restore 618
             }
 
             NotifyPropertyChanged(nameof(Count));
@@ -1174,10 +1120,6 @@ namespace WodiLib.Sys
         {
             ClearItems();
             FillMinCapacity();
-
-#pragma warning disable 618
-            ClearItemHandlerList.Execute();
-#pragma warning restore 618
 
             NotifyPropertyChanged(nameof(Count));
             NotifyPropertyChanged(ListConstant.IndexerName);
@@ -1209,12 +1151,6 @@ namespace WodiLib.Sys
         protected RestrictedCapacityCollection(SerializationInfo info, StreamingContext context)
         {
             Items = info.GetValue<List<T>>(nameof(Items));
-#pragma warning disable 618
-            SetItemHandlerList = new SetItemHandlerList<T>();
-            InsertItemHandlerList = new InsertItemHandlerList<T>();
-            RemoveItemHandlerList = new RemoveItemHandlerList<T>();
-            ClearItemHandlerList = new ClearItemHandlerList<T>();
-#pragma warning restore 618
         }
     }
 }

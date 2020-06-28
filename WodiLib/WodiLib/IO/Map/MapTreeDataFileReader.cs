@@ -8,9 +8,9 @@
 
 using System;
 using System.Collections.Generic;
-using Commons;
 using WodiLib.Map;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -24,7 +24,7 @@ namespace WodiLib.IO
         private readonly object readLock = new object();
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -47,11 +47,11 @@ namespace WodiLib.IO
         {
             lock (readLock)
             {
-                Logger.Info(FileIOMessage.StartFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.StartFileRead(GetType()));
 
                 var result = ReadData(ReadStatus);
 
-                Logger.Info(FileIOMessage.EndFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.EndFileRead(GetType()));
 
                 return result;
             }
@@ -101,7 +101,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug(FileIOMessage.CheckOk(typeof(MapTreeDataFileReader),
+            WodiLibLogger.Debug(FileIOMessage.CheckOk(typeof(MapTreeDataFileReader),
                 "ヘッダ"));
         }
 
@@ -116,7 +116,7 @@ namespace WodiLib.IO
             var length = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(MapTreeDataFileReader), "マップツリーノード数", length));
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(MapTreeDataFileReader), "マップツリーノード数", length));
 
             nodes = new List<MapTreeNode>();
 
@@ -125,13 +125,13 @@ namespace WodiLib.IO
                 var parent = status.ReadInt();
                 status.IncreaseIntOffset();
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(MapTreeDataFileReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(MapTreeDataFileReader),
                     $"マップツリーノード{i} 親マップID", parent));
 
                 var me = status.ReadInt();
                 status.IncreaseIntOffset();
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(MapTreeDataFileReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(MapTreeDataFileReader),
                     $"マップツリーノード{i} 自身マップID", me));
 
                 nodes.Add(new MapTreeNode(me, parent));
@@ -156,7 +156,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug(FileIOMessage.CheckOk(typeof(MapTreeDataFileReader),
+            WodiLibLogger.Debug(FileIOMessage.CheckOk(typeof(MapTreeDataFileReader),
                 "フッタ"));
         }
     }
