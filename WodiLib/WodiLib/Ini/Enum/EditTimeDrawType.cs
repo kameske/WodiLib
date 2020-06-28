@@ -13,14 +13,14 @@ using WodiLib.Sys;
 namespace WodiLib.Ini
 {
     /// <summary>
-    /// データの設定方法種別
+    /// 編集時間表示種別
     /// </summary>
     public class EditTimeDrawType : TypeSafeEnum<EditTimeDrawType>
     {
-        /// <summary>手動で設定</summary>
+        /// <summary>OFF</summary>
         public static readonly EditTimeDrawType Off;
 
-        /// <summary>最初の文字列データと同じ</summary>
+        /// <summary>ON</summary>
         public static readonly EditTimeDrawType On;
 
         static EditTimeDrawType()

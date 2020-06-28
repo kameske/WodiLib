@@ -609,10 +609,8 @@ namespace WodiLib.Event.EventCommand
             var intArgsStrList = IntArgList.Where((_, idx) => idx < IntArgValue)
                 .Select((x, idx) =>
                 {
-                    // 三項演算子のみを用いた場合、コード分析が "eventId is null is always false" と認識する。
-                    // クロージャ化することで警告表示を回避。
                     var eventId = IsOrderByString
-                        ? resolver.GetCommonEventId(EventIdOrName.ToStr())
+                        ? (int?) resolver.GetCommonEventId(EventIdOrName.ToStr())
                         : EventIdOrName.ToInt();
 
                     if (eventId is null)
