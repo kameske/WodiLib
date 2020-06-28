@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -16,7 +15,7 @@ namespace WodiLib.Ini
     /// [Range(int.MinValue, int.MaxValue)] CommandViewType
     /// </summary>
     [Serializable]
-    public readonly struct CommandViewType : IConvertibleInt32, IEquatable<CommandViewType>
+    public readonly struct CommandViewType : IConvertibleInt, IEquatable<CommandViewType>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

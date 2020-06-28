@@ -7,9 +7,9 @@
 // ========================================
 
 using System;
-using Commons;
 using WodiLib.Database;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -31,7 +31,7 @@ namespace WodiLib.IO
         private readonly object readLock = new object();
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor Property
@@ -68,7 +68,7 @@ namespace WodiLib.IO
         {
             lock (readLock)
             {
-                Logger.Info(FileIOMessage.StartFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.StartFileRead(GetType()));
 
                 var result = new DatabaseDat();
 
@@ -84,7 +84,7 @@ namespace WodiLib.IO
                 // DB種別
                 result.DBKind = DBKind;
 
-                Logger.Info(FileIOMessage.EndFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.EndFileRead(GetType()));
 
                 return result;
             }
@@ -112,7 +112,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug($"{nameof(DatabaseDatFileReader)} ヘッダチェックOK");
+            WodiLibLogger.Debug($"{nameof(DatabaseDatFileReader)} ヘッダチェックOK");
         }
 
         /// <summary>
@@ -125,13 +125,13 @@ namespace WodiLib.IO
             var length = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
                 "タイプ数", length));
 
             var reader = new DBDataSettingReader(status, length);
             data.SettingList.AddRange(reader.Read());
 
-            Logger.Debug(FileIOMessage.EndCommonRead(
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(
                 typeof(DatabaseDatFileReader), "DBデータ設定"));
         }
 
@@ -154,7 +154,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug($"{nameof(DatabaseDatFileReader)} フッタチェックOK");
+            WodiLibLogger.Debug($"{nameof(DatabaseDatFileReader)} フッタチェックOK");
         }
     }
 }

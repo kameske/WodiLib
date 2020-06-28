@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.Serialization;
 using Commons;
-using Commons.Linq.Extension;
 using NUnit.Framework;
 using WodiLib.Sys;
 using WodiLib.Test.Tools;

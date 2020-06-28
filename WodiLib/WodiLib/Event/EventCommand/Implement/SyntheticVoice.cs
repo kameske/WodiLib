@@ -261,7 +261,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         private void OutputVersionWarningLogIfNeed_GreaterVer2_00()
         {
-            Logger.Warning(VersionWarningMessage.NotGreaterInCommand($"{nameof(SyntheticVoice)}",
+            WodiLibLogger.Warning(VersionWarningMessage.NotGreaterInCommand($"{nameof(SyntheticVoice)}",
                 VersionConfig.GetConfigWoditorVersion(),
                 WoditorVersion.Ver2_00));
         }

@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace WodiLib.Cmn
     /// [NotNewLine] ファイルパス
     /// </summary>
     [Serializable]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public class FilePath : IEquatable<FilePath>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

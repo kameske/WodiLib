@@ -164,7 +164,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         private void OutputVersionWarningLogIfNeed_UnderVer2_00()
         {
-            Logger.Warning(VersionWarningMessage.NotUnderInCommand($"{nameof(DebugText)}",
+            WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommand($"{nameof(DebugText)}",
                 VersionConfig.GetConfigWoditorVersion(),
                 WoditorVersion.Ver2_00));
         }

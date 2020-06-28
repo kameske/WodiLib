@@ -152,7 +152,7 @@ namespace WodiLib.Event.EventCommand
         {
             if (TargetDetailCode == NumberPlusPictureInfoType.ZoomWidth.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.ZoomWidth}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -161,7 +161,7 @@ namespace WodiLib.Event.EventCommand
 
             if (TargetDetailCode == NumberPlusPictureInfoType.ZoomWidth.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.ZoomHeight}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -170,7 +170,7 @@ namespace WodiLib.Event.EventCommand
 
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeLeftUpX.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeLeftUpX}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -179,7 +179,7 @@ namespace WodiLib.Event.EventCommand
 
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeLeftUpY.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeLeftUpY}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -188,7 +188,7 @@ namespace WodiLib.Event.EventCommand
 
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeLeftDownX.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeLeftDownX}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -197,7 +197,7 @@ namespace WodiLib.Event.EventCommand
 
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeLeftDownY.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeLeftDownY}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -206,7 +206,7 @@ namespace WodiLib.Event.EventCommand
 
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeRightDownX.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeRightDownX}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -215,7 +215,7 @@ namespace WodiLib.Event.EventCommand
 
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeRightDownY.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeRightDownY}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -224,7 +224,7 @@ namespace WodiLib.Event.EventCommand
 
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeRightDownX.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeRightDownX}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -233,7 +233,7 @@ namespace WodiLib.Event.EventCommand
 
             if (TargetDetailCode == NumberPlusPictureInfoType.FreeModeRightDownY.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.FreeModeRightDownY}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -245,7 +245,7 @@ namespace WodiLib.Event.EventCommand
         {
             if (TargetDetailCode == NumberPlusPictureInfoType.Zoom.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotGreaterInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotGreaterInCommandSetting(
                     $"{nameof(SetVariablePlusPicture)}.{nameof(TargetDetailCode)}",
                     $"{NumberPlusPictureInfoType.Zoom}",
                     VersionConfig.GetConfigWoditorVersion(),

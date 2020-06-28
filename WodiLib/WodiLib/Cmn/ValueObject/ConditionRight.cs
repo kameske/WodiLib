@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Cmn
@@ -17,7 +16,7 @@ namespace WodiLib.Cmn
     /// [Range(-999999, 999999)] 条件右辺
     /// </summary>
     [Serializable]
-    public readonly struct ConditionRight : IConvertibleInt32, IEquatable<ConditionRight>
+    public readonly struct ConditionRight : IConvertibleInt, IEquatable<ConditionRight>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

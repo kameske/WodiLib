@@ -332,7 +332,7 @@ namespace WodiLib.Event.EventCommand
         {
             if (EffectType == PictureEffectType.SwitchFlicker)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(PictureEffect)}.{nameof(EffectType)}",
                     $"{PictureEffectType.SwitchFlicker}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -341,7 +341,7 @@ namespace WodiLib.Event.EventCommand
 
             if (EffectType == PictureEffectType.SwitchAutoFlush)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(PictureEffect)}.{nameof(EffectType)}",
                     $"{PictureEffectType.SwitchAutoFlush}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -350,7 +350,7 @@ namespace WodiLib.Event.EventCommand
 
             if (EffectType == PictureEffectType.AutoEnlarge)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(PictureEffect)}.{nameof(EffectType)}",
                     $"{PictureEffectType.AutoEnlarge}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -359,7 +359,7 @@ namespace WodiLib.Event.EventCommand
 
             if (EffectType == PictureEffectType.AutoPatternSwitchRoundTrip)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(PictureEffect)}.{nameof(EffectType)}",
                     $"{PictureEffectType.AutoPatternSwitchRoundTrip}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -368,7 +368,7 @@ namespace WodiLib.Event.EventCommand
 
             if (EffectType == PictureEffectType.AutoPatternSwitchOnce)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(PictureEffect)}.{nameof(EffectType)}",
                     $"{PictureEffectType.AutoPatternSwitchOnce}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -377,7 +377,7 @@ namespace WodiLib.Event.EventCommand
 
             if (EffectType == PictureEffectType.AutoPatternSwitchLoop)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(PictureEffect)}.{nameof(EffectType)}",
                     $"{PictureEffectType.AutoPatternSwitchLoop}",
                     VersionConfig.GetConfigWoditorVersion(),

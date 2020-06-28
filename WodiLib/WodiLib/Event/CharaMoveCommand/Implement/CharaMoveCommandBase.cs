@@ -9,9 +9,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Commons;
 using WodiLib.Project;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.CharaMoveCommand
 {
@@ -94,7 +94,7 @@ namespace WodiLib.Event.CharaMoveCommand
         public static byte[] EndBlockCode => new byte[] {0x01, 0x00};
 
         /// <summary>ロガー</summary>
-        protected readonly Logger Logger = Logger.GetInstance();
+        protected readonly WodiLibLogger WodiLibLogger = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor

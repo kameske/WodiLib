@@ -79,7 +79,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         private void OutputVersionWarningLogIfNeed_UnderVer2_20()
         {
-            Logger.Warning(VersionWarningMessage.NotUnderInCommand($"{nameof(SoundReleaseAll)}",
+            WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommand($"{nameof(SoundReleaseAll)}",
                 VersionConfig.GetConfigWoditorVersion(),
                 WoditorVersion.Ver2_20));
         }

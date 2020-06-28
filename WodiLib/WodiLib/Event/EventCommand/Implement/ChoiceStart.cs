@@ -202,7 +202,7 @@ namespace WodiLib.Event.EventCommand
                         ErrorMessage.OutOfRange(nameof(CaseValue), 1, 12, value));
                 if (value >= 11)
                 {
-                    Logger.Warning("選択肢数が11以上のため、ウディタ上で編集すると設定が失われる場合があります。");
+                    WodiLibLogger.Warning("選択肢数が11以上のため、ウディタ上で編集すると設定が失われる場合があります。");
                 }
 
                 ChoiceCaseList.CaseValue = value;

@@ -310,7 +310,7 @@ namespace WodiLib.Event.EventCommand
         {
             if (Speed == ScrollSpeed.Speed32)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(ScrollScreen)}.{nameof(Speed)}",
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(ScrollScreen)}.{nameof(Speed)}",
                     $"{ScrollSpeed.Speed32}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_20));
@@ -318,7 +318,7 @@ namespace WodiLib.Event.EventCommand
 
             if (Speed == ScrollSpeed.Speed64)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(ScrollScreen)}.{nameof(Speed)}",
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting($"{nameof(ScrollScreen)}.{nameof(Speed)}",
                     $"{ScrollSpeed.Speed64}",
                     VersionConfig.GetConfigWoditorVersion(),
                     WoditorVersion.Ver2_20));

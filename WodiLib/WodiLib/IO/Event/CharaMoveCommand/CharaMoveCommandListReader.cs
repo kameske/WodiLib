@@ -8,9 +8,9 @@
 
 using System;
 using System.Collections.Generic;
-using Commons;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -26,7 +26,7 @@ namespace WodiLib.IO
         private int Length { get; }
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -46,7 +46,7 @@ namespace WodiLib.IO
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
         public List<ICharaMoveCommand> Read()
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
                 "イベントコマンドリスト"));
 
             var charaMoveCommandList = new List<ICharaMoveCommand>();
@@ -55,7 +55,7 @@ namespace WodiLib.IO
                 ReadCharaMoveCommand(Status, charaMoveCommandList);
             }
 
-            Logger.Debug(FileIOMessage.EndCommonRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(typeof(EventCommandListReader),
                 "イベントコマンドリスト"));
 
             return charaMoveCommandList;
@@ -86,14 +86,14 @@ namespace WodiLib.IO
             var charaMoveCommand = CharaMoveCommandFactory.CreateRaw(commandCode);
             status.IncreaseByteOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
                 "動作指定コード", charaMoveCode));
 
             // 変数の数
             var varLength = status.ReadByte();
             status.IncreaseByteOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
                 "変数の数", charaMoveCode));
 
             // 変数
@@ -103,7 +103,7 @@ namespace WodiLib.IO
                 charaMoveCommand.SetNumberValue(i, value);
                 status.IncreaseIntOffset();
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
                     $"変数{i}", value));
             }
 
@@ -119,7 +119,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug(FileIOMessage.CheckOk(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.CheckOk(typeof(EventCommandListReader),
                 $"終端コード"));
 
             // 結果

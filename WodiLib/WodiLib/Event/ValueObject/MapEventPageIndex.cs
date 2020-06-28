@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Event
@@ -17,7 +16,7 @@ namespace WodiLib.Event
     /// [Range(1, 10)] マップイベントページインデックス
     /// </summary>
     [Serializable]
-    public readonly struct MapEventPageIndex : IConvertibleInt32, IEquatable<MapEventPageIndex>
+    public readonly struct MapEventPageIndex : IConvertibleInt, IEquatable<MapEventPageIndex>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

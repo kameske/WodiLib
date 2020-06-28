@@ -296,7 +296,7 @@ namespace WodiLib.Event.EventCommand
         {
             if (AssignmentOperator == StringAssignmentOperator.CutUp)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetStringBase)}.{nameof(AssignmentOperator)}",
                     $"{StringAssignmentOperator.CutUp}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -305,7 +305,7 @@ namespace WodiLib.Event.EventCommand
 
             if (AssignmentOperator == StringAssignmentOperator.CutAfter)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetStringBase)}.{nameof(AssignmentOperator)}",
                     $"{StringAssignmentOperator.CutAfter}",
                     VersionConfig.GetConfigWoditorVersion(),

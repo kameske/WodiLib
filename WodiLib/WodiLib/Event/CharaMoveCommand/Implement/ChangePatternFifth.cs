@@ -68,7 +68,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// </summary>
         private void OutputVersionWarningLogIfNeed_UnderVer2_10()
         {
-            Logger.Warning(VersionWarningMessage.NotUnderInCharaMoveCommand($"{nameof(ChangePatternFifth)}",
+            WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCharaMoveCommand($"{nameof(ChangePatternFifth)}",
                 VersionConfig.GetConfigWoditorVersion(),
                 WoditorVersion.Ver2_10));
         }

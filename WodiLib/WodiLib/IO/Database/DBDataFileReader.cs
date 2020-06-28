@@ -8,9 +8,9 @@
 
 using System;
 using System.Collections.Generic;
-using Commons;
 using WodiLib.Database;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -27,7 +27,7 @@ namespace WodiLib.IO
         private FileReadStatus ReadStatus { get; }
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         private readonly object readLock = new object();
 
@@ -60,7 +60,7 @@ namespace WodiLib.IO
         {
             lock (readLock)
             {
-                Logger.Info(FileIOMessage.StartFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.StartFileRead(GetType()));
 
                 var result = new DBData();
 
@@ -70,7 +70,7 @@ namespace WodiLib.IO
                 // DBデータ
                 ReadDbData(ReadStatus, result);
 
-                Logger.Info(FileIOMessage.EndFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.EndFileRead(GetType()));
 
                 return result;
             }
@@ -98,7 +98,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug(FileIOMessage.CheckOk(typeof(DBDataFileReader),
+            WodiLibLogger.Debug(FileIOMessage.CheckOk(typeof(DBDataFileReader),
                 "ヘッダ"));
         }
 
@@ -108,7 +108,7 @@ namespace WodiLib.IO
             var length = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataFileReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataFileReader),
                 "データ数数", length));
 
             // DBデータ
@@ -122,7 +122,7 @@ namespace WodiLib.IO
                 var dataName = status.ReadString();
                 status.AddOffset(dataName.ByteLength);
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataFileReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataFileReader),
                     "データ名", dataName.String));
 
                 desc.DataName = dataName.String;
@@ -152,7 +152,7 @@ namespace WodiLib.IO
             var length = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataFileReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataFileReader),
                 "数値項目数", length));
 
             var result = new List<DBItemValue>();
@@ -162,7 +162,7 @@ namespace WodiLib.IO
                 var value = status.ReadInt();
                 status.IncreaseIntOffset();
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataFileReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataFileReader),
                     $"  数値項目{i,2}", value));
 
                 result.Add((DBValueInt) value);
@@ -183,7 +183,7 @@ namespace WodiLib.IO
             var length = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataFileReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataFileReader),
                 "文字列項目数", length));
 
             var result = new List<DBItemValue>();
@@ -193,7 +193,7 @@ namespace WodiLib.IO
                 var value = status.ReadString();
                 status.AddOffset(value.ByteLength);
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataFileReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataFileReader),
                     $"  文字列項目{i,2}", value));
 
                 DBValueString dbValueString = value.String;

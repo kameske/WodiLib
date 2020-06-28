@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -17,7 +16,7 @@ namespace WodiLib.Map
     /// [Range(-1, 9999)] マップイベントID
     /// </summary>
     [Serializable]
-    public readonly struct MapEventId : IConvertibleInt32, IEquatable<MapEventId>, IComparable<MapEventId>
+    public readonly struct MapEventId : IConvertibleInt, IEquatable<MapEventId>, IComparable<MapEventId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

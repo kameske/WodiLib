@@ -8,9 +8,9 @@
 
 using System;
 using System.Collections.Generic;
-using Commons;
 using WodiLib.Database;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -27,7 +27,7 @@ namespace WodiLib.IO
         private FileReadStatus ReadStatus { get; }
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         private readonly object readLock = new object();
 
@@ -60,7 +60,7 @@ namespace WodiLib.IO
         {
             lock (readLock)
             {
-                Logger.Info(FileIOMessage.StartFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.StartFileRead(GetType()));
 
                 var result = new DBTypeSet();
 
@@ -73,7 +73,7 @@ namespace WodiLib.IO
                 // タイプ設定
                 ReadTypeSetting(ReadStatus, result, itemTypes);
 
-                Logger.Info(FileIOMessage.EndFileRead(GetType()));
+                WodiLibLogger.Info(FileIOMessage.EndFileRead(GetType()));
 
                 return result;
             }
@@ -101,7 +101,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug(FileIOMessage.CheckOk(typeof(DBTypeSetFileReader),
+            WodiLibLogger.Debug(FileIOMessage.CheckOk(typeof(DBTypeSetFileReader),
                 "ヘッダ"));
         }
 
@@ -115,7 +115,7 @@ namespace WodiLib.IO
             var length = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(DBTypeSetFileReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBTypeSetFileReader),
                 "項目数", length));
 
             var countDic = new Dictionary<DBItemType, int>
@@ -133,7 +133,7 @@ namespace WodiLib.IO
 
                 var itemType = DBItemType.FromValue(settingCode);
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(DBTypeSetFileReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBTypeSetFileReader),
                     $"  項目{i,2}設定種別", itemType));
 
                 // 項目タイプ数集計
@@ -144,13 +144,13 @@ namespace WodiLib.IO
                 itemTypes.Add(itemType);
             }
 
-            Logger.Debug(FileIOMessage.EndCommonRead(
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(
                 typeof(DBDataSettingReader), "項目設定種別"));
         }
 
         private void ReadTypeSetting(FileReadStatus status, DBTypeSet data, IReadOnlyList<DBItemType> itemTypes)
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(typeof(DBTypeSetFileReader),
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(typeof(DBTypeSetFileReader),
                 "タイプ設定"));
 
             var reader = new DBTypeSettingReader(status, 1, false);
@@ -170,7 +170,7 @@ namespace WodiLib.IO
                 data.ItemSettingList[i].ItemType = itemTypes[i];
             }
 
-            Logger.Debug(FileIOMessage.EndCommonRead(typeof(DBTypeSetFileReader),
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(typeof(DBTypeSetFileReader),
                 "タイプ設定リスト"));
         }
     }

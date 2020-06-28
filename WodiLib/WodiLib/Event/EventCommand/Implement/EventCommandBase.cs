@@ -10,9 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using Commons;
 using WodiLib.Project;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Event.EventCommand
 {
@@ -324,7 +324,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// ロガー
         /// </summary>
-        protected Logger Logger => Logger.GetInstance();
+        protected WodiLibLogger WodiLibLogger => WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Virtual Method

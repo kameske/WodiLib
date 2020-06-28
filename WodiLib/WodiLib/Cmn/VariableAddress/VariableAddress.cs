@@ -9,10 +9,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Commons;
-using Commons.Convertible;
 using WodiLib.Project;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Cmn
 {
@@ -20,7 +19,7 @@ namespace WodiLib.Cmn
     /// 変数アドレス値基底クラス
     /// </summary>
     [Serializable]
-    public abstract class VariableAddress : IConvertibleInt32, IEquatable<VariableAddress>
+    public abstract class VariableAddress : IConvertibleInt, IEquatable<VariableAddress>
     {
         /*
          * 演算子をオーバーロードしたいため、インタフェースは使用しない
@@ -82,7 +81,7 @@ namespace WodiLib.Cmn
                     ErrorMessage.OutOfRange(nameof(value), _MinValue, _MaxValue, value));
 
             if (value < _SafetyMinValue || _SafetyMaxValue < value)
-                Logger.GetInstance().Warning(
+                WodiLibLogger.GetInstance().Warning(
                     WarningMessage.OutOfRange(nameof(value), _SafetyMinValue, _SafetyMaxValue, value));
 
             Value = value;

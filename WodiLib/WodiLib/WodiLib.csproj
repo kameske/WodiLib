@@ -4,9 +4,9 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <Nullable>enable</Nullable>
         <PackageId>WodiLib</PackageId>
-        <PackageVersion>2.2.65534.6</PackageVersion>
+        <PackageVersion>2.2.65534.7</PackageVersion>
         <Copyright>Copyright 2019 kameske</Copyright>
-        <Version>2.2.65534.6</Version>
+        <Version>2.2.65534.7</Version>
         <PackageProjectUrl>https://github.com/kameske/WodiLib</PackageProjectUrl>
         <PackageLicenseUrl />
         <RepositoryUrl>https://github.com/kameske/WodiLib.git</RepositoryUrl>
@@ -15,7 +15,7 @@
         <Authors>Kameske</Authors>
         <RootNamespace>WodiLib</RootNamespace>
         <Product>WodiLib</Product>
-        <AssemblyVersion>2.2.65534.6</AssemblyVersion>
+        <AssemblyVersion>2.2.65534.7</AssemblyVersion>
         <AssemblyName>WodiLib</AssemblyName>
         <LangVersion>8</LangVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -24,27 +24,6 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
       <DocumentationFile>bin\Debug\WodiLib.xml</DocumentationFile>
     </PropertyGroup>
-
-    <ItemGroup>
-      <Reference Include="Commons.Convertible, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\lib\Commons.Convertible\Commons.Convertible.dll</HintPath>
-      </Reference>
-      <Reference Include="Commons.DIContainer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\lib\Commons.DIContainer\Commons.DIContainer.dll</HintPath>
-      </Reference>
-      <Reference Include="Commons.Linq.Extension, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\lib\Commons.Linq.Extension\Commons.Linq.Extension.dll</HintPath>
-      </Reference>
-      <Reference Include="Commons.Logger, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\lib\Commons.Logger\Commons.Logger.dll</HintPath>
-      </Reference>
-      <Reference Include="Commons.TypeSafeEnum, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\lib\Commons.TypeSafeEnum\Commons.TypeSafeEnum.dll</HintPath>
-      </Reference>
-      <Reference Include="Commons.Validator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-        <HintPath>..\lib\Commons.Validator\Commons.Validator.dll</HintPath>
-      </Reference>
-    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.0" />

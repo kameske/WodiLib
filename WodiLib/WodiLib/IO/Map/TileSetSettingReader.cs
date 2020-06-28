@@ -8,9 +8,9 @@
 
 using System;
 using System.Collections.Generic;
-using Commons;
 using WodiLib.Map;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -27,7 +27,7 @@ namespace WodiLib.IO
         private FileReadStatus Status { get; }
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -52,11 +52,11 @@ namespace WodiLib.IO
         /// <exception cref="InvalidOperationException">ファイルが仕様と異なる場合</exception>
         public TileSetSetting Read()
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(GetType(), ""));
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(GetType(), ""));
 
             var result = ReadOneTileSetSetting(Status);
 
-            Logger.Debug(FileIOMessage.EndCommonRead(GetType(), ""));
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(GetType(), ""));
 
             return result;
         }
@@ -72,7 +72,7 @@ namespace WodiLib.IO
         /// <exception cref="InvalidOperationException">バイナリデータがファイル仕様と異なる場合</exception>
         private TileSetSetting ReadOneTileSetSetting(FileReadStatus status)
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(typeof(TileSetSettingReader), "タイルセット設定"));
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(typeof(TileSetSettingReader), "タイルセット設定"));
 
             // 設定名
             ReadName(status, out var name);
@@ -103,7 +103,7 @@ namespace WodiLib.IO
                 BaseTileSetFileName = baseTileSetFileName
             };
 
-            Logger.Debug(FileIOMessage.EndCommonRead(typeof(TileSetSettingReader), "タイルセット設定"));
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(typeof(TileSetSettingReader), "タイルセット設定"));
 
             return result;
         }
@@ -120,7 +120,7 @@ namespace WodiLib.IO
 
             status.AddOffset(read.ByteLength);
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(TileSetSettingReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(TileSetSettingReader),
                 "設定名", name));
         }
 
@@ -136,7 +136,7 @@ namespace WodiLib.IO
 
             status.AddOffset(read.ByteLength);
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(TileSetSettingReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(TileSetSettingReader),
                 "基本タイルセットファイル名", fileName));
         }
 
@@ -159,7 +159,7 @@ namespace WodiLib.IO
 
                 status.AddOffset(read.ByteLength);
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(TileSetSettingReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(TileSetSettingReader),
                     $"オートタイル{i}ファイル名", fileName));
             }
         }
@@ -178,7 +178,7 @@ namespace WodiLib.IO
 
             status.IncreaseByteOffset();
 
-            Logger.Debug(FileIOMessage.CheckOk(typeof(TileSetFileReader),
+            WodiLibLogger.Debug(FileIOMessage.CheckOk(typeof(TileSetFileReader),
                 "データセパレータ"));
         }
 
@@ -192,7 +192,7 @@ namespace WodiLib.IO
             var length = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(TileSetSettingReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(TileSetSettingReader),
                 "タイルタグ番号数", length));
 
             list = new List<TileTagNumber>();
@@ -202,7 +202,7 @@ namespace WodiLib.IO
                 var tagNumber = status.ReadByte();
                 status.IncreaseByteOffset();
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(TileSetSettingReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(TileSetSettingReader),
                     $"タイルタグ{i}番号", tagNumber));
 
                 list.Add(tagNumber);
@@ -219,7 +219,7 @@ namespace WodiLib.IO
             var length = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(TileSetSettingReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(TileSetSettingReader),
                 "タイル通行設定数", length));
 
             list = new List<TilePathSetting>();
@@ -229,7 +229,7 @@ namespace WodiLib.IO
                 var tilePathSettingCode = status.ReadInt();
                 status.IncreaseIntOffset();
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(TileSetSettingReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(TileSetSettingReader),
                     $"タイルパス設定{i}コード", tilePathSettingCode));
 
                 list.Add(new TilePathSetting(tilePathSettingCode));

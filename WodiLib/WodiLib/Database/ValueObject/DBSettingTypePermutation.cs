@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -17,7 +16,7 @@ namespace WodiLib.Database
     /// <summary>[Range(0, 99)] DB設定種別順列</summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Serializable]
-    public readonly struct DBSettingTypePermutation : IConvertibleInt32, IEquatable<DBSettingTypePermutation>
+    public readonly struct DBSettingTypePermutation : IConvertibleInt, IEquatable<DBSettingTypePermutation>
     {
         /*
          * 現時点では未使用なオブジェクト

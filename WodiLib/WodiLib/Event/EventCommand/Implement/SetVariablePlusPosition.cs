@@ -176,7 +176,7 @@ namespace WodiLib.Event.EventCommand
         {
             if (InfoTypeCode == NumberPlusPositionInfoType.Layer1ChipNumber.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPosition)}.{nameof(InfoTypeCode)}",
                     $"{nameof(NumberPlusPositionInfoType.Layer1ChipNumber)}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -185,7 +185,7 @@ namespace WodiLib.Event.EventCommand
 
             if (InfoTypeCode == NumberPlusPositionInfoType.Layer2ChipNumber.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPosition)}.{nameof(InfoTypeCode)}",
                     $"{nameof(NumberPlusPositionInfoType.Layer2ChipNumber)}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -194,7 +194,7 @@ namespace WodiLib.Event.EventCommand
 
             if (InfoTypeCode == NumberPlusPositionInfoType.Layer3ChipNumber.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPosition)}.{nameof(InfoTypeCode)}",
                     $"{nameof(NumberPlusPositionInfoType.Layer3ChipNumber)}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -203,7 +203,7 @@ namespace WodiLib.Event.EventCommand
 
             if (InfoTypeCode == NumberPlusPositionInfoType.Layer1TileTag.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPosition)}.{nameof(InfoTypeCode)}",
                     $"{nameof(NumberPlusPositionInfoType.Layer1TileTag)}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -212,7 +212,7 @@ namespace WodiLib.Event.EventCommand
 
             if (InfoTypeCode == NumberPlusPositionInfoType.Layer2TileTag.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPosition)}.{nameof(InfoTypeCode)}",
                     $"{nameof(NumberPlusPositionInfoType.Layer2TileTag)}",
                     VersionConfig.GetConfigWoditorVersion(),
@@ -221,7 +221,7 @@ namespace WodiLib.Event.EventCommand
 
             if (InfoTypeCode == NumberPlusPositionInfoType.Layer3TileTag.Code)
             {
-                Logger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
+                WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommandSetting(
                     $"{nameof(SetVariablePlusPosition)}.{nameof(InfoTypeCode)}",
                     $"{nameof(NumberPlusPositionInfoType.Layer3TileTag)}",
                     VersionConfig.GetConfigWoditorVersion(),

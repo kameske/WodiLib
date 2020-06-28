@@ -169,7 +169,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         private void OutputVersionWarningLogIfNeed_UnderVer2_00()
         {
-            Logger.Warning(VersionWarningMessage.NotUnderInCommand($"{nameof(KeyInputAutoKeyboard)}",
+            WodiLibLogger.Warning(VersionWarningMessage.NotUnderInCommand($"{nameof(KeyInputAutoKeyboard)}",
                 VersionConfig.GetConfigWoditorVersion(),
                 WoditorVersion.Ver2_00));
         }

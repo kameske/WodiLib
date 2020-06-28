@@ -9,9 +9,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Commons;
 using WodiLib.Database;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -31,7 +31,7 @@ namespace WodiLib.IO
         private int Length { get; }
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -58,7 +58,7 @@ namespace WodiLib.IO
         /// <exception cref="InvalidOperationException">ファイルが仕様と異なる場合</exception>
         public List<DBDataSetting> Read()
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(GetType(), ""));
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(GetType(), ""));
 
             var list = new List<DBDataSetting>();
             for (var i = 0; i < Length; i++)
@@ -66,7 +66,7 @@ namespace WodiLib.IO
                 ReadOneDBTypeSetting(Status, list);
             }
 
-            Logger.Debug(FileIOMessage.EndCommonRead(GetType(), ""));
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(GetType(), ""));
 
             return list;
         }
@@ -83,7 +83,7 @@ namespace WodiLib.IO
         /// <exception cref="InvalidOperationException">バイナリデータがファイル仕様と異なる場合</exception>
         private void ReadOneDBTypeSetting(FileReadStatus status, ICollection<DBDataSetting> result)
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(typeof(DBDataSettingReader), "DBタイプ設定"));
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(typeof(DBDataSettingReader), "DBタイプ設定"));
 
             var setting = new DBDataSetting();
 
@@ -99,7 +99,7 @@ namespace WodiLib.IO
             // DBデータ設定値
             ReadDataSettingValue(status, setting, types);
 
-            Logger.Debug(FileIOMessage.EndCommonRead(typeof(DBDataSettingReader), "DBタイプ設定"));
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(typeof(DBDataSettingReader), "DBタイプ設定"));
 
             result.Add(setting);
         }
@@ -122,7 +122,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug($"{nameof(DatabaseDatFileReader)} ヘッダチェックOK");
+            WodiLibLogger.Debug($"{nameof(DatabaseDatFileReader)} ヘッダチェックOK");
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace WodiLib.IO
 
             var settingType = DBDataSettingType.FromValue(typeCode);
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
                 "データID設定方法", settingType));
 
             // 「指定DBの指定タイプ」の場合、DB種別とタイプIDを取り出す
@@ -147,12 +147,12 @@ namespace WodiLib.IO
             {
                 dbKind = DbKindFromSettingTypeCode(typeCode);
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
                     "DB種別", dbKind));
 
                 typeId = TypeIdFromSettingTypeCode(typeCode);
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
                     "タイプID", typeId));
             }
 
@@ -169,7 +169,7 @@ namespace WodiLib.IO
             var length = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
                 "項目数", length));
 
             var countDic = new Dictionary<DBItemType, int>
@@ -187,7 +187,7 @@ namespace WodiLib.IO
 
                 var itemType = DBItemType.FromValue(settingCode);
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
                     $"  項目{i,2}設定種別", itemType));
 
                 // 項目タイプ数集計
@@ -198,7 +198,7 @@ namespace WodiLib.IO
                 itemTypes.Add(itemType);
             }
 
-            Logger.Debug(FileIOMessage.EndCommonRead(
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(
                 typeof(DBDataSettingReader), "項目設定種別"));
         }
 
@@ -214,7 +214,7 @@ namespace WodiLib.IO
             var length = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
                 "データ数", length));
 
             var itemTypeArr = itemTypes.ToArray();
@@ -245,7 +245,7 @@ namespace WodiLib.IO
         private void ReadOneDataSettingValue(FileReadStatus status, ICollection<List<DBItemValue>> result,
             IEnumerable<DBItemType> itemTypes, int numberItemCount, int stringItemCount)
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(typeof(DBDataSettingReader),
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(typeof(DBDataSettingReader),
                 "データ設定値"));
 
             var numberItems = new List<DBValueInt>();
@@ -256,7 +256,7 @@ namespace WodiLib.IO
                 var numberItem = status.ReadInt();
                 status.IncreaseIntOffset();
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
                     $"  数値項目{i,2}", numberItem));
 
                 numberItems.Add(numberItem);
@@ -267,7 +267,7 @@ namespace WodiLib.IO
                 var stringItem = status.ReadString();
                 status.AddOffset(stringItem.ByteLength);
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(DBDataSettingReader),
                     $"  文字列項目{i,2}", stringItem));
 
                 stringItems.Add(stringItem.String);
@@ -299,7 +299,7 @@ namespace WodiLib.IO
 
             result.Add(valueList);
 
-            Logger.Debug(FileIOMessage.EndCommonRead(typeof(DBDataSettingReader),
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(typeof(DBDataSettingReader),
                 "データ設定値"));
         }
 

@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -17,7 +16,7 @@ namespace WodiLib.Map
     /// [Range(0, 99)] タイルタグ番号
     /// </summary>
     [Serializable]
-    public readonly struct TileTagNumber : IConvertibleInt32, IEquatable<TileTagNumber>
+    public readonly struct TileTagNumber : IConvertibleInt, IEquatable<TileTagNumber>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

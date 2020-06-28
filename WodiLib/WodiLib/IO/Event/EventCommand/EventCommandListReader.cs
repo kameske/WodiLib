@@ -8,10 +8,10 @@
 
 using System;
 using System.Collections.Generic;
-using Commons;
 using WodiLib.Event;
 using WodiLib.Event.EventCommand;
 using WodiLib.Sys;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.IO
 {
@@ -27,7 +27,7 @@ namespace WodiLib.IO
         private int Length { get; }
 
         /// <summary>ロガー</summary>
-        private Logger Logger { get; } = Logger.GetInstance();
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
         /// コンストラクタ
@@ -47,7 +47,7 @@ namespace WodiLib.IO
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
         public EventCommandList Read()
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
                 "イベントコマンドリスト"));
 
             var eventCommandList = new List<IEventCommand>();
@@ -56,7 +56,7 @@ namespace WodiLib.IO
                 ReadEventCommand(Status, eventCommandList);
             }
 
-            Logger.Debug(FileIOMessage.EndCommonRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(typeof(EventCommandListReader),
                 "イベントコマンドリスト"));
 
             return new EventCommandList(eventCommandList);
@@ -74,7 +74,7 @@ namespace WodiLib.IO
             var numVarLength = status.ReadByte();
             status.IncreaseByteOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
                 "数値変数の数", numVarLength));
 
             // 数値変数
@@ -85,7 +85,7 @@ namespace WodiLib.IO
                 numVarList.Add(numVar);
                 status.IncreaseIntOffset();
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
                     $"数値変数{i}", numVar));
             }
 
@@ -93,14 +93,14 @@ namespace WodiLib.IO
             var indent = (sbyte) status.ReadByte();
             status.IncreaseByteOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
                 "インデント", indent));
 
             // 文字データ数
             var strVarLength = status.ReadByte();
             status.IncreaseByteOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
                 "文字列変数の数", strVarLength));
 
             // 文字列変数
@@ -111,7 +111,7 @@ namespace WodiLib.IO
                 strVarList.Add(woditorString.String);
                 status.AddOffset(woditorString.ByteLength);
 
-                Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+                WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
                     $"文字列変数{i}", woditorString.String));
             }
 
@@ -119,7 +119,7 @@ namespace WodiLib.IO
             var hasMoveCommand = status.ReadByte() != 0;
             status.IncreaseByteOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
                 "動作指定フラグ", hasMoveCommand));
 
             // 動作指定コマンド
@@ -145,7 +145,7 @@ namespace WodiLib.IO
                 strVarList,
                 actionEntry);
 
-            Logger.Debug("イベントコマンド生成成功");
+            WodiLibLogger.Debug("イベントコマンド生成成功");
 
             commandList.Add(eventCommand);
         }
@@ -158,7 +158,7 @@ namespace WodiLib.IO
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
         private void ReadEventActionEntry(FileReadStatus status, ActionEntry actionEntry)
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
                 "動作指定コマンド"));
 
             // ヘッダチェック
@@ -173,7 +173,7 @@ namespace WodiLib.IO
                 status.IncreaseByteOffset();
             }
 
-            Logger.Debug(FileIOMessage.CheckOk(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.CheckOk(typeof(EventCommandListReader),
                 "動作指定コマンドヘッダ"));
 
             // 動作フラグ
@@ -181,13 +181,13 @@ namespace WodiLib.IO
             actionEntry.SetOptionFlag(optionFlag);
             status.IncreaseByteOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
                 "数値変数の数", optionFlag));
 
             // 動作コマンドリスト
             actionEntry.CommandList = ReadCharaMoveCommand(status);
 
-            Logger.Debug(FileIOMessage.EndCommonRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(typeof(EventCommandListReader),
                 "動作指定コマンド"));
         }
 
@@ -198,21 +198,21 @@ namespace WodiLib.IO
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
         private CharaMoveCommandList ReadCharaMoveCommand(FileReadStatus status)
         {
-            Logger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.StartCommonRead(typeof(EventCommandListReader),
                 "動作コマンドリスト"));
 
             // 動作コマンド数
             var commandLength = status.ReadInt();
             status.IncreaseIntOffset();
 
-            Logger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(EventCommandListReader),
                 "動作コマンド数", commandLength));
 
             // 動作指定コマンド
             var reader = new CharaMoveCommandListReader(status, commandLength);
             var result = reader.Read();
 
-            Logger.Debug(FileIOMessage.EndCommonRead(typeof(EventCommandListReader),
+            WodiLibLogger.Debug(FileIOMessage.EndCommonRead(typeof(EventCommandListReader),
                 "動作コマンドリスト"));
 
             return new CharaMoveCommandList(result);

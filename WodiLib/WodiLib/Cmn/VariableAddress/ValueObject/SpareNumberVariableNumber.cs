@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Cmn
@@ -16,7 +15,7 @@ namespace WodiLib.Cmn
     /// [Range(0, 9)] 予備変数番号
     /// </summary>
     [Serializable]
-    public readonly struct SpareNumberVariableNumber : IConvertibleInt32, IEquatable<SpareNumberVariableNumber>
+    public readonly struct SpareNumberVariableNumber : IConvertibleInt, IEquatable<SpareNumberVariableNumber>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

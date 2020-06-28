@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using Commons.Convertible;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -17,7 +16,7 @@ namespace WodiLib.Database
     /// [Range(0, 99)] DB項目ID
     /// </summary>
     [Serializable]
-    public readonly struct ItemId : IConvertibleInt32, IEquatable<ItemId>
+    public readonly struct ItemId : IConvertibleInt, IEquatable<ItemId>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
