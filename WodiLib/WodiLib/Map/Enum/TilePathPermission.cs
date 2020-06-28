@@ -86,10 +86,10 @@ namespace WodiLib.Map
         public static TilePathPermission FromCode(int code)
         {
             var searchedWithoutCodeZero =
-                _FindAll().Where(x => x.Code != 0).FirstOrDefault(x => (x.Code & code) == x.Code);
+                AllItems.Where(x => x.Code != 0).FirstOrDefault(x => (x.Code & code) == x.Code);
             if (!(searchedWithoutCodeZero is null)) return searchedWithoutCodeZero;
 
-            return _FindAll().First(x => x.Code == 0);
+            return AllItems.First(x => x.Code == 0);
         }
 
         internal enum InnerFlagGroup

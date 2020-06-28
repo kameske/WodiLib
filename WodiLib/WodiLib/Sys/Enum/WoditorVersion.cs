@@ -180,7 +180,7 @@ namespace WodiLib.Sys
         /// <returns>バージョンインスタンス</returns>
         public static WoditorVersion FromName(string versionName)
         {
-            var resultWithoutSpecial = _FindAll().FirstOrDefault(x => x.VersionName.Equals(versionName));
+            var resultWithoutSpecial = AllItems.FirstOrDefault(x => x.VersionName.Equals(versionName));
             if (!(resultWithoutSpecial is null))
             {
                 return resultWithoutSpecial;

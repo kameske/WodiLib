@@ -6,11 +6,14 @@
 // see LICENSE file
 // ========================================
 
+using System;
+
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// int に変換できることを示すインタフェース
+    /// string に変換できることを示すインタフェース
     /// </summary>
+    [Obsolete("無用なインタフェースのため Ver 1.5 にて削除します。")]
     public interface IConvertibleString
     {
         /// <summary>

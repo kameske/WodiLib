@@ -21,17 +21,24 @@ namespace WodiLib.Sys
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class TypeSafeEnum<T> where T : TypeSafeEnum<T>
     {
+        /// <summary>列挙子管理</summary>
         private static readonly EnumItemsManager EnumItems = new EnumItemsManager();
 
+        /// <summary>全ての要素</summary>
+        protected static IEnumerable<T> AllItems => EnumItems.AllEnums;
 
-        internal TypeSafeEnum(string id)
+        /// <summary>列挙子識別子</summary>
+        public string Id { get; }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="id">識別子</param>
+        protected TypeSafeEnum(string id)
         {
             Id = id;
             EnumItems.Add(id, this);
         }
-
-        /// <summary>ID</summary>
-        public string Id { get; }
 
         /// <summary>
         ///     条件に合致する最初の要素を返却する。
@@ -44,31 +51,16 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        ///     すべての要素を返却する。
+        /// 列挙子管理クラス
         /// </summary>
-        /// <returns>すべての要素</returns>
-        protected static List<T> _FindAll()
+        private class EnumItemsManager
         {
-            return EnumItems.AllEnums;
-        }
-
-
-        /// <summary>
-        ///     Enum実装
-        /// </summary>
-        private sealed class EnumItemsManager
-        {
-            public EnumItemsManager()
-            {
-                ItemDic = new Dictionary<string, TypeSafeEnum<T>>();
-            }
-
-            private Dictionary<string, TypeSafeEnum<T>> ItemDic { get; }
+            private Dictionary<string, TypeSafeEnum<T>> ItemDic { get; } = new Dictionary<string, TypeSafeEnum<T>>();
 
             /// <summary>
-            ///     列挙アイテムの全リスト
+            /// 列挙アイテムの全リスト
             /// </summary>
-            public List<T> AllEnums => ItemDic.Values.Select(item => item.ConvertToClass()).ToList();
+            public IEnumerable<T> AllEnums => ItemDic.Values.Select(item => item.ConvertToClass());
 
             /// <summary>
             ///     条件に合致する最初の要素を返す。
@@ -84,7 +76,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            ///     アイテムを追加する。
+            /// アイテムを追加する。
             /// </summary>
             /// <param name="id">識別文字列</param>
             /// <param name="item">格納するインスタンス</param>
@@ -103,9 +95,9 @@ namespace WodiLib.Sys
         /// <summary>
         /// ==演算子
         /// </summary>
-        /// <param name="left">比較対象1</param>
-        /// <param name="right">比較対象2</param>
-        /// <returns>一致する場合true</returns>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺と右辺が一致する場合true</returns>
         public static bool operator ==(TypeSafeEnum<T> left, TypeSafeEnum<T> right)
         {
             if (ReferenceEquals(left, right)) return true;
@@ -117,19 +109,17 @@ namespace WodiLib.Sys
         /// <summary>
         /// !=演算子
         /// </summary>
-        /// <param name="left">比較対象1</param>
-        /// <param name="right">比較対象2</param>
-        /// <returns>一致しない場合true</returns>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺と右辺が一致しない場合<c>true</c></returns>
         public static bool operator !=(TypeSafeEnum<T> left, TypeSafeEnum<T> right)
-        {
-            return !(left == right);
-        }
+            => !(left == right);
 
         /// <summary>
         /// Equal
         /// </summary>
         /// <param name="other">比較対象</param>
-        /// <returns>一致する場合true</returns>
+        /// <returns>自身と比較対象が一致する場合true</returns>
         public bool Equals(TypeSafeEnum<T> other)
         {
             if (other == null) return false;
@@ -152,9 +142,9 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        ///     TypeSafeEnumからTに変換するメソッド.
+        /// TypeSafeEnumからTに変換するメソッド.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>変換後のメソッド</returns>
         private T ConvertToClass()
         {
             return (T) this;
