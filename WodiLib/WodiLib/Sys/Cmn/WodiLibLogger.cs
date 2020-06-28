@@ -85,7 +85,7 @@ namespace WodiLib.Sys.Cmn
         /// </summary>
         /// <param name="logHandler">[NotNull] ログ出力ハンドラ</param>
         /// <param name="keyName">[Nullable] 設定キー名</param>
-        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentNullException">logHandlerがnullの場合</exception>
         public static void SetLogHandler(WodiLibLogHandler logHandler, string keyName = null)
         {
             if (logHandler == null)
@@ -127,6 +127,7 @@ namespace WodiLib.Sys.Cmn
         /// コンストラクタ
         /// </summary>
         /// <param name="logHandler">[NotNull] ログハンドラ</param>
+        /// <exception cref="ArgumentNullException">logHandlerがnullの場合</exception>
         public WodiLibLogger(WodiLibLogHandler logHandler)
         {
             if (logHandler == null)
