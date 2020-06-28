@@ -113,6 +113,7 @@
     <HelpKINode Title="RestrictedCapacityCollection(T).All メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_All.htm" />
   </HelpKINode>
   <HelpKINode Title="AllDevices フィールド" Url="html/F_WodiLib_Event_EventCommand_DeviceInputControlType_AllDevices.htm" />
+  <HelpKINode Title="AllItems プロパティ" Url="html/P_WodiLib_Sys_TypeSafeEnum_1_AllItems.htm" />
   <HelpKINode Title="AllMouseInput フィールド" Url="html/F_WodiLib_Event_EventCommand_DeviceInputControlType_AllMouseInput.htm" />
   <HelpKINode Title="AllNumberArgList プロパティ">
     <HelpKINode Title="EventCommandBase.AllNumberArgList プロパティ " Url="html/P_WodiLib_Event_EventCommand_EventCommandBase_AllNumberArgList.htm" />
@@ -289,7 +290,9 @@
   <HelpKINode Title="AutoTileFileNameList クラス、メソッド" Url="html/Methods_T_WodiLib_Map_AutoTileFileNameList.htm" />
   <HelpKINode Title="AutoTileFileNameList プロパティ" Url="html/P_WodiLib_Map_TileSetSetting_AutoTileFileNameList.htm" />
   <HelpKINode Title="AutoTileFileNameList.AutoTileFileNameList コンストラクター" Url="html/Overload_WodiLib_Map_AutoTileFileNameList__ctor.htm" />
+  <HelpKINode Title="AutoTileFileNameList.Capacity フィールド" Url="html/F_WodiLib_Map_AutoTileFileNameList_Capacity.htm" />
   <HelpKINode Title="AutoTileFileNameList.Equals メソッド" Url="html/Overload_WodiLib_Map_AutoTileFileNameList_Equals.htm" />
+  <HelpKINode Title="AutoTileFileNameList.GetCapacity メソッド" Url="html/M_WodiLib_Map_AutoTileFileNameList_GetCapacity.htm" />
   <HelpKINode Title="AutoTileFileNameList.GetMaxCapacity メソッド" Url="html/M_WodiLib_Map_AutoTileFileNameList_GetMaxCapacity.htm" />
   <HelpKINode Title="AutoTileFileNameList.GetMinCapacity メソッド" Url="html/M_WodiLib_Map_AutoTileFileNameList_GetMinCapacity.htm" />
   <HelpKINode Title="AutoTileFileNameList.MakeDefaultItem メソッド" Url="html/M_WodiLib_Map_AutoTileFileNameList_MakeDefaultItem.htm" />
@@ -433,23 +436,6 @@
   <HelpKINode Title="CalculateOperator.Multiplication フィールド" Url="html/F_WodiLib_Event_EventCommand_CalculateOperator_Multiplication.htm" />
   <HelpKINode Title="CalculateOperator.Subtraction フィールド" Url="html/F_WodiLib_Event_EventCommand_CalculateOperator_Subtraction.htm" />
   <HelpKINode Title="Caliente フィールド" Url="html/F_WodiLib_Project_EventCommandColor_Caliente.htm" />
-  <HelpKINode Title="CallbackIO メソッド">
-    <HelpKINode Title="CommonEventDatFile.CallbackIO メソッド " Url="html/M_WodiLib_IO_CommonEventDatFile_CallbackIO.htm" />
-    <HelpKINode Title="CommonFile.CallbackIO メソッド " Url="html/M_WodiLib_IO_CommonFile_CallbackIO.htm" />
-    <HelpKINode Title="DatabaseDatFile.CallbackIO メソッド " Url="html/M_WodiLib_IO_DatabaseDatFile_CallbackIO.htm" />
-    <HelpKINode Title="DatabaseProjectFile.CallbackIO メソッド " Url="html/M_WodiLib_IO_DatabaseProjectFile_CallbackIO.htm" />
-    <HelpKINode Title="DBDataFile.CallbackIO メソッド " Url="html/M_WodiLib_IO_DBDataFile_CallbackIO.htm" />
-    <HelpKINode Title="DBTypeFile.CallbackIO メソッド " Url="html/M_WodiLib_IO_DBTypeFile_CallbackIO.htm" />
-    <HelpKINode Title="DBTypeSetFile.CallbackIO メソッド " Url="html/M_WodiLib_IO_DBTypeSetFile_CallbackIO.htm" />
-    <HelpKINode Title="EditorIniFile.CallbackIO メソッド " Url="html/M_WodiLib_IO_EditorIniFile_CallbackIO.htm" />
-    <HelpKINode Title="GameIniFile.CallbackIO メソッド " Url="html/M_WodiLib_IO_GameIniFile_CallbackIO.htm" />
-    <HelpKINode Title="MapTreeDataFile.CallbackIO メソッド " Url="html/M_WodiLib_IO_MapTreeDataFile_CallbackIO.htm" />
-    <HelpKINode Title="MapTreeOpenStatusDataFile.CallbackIO メソッド " Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_CallbackIO.htm" />
-    <HelpKINode Title="MpsFile.CallbackIO メソッド " Url="html/M_WodiLib_IO_MpsFile_CallbackIO.htm" />
-    <HelpKINode Title="TileSetDataFile.CallbackIO メソッド " Url="html/M_WodiLib_IO_TileSetDataFile_CallbackIO.htm" />
-    <HelpKINode Title="TileSetFile.CallbackIO メソッド " Url="html/M_WodiLib_IO_TileSetFile_CallbackIO.htm" />
-    <HelpKINode Title="WoditorFileBase(TFilePath, TFileData, TWriter, TReader).CallbackIO メソッド " Url="html/M_WodiLib_IO_WoditorFileBase_4_CallbackIO.htm" />
-  </HelpKINode>
   <HelpKINode Title="CallCommonEventBase クラス" Url="html/T_WodiLib_Event_EventCommand_CallCommonEventBase.htm" />
   <HelpKINode Title="CallCommonEventBase クラス、イベント" Url="html/Events_T_WodiLib_Event_EventCommand_CallCommonEventBase.htm" />
   <HelpKINode Title="CallCommonEventBase クラス、コンストラクター" Url="html/M_WodiLib_Event_EventCommand_CallCommonEventBase__ctor.htm" />
@@ -538,8 +524,6 @@
   <HelpKINode Title="CancelForkIndex プロパティ" Url="html/P_WodiLib_Event_EventCommand_ChoiceStart_CancelForkIndex.htm" />
   <HelpKINode Title="CancelHeroPartySynchro フィールド" Url="html/F_WodiLib_Event_EventCommand_PartyGraphicSpecialType_CancelHeroPartySynchro.htm" />
   <HelpKINode Title="CancelPartyTransparent フィールド" Url="html/F_WodiLib_Event_EventCommand_PartyGraphicSpecialType_CancelPartyTransparent.htm" />
-  <HelpKINode Title="CanChangeEnabled プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollectionHandler_1_CanChangeEnabled.htm" />
-  <HelpKINode Title="CanDelete プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollectionHandler_1_CanDelete.htm" />
   <HelpKINode Title="Cannot フィールド" Url="html/F_WodiLib_Event_EventCommand_ChoiceCancelForkType_Cannot.htm" />
   <HelpKINode Title="CannotPassingFlags プロパティ" Url="html/P_WodiLib_Map_TilePathSetting_CannotPassingFlags.htm" />
   <HelpKINode Title="CanReset プロパティ" Url="html/P_WodiLib_Ini_GameIniData_CanReset.htm" />
@@ -549,12 +533,17 @@
   </HelpKINode>
   <HelpKINode Title="CanSetItemType メソッド" Url="html/M_WodiLib_Database_DBItemSpecialSettingDesc_CanSetItemType.htm" />
   <HelpKINode Title="CanTakeScreenShot プロパティ" Url="html/P_WodiLib_Ini_GameIniData_CanTakeScreenShot.htm" />
-  <HelpKINode Title="Capacity フィールド" Url="html/F_WodiLib_Event_EventCommand_ConditionStringList_Capacity.htm" />
+  <HelpKINode Title="Capacity フィールド">
+    <HelpKINode Title="AutoTileFileNameList.Capacity フィールド" Url="html/F_WodiLib_Map_AutoTileFileNameList_Capacity.htm" />
+    <HelpKINode Title="ConditionStringList.Capacity フィールド" Url="html/F_WodiLib_Event_EventCommand_ConditionStringList_Capacity.htm" />
+  </HelpKINode>
   <HelpKINode Title="Capacity プロパティ">
     <HelpKINode Title="ChoiceCaseList.Capacity プロパティ " Url="html/P_WodiLib_Event_EventCommand_ChoiceCaseList_Capacity.htm" />
     <HelpKINode Title="CommonEventSelfVariableNameList.Capacity プロパティ " Url="html/P_WodiLib_Common_CommonEventSelfVariableNameList_Capacity.htm" />
     <HelpKINode Title="CommonEventSpecialNumberArgDescList.Capacity プロパティ " Url="html/P_WodiLib_Common_CommonEventSpecialNumberArgDescList_Capacity.htm" />
     <HelpKINode Title="CommonEventSpecialStringArgDescList.Capacity プロパティ " Url="html/P_WodiLib_Common_CommonEventSpecialStringArgDescList_Capacity.htm" />
+    <HelpKINode Title="EventCommandShortCutKeyList.Capacity プロパティ " Url="html/P_WodiLib_Ini_EventCommandShortCutKeyList_Capacity.htm" />
+    <HelpKINode Title="ShortCutPositionList.Capacity プロパティ " Url="html/P_WodiLib_Ini_ShortCutPositionList_Capacity.htm" />
   </HelpKINode>
   <HelpKINode Title="Case1 フィールド" Url="html/F_WodiLib_Event_EventCommand_ChoiceCancelForkType_Case1.htm" />
   <HelpKINode Title="Case1 プロパティ" Url="html/P_WodiLib_Event_EventCommand_ChoiceStart_Case1.htm" />
@@ -811,7 +800,10 @@
   <HelpKINode Title="ChangeScreenColor.SetSafetyStringVariable メソッド" Url="html/M_WodiLib_Event_EventCommand_ChangeScreenColor_SetSafetyStringVariable.htm" />
   <HelpKINode Title="ChangeScreenColor.StringVariableCount プロパティ" Url="html/P_WodiLib_Event_EventCommand_ChangeScreenColor_StringVariableCount.htm" />
   <HelpKINode Title="ChangeSettingLength メソッド" Url="html/M_WodiLib_Map_TileSetSetting_ChangeSettingLength.htm" />
-  <HelpKINode Title="ChangeTargetKey メソッド" Url="html/M_WodiLib_Sys_Cmn_VersionConfig_ChangeTargetKey.htm" />
+  <HelpKINode Title="ChangeTargetKey メソッド">
+    <HelpKINode Title="VersionConfig.ChangeTargetKey メソッド " Url="html/M_WodiLib_Sys_Cmn_VersionConfig_ChangeTargetKey.htm" />
+    <HelpKINode Title="WodiLibLogger.ChangeTargetKey メソッド " Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_ChangeTargetKey.htm" />
+  </HelpKINode>
   <HelpKINode Title="ChangeValueType メソッド" Url="html/M_WodiLib_Database_DBItemSpecialSettingDesc_ChangeValueType.htm" />
   <HelpKINode Title="Chara フィールド">
     <HelpKINode Title="EventCommandConstant.Effect.TargetCode.Chara フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_Effect_TargetCode_Chara.htm" />
@@ -894,13 +886,13 @@
   <HelpKINode Title="CharaMoveCommandBase.Equals メソッド" Url="html/Overload_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_Equals.htm" />
   <HelpKINode Title="CharaMoveCommandBase.GetEventCommandSentence メソッド" Url="html/M_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_GetEventCommandSentence.htm" />
   <HelpKINode Title="CharaMoveCommandBase.GetNumberValue メソッド" Url="html/M_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_GetNumberValue.htm" />
-  <HelpKINode Title="CharaMoveCommandBase.Logger フィールド" Url="html/F_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_Logger.htm" />
   <HelpKINode Title="CharaMoveCommandBase.NumberValues プロパティ" Url="html/P_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_NumberValues.htm" />
   <HelpKINode Title="CharaMoveCommandBase.OutputVersionWarningLogIfNeed メソッド" Url="html/M_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_OutputVersionWarningLogIfNeed.htm" />
   <HelpKINode Title="CharaMoveCommandBase.SetNumberValue メソッド" Url="html/M_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_SetNumberValue.htm" />
   <HelpKINode Title="CharaMoveCommandBase.ToBinary メソッド" Url="html/M_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_ToBinary.htm" />
   <HelpKINode Title="CharaMoveCommandBase.ValueLength プロパティ" Url="html/P_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_ValueLength.htm" />
   <HelpKINode Title="CharaMoveCommandBase.ValueLengthByte プロパティ" Url="html/P_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_ValueLengthByte.htm" />
+  <HelpKINode Title="CharaMoveCommandBase.WodiLibLogger フィールド" Url="html/F_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_WodiLibLogger.htm" />
   <HelpKINode Title="CharaMoveCommandCode クラス" Url="html/T_WodiLib_Event_CharaMoveCommand_CharaMoveCommandCode.htm" />
   <HelpKINode Title="CharaMoveCommandCode クラス、フィールド" Url="html/Fields_T_WodiLib_Event_CharaMoveCommand_CharaMoveCommandCode.htm" />
   <HelpKINode Title="CharaMoveCommandCode クラス、プロパティ" Url="html/Properties_T_WodiLib_Event_CharaMoveCommand_CharaMoveCommandCode.htm" />
@@ -1200,27 +1192,11 @@
   <HelpKINode Title="ClearDebugText.StringVariableCount プロパティ" Url="html/P_WodiLib_Event_EventCommand_ClearDebugText_StringVariableCount.htm" />
   <HelpKINode Title="ClearField クラス、フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IdSet_ClearField.htm" />
   <HelpKINode Title="ClearField メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_ClearField.htm" />
-  <HelpKINode Title="ClearFieldHandlerList プロパティ" Url="html/P_WodiLib_Database_DBItemValuesList_ClearFieldHandlerList.htm" />
   <HelpKINode Title="ClearItem メソッド" Url="html/M_WodiLib_Project_CommonEventSentenceResolveDatabaseDesc_ClearItem.htm" />
-  <HelpKINode Title="ClearItemHandlerList プロパティ">
-    <HelpKINode Title="FixedLengthList(T).ClearItemHandlerList プロパティ " Url="html/P_WodiLib_Sys_FixedLengthList_1_ClearItemHandlerList.htm" />
-    <HelpKINode Title="RestrictedCapacityCollection(T).ClearItemHandlerList プロパティ " Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_ClearItemHandlerList.htm" />
-  </HelpKINode>
-  <HelpKINode Title="ClearItemHandlerList(Of T) クラス" Url="html/T_WodiLib_Sys_ClearItemHandlerList_1.htm" />
-  <HelpKINode Title="ClearItemHandlerList(Of T) クラス、コンストラクター" Url="html/M_WodiLib_Sys_ClearItemHandlerList_1__ctor.htm" />
-  <HelpKINode Title="ClearItemHandlerList(Of T) クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_ClearItemHandlerList_1.htm" />
-  <HelpKINode Title="ClearItemHandlerList(Of T) クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_ClearItemHandlerList_1.htm" />
-  <HelpKINode Title="ClearItemHandlerList(Of T).ClearItemHandlerList コンストラクター" Url="html/M_WodiLib_Sys_ClearItemHandlerList_1__ctor.htm" />
-  <HelpKINode Title="ClearItemHandlerList&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_ClearItemHandlerList_1.htm" />
-  <HelpKINode Title="ClearItemHandlerList&lt;T&gt; クラス、コンストラクター" Url="html/M_WodiLib_Sys_ClearItemHandlerList_1__ctor.htm" />
-  <HelpKINode Title="ClearItemHandlerList&lt;T&gt; クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_ClearItemHandlerList_1.htm" />
-  <HelpKINode Title="ClearItemHandlerList&lt;T&gt; クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_ClearItemHandlerList_1.htm" />
-  <HelpKINode Title="ClearItemHandlerList&lt;T&gt;.ClearItemHandlerList コンストラクター" Url="html/M_WodiLib_Sys_ClearItemHandlerList_1__ctor.htm" />
   <HelpKINode Title="ClearItems メソッド">
     <HelpKINode Title="DBItemValuesList.ClearItems メソッド " Url="html/M_WodiLib_Database_DBItemValuesList_ClearItems.htm" />
     <HelpKINode Title="FixedLengthList(T).ClearItems メソッド " Url="html/M_WodiLib_Sys_FixedLengthList_1_ClearItems.htm" />
     <HelpKINode Title="RestrictedCapacityCollection(T).ClearItems メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_ClearItems.htm" />
-    <HelpKINode Title="RestrictedCapacityCollectionHandlerList(TItem, THandler).ClearItems メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_ClearItems.htm" />
   </HelpKINode>
   <HelpKINode Title="ClearMpsFilesCache メソッド" Url="html/M_WodiLib_Project_WoditorProject_ClearMpsFilesCache.htm" />
   <HelpKINode Title="ClearType メソッド" Url="html/M_WodiLib_Project_CommonEventSentenceResolveDatabaseDesc_ClearType.htm" />
@@ -1518,7 +1494,6 @@
   <HelpKINode Title="CommonEventData クラス、フィールド" Url="html/Fields_T_WodiLib_Common_CommonEventData.htm" />
   <HelpKINode Title="CommonEventData クラス、プロパティ" Url="html/Properties_T_WodiLib_Common_CommonEventData.htm" />
   <HelpKINode Title="CommonEventData クラス、メソッド" Url="html/Methods_T_WodiLib_Common_CommonEventData.htm" />
-  <HelpKINode Title="CommonEventData プロパティ" Url="html/P_WodiLib_IO_CommonEventDatFile_CommonEventData.htm" />
   <HelpKINode Title="CommonEventData.CommonEventData コンストラクター" Url="html/M_WodiLib_Common_CommonEventData__ctor.htm" />
   <HelpKINode Title="CommonEventData.CommonEventList プロパティ" Url="html/P_WodiLib_Common_CommonEventData_CommonEventList.htm" />
   <HelpKINode Title="CommonEventData.Equals メソッド" Url="html/Overload_WodiLib_Common_CommonEventData_Equals.htm" />
@@ -1529,8 +1504,6 @@
   <HelpKINode Title="CommonEventDatFile クラス、コンストラクター" Url="html/M_WodiLib_IO_CommonEventDatFile__ctor.htm" />
   <HelpKINode Title="CommonEventDatFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_CommonEventDatFile.htm" />
   <HelpKINode Title="CommonEventDatFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_CommonEventDatFile.htm" />
-  <HelpKINode Title="CommonEventDatFile.CallbackIO メソッド" Url="html/M_WodiLib_IO_CommonEventDatFile_CallbackIO.htm" />
-  <HelpKINode Title="CommonEventDatFile.CommonEventData プロパティ" Url="html/P_WodiLib_IO_CommonEventDatFile_CommonEventData.htm" />
   <HelpKINode Title="CommonEventDatFile.CommonEventDatFile コンストラクター" Url="html/M_WodiLib_IO_CommonEventDatFile__ctor.htm" />
   <HelpKINode Title="CommonEventDatFile.MakeFileReader メソッド" Url="html/M_WodiLib_IO_CommonEventDatFile_MakeFileReader.htm" />
   <HelpKINode Title="CommonEventDatFile.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_CommonEventDatFile_MakeFileWriter.htm" />
@@ -1980,9 +1953,7 @@
   <HelpKINode Title="CommonFile クラス、コンストラクター" Url="html/M_WodiLib_IO_CommonFile__ctor.htm" />
   <HelpKINode Title="CommonFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_CommonFile.htm" />
   <HelpKINode Title="CommonFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_CommonFile.htm" />
-  <HelpKINode Title="CommonFile.CallbackIO メソッド" Url="html/M_WodiLib_IO_CommonFile_CallbackIO.htm" />
   <HelpKINode Title="CommonFile.CommonFile コンストラクター" Url="html/M_WodiLib_IO_CommonFile__ctor.htm" />
-  <HelpKINode Title="CommonFile.CommonFileData プロパティ" Url="html/P_WodiLib_IO_CommonFile_CommonFileData.htm" />
   <HelpKINode Title="CommonFile.MakeFileReader メソッド" Url="html/M_WodiLib_IO_CommonFile_MakeFileReader.htm" />
   <HelpKINode Title="CommonFile.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_CommonFile_MakeFileWriter.htm" />
   <HelpKINode Title="CommonFileData クラス" Url="html/T_WodiLib_Common_CommonFileData.htm" />
@@ -1991,7 +1962,6 @@
   <HelpKINode Title="CommonFileData クラス、フィールド" Url="html/Fields_T_WodiLib_Common_CommonFileData.htm" />
   <HelpKINode Title="CommonFileData クラス、プロパティ" Url="html/Properties_T_WodiLib_Common_CommonFileData.htm" />
   <HelpKINode Title="CommonFileData クラス、メソッド" Url="html/Methods_T_WodiLib_Common_CommonFileData.htm" />
-  <HelpKINode Title="CommonFileData プロパティ" Url="html/P_WodiLib_IO_CommonFile_CommonFileData.htm" />
   <HelpKINode Title="CommonFileData.CommonEventList プロパティ" Url="html/P_WodiLib_Common_CommonFileData_CommonEventList.htm" />
   <HelpKINode Title="CommonFileData.CommonFileData コンストラクター" Url="html/M_WodiLib_Common_CommonFileData__ctor.htm" />
   <HelpKINode Title="CommonFileData.Equals メソッド" Url="html/Overload_WodiLib_Common_CommonFileData_Equals.htm" />
@@ -2286,7 +2256,6 @@
   <HelpKINode Title="DatabaseDat クラス、フィールド" Url="html/Fields_T_WodiLib_Database_DatabaseDat.htm" />
   <HelpKINode Title="DatabaseDat クラス、プロパティ" Url="html/Properties_T_WodiLib_Database_DatabaseDat.htm" />
   <HelpKINode Title="DatabaseDat クラス、メソッド" Url="html/Methods_T_WodiLib_Database_DatabaseDat.htm" />
-  <HelpKINode Title="DatabaseDat プロパティ" Url="html/P_WodiLib_IO_DatabaseDatFile_DatabaseDat.htm" />
   <HelpKINode Title="DatabaseDat.DatabaseDat コンストラクター" Url="html/Overload_WodiLib_Database_DatabaseDat__ctor.htm" />
   <HelpKINode Title="DatabaseDat.DBKind プロパティ" Url="html/P_WodiLib_Database_DatabaseDat_DBKind.htm" />
   <HelpKINode Title="DatabaseDat.Equals メソッド" Url="html/Overload_WodiLib_Database_DatabaseDat_Equals.htm" />
@@ -2318,8 +2287,6 @@
   <HelpKINode Title="DatabaseDatFile クラス、コンストラクター" Url="html/M_WodiLib_IO_DatabaseDatFile__ctor.htm" />
   <HelpKINode Title="DatabaseDatFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_DatabaseDatFile.htm" />
   <HelpKINode Title="DatabaseDatFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_DatabaseDatFile.htm" />
-  <HelpKINode Title="DatabaseDatFile.CallbackIO メソッド" Url="html/M_WodiLib_IO_DatabaseDatFile_CallbackIO.htm" />
-  <HelpKINode Title="DatabaseDatFile.DatabaseDat プロパティ" Url="html/P_WodiLib_IO_DatabaseDatFile_DatabaseDat.htm" />
   <HelpKINode Title="DatabaseDatFile.DatabaseDatFile コンストラクター" Url="html/M_WodiLib_IO_DatabaseDatFile__ctor.htm" />
   <HelpKINode Title="DatabaseDatFile.MakeFileReader メソッド" Url="html/M_WodiLib_IO_DatabaseDatFile_MakeFileReader.htm" />
   <HelpKINode Title="DatabaseDatFile.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_DatabaseDatFile_MakeFileWriter.htm" />
@@ -2432,7 +2399,6 @@
   <HelpKINode Title="DatabaseProject クラス、コンストラクター" Url="html/Overload_WodiLib_Database_DatabaseProject__ctor.htm" />
   <HelpKINode Title="DatabaseProject クラス、プロパティ" Url="html/Properties_T_WodiLib_Database_DatabaseProject.htm" />
   <HelpKINode Title="DatabaseProject クラス、メソッド" Url="html/Methods_T_WodiLib_Database_DatabaseProject.htm" />
-  <HelpKINode Title="DatabaseProject プロパティ" Url="html/P_WodiLib_IO_DatabaseProjectFile_DatabaseProject.htm" />
   <HelpKINode Title="DatabaseProject.DatabaseProject コンストラクター" Url="html/Overload_WodiLib_Database_DatabaseProject__ctor.htm" />
   <HelpKINode Title="DatabaseProject.DBKind プロパティ" Url="html/P_WodiLib_Database_DatabaseProject_DBKind.htm" />
   <HelpKINode Title="DatabaseProject.Equals メソッド" Url="html/Overload_WodiLib_Database_DatabaseProject_Equals.htm" />
@@ -2443,8 +2409,6 @@
   <HelpKINode Title="DatabaseProjectFile クラス、コンストラクター" Url="html/M_WodiLib_IO_DatabaseProjectFile__ctor.htm" />
   <HelpKINode Title="DatabaseProjectFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_DatabaseProjectFile.htm" />
   <HelpKINode Title="DatabaseProjectFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_DatabaseProjectFile.htm" />
-  <HelpKINode Title="DatabaseProjectFile.CallbackIO メソッド" Url="html/M_WodiLib_IO_DatabaseProjectFile_CallbackIO.htm" />
-  <HelpKINode Title="DatabaseProjectFile.DatabaseProject プロパティ" Url="html/P_WodiLib_IO_DatabaseProjectFile_DatabaseProject.htm" />
   <HelpKINode Title="DatabaseProjectFile.DatabaseProjectFile コンストラクター" Url="html/M_WodiLib_IO_DatabaseProjectFile__ctor.htm" />
   <HelpKINode Title="DatabaseProjectFile.MakeFileReader メソッド" Url="html/M_WodiLib_IO_DatabaseProjectFile_MakeFileReader.htm" />
   <HelpKINode Title="DatabaseProjectFile.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_DatabaseProjectFile_MakeFileWriter.htm" />
@@ -2657,7 +2621,6 @@
   <HelpKINode Title="DBData クラス、フィールド" Url="html/Fields_T_WodiLib_Database_DBData.htm" />
   <HelpKINode Title="DBData クラス、プロパティ" Url="html/Properties_T_WodiLib_Database_DBData.htm" />
   <HelpKINode Title="DBData クラス、メソッド" Url="html/Methods_T_WodiLib_Database_DBData.htm" />
-  <HelpKINode Title="DBData プロパティ" Url="html/P_WodiLib_IO_DBDataFile_DBData.htm" />
   <HelpKINode Title="DBData.DataDescList プロパティ" Url="html/P_WodiLib_Database_DBData_DataDescList.htm" />
   <HelpKINode Title="DBData.DBData コンストラクター" Url="html/Overload_WodiLib_Database_DBData__ctor.htm" />
   <HelpKINode Title="DBData.Equals メソッド" Url="html/Overload_WodiLib_Database_DBData_Equals.htm" />
@@ -2667,8 +2630,6 @@
   <HelpKINode Title="DBDataFile クラス、コンストラクター" Url="html/M_WodiLib_IO_DBDataFile__ctor.htm" />
   <HelpKINode Title="DBDataFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_DBDataFile.htm" />
   <HelpKINode Title="DBDataFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_DBDataFile.htm" />
-  <HelpKINode Title="DBDataFile.CallbackIO メソッド" Url="html/M_WodiLib_IO_DBDataFile_CallbackIO.htm" />
-  <HelpKINode Title="DBDataFile.DBData プロパティ" Url="html/P_WodiLib_IO_DBDataFile_DBData.htm" />
   <HelpKINode Title="DBDataFile.DBDataFile コンストラクター" Url="html/M_WodiLib_IO_DBDataFile__ctor.htm" />
   <HelpKINode Title="DBDataFile.MakeFileReader メソッド" Url="html/M_WodiLib_IO_DBDataFile_MakeFileReader.htm" />
   <HelpKINode Title="DBDataFile.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_DBDataFile_MakeFileWriter.htm" />
@@ -2875,6 +2836,8 @@
   <HelpKINode Title="DBItemValueList.MakeDefaultItem メソッド" Url="html/M_WodiLib_Database_DBItemValueList_MakeDefaultItem.htm" />
   <HelpKINode Title="DBItemValueList.MaxCapacity プロパティ" Url="html/P_WodiLib_Database_DBItemValueList_MaxCapacity.htm" />
   <HelpKINode Title="DBItemValueList.MinCapacity プロパティ" Url="html/P_WodiLib_Database_DBItemValueList_MinCapacity.htm" />
+  <HelpKINode Title="DBItemValueList.Move メソッド" Url="html/M_WodiLib_Database_DBItemValueList_Move.htm" />
+  <HelpKINode Title="DBItemValueList.MoveRange メソッド" Url="html/M_WodiLib_Database_DBItemValueList_MoveRange.htm" />
   <HelpKINode Title="DBItemValueList.Remove メソッド" Url="html/M_WodiLib_Database_DBItemValueList_Remove.htm" />
   <HelpKINode Title="DBItemValueList.RemoveAt メソッド" Url="html/M_WodiLib_Database_DBItemValueList_RemoveAt.htm" />
   <HelpKINode Title="DBItemValueList.RemoveRange メソッド" Url="html/M_WodiLib_Database_DBItemValueList_RemoveRange.htm" />
@@ -2891,7 +2854,6 @@
   <HelpKINode Title="DBItemValuesList.AddNewValues メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_AddNewValues.htm" />
   <HelpKINode Title="DBItemValuesList.AddNewValuesRange メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_AddNewValuesRange.htm" />
   <HelpKINode Title="DBItemValuesList.ClearField メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_ClearField.htm" />
-  <HelpKINode Title="DBItemValuesList.ClearFieldHandlerList プロパティ" Url="html/P_WodiLib_Database_DBItemValuesList_ClearFieldHandlerList.htm" />
   <HelpKINode Title="DBItemValuesList.ClearItems メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_ClearItems.htm" />
   <HelpKINode Title="DBItemValuesList.CreateValueListInstance メソッド" Url="html/Overload_WodiLib_Database_DBItemValuesList_CreateValueListInstance.htm" />
   <HelpKINode Title="DBItemValuesList.DBItemValuesList コンストラクター" Url="html/Overload_WodiLib_Database_DBItemValuesList__ctor.htm" />
@@ -2900,7 +2862,6 @@
   <HelpKINode Title="DBItemValuesList.GetMaxCapacity メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_GetMaxCapacity.htm" />
   <HelpKINode Title="DBItemValuesList.GetMinCapacity メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_GetMinCapacity.htm" />
   <HelpKINode Title="DBItemValuesList.InsertField メソッド" Url="html/Overload_WodiLib_Database_DBItemValuesList_InsertField.htm" />
-  <HelpKINode Title="DBItemValuesList.InsertFieldHandlerList プロパティ" Url="html/P_WodiLib_Database_DBItemValuesList_InsertFieldHandlerList.htm" />
   <HelpKINode Title="DBItemValuesList.InsertFieldRange メソッド" Url="html/Overload_WodiLib_Database_DBItemValuesList_InsertFieldRange.htm" />
   <HelpKINode Title="DBItemValuesList.InsertItem メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_InsertItem.htm" />
   <HelpKINode Title="DBItemValuesList.InsertNewValues メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_InsertNewValues.htm" />
@@ -2908,13 +2869,13 @@
   <HelpKINode Title="DBItemValuesList.MakeDefaultItem メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_MakeDefaultItem.htm" />
   <HelpKINode Title="DBItemValuesList.MaxCapacity プロパティ" Url="html/P_WodiLib_Database_DBItemValuesList_MaxCapacity.htm" />
   <HelpKINode Title="DBItemValuesList.MinCapacity プロパティ" Url="html/P_WodiLib_Database_DBItemValuesList_MinCapacity.htm" />
+  <HelpKINode Title="DBItemValuesList.MoveField メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_MoveField.htm" />
+  <HelpKINode Title="DBItemValuesList.MoveFieldRange メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_MoveFieldRange.htm" />
   <HelpKINode Title="DBItemValuesList.MoveItem メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_MoveItem.htm" />
   <HelpKINode Title="DBItemValuesList.RemoveFieldAt メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_RemoveFieldAt.htm" />
-  <HelpKINode Title="DBItemValuesList.RemoveFieldHandlerList プロパティ" Url="html/P_WodiLib_Database_DBItemValuesList_RemoveFieldHandlerList.htm" />
   <HelpKINode Title="DBItemValuesList.RemoveFieldRange メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_RemoveFieldRange.htm" />
   <HelpKINode Title="DBItemValuesList.RemoveItem メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_RemoveItem.htm" />
   <HelpKINode Title="DBItemValuesList.SetField メソッド" Url="html/Overload_WodiLib_Database_DBItemValuesList_SetField.htm" />
-  <HelpKINode Title="DBItemValuesList.SetFieldHandlerList プロパティ" Url="html/P_WodiLib_Database_DBItemValuesList_SetFieldHandlerList.htm" />
   <HelpKINode Title="DBItemValuesList.SetItem メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_SetItem.htm" />
   <HelpKINode Title="DBItemValuesList.ToBinaryDataValues メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_ToBinaryDataValues.htm" />
   <HelpKINode Title="DBItemValuesList.ToBinarySettingList メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_ToBinarySettingList.htm" />
@@ -2923,29 +2884,29 @@
   <HelpKINode Title="DBKind クラス、プロパティ" Url="html/Properties_T_WodiLib_Database_DBKind.htm" />
   <HelpKINode Title="DBKind クラス、メソッド" Url="html/Methods_T_WodiLib_Database_DBKind.htm" />
   <HelpKINode Title="DBKind プロパティ">
-    <HelpKINode Title="DBManagementGetDataName.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetDataName_DBKind.htm" />
-    <HelpKINode Title="DatabaseDat.DBKind プロパティ " Url="html/P_WodiLib_Database_DatabaseDat_DBKind.htm" />
-    <HelpKINode Title="DatabaseProjectFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_DatabaseProjectFilePath_DBKind.htm" />
-    <HelpKINode Title="DatabaseTypeDesc.DBKind プロパティ " Url="html/P_WodiLib_Database_DatabaseTypeDesc_DBKind.htm" />
-    <HelpKINode Title="DBManagementOutput.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementOutput_DBKind.htm" />
-    <HelpKINode Title="UserDatabaseDatFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_UserDatabaseDatFilePath_DBKind.htm" />
     <HelpKINode Title="ChangeableDatabaseDatFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_ChangeableDatabaseDatFilePath_DBKind.htm" />
     <HelpKINode Title="ChangeableDatabaseProjectFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_ChangeableDatabaseProjectFilePath_DBKind.htm" />
-    <HelpKINode Title="CsvIO.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_CsvIO_DBKind.htm" />
     <HelpKINode Title="DatabaseDatFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_DatabaseDatFilePath_DBKind.htm" />
-    <HelpKINode Title="DatabaseProject.DBKind プロパティ " Url="html/P_WodiLib_Database_DatabaseProject_DBKind.htm" />
+    <HelpKINode Title="DatabaseProjectFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_DatabaseProjectFilePath_DBKind.htm" />
     <HelpKINode Title="DBDataSetting.DBKind プロパティ " Url="html/P_WodiLib_Database_DBDataSetting_DBKind.htm" />
     <HelpKINode Title="DBManagementGetDataId.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetDataId_DBKind.htm" />
     <HelpKINode Title="DBManagementGetDataLength.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetDataLength_DBKind.htm" />
+    <HelpKINode Title="DBManagementGetDataName.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetDataName_DBKind.htm" />
     <HelpKINode Title="DBManagementGetItemId.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetItemId_DBKind.htm" />
     <HelpKINode Title="DBManagementGetItemLength.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetItemLength_DBKind.htm" />
     <HelpKINode Title="DBManagementGetItemName.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetItemName_DBKind.htm" />
     <HelpKINode Title="DBManagementGetTypeId.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetTypeId_DBKind.htm" />
-    <HelpKINode Title="DBManagementGetTypeName.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetTypeName_DBKind.htm" />
-    <HelpKINode Title="DBType.DBKind プロパティ " Url="html/P_WodiLib_Database_DBType_DBKind.htm" />
     <HelpKINode Title="SystemDatabaseDatFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_SystemDatabaseDatFilePath_DBKind.htm" />
-    <HelpKINode Title="SystemDatabaseProjectFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_SystemDatabaseProjectFilePath_DBKind.htm" />
+    <HelpKINode Title="UserDatabaseDatFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_UserDatabaseDatFilePath_DBKind.htm" />
     <HelpKINode Title="UserDatabaseProjectFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_UserDatabaseProjectFilePath_DBKind.htm" />
+    <HelpKINode Title="SystemDatabaseProjectFilePath.DBKind プロパティ " Url="html/P_WodiLib_IO_SystemDatabaseProjectFilePath_DBKind.htm" />
+    <HelpKINode Title="CsvIO.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_CsvIO_DBKind.htm" />
+    <HelpKINode Title="DatabaseDat.DBKind プロパティ " Url="html/P_WodiLib_Database_DatabaseDat_DBKind.htm" />
+    <HelpKINode Title="DatabaseProject.DBKind プロパティ " Url="html/P_WodiLib_Database_DatabaseProject_DBKind.htm" />
+    <HelpKINode Title="DatabaseTypeDesc.DBKind プロパティ " Url="html/P_WodiLib_Database_DatabaseTypeDesc_DBKind.htm" />
+    <HelpKINode Title="DBManagementGetTypeName.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementGetTypeName_DBKind.htm" />
+    <HelpKINode Title="DBManagementOutput.DBKind プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementOutput_DBKind.htm" />
+    <HelpKINode Title="DBType.DBKind プロパティ " Url="html/P_WodiLib_Database_DBType_DBKind.htm" />
   </HelpKINode>
   <HelpKINode Title="DbKind プロパティ">
     <HelpKINode Title="CommonEventSentenceResolveDatabaseDesc.DbKind プロパティ " Url="html/P_WodiLib_Project_CommonEventSentenceResolveDatabaseDesc_DbKind.htm" />
@@ -3308,7 +3269,6 @@
   <HelpKINode Title="DBType クラス、フィールド" Url="html/Fields_T_WodiLib_Database_DBType.htm" />
   <HelpKINode Title="DBType クラス、プロパティ" Url="html/Properties_T_WodiLib_Database_DBType.htm" />
   <HelpKINode Title="DBType クラス、メソッド" Url="html/Methods_T_WodiLib_Database_DBType.htm" />
-  <HelpKINode Title="DBType プロパティ" Url="html/P_WodiLib_IO_DBTypeFile_DBType.htm" />
   <HelpKINode Title="DBType.DataDescList プロパティ" Url="html/P_WodiLib_Database_DBType_DataDescList.htm" />
   <HelpKINode Title="DBType.DataSettingType プロパティ" Url="html/P_WodiLib_Database_DBType_DataSettingType.htm" />
   <HelpKINode Title="DBType.DBKind プロパティ" Url="html/P_WodiLib_Database_DBType_DBKind.htm" />
@@ -3325,8 +3285,6 @@
   <HelpKINode Title="DBTypeFile クラス、コンストラクター" Url="html/M_WodiLib_IO_DBTypeFile__ctor.htm" />
   <HelpKINode Title="DBTypeFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_DBTypeFile.htm" />
   <HelpKINode Title="DBTypeFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_DBTypeFile.htm" />
-  <HelpKINode Title="DBTypeFile.CallbackIO メソッド" Url="html/M_WodiLib_IO_DBTypeFile_CallbackIO.htm" />
-  <HelpKINode Title="DBTypeFile.DBType プロパティ" Url="html/P_WodiLib_IO_DBTypeFile_DBType.htm" />
   <HelpKINode Title="DBTypeFile.DBTypeFile コンストラクター" Url="html/M_WodiLib_IO_DBTypeFile__ctor.htm" />
   <HelpKINode Title="DBTypeFile.MakeFileReader メソッド" Url="html/M_WodiLib_IO_DBTypeFile_MakeFileReader.htm" />
   <HelpKINode Title="DBTypeFile.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_DBTypeFile_MakeFileWriter.htm" />
@@ -3378,7 +3336,6 @@
   <HelpKINode Title="DBTypeSet クラス、フィールド" Url="html/Fields_T_WodiLib_Database_DBTypeSet.htm" />
   <HelpKINode Title="DBTypeSet クラス、プロパティ" Url="html/Properties_T_WodiLib_Database_DBTypeSet.htm" />
   <HelpKINode Title="DBTypeSet クラス、メソッド" Url="html/Methods_T_WodiLib_Database_DBTypeSet.htm" />
-  <HelpKINode Title="DBTypeSet プロパティ" Url="html/P_WodiLib_IO_DBTypeSetFile_DBTypeSet.htm" />
   <HelpKINode Title="DBTypeSet.DBTypeSet コンストラクター" Url="html/Overload_WodiLib_Database_DBTypeSet__ctor.htm" />
   <HelpKINode Title="DBTypeSet.Equals メソッド" Url="html/Overload_WodiLib_Database_DBTypeSet_Equals.htm" />
   <HelpKINode Title="DBTypeSet.Header フィールド" Url="html/F_WodiLib_Database_DBTypeSet_Header.htm" />
@@ -3390,8 +3347,6 @@
   <HelpKINode Title="DBTypeSetFile クラス、コンストラクター" Url="html/M_WodiLib_IO_DBTypeSetFile__ctor.htm" />
   <HelpKINode Title="DBTypeSetFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_DBTypeSetFile.htm" />
   <HelpKINode Title="DBTypeSetFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_DBTypeSetFile.htm" />
-  <HelpKINode Title="DBTypeSetFile.CallbackIO メソッド" Url="html/M_WodiLib_IO_DBTypeSetFile_CallbackIO.htm" />
-  <HelpKINode Title="DBTypeSetFile.DBTypeSet プロパティ" Url="html/P_WodiLib_IO_DBTypeSetFile_DBTypeSet.htm" />
   <HelpKINode Title="DBTypeSetFile.DBTypeSetFile コンストラクター" Url="html/M_WodiLib_IO_DBTypeSetFile__ctor.htm" />
   <HelpKINode Title="DBTypeSetFile.MakeFileReader メソッド" Url="html/M_WodiLib_IO_DBTypeSetFile_MakeFileReader.htm" />
   <HelpKINode Title="DBTypeSetFile.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_DBTypeSetFile_MakeFileWriter.htm" />
@@ -3480,6 +3435,7 @@
   <HelpKINode Title="DBValueString.Inequality 演算子" Url="html/M_WodiLib_Database_DBValueString_op_Inequality.htm" />
   <HelpKINode Title="DBValueString.ToString メソッド" Url="html/M_WodiLib_Database_DBValueString_ToString.htm" />
   <HelpKINode Title="DBValueString.ToWoditorStringBytes メソッド" Url="html/M_WodiLib_Database_DBValueString_ToWoditorStringBytes.htm" />
+  <HelpKINode Title="Debug メソッド" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_Debug.htm" />
   <HelpKINode Title="DebugText クラス" Url="html/T_WodiLib_Event_EventCommand_DebugText.htm" />
   <HelpKINode Title="DebugText クラス、イベント" Url="html/Events_T_WodiLib_Event_EventCommand_DebugText.htm" />
   <HelpKINode Title="DebugText クラス、コンストラクター" Url="html/M_WodiLib_Event_EventCommand_DebugText__ctor.htm" />
@@ -3503,7 +3459,10 @@
     <HelpKINode Title="EventCommandColor.DeepRed フィールド" Url="html/F_WodiLib_Project_EventCommandColor_DeepRed.htm" />
     <HelpKINode Title="EventCommandColorSet.DeepRed フィールド" Url="html/F_WodiLib_Project_EventCommandColorSet_DeepRed.htm" />
   </HelpKINode>
-  <HelpKINode Title="Default フィールド" Url="html/F_WodiLib_Event_CriteriaOperator_Default.htm" />
+  <HelpKINode Title="Default フィールド">
+    <HelpKINode Title="CriteriaOperator.Default フィールド" Url="html/F_WodiLib_Event_CriteriaOperator_Default.htm" />
+    <HelpKINode Title="WodiLibLogHandler.Default フィールド" Url="html/F_WodiLib_Sys_Cmn_WodiLibLogHandler_Default.htm" />
+  </HelpKINode>
   <HelpKINode Title="Default プロパティ">
     <HelpKINode Title="MapChip.Default プロパティ " Url="html/P_WodiLib_Map_MapChip_Default.htm" />
     <HelpKINode Title="WoditorVersion.Default プロパティ " Url="html/P_WodiLib_Sys_WoditorVersion_Default.htm" />
@@ -3679,6 +3638,12 @@
     <HelpKINode Title="PictureMove.DrawTypeStr プロパティ " Url="html/P_WodiLib_Event_EventCommand_PictureMove_DrawTypeStr.htm" />
     <HelpKINode Title="PictureShowBase.DrawTypeStr プロパティ " Url="html/P_WodiLib_Event_EventCommand_PictureShowBase_DrawTypeStr.htm" />
   </HelpKINode>
+  <HelpKINode Title="DuplicateEnumException クラス" Url="html/T_WodiLib_Sys_DuplicateEnumException.htm" />
+  <HelpKINode Title="DuplicateEnumException クラス、イベント" Url="html/Events_T_WodiLib_Sys_DuplicateEnumException.htm" />
+  <HelpKINode Title="DuplicateEnumException クラス、コンストラクター" Url="html/M_WodiLib_Sys_DuplicateEnumException__ctor.htm" />
+  <HelpKINode Title="DuplicateEnumException クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_DuplicateEnumException.htm" />
+  <HelpKINode Title="DuplicateEnumException クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_DuplicateEnumException.htm" />
+  <HelpKINode Title="DuplicateEnumException.DuplicateEnumException コンストラクター" Url="html/M_WodiLib_Sys_DuplicateEnumException__ctor.htm" />
   <HelpKINode Title="Duration プロパティ">
     <HelpKINode Title="MapEffectShake.Duration プロパティ " Url="html/P_WodiLib_Event_EventCommand_MapEffectShake_Duration.htm" />
     <HelpKINode Title="MapEffectZoom.Duration プロパティ " Url="html/P_WodiLib_Event_EventCommand_MapEffectZoom_Duration.htm" />
@@ -3690,7 +3655,6 @@
   <HelpKINode Title="EditorIniData クラス、コンストラクター" Url="html/Overload_WodiLib_Ini_EditorIniData__ctor.htm" />
   <HelpKINode Title="EditorIniData クラス、プロパティ" Url="html/Properties_T_WodiLib_Ini_EditorIniData.htm" />
   <HelpKINode Title="EditorIniData クラス、メソッド" Url="html/Methods_T_WodiLib_Ini_EditorIniData.htm" />
-  <HelpKINode Title="EditorIniData プロパティ" Url="html/P_WodiLib_IO_EditorIniFile_EditorIniData.htm" />
   <HelpKINode Title="EditorIniData.BackupType プロパティ" Url="html/P_WodiLib_Ini_EditorIniData_BackupType.htm" />
   <HelpKINode Title="EditorIniData.ChangeableDbWindowPosition プロパティ" Url="html/P_WodiLib_Ini_EditorIniData_ChangeableDbWindowPosition.htm" />
   <HelpKINode Title="EditorIniData.CommandColorType プロパティ" Url="html/P_WodiLib_Ini_EditorIniData_CommandColorType.htm" />
@@ -3728,8 +3692,6 @@
   <HelpKINode Title="EditorIniFile クラス、コンストラクター" Url="html/M_WodiLib_IO_EditorIniFile__ctor.htm" />
   <HelpKINode Title="EditorIniFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_EditorIniFile.htm" />
   <HelpKINode Title="EditorIniFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_EditorIniFile.htm" />
-  <HelpKINode Title="EditorIniFile.CallbackIO メソッド" Url="html/M_WodiLib_IO_EditorIniFile_CallbackIO.htm" />
-  <HelpKINode Title="EditorIniFile.EditorIniData プロパティ" Url="html/P_WodiLib_IO_EditorIniFile_EditorIniData.htm" />
   <HelpKINode Title="EditorIniFile.EditorIniFile コンストラクター" Url="html/M_WodiLib_IO_EditorIniFile__ctor.htm" />
   <HelpKINode Title="EditorIniFile.MakeFileReader メソッド" Url="html/M_WodiLib_IO_EditorIniFile_MakeFileReader.htm" />
   <HelpKINode Title="EditorIniFile.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_EditorIniFile_MakeFileWriter.htm" />
@@ -3791,7 +3753,6 @@
     <HelpKINode Title="InfoAddressInfoType.Empty フィールド" Url="html/F_WodiLib_Cmn_InfoAddressInfoType_Empty.htm" />
     <HelpKINode Title="ProxyPort.Empty フィールド" Url="html/F_WodiLib_Ini_ProxyPort_Empty.htm" />
   </HelpKINode>
-  <HelpKINode Title="Enabled プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollectionHandler_1_Enabled.htm" />
   <HelpKINode Title="EndBlockCode プロパティ" Url="html/P_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_EndBlockCode.htm" />
   <HelpKINode Title="EndBranch メソッド" Url="html/M_WodiLib_Project_EventCommandSentenceResolveDesc_EndBranch.htm" />
   <HelpKINode Title="EndEventCommand フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandList_EndEventCommand.htm" />
@@ -3928,6 +3889,7 @@
     <HelpKINode Title="TileTagNumber.Equality 演算子 " Url="html/M_WodiLib_Map_TileTagNumber_op_Equality.htm" />
     <HelpKINode Title="TypeId.Equality 演算子 " Url="html/M_WodiLib_Database_TypeId_op_Equality.htm" />
     <HelpKINode Title="TypeName.Equality 演算子 " Url="html/M_WodiLib_Database_TypeName_op_Equality.htm" />
+    <HelpKINode Title="TypeSafeEnum(T).Equality 演算子 " Url="html/M_WodiLib_Sys_TypeSafeEnum_1_op_Equality.htm" />
     <HelpKINode Title="UserDatabaseAddress.Equality 演算子 " Url="html/Overload_WodiLib_Cmn_UserDatabaseAddress_op_Equality.htm" />
     <HelpKINode Title="UserDatabaseDatFilePath.Equality 演算子 " Url="html/M_WodiLib_IO_UserDatabaseDatFilePath_op_Equality.htm" />
     <HelpKINode Title="UserDatabaseProjectFilePath.Equality 演算子 " Url="html/M_WodiLib_IO_UserDatabaseProjectFilePath_op_Equality.htm" />
@@ -4104,6 +4066,7 @@
     <HelpKINode Title="TileTagNumberList.Equals メソッド " Url="html/Overload_WodiLib_Map_TileTagNumberList_Equals.htm" />
     <HelpKINode Title="TypeId.Equals メソッド " Url="html/Overload_WodiLib_Database_TypeId_Equals.htm" />
     <HelpKINode Title="TypeName.Equals メソッド " Url="html/Overload_WodiLib_Database_TypeName_Equals.htm" />
+    <HelpKINode Title="TypeSafeEnum(T).Equals メソッド " Url="html/Overload_WodiLib_Sys_TypeSafeEnum_1_Equals.htm" />
     <HelpKINode Title="UserDatabaseAddress.Equals メソッド " Url="html/Overload_WodiLib_Cmn_UserDatabaseAddress_Equals.htm" />
     <HelpKINode Title="UserDatabaseDatFilePath.Equals メソッド " Url="html/Overload_WodiLib_IO_UserDatabaseDatFilePath_Equals.htm" />
     <HelpKINode Title="UserDatabaseProjectFilePath.Equals メソッド " Url="html/Overload_WodiLib_IO_UserDatabaseProjectFilePath_Equals.htm" />
@@ -4135,6 +4098,7 @@
   <HelpKINode Title="EraseEvent.SetSafetyStringVariable メソッド" Url="html/M_WodiLib_Event_EventCommand_EraseEvent_SetSafetyStringVariable.htm" />
   <HelpKINode Title="EraseEvent.StringVariableCount プロパティ" Url="html/P_WodiLib_Event_EventCommand_EraseEvent_StringVariableCount.htm" />
   <HelpKINode Title="EraseEvent.Target プロパティ" Url="html/P_WodiLib_Event_EventCommand_EraseEvent_Target.htm" />
+  <HelpKINode Title="Error メソッド" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_Error.htm" />
   <HelpKINode Title="Etc フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_SetVariablePlus_ExecCode_Etc.htm" />
   <HelpKINode Title="EventCommandBase クラス" Url="html/T_WodiLib_Event_EventCommand_EventCommandBase.htm" />
   <HelpKINode Title="EventCommandBase クラス、イベント" Url="html/Events_T_WodiLib_Event_EventCommand_EventCommandBase.htm" />
@@ -4160,7 +4124,6 @@
   <HelpKINode Title="EventCommandBase.GetStringVariable メソッド" Url="html/M_WodiLib_Event_EventCommand_EventCommandBase_GetStringVariable.htm" />
   <HelpKINode Title="EventCommandBase.HasActionEntry プロパティ" Url="html/P_WodiLib_Event_EventCommand_EventCommandBase_HasActionEntry.htm" />
   <HelpKINode Title="EventCommandBase.Indent プロパティ" Url="html/P_WodiLib_Event_EventCommand_EventCommandBase_Indent.htm" />
-  <HelpKINode Title="EventCommandBase.Logger プロパティ" Url="html/P_WodiLib_Event_EventCommand_EventCommandBase_Logger.htm" />
   <HelpKINode Title="EventCommandBase.MakeEventCommandMainSentence メソッド" Url="html/M_WodiLib_Event_EventCommand_EventCommandBase_MakeEventCommandMainSentence.htm" />
   <HelpKINode Title="EventCommandBase.NumberArgsLengthMax プロパティ" Url="html/P_WodiLib_Event_EventCommand_EventCommandBase_NumberArgsLengthMax.htm" />
   <HelpKINode Title="EventCommandBase.NumberArgsLengthMin プロパティ" Url="html/P_WodiLib_Event_EventCommand_EventCommandBase_NumberArgsLengthMin.htm" />
@@ -4178,6 +4141,7 @@
   <HelpKINode Title="EventCommandBase.StringVariableCountMin プロパティ" Url="html/P_WodiLib_Event_EventCommand_EventCommandBase_StringVariableCountMin.htm" />
   <HelpKINode Title="EventCommandBase.ToBinary メソッド" Url="html/M_WodiLib_Event_EventCommand_EventCommandBase_ToBinary.htm" />
   <HelpKINode Title="EventCommandBase.ToEventCodeString メソッド" Url="html/M_WodiLib_Event_EventCommand_EventCommandBase_ToEventCodeString.htm" />
+  <HelpKINode Title="EventCommandBase.WodiLibLogger プロパティ" Url="html/P_WodiLib_Event_EventCommand_EventCommandBase_WodiLibLogger.htm" />
   <HelpKINode Title="EventCommandCode クラス" Url="html/T_WodiLib_Event_EventCommand_EventCommandCode.htm" />
   <HelpKINode Title="EventCommandCode クラス、フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandCode.htm" />
   <HelpKINode Title="EventCommandCode クラス、プロパティ" Url="html/Properties_T_WodiLib_Event_EventCommand_EventCommandCode.htm" />
@@ -4767,6 +4731,7 @@
   <HelpKINode Title="EventCommandShortCutKeyList クラス、コンストラクター" Url="html/Overload_WodiLib_Ini_EventCommandShortCutKeyList__ctor.htm" />
   <HelpKINode Title="EventCommandShortCutKeyList クラス、プロパティ" Url="html/Properties_T_WodiLib_Ini_EventCommandShortCutKeyList.htm" />
   <HelpKINode Title="EventCommandShortCutKeyList クラス、メソッド" Url="html/Methods_T_WodiLib_Ini_EventCommandShortCutKeyList.htm" />
+  <HelpKINode Title="EventCommandShortCutKeyList.Capacity プロパティ" Url="html/P_WodiLib_Ini_EventCommandShortCutKeyList_Capacity.htm" />
   <HelpKINode Title="EventCommandShortCutKeyList.Choice プロパティ" Url="html/P_WodiLib_Ini_EventCommandShortCutKeyList_Choice.htm" />
   <HelpKINode Title="EventCommandShortCutKeyList.CommonEvent プロパティ" Url="html/P_WodiLib_Ini_EventCommandShortCutKeyList_CommonEvent.htm" />
   <HelpKINode Title="EventCommandShortCutKeyList.ConditionNumber プロパティ" Url="html/P_WodiLib_Ini_EventCommandShortCutKeyList_ConditionNumber.htm" />
@@ -4777,6 +4742,7 @@
   <HelpKINode Title="EventCommandShortCutKeyList.Equals メソッド" Url="html/Overload_WodiLib_Ini_EventCommandShortCutKeyList_Equals.htm" />
   <HelpKINode Title="EventCommandShortCutKeyList.EventCommandShortCutKeyList コンストラクター" Url="html/Overload_WodiLib_Ini_EventCommandShortCutKeyList__ctor.htm" />
   <HelpKINode Title="EventCommandShortCutKeyList.EventControl プロパティ" Url="html/P_WodiLib_Ini_EventCommandShortCutKeyList_EventControl.htm" />
+  <HelpKINode Title="EventCommandShortCutKeyList.GetCapacity メソッド" Url="html/M_WodiLib_Ini_EventCommandShortCutKeyList_GetCapacity.htm" />
   <HelpKINode Title="EventCommandShortCutKeyList.GetMaxCapacity メソッド" Url="html/M_WodiLib_Ini_EventCommandShortCutKeyList_GetMaxCapacity.htm" />
   <HelpKINode Title="EventCommandShortCutKeyList.GetMinCapacity メソッド" Url="html/M_WodiLib_Ini_EventCommandShortCutKeyList_GetMinCapacity.htm" />
   <HelpKINode Title="EventCommandShortCutKeyList.GetObjectData メソッド" Url="html/M_WodiLib_Ini_EventCommandShortCutKeyList_GetObjectData.htm" />
@@ -4855,11 +4821,11 @@
     <HelpKINode Title="MapEvent.EventName プロパティ " Url="html/P_WodiLib_Map_MapEvent_EventName.htm" />
   </HelpKINode>
   <HelpKINode Title="ExecCode クラス、フィールド">
-    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PictureShow_ExecCode.htm" />
-    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SetVariablePlus_ExecCode.htm" />
-    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PartyGraphic_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SaveLoad_ExecCode.htm" />
+    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PictureShow_ExecCode.htm" />
     <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_Sound_ExecCode.htm" />
+    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_PartyGraphic_ExecCode.htm" />
+    <HelpKINode Title="ExecCode フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_SetVariablePlus_ExecCode.htm" />
   </HelpKINode>
   <HelpKINode Title="ExecCode プロパティ">
     <HelpKINode Title="PartyGraphicBase.ExecCode プロパティ " Url="html/P_WodiLib_Event_EventCommand_PartyGraphicBase_ExecCode.htm" />
@@ -4882,7 +4848,6 @@
     <HelpKINode Title="SoundReleaseAll.ExecCode プロパティ " Url="html/P_WodiLib_Event_EventCommand_SoundReleaseAll_ExecCode.htm" />
     <HelpKINode Title="SoundReleaseManual.ExecCode プロパティ " Url="html/P_WodiLib_Event_EventCommand_SoundReleaseManual_ExecCode.htm" />
   </HelpKINode>
-  <HelpKINode Title="Execute メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_Execute.htm" />
   <HelpKINode Title="ExecutionTransition クラス" Url="html/T_WodiLib_Event_EventCommand_ExecutionTransition.htm" />
   <HelpKINode Title="ExecutionTransition クラス、イベント" Url="html/Events_T_WodiLib_Event_EventCommand_ExecutionTransition.htm" />
   <HelpKINode Title="ExecutionTransition クラス、コンストラクター" Url="html/M_WodiLib_Event_EventCommand_ExecutionTransition__ctor.htm" />
@@ -5007,7 +4972,6 @@
   <HelpKINode Title="FixedLengthList(Of T) クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_FixedLengthList_1.htm" />
   <HelpKINode Title="FixedLengthList(Of T).All メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_All.htm" />
   <HelpKINode Title="FixedLengthList(Of T).Clear メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_Clear.htm" />
-  <HelpKINode Title="FixedLengthList(Of T).ClearItemHandlerList プロパティ" Url="html/P_WodiLib_Sys_FixedLengthList_1_ClearItemHandlerList.htm" />
   <HelpKINode Title="FixedLengthList(Of T).ClearItems メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_ClearItems.htm" />
   <HelpKINode Title="FixedLengthList(Of T).CollectionChanged イベント" Url="html/E_WodiLib_Sys_FixedLengthList_1_CollectionChanged.htm" />
   <HelpKINode Title="FixedLengthList(Of T).Contains メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_Contains.htm" />
@@ -5028,7 +4992,6 @@
   <HelpKINode Title="FixedLengthList(Of T).MoveItem メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_MoveItem.htm" />
   <HelpKINode Title="FixedLengthList(Of T).MoveRange メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_MoveRange.htm" />
   <HelpKINode Title="FixedLengthList(Of T).SetItem メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_SetItem.htm" />
-  <HelpKINode Title="FixedLengthList(Of T).SetItemHandlerList プロパティ" Url="html/P_WodiLib_Sys_FixedLengthList_1_SetItemHandlerList.htm" />
   <HelpKINode Title="FixedLengthList(Of T).ValidateDefaultItem メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_ValidateDefaultItem.htm" />
   <HelpKINode Title="FixedLengthList&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_FixedLengthList_1.htm" />
   <HelpKINode Title="FixedLengthList&lt;T&gt; クラス、イベント" Url="html/Events_T_WodiLib_Sys_FixedLengthList_1.htm" />
@@ -5037,7 +5000,6 @@
   <HelpKINode Title="FixedLengthList&lt;T&gt; クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_FixedLengthList_1.htm" />
   <HelpKINode Title="FixedLengthList&lt;T&gt;.All メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_All.htm" />
   <HelpKINode Title="FixedLengthList&lt;T&gt;.Clear メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_Clear.htm" />
-  <HelpKINode Title="FixedLengthList&lt;T&gt;.ClearItemHandlerList プロパティ" Url="html/P_WodiLib_Sys_FixedLengthList_1_ClearItemHandlerList.htm" />
   <HelpKINode Title="FixedLengthList&lt;T&gt;.ClearItems メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_ClearItems.htm" />
   <HelpKINode Title="FixedLengthList&lt;T&gt;.CollectionChanged イベント" Url="html/E_WodiLib_Sys_FixedLengthList_1_CollectionChanged.htm" />
   <HelpKINode Title="FixedLengthList&lt;T&gt;.Contains メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_Contains.htm" />
@@ -5058,7 +5020,6 @@
   <HelpKINode Title="FixedLengthList&lt;T&gt;.MoveItem メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_MoveItem.htm" />
   <HelpKINode Title="FixedLengthList&lt;T&gt;.MoveRange メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_MoveRange.htm" />
   <HelpKINode Title="FixedLengthList&lt;T&gt;.SetItem メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_SetItem.htm" />
-  <HelpKINode Title="FixedLengthList&lt;T&gt;.SetItemHandlerList プロパティ" Url="html/P_WodiLib_Sys_FixedLengthList_1_SetItemHandlerList.htm" />
   <HelpKINode Title="FixedLengthList&lt;T&gt;.ValidateDefaultItem メソッド" Url="html/M_WodiLib_Sys_FixedLengthList_1_ValidateDefaultItem.htm" />
   <HelpKINode Title="FlgAboveHero フィールド" Url="html/F_WodiLib_Map_MapEventPageOption_FlgAboveHero.htm" />
   <HelpKINode Title="FlgFixedDirection フィールド" Url="html/F_WodiLib_Map_MapEventPageOption_FlgFixedDirection.htm" />
@@ -5301,7 +5262,6 @@
   <HelpKINode Title="GameIniData クラス、コンストラクター" Url="html/Overload_WodiLib_Ini_GameIniData__ctor.htm" />
   <HelpKINode Title="GameIniData クラス、プロパティ" Url="html/Properties_T_WodiLib_Ini_GameIniData.htm" />
   <HelpKINode Title="GameIniData クラス、メソッド" Url="html/Methods_T_WodiLib_Ini_GameIniData.htm" />
-  <HelpKINode Title="GameIniData プロパティ" Url="html/P_WodiLib_IO_GameIniFile_GameIniData.htm" />
   <HelpKINode Title="GameIniData.CanReset プロパティ" Url="html/P_WodiLib_Ini_GameIniData_CanReset.htm" />
   <HelpKINode Title="GameIniData.CanTakeScreenShot プロパティ" Url="html/P_WodiLib_Ini_GameIniData_CanTakeScreenShot.htm" />
   <HelpKINode Title="GameIniData.DisplayNumber プロパティ" Url="html/P_WodiLib_Ini_GameIniData_DisplayNumber.htm" />
@@ -5321,8 +5281,6 @@
   <HelpKINode Title="GameIniFile クラス、コンストラクター" Url="html/M_WodiLib_IO_GameIniFile__ctor.htm" />
   <HelpKINode Title="GameIniFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_GameIniFile.htm" />
   <HelpKINode Title="GameIniFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_GameIniFile.htm" />
-  <HelpKINode Title="GameIniFile.CallbackIO メソッド" Url="html/M_WodiLib_IO_GameIniFile_CallbackIO.htm" />
-  <HelpKINode Title="GameIniFile.GameIniData プロパティ" Url="html/P_WodiLib_IO_GameIniFile_GameIniData.htm" />
   <HelpKINode Title="GameIniFile.GameIniFile コンストラクター" Url="html/M_WodiLib_IO_GameIniFile__ctor.htm" />
   <HelpKINode Title="GameIniFile.MakeFileReader メソッド" Url="html/M_WodiLib_IO_GameIniFile_MakeFileReader.htm" />
   <HelpKINode Title="GameIniFile.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_GameIniFile_MakeFileWriter.htm" />
@@ -5388,12 +5346,15 @@
     <HelpKINode Title="ICommonEventSpecialArgDesc.GetAllSpecialCaseNumber メソッド " Url="html/M_WodiLib_Common_ICommonEventSpecialArgDesc_GetAllSpecialCaseNumber.htm" />
   </HelpKINode>
   <HelpKINode Title="GetCapacity メソッド">
+    <HelpKINode Title="AutoTileFileNameList.GetCapacity メソッド " Url="html/M_WodiLib_Map_AutoTileFileNameList_GetCapacity.htm" />
     <HelpKINode Title="ChoiceCaseList.GetCapacity メソッド " Url="html/M_WodiLib_Event_EventCommand_ChoiceCaseList_GetCapacity.htm" />
     <HelpKINode Title="CommonEventSelfVariableNameList.GetCapacity メソッド " Url="html/M_WodiLib_Common_CommonEventSelfVariableNameList_GetCapacity.htm" />
     <HelpKINode Title="CommonEventSpecialNumberArgDescList.GetCapacity メソッド " Url="html/M_WodiLib_Common_CommonEventSpecialNumberArgDescList_GetCapacity.htm" />
     <HelpKINode Title="CommonEventSpecialStringArgDescList.GetCapacity メソッド " Url="html/M_WodiLib_Common_CommonEventSpecialStringArgDescList_GetCapacity.htm" />
     <HelpKINode Title="ConditionStringList.GetCapacity メソッド " Url="html/M_WodiLib_Event_EventCommand_ConditionStringList_GetCapacity.htm" />
+    <HelpKINode Title="EventCommandShortCutKeyList.GetCapacity メソッド " Url="html/M_WodiLib_Ini_EventCommandShortCutKeyList_GetCapacity.htm" />
     <HelpKINode Title="FixedLengthList(T).GetCapacity メソッド " Url="html/M_WodiLib_Sys_FixedLengthList_1_GetCapacity.htm" />
+    <HelpKINode Title="ShortCutPositionList.GetCapacity メソッド " Url="html/M_WodiLib_Ini_ShortCutPositionList_GetCapacity.htm" />
   </HelpKINode>
   <HelpKINode Title="GetCase メソッド" Url="html/M_WodiLib_Project_EventCommandSentenceResolveDesc_GetCase.htm" />
   <HelpKINode Title="GetCharacterName メソッド">
@@ -5655,6 +5616,7 @@
     <HelpKINode Title="TileTagNumber.GetHashCode メソッド " Url="html/M_WodiLib_Map_TileTagNumber_GetHashCode.htm" />
     <HelpKINode Title="TypeId.GetHashCode メソッド " Url="html/M_WodiLib_Database_TypeId_GetHashCode.htm" />
     <HelpKINode Title="TypeName.GetHashCode メソッド " Url="html/M_WodiLib_Database_TypeName_GetHashCode.htm" />
+    <HelpKINode Title="TypeSafeEnum(T).GetHashCode メソッド " Url="html/M_WodiLib_Sys_TypeSafeEnum_1_GetHashCode.htm" />
     <HelpKINode Title="UserDatabaseAddress.GetHashCode メソッド " Url="html/M_WodiLib_Cmn_UserDatabaseAddress_GetHashCode.htm" />
     <HelpKINode Title="UserDatabaseDatFilePath.GetHashCode メソッド " Url="html/M_WodiLib_IO_UserDatabaseDatFilePath_GetHashCode.htm" />
     <HelpKINode Title="UserDatabaseProjectFilePath.GetHashCode メソッド " Url="html/M_WodiLib_IO_UserDatabaseProjectFilePath_GetHashCode.htm" />
@@ -5663,6 +5625,7 @@
     <HelpKINode Title="WindowSize.GetHashCode メソッド " Url="html/M_WodiLib_Ini_WindowSize_GetHashCode.htm" />
     <HelpKINode Title="WorkTime.GetHashCode メソッド " Url="html/M_WodiLib_Ini_WorkTime_GetHashCode.htm" />
   </HelpKINode>
+  <HelpKINode Title="GetInstance メソッド" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_GetInstance.htm" />
   <HelpKINode Title="GetItemLength クラス、フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_DBManagement_IdSet_GetItemLength.htm" />
   <HelpKINode Title="GetItemValue メソッド">
     <HelpKINode Title="DatabaseMergedData.GetItemValue メソッド " Url="html/M_WodiLib_Database_DatabaseMergedData_GetItemValue.htm" />
@@ -6064,12 +6027,6 @@
   <HelpKINode Title="HaltNonPictureUpdate.SetSafetyNumberVariable メソッド" Url="html/M_WodiLib_Event_EventCommand_HaltNonPictureUpdate_SetSafetyNumberVariable.htm" />
   <HelpKINode Title="HaltNonPictureUpdate.SetSafetyStringVariable メソッド" Url="html/M_WodiLib_Event_EventCommand_HaltNonPictureUpdate_SetSafetyStringVariable.htm" />
   <HelpKINode Title="HaltNonPictureUpdate.StringVariableCount プロパティ" Url="html/P_WodiLib_Event_EventCommand_HaltNonPictureUpdate_StringVariableCount.htm" />
-  <HelpKINode Title="Handler プロパティ">
-    <HelpKINode Title="OnClearItemHandler(T).Handler プロパティ " Url="html/P_WodiLib_Sys_OnClearItemHandler_1_Handler.htm" />
-    <HelpKINode Title="OnInsertItemHandler(T).Handler プロパティ " Url="html/P_WodiLib_Sys_OnInsertItemHandler_1_Handler.htm" />
-    <HelpKINode Title="OnRemoveItemHandler(T).Handler プロパティ " Url="html/P_WodiLib_Sys_OnRemoveItemHandler_1_Handler.htm" />
-    <HelpKINode Title="OnSetItemHandler(T).Handler プロパティ " Url="html/P_WodiLib_Sys_OnSetItemHandler_1_Handler.htm" />
-  </HelpKINode>
   <HelpKINode Title="HasActionEntry プロパティ">
     <HelpKINode Title="EventCommandBase.HasActionEntry プロパティ " Url="html/P_WodiLib_Event_EventCommand_EventCommandBase_HasActionEntry.htm" />
     <HelpKINode Title="IEventCommand.HasActionEntry プロパティ " Url="html/P_WodiLib_Event_EventCommand_IEventCommand_HasActionEntry.htm" />
@@ -6187,13 +6144,25 @@
   <HelpKINode Title="ICommonEventSpecialArgDesc.GetAllSpecialCaseDescription メソッド" Url="html/M_WodiLib_Common_ICommonEventSpecialArgDesc_GetAllSpecialCaseDescription.htm" />
   <HelpKINode Title="ICommonEventSpecialArgDesc.GetAllSpecialCaseNumber メソッド" Url="html/M_WodiLib_Common_ICommonEventSpecialArgDesc_GetAllSpecialCaseNumber.htm" />
   <HelpKINode Title="ICommonEventSpecialArgDesc.InitValue プロパティ" Url="html/P_WodiLib_Common_ICommonEventSpecialArgDesc_InitValue.htm" />
+  <HelpKINode Title="IConvertibleByte インターフェイス" Url="html/T_WodiLib_Sys_IConvertibleByte.htm" />
+  <HelpKINode Title="IConvertibleByte インターフェイス、メソッド" Url="html/Methods_T_WodiLib_Sys_IConvertibleByte.htm" />
+  <HelpKINode Title="IConvertibleByte.ToByte メソッド" Url="html/M_WodiLib_Sys_IConvertibleByte_ToByte.htm" />
   <HelpKINode Title="IConvertibleDBValueInt インターフェイス" Url="html/T_WodiLib_Database_IConvertibleDBValueInt.htm" />
   <HelpKINode Title="IConvertibleDBValueInt インターフェイス、メソッド" Url="html/Methods_T_WodiLib_Database_IConvertibleDBValueInt.htm" />
   <HelpKINode Title="IConvertibleDBValueInt.ToDBValueInt メソッド" Url="html/M_WodiLib_Database_IConvertibleDBValueInt_ToDBValueInt.htm" />
   <HelpKINode Title="IConvertibleDBValueString インターフェイス" Url="html/T_WodiLib_Database_IConvertibleDBValueString.htm" />
   <HelpKINode Title="IConvertibleDBValueString インターフェイス、メソッド" Url="html/Methods_T_WodiLib_Database_IConvertibleDBValueString.htm" />
   <HelpKINode Title="IConvertibleDBValueString.ToDBValueString メソッド" Url="html/M_WodiLib_Database_IConvertibleDBValueString_ToDBValueString.htm" />
-  <HelpKINode Title="Id プロパティ" Url="html/P_WodiLib_Common_CommonEvent_Id.htm" />
+  <HelpKINode Title="IConvertibleInt インターフェイス" Url="html/T_WodiLib_Sys_IConvertibleInt.htm" />
+  <HelpKINode Title="IConvertibleInt インターフェイス、メソッド" Url="html/Methods_T_WodiLib_Sys_IConvertibleInt.htm" />
+  <HelpKINode Title="IConvertibleInt.ToInt メソッド" Url="html/M_WodiLib_Sys_IConvertibleInt_ToInt.htm" />
+  <HelpKINode Title="IConvertibleSByte インターフェイス" Url="html/T_WodiLib_Sys_IConvertibleSByte.htm" />
+  <HelpKINode Title="IConvertibleSByte インターフェイス、メソッド" Url="html/Methods_T_WodiLib_Sys_IConvertibleSByte.htm" />
+  <HelpKINode Title="IConvertibleSByte.ToSByte メソッド" Url="html/M_WodiLib_Sys_IConvertibleSByte_ToSByte.htm" />
+  <HelpKINode Title="Id プロパティ">
+    <HelpKINode Title="CommonEvent.Id プロパティ " Url="html/P_WodiLib_Common_CommonEvent_Id.htm" />
+    <HelpKINode Title="TypeSafeEnum(T).Id プロパティ " Url="html/P_WodiLib_Sys_TypeSafeEnum_1_Id.htm" />
+  </HelpKINode>
   <HelpKINode Title="IEventCommand インターフェイス" Url="html/T_WodiLib_Event_EventCommand_IEventCommand.htm" />
   <HelpKINode Title="IEventCommand インターフェイス、プロパティ" Url="html/Properties_T_WodiLib_Event_EventCommand_IEventCommand.htm" />
   <HelpKINode Title="IEventCommand インターフェイス、メソッド" Url="html/Methods_T_WodiLib_Event_EventCommand_IEventCommand.htm" />
@@ -6417,6 +6386,7 @@
     <HelpKINode Title="TileTagNumber.Inequality 演算子 " Url="html/M_WodiLib_Map_TileTagNumber_op_Inequality.htm" />
     <HelpKINode Title="TypeId.Inequality 演算子 " Url="html/M_WodiLib_Database_TypeId_op_Inequality.htm" />
     <HelpKINode Title="TypeName.Inequality 演算子 " Url="html/M_WodiLib_Database_TypeName_op_Inequality.htm" />
+    <HelpKINode Title="TypeSafeEnum(T).Inequality 演算子 " Url="html/M_WodiLib_Sys_TypeSafeEnum_1_op_Inequality.htm" />
     <HelpKINode Title="UserDatabaseAddress.Inequality 演算子 " Url="html/Overload_WodiLib_Cmn_UserDatabaseAddress_op_Inequality.htm" />
     <HelpKINode Title="UserDatabaseDatFilePath.Inequality 演算子 " Url="html/M_WodiLib_IO_UserDatabaseDatFilePath_op_Inequality.htm" />
     <HelpKINode Title="UserDatabaseProjectFilePath.Inequality 演算子 " Url="html/M_WodiLib_IO_UserDatabaseProjectFilePath_op_Inequality.htm" />
@@ -6424,6 +6394,7 @@
     <HelpKINode Title="WindowSize.Inequality 演算子 " Url="html/M_WodiLib_Ini_WindowSize_op_Inequality.htm" />
     <HelpKINode Title="WorkTime.Inequality 演算子 " Url="html/M_WodiLib_Ini_WorkTime_op_Inequality.htm" />
   </HelpKINode>
+  <HelpKINode Title="Info メソッド" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_Info.htm" />
   <HelpKINode Title="InfoAddressInfoType クラス" Url="html/T_WodiLib_Cmn_InfoAddressInfoType.htm" />
   <HelpKINode Title="InfoAddressInfoType クラス、フィールド" Url="html/Fields_T_WodiLib_Cmn_InfoAddressInfoType.htm" />
   <HelpKINode Title="InfoAddressInfoType クラス、プロパティ" Url="html/Properties_T_WodiLib_Cmn_InfoAddressInfoType.htm" />
@@ -6487,7 +6458,6 @@
     <HelpKINode Title="RestrictedCapacityCollection(T).Insert メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_Insert.htm" />
   </HelpKINode>
   <HelpKINode Title="InsertField メソッド" Url="html/Overload_WodiLib_Database_DBItemValuesList_InsertField.htm" />
-  <HelpKINode Title="InsertFieldHandlerList プロパティ" Url="html/P_WodiLib_Database_DBItemValuesList_InsertFieldHandlerList.htm" />
   <HelpKINode Title="InsertFieldRange メソッド" Url="html/Overload_WodiLib_Database_DBItemValuesList_InsertFieldRange.htm" />
   <HelpKINode Title="InsertItem メソッド">
     <HelpKINode Title="CharaMoveCommandList.InsertItem メソッド " Url="html/M_WodiLib_Event_CharaMoveCommandList_InsertItem.htm" />
@@ -6495,19 +6465,7 @@
     <HelpKINode Title="EventCommandList.InsertItem メソッド " Url="html/M_WodiLib_Event_EventCommand_EventCommandList_InsertItem.htm" />
     <HelpKINode Title="MapEventList.InsertItem メソッド " Url="html/M_WodiLib_Map_MapEventList_InsertItem.htm" />
     <HelpKINode Title="RestrictedCapacityCollection(T).InsertItem メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_InsertItem.htm" />
-    <HelpKINode Title="RestrictedCapacityCollectionHandlerList(TItem, THandler).InsertItem メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_InsertItem.htm" />
   </HelpKINode>
-  <HelpKINode Title="InsertItemHandlerList プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_InsertItemHandlerList.htm" />
-  <HelpKINode Title="InsertItemHandlerList(Of T) クラス" Url="html/T_WodiLib_Sys_InsertItemHandlerList_1.htm" />
-  <HelpKINode Title="InsertItemHandlerList(Of T) クラス、コンストラクター" Url="html/M_WodiLib_Sys_InsertItemHandlerList_1__ctor.htm" />
-  <HelpKINode Title="InsertItemHandlerList(Of T) クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_InsertItemHandlerList_1.htm" />
-  <HelpKINode Title="InsertItemHandlerList(Of T) クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_InsertItemHandlerList_1.htm" />
-  <HelpKINode Title="InsertItemHandlerList(Of T).InsertItemHandlerList コンストラクター" Url="html/M_WodiLib_Sys_InsertItemHandlerList_1__ctor.htm" />
-  <HelpKINode Title="InsertItemHandlerList&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_InsertItemHandlerList_1.htm" />
-  <HelpKINode Title="InsertItemHandlerList&lt;T&gt; クラス、コンストラクター" Url="html/M_WodiLib_Sys_InsertItemHandlerList_1__ctor.htm" />
-  <HelpKINode Title="InsertItemHandlerList&lt;T&gt; クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_InsertItemHandlerList_1.htm" />
-  <HelpKINode Title="InsertItemHandlerList&lt;T&gt; クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_InsertItemHandlerList_1.htm" />
-  <HelpKINode Title="InsertItemHandlerList&lt;T&gt;.InsertItemHandlerList コンストラクター" Url="html/M_WodiLib_Sys_InsertItemHandlerList_1__ctor.htm" />
   <HelpKINode Title="InsertNewValues メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_InsertNewValues.htm" />
   <HelpKINode Title="InsertNewValuesRange メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_InsertNewValuesRange.htm" />
   <HelpKINode Title="InsertRange メソッド">
@@ -7484,8 +7442,7 @@
   <HelpKINode Title="LoadVariable フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandCode_LoadVariable.htm" />
   <HelpKINode Title="LoadVariable プロパティ" Url="html/P_WodiLib_Event_EventCommand_LoadSpecificSaveData_LoadVariable.htm" />
   <HelpKINode Title="LockScroll フィールド" Url="html/F_WodiLib_Event_EventCommand_ScrollScreenType_LockScroll.htm" />
-  <HelpKINode Title="Logger フィールド" Url="html/F_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_Logger.htm" />
-  <HelpKINode Title="Logger プロパティ" Url="html/P_WodiLib_Event_EventCommand_EventCommandBase_Logger.htm" />
+  <HelpKINode Title="LogHandler プロパティ" Url="html/P_WodiLib_Sys_Cmn_WodiLibLogger_LogHandler.htm" />
   <HelpKINode Title="Long フィールド">
     <HelpKINode Title="AnimateSpeed.Long フィールド" Url="html/F_WodiLib_Event_AnimateSpeed_Long.htm" />
     <HelpKINode Title="MoveFrequency.Long フィールド" Url="html/F_WodiLib_Event_MoveFrequency_Long.htm" />
@@ -8045,10 +8002,7 @@
   <HelpKINode Title="MapData クラス、フィールド" Url="html/Fields_T_WodiLib_Map_MapData.htm" />
   <HelpKINode Title="MapData クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_MapData.htm" />
   <HelpKINode Title="MapData クラス、メソッド" Url="html/Methods_T_WodiLib_Map_MapData.htm" />
-  <HelpKINode Title="MapData プロパティ">
-    <HelpKINode Title="EventCommandSentenceResolver.MapData プロパティ " Url="html/P_WodiLib_Project_EventCommandSentenceResolver_MapData.htm" />
-    <HelpKINode Title="MpsFile.MapData プロパティ " Url="html/P_WodiLib_IO_MpsFile_MapData.htm" />
-  </HelpKINode>
+  <HelpKINode Title="MapData プロパティ" Url="html/P_WodiLib_Project_EventCommandSentenceResolver_MapData.htm" />
   <HelpKINode Title="MapData.Equals メソッド" Url="html/Overload_WodiLib_Map_MapData_Equals.htm" />
   <HelpKINode Title="MapData.Footer フィールド" Url="html/F_WodiLib_Map_MapData_Footer.htm" />
   <HelpKINode Title="MapData.GetEventPageList メソッド" Url="html/M_WodiLib_Map_MapData_GetEventPageList.htm" />
@@ -8535,7 +8489,6 @@
   <HelpKINode Title="MapTreeData クラス、フィールド" Url="html/Fields_T_WodiLib_Map_MapTreeData.htm" />
   <HelpKINode Title="MapTreeData クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_MapTreeData.htm" />
   <HelpKINode Title="MapTreeData クラス、メソッド" Url="html/Methods_T_WodiLib_Map_MapTreeData.htm" />
-  <HelpKINode Title="MapTreeData プロパティ" Url="html/P_WodiLib_IO_MapTreeDataFile_MapTreeData.htm" />
   <HelpKINode Title="MapTreeData.Equals メソッド" Url="html/Overload_WodiLib_Map_MapTreeData_Equals.htm" />
   <HelpKINode Title="MapTreeData.Footer フィールド" Url="html/F_WodiLib_Map_MapTreeData_Footer.htm" />
   <HelpKINode Title="MapTreeData.Header フィールド" Url="html/F_WodiLib_Map_MapTreeData_Header.htm" />
@@ -8546,10 +8499,8 @@
   <HelpKINode Title="MapTreeDataFile クラス、コンストラクター" Url="html/M_WodiLib_IO_MapTreeDataFile__ctor.htm" />
   <HelpKINode Title="MapTreeDataFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_MapTreeDataFile.htm" />
   <HelpKINode Title="MapTreeDataFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_MapTreeDataFile.htm" />
-  <HelpKINode Title="MapTreeDataFile.CallbackIO メソッド" Url="html/M_WodiLib_IO_MapTreeDataFile_CallbackIO.htm" />
   <HelpKINode Title="MapTreeDataFile.MakeFileReader メソッド" Url="html/M_WodiLib_IO_MapTreeDataFile_MakeFileReader.htm" />
   <HelpKINode Title="MapTreeDataFile.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_MapTreeDataFile_MakeFileWriter.htm" />
-  <HelpKINode Title="MapTreeDataFile.MapTreeData プロパティ" Url="html/P_WodiLib_IO_MapTreeDataFile_MapTreeData.htm" />
   <HelpKINode Title="MapTreeDataFile.MapTreeDataFile コンストラクター" Url="html/M_WodiLib_IO_MapTreeDataFile__ctor.htm" />
   <HelpKINode Title="MapTreeDataFilePath to String 変換" Url="html/M_WodiLib_IO_MapTreeDataFilePath_op_Implicit_1.htm" />
   <HelpKINode Title="MapTreeDataFilePath クラス" Url="html/T_WodiLib_IO_MapTreeDataFilePath.htm" />
@@ -8620,7 +8571,6 @@
   <HelpKINode Title="MapTreeOpenStatusData クラス、フィールド" Url="html/Fields_T_WodiLib_Map_MapTreeOpenStatusData.htm" />
   <HelpKINode Title="MapTreeOpenStatusData クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_MapTreeOpenStatusData.htm" />
   <HelpKINode Title="MapTreeOpenStatusData クラス、メソッド" Url="html/Methods_T_WodiLib_Map_MapTreeOpenStatusData.htm" />
-  <HelpKINode Title="MapTreeOpenStatusData プロパティ" Url="html/P_WodiLib_IO_MapTreeOpenStatusDataFile_MapTreeOpenStatusData.htm" />
   <HelpKINode Title="MapTreeOpenStatusData.Equals メソッド" Url="html/Overload_WodiLib_Map_MapTreeOpenStatusData_Equals.htm" />
   <HelpKINode Title="MapTreeOpenStatusData.Footer フィールド" Url="html/F_WodiLib_Map_MapTreeOpenStatusData_Footer.htm" />
   <HelpKINode Title="MapTreeOpenStatusData.Header フィールド" Url="html/F_WodiLib_Map_MapTreeOpenStatusData_Header.htm" />
@@ -8631,10 +8581,8 @@
   <HelpKINode Title="MapTreeOpenStatusDataFile クラス、コンストラクター" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile__ctor.htm" />
   <HelpKINode Title="MapTreeOpenStatusDataFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_MapTreeOpenStatusDataFile.htm" />
   <HelpKINode Title="MapTreeOpenStatusDataFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_MapTreeOpenStatusDataFile.htm" />
-  <HelpKINode Title="MapTreeOpenStatusDataFile.CallbackIO メソッド" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_CallbackIO.htm" />
   <HelpKINode Title="MapTreeOpenStatusDataFile.MakeFileReader メソッド" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_MakeFileReader.htm" />
   <HelpKINode Title="MapTreeOpenStatusDataFile.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile_MakeFileWriter.htm" />
-  <HelpKINode Title="MapTreeOpenStatusDataFile.MapTreeOpenStatusData プロパティ" Url="html/P_WodiLib_IO_MapTreeOpenStatusDataFile_MapTreeOpenStatusData.htm" />
   <HelpKINode Title="MapTreeOpenStatusDataFile.MapTreeOpenStatusDataFile コンストラクター" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFile__ctor.htm" />
   <HelpKINode Title="MapTreeOpenStatusDataFilePath to String 変換" Url="html/M_WodiLib_IO_MapTreeOpenStatusDataFilePath_op_Implicit_1.htm" />
   <HelpKINode Title="MapTreeOpenStatusDataFilePath クラス" Url="html/T_WodiLib_IO_MapTreeOpenStatusDataFilePath.htm" />
@@ -9047,6 +8995,7 @@
   <HelpKINode Title="MouseYPosition フィールド" Url="html/F_WodiLib_Event_EventCommand_KeyInputMouseTarget_MouseYPosition.htm" />
   <HelpKINode Title="Move フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_PictureShow_ExecCode_Move.htm" />
   <HelpKINode Title="Move メソッド">
+    <HelpKINode Title="DBItemValueList.Move メソッド " Url="html/M_WodiLib_Database_DBItemValueList_Move.htm" />
     <HelpKINode Title="FixedLengthList(T).Move メソッド " Url="html/M_WodiLib_Sys_FixedLengthList_1_Move.htm" />
     <HelpKINode Title="RestrictedCapacityCollection(T).Move メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_Move.htm" />
   </HelpKINode>
@@ -9106,6 +9055,8 @@
   <HelpKINode Title="MoveDuringEventsOn.SetSafetyNumberVariable メソッド" Url="html/M_WodiLib_Event_EventCommand_MoveDuringEventsOn_SetSafetyNumberVariable.htm" />
   <HelpKINode Title="MoveDuringEventsOn.SetSafetyStringVariable メソッド" Url="html/M_WodiLib_Event_EventCommand_MoveDuringEventsOn_SetSafetyStringVariable.htm" />
   <HelpKINode Title="MoveDuringEventsOn.StringVariableCount プロパティ" Url="html/P_WodiLib_Event_EventCommand_MoveDuringEventsOn_StringVariableCount.htm" />
+  <HelpKINode Title="MoveField メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_MoveField.htm" />
+  <HelpKINode Title="MoveFieldRange メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_MoveFieldRange.htm" />
   <HelpKINode Title="MoveFrequency クラス" Url="html/T_WodiLib_Event_MoveFrequency.htm" />
   <HelpKINode Title="MoveFrequency クラス、フィールド" Url="html/Fields_T_WodiLib_Event_MoveFrequency.htm" />
   <HelpKINode Title="MoveFrequency クラス、プロパティ" Url="html/Properties_T_WodiLib_Event_MoveFrequency.htm" />
@@ -9170,6 +9121,7 @@
   <HelpKINode Title="MoveRandom.MoveRandom コンストラクター" Url="html/M_WodiLib_Event_CharaMoveCommand_MoveRandom__ctor.htm" />
   <HelpKINode Title="MoveRandom.ValueLengthByte プロパティ" Url="html/P_WodiLib_Event_CharaMoveCommand_MoveRandom_ValueLengthByte.htm" />
   <HelpKINode Title="MoveRange メソッド">
+    <HelpKINode Title="DBItemValueList.MoveRange メソッド " Url="html/M_WodiLib_Database_DBItemValueList_MoveRange.htm" />
     <HelpKINode Title="FixedLengthList(T).MoveRange メソッド " Url="html/M_WodiLib_Sys_FixedLengthList_1_MoveRange.htm" />
     <HelpKINode Title="RestrictedCapacityCollection(T).MoveRange メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_MoveRange.htm" />
   </HelpKINode>
@@ -9281,10 +9233,8 @@
   <HelpKINode Title="MpsFile クラス、コンストラクター" Url="html/M_WodiLib_IO_MpsFile__ctor.htm" />
   <HelpKINode Title="MpsFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_MpsFile.htm" />
   <HelpKINode Title="MpsFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_MpsFile.htm" />
-  <HelpKINode Title="MpsFile.CallbackIO メソッド" Url="html/M_WodiLib_IO_MpsFile_CallbackIO.htm" />
   <HelpKINode Title="MpsFile.MakeFileReader メソッド" Url="html/M_WodiLib_IO_MpsFile_MakeFileReader.htm" />
   <HelpKINode Title="MpsFile.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_MpsFile_MakeFileWriter.htm" />
-  <HelpKINode Title="MpsFile.MapData プロパティ" Url="html/P_WodiLib_IO_MpsFile_MapData.htm" />
   <HelpKINode Title="MpsFile.MpsFile コンストラクター" Url="html/M_WodiLib_IO_MpsFile__ctor.htm" />
   <HelpKINode Title="MpsFilePath to String 変換" Url="html/M_WodiLib_IO_MpsFilePath_op_Implicit_1.htm" />
   <HelpKINode Title="MpsFilePath クラス" Url="html/T_WodiLib_IO_MpsFilePath.htm" />
@@ -9716,59 +9666,11 @@
     <HelpKINode Title="EditTimeDrawType.On フィールド" Url="html/F_WodiLib_Ini_EditTimeDrawType_On.htm" />
   </HelpKINode>
   <HelpKINode Title="Once フィールド" Url="html/F_WodiLib_Ini_ProjectBackupType_Once.htm" />
-  <HelpKINode Title="OnClearItemHandler(Of T) クラス" Url="html/T_WodiLib_Sys_OnClearItemHandler_1.htm" />
-  <HelpKINode Title="OnClearItemHandler(Of T) クラス、コンストラクター" Url="html/M_WodiLib_Sys_OnClearItemHandler_1__ctor.htm" />
-  <HelpKINode Title="OnClearItemHandler(Of T) クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_OnClearItemHandler_1.htm" />
-  <HelpKINode Title="OnClearItemHandler(Of T) クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_OnClearItemHandler_1.htm" />
-  <HelpKINode Title="OnClearItemHandler(Of T).Handler プロパティ" Url="html/P_WodiLib_Sys_OnClearItemHandler_1_Handler.htm" />
-  <HelpKINode Title="OnClearItemHandler(Of T).OnClearItemHandler コンストラクター" Url="html/M_WodiLib_Sys_OnClearItemHandler_1__ctor.htm" />
-  <HelpKINode Title="OnClearItemHandler&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_OnClearItemHandler_1.htm" />
-  <HelpKINode Title="OnClearItemHandler&lt;T&gt; クラス、コンストラクター" Url="html/M_WodiLib_Sys_OnClearItemHandler_1__ctor.htm" />
-  <HelpKINode Title="OnClearItemHandler&lt;T&gt; クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_OnClearItemHandler_1.htm" />
-  <HelpKINode Title="OnClearItemHandler&lt;T&gt; クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_OnClearItemHandler_1.htm" />
-  <HelpKINode Title="OnClearItemHandler&lt;T&gt;.Handler プロパティ" Url="html/P_WodiLib_Sys_OnClearItemHandler_1_Handler.htm" />
-  <HelpKINode Title="OnClearItemHandler&lt;T&gt;.OnClearItemHandler コンストラクター" Url="html/M_WodiLib_Sys_OnClearItemHandler_1__ctor.htm" />
   <HelpKINode Title="OnDeserialization メソッド" Url="html/M_WodiLib_Database_DatabaseTypeDesc_OnDeserialization.htm" />
   <HelpKINode Title="One フィールド" Url="html/F_WodiLib_Ini_EventCommandShortCutKey_One.htm" />
-  <HelpKINode Title="OnInsertItemHandler(Of T) クラス" Url="html/T_WodiLib_Sys_OnInsertItemHandler_1.htm" />
-  <HelpKINode Title="OnInsertItemHandler(Of T) クラス、コンストラクター" Url="html/M_WodiLib_Sys_OnInsertItemHandler_1__ctor.htm" />
-  <HelpKINode Title="OnInsertItemHandler(Of T) クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_OnInsertItemHandler_1.htm" />
-  <HelpKINode Title="OnInsertItemHandler(Of T) クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_OnInsertItemHandler_1.htm" />
-  <HelpKINode Title="OnInsertItemHandler(Of T).Handler プロパティ" Url="html/P_WodiLib_Sys_OnInsertItemHandler_1_Handler.htm" />
-  <HelpKINode Title="OnInsertItemHandler(Of T).OnInsertItemHandler コンストラクター" Url="html/M_WodiLib_Sys_OnInsertItemHandler_1__ctor.htm" />
-  <HelpKINode Title="OnInsertItemHandler&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_OnInsertItemHandler_1.htm" />
-  <HelpKINode Title="OnInsertItemHandler&lt;T&gt; クラス、コンストラクター" Url="html/M_WodiLib_Sys_OnInsertItemHandler_1__ctor.htm" />
-  <HelpKINode Title="OnInsertItemHandler&lt;T&gt; クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_OnInsertItemHandler_1.htm" />
-  <HelpKINode Title="OnInsertItemHandler&lt;T&gt; クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_OnInsertItemHandler_1.htm" />
-  <HelpKINode Title="OnInsertItemHandler&lt;T&gt;.Handler プロパティ" Url="html/P_WodiLib_Sys_OnInsertItemHandler_1_Handler.htm" />
-  <HelpKINode Title="OnInsertItemHandler&lt;T&gt;.OnInsertItemHandler コンストラクター" Url="html/M_WodiLib_Sys_OnInsertItemHandler_1__ctor.htm" />
   <HelpKINode Title="OnlyCall フィールド" Url="html/F_WodiLib_Common_CommonEventBootType_OnlyCall.htm" />
   <HelpKINode Title="OnlyDepth フィールド" Url="html/F_WodiLib_Event_EventCommand_ZoomRateType_OnlyDepth.htm" />
   <HelpKINode Title="OnlyWidth フィールド" Url="html/F_WodiLib_Event_EventCommand_ZoomRateType_OnlyWidth.htm" />
-  <HelpKINode Title="OnRemoveItemHandler(Of T) クラス" Url="html/T_WodiLib_Sys_OnRemoveItemHandler_1.htm" />
-  <HelpKINode Title="OnRemoveItemHandler(Of T) クラス、コンストラクター" Url="html/M_WodiLib_Sys_OnRemoveItemHandler_1__ctor.htm" />
-  <HelpKINode Title="OnRemoveItemHandler(Of T) クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_OnRemoveItemHandler_1.htm" />
-  <HelpKINode Title="OnRemoveItemHandler(Of T) クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_OnRemoveItemHandler_1.htm" />
-  <HelpKINode Title="OnRemoveItemHandler(Of T).Handler プロパティ" Url="html/P_WodiLib_Sys_OnRemoveItemHandler_1_Handler.htm" />
-  <HelpKINode Title="OnRemoveItemHandler(Of T).OnRemoveItemHandler コンストラクター" Url="html/M_WodiLib_Sys_OnRemoveItemHandler_1__ctor.htm" />
-  <HelpKINode Title="OnRemoveItemHandler&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_OnRemoveItemHandler_1.htm" />
-  <HelpKINode Title="OnRemoveItemHandler&lt;T&gt; クラス、コンストラクター" Url="html/M_WodiLib_Sys_OnRemoveItemHandler_1__ctor.htm" />
-  <HelpKINode Title="OnRemoveItemHandler&lt;T&gt; クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_OnRemoveItemHandler_1.htm" />
-  <HelpKINode Title="OnRemoveItemHandler&lt;T&gt; クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_OnRemoveItemHandler_1.htm" />
-  <HelpKINode Title="OnRemoveItemHandler&lt;T&gt;.Handler プロパティ" Url="html/P_WodiLib_Sys_OnRemoveItemHandler_1_Handler.htm" />
-  <HelpKINode Title="OnRemoveItemHandler&lt;T&gt;.OnRemoveItemHandler コンストラクター" Url="html/M_WodiLib_Sys_OnRemoveItemHandler_1__ctor.htm" />
-  <HelpKINode Title="OnSetItemHandler(Of T) クラス" Url="html/T_WodiLib_Sys_OnSetItemHandler_1.htm" />
-  <HelpKINode Title="OnSetItemHandler(Of T) クラス、コンストラクター" Url="html/M_WodiLib_Sys_OnSetItemHandler_1__ctor.htm" />
-  <HelpKINode Title="OnSetItemHandler(Of T) クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_OnSetItemHandler_1.htm" />
-  <HelpKINode Title="OnSetItemHandler(Of T) クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_OnSetItemHandler_1.htm" />
-  <HelpKINode Title="OnSetItemHandler(Of T).Handler プロパティ" Url="html/P_WodiLib_Sys_OnSetItemHandler_1_Handler.htm" />
-  <HelpKINode Title="OnSetItemHandler(Of T).OnSetItemHandler コンストラクター" Url="html/M_WodiLib_Sys_OnSetItemHandler_1__ctor.htm" />
-  <HelpKINode Title="OnSetItemHandler&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_OnSetItemHandler_1.htm" />
-  <HelpKINode Title="OnSetItemHandler&lt;T&gt; クラス、コンストラクター" Url="html/M_WodiLib_Sys_OnSetItemHandler_1__ctor.htm" />
-  <HelpKINode Title="OnSetItemHandler&lt;T&gt; クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_OnSetItemHandler_1.htm" />
-  <HelpKINode Title="OnSetItemHandler&lt;T&gt; クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_OnSetItemHandler_1.htm" />
-  <HelpKINode Title="OnSetItemHandler&lt;T&gt;.Handler プロパティ" Url="html/P_WodiLib_Sys_OnSetItemHandler_1_Handler.htm" />
-  <HelpKINode Title="OnSetItemHandler&lt;T&gt;.OnSetItemHandler コンストラクター" Url="html/M_WodiLib_Sys_OnSetItemHandler_1__ctor.htm" />
   <HelpKINode Title="Opacity フィールド" Url="html/F_WodiLib_Event_EventCommand_NumberPlusPictureInfoType_Opacity.htm" />
   <HelpKINode Title="Opacity プロパティ">
     <HelpKINode Title="ChangePenetration.Opacity プロパティ " Url="html/P_WodiLib_Event_CharaMoveCommand_ChangePenetration_Opacity.htm" />
@@ -10425,12 +10327,6 @@
   <HelpKINode Title="PropertyAccessException クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_PropertyAccessException.htm" />
   <HelpKINode Title="PropertyAccessException.PropertyAccessException コンストラクター" Url="html/Overload_WodiLib_Sys_PropertyAccessException__ctor.htm" />
   <HelpKINode Title="PropertyChanged イベント" Url="html/E_WodiLib_Sys_ModelBase_1_PropertyChanged.htm" />
-  <HelpKINode Title="PropertyEmptyException クラス" Url="html/T_WodiLib_Sys_PropertyEmptyException.htm" />
-  <HelpKINode Title="PropertyEmptyException クラス、イベント" Url="html/Events_T_WodiLib_Sys_PropertyEmptyException.htm" />
-  <HelpKINode Title="PropertyEmptyException クラス、コンストラクター" Url="html/Overload_WodiLib_Sys_PropertyEmptyException__ctor.htm" />
-  <HelpKINode Title="PropertyEmptyException クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_PropertyEmptyException.htm" />
-  <HelpKINode Title="PropertyEmptyException クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_PropertyEmptyException.htm" />
-  <HelpKINode Title="PropertyEmptyException.PropertyEmptyException コンストラクター" Url="html/Overload_WodiLib_Sys_PropertyEmptyException__ctor.htm" />
   <HelpKINode Title="PropertyException クラス" Url="html/T_WodiLib_Sys_PropertyException.htm" />
   <HelpKINode Title="PropertyException クラス、イベント" Url="html/Events_T_WodiLib_Sys_PropertyException.htm" />
   <HelpKINode Title="PropertyException クラス、コンストラクター" Url="html/Overload_WodiLib_Sys_PropertyException__ctor.htm" />
@@ -10619,25 +10515,12 @@
     <HelpKINode Title="RestrictedCapacityCollection(T).RemoveAt メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_RemoveAt.htm" />
   </HelpKINode>
   <HelpKINode Title="RemoveFieldAt メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_RemoveFieldAt.htm" />
-  <HelpKINode Title="RemoveFieldHandlerList プロパティ" Url="html/P_WodiLib_Database_DBItemValuesList_RemoveFieldHandlerList.htm" />
   <HelpKINode Title="RemoveFieldRange メソッド" Url="html/M_WodiLib_Database_DBItemValuesList_RemoveFieldRange.htm" />
   <HelpKINode Title="RemoveGraphic フィールド" Url="html/F_WodiLib_Event_EventCommand_EventCommandConstant_PartyGraphic_ExecCode_RemoveGraphic.htm" />
   <HelpKINode Title="RemoveItem メソッド">
     <HelpKINode Title="DBItemValuesList.RemoveItem メソッド " Url="html/M_WodiLib_Database_DBItemValuesList_RemoveItem.htm" />
     <HelpKINode Title="RestrictedCapacityCollection(T).RemoveItem メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_RemoveItem.htm" />
-    <HelpKINode Title="RestrictedCapacityCollectionHandlerList(TItem, THandler).RemoveItem メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_RemoveItem.htm" />
   </HelpKINode>
-  <HelpKINode Title="RemoveItemHandlerList プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_RemoveItemHandlerList.htm" />
-  <HelpKINode Title="RemoveItemHandlerList(Of T) クラス" Url="html/T_WodiLib_Sys_RemoveItemHandlerList_1.htm" />
-  <HelpKINode Title="RemoveItemHandlerList(Of T) クラス、コンストラクター" Url="html/M_WodiLib_Sys_RemoveItemHandlerList_1__ctor.htm" />
-  <HelpKINode Title="RemoveItemHandlerList(Of T) クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_RemoveItemHandlerList_1.htm" />
-  <HelpKINode Title="RemoveItemHandlerList(Of T) クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_RemoveItemHandlerList_1.htm" />
-  <HelpKINode Title="RemoveItemHandlerList(Of T).RemoveItemHandlerList コンストラクター" Url="html/M_WodiLib_Sys_RemoveItemHandlerList_1__ctor.htm" />
-  <HelpKINode Title="RemoveItemHandlerList&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_RemoveItemHandlerList_1.htm" />
-  <HelpKINode Title="RemoveItemHandlerList&lt;T&gt; クラス、コンストラクター" Url="html/M_WodiLib_Sys_RemoveItemHandlerList_1__ctor.htm" />
-  <HelpKINode Title="RemoveItemHandlerList&lt;T&gt; クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_RemoveItemHandlerList_1.htm" />
-  <HelpKINode Title="RemoveItemHandlerList&lt;T&gt; クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_RemoveItemHandlerList_1.htm" />
-  <HelpKINode Title="RemoveItemHandlerList&lt;T&gt;.RemoveItemHandlerList コンストラクター" Url="html/M_WodiLib_Sys_RemoveItemHandlerList_1__ctor.htm" />
   <HelpKINode Title="RemoveMpsFilesCache メソッド" Url="html/M_WodiLib_Project_WoditorProject_RemoveMpsFilesCache.htm" />
   <HelpKINode Title="RemoveRange メソッド">
     <HelpKINode Title="CommonEventSpecialNumberArgDesc.RemoveRange メソッド " Url="html/M_WodiLib_Common_CommonEventSpecialNumberArgDesc_RemoveRange.htm" />
@@ -10681,7 +10564,6 @@
   <HelpKINode Title="RestrictedCapacityCollection(Of T).AdjustLengthIfShort メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_AdjustLengthIfShort.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).All メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_All.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).Clear メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_Clear.htm" />
-  <HelpKINode Title="RestrictedCapacityCollection(Of T).ClearItemHandlerList プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_ClearItemHandlerList.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).ClearItems メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_ClearItems.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).CollectionChanged イベント" Url="html/E_WodiLib_Sys_RestrictedCapacityCollection_1_CollectionChanged.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).Contains メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_Contains.htm" />
@@ -10697,7 +10579,6 @@
   <HelpKINode Title="RestrictedCapacityCollection(Of T).IndexOf メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_IndexOf.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).Insert メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_Insert.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).InsertItem メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_InsertItem.htm" />
-  <HelpKINode Title="RestrictedCapacityCollection(Of T).InsertItemHandlerList プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_InsertItemHandlerList.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).InsertRange メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_InsertRange.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).Item プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_Item.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).Items プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_Items.htm" />
@@ -10709,11 +10590,9 @@
   <HelpKINode Title="RestrictedCapacityCollection(Of T).Remove メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_Remove.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).RemoveAt メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_RemoveAt.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).RemoveItem メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_RemoveItem.htm" />
-  <HelpKINode Title="RestrictedCapacityCollection(Of T).RemoveItemHandlerList プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_RemoveItemHandlerList.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).RemoveRange メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_RemoveRange.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).RestrictedCapacityCollection コンストラクター" Url="html/Overload_WodiLib_Sys_RestrictedCapacityCollection_1__ctor.htm" />
   <HelpKINode Title="RestrictedCapacityCollection(Of T).SetItem メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_SetItem.htm" />
-  <HelpKINode Title="RestrictedCapacityCollection(Of T).SetItemHandlerList プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_SetItemHandlerList.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_RestrictedCapacityCollection_1.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt; クラス、イベント" Url="html/Events_T_WodiLib_Sys_RestrictedCapacityCollection_1.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt; クラス、コンストラクター" Url="html/Overload_WodiLib_Sys_RestrictedCapacityCollection_1__ctor.htm" />
@@ -10725,7 +10604,6 @@
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.AdjustLengthIfShort メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_AdjustLengthIfShort.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.All メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_All.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.Clear メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_Clear.htm" />
-  <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.ClearItemHandlerList プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_ClearItemHandlerList.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.ClearItems メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_ClearItems.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.CollectionChanged イベント" Url="html/E_WodiLib_Sys_RestrictedCapacityCollection_1_CollectionChanged.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.Contains メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_Contains.htm" />
@@ -10741,7 +10619,6 @@
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.IndexOf メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_IndexOf.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.Insert メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_Insert.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.InsertItem メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_InsertItem.htm" />
-  <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.InsertItemHandlerList プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_InsertItemHandlerList.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.InsertRange メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_InsertRange.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.Item プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_Item.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.Items プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_Items.htm" />
@@ -10753,49 +10630,9 @@
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.Remove メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_Remove.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.RemoveAt メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_RemoveAt.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.RemoveItem メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_RemoveItem.htm" />
-  <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.RemoveItemHandlerList プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_RemoveItemHandlerList.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.RemoveRange メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_RemoveRange.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.RestrictedCapacityCollection コンストラクター" Url="html/Overload_WodiLib_Sys_RestrictedCapacityCollection_1__ctor.htm" />
   <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.SetItem メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_SetItem.htm" />
-  <HelpKINode Title="RestrictedCapacityCollection&lt;T&gt;.SetItemHandlerList プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_SetItemHandlerList.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler(Of T) クラス" Url="html/T_WodiLib_Sys_RestrictedCapacityCollectionHandler_1.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler(Of T) クラス、コンストラクター" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandler_1__ctor.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler(Of T) クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_RestrictedCapacityCollectionHandler_1.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler(Of T) クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_RestrictedCapacityCollectionHandler_1.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler(Of T).CanChangeEnabled プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollectionHandler_1_CanChangeEnabled.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler(Of T).CanDelete プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollectionHandler_1_CanDelete.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler(Of T).Enabled プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollectionHandler_1_Enabled.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler(Of T).RestrictedCapacityCollectionHandler コンストラクター" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandler_1__ctor.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler(Of T).Tag プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollectionHandler_1_Tag.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_RestrictedCapacityCollectionHandler_1.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler&lt;T&gt; クラス、コンストラクター" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandler_1__ctor.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler&lt;T&gt; クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_RestrictedCapacityCollectionHandler_1.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler&lt;T&gt; クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_RestrictedCapacityCollectionHandler_1.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler&lt;T&gt;.CanChangeEnabled プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollectionHandler_1_CanChangeEnabled.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler&lt;T&gt;.CanDelete プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollectionHandler_1_CanDelete.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler&lt;T&gt;.Enabled プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollectionHandler_1_Enabled.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler&lt;T&gt;.RestrictedCapacityCollectionHandler コンストラクター" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandler_1__ctor.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandler&lt;T&gt;.Tag プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollectionHandler_1_Tag.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList(Of TItem, THandler) クラス" Url="html/T_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList(Of TItem, THandler) クラス、コンストラクター" Url="html/Overload_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2__ctor.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList(Of TItem, THandler) クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList(Of TItem, THandler) クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList(Of TItem, THandler).ClearItems メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_ClearItems.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList(Of TItem, THandler).Execute メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_Execute.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList(Of TItem, THandler).InsertItem メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_InsertItem.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList(Of TItem, THandler).RemoveItem メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_RemoveItem.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList(Of TItem, THandler).RestrictedCapacityCollectionHandlerList コンストラクター" Url="html/Overload_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2__ctor.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList(Of TItem, THandler).SetItem メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_SetItem.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList&lt;TItem, THandler&gt; クラス" Url="html/T_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList&lt;TItem, THandler&gt; クラス、コンストラクター" Url="html/Overload_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2__ctor.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList&lt;TItem, THandler&gt; クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList&lt;TItem, THandler&gt; クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList&lt;TItem, THandler&gt;.ClearItems メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_ClearItems.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList&lt;TItem, THandler&gt;.Execute メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_Execute.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList&lt;TItem, THandler&gt;.InsertItem メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_InsertItem.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList&lt;TItem, THandler&gt;.RemoveItem メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_RemoveItem.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList&lt;TItem, THandler&gt;.RestrictedCapacityCollectionHandlerList コンストラクター" Url="html/Overload_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2__ctor.htm" />
-  <HelpKINode Title="RestrictedCapacityCollectionHandlerList&lt;TItem, THandler&gt;.SetItem メソッド" Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_SetItem.htm" />
   <HelpKINode Title="ResultOutputAddress プロパティ" Url="html/P_WodiLib_Event_EventCommand_CallCommonEventBase_ResultOutputAddress.htm" />
   <HelpKINode Title="ResumeNonPictureUpdate クラス" Url="html/T_WodiLib_Event_EventCommand_ResumeNonPictureUpdate.htm" />
   <HelpKINode Title="ResumeNonPictureUpdate クラス、イベント" Url="html/Events_T_WodiLib_Event_EventCommand_ResumeNonPictureUpdate.htm" />
@@ -11058,7 +10895,6 @@
   <HelpKINode Title="SetDbKind メソッド" Url="html/M_WodiLib_Project_CommonEventSentenceResolveDatabaseDesc_SetDbKind.htm" />
   <HelpKINode Title="SetEventBootCondition メソッド" Url="html/M_WodiLib_Map_MapEventPageBootInfo_SetEventBootCondition.htm" />
   <HelpKINode Title="SetField メソッド" Url="html/Overload_WodiLib_Database_DBItemValuesList_SetField.htm" />
-  <HelpKINode Title="SetFieldHandlerList プロパティ" Url="html/P_WodiLib_Database_DBItemValuesList_SetFieldHandlerList.htm" />
   <HelpKINode Title="SetGraphicFileName メソッド" Url="html/M_WodiLib_Map_MapEventPageGraphicInfo_SetGraphicFileName.htm" />
   <HelpKINode Title="SetGraphicTileId メソッド" Url="html/M_WodiLib_Map_MapEventPageGraphicInfo_SetGraphicTileId.htm" />
   <HelpKINode Title="SetHasEventBootCondition メソッド" Url="html/M_WodiLib_Map_MapEventPageBootInfo_SetHasEventBootCondition.htm" />
@@ -11067,22 +10903,7 @@
     <HelpKINode Title="FixedLengthList(T).SetItem メソッド " Url="html/M_WodiLib_Sys_FixedLengthList_1_SetItem.htm" />
     <HelpKINode Title="MapEventList.SetItem メソッド " Url="html/M_WodiLib_Map_MapEventList_SetItem.htm" />
     <HelpKINode Title="RestrictedCapacityCollection(T).SetItem メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollection_1_SetItem.htm" />
-    <HelpKINode Title="RestrictedCapacityCollectionHandlerList(TItem, THandler).SetItem メソッド " Url="html/M_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2_SetItem.htm" />
   </HelpKINode>
-  <HelpKINode Title="SetItemHandlerList プロパティ">
-    <HelpKINode Title="FixedLengthList(T).SetItemHandlerList プロパティ " Url="html/P_WodiLib_Sys_FixedLengthList_1_SetItemHandlerList.htm" />
-    <HelpKINode Title="RestrictedCapacityCollection(T).SetItemHandlerList プロパティ " Url="html/P_WodiLib_Sys_RestrictedCapacityCollection_1_SetItemHandlerList.htm" />
-  </HelpKINode>
-  <HelpKINode Title="SetItemHandlerList(Of T) クラス" Url="html/T_WodiLib_Sys_SetItemHandlerList_1.htm" />
-  <HelpKINode Title="SetItemHandlerList(Of T) クラス、コンストラクター" Url="html/M_WodiLib_Sys_SetItemHandlerList_1__ctor.htm" />
-  <HelpKINode Title="SetItemHandlerList(Of T) クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_SetItemHandlerList_1.htm" />
-  <HelpKINode Title="SetItemHandlerList(Of T) クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_SetItemHandlerList_1.htm" />
-  <HelpKINode Title="SetItemHandlerList(Of T).SetItemHandlerList コンストラクター" Url="html/M_WodiLib_Sys_SetItemHandlerList_1__ctor.htm" />
-  <HelpKINode Title="SetItemHandlerList&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_SetItemHandlerList_1.htm" />
-  <HelpKINode Title="SetItemHandlerList&lt;T&gt; クラス、コンストラクター" Url="html/M_WodiLib_Sys_SetItemHandlerList_1__ctor.htm" />
-  <HelpKINode Title="SetItemHandlerList&lt;T&gt; クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_SetItemHandlerList_1.htm" />
-  <HelpKINode Title="SetItemHandlerList&lt;T&gt; クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_SetItemHandlerList_1.htm" />
-  <HelpKINode Title="SetItemHandlerList&lt;T&gt;.SetItemHandlerList コンストラクター" Url="html/M_WodiLib_Sys_SetItemHandlerList_1__ctor.htm" />
   <HelpKINode Title="SetItemId メソッド" Url="html/M_WodiLib_Project_CommonEventSentenceResolveDatabaseDesc_SetItemId.htm" />
   <HelpKINode Title="SetItemName メソッド" Url="html/M_WodiLib_Project_CommonEventSentenceResolveDatabaseDesc_SetItemName.htm" />
   <HelpKINode Title="SetLabel クラス" Url="html/T_WodiLib_Event_EventCommand_SetLabel.htm" />
@@ -11104,6 +10925,7 @@
   <HelpKINode Title="SetLabel.SetSafetyStringVariable メソッド" Url="html/M_WodiLib_Event_EventCommand_SetLabel_SetSafetyStringVariable.htm" />
   <HelpKINode Title="SetLabel.StringVariableCount プロパティ" Url="html/P_WodiLib_Event_EventCommand_SetLabel_StringVariableCount.htm" />
   <HelpKINode Title="SetLayer メソッド" Url="html/M_WodiLib_Map_MapData_SetLayer.htm" />
+  <HelpKINode Title="SetLogHandler メソッド" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_SetLogHandler.htm" />
   <HelpKINode Title="SetMoveFrequency クラス" Url="html/T_WodiLib_Event_CharaMoveCommand_SetMoveFrequency.htm" />
   <HelpKINode Title="SetMoveFrequency クラス、イベント" Url="html/Events_T_WodiLib_Event_CharaMoveCommand_SetMoveFrequency.htm" />
   <HelpKINode Title="SetMoveFrequency クラス、コンストラクター" Url="html/M_WodiLib_Event_CharaMoveCommand_SetMoveFrequency__ctor.htm" />
@@ -11628,7 +11450,9 @@
   <HelpKINode Title="ShortCutPositionList クラス、コンストラクター" Url="html/Overload_WodiLib_Ini_ShortCutPositionList__ctor.htm" />
   <HelpKINode Title="ShortCutPositionList クラス、プロパティ" Url="html/Properties_T_WodiLib_Ini_ShortCutPositionList.htm" />
   <HelpKINode Title="ShortCutPositionList クラス、メソッド" Url="html/Methods_T_WodiLib_Ini_ShortCutPositionList.htm" />
+  <HelpKINode Title="ShortCutPositionList.Capacity プロパティ" Url="html/P_WodiLib_Ini_ShortCutPositionList_Capacity.htm" />
   <HelpKINode Title="ShortCutPositionList.Equals メソッド" Url="html/Overload_WodiLib_Ini_ShortCutPositionList_Equals.htm" />
+  <HelpKINode Title="ShortCutPositionList.GetCapacity メソッド" Url="html/M_WodiLib_Ini_ShortCutPositionList_GetCapacity.htm" />
   <HelpKINode Title="ShortCutPositionList.GetMaxCapacity メソッド" Url="html/M_WodiLib_Ini_ShortCutPositionList_GetMaxCapacity.htm" />
   <HelpKINode Title="ShortCutPositionList.GetMinCapacity メソッド" Url="html/M_WodiLib_Ini_ShortCutPositionList_GetMinCapacity.htm" />
   <HelpKINode Title="ShortCutPositionList.MakeDefaultItem メソッド" Url="html/M_WodiLib_Ini_ShortCutPositionList_MakeDefaultItem.htm" />
@@ -12386,7 +12210,6 @@
   <HelpKINode Title="SystemVariableIndex.ToInt32 メソッド" Url="html/M_WodiLib_Cmn_SystemVariableIndex_ToInt32.htm" />
   <HelpKINode Title="SystemVariableIndex.ToString メソッド" Url="html/M_WodiLib_Cmn_SystemVariableIndex_ToString.htm" />
   <HelpKINode Title="T フィールド" Url="html/F_WodiLib_Ini_EventCommandShortCutKey_T.htm" />
-  <HelpKINode Title="Tag プロパティ" Url="html/P_WodiLib_Sys_RestrictedCapacityCollectionHandler_1_Tag.htm" />
   <HelpKINode Title="Target プロパティ">
     <HelpKINode Title="EraseEvent.Target プロパティ " Url="html/P_WodiLib_Event_EventCommand_EraseEvent_Target.htm" />
     <HelpKINode Title="KeyInputMouse.Target プロパティ " Url="html/P_WodiLib_Event_EventCommand_KeyInputMouse_Target.htm" />
@@ -12432,7 +12255,10 @@
     <HelpKINode Title="PartyGraphicReplace.TargetIndex プロパティ " Url="html/P_WodiLib_Event_EventCommand_PartyGraphicReplace_TargetIndex.htm" />
     <HelpKINode Title="PartyGraphicSpecial.TargetIndex プロパティ " Url="html/P_WodiLib_Event_EventCommand_PartyGraphicSpecial_TargetIndex.htm" />
   </HelpKINode>
-  <HelpKINode Title="TargetKeyName プロパティ" Url="html/P_WodiLib_Sys_Cmn_VersionConfig_TargetKeyName.htm" />
+  <HelpKINode Title="TargetKeyName プロパティ">
+    <HelpKINode Title="VersionConfig.TargetKeyName プロパティ " Url="html/P_WodiLib_Sys_Cmn_VersionConfig_TargetKeyName.htm" />
+    <HelpKINode Title="WodiLibLogger.TargetKeyName プロパティ " Url="html/P_WodiLib_Sys_Cmn_WodiLibLogger_TargetKeyName.htm" />
+  </HelpKINode>
   <HelpKINode Title="Text プロパティ">
     <HelpKINode Title="Comment.Text プロパティ " Url="html/P_WodiLib_Event_EventCommand_Comment_Text.htm" />
     <HelpKINode Title="DebugText.Text プロパティ " Url="html/P_WodiLib_Event_EventCommand_DebugText_Text.htm" />
@@ -12615,7 +12441,6 @@
   <HelpKINode Title="TileSetData クラス、フィールド" Url="html/Fields_T_WodiLib_Map_TileSetData.htm" />
   <HelpKINode Title="TileSetData クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_TileSetData.htm" />
   <HelpKINode Title="TileSetData クラス、メソッド" Url="html/Methods_T_WodiLib_Map_TileSetData.htm" />
-  <HelpKINode Title="TileSetData プロパティ" Url="html/P_WodiLib_IO_TileSetDataFile_TileSetData.htm" />
   <HelpKINode Title="TileSetData.Equals メソッド" Url="html/Overload_WodiLib_Map_TileSetData_Equals.htm" />
   <HelpKINode Title="TileSetData.Footer フィールド" Url="html/F_WodiLib_Map_TileSetData_Footer.htm" />
   <HelpKINode Title="TileSetData.Header フィールド" Url="html/F_WodiLib_Map_TileSetData_Header.htm" />
@@ -12626,10 +12451,8 @@
   <HelpKINode Title="TileSetDataFile クラス、コンストラクター" Url="html/M_WodiLib_IO_TileSetDataFile__ctor.htm" />
   <HelpKINode Title="TileSetDataFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_TileSetDataFile.htm" />
   <HelpKINode Title="TileSetDataFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_TileSetDataFile.htm" />
-  <HelpKINode Title="TileSetDataFile.CallbackIO メソッド" Url="html/M_WodiLib_IO_TileSetDataFile_CallbackIO.htm" />
   <HelpKINode Title="TileSetDataFile.MakeFileReader メソッド" Url="html/M_WodiLib_IO_TileSetDataFile_MakeFileReader.htm" />
   <HelpKINode Title="TileSetDataFile.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_TileSetDataFile_MakeFileWriter.htm" />
-  <HelpKINode Title="TileSetDataFile.TileSetData プロパティ" Url="html/P_WodiLib_IO_TileSetDataFile_TileSetData.htm" />
   <HelpKINode Title="TileSetDataFile.TileSetDataFile コンストラクター" Url="html/M_WodiLib_IO_TileSetDataFile__ctor.htm" />
   <HelpKINode Title="TileSetDataFilePath to String 変換" Url="html/M_WodiLib_IO_TileSetDataFilePath_op_Implicit_1.htm" />
   <HelpKINode Title="TileSetDataFilePath クラス" Url="html/T_WodiLib_IO_TileSetDataFilePath.htm" />
@@ -12662,18 +12485,15 @@
   <HelpKINode Title="TileSetFile クラス、コンストラクター" Url="html/M_WodiLib_IO_TileSetFile__ctor.htm" />
   <HelpKINode Title="TileSetFile クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_TileSetFile.htm" />
   <HelpKINode Title="TileSetFile クラス、メソッド" Url="html/Methods_T_WodiLib_IO_TileSetFile.htm" />
-  <HelpKINode Title="TileSetFile.CallbackIO メソッド" Url="html/M_WodiLib_IO_TileSetFile_CallbackIO.htm" />
   <HelpKINode Title="TileSetFile.MakeFileReader メソッド" Url="html/M_WodiLib_IO_TileSetFile_MakeFileReader.htm" />
   <HelpKINode Title="TileSetFile.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_TileSetFile_MakeFileWriter.htm" />
   <HelpKINode Title="TileSetFile.TileSetFile コンストラクター" Url="html/M_WodiLib_IO_TileSetFile__ctor.htm" />
-  <HelpKINode Title="TileSetFile.TileSetFileData プロパティ" Url="html/P_WodiLib_IO_TileSetFile_TileSetFileData.htm" />
   <HelpKINode Title="TileSetFileData クラス" Url="html/T_WodiLib_Map_TileSetFileData.htm" />
   <HelpKINode Title="TileSetFileData クラス、イベント" Url="html/Events_T_WodiLib_Map_TileSetFileData.htm" />
   <HelpKINode Title="TileSetFileData クラス、コンストラクター" Url="html/M_WodiLib_Map_TileSetFileData__ctor.htm" />
   <HelpKINode Title="TileSetFileData クラス、フィールド" Url="html/Fields_T_WodiLib_Map_TileSetFileData.htm" />
   <HelpKINode Title="TileSetFileData クラス、プロパティ" Url="html/Properties_T_WodiLib_Map_TileSetFileData.htm" />
   <HelpKINode Title="TileSetFileData クラス、メソッド" Url="html/Methods_T_WodiLib_Map_TileSetFileData.htm" />
-  <HelpKINode Title="TileSetFileData プロパティ" Url="html/P_WodiLib_IO_TileSetFile_TileSetFileData.htm" />
   <HelpKINode Title="TileSetFileData.Equals メソッド" Url="html/Overload_WodiLib_Map_TileSetFileData_Equals.htm" />
   <HelpKINode Title="TileSetFileData.Footer フィールド" Url="html/F_WodiLib_Map_TileSetFileData_Footer.htm" />
   <HelpKINode Title="TileSetFileData.Header フィールド" Url="html/F_WodiLib_Map_TileSetFileData_Header.htm" />
@@ -12871,6 +12691,7 @@
   <HelpKINode Title="ToByte メソッド">
     <HelpKINode Title="AnimationId.ToByte メソッド " Url="html/M_WodiLib_Map_AnimationId_ToByte.htm" />
     <HelpKINode Title="ChoiceForkFlags.ToByte メソッド " Url="html/M_WodiLib_Event_EventCommand_ChoiceForkFlags_ToByte.htm" />
+    <HelpKINode Title="IConvertibleByte.ToByte メソッド " Url="html/M_WodiLib_Sys_IConvertibleByte_ToByte.htm" />
     <HelpKINode Title="MapEventOpacity.ToByte メソッド " Url="html/M_WodiLib_Map_MapEventOpacity_ToByte.htm" />
     <HelpKINode Title="ShadowGraphicId.ToByte メソッド " Url="html/M_WodiLib_Map_ShadowGraphicId_ToByte.htm" />
   </HelpKINode>
@@ -12941,6 +12762,7 @@
     <HelpKINode Title="DBSettingTypePermutation.ToInt メソッド " Url="html/M_WodiLib_Database_DBSettingTypePermutation_ToInt.htm" />
     <HelpKINode Title="DBValueInt.ToInt メソッド " Url="html/M_WodiLib_Database_DBValueInt_ToInt.htm" />
     <HelpKINode Title="DisplayNumber.ToInt メソッド " Url="html/M_WodiLib_Ini_DisplayNumber_ToInt.htm" />
+    <HelpKINode Title="IConvertibleInt.ToInt メソッド " Url="html/M_WodiLib_Sys_IConvertibleInt_ToInt.htm" />
     <HelpKINode Title="IntOrStr.ToInt メソッド " Url="html/M_WodiLib_Sys_IntOrStr_ToInt.htm" />
     <HelpKINode Title="ItemId.ToInt メソッド " Url="html/M_WodiLib_Database_ItemId_ToInt.htm" />
     <HelpKINode Title="MapCharacterId.ToInt メソッド " Url="html/M_WodiLib_Map_MapCharacterId_ToInt.htm" />
@@ -13017,7 +12839,10 @@
     <HelpKINode Title="IFixedLengthDBItemValueList.ToLengthChangeableItemValueList メソッド " Url="html/M_WodiLib_Database_IFixedLengthDBItemValueList_ToLengthChangeableItemValueList.htm" />
   </HelpKINode>
   <HelpKINode Title="Topaz フィールド" Url="html/F_WodiLib_Project_EventCommandColor_Topaz.htm" />
-  <HelpKINode Title="ToSByte メソッド" Url="html/M_WodiLib_Event_Indent_ToSByte.htm" />
+  <HelpKINode Title="ToSByte メソッド">
+    <HelpKINode Title="IConvertibleSByte.ToSByte メソッド " Url="html/M_WodiLib_Sys_IConvertibleSByte_ToSByte.htm" />
+    <HelpKINode Title="Indent.ToSByte メソッド " Url="html/M_WodiLib_Event_Indent_ToSByte.htm" />
+  </HelpKINode>
   <HelpKINode Title="ToStr メソッド" Url="html/M_WodiLib_Sys_IntOrStr_ToStr.htm" />
   <HelpKINode Title="ToString メソッド">
     <HelpKINode Title="AnimationId.ToString メソッド " Url="html/M_WodiLib_Map_AnimationId_ToString.htm" />
@@ -13113,6 +12938,7 @@
     <HelpKINode Title="TileTagNumber.ToString メソッド " Url="html/M_WodiLib_Map_TileTagNumber_ToString.htm" />
     <HelpKINode Title="TypeId.ToString メソッド " Url="html/M_WodiLib_Database_TypeId_ToString.htm" />
     <HelpKINode Title="TypeName.ToString メソッド " Url="html/M_WodiLib_Database_TypeName_ToString.htm" />
+    <HelpKINode Title="TypeSafeEnum(T).ToString メソッド " Url="html/M_WodiLib_Sys_TypeSafeEnum_1_ToString.htm" />
     <HelpKINode Title="UserDatabaseDatFilePath.ToString メソッド " Url="html/M_WodiLib_IO_UserDatabaseDatFilePath_ToString.htm" />
     <HelpKINode Title="UserDatabaseProjectFilePath.ToString メソッド " Url="html/M_WodiLib_IO_UserDatabaseProjectFilePath_ToString.htm" />
     <HelpKINode Title="VariableAddress.ToString メソッド " Url="html/M_WodiLib_Cmn_VariableAddress_ToString.htm" />
@@ -13321,8 +13147,8 @@
   <HelpKINode Title="TurnTail.ValueLengthByte プロパティ" Url="html/P_WodiLib_Event_CharaMoveCommand_TurnTail_ValueLengthByte.htm" />
   <HelpKINode Title="Two フィールド" Url="html/F_WodiLib_Ini_EventCommandShortCutKey_Two.htm" />
   <HelpKINode Title="Type クラス、フィールド">
-    <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInput_Type.htm" />
     <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInputAuto_Type.htm" />
+    <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_KeyInput_Type.htm" />
     <HelpKINode Title="Type フィールド" Url="html/Fields_T_WodiLib_Event_EventCommand_EventCommandConstant_CheckPoint_Type.htm" />
   </HelpKINode>
   <HelpKINode Title="Type プロパティ" Url="html/P_WodiLib_Database_DBItemValue_Type.htm" />
@@ -13378,6 +13204,34 @@
   <HelpKINode Title="TypeName.ToWoditorStringBytes メソッド" Url="html/M_WodiLib_Database_TypeName_ToWoditorStringBytes.htm" />
   <HelpKINode Title="TypeName.TypeName コンストラクター" Url="html/M_WodiLib_Database_TypeName__ctor.htm" />
   <HelpKINode Title="TypeOrderStart プロパティ" Url="html/P_WodiLib_Database_DBItemType_TypeOrderStart.htm" />
+  <HelpKINode Title="TypeSafeEnum(Of T) クラス" Url="html/T_WodiLib_Sys_TypeSafeEnum_1.htm" />
+  <HelpKINode Title="TypeSafeEnum(Of T) クラス、コンストラクター" Url="html/M_WodiLib_Sys_TypeSafeEnum_1__ctor.htm" />
+  <HelpKINode Title="TypeSafeEnum(Of T) クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_TypeSafeEnum_1.htm" />
+  <HelpKINode Title="TypeSafeEnum(Of T) クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_TypeSafeEnum_1.htm" />
+  <HelpKINode Title="TypeSafeEnum(Of T) クラス、演算子" Url="html/Operators_T_WodiLib_Sys_TypeSafeEnum_1.htm" />
+  <HelpKINode Title="TypeSafeEnum(Of T).AllItems プロパティ" Url="html/P_WodiLib_Sys_TypeSafeEnum_1_AllItems.htm" />
+  <HelpKINode Title="TypeSafeEnum(Of T).Equality 演算子" Url="html/M_WodiLib_Sys_TypeSafeEnum_1_op_Equality.htm" />
+  <HelpKINode Title="TypeSafeEnum(Of T).Equals メソッド" Url="html/Overload_WodiLib_Sys_TypeSafeEnum_1_Equals.htm" />
+  <HelpKINode Title="TypeSafeEnum(Of T).GetHashCode メソッド" Url="html/M_WodiLib_Sys_TypeSafeEnum_1_GetHashCode.htm" />
+  <HelpKINode Title="TypeSafeEnum(Of T).Id プロパティ" Url="html/P_WodiLib_Sys_TypeSafeEnum_1_Id.htm" />
+  <HelpKINode Title="TypeSafeEnum(Of T).Inequality 演算子" Url="html/M_WodiLib_Sys_TypeSafeEnum_1_op_Inequality.htm" />
+  <HelpKINode Title="TypeSafeEnum(Of T).ToString メソッド" Url="html/M_WodiLib_Sys_TypeSafeEnum_1_ToString.htm" />
+  <HelpKINode Title="TypeSafeEnum(Of T).TypeSafeEnum コンストラクター" Url="html/M_WodiLib_Sys_TypeSafeEnum_1__ctor.htm" />
+  <HelpKINode Title="TypeSafeEnum(Of T)._FindFirst メソッド" Url="html/M_WodiLib_Sys_TypeSafeEnum_1__FindFirst.htm" />
+  <HelpKINode Title="TypeSafeEnum&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_TypeSafeEnum_1.htm" />
+  <HelpKINode Title="TypeSafeEnum&lt;T&gt; クラス、コンストラクター" Url="html/M_WodiLib_Sys_TypeSafeEnum_1__ctor.htm" />
+  <HelpKINode Title="TypeSafeEnum&lt;T&gt; クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_TypeSafeEnum_1.htm" />
+  <HelpKINode Title="TypeSafeEnum&lt;T&gt; クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_TypeSafeEnum_1.htm" />
+  <HelpKINode Title="TypeSafeEnum&lt;T&gt; クラス、演算子" Url="html/Operators_T_WodiLib_Sys_TypeSafeEnum_1.htm" />
+  <HelpKINode Title="TypeSafeEnum&lt;T&gt;.AllItems プロパティ" Url="html/P_WodiLib_Sys_TypeSafeEnum_1_AllItems.htm" />
+  <HelpKINode Title="TypeSafeEnum&lt;T&gt;.Equality 演算子" Url="html/M_WodiLib_Sys_TypeSafeEnum_1_op_Equality.htm" />
+  <HelpKINode Title="TypeSafeEnum&lt;T&gt;.Equals メソッド" Url="html/Overload_WodiLib_Sys_TypeSafeEnum_1_Equals.htm" />
+  <HelpKINode Title="TypeSafeEnum&lt;T&gt;.GetHashCode メソッド" Url="html/M_WodiLib_Sys_TypeSafeEnum_1_GetHashCode.htm" />
+  <HelpKINode Title="TypeSafeEnum&lt;T&gt;.Id プロパティ" Url="html/P_WodiLib_Sys_TypeSafeEnum_1_Id.htm" />
+  <HelpKINode Title="TypeSafeEnum&lt;T&gt;.Inequality 演算子" Url="html/M_WodiLib_Sys_TypeSafeEnum_1_op_Inequality.htm" />
+  <HelpKINode Title="TypeSafeEnum&lt;T&gt;.ToString メソッド" Url="html/M_WodiLib_Sys_TypeSafeEnum_1_ToString.htm" />
+  <HelpKINode Title="TypeSafeEnum&lt;T&gt;.TypeSafeEnum コンストラクター" Url="html/M_WodiLib_Sys_TypeSafeEnum_1__ctor.htm" />
+  <HelpKINode Title="TypeSafeEnum&lt;T&gt;._FindFirst メソッド" Url="html/M_WodiLib_Sys_TypeSafeEnum_1__FindFirst.htm" />
   <HelpKINode Title="TypeSettingList プロパティ" Url="html/P_WodiLib_Database_DatabaseProject_TypeSettingList.htm" />
   <HelpKINode Title="U フィールド" Url="html/F_WodiLib_Ini_EventCommandShortCutKey_U.htm" />
   <HelpKINode Title="Unknown クラス" Url="html/T_WodiLib_Event_EventCommand_Unknown.htm" />
@@ -13821,6 +13675,7 @@
   <HelpKINode Title="WaitMoveCommand.ValueLengthByte プロパティ" Url="html/P_WodiLib_Event_CharaMoveCommand_WaitMoveCommand_ValueLengthByte.htm" />
   <HelpKINode Title="WaitMoveCommand.WaitMoveCommand コンストラクター" Url="html/M_WodiLib_Event_CharaMoveCommand_WaitMoveCommand__ctor.htm" />
   <HelpKINode Title="WaitTime プロパティ" Url="html/P_WodiLib_Event_EventCommand_WaitEventCommand_WaitTime.htm" />
+  <HelpKINode Title="Warning メソッド" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_Warning.htm" />
   <HelpKINode Title="WheelDelta フィールド" Url="html/F_WodiLib_Event_EventCommand_KeyInputMouseTarget_WheelDelta.htm" />
   <HelpKINode Title="Width プロパティ">
     <HelpKINode Title="HitExtendRange.Width プロパティ " Url="html/P_WodiLib_Map_HitExtendRange_Width.htm" />
@@ -14456,21 +14311,23 @@
   <HelpKINode Title="WodiLib.Project.WoditorProject クラス" Url="html/T_WodiLib_Project_WoditorProject.htm" />
   <HelpKINode Title="WodiLib.Sys 名前空間" Url="html/N_WodiLib_Sys.htm" />
   <HelpKINode Title="WodiLib.Sys.ArgumentNewLineException クラス" Url="html/T_WodiLib_Sys_ArgumentNewLineException.htm" />
-  <HelpKINode Title="WodiLib.Sys.ClearItemHandlerList(Of T) クラス" Url="html/T_WodiLib_Sys_ClearItemHandlerList_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.ClearItemHandlerList&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_ClearItemHandlerList_1.htm" />
   <HelpKINode Title="WodiLib.Sys.Cmn 名前空間" Url="html/N_WodiLib_Sys_Cmn.htm" />
   <HelpKINode Title="WodiLib.Sys.Cmn.VersionConfig クラス" Url="html/T_WodiLib_Sys_Cmn_VersionConfig.htm" />
+  <HelpKINode Title="WodiLib.Sys.Cmn.WodiLibLogger クラス" Url="html/T_WodiLib_Sys_Cmn_WodiLibLogger.htm" />
+  <HelpKINode Title="WodiLib.Sys.Cmn.WodiLibLogHandler クラス" Url="html/T_WodiLib_Sys_Cmn_WodiLibLogHandler.htm" />
   <HelpKINode Title="WodiLib.Sys.ContainerNotRegistrationException クラス" Url="html/T_WodiLib_Sys_ContainerNotRegistrationException.htm" />
+  <HelpKINode Title="WodiLib.Sys.DuplicateEnumException クラス" Url="html/T_WodiLib_Sys_DuplicateEnumException.htm" />
   <HelpKINode Title="WodiLib.Sys.Endian クラス" Url="html/T_WodiLib_Sys_Endian.htm" />
   <HelpKINode Title="WodiLib.Sys.EnumerableExtension クラス" Url="html/T_WodiLib_Sys_EnumerableExtension.htm" />
   <HelpKINode Title="WodiLib.Sys.FixedLengthList(Of T) クラス" Url="html/T_WodiLib_Sys_FixedLengthList_1.htm" />
   <HelpKINode Title="WodiLib.Sys.FixedLengthList&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_FixedLengthList_1.htm" />
+  <HelpKINode Title="WodiLib.Sys.IConvertibleByte インターフェイス" Url="html/T_WodiLib_Sys_IConvertibleByte.htm" />
+  <HelpKINode Title="WodiLib.Sys.IConvertibleInt インターフェイス" Url="html/T_WodiLib_Sys_IConvertibleInt.htm" />
+  <HelpKINode Title="WodiLib.Sys.IConvertibleSByte インターフェイス" Url="html/T_WodiLib_Sys_IConvertibleSByte.htm" />
   <HelpKINode Title="WodiLib.Sys.IFixedLengthCollection(Of T) インターフェイス" Url="html/T_WodiLib_Sys_IFixedLengthCollection_1.htm" />
   <HelpKINode Title="WodiLib.Sys.IFixedLengthCollection&lt;T&gt; インターフェイス" Url="html/T_WodiLib_Sys_IFixedLengthCollection_1.htm" />
   <HelpKINode Title="WodiLib.Sys.IModelBase(Of TChild) インターフェイス" Url="html/T_WodiLib_Sys_IModelBase_1.htm" />
   <HelpKINode Title="WodiLib.Sys.IModelBase&lt;TChild&gt; インターフェイス" Url="html/T_WodiLib_Sys_IModelBase_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.InsertItemHandlerList(Of T) クラス" Url="html/T_WodiLib_Sys_InsertItemHandlerList_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.InsertItemHandlerList&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_InsertItemHandlerList_1.htm" />
   <HelpKINode Title="WodiLib.Sys.IntOrStr クラス" Url="html/T_WodiLib_Sys_IntOrStr.htm" />
   <HelpKINode Title="WodiLib.Sys.IntOrStrType クラス" Url="html/T_WodiLib_Sys_IntOrStrType.htm" />
   <HelpKINode Title="WodiLib.Sys.IReadOnlyFixedLengthCollection(Of T) インターフェイス" Url="html/T_WodiLib_Sys_IReadOnlyFixedLengthCollection_1.htm" />
@@ -14482,30 +14339,37 @@
   <HelpKINode Title="WodiLib.Sys.ListConstant クラス" Url="html/T_WodiLib_Sys_ListConstant.htm" />
   <HelpKINode Title="WodiLib.Sys.ModelBase(Of TChild) クラス" Url="html/T_WodiLib_Sys_ModelBase_1.htm" />
   <HelpKINode Title="WodiLib.Sys.ModelBase&lt;TChild&gt; クラス" Url="html/T_WodiLib_Sys_ModelBase_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.OnClearItemHandler(Of T) クラス" Url="html/T_WodiLib_Sys_OnClearItemHandler_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.OnClearItemHandler&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_OnClearItemHandler_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.OnInsertItemHandler(Of T) クラス" Url="html/T_WodiLib_Sys_OnInsertItemHandler_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.OnInsertItemHandler&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_OnInsertItemHandler_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.OnRemoveItemHandler(Of T) クラス" Url="html/T_WodiLib_Sys_OnRemoveItemHandler_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.OnRemoveItemHandler&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_OnRemoveItemHandler_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.OnSetItemHandler(Of T) クラス" Url="html/T_WodiLib_Sys_OnSetItemHandler_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.OnSetItemHandler&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_OnSetItemHandler_1.htm" />
   <HelpKINode Title="WodiLib.Sys.PropertyAccessException クラス" Url="html/T_WodiLib_Sys_PropertyAccessException.htm" />
-  <HelpKINode Title="WodiLib.Sys.PropertyEmptyException クラス" Url="html/T_WodiLib_Sys_PropertyEmptyException.htm" />
   <HelpKINode Title="WodiLib.Sys.PropertyException クラス" Url="html/T_WodiLib_Sys_PropertyException.htm" />
   <HelpKINode Title="WodiLib.Sys.PropertyNullException クラス" Url="html/T_WodiLib_Sys_PropertyNullException.htm" />
   <HelpKINode Title="WodiLib.Sys.PropertyOutOfRangeException クラス" Url="html/T_WodiLib_Sys_PropertyOutOfRangeException.htm" />
-  <HelpKINode Title="WodiLib.Sys.RemoveItemHandlerList(Of T) クラス" Url="html/T_WodiLib_Sys_RemoveItemHandlerList_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.RemoveItemHandlerList&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_RemoveItemHandlerList_1.htm" />
   <HelpKINode Title="WodiLib.Sys.RestrictedCapacityCollection(Of T) クラス" Url="html/T_WodiLib_Sys_RestrictedCapacityCollection_1.htm" />
   <HelpKINode Title="WodiLib.Sys.RestrictedCapacityCollection&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_RestrictedCapacityCollection_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.RestrictedCapacityCollectionHandler(Of T) クラス" Url="html/T_WodiLib_Sys_RestrictedCapacityCollectionHandler_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.RestrictedCapacityCollectionHandler&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_RestrictedCapacityCollectionHandler_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.RestrictedCapacityCollectionHandlerList(Of TItem, THandler) クラス" Url="html/T_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2.htm" />
-  <HelpKINode Title="WodiLib.Sys.RestrictedCapacityCollectionHandlerList&lt;TItem, THandler&gt; クラス" Url="html/T_WodiLib_Sys_RestrictedCapacityCollectionHandlerList_2.htm" />
-  <HelpKINode Title="WodiLib.Sys.SetItemHandlerList(Of T) クラス" Url="html/T_WodiLib_Sys_SetItemHandlerList_1.htm" />
-  <HelpKINode Title="WodiLib.Sys.SetItemHandlerList&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_SetItemHandlerList_1.htm" />
+  <HelpKINode Title="WodiLib.Sys.TypeSafeEnum(Of T) クラス" Url="html/T_WodiLib_Sys_TypeSafeEnum_1.htm" />
+  <HelpKINode Title="WodiLib.Sys.TypeSafeEnum&lt;T&gt; クラス" Url="html/T_WodiLib_Sys_TypeSafeEnum_1.htm" />
   <HelpKINode Title="WodiLib.Sys.WoditorVersion クラス" Url="html/T_WodiLib_Sys_WoditorVersion.htm" />
+  <HelpKINode Title="WodiLibLogger クラス" Url="html/T_WodiLib_Sys_Cmn_WodiLibLogger.htm" />
+  <HelpKINode Title="WodiLibLogger クラス、コンストラクター" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger__ctor.htm" />
+  <HelpKINode Title="WodiLibLogger クラス、プロパティ" Url="html/Properties_T_WodiLib_Sys_Cmn_WodiLibLogger.htm" />
+  <HelpKINode Title="WodiLibLogger クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_Cmn_WodiLibLogger.htm" />
+  <HelpKINode Title="WodiLibLogger フィールド" Url="html/F_WodiLib_Event_CharaMoveCommand_CharaMoveCommandBase_WodiLibLogger.htm" />
+  <HelpKINode Title="WodiLibLogger プロパティ" Url="html/P_WodiLib_Event_EventCommand_EventCommandBase_WodiLibLogger.htm" />
+  <HelpKINode Title="WodiLibLogger.ChangeTargetKey メソッド" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_ChangeTargetKey.htm" />
+  <HelpKINode Title="WodiLibLogger.Debug メソッド" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_Debug.htm" />
+  <HelpKINode Title="WodiLibLogger.Error メソッド" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_Error.htm" />
+  <HelpKINode Title="WodiLibLogger.GetInstance メソッド" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_GetInstance.htm" />
+  <HelpKINode Title="WodiLibLogger.Info メソッド" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_Info.htm" />
+  <HelpKINode Title="WodiLibLogger.LogHandler プロパティ" Url="html/P_WodiLib_Sys_Cmn_WodiLibLogger_LogHandler.htm" />
+  <HelpKINode Title="WodiLibLogger.SetLogHandler メソッド" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_SetLogHandler.htm" />
+  <HelpKINode Title="WodiLibLogger.TargetKeyName プロパティ" Url="html/P_WodiLib_Sys_Cmn_WodiLibLogger_TargetKeyName.htm" />
+  <HelpKINode Title="WodiLibLogger.Warning メソッド" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger_Warning.htm" />
+  <HelpKINode Title="WodiLibLogger.WodiLibLogger コンストラクター" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogger__ctor.htm" />
+  <HelpKINode Title="WodiLibLogHandler クラス" Url="html/T_WodiLib_Sys_Cmn_WodiLibLogHandler.htm" />
+  <HelpKINode Title="WodiLibLogHandler クラス、コンストラクター" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogHandler__ctor.htm" />
+  <HelpKINode Title="WodiLibLogHandler クラス、フィールド" Url="html/Fields_T_WodiLib_Sys_Cmn_WodiLibLogHandler.htm" />
+  <HelpKINode Title="WodiLibLogHandler クラス、メソッド" Url="html/Methods_T_WodiLib_Sys_Cmn_WodiLibLogHandler.htm" />
+  <HelpKINode Title="WodiLibLogHandler.Default フィールド" Url="html/F_WodiLib_Sys_Cmn_WodiLibLogHandler_Default.htm" />
+  <HelpKINode Title="WodiLibLogHandler.WodiLibLogHandler コンストラクター" Url="html/M_WodiLib_Sys_Cmn_WodiLibLogHandler__ctor.htm" />
   <HelpKINode Title="Woditor プロパティ" Url="html/P_WodiLib_Sys_Endian_Woditor.htm" />
   <HelpKINode Title="WoditorBinaryFileWriterBase(Of TFilePath, TFileData) クラス" Url="html/T_WodiLib_IO_WoditorBinaryFileWriterBase_2.htm" />
   <HelpKINode Title="WoditorBinaryFileWriterBase(Of TFilePath, TFileData) クラス、コンストラクター" Url="html/M_WodiLib_IO_WoditorBinaryFileWriterBase_2__ctor.htm" />
@@ -14525,7 +14389,6 @@
   <HelpKINode Title="WoditorFileBase(Of TFilePath, TFileData, TWriter, TReader) クラス、コンストラクター" Url="html/M_WodiLib_IO_WoditorFileBase_4__ctor.htm" />
   <HelpKINode Title="WoditorFileBase(Of TFilePath, TFileData, TWriter, TReader) クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_WoditorFileBase_4.htm" />
   <HelpKINode Title="WoditorFileBase(Of TFilePath, TFileData, TWriter, TReader) クラス、メソッド" Url="html/Methods_T_WodiLib_IO_WoditorFileBase_4.htm" />
-  <HelpKINode Title="WoditorFileBase(Of TFilePath, TFileData, TWriter, TReader).CallbackIO メソッド" Url="html/M_WodiLib_IO_WoditorFileBase_4_CallbackIO.htm" />
   <HelpKINode Title="WoditorFileBase(Of TFilePath, TFileData, TWriter, TReader).FilePath プロパティ" Url="html/P_WodiLib_IO_WoditorFileBase_4_FilePath.htm" />
   <HelpKINode Title="WoditorFileBase(Of TFilePath, TFileData, TWriter, TReader).MakeFileReader メソッド" Url="html/M_WodiLib_IO_WoditorFileBase_4_MakeFileReader.htm" />
   <HelpKINode Title="WoditorFileBase(Of TFilePath, TFileData, TWriter, TReader).MakeFileWriter メソッド" Url="html/M_WodiLib_IO_WoditorFileBase_4_MakeFileWriter.htm" />
@@ -14538,7 +14401,6 @@
   <HelpKINode Title="WoditorFileBase&lt;TFilePath, TFileData, TWriter, TReader&gt; クラス、コンストラクター" Url="html/M_WodiLib_IO_WoditorFileBase_4__ctor.htm" />
   <HelpKINode Title="WoditorFileBase&lt;TFilePath, TFileData, TWriter, TReader&gt; クラス、プロパティ" Url="html/Properties_T_WodiLib_IO_WoditorFileBase_4.htm" />
   <HelpKINode Title="WoditorFileBase&lt;TFilePath, TFileData, TWriter, TReader&gt; クラス、メソッド" Url="html/Methods_T_WodiLib_IO_WoditorFileBase_4.htm" />
-  <HelpKINode Title="WoditorFileBase&lt;TFilePath, TFileData, TWriter, TReader&gt;.CallbackIO メソッド" Url="html/M_WodiLib_IO_WoditorFileBase_4_CallbackIO.htm" />
   <HelpKINode Title="WoditorFileBase&lt;TFilePath, TFileData, TWriter, TReader&gt;.FilePath プロパティ" Url="html/P_WodiLib_IO_WoditorFileBase_4_FilePath.htm" />
   <HelpKINode Title="WoditorFileBase&lt;TFilePath, TFileData, TWriter, TReader&gt;.MakeFileReader メソッド" Url="html/M_WodiLib_IO_WoditorFileBase_4_MakeFileReader.htm" />
   <HelpKINode Title="WoditorFileBase&lt;TFilePath, TFileData, TWriter, TReader&gt;.MakeFileWriter メソッド" Url="html/M_WodiLib_IO_WoditorFileBase_4_MakeFileWriter.htm" />
@@ -14857,6 +14719,7 @@
     <HelpKINode Title="UserDatabaseDatFilePath._FilePathRegex プロパティ " Url="html/P_WodiLib_IO_UserDatabaseDatFilePath__FilePathRegex.htm" />
     <HelpKINode Title="UserDatabaseProjectFilePath._FilePathRegex プロパティ " Url="html/P_WodiLib_IO_UserDatabaseProjectFilePath__FilePathRegex.htm" />
   </HelpKINode>
+  <HelpKINode Title="_FindFirst メソッド" Url="html/M_WodiLib_Sys_TypeSafeEnum_1__FindFirst.htm" />
   <HelpKINode Title="_IsDataIdUseStr プロパティ">
     <HelpKINode Title="DBManagementBase._IsDataIdUseStr プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementBase__IsDataIdUseStr.htm" />
     <HelpKINode Title="DBManagementClearData._IsDataIdUseStr プロパティ " Url="html/P_WodiLib_Event_EventCommand_DBManagementClearData__IsDataIdUseStr.htm" />
