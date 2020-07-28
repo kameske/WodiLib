@@ -59,7 +59,7 @@ namespace WodiLib.Ini
         /// </summary>
         /// <param name="id">ID</param>
         /// <param name="code">コード値</param>
-        public ProjectBackupType(string id, string code) : base(id)
+        private ProjectBackupType(string id, string code) : base(id)
         {
             Code = code;
         }

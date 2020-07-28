@@ -4,9 +4,9 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <Nullable>enable</Nullable>
         <PackageId>WodiLib</PackageId>
-        <PackageVersion>2.2.65534.7</PackageVersion>
+        <PackageVersion>2.3.0.1</PackageVersion>
         <Copyright>Copyright 2019 kameske</Copyright>
-        <Version>2.2.65534.7</Version>
+        <Version>2.3.0.1</Version>
         <PackageProjectUrl>https://github.com/kameske/WodiLib</PackageProjectUrl>
         <PackageLicenseUrl />
         <RepositoryUrl>https://github.com/kameske/WodiLib.git</RepositoryUrl>
@@ -15,7 +15,7 @@
         <Authors>Kameske</Authors>
         <RootNamespace>WodiLib</RootNamespace>
         <Product>WodiLib</Product>
-        <AssemblyVersion>2.2.65534.7</AssemblyVersion>
+        <AssemblyVersion>2.3.0.1</AssemblyVersion>
         <AssemblyName>WodiLib</AssemblyName>
         <LangVersion>8</LangVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -23,6 +23,9 @@
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
       <DocumentationFile>bin\Debug\WodiLib.xml</DocumentationFile>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)'=='Release'">
+      <DocumentationFile>bin\Release\WodiLib.xml</DocumentationFile>
     </PropertyGroup>
 
     <ItemGroup>
