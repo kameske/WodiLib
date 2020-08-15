@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using NUnit.Framework;
 using WodiLib.Database;
 using WodiLib.Sys;
@@ -30,6 +31,106 @@ namespace WodiLib.Test.Database.Internal.DBItemSettingDesc
 
             // プロパティが意図とした値と一致すること
             Assert.AreEqual(instance.SettingType, DBItemSpecialSettingType.ReferDatabase);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
+        }
+
+        [Test]
+        public static void DatabaseReferenceDescGetterTest()
+        {
+            var instance = new DBItemSettingDescDatabase();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            var errorOccured = false;
+            try
+            {
+                var _ = instance.DatabaseReferenceDesc;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
+        }
+
+        [Test]
+        public static void LoadFileDescGetterTest()
+        {
+            var instance = new DBItemSettingDescDatabase();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            var errorOccured = false;
+            try
+            {
+                var _ = instance.LoadFileDesc;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生すること
+            Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
+        }
+
+        [Test]
+        public static void ManualDescGetterTest()
+        {
+            var instance = new DBItemSettingDescDatabase();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            var errorOccured = false;
+            try
+            {
+                var _ = instance.ManualDesc;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生すること
+            Assert.IsTrue(errorOccured);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
+        }
+
+        [Test]
+        public static void NormalDescGetterTest()
+        {
+            var instance = new DBItemSettingDescDatabase();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            var errorOccured = false;
+            try
+            {
+                var _ = instance.NormalDesc;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生すること
+            Assert.IsTrue(errorOccured);
 
             // プロパティ変更通知が発火していないこと
             Assert.AreEqual(changedPropertyList.Count, 0);
@@ -198,107 +299,6 @@ namespace WodiLib.Test.Database.Internal.DBItemSettingDesc
             Assert.IsTrue(changedPropertyList[0].Equals(nameof(instance.DatabaseUseAdditionalItemsFlag)));
         }
 
-
-        [Test]
-        public static void FolderNameGetterTest()
-        {
-            var instance = new DBItemSettingDescDatabase();
-            var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var errorOccured = false;
-            try
-            {
-                var _ = instance.FolderName;
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生すること
-            Assert.IsTrue(errorOccured);
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
-
-        [Test]
-        public static void FolderNameSetterTest()
-        {
-            var instance = new DBItemSettingDescDatabase();
-            var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var errorOccured = false;
-            try
-            {
-                instance.FolderName = "";
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生すること
-            Assert.IsTrue(errorOccured);
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
-
-        [Test]
-        public static void OmissionFolderNameFlagGetterTest()
-        {
-            var instance = new DBItemSettingDescDatabase();
-            var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var errorOccured = false;
-            try
-            {
-                var _ = instance.OmissionFolderNameFlag;
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生すること
-            Assert.IsTrue(errorOccured);
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
-
-        [Test]
-        public static void OmissionFolderNameFlagSetterTest()
-        {
-            var instance = new DBItemSettingDescDatabase();
-            var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var errorOccured = false;
-            try
-            {
-                instance.OmissionFolderNameFlag = true;
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生すること
-            Assert.IsTrue(errorOccured);
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
-
         [Test]
         public static void DefaultType()
         {
@@ -344,7 +344,7 @@ namespace WodiLib.Test.Database.Internal.DBItemSettingDesc
             Assert.IsFalse(errorOccured);
 
             // 選択肢が0であること
-            Assert.AreEqual(instance.GetAllSpecialCase().Count, 0);
+            Assert.AreEqual(instance.GetAllSpecialCase().ToList().Count, 0);
         }
 
         [TestCase(false, 0)]
@@ -363,7 +363,7 @@ namespace WodiLib.Test.Database.Internal.DBItemSettingDesc
             var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
             instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
 
-            List<DatabaseValueCase> allCase = null;
+            IEnumerable<DatabaseValueCase> allCase = null;
 
             var errorOccured = false;
             try
@@ -380,7 +380,7 @@ namespace WodiLib.Test.Database.Internal.DBItemSettingDesc
             Assert.IsFalse(errorOccured);
 
             // 取得した要素数が意図した値と一致すること
-            Assert.AreEqual(allCase.Count, resultLength);
+            Assert.AreEqual(allCase.ToList().Count, resultLength);
 
             // プロパティ変更通知が発火していないこと
             Assert.AreEqual(changedPropertyList.Count, 0);
@@ -411,12 +411,12 @@ namespace WodiLib.Test.Database.Internal.DBItemSettingDesc
             var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
             instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
 
-            List<DatabaseValueCaseNumber> result = null;
+            IReadOnlyList<DatabaseValueCaseNumber> result = null;
 
             var errorOccured = false;
             try
             {
-                result = instance.GetAllSpecialCaseNumber();
+                result = instance.GetAllSpecialCaseNumber().ToList();
             }
             catch (Exception ex)
             {
@@ -456,12 +456,12 @@ namespace WodiLib.Test.Database.Internal.DBItemSettingDesc
             var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
             instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
 
-            List<DatabaseValueCaseDescription> result = null;
+            IReadOnlyList<DatabaseValueCaseDescription> result = null;
 
             var errorOccured = false;
             try
             {
-                result = instance.GetAllSpecialCaseDescription();
+                result = instance.GetAllSpecialCaseDescription().ToList();
             }
             catch (Exception ex)
             {
@@ -474,143 +474,6 @@ namespace WodiLib.Test.Database.Internal.DBItemSettingDesc
 
             // 取得した要素数が意図した値であること
             Assert.AreEqual(result.Count, resultLength);
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-            Assert.AreEqual(changedArgCaseList.Count, 0);
-            Assert.AreEqual(changedArgCaseCollection.Count, 0);
-        }
-
-        [Test]
-        public static void AddSpecialCaseTest()
-        {
-            var instance = new DBItemSettingDescDatabase();
-            var specialCase = new DatabaseValueCase(0, "");
-            var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-            var changedArgCaseList = new List<string>();
-            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
-            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
-            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
-
-            var errorOccured = false;
-            try
-            {
-                instance.AddSpecialCase(specialCase);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生すること
-            Assert.IsTrue(errorOccured);
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-            Assert.AreEqual(changedArgCaseList.Count, 0);
-            Assert.AreEqual(changedArgCaseCollection.Count, 0);
-        }
-
-        [Test]
-        public static void AddRangeSpecialCaseTest()
-        {
-            var instance = new DBItemSettingDescDatabase();
-            var specialCases = new[]
-            {
-                new DatabaseValueCase(0, ""),
-                new DatabaseValueCase(1, "a"),
-                new DatabaseValueCase(2, "あいうえお"),
-            };
-            var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-            var changedArgCaseList = new List<string>();
-            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
-            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
-            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
-
-            var errorOccured = false;
-            try
-            {
-                instance.AddRangeSpecialCase(specialCases);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生すること
-            Assert.IsTrue(errorOccured);
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-            Assert.AreEqual(changedArgCaseList.Count, 0);
-            Assert.AreEqual(changedArgCaseCollection.Count, 0);
-        }
-
-        [Test]
-        public static void InsertSpecialCaseTest()
-        {
-            var instance = new DBItemSettingDescDatabase();
-            var specialCase = new DatabaseValueCase(0, "");
-            var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-            var changedArgCaseList = new List<string>();
-            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
-            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
-            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
-
-            var errorOccured = false;
-            try
-            {
-                instance.InsertSpecialCase(0, specialCase);
-            }
-            catch (Exception)
-            {
-                errorOccured = true;
-            }
-
-            // エラーが発生すること
-            Assert.IsTrue(errorOccured);
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-            Assert.AreEqual(changedArgCaseList.Count, 0);
-            Assert.AreEqual(changedArgCaseCollection.Count, 0);
-        }
-
-        [Test]
-        public static void InsertRangeSpecialCaseTest()
-        {
-            var instance = new DBItemSettingDescDatabase();
-            var specialCases = new[]
-            {
-                new DatabaseValueCase(0, ""),
-                new DatabaseValueCase(1, "a"),
-                new DatabaseValueCase(2, "あいうえお"),
-            };
-            var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-            var changedArgCaseList = new List<string>();
-            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
-            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
-            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
-
-            var errorOccured = false;
-            try
-            {
-                instance.InsertRangeSpecialCase(0, specialCases);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生すること
-            Assert.IsTrue(errorOccured);
 
             // プロパティ変更通知が発火していないこと
             Assert.AreEqual(changedPropertyList.Count, 0);
@@ -727,149 +590,6 @@ namespace WodiLib.Test.Database.Internal.DBItemSettingDesc
                 Assert.AreEqual(changedArgCaseList.Count, 0);
                 Assert.AreEqual(changedArgCaseCollection.Count, 0);
             }
-        }
-
-        [Test]
-        public static void UpdateManualSpecialCaseTest()
-        {
-            var instance = new DBItemSettingDescDatabase();
-            var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-            var changedArgCaseList = new List<string>();
-            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
-            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
-            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
-
-            var errorOccured = false;
-            try
-            {
-                instance.UpdateManualSpecialCase(0, new DatabaseValueCase(0, ""));
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生すること
-            Assert.IsTrue(errorOccured);
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-            Assert.AreEqual(changedArgCaseList.Count, 0);
-            Assert.AreEqual(changedArgCaseCollection.Count, 0);
-        }
-
-        [Test]
-        public static void RemoveSpecialCaseAtTest()
-        {
-            var instance = new DBItemSettingDescDatabase();
-            var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-            var changedArgCaseList = new List<string>();
-            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
-            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
-            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
-
-            var errorOccured = false;
-            try
-            {
-                instance.RemoveSpecialCaseAt(0);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生すること
-            Assert.IsTrue(errorOccured);
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-            Assert.AreEqual(changedArgCaseList.Count, 0);
-            Assert.AreEqual(changedArgCaseCollection.Count, 0);
-        }
-
-        [Test]
-        public static void ClearSpecialCaseTest()
-        {
-            var instance = new DBItemSettingDescDatabase();
-            var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-            var changedArgCaseList = new List<string>();
-            instance.ArgCaseList.PropertyChanged += (sender, args) => { changedArgCaseList.Add(args.PropertyName); };
-            var changedArgCaseCollection = new List<NotifyCollectionChangedEventArgs>();
-            instance.ArgCaseList.CollectionChanged += (sender, args) => { changedArgCaseCollection.Add(args); };
-
-            var errorOccured = false;
-            try
-            {
-                instance.ClearSpecialCase();
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生すること
-            Assert.IsTrue(errorOccured);
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-            Assert.AreEqual(changedArgCaseList.Count, 0);
-            Assert.AreEqual(changedArgCaseCollection.Count, 0);
-        }
-
-        [Test]
-        public static void UpdateDefaultFolderTest()
-        {
-            var instance = new DBItemSettingDescDatabase();
-            var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var errorOccured = false;
-            try
-            {
-                instance.UpdateDefaultFolder("");
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生すること
-            Assert.IsTrue(errorOccured);
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
-
-        [Test]
-        public static void UpdateOmissionFolderNameFlagTest()
-        {
-            var instance = new DBItemSettingDescDatabase();
-            var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var errorOccured = false;
-            try
-            {
-                instance.UpdateOmissionFolderNameFlag(true);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生すること
-            Assert.IsTrue(errorOccured);
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] CanSetItemTestCaseSource =

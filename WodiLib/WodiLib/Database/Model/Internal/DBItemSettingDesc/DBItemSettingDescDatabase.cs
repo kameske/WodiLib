@@ -20,27 +20,30 @@ namespace WodiLib.Database
     /// </summary>
     [Serializable]
     internal class DBItemSettingDescDatabase : DBItemSettingDescBase, IEquatable<DBItemSettingDescDatabase>,
-        ISerializable
+        ISerializable, ISpecialDataSpecificationDatabaseReference
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
         /// <summary>
         /// 値特殊指定タイプ
         /// </summary>
         public override DBItemSpecialSettingType SettingType => DBItemSpecialSettingType.ReferDatabase;
 
+        /// <summary>
+        /// 特殊指定が「データベース参照」の場合の特殊設定情報
+        /// </summary>
+        /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
+        public override ISpecialDataSpecificationDatabaseReference DatabaseReferenceDesc => this;
+
         private DBReferType databaseDbKind = DBReferType.System;
 
-        /// <inheritdoc />
         /// <summary>
         /// [NotNull] DB参照時のDB種別
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
-        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public override DBReferType DatabaseReferKind
+        public DBReferType DatabaseReferKind
         {
             get => databaseDbKind;
             set
@@ -61,7 +64,7 @@ namespace WodiLib.Database
         /// DB参照時のタイプID
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
-        public override TypeId DatabaseDbTypeId
+        public TypeId DatabaseDbTypeId
         {
             get => databaseDbTypeId;
             set
@@ -73,12 +76,11 @@ namespace WodiLib.Database
 
         private bool databaseUseAdditionalItemsFlag;
 
-        /// <inheritdoc />
         /// <summary>
         /// DB参照時の追加項目使用フラグ
         /// </summary>
         /// <exception cref="PropertyException">参照種別が「データベース参照」以外の場合</exception>
-        public override bool DatabaseUseAdditionalItemsFlag
+        public bool DatabaseUseAdditionalItemsFlag
         {
             get => databaseUseAdditionalItemsFlag;
             set
@@ -116,39 +118,33 @@ namespace WodiLib.Database
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
         /// <summary>
         /// 引数種別によらずすべての選択肢を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public override List<DatabaseValueCase> GetAllSpecialCase()
+        public override IEnumerable<DatabaseValueCase> GetAllSpecialCase()
         {
             // -1～-3を使用しない場合は空リストで良い
             if (!DatabaseUseAdditionalItemsFlag) return new List<DatabaseValueCase>();
             return argCaseList.ToList();
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// すべての選択肢番号を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public override List<DatabaseValueCaseNumber> GetAllSpecialCaseNumber()
+        public override IEnumerable<DatabaseValueCaseNumber> GetAllSpecialCaseNumber()
         {
-            return new List<DatabaseValueCaseNumber>
-            {
-                DatabaseReferKind.Code,
-                (int) DatabaseDbTypeId,
-                DatabaseUseAdditionalItemsFlag ? 1 : 0
-            };
+            yield return DatabaseReferKind.Code;
+            yield return (int) DatabaseDbTypeId;
+            yield return DatabaseUseAdditionalItemsFlag ? 1 : 0;
         }
 
-        /// <inheritdoc />
         /// <summary>
         /// すべての選択肢文字列を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public override List<DatabaseValueCaseDescription> GetAllSpecialCaseDescription()
+        public override IEnumerable<DatabaseValueCaseDescription> GetAllSpecialCaseDescription()
         {
             if (!DatabaseUseAdditionalItemsFlag) return new List<DatabaseValueCaseDescription>();
 
@@ -163,9 +159,9 @@ namespace WodiLib.Database
         /// <param name="description">[NotNull][NotNewLine] 文字列</param>
         /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">caseNumberが指定範囲外の場合</exception>
-        /// <exception cref="ArgumentNullException">descriptionがEmptyの場合</exception>
+        /// <exception cref="ArgumentNullException">descriptionがnullの場合</exception>
         /// <exception cref="ArgumentNewLineException">descriptionが改行を含む場合</exception>
-        public override void UpdateDatabaseSpecialCase(int caseNumber,
+        public void UpdateDatabaseSpecialCase(int caseNumber,
             DatabaseValueCaseDescription description)
         {
             var argCase = new DatabaseValueCase(caseNumber, description);
@@ -233,6 +229,22 @@ namespace WodiLib.Database
                    && DatabaseUseAdditionalItemsFlag == other.DatabaseUseAdditionalItemsFlag
                    && DatabaseReferKind == other.DatabaseReferKind
                    && argCaseList.Equals(other.argCaseList);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(ISpecialDataSpecificationDatabaseReference other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
+
+            return DatabaseDbTypeId == other.DatabaseDbTypeId
+                   && DatabaseUseAdditionalItemsFlag == other.DatabaseUseAdditionalItemsFlag
+                   && DatabaseReferKind == other.DatabaseReferKind
+                   && GetAllSpecialCase().SequenceEqual(other.GetAllSpecialCase());
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

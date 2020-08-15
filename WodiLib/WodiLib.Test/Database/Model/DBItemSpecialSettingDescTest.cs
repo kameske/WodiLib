@@ -54,6 +54,39 @@ namespace WodiLib.Test.Database
             Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
+        private static readonly object[] DatabaseReferenceDescTestCaseSource =
+        {
+            new object[] {DBItemSpecialSettingType.Normal, true},
+            new object[] {DBItemSpecialSettingType.Manual, true},
+            new object[] {DBItemSpecialSettingType.LoadFile, true},
+            new object[] {DBItemSpecialSettingType.ReferDatabase, false},
+        };
+
+        [TestCaseSource(nameof(DatabaseReferenceDescTestCaseSource))]
+        public static void DatabaseReferenceDescGetterTest(DBItemSpecialSettingType type, bool isError)
+        {
+            var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            var errorOccured = false;
+            try
+            {
+                var _ = instance.DatabaseReferenceDesc;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
+        }
+
         private static readonly object[] DatabaseReferKindTestCaseSource =
         {
             new object[] {DBItemSpecialSettingType.Normal, true},
@@ -72,7 +105,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                var _ = instance.DatabaseReferKind;
+                var _ = instance.DatabaseReferenceDesc.DatabaseReferKind;
             }
             catch (Exception ex)
             {
@@ -97,7 +130,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance.DatabaseReferKind = DBReferType.User;
+                instance.DatabaseReferenceDesc.DatabaseReferKind = DBReferType.User;
             }
             catch (Exception ex)
             {
@@ -115,8 +148,7 @@ namespace WodiLib.Test.Database
             }
             else
             {
-                Assert.AreEqual(changedPropertyList.Count, 1);
-                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBItemSpecialSettingDesc.DatabaseReferKind)));
+                Assert.AreEqual(changedPropertyList.Count, 0);
             }
         }
 
@@ -138,7 +170,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                var _ = instance.DatabaseDbTypeId;
+                var _ = instance.DatabaseReferenceDesc.DatabaseDbTypeId;
             }
             catch (Exception ex)
             {
@@ -163,7 +195,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance.DatabaseDbTypeId = 0;
+                instance.DatabaseReferenceDesc.DatabaseDbTypeId = 0;
             }
             catch (Exception ex)
             {
@@ -181,8 +213,8 @@ namespace WodiLib.Test.Database
             }
             else
             {
-                Assert.AreEqual(changedPropertyList.Count, 1);
-                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBItemSpecialSettingDesc.DatabaseDbTypeId)));
+                //
+                Assert.AreEqual(changedPropertyList.Count, 0);
             }
         }
 
@@ -204,7 +236,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                var _ = instance.DatabaseUseAdditionalItemsFlag;
+                var _ = instance.DatabaseReferenceDesc.DatabaseUseAdditionalItemsFlag;
             }
             catch (Exception ex)
             {
@@ -229,7 +261,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance.DatabaseUseAdditionalItemsFlag = false;
+                instance.DatabaseReferenceDesc.DatabaseUseAdditionalItemsFlag = false;
             }
             catch (Exception ex)
             {
@@ -247,10 +279,41 @@ namespace WodiLib.Test.Database
             }
             else
             {
-                Assert.AreEqual(changedPropertyList.Count, 1);
-                Assert.IsTrue(changedPropertyList[0]
-                    .Equals(nameof(DBItemSpecialSettingDesc.DatabaseUseAdditionalItemsFlag)));
+                Assert.AreEqual(changedPropertyList.Count, 0);
             }
+        }
+
+        private static readonly object[] LoadFileDescTestCaseSource =
+        {
+            new object[] {DBItemSpecialSettingType.Normal, true},
+            new object[] {DBItemSpecialSettingType.Manual, true},
+            new object[] {DBItemSpecialSettingType.LoadFile, false},
+            new object[] {DBItemSpecialSettingType.ReferDatabase, true},
+        };
+
+        [TestCaseSource(nameof(LoadFileDescTestCaseSource))]
+        public static void LoadFileDescGetterTest(DBItemSpecialSettingType type, bool isError)
+        {
+            var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            var errorOccured = false;
+            try
+            {
+                var _ = instance.LoadFileDesc;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] FolderNameTestCaseSource =
@@ -271,7 +334,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                var _ = instance.FolderName;
+                var _ = instance.LoadFileDesc.FolderName;
             }
             catch (Exception ex)
             {
@@ -296,7 +359,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance.FolderName = "";
+                instance.LoadFileDesc.FolderName = "";
             }
             catch (Exception ex)
             {
@@ -314,8 +377,7 @@ namespace WodiLib.Test.Database
             }
             else
             {
-                Assert.AreEqual(changedPropertyList.Count, 1);
-                Assert.IsTrue(changedPropertyList[0].Equals(nameof(instance.FolderName)));
+                Assert.AreEqual(changedPropertyList.Count, 0);
             }
         }
 
@@ -337,7 +399,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                var _ = instance.OmissionFolderNameFlag;
+                var _ = instance.LoadFileDesc.OmissionFolderNameFlag;
             }
             catch (Exception ex)
             {
@@ -362,7 +424,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance.OmissionFolderNameFlag = true;
+                instance.LoadFileDesc.OmissionFolderNameFlag = true;
             }
             catch (Exception ex)
             {
@@ -380,9 +442,74 @@ namespace WodiLib.Test.Database
             }
             else
             {
-                Assert.AreEqual(changedPropertyList.Count, 1);
-                Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBItemSpecialSettingDesc.OmissionFolderNameFlag)));
+                Assert.AreEqual(changedPropertyList.Count, 0);
             }
+        }
+
+        private static readonly object[] ManualDescTestCaseSource =
+        {
+            new object[] {DBItemSpecialSettingType.Normal, true},
+            new object[] {DBItemSpecialSettingType.Manual, false},
+            new object[] {DBItemSpecialSettingType.LoadFile, true},
+            new object[] {DBItemSpecialSettingType.ReferDatabase, true},
+        };
+
+        [TestCaseSource(nameof(ManualDescTestCaseSource))]
+        public static void ManualDescGetterTest(DBItemSpecialSettingType type, bool isError)
+        {
+            var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            var errorOccured = false;
+            try
+            {
+                var _ = instance.ManualDesc;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
+        }
+
+        private static readonly object[] NormalDescTestCaseSource =
+        {
+            new object[] {DBItemSpecialSettingType.Normal, false},
+            new object[] {DBItemSpecialSettingType.Manual, true},
+            new object[] {DBItemSpecialSettingType.LoadFile, true},
+            new object[] {DBItemSpecialSettingType.ReferDatabase, true},
+        };
+
+        [TestCaseSource(nameof(NormalDescTestCaseSource))]
+        public static void NormalDescGetterTest(DBItemSpecialSettingType type, bool isError)
+        {
+            var instance = MakeInstance(type);
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            var errorOccured = false;
+            try
+            {
+                var _ = instance.NormalDesc;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
         private static readonly object[] ArgCaseListGetterTestCaseSource =
@@ -720,7 +847,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance.AddSpecialCase(argCase);
+                instance.ManualDesc.AddSpecialCase(argCase);
             }
             catch (Exception ex)
             {
@@ -793,7 +920,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance.AddSpecialCaseRange(cases);
+                instance.ManualDesc.AddSpecialCaseRange(cases);
             }
             catch (Exception ex)
             {
@@ -851,10 +978,10 @@ namespace WodiLib.Test.Database
             int index, DatabaseValueCase argCase, bool isError)
         {
             var instance = MakeInstance(type);
-            if (caseLength != null)
+            if (caseLength != null && type == DBItemSpecialSettingType.Manual)
             {
                 var addList = MakeCaseList(caseLength.Value);
-                instance.AddSpecialCaseRange(addList);
+                instance.ManualDesc.AddSpecialCaseRange(addList);
             }
 
             var changedPropertyList = new List<string>();
@@ -867,7 +994,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance.InsertSpecialCase(index, argCase);
+                instance.ManualDesc.InsertSpecialCase(index, argCase);
             }
             catch (Exception ex)
             {
@@ -964,10 +1091,10 @@ namespace WodiLib.Test.Database
             int index, int insertLength, bool hasNullItem, bool isError)
         {
             var instance = MakeInstance(type);
-            if (caseLength != null)
+            if (caseLength != null && type == DBItemSpecialSettingType.Manual)
             {
                 var addList = MakeCaseList(caseLength.Value);
-                instance.AddSpecialCaseRange(addList);
+                instance.ManualDesc.AddSpecialCaseRange(addList);
             }
 
             var changedPropertyList = new List<string>();
@@ -982,7 +1109,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance.InsertSpecialCaseRange(index, cases);
+                instance.ManualDesc.InsertSpecialCaseRange(index, cases);
             }
             catch (Exception ex)
             {
@@ -1061,7 +1188,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance.UpdateDatabaseSpecialCase(caseNumber, description);
+                instance.DatabaseReferenceDesc.UpdateDatabaseSpecialCase(caseNumber, description);
             }
             catch (Exception ex)
             {
@@ -1117,10 +1244,10 @@ namespace WodiLib.Test.Database
             int index, DatabaseValueCase argCase, bool isError)
         {
             var instance = MakeInstance(type);
-            if (caseLength != null)
+            if (caseLength != null && type == DBItemSpecialSettingType.Manual)
             {
                 var addList = MakeCaseList(caseLength.Value);
-                instance.AddSpecialCaseRange(addList);
+                instance.ManualDesc.AddSpecialCaseRange(addList);
             }
 
             var changedPropertyList = new List<string>();
@@ -1133,7 +1260,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance.UpdateManualSpecialCase(index, argCase);
+                instance.ManualDesc.UpdateManualSpecialCase(index, argCase);
             }
             catch (Exception ex)
             {
@@ -1179,10 +1306,10 @@ namespace WodiLib.Test.Database
             int index, bool isError)
         {
             var instance = MakeInstance(type);
-            if (caseLength != null)
+            if (caseLength != null && type == DBItemSpecialSettingType.Manual)
             {
                 var addList = MakeCaseList(caseLength.Value);
-                instance.AddSpecialCaseRange(addList);
+                instance.ManualDesc.AddSpecialCaseRange(addList);
             }
 
             var changedPropertyList = new List<string>();
@@ -1195,7 +1322,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance.RemoveAt(index);
+                instance.ManualDesc.RemoveSpecialCaseAt(index);
             }
             catch (Exception ex)
             {
@@ -1262,7 +1389,7 @@ namespace WodiLib.Test.Database
             if (caseLength != null)
             {
                 var addList = MakeCaseList(caseLength.Value);
-                instance.AddSpecialCaseRange(addList);
+                instance.ManualDesc.AddSpecialCaseRange(addList);
             }
 
             var changedPropertyList = new List<string>();
@@ -1275,7 +1402,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance.RemoveRange(index, count);
+                instance.ManualDesc.RemoveSpecialCaseRange(index, count);
             }
             catch (Exception ex)
             {
@@ -1325,7 +1452,7 @@ namespace WodiLib.Test.Database
             var errorOccured = false;
             try
             {
-                instance.Clear();
+                instance.ManualDesc.ClearSpecialCase();
             }
             catch (Exception ex)
             {

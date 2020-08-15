@@ -17,7 +17,8 @@ namespace WodiLib.Database
     /// データベース設定値特殊指定・ファイル読み込み
     /// </summary>
     [Serializable]
-    internal class DBItemSettingDescLoadFile : DBItemSettingDescBase, IEquatable<DBItemSettingDescLoadFile>
+    internal class DBItemSettingDescLoadFile : DBItemSettingDescBase, IEquatable<DBItemSettingDescLoadFile>,
+        ISpecialDataSpecificationLoadFile
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -29,6 +30,12 @@ namespace WodiLib.Database
         /// </summary>
         public override DBItemSpecialSettingType SettingType => DBItemSpecialSettingType.LoadFile;
 
+        /// <summary>
+        /// 特殊指定が「ファイル読み込み」の場合の特殊設定情報
+        /// </summary>
+        /// <exception cref="PropertyException">特殊指定が「ファイル読み込み」以外の場合</exception>
+        public override ISpecialDataSpecificationLoadFile LoadFileDesc => this;
+
         private DBSettingFolderName folderName = "";
 
         /// <summary>
@@ -36,7 +43,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「ファイル読み込み」以外の場合</exception>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        public override DBSettingFolderName FolderName
+        public DBSettingFolderName FolderName
         {
             get => folderName;
             set
@@ -56,7 +63,7 @@ namespace WodiLib.Database
         /// ファイル読み込み時の保存時にフォルダ名省略フラグ
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「ファイル読み込み」以外の場合</exception>
-        public override bool OmissionFolderNameFlag
+        public bool OmissionFolderNameFlag
         {
             get => omissionFolderNameFlag;
             set
@@ -116,7 +123,7 @@ namespace WodiLib.Database
         /// 引数種別によらずすべての選択肢を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public override List<DatabaseValueCase> GetAllSpecialCase()
+        public override IEnumerable<DatabaseValueCase> GetAllSpecialCase()
         {
             var omissionFlagValue = OmissionFolderNameFlag ? 1 : 0;
             return new List<DatabaseValueCase>
@@ -130,7 +137,7 @@ namespace WodiLib.Database
         /// すべての選択肢番号を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public override List<DatabaseValueCaseNumber> GetAllSpecialCaseNumber()
+        public override IEnumerable<DatabaseValueCaseNumber> GetAllSpecialCaseNumber()
         {
             return GetAllCase().Select(x => x.CaseNumber).ToList();
         }
@@ -140,34 +147,9 @@ namespace WodiLib.Database
         /// すべての選択肢文字列を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public override List<DatabaseValueCaseDescription> GetAllSpecialCaseDescription()
+        public override IEnumerable<DatabaseValueCaseDescription> GetAllSpecialCaseDescription()
         {
             return GetAllCase().Select(x => x.Description).ToList();
-        }
-
-        /// <summary>
-        /// ファイル読み込み時のデフォルトフォルダを更新する。
-        /// </summary>
-        /// <param name="folderName">[NotNull] デフォルトフォルダ</param>
-        /// <exception cref="InvalidOperationException">特殊指定が「フォルダ読み込み」以外の場合</exception>
-        /// <exception cref="ArgumentNullException">folderNameがnullの場合</exception>
-        public override void UpdateDefaultFolder(DBSettingFolderName folderName)
-        {
-            if (folderName is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(folderName)));
-
-            FolderName = folderName;
-        }
-
-        /// <summary>
-        /// ファイル読み込み時のフォルダ名省略フラグを更新する。
-        /// </summary>
-        /// <param name="flag">フォルダ名省略フラグ</param>
-        /// <exception cref="InvalidOperationException">特殊指定が「フォルダ読み込み」以外の場合</exception>
-        public override void UpdateOmissionFolderNameFlag(bool flag)
-        {
-            OmissionFolderNameFlag = flag;
         }
 
         /// <summary>
@@ -221,6 +203,20 @@ namespace WodiLib.Database
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
         public bool Equals(DBItemSettingDescLoadFile other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            return FolderName == other.FolderName
+                   && OmissionFolderNameFlag == other.OmissionFolderNameFlag;
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(ISpecialDataSpecificationLoadFile other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

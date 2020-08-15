@@ -58,12 +58,11 @@ namespace WodiLib.Database
             }
         }
 
-        private DBKind dbKind = DBKind.System;
-
         /// <summary>
         /// データの設定方法＝指定DBの場合の指定DB種別
         /// </summary>
         /// <exception cref="PropertyAccessException">DataSettingTypeがDesignatedTypeではない場合</exception>
+        [Obsolete("このプロパティは Ver 1.6 で廃止します。代わりに ReferDatabaseDesc プロパティを参照してください。")]
         public DBKind DBKind
         {
             get
@@ -71,21 +70,15 @@ namespace WodiLib.Database
                 if (DataSettingType != DBDataSettingType.DesignatedType)
                     throw new PropertyAccessException(PropertyErrorMessage);
 
-                return dbKind;
-            }
-            private set
-            {
-                dbKind = value;
-                NotifyPropertyChanged();
+                return ReferDatabaseDesc.DBKind;
             }
         }
-
-        private TypeId typeId = 0;
 
         /// <summary>
         /// データの設定方法＝指定DBの場合の指定DBタイプID
         /// </summary>
         /// <exception cref="PropertyAccessException">DataSettingTypeがDesignatedTypeではない場合</exception>
+        [Obsolete("このプロパティは Ver 1.6 で廃止します。代わりに ReferDatabaseDesc プロパティを参照してください。")]
         public TypeId TypeId
         {
             get
@@ -93,8 +86,34 @@ namespace WodiLib.Database
                 if (DataSettingType != DBDataSettingType.DesignatedType)
                     throw new PropertyAccessException(PropertyErrorMessage);
 
-                return typeId;
+                return ReferDatabaseDesc.TypeId;
             }
+        }
+
+        private DataIdSpecificationDesc referDatabaseDesc;
+
+        /// <summary>
+        /// データの設定方法＝指定DBの場合の指定DB情報
+        /// </summary>
+        /// <exception cref="PropertyAccessException">DataSettingTypeがDesignatedTypeではない場合</exception>
+        public DataIdSpecificationDesc ReferDatabaseDesc
+        {
+            get
+            {
+                if (DataSettingType != DBDataSettingType.DesignatedType)
+                    throw new PropertyAccessException(PropertyErrorMessage);
+                return referDatabaseDesc;
+            }
+        }
+
+        private void SetReferDatabaseDesc(DataIdSpecificationDesc value)
+        {
+            referDatabaseDesc = value;
+            NotifyPropertyChanged(nameof(ReferDatabaseDesc));
+#pragma warning disable 618 // TODO: Ver 1.6 までの暫定処置
+            NotifyPropertyChanged(nameof(DBKind));
+            NotifyPropertyChanged(nameof(TypeId));
+#pragma warning restore 618
         }
 
         private DBItemValuesList settingValuesList = new DBItemValuesList();
@@ -136,10 +155,27 @@ namespace WodiLib.Database
         ///     settingTypeがnullの場合、
         ///     またはsettingType が DesignatedType かつ dbKindがnullの場合
         /// </exception>
+        [Obsolete("このコンストラクタは Ver 1.6 で廃止します。" +
+                  "代わりに DBDataSetting(DBDataSettingType, DataIdSpecificationDesc) コンストラクタを使用してください。" +
+                  "第2,第3引数を省略している場合はこの警告を無視して構いません。（Ver 2.6で警告が消えます）")]
         public DBDataSetting(DBDataSettingType settingType,
             DBKind dbKind = null, TypeId? typeId = null)
         {
             SetDataSettingType(settingType, dbKind, typeId);
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="settingType">[NotNull] データの設定方法種別</param>
+        /// <param name="referDatabaseDesc">[Nullable] 種別が「データベース参照」の場合の参照DB情報</param>
+        /// <exception cref="ArgumentNullException">
+        ///     settingTypeがnullの場合、
+        ///     またはsettingType が DesignatedType かつ referDatabaseDescがnullの場合
+        /// </exception>
+        public DBDataSetting(DBDataSettingType settingType, DataIdSpecificationDesc referDatabaseDesc)
+        {
+            SetDataSettingType(settingType, referDatabaseDesc);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -156,6 +192,9 @@ namespace WodiLib.Database
         ///     settingTypeがnullの場合、
         ///     またはsettingType が DesignatedType かつ dbKindまたはtypeIdがnullの場合
         /// </exception>
+        [Obsolete("このメソッドは Ver 1.6 で廃止します。" +
+                  "代わりに SetDataSettingType(DBDataSettingType, ReferDatabaseDesc) メソッドを使用してください。" +
+                  "第2,第3引数を省略している場合はこの警告を無視して構いません。（Ver 2.6で警告が消えます）")]
         public void SetDataSettingType(DBDataSettingType settingType,
             DBKind dbKind = null, TypeId? typeId = null)
         {
@@ -165,10 +204,8 @@ namespace WodiLib.Database
 
             if (settingType != DBDataSettingType.DesignatedType)
             {
-                // 設定種別≠指定DBの指定タイプ の場合、DB種別とタイプIDは無視して設定を上書きするだけ
                 DataSettingType = settingType;
-                NotifyPropertyChanged(nameof(DBKind));
-                NotifyPropertyChanged(nameof(TypeId));
+                SetReferDatabaseDesc(null);
                 return;
             }
 
@@ -181,9 +218,40 @@ namespace WodiLib.Database
                     ErrorMessage.NotNull(nameof(typeId)));
 
             DataSettingType = settingType;
-            DBKind = dbKind;
-            this.typeId = typeId.Value;
-            NotifyPropertyChanged(nameof(TypeId));
+            SetReferDatabaseDesc(new DataIdSpecificationDesc(dbKind, typeId.Value));
+        }
+
+        /// <summary>
+        /// データの設定方法をセットする。
+        /// </summary>
+        /// <param name="settingType">[NotNull] データの設定方法種別</param>
+        /// <param name="referDatabaseDesc">[Nullable] 種別が「データベース参照」の場合の参照DB情報</param>
+        /// <exception cref="ArgumentNullException">
+        ///     settingTypeがnullの場合、
+        ///     またはsettingType が DesignatedType かつ referDatabaseDescがnullの場合
+        /// </exception>
+        public void SetDataSettingType(DBDataSettingType settingType,
+            DataIdSpecificationDesc referDatabaseDesc /* = null */) // TODO: Ver 1.6 以降 referDatabaseDesc のデフォルト値を null とする
+        {
+            if (settingType is null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(settingType)));
+
+            if (settingType != DBDataSettingType.DesignatedType)
+            {
+                // 設定種別≠指定DBの指定タイプ の場合、DB種別とタイプIDは無視して設定を上書きするだけ
+                DataSettingType = settingType;
+                SetReferDatabaseDesc(null);
+                return;
+            }
+
+            // 設定種別＝指定DBの指定タイプ の場合、参照情報必須なのでチェック
+            if (referDatabaseDesc is null)
+                throw new ArgumentNullException(
+                    ErrorMessage.NotNull(nameof(referDatabaseDesc)));
+
+            DataSettingType = settingType;
+            SetReferDatabaseDesc(referDatabaseDesc);
         }
 
         /// <summary>
@@ -195,10 +263,21 @@ namespace WodiLib.Database
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return DataSettingType.Equals(other.DataSettingType)
-                   && dbKind == other.dbKind
-                   && typeId == other.typeId
-                   && settingValuesList.Equals(other.settingValuesList);
+
+            if (
+                !DataSettingType.Equals(other.DataSettingType)
+                || !settingValuesList.Equals(other.settingValuesList)
+            ) return false;
+
+            if (DataSettingType == DBDataSettingType.DesignatedType)
+            {
+                // データの設定方法 ＝指定DB の場合のみ、DB参照情報の比較
+                if (
+                    !EquatableCompareHelper.Equals(ReferDatabaseDesc, other.ReferDatabaseDesc)
+                ) return false;
+            }
+
+            return true;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -220,7 +299,7 @@ namespace WodiLib.Database
             if (DataSettingType == DBDataSettingType.DesignatedType)
             {
                 // 指定方法＝指定DBの指定タイプ の場合、DBタイプによる値 + タイプID
-                var typeCode = DBKind.DBDataSettingTypeCode * 10000 + TypeId;
+                var typeCode = ReferDatabaseDesc.ToTypeCode();
                 result.AddRange(typeCode.ToBytes(Endian.Woditor));
             }
             else
@@ -251,8 +330,7 @@ namespace WodiLib.Database
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(DataSettingType), DataSettingType.Code);
-            info.AddValue(nameof(dbKind), dbKind.Code);
-            info.AddValue(nameof(typeId), typeId);
+            info.AddValue(nameof(referDatabaseDesc), referDatabaseDesc);
             info.AddValue(nameof(settingValuesList), settingValuesList);
         }
 
@@ -265,8 +343,7 @@ namespace WodiLib.Database
         protected DBDataSetting(SerializationInfo info, StreamingContext context)
         {
             DataSettingType = DBDataSettingType.FromCode(info.GetInt32(nameof(DataSettingType)));
-            dbKind = DBKind.FromCode(info.GetByte(nameof(dbKind)));
-            typeId = info.GetInt32(nameof(typeId));
+            referDatabaseDesc = info.GetValue<DataIdSpecificationDesc>(nameof(referDatabaseDesc));
             settingValuesList = info.GetValue<DBItemValuesList>(nameof(settingValuesList));
         }
     }

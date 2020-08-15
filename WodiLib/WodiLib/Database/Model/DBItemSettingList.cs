@@ -149,8 +149,8 @@ namespace WodiLib.Database
             foreach (var data in useDataList)
             {
                 itemMemos.Add(data.ItemMemo);
-                specialCaseDescriptions.Add(data.GetAllSpecialCaseDescription());
-                specialCaseNumbers.Add((data.GetAllSpecialCaseNumber()));
+                specialCaseDescriptions.Add(data.GetAllSpecialCaseDescription().ToList());
+                specialCaseNumbers.Add(data.GetAllSpecialCaseNumber().ToList());
                 initValues.Add(data.InitValue);
             }
 
@@ -170,7 +170,7 @@ namespace WodiLib.Database
                 // 文字列パラメータ数
                 result.AddRange(x.Count.ToBytes(Endian.Woditor));
                 // 文字列パラメータ
-                x.ForEach((y, _) =>
+                x.ForEach(y =>
                     result.AddRange(y.ToWoditorStringBytes()));
             });
 
@@ -183,7 +183,7 @@ namespace WodiLib.Database
                 // 数値パラメータ数
                 result.AddRange(x.Count.ToBytes(Endian.Woditor));
                 // 数値パラメータ
-                x.ForEach((y, _) =>
+                x.ForEach(y =>
                     result.AddRange(y.ToBytes(Endian.Woditor)));
             });
 

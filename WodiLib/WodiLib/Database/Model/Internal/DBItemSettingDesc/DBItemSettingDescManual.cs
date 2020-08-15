@@ -17,7 +17,8 @@ namespace WodiLib.Database
     /// データベース設定値特殊指定・選択肢手動生成
     /// </summary>
     [Serializable]
-    internal class DBItemSettingDescManual : DBItemSettingDescBase, IEquatable<DBItemSettingDescManual>
+    internal class DBItemSettingDescManual : DBItemSettingDescBase, IEquatable<DBItemSettingDescManual>,
+        ISpecialDataSpecificationCreateOptions
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -37,6 +38,13 @@ namespace WodiLib.Database
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 特殊指定が「手動設定」の場合の特殊設定情報
+        /// </summary>
+        /// <exception cref="PropertyException">特殊指定が「手動設定」以外の場合</exception>
+        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
+        public override ISpecialDataSpecificationCreateOptions ManualDesc => this;
 
         /// <summary>選択肢リスト</summary>
         private DatabaseValueCaseList argCaseList = new DatabaseValueCaseList();
@@ -66,12 +74,11 @@ namespace WodiLib.Database
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
         /// <summary>
         /// 引数種別によらずすべての選択肢を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public override List<DatabaseValueCase> GetAllSpecialCase()
+        public override IEnumerable<DatabaseValueCase> GetAllSpecialCase()
         {
             return argCaseList.ToList();
         }
@@ -81,7 +88,7 @@ namespace WodiLib.Database
         /// すべての選択肢番号を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public override List<DatabaseValueCaseNumber> GetAllSpecialCaseNumber()
+        public override IEnumerable<DatabaseValueCaseNumber> GetAllSpecialCaseNumber()
         {
             return GetAllManualCase().Select(x => x.CaseNumber).ToList();
         }
@@ -91,7 +98,7 @@ namespace WodiLib.Database
         /// すべての選択肢文字列を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public override List<DatabaseValueCaseDescription> GetAllSpecialCaseDescription()
+        public override IEnumerable<DatabaseValueCaseDescription> GetAllSpecialCaseDescription()
         {
             return GetAllManualCase().Select(x => x.Description).ToList();
         }
@@ -101,7 +108,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="argCase">[NotNull] 選択肢情報</param>
         /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
-        public override void AddSpecialCase(DatabaseValueCase argCase)
+        public void AddSpecialCase(DatabaseValueCase argCase)
         {
             if (argCase is null)
                 throw new ArgumentNullException(
@@ -114,8 +121,8 @@ namespace WodiLib.Database
         /// 選択肢を追加する。
         /// </summary>
         /// <param name="argCases">[NotNull] 選択肢</param>
-        /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
-        public override void AddRangeSpecialCase(IEnumerable<DatabaseValueCase> argCases)
+        /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
+        public void AddSpecialCaseRange(IEnumerable<DatabaseValueCase> argCases)
         {
             if (argCases is null)
                 throw new ArgumentNullException(
@@ -131,7 +138,7 @@ namespace WodiLib.Database
         /// <param name="argCase">[NotNull] 選択肢情報</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void InsertSpecialCase(int index, DatabaseValueCase argCase)
+        public void InsertSpecialCase(int index, DatabaseValueCase argCase)
         {
             var max = argCaseList.Count;
             const int min = 0;
@@ -153,7 +160,7 @@ namespace WodiLib.Database
         /// <param name="argCases">[NotNull] 選択肢</param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public override void InsertRangeSpecialCase(int index, IEnumerable<DatabaseValueCase> argCases)
+        public void InsertSpecialCaseRange(int index, IEnumerable<DatabaseValueCase> argCases)
         {
             var max = argCaseList.Count;
             const int min = 0;
@@ -176,7 +183,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
-        public override void UpdateManualSpecialCase(int index, DatabaseValueCase argCase)
+        public void UpdateManualSpecialCase(int index, DatabaseValueCase argCase)
         {
             var max = argCaseList.Count;
             const int min = 0;
@@ -195,7 +202,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="index">[Range(0, ManualCaseLength - 1)] インデックス</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲以外の場合</exception>
-        public override void RemoveSpecialCaseAt(int index)
+        public void RemoveSpecialCaseAt(int index)
         {
             var max = argCaseList.Count - 1;
             const int min = 0;
@@ -213,7 +220,7 @@ namespace WodiLib.Database
         /// <param name="count">[Range(0, ManualCaseLength)] 削除数</param>
         /// <exception cref="ArgumentOutOfRangeException">index、またはcountが指定範囲以外の場合</exception>
         /// <exception cref="ArgumentException">リストの範囲を超えて削除しようとする場合</exception>
-        public override void RemoveSpecialCaseRange(int index, int count)
+        public void RemoveSpecialCaseRange(int index, int count)
         {
             var allLength = argCaseList.Count;
 
@@ -240,7 +247,7 @@ namespace WodiLib.Database
         /// 選択肢をクリアする。
         /// </summary>
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
-        public override void ClearSpecialCase()
+        public void ClearSpecialCase()
         {
             argCaseList.Clear();
         }
@@ -301,6 +308,14 @@ namespace WodiLib.Database
             if (ReferenceEquals(this, other)) return true;
 
             return argCaseList.Equals(other.argCaseList);
+        }
+
+        public bool Equals(ISpecialDataSpecificationCreateOptions other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            return GetAllSpecialCase().SequenceEqual(other.GetAllSpecialCase());
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
