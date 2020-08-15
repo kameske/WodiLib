@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Commons;
 using NUnit.Framework;
 using WodiLib.Database;
@@ -138,7 +139,7 @@ namespace WodiLib.Test.Database.Internal.DBItemSettingDesc
             if (errorOccured) return;
 
             // 選択肢の要素数が1であること
-            Assert.AreEqual(result.GetAllSpecialCase().Count, 1);
+            Assert.AreEqual(result.GetAllSpecialCase().ToList().Count, 1);
         }
 
         [TestCase(-1)]
@@ -165,7 +166,7 @@ namespace WodiLib.Test.Database.Internal.DBItemSettingDesc
             Assert.IsFalse(errorOccured);
 
             // 選択肢の数が0であること
-            Assert.AreEqual(result.GetAllSpecialCase().Count, 0);
+            Assert.AreEqual(result.GetAllSpecialCase().ToList().Count, 0);
         }
 
         [TestCase(-1)]
@@ -196,7 +197,7 @@ namespace WodiLib.Test.Database.Internal.DBItemSettingDesc
             var answerResultLength = caseListLength != -1
                 ? caseListLength
                 : 0;
-            Assert.AreEqual(result.GetAllSpecialCase().Count, answerResultLength);
+            Assert.AreEqual(result.GetAllSpecialCase().ToList().Count, answerResultLength);
         }
 
 

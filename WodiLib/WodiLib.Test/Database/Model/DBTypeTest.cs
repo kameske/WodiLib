@@ -159,6 +159,7 @@ namespace WodiLib.Test.Database
         [TestCaseSource(nameof(DBKindGetterTestCaseSource))]
         public static void DBKindGetterTest(DBDataSettingType type, bool isError)
         {
+#pragma warning disable 618 // TODO Ver 2.6 で削除するテスト
             var instance = new DBType();
             instance.SetDataSettingType(type, DBKind.User, 10);
             var changedPropertyList = new List<string>();
@@ -180,6 +181,7 @@ namespace WodiLib.Test.Database
 
             // プロパティ変更通知が発火していないこと
             Assert.AreEqual(changedPropertyList.Count, 0);
+#pragma warning restore 618
         }
 
         private static readonly object[] TypeIdGetterTestCaseSource =
@@ -193,6 +195,7 @@ namespace WodiLib.Test.Database
         [TestCaseSource(nameof(TypeIdGetterTestCaseSource))]
         public static void TypeIdGetterTest(DBDataSettingType type, bool isError)
         {
+#pragma warning disable 618 // TODO Ver 2.6 で削除するテスト
             var instance = new DBType();
             instance.SetDataSettingType(type, DBKind.User, 10);
             var changedPropertyList = new List<string>();
@@ -202,6 +205,41 @@ namespace WodiLib.Test.Database
             try
             {
                 var _ = instance.TypeId;
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            // プロパティ変更通知が発火していないこと
+            Assert.AreEqual(changedPropertyList.Count, 0);
+#pragma warning restore 618
+        }
+
+        private static readonly object[] ReferDatabaseDescGetterTestCaseSource =
+        {
+            new object[] {DBDataSettingType.Manual, true},
+            new object[] {DBDataSettingType.EqualBefore, true},
+            new object[] {DBDataSettingType.DesignatedType, false},
+            new object[] {DBDataSettingType.FirstStringData, true},
+        };
+
+        [TestCaseSource(nameof(ReferDatabaseDescGetterTestCaseSource))]
+        public static void ReferDatabaseDescGetterTest(DBDataSettingType type, bool isError)
+        {
+            var instance = new DBType();
+            instance.SetDataSettingType(type, new DataIdSpecificationDesc(DBKind.User, 10));
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            var errorOccured = false;
+            try
+            {
+                var _ = instance.ReferDatabaseDesc;
             }
             catch (Exception ex)
             {
@@ -290,6 +328,7 @@ namespace WodiLib.Test.Database
         public static void ConstructorATest(DBDataSettingType type, DBKind dbKind, TypeId? typeId,
             bool isError)
         {
+#pragma warning disable 618 // TODO Ver 2.6 で削除するテスト
             DBType instance = null;
 
             var errorOccured = false;
@@ -316,6 +355,52 @@ namespace WodiLib.Test.Database
                 Assert.AreEqual(instance.DBKind, dbKind);
                 Assert.NotNull(typeId);
                 Assert.AreEqual(instance.TypeId, typeId.Value);
+            }
+#pragma warning restore 618
+        }
+
+        private static readonly object[] ConstructorA2TestCaseSource =
+        {
+            new object[] {DBDataSettingType.Manual, new DataIdSpecificationDesc(DBKind.User, 3), false},
+            new object[] {DBDataSettingType.Manual, null, false},
+            new object[] {DBDataSettingType.EqualBefore, new DataIdSpecificationDesc(DBKind.User, 3), false},
+            new object[] {DBDataSettingType.EqualBefore, null, false},
+            new object[] {DBDataSettingType.DesignatedType, new DataIdSpecificationDesc(DBKind.User, 3), false},
+            new object[] {DBDataSettingType.DesignatedType, null, true},
+            new object[] {DBDataSettingType.FirstStringData, new DataIdSpecificationDesc(DBKind.User, 3), false},
+            new object[] {DBDataSettingType.FirstStringData, null, false},
+            new object[] {null, new DataIdSpecificationDesc(DBKind.User, 3), true},
+            new object[] {null, null, true},
+        };
+
+        [TestCaseSource(nameof(ConstructorA2TestCaseSource))]
+        public static void ConstructorA2Test(DBDataSettingType type, DataIdSpecificationDesc desc,
+            bool isError)
+        {
+            DBType instance = null;
+
+            var errorOccured = false;
+            try
+            {
+                instance = new DBType(type, desc);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (errorOccured) return;
+
+            // 各プロパティがセットした値と一致すること
+            Assert.AreEqual(instance.DataSettingType, type);
+            if (type == DBDataSettingType.DesignatedType)
+            {
+                Assert.NotNull(desc);
+                Assert.IsTrue(desc.Equals(instance.ReferDatabaseDesc));
             }
         }
 
@@ -386,6 +471,7 @@ namespace WodiLib.Test.Database
         public static void SetDataSettingTypeTestA(DBDataSettingType settingType, DBKind dbKind,
             TypeId? typeId, bool isError)
         {
+#pragma warning disable 618 // TODO Ver 2.6 で削除するテスト
             var instance = new DBType();
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
@@ -411,17 +497,20 @@ namespace WodiLib.Test.Database
             }
             else
             {
-                Assert.AreEqual(changedPropertyList.Count, 3);
+                Assert.AreEqual(changedPropertyList.Count, 4);
                 Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBType.DataSettingType)));
-                Assert.IsTrue(changedPropertyList[1].Equals(nameof(DBType.DBKind)));
-                Assert.IsTrue(changedPropertyList[2].Equals(nameof(DBType.TypeId)));
+                Assert.IsTrue(changedPropertyList[1].Equals(nameof(DBType.ReferDatabaseDesc)));
+                Assert.IsTrue(changedPropertyList[2].Equals(nameof(DBType.DBKind)));
+                Assert.IsTrue(changedPropertyList[3].Equals(nameof(DBType.TypeId)));
             }
+#pragma warning restore 618
         }
 
         [TestCaseSource(nameof(SetDataSettingTypeTestCaseSource))]
         public static void SetDataSettingTypeTestB(DBDataSettingType settingType, DBKind dbKind,
             TypeId? typeId, bool isError)
         {
+#pragma warning disable 618 // TODO Ver 2.6 で削除するテスト
             var instance = new DBType();
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
@@ -461,10 +550,123 @@ namespace WodiLib.Test.Database
             }
             else
             {
-                Assert.AreEqual(changedPropertyList.Count, 3);
+                Assert.AreEqual(changedPropertyList.Count, 4);
                 Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBType.DataSettingType)));
-                Assert.IsTrue(changedPropertyList[1].Equals(nameof(DBType.DBKind)));
-                Assert.IsTrue(changedPropertyList[2].Equals(nameof(DBType.TypeId)));
+                Assert.IsTrue(changedPropertyList[1].Equals(nameof(DBType.ReferDatabaseDesc)));
+                Assert.IsTrue(changedPropertyList[2].Equals(nameof(DBType.DBKind)));
+                Assert.IsTrue(changedPropertyList[3].Equals(nameof(DBType.TypeId)));
+            }
+#pragma warning restore 618
+        }
+
+        private static readonly object[] SetDataSettingTypeTestCaseSource2 =
+        {
+            new object[] {null, null, true},
+            new object[] {DBDataSettingType.Manual, null, false},
+            new object[] {DBDataSettingType.EqualBefore, null, false},
+            new object[] {DBDataSettingType.DesignatedType, new DataIdSpecificationDesc(DBKind.System, 10), false},
+            new object[] {DBDataSettingType.FirstStringData, null, false},
+        };
+
+        [TestCaseSource(nameof(SetDataSettingTypeTestCaseSource2))]
+        public static void SetDataSettingTypeTestA2(DBDataSettingType settingType,
+            DataIdSpecificationDesc desc, bool isError)
+        {
+            var instance = new DBType();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            var errorOccured = false;
+            try
+            {
+                instance.SetDataSettingType(settingType, desc);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                {
+                    // TODO: Ver 2.6 まで
+                    Assert.AreEqual(changedPropertyList.Count, 4);
+                    Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBType.DataSettingType)));
+                    Assert.IsTrue(changedPropertyList[1].Equals(nameof(DBType.ReferDatabaseDesc)));
+                    Assert.IsTrue(changedPropertyList[2].Equals(nameof(DBType.DBKind)));
+                    Assert.IsTrue(changedPropertyList[3].Equals(nameof(DBType.TypeId)));
+                }
+                /*{        // TODO: Ver 2.6 以降
+                    Assert.AreEqual(changedPropertyList.Count, 2);
+                    Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBType.DataSettingType)));
+                    Assert.IsTrue(changedPropertyList[1].Equals(nameof(DBType.ReferDatabaseDesc)));
+                }*/
+            }
+        }
+
+        [TestCaseSource(nameof(SetDataSettingTypeTestCaseSource2))]
+        public static void SetDataSettingTypeTestB2(DBDataSettingType settingType,
+            DataIdSpecificationDesc desc, bool isError)
+        {
+            var instance = new DBType();
+            var changedPropertyList = new List<string>();
+            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+
+            var setting = settingType == null ? null : new DBDataSetting(settingType, desc);
+
+            var errorOccured = false;
+            try
+            {
+                instance.SetDataSettingType(setting);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (!errorOccured)
+            {
+                // 各設定が意図した値と一致すること
+                Assert.AreEqual(instance.DataSettingType, settingType);
+                if (settingType == DBDataSettingType.DesignatedType)
+                {
+                    Assert.IsTrue(desc.Equals(instance.ReferDatabaseDesc));
+                }
+            }
+
+            // 意図したとおりプロパティ変更通知が発火していること
+            if (errorOccured)
+            {
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+            else
+            {
+                {
+                    // TODO: Ver 2.6 まで
+                    Assert.AreEqual(changedPropertyList.Count, 4);
+                    Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBType.DataSettingType)));
+                    Assert.IsTrue(changedPropertyList[1].Equals(nameof(DBType.ReferDatabaseDesc)));
+                    Assert.IsTrue(changedPropertyList[2].Equals(nameof(DBType.DBKind)));
+                    Assert.IsTrue(changedPropertyList[3].Equals(nameof(DBType.TypeId)));
+                }
+                /*{        // TODO: Ver 2.6 以降
+                    Assert.AreEqual(changedPropertyList.Count, 2);
+                    Assert.IsTrue(changedPropertyList[0].Equals(nameof(DBType.DataSettingType)));
+                    Assert.IsTrue(changedPropertyList[1].Equals(nameof(DBType.ReferDatabaseDesc)));
+                }*/
             }
         }
 

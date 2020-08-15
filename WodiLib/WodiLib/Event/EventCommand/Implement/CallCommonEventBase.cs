@@ -610,14 +610,14 @@ namespace WodiLib.Event.EventCommand
                 .Select((x, idx) =>
                 {
                     var eventId = IsOrderByString
-                        ? (int?) resolver.GetCommonEventId(EventIdOrName.ToStr())
+                        ? (int?) resolver.GetCommonEventId(EventIdOrName.ToStr())!
                         : EventIdOrName.ToInt();
 
                     if (eventId is null)
                         return resolver.GetNumericVariableAddressStringIfVariableAddress(x, type, desc);
 
                     var id = eventId.Value;
-                    var correctId = resolver.GetCorrectEventIdByRelativeId(id, desc.CommonEventId, type);
+                    var correctId = resolver.GetCorrectEventIdByRelativeId(id, desc.CommonEventId!, type);
                     return resolver.GetCommonEventIntArgSentence(correctId, idx, x, type, desc);
                 });
 

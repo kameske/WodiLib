@@ -149,8 +149,8 @@ namespace WodiLib.Database
             foreach (var data in useDataList)
             {
                 itemMemos.Add(data.ItemMemo);
-                specialCaseDescriptions.Add(data.GetAllSpecialCaseDescription());
-                specialCaseNumbers.Add((data.GetAllSpecialCaseNumber()));
+                specialCaseDescriptions.Add(data.GetAllSpecialCaseDescription().ToList());
+                specialCaseNumbers.Add(data.GetAllSpecialCaseNumber().ToList());
                 initValues.Add(data.InitValue);
             }
 

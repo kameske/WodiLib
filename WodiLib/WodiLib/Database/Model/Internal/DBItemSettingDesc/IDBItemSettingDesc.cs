@@ -27,36 +27,28 @@ namespace WodiLib.Database
         DBItemSpecialSettingType SettingType { get; }
 
         /// <summary>
-        /// DB参照時のDB種別
+        /// 特殊指定が「データベース参照」の場合の特殊設定情報
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
-        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        DBReferType DatabaseReferKind { get; set; }
+        ISpecialDataSpecificationDatabaseReference DatabaseReferenceDesc { get; }
 
         /// <summary>
-        /// DB参照時のタイプID
-        /// </summary>
-        /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
-        TypeId DatabaseDbTypeId { get; set; }
-
-        /// <summary>
-        /// DB参照時の追加項目使用フラグ
-        /// </summary>
-        /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
-        bool DatabaseUseAdditionalItemsFlag { get; set; }
-
-        /// <summary>
-        /// ファイル読み込み時の初期フォルダ
+        /// 特殊指定が「ファイル読み込み」の場合の特殊設定情報
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「ファイル読み込み」以外の場合</exception>
-        /// <exception cref="PropertyNullException">nullをセットした場合</exception>
-        DBSettingFolderName FolderName { get; set; }
+        ISpecialDataSpecificationLoadFile LoadFileDesc { get; }
 
         /// <summary>
-        /// ファイル読み込み時の保存時にフォルダ名省略フラグ
+        /// 特殊指定が「手動設定」の場合の特殊設定情報
         /// </summary>
-        /// <exception cref="PropertyException">特殊指定が「ファイル読み込み」以外の場合</exception>
-        bool OmissionFolderNameFlag { get; set; }
+        /// <exception cref="PropertyException">特殊指定が「手動設定」以外の場合</exception>
+        ISpecialDataSpecificationCreateOptions ManualDesc { get; }
+
+        /// <summary>
+        /// 特殊指定が「特殊な設定方法を使用しない」の場合の特殊設定情報
+        /// </summary>
+        /// <exception cref="PropertyException">特殊指定が「特殊な設定方法を使用しない」以外の場合</exception>
+        ISpecialDataSpecificationNormal NormalDesc { get; }
 
         /// <summary>
         /// デフォルト設定値種別
@@ -76,100 +68,19 @@ namespace WodiLib.Database
         /// 引数種別によらずすべての選択肢を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        List<DatabaseValueCase> GetAllSpecialCase();
+        IEnumerable<DatabaseValueCase> GetAllSpecialCase();
 
         /// <summary>
         /// すべての選択肢番号を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        List<DatabaseValueCaseNumber> GetAllSpecialCaseNumber();
+        IEnumerable<DatabaseValueCaseNumber> GetAllSpecialCaseNumber();
 
         /// <summary>
         /// すべての選択肢文字列を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        List<DatabaseValueCaseDescription> GetAllSpecialCaseDescription();
-
-        /// <summary>
-        /// 選択肢を追加する。
-        /// </summary>
-        /// <param name="argCase">[NotEmpty] 追加する選択肢</param>
-        /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
-        /// <exception cref="ArgumentNullException">argCaseがnullの場合</exception>
-        void AddSpecialCase(DatabaseValueCase argCase);
-
-        /// <summary>
-        /// 選択肢を追加する。
-        /// </summary>
-        /// <param name="argCases">追加する選択肢</param>
-        /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
-        /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
-        void AddRangeSpecialCase(IEnumerable<DatabaseValueCase> argCases);
-
-        /// <summary>
-        /// 選択肢を挿入する。
-        /// </summary>
-        /// <param name="index">[Range(0, 選択肢数)] 追加する選択肢</param>
-        /// <param name="argCase">[NotEmpty] 追加する選択肢内容</param>
-        /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
-        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
-        /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
-        void InsertSpecialCase(int index, DatabaseValueCase argCase);
-
-        /// <summary>
-        /// 選択肢を挿入する。
-        /// </summary>
-        /// <param name="index">[Range(0, 選択肢数)] 追加する選択肢</param>
-        /// <param name="argCases">追加する選択肢</param>
-        /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
-        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
-        /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
-        void InsertRangeSpecialCase(int index, IEnumerable<DatabaseValueCase> argCases);
-
-        /// <summary>
-        /// DB参照時の追加選択肢文字列を更新する。
-        /// </summary>
-        /// <param name="caseNumber">[Range[-3, -1)] 選択肢番号</param>
-        /// <param name="description">[NotNewLine] 文字列</param>
-        /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
-        /// <exception cref="ArgumentOutOfRangeException">caseNumberが指定範囲外の場合</exception>
-        /// <exception cref="ArgumentNullException">descriptionがEmptyの場合</exception>
-        /// <exception cref="ArgumentNewLineException">descriptionが改行を含む場合</exception>
-        void UpdateDatabaseSpecialCase(int caseNumber, DatabaseValueCaseDescription description);
-
-        /// <summary>
-        /// 選択肢を更新する。
-        /// </summary>
-        /// <param name="index">[Range(0, 選択肢数-1)] 更新する選択肢</param>
-        /// <param name="argCase">[NotEmpty] 更新する選択肢内容</param>
-        /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
-        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
-        /// <exception cref="ArgumentNullException">argCasesがnullの場合</exception>
-        void UpdateManualSpecialCase(int index, DatabaseValueCase argCase);
-
-        /// <summary>
-        /// 選択肢を削除する。
-        /// </summary>
-        /// <param name="index">[Range(0, 選択肢数-1)] 更新する選択肢</param>
-        /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
-        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
-        void RemoveSpecialCaseAt(int index);
-
-        /// <summary>
-        /// 選択肢を範囲削除する。
-        /// </summary>
-        /// <param name="index">[Range(0, 選択肢数-1)] 更新する選択肢</param>
-        /// <param name="count">[Range(0, 選択肢数)] 削除数</param>
-        /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
-        /// <exception cref="ArgumentOutOfRangeException">index, countが指定範囲外の場合</exception>
-        /// <exception cref="ArgumentException">最大数を超えて削除しようとする場合</exception>
-        void RemoveSpecialCaseRange(int index, int count);
-
-        /// <summary>
-        /// 選択肢をクリアする。
-        /// </summary>
-        /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
-        void ClearSpecialCase();
+        IEnumerable<DatabaseValueCaseDescription> GetAllSpecialCaseDescription();
 
         /// <summary>
         /// 指定した値種別が設定可能かどうかを判定する。

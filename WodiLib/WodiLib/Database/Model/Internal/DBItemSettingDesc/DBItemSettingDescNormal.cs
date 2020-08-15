@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -16,11 +17,18 @@ namespace WodiLib.Database
     /// データベース設定値特殊指定・特殊な指定方法を使用しない
     /// </summary>
     [Serializable]
-    internal class DBItemSettingDescNormal : DBItemSettingDescBase, IEquatable<DBItemSettingDescNormal>
+    internal class DBItemSettingDescNormal : DBItemSettingDescBase, IEquatable<DBItemSettingDescNormal>,
+        ISpecialDataSpecificationNormal
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 特殊指定が「特殊な設定方法を使用しない」の場合の特殊設定情報
+        /// </summary>
+        /// <exception cref="PropertyException">特殊指定が「特殊な設定方法を使用しない」以外の場合</exception>
+        public override ISpecialDataSpecificationNormal NormalDesc => this;
 
         /// <inheritdoc />
         /// <summary>
@@ -48,10 +56,9 @@ namespace WodiLib.Database
         /// 引数種別によらずすべての選択肢を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public override List<DatabaseValueCase> GetAllSpecialCase()
+        public override IEnumerable<DatabaseValueCase> GetAllSpecialCase()
         {
-            // 空リストでよい
-            return new List<DatabaseValueCase>();
+            return ArgCaseList;
         }
 
         /// <inheritdoc />
@@ -59,10 +66,10 @@ namespace WodiLib.Database
         /// すべての選択肢番号を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public override List<DatabaseValueCaseNumber> GetAllSpecialCaseNumber()
+        public override IEnumerable<DatabaseValueCaseNumber> GetAllSpecialCaseNumber()
         {
-            // 空リストでよい
-            return new List<DatabaseValueCaseNumber>();
+            return ArgCaseList.Select(x => x.CaseNumber)
+                .ToList();
         }
 
         /// <inheritdoc />
@@ -70,10 +77,10 @@ namespace WodiLib.Database
         /// すべての選択肢文字列を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
-        public override List<DatabaseValueCaseDescription> GetAllSpecialCaseDescription()
+        public override IEnumerable<DatabaseValueCaseDescription> GetAllSpecialCaseDescription()
         {
-            // 空リストでよい
-            return new List<DatabaseValueCaseDescription>();
+            return ArgCaseList.Select(x => x.Description)
+                .ToList();
         }
 
         /// <summary>
@@ -128,6 +135,18 @@ namespace WodiLib.Database
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
         public bool Equals(DBItemSettingDescNormal? other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return true;
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(ISpecialDataSpecificationNormal other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

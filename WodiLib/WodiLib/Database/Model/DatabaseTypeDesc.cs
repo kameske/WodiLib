@@ -69,13 +69,21 @@ namespace WodiLib.Database
         /// データの設定方法＝指定DBの場合の指定DB種別
         /// </summary>
         /// <exception cref="PropertyAccessException">DataSettingTypeがDesignatedTypeではない場合</exception>
+        [Obsolete("このプロパティは Ver 2.6 で廃止します。代わりに ReferDatabaseDesc プロパティを参照してください。")]
         public DBKind DBKind => DataSetting.DBKind;
 
         /// <summary>
         /// データの設定方法＝指定DBの場合の指定DBタイプID
         /// </summary>
         /// <exception cref="PropertyAccessException">DataSettingTypeがDesignatedTypeではない場合</exception>
+        [Obsolete("このプロパティは Ver 2.6 で廃止します。代わりに ReferDatabaseDesc プロパティを参照してください。")]
         public TypeId TypeId => DataSetting.TypeId;
+
+        /// <summary>
+        /// データの設定方法＝指定DBの場合の指定DB情報
+        /// </summary>
+        /// <exception cref="PropertyAccessException">DataSettingTypeがDesignatedTypeではない場合</exception>
+        public DataIdSpecificationDesc ReferDatabaseDesc => DataSetting.ReferDatabaseDesc;
 
         /// <summary>
         /// DB項目設定と設定値リスト
@@ -156,8 +164,11 @@ namespace WodiLib.Database
             switch (args.PropertyName)
             {
                 case nameof(DBDataSetting.DataSettingType):
+#pragma warning disable 618 // TODO: Ver 2.6 まで
                 case nameof(DBDataSetting.DBKind):
                 case nameof(DBDataSetting.TypeId):
+#pragma warning restore 618
+                case nameof(DBDataSetting.ReferDatabaseDesc):
                     NotifyPropertyChanged(args.PropertyName);
                     break;
             }
@@ -592,10 +603,28 @@ namespace WodiLib.Database
         ///     settingTypeがnullの場合、
         ///     またはsettingType が DesignatedType かつ dbKindまたはtypeIdがnullの場合
         /// </exception>
+        [Obsolete("このメソッドは Ver 2.6 で廃止します。" +
+                  "代わりに SetDataSettingType(DBDataSettingType, ReferDatabaseDesc) メソッドを使用してください。" +
+                  "第2,第3引数を省略している場合はこの警告を無視して構いません。（Ver 2.6で警告が消えます）")]
         public void SetDataSettingType(DBDataSettingType settingType,
             DBKind? dbKind = null, TypeId? typeId = null)
         {
             DataSetting.SetDataSettingType(settingType, dbKind, typeId);
+        }
+
+        /// <summary>
+        /// データの設定方法をセットする。
+        /// </summary>
+        /// <param name="settingType">データの設定方法種別</param>
+        /// <param name="referDatabaseDesc">種別が「データベース参照」の場合の参照DB情報</param>
+        /// <exception cref="ArgumentNullException">
+        ///     settingTypeがnullの場合、
+        ///     またはsettingType が DesignatedType かつ referDatabaseDescがnullの場合
+        /// </exception>
+        public void SetDataSettingType(DBDataSettingType settingType,
+            DataIdSpecificationDesc? referDatabaseDesc /* = null */) // TODO: Ver 2.6 以降 referDatabaseDesc のデフォルト値を null とする
+        {
+            DataSetting.SetDataSettingType(settingType, referDatabaseDesc);
         }
 
         /// <summary>
