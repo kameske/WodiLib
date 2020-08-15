@@ -67,9 +67,9 @@ namespace WodiLib.Database
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ（GetDefaultValue専用）
+        /// コンストラクタ
         /// </summary>
-        internal DatabaseDataDesc()
+        public DatabaseDataDesc()
         {
         }
 
@@ -79,7 +79,7 @@ namespace WodiLib.Database
         /// <param name="dataName">[NotNull] データ名</param>
         /// <param name="itemValueList">[NotNull] 項目値リスト</param>
         /// <exception cref="ArgumentNullException">dataName, itemValuesがnullの場合</exception>
-        internal DatabaseDataDesc(DataName dataName, DBItemValueList itemValueList)
+        public DatabaseDataDesc(DataName dataName, DBItemValueList itemValueList)
         {
             if (dataName is null)
                 throw new ArgumentNullException(
@@ -127,9 +127,9 @@ namespace WodiLib.Database
 
             // 数値項目と文字列項目を分ける
             var numValues = ItemValueList.Where(x => x.Type == DBItemType.Int)
-                .Select(x => (int) (DBValueInt) x).ToList();
+                .Select(x => (int) x.IntValue).ToList();
             var strValues = ItemValueList.Where(x => x.Type == DBItemType.String)
-                .Select(x => (string) (DBValueString) x).ToList();
+                .Select(x => (string) x.StringValue).ToList();
 
             // 数値項目数
             result.AddRange(numValues.Count.ToWoditorIntBytes());
