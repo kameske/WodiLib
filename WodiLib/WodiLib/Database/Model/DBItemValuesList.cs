@@ -56,8 +56,7 @@ namespace WodiLib.Database
         {
             add
             {
-                if (_fieldCollectionChanged != null
-                    && _fieldCollectionChanged.GetInvocationList().Contains(value)) return;
+                if (_fieldCollectionChanged.GetInvocationList().Contains(value)) return;
                 _fieldCollectionChanged += value;
             }
             remove => _fieldCollectionChanged -= value;
@@ -73,8 +72,7 @@ namespace WodiLib.Database
         {
             add
             {
-                if (_fieldPropertyChanged != null
-                    && _fieldPropertyChanged.GetInvocationList().Contains(value)) return;
+                if (_fieldPropertyChanged.GetInvocationList().Contains(value)) return;
                 _fieldPropertyChanged += value;
             }
             remove => _fieldPropertyChanged -= value;
