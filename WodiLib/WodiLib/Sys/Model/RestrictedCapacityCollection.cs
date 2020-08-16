@@ -100,6 +100,7 @@ namespace WodiLib.Sys
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         protected RestrictedCapacityCollection()
         {
+#if DEBUG
             try
             {
                 ValidateCapacity();
@@ -109,6 +110,7 @@ namespace WodiLib.Sys
             {
                 throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
             }
+#endif
 
             FillMinCapacity();
         }
@@ -125,6 +127,7 @@ namespace WodiLib.Sys
         /// <exception cref="InvalidOperationException">initItemsの要素数が不適切な場合</exception>
         protected RestrictedCapacityCollection(IEnumerable<T> initItems)
         {
+#if DEBUG
             try
             {
                 ValidateCapacity();
@@ -134,6 +137,7 @@ namespace WodiLib.Sys
             {
                 throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
             }
+#endif
 
             if (initItems is null)
                 throw new ArgumentNullException(

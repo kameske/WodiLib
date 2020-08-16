@@ -1,3 +1,11 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : FixedLengthList.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -91,6 +99,7 @@ namespace WodiLib.Sys
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         protected FixedLengthList()
         {
+#if DEBUG
             try
             {
                 ValidateDefaultItem();
@@ -99,6 +108,7 @@ namespace WodiLib.Sys
             {
                 throw new TypeInitializationException(nameof(FixedLengthList<T>), ex);
             }
+#endif
 
             Items = new T[GetCapacity()];
             Fill();
@@ -115,8 +125,9 @@ namespace WodiLib.Sys
         ///     またはinitItemsの要素数が Capacity と一致しない場合
         /// </exception>
         /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
-        public FixedLengthList(IEnumerable<T> initItems)
+        protected FixedLengthList(IEnumerable<T> initItems)
         {
+#if DEBUG
             try
             {
                 ValidateDefaultItem();
@@ -125,6 +136,7 @@ namespace WodiLib.Sys
             {
                 throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
             }
+#endif
 
             if (initItems is null)
                 throw new ArgumentNullException(
