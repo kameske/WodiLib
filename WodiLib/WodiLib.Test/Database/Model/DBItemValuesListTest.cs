@@ -1803,16 +1803,17 @@ namespace WodiLib.Test.Database
             new object[] {99, null, 100, true},
             new object[] {100, "", -1, true},
             new object[] {100, "", 0, false},
-            new object[] {100, "", 100, false},
+            new object[] {100, "", 99, false},
+            new object[] {100, "", 100, true},
             new object[] {100, "", 101, true},
             new object[] {100, "i", -1, true},
             new object[] {100, "i", 0, true},
+            new object[] {100, "i", 99, true},
             new object[] {100, "i", 100, true},
-            new object[] {100, "i", 101, true},
             new object[] {100, null, -1, true},
             new object[] {100, null, 0, true},
+            new object[] {100, null, 99, true},
             new object[] {100, null, 100, true},
-            new object[] {100, null, 101, true},
         };
 
         [TestCaseSource(nameof(InsertFieldRangeTestCaseSource))]
@@ -2788,9 +2789,10 @@ namespace WodiLib.Test.Database
             // DBValuesListインスタンスに対して項目操作
             instance.AddField(DBItemType.Int);
 
-            // 生成した2つのValuesインスタンスに反映されていること
-            Assert.AreEqual(child1.Count, 1);
-            Assert.AreEqual(child1[0].Type, DBItemType.Int);
+            // instanceに追加しなかったDBValueListインスタンスに反映されていないこと
+            Assert.AreEqual(child1.Count, 0);
+
+            // instanceに追加したDBValueListインスタンスに反映されていること
             Assert.AreEqual(child2.Count, 1);
             Assert.AreEqual(child2[0].Type, DBItemType.Int);
 
@@ -2799,10 +2801,10 @@ namespace WodiLib.Test.Database
             // 項目操作2
             instance.AddFieldRange(new List<DBItemType> {DBItemType.Int, DBItemType.String});
 
-            // 2つのValuesインスタンスに反映されていること
-            Assert.AreEqual(child1.Count, 3);
-            Assert.AreEqual(child1[1].Type, DBItemType.Int);
-            Assert.AreEqual(child1[2].Type, DBItemType.String);
+            // instanceに追加しなかったDBValueListインスタンスに反映されていないこと
+            Assert.AreEqual(child1.Count, 0);
+
+            // instanceに追加したDBValueListインスタンスに反映されていること
             Assert.AreEqual(child2.Count, 3);
             Assert.AreEqual(child2[1].Type, DBItemType.Int);
             Assert.AreEqual(child2[2].Type, DBItemType.String);
@@ -3249,6 +3251,70 @@ namespace WodiLib.Test.Database
                 checkChangeFieldState();
                 clearNotifications.Invoke();
             }
+        }
+
+        /// <summary>
+        /// 一度Removeで解除したDBItemValueListを再度登録できることを確認するテスト
+        /// </summary>
+        [Test]
+        public static void RemovedItemInsertTest()
+        {
+            DBValueInt moveItemValA = 10;
+            DBValueString moveItemValB = "MoveItem";
+
+            var listA = new DBItemValuesList();
+            listA.AddFieldRange(new[] {DBItemType.Int, DBItemType.String});
+            listA.AdjustLength(2);
+            listA[1][0] = moveItemValA;
+            listA[1][1] = moveItemValB;
+
+            var listB = new DBItemValuesList();
+            listB.AddFieldRange(new[] {DBItemType.Int, DBItemType.String});
+
+            // テスト前の確認
+            Assert.AreEqual(listA.Count, 2);
+            Assert.IsTrue(listA[1][0].Equals(moveItemValA));
+            Assert.IsTrue(listA[1][1].Equals(moveItemValB));
+            Assert.AreEqual(listB.Count, 1);
+
+            // listA の 要素1 を listB に登録する。listA に紐づくため追加に失敗することを確認。
+            var listAItem1 = listA[1];
+            var errorOccured = false;
+            try
+            {
+                listB.Add(listAItem1);
+            }
+            catch (Exception e)
+            {
+                logger.Exception(e);
+                errorOccured = true;
+            }
+
+            // エラーが発生すること。
+            Assert.IsTrue(errorOccured);
+
+            // listA の 要素1 を解除する。
+            listA.RemoveAt(1);
+            // 解除した要素を listB に追加する。
+            errorOccured = false;
+            try
+            {
+                listB.Add(listAItem1);
+            }
+            catch (Exception e)
+            {
+                logger.Exception(e);
+                errorOccured = true;
+            }
+
+            // エラーが発生しないこと。
+            Assert.IsFalse(errorOccured);
+
+            // listA, listB が意図した状態であること。
+            Assert.AreEqual(listA.Count, 1);
+            Assert.AreEqual(listB.Count, 2);
+            Assert.IsTrue(listB[1][0].Equals(moveItemValA));
+            Assert.IsTrue(listB[1][1].Equals(moveItemValB));
         }
 
         [Test]

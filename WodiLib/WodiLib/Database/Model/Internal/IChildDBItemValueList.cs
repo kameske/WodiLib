@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : IRestrictedCapacityCollection.cs
+// File Name    : IChildDBItemValueList.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -9,14 +9,21 @@
 using System;
 using System.Collections.Generic;
 
-namespace WodiLib.Sys
+namespace WodiLib.Database
 {
-    /// <inheritdoc cref="IList{T}" />
     /// <summary>
-    /// 容量制限のあるListインタフェース
+    /// IDBItemValuesList から子要素の DBItemValueList を操作するためのインタフェース
     /// </summary>
-    public interface IRestrictedCapacityCollection<T> : IList<T>, IReadOnlyRestrictedCapacityCollection<T>
+    internal interface IChildDBItemValueList
     {
+        /// <summary>
+        /// リストの末尾に要素を追加する。
+        /// </summary>
+        /// <param name="item">[NotNull] 追加する要素</param>
+        /// <exception cref="ArgumentNullException">itemがnullの場合</exception>
+        /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
+        void Add(DBItemValue item);
+
         /// <summary>
         /// リストの末尾に要素を追加する。
         /// </summary>
@@ -26,7 +33,17 @@ namespace WodiLib.Sys
         ///     またはitemsにnull要素が含まれる場合
         /// </exception>
         /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
-        void AddRange(IEnumerable<T> items);
+        void AddRange(IEnumerable<DBItemValue> items);
+
+        /// <summary>
+        /// 指定したインデックスの位置に要素を挿入する。
+        /// </summary>
+        /// <param name="index">[Range(0, Count)] インデックス</param>
+        /// <param name="item">[NotNull] 挿入する要素</param>
+        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
+        /// <exception cref="ArgumentNullException">itemがnullの場合</exception>
+        /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
+        void Insert(int index, DBItemValue item);
 
         /// <summary>
         /// 指定したインデックスの位置に要素を挿入する。
@@ -39,32 +56,7 @@ namespace WodiLib.Sys
         ///     またはitemsにnull要素が含まれる場合
         /// </exception>
         /// <exception cref="InvalidOperationException">要素数がMaxCapacityを超える場合</exception>
-        void InsertRange(int index, IEnumerable<T> items);
-
-        /// <summary>
-        /// 指定したインデックスを起点として、要素の上書き/追加を行う。
-        /// </summary>
-        /// <param name="index">[Range(0, Count)] インデックス</param>
-        /// <param name="items">[NotNull] 上書き/追加リスト</param>
-        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
-        /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
-        /// <exception cref="ArgumentException">items中にnull要素が含まれる場合</exception>
-        /// <exception cref="InvalidOperationException">追加操作によって要素数がMaxCapacityを超える場合</exception>
-        /// <example>
-        ///     <code>
-        ///     var target = new List&lt;int&gt; { 0, 1, 2, 3 };
-        ///     var dst = new List&lt;int&gt; { 10, 11, 12 };
-        ///     target.Overwrite(2, dst);
-        ///     // target is { 0, 1, 10, 11, 12 }
-        ///     </code>
-        ///     <code>
-        ///     var target = new List&lt;int&gt; { 0, 1, 2, 3 };
-        ///     var dst = new List&lt;int&gt; { 10 };
-        ///     target.Overwrite(2, dst);
-        ///     // target is { 0, 1, 10, 3 }
-        ///     </code>
-        /// </example>
-        void Overwrite(int index, IEnumerable<T> items);
+        void InsertRange(int index, IEnumerable<DBItemValue> items);
 
         /// <summary>
         /// 指定したインデックスにある項目をコレクション内の新しい場所へ移動する。
@@ -94,6 +86,14 @@ namespace WodiLib.Sys
         void MoveRange(int oldIndex, int newIndex, int count);
 
         /// <summary>
+        /// 指定したインデックスにある要素を削除する。
+        /// </summary>
+        /// <param name="index">[Range(0, Count - 1)] インデックス</param>
+        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
+        /// <exception cref="InvalidOperationException">削除した結果要素数がMinCapacity未満になる場合</exception>
+        void RemoveAt(int index);
+
+        /// <summary>
         /// 要素の範囲を削除する。
         /// </summary>
         /// <param name="index">[Range(0, Count - 1)] インデックス</param>
@@ -104,19 +104,8 @@ namespace WodiLib.Sys
         void RemoveRange(int index, int count);
 
         /// <summary>
-        /// 要素数を指定の数に合わせる。
+        /// すべての要素を削除し、最小の要素数だけ初期化する。
         /// </summary>
-        /// <param name="length">[Range(MinCapacity, MaxCapacity)] 調整する要素数</param>
-        /// <exception cref="ArgumentOutOfRangeException">lengthが指定範囲外の場合</exception>
-        /// <exception cref="ArgumentException">要素を追加した際にnullがセットされた場合</exception>
-        void AdjustLength(int length);
-
-        /// <summary>
-        /// 要素数が不足している場合、要素数を指定の数に合わせる。
-        /// </summary>
-        /// <param name="length">[Range(MinCapacity, MaxCapacity)] 調整する要素数</param>
-        /// <exception cref="ArgumentOutOfRangeException">lengthが指定範囲外の場合</exception>
-        /// <exception cref="ArgumentException">要素を追加した際にnullがセットされた場合</exception>
-        void AdjustLengthIfShort(int length);
+        void Clear();
     }
 }
