@@ -101,6 +101,7 @@ namespace WodiLib.Sys
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         protected RestrictedCapacityCollection()
         {
+#if DEBUG
             try
             {
                 ValidateCapacity();
@@ -110,6 +111,7 @@ namespace WodiLib.Sys
             {
                 throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
             }
+#endif
 
             FillMinCapacity();
         }
@@ -126,6 +128,7 @@ namespace WodiLib.Sys
         /// <exception cref="InvalidOperationException">initItemsの要素数が不適切な場合</exception>
         protected RestrictedCapacityCollection(IEnumerable<T> initItems)
         {
+#if DEBUG
             try
             {
                 ValidateCapacity();
@@ -135,6 +138,7 @@ namespace WodiLib.Sys
             {
                 throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
             }
+#endif
 
             if (initItems is null)
                 throw new ArgumentNullException(
@@ -706,7 +710,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(IReadOnlyFixedLengthCollection<T> other)
+        public bool Equals(IReadOnlyFixedLengthCollection<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
