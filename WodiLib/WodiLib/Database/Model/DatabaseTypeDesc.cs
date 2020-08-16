@@ -322,7 +322,7 @@ namespace WodiLib.Database
             {
                 case NotifyCollectionChangedAction.Add:
                     var valuesListAndNameList = newItems.Select(item =>
-                            (item, (DBItemValueList) WritableItemValuesList.CreateValueListInstance()))
+                            (item, WritableItemValuesList.CreateValueListInstance()))
                         .ToList();
 
                     DataDescList.InsertRange(args.NewStartingIndex,
@@ -350,7 +350,7 @@ namespace WodiLib.Database
                     {
                         var valuesList = WritableItemValuesList.CreateValueListInstance();
                         DataDescList[args.NewStartingIndex + i] =
-                            new DatabaseDataDesc(item, (DBItemValueList) valuesList);
+                            new DatabaseDataDesc(item, valuesList);
                         WritableItemValuesList[args.NewStartingIndex + i++] = valuesList;
                     }
 
