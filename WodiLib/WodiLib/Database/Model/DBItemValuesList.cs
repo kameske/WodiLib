@@ -1076,13 +1076,12 @@ namespace WodiLib.Database
         /// <returns>デフォルトインスタンス</returns>
         protected override IFixedLengthDBItemValueList MakeDefaultItem(int index) => CreateValueListInstance();
 
-        /// <inheritdoc />
         /// <summary>
-        /// 指定したインデックス位置にある要素を置き換える。
+        /// SetItem(int, T) 実行直前に呼び出される処理
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="item">要素</param>
-        protected override void SetItem(int index, IFixedLengthDBItemValueList item)
+        protected override void PreSetItem(int index, IFixedLengthDBItemValueList item)
         {
             var writableItem = (DBItemValueList) item;
             if (writableItem.HasRelationship)
@@ -1106,16 +1105,14 @@ namespace WodiLib.Database
             writableItem.HasRelationship = true;
 
             ReattachFiledCollectionNotificationIfNeed_Set(index, item);
-            base.SetItem(index, item);
         }
 
-        /// <inheritdoc />
         /// <summary>
-        /// 指定したインデックスの位置に要素を挿入する。
+        /// InsertItem(int, T) 実行直前に呼び出される処理
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="item">要素</param>
-        protected override void InsertItem(int index, IFixedLengthDBItemValueList item)
+        protected override void PreInsertItem(int index, IFixedLengthDBItemValueList item)
         {
             var writableItem = (DBItemValueList) item;
             if (writableItem.HasRelationship)
@@ -1139,36 +1136,33 @@ namespace WodiLib.Database
             writableItem.HasRelationship = true;
 
             ReattachFiledCollectionNotificationIfNeed_Insert(index, item);
-            base.InsertItem(index, item);
         }
 
         /// <summary>
-        /// 指定したインデックスにある項目をコレクション内の新しい場所へ移動する。
+        /// MoveItem(int, int) 実行直前に呼び出される処理
         /// </summary>
         /// <param name="oldIndex">移動する項目のインデックス</param>
         /// <param name="newIndex">移動先のインデックス</param>
-        protected override void MoveItem(int oldIndex, int newIndex)
+        protected override void PreMoveItem(int oldIndex, int newIndex)
         {
             ReattachFiledCollectionNotificationIfNeed_Move(oldIndex, newIndex);
-            base.MoveItem(oldIndex, newIndex);
         }
 
         /// <summary>
-        /// 指定したインデックスにある要素を削除する。
+        /// RemoveItem(int) 実行直前に呼び出される処理
         /// </summary>
         /// <param name="index">インデックス</param>
-        protected override void RemoveItem(int index)
+        protected override void PreRemoveItem(int index)
         {
             var writableItem = (DBItemValueList) this[index];
             writableItem.HasRelationship = false;
             ReattachFiledCollectionNotificationIfNeed_Remove(index);
-            base.RemoveItem(index);
         }
 
         /// <summary>
-        /// 要素をすべて除去する。
+        /// ClearItems() 実行直前に呼び出される処理
         /// </summary>
-        protected override void ClearItems()
+        protected override void PreClearItems()
         {
             this.ForEach(item =>
             {
@@ -1176,7 +1170,6 @@ namespace WodiLib.Database
                 writableItem.HasRelationship = false;
             });
             ReattachFiledCollectionNotificationIfNeed_Clear();
-            base.ClearItems();
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

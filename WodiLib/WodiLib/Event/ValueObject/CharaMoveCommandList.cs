@@ -105,11 +105,13 @@ namespace WodiLib.Event
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
-        protected override void InsertItem(int index, ICharaMoveCommand item)
+        /// <summary>
+        /// InsertItem(int, T) 実行直後に呼び出される処理
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        protected override void PostInsertItem(int index, ICharaMoveCommand item)
         {
-            base.InsertItem(index, item);
-
             // AddValue, AssignValueの値を保有イベントによって変化させるための設定
             switch (item)
             {
