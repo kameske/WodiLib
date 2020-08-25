@@ -483,7 +483,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="item">[Nullable] 削除する要素</param>
         /// <returns>削除成否</returns>
-        /// <exception cref="InvalidOperationException">削除した結果要素数がMinValue未満になる場合</exception>
+        /// <exception cref="InvalidOperationException">削除した結果要素数がMinCapacity未満になる場合</exception>
         public bool Remove(T item)
         {
             if (item == null) return false;
@@ -506,7 +506,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="index">[Range(0, Count - 1)] インデックス</param>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
-        /// <exception cref="InvalidOperationException">削除した結果要素数がMinValue未満になる場合</exception>
+        /// <exception cref="InvalidOperationException">削除した結果要素数がMinCapacity未満になる場合</exception>
         public void RemoveAt(int index)
         {
             var max = Count - 1;
@@ -530,7 +530,7 @@ namespace WodiLib.Sys
         /// <param name="count">[Range(0, Count)] 削除する要素数</param>
         /// <exception cref="ArgumentOutOfRangeException">index, countが指定範囲外の場合</exception>
         /// <exception cref="ArgumentException">有効な範囲外の要素を削除しようとした場合</exception>
-        /// <exception cref="InvalidOperationException">削除した結果要素数がMinValue未満になる場合</exception>
+        /// <exception cref="InvalidOperationException">削除した結果要素数がMinCapacity未満になる場合</exception>
         public void RemoveRange(int index, int count)
         {
             var indexMax = Count - 1;
@@ -765,6 +765,17 @@ namespace WodiLib.Sys
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable) Items).GetEnumerator();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Protected Abstract Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 格納対象のデフォルトインスタンスを生成する。
+        /// </summary>
+        /// <param name="index">挿入インデックス</param>
+        /// <returns>デフォルトインスタンス</returns>
+        protected abstract T MakeDefaultItem(int index);
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Protected Virtual Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -773,7 +784,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="item">要素</param>
-        protected virtual void SetItem(int index, T item)
+        protected void SetItem(int index, T item)
         {
             /*
              * 呼び出し元で
@@ -781,7 +792,9 @@ namespace WodiLib.Sys
              * ・itemのnullチェック
              * を実施済み。
              */
+            PreSetItem(index, item);
             Items[index] = item;
+            PostSetItem(index, item);
             /*
              * 呼び出し元でイベントハンドラを実行する。
              */
@@ -792,7 +805,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="item">要素</param>
-        protected virtual void InsertItem(int index, T item)
+        protected void InsertItem(int index, T item)
         {
             /*
              * 呼び出し元で
@@ -801,7 +814,9 @@ namespace WodiLib.Sys
              * ・itemのnullチェック
              * を実施済み。
              */
+            PreInsertItem(index, item);
             Items.Insert(index, item);
+            PostInsertItem(index, item);
             /*
              * 呼び出し元でイベントハンドラを実行する。
              */
@@ -812,16 +827,18 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="oldIndex">移動する項目のインデックス</param>
         /// <param name="newIndex">移動先のインデックス</param>
-        protected virtual void MoveItem(int oldIndex, int newIndex)
+        protected void MoveItem(int oldIndex, int newIndex)
         {
             /*
              * 呼び出し元で
              * ・indexの範囲チェック
              * を実施済み。
              */
+            PreMoveItem(oldIndex, newIndex);
             var removedItem = this[oldIndex];
             Items.RemoveAt(oldIndex);
             Items.Insert(newIndex, removedItem);
+            PostMoveItem(oldIndex, newIndex);
             /*
              * 呼び出し元でイベントハンドラを実行する。
              */
@@ -831,7 +848,7 @@ namespace WodiLib.Sys
         /// 指定したインデックスにある要素を削除する。
         /// </summary>
         /// <param name="index">インデックス</param>
-        protected virtual void RemoveItem(int index)
+        protected void RemoveItem(int index)
         {
             /*
              * 呼び出し元で
@@ -839,7 +856,9 @@ namespace WodiLib.Sys
              * ・削除後の要素数チェック
              * を実施済み。
              */
+            PreRemoveItem(index);
             Items.RemoveAt(index);
+            PostRemoveItem(index);
             /*
              * 呼び出し元でイベントハンドラを実行する。
              */
@@ -848,9 +867,11 @@ namespace WodiLib.Sys
         /// <summary>
         /// 要素をすべて除去する。
         /// </summary>
-        protected virtual void ClearItems()
+        protected void ClearItems()
         {
+            PreClearItems();
             Items.Clear();
+            PostClearItems();
             /*
              * 呼び出し元でイベントハンドラを実行する。
              *
@@ -878,15 +899,72 @@ namespace WodiLib.Sys
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Protected Abstract Method
+        //      Protected Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 格納対象のデフォルトインスタンスを生成する。
+        /// SetItem(int, T) 実行直前に呼び出される処理
         /// </summary>
-        /// <param name="index">挿入インデックス</param>
-        /// <returns>デフォルトインスタンス</returns>
-        protected abstract T MakeDefaultItem(int index);
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        protected virtual void PreSetItem(int index, T item) { }
+
+        /// <summary>
+        /// InsertItem(int, T) 実行直前に呼び出される処理
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        protected virtual void PreInsertItem(int index, T item) { }
+
+        /// <summary>
+        /// MoveItem(int, int) 実行直前に呼び出される処理
+        /// </summary>
+        /// <param name="oldIndex">移動する項目のインデックス</param>
+        /// <param name="newIndex">移動先のインデックス</param>
+        protected virtual void PreMoveItem(int oldIndex, int newIndex) { }
+
+        /// <summary>
+        /// RemoveItem(int) 実行直前に呼び出される処理
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        protected virtual void PreRemoveItem(int index) { }
+
+        /// <summary>
+        /// ClearItems() 実行直前に呼び出される処理
+        /// </summary>
+        protected virtual void PreClearItems() { }
+
+        /// <summary>
+        /// SetItem(int, T) 実行直後に呼び出される処理
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        protected virtual void PostSetItem(int index, T item) { }
+
+        /// <summary>
+        /// InsertItem(int, T) 実行直後に呼び出される処理
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        protected virtual void PostInsertItem(int index, T item) { }
+
+        /// <summary>
+        /// MoveItem(int, int) 実行直後に呼び出される処理
+        /// </summary>
+        /// <param name="oldIndex">移動する項目のインデックス</param>
+        /// <param name="newIndex">移動先のインデックス</param>
+        protected virtual void PostMoveItem(int oldIndex, int newIndex) { }
+
+        /// <summary>
+        /// RemoveItem(int) 実行直後に呼び出される処理
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        protected virtual void PostRemoveItem(int index) { }
+
+        /// <summary>
+        /// ClearItems() 実行直後に呼び出される処理
+        /// </summary>
+        protected virtual void PostClearItems() { }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Private Method

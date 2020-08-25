@@ -377,7 +377,7 @@ namespace WodiLib.Sys
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Protected Virtual Method
+        //      Protected Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
@@ -385,7 +385,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="item">要素</param>
-        protected virtual void SetItem(int index, T item)
+        protected void SetItem(int index, T item)
         {
             /*
              * 呼び出し元で
@@ -393,7 +393,9 @@ namespace WodiLib.Sys
              * ・itemのnullチェック
              * を実施済み。
              */
+            PreSetItem(index, item);
             Items[index] = item;
+            PostSetItem(index, item);
             /*
              * 呼び出し元でイベントハンドラを実行する。
              */
@@ -404,15 +406,17 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="oldIndex">移動する項目のインデックス</param>
         /// <param name="newIndex">移動先のインデックス</param>
-        protected virtual void MoveItem(int oldIndex, int newIndex)
+        protected void MoveItem(int oldIndex, int newIndex)
         {
             /*
              * 呼び出し元で
              * ・indexの範囲チェック
              * を実施済み。
              */
+            PreMoveItem(oldIndex, newIndex);
+
             /* 移動させる対象の要素を退避 */
-            var movedItem = this[oldIndex];
+            var movedItem = Items[oldIndex];
 
             var current = oldIndex;
 
@@ -422,7 +426,7 @@ namespace WodiLib.Sys
                  * oldIndex < newIndex の場合このブロックが実行される。
                  * oldIndex ～ newIndex の要素が一つ手前にずらされる。
                  */
-                this[current] = this[current + 1];
+                Items[current] = Items[current + 1];
                 current++;
             }
 
@@ -432,13 +436,14 @@ namespace WodiLib.Sys
                  * oldIndex > newIndex の場合このブロックが実行される。
                  * oldIndex ～ newIndex の要素が一つ後ろにずらされる。
                  */
-                this[current] = this[current - 1];
+                Items[current] = Items[current - 1];
                 current--;
             }
 
             /* 移動させる対象の要素をあるべき場所にセットして完了。 */
-            this[newIndex] = movedItem;
+            Items[newIndex] = movedItem;
 
+            PostMoveItem(oldIndex, newIndex);
             /*
              * 呼び出し元でイベントハンドラを実行する。
              */
@@ -448,13 +453,15 @@ namespace WodiLib.Sys
         /// 要素をすべて除去したあと、
         /// 必要に応じて最小限の要素を新たに設定する。
         /// </summary>
-        protected virtual void ClearItems()
+        protected void ClearItems()
         {
+            PreClearItems();
             for (var i = 0; i < GetCapacity(); i++)
             {
                 Items[i] = MakeDefaultItem(i);
             }
 
+            PostClearItems();
             /*
              * 呼び出し元でイベントハンドラを実行する。
              */
@@ -467,7 +474,7 @@ namespace WodiLib.Sys
         protected void ValidateDefaultItem()
         {
             var value = MakeDefaultItem(0);
-            if (ReferenceEquals(value, null))
+            if (value == null)
                 throw new InvalidOperationException(
                     ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}メソッドの返戻値"));
         }
@@ -482,6 +489,60 @@ namespace WodiLib.Sys
             {
                 SetItem(i, MakeDefaultItem(i));
             }
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Protected Virtual Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// SetItem(int, T) 実行直前に呼び出される処理
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        protected virtual void PreSetItem(int index, T item)
+        {
+        }
+
+        /// <summary>
+        /// MoveItem(int, int) 実行直前に呼び出される処理
+        /// </summary>
+        /// <param name="oldIndex">移動する項目のインデックス</param>
+        /// <param name="newIndex">移動先のインデックス</param>
+        protected virtual void PreMoveItem(int oldIndex, int newIndex)
+        {
+        }
+
+        /// <summary>
+        /// ClearItems() 実行直前に呼び出される処理
+        /// </summary>
+        protected virtual void PreClearItems()
+        {
+        }
+
+        /// <summary>
+        /// SetItem(int, T) 実行直後に呼び出される処理
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        protected virtual void PostSetItem(int index, T item)
+        {
+        }
+
+        /// <summary>
+        /// MoveItem(int, int) 実行直後に呼び出される処理
+        /// </summary>
+        /// <param name="oldIndex">移動する項目のインデックス</param>
+        /// <param name="newIndex">移動先のインデックス</param>
+        protected virtual void PostMoveItem(int oldIndex, int newIndex)
+        {
+        }
+
+        /// <summary>
+        /// ClearItems() 実行直後に呼び出される処理
+        /// </summary>
+        protected virtual void PostClearItems()
+        {
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

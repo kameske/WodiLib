@@ -147,10 +147,13 @@ namespace WodiLib.Event.EventCommand
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
-        protected override void InsertItem(int index, IEventCommand item)
+        /// <summary>
+        /// InsertItem(int, T) 実行直後に呼び出される処理
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        protected override void PostInsertItem(int index, IEventCommand item)
         {
-            base.InsertItem(index, item);
             if (item is MoveRoute moveRoute)
             {
                 moveRoute.Owner = Owner;

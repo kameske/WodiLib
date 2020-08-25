@@ -127,60 +127,6 @@ namespace WodiLib.Map
             return targetEvent.MapEventPageList[pageIndex];
         }
 
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Protected Override Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <inheritdoc />
-        /// <summary>
-        /// 指定したインデックス位置にある要素を置き換える。
-        /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <param name="item">要素</param>
-        protected override void SetItem(int index, MapEvent item)
-        {
-            var baseMapId = Items[index].MapEventId;
-            if (baseMapId == item.MapEventId)
-            {
-                // マップイベントIDが同じならチェック無しで上書き
-                base.SetItem(index, item);
-                return;
-            }
-
-            // マップIDが重複する場合エラー
-            if (ContainsEventId(item.MapEventId))
-                throw new ArgumentException(
-                    $"マップイベントIDが重複するため追加できません。" +
-                    $"（マップイベントID: {item.MapEventId}）");
-
-            base.SetItem(index, item);
-        }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// 指定したインデックスの位置に要素を挿入する。
-        /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <param name="item">要素</param>
-        protected override void InsertItem(int index, MapEvent item)
-        {
-            // マップIDが重複する場合エラー
-            if (ContainsEventId(item.MapEventId))
-                throw new ArgumentException(
-                    $"マップイベントIDが重複するため追加できません。" +
-                    $"（マップイベントID: {item.MapEventId}）");
-
-            base.InsertItem(index, item);
-        }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// 格納対象のデフォルトインスタンスを生成する。
-        /// </summary>
-        /// <param name="index">挿入インデックス</param>
-        /// <returns>デフォルトインスタンス</returns>
-        protected override MapEvent MakeDefaultItem(int index) => new MapEvent();
-
         /// <summary>
         /// マップイベントIDからマップイベントを取得する。
         /// </summary>
@@ -202,6 +148,57 @@ namespace WodiLib.Map
             return !(searchEvent is null);
         }
 
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Override Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// SetItem(int, T) 実行直前に呼び出される処理
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        protected override void PreSetItem(int index, MapEvent item)
+        {
+            var baseMapId = Items[index].MapEventId;
+            if (baseMapId == item.MapEventId)
+            {
+                // マップイベントIDが同じならチェック無し
+                return;
+            }
+
+            // マップIDが重複する場合エラー
+            if (ContainsEventId(item.MapEventId))
+                throw new ArgumentException(
+                    $"マップイベントIDが重複するため追加できません。" +
+                    $"（マップイベントID: {item.MapEventId}）");
+        }
+
+        /// <summary>
+        /// InsertItem(int, T) 実行直前に呼び出される処理
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        protected override void PreInsertItem(int index, MapEvent item)
+        {
+            // マップIDが重複する場合エラー
+            if (ContainsEventId(item.MapEventId))
+                throw new ArgumentException(
+                    $"マップイベントIDが重複するため追加できません。" +
+                    $"（マップイベントID: {item.MapEventId}）");
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// 格納対象のデフォルトインスタンスを生成する。
+        /// </summary>
+        /// <param name="index">挿入インデックス</param>
+        /// <returns>デフォルトインスタンス</returns>
+        protected override MapEvent MakeDefaultItem(int index) => new MapEvent();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Static Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /// <summary>
         /// マップイベントIDの重複をチェックする。
         /// </summary>
@@ -218,6 +215,10 @@ namespace WodiLib.Map
 
             return true;
         }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Common
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         /// バイナリ変換する。
