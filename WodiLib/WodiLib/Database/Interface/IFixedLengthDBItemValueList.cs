@@ -17,7 +17,7 @@ namespace WodiLib.Database
     public interface IFixedLengthDBItemValueList : IFixedLengthCollection<DBItemValue>, IEquatable<IFixedLengthDBItemValueList>
     {
         /// <summary>
-        /// 容量変更可能なDBデータ設定値リストに変換する。
+        /// 自身と同じ値情報を持つ、DBItemValuesList に紐付けられていないインスタンスに変換する。
         /// </summary>
         /// <returns>DBデータ設定値リスト</returns>
         DBItemValueList ToLengthChangeableItemValueList();

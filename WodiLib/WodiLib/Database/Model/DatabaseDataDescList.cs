@@ -63,30 +63,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentException">dataNameListとvaluesListの要素数が異なる場合</exception>
         internal DatabaseDataDescList(DataNameList dataNameList,
             DBItemValuesList valuesList)
-            : base(new Func<IEnumerable<DatabaseDataDesc>>(() =>
-            {
-                if (dataNameList is null)
-                    throw new ArgumentNullException(
-                        ErrorMessage.NotNull(nameof(dataNameList)));
-                if (valuesList is null)
-                    throw new ArgumentNullException(
-                        ErrorMessage.NotNull(nameof(valuesList)));
-
-                if (dataNameList.Count != valuesList.Count)
-                    throw new ArgumentException(
-                        $"{nameof(dataNameList)}の要素数と{nameof(valuesList)}の要素数が一致しません。");
-
-                var list = new List<DatabaseDataDesc>();
-
-                for (var i = 0; i < dataNameList.Count; i++)
-                {
-                    list.Add(new DatabaseDataDesc(
-                        dataNameList[i],
-                        valuesList[i].ToLengthChangeableItemValueList()));
-                }
-
-                return list;
-            })())
+            : base(DatabaseDataDescCreator.CreateEnumerableDatabaseDataDesc(dataNameList, valuesList))
         {
         }
 
@@ -109,8 +86,52 @@ namespace WodiLib.Database
         public override int GetMinCapacity() => MinCapacity;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 自分自身の型情報に適合するDatabaseDataDescインスタンスを生成する。
+        /// </summary>
+        /// <returns></returns>
+        public DatabaseDataDesc CreateMatchItemInstance()
+            => new DatabaseDataDesc
+            {
+                ItemValueList = this[0].ItemValueList.CreateDefaultValueListInstance()
+            };
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        /// <summary>
+        /// SetItem(int, T) 実行直前に呼び出される処理
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        protected override void PreSetItem(int index, DatabaseDataDesc item)
+        {
+            if (Count <= 1) return;
+
+            if (!DBItemValueListItemTypeCompareHelper.Compare(this[0], item))
+                throw new InvalidOperationException(
+                    ErrorMessage.NotEqual($"{nameof(DatabaseDataDescList)}の値型情報", "セットしようとした要素の値型情報"));
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// InsertItem(int, T) 実行直前に呼び出される処理
+        /// </summary>
+        /// <param name="index">インデックス</param>
+        /// <param name="item">要素</param>
+        protected override void PreInsertItem(int index, DatabaseDataDesc item)
+        {
+            if (Count <= 1) return;
+
+            if (!DBItemValueListItemTypeCompareHelper.Compare(this[0], item))
+                throw new InvalidOperationException(
+                    ErrorMessage.NotEqual($"{nameof(DatabaseDataDescList)}の値型情報", "追加しようとした要素の値型情報"));
+        }
 
         /// <inheritdoc />
         /// <summary>
@@ -118,7 +139,10 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
-        protected override DatabaseDataDesc MakeDefaultItem(int index) => new DatabaseDataDesc();
+        protected override DatabaseDataDesc MakeDefaultItem(int index)
+            => Count > 0
+                ? CreateMatchItemInstance()
+                : new DatabaseDataDesc();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Serializable

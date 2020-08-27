@@ -107,21 +107,13 @@ namespace WodiLib.Database
             // validationのためにここで追加する。validation後には追加しない。
             Items.AddRange(items);
 
-            var validateResult = outer.ValidateListItem(this);
-            switch (validateResult)
-            {
-                case DBItemValuesList.ValidationResult.LengthError:
-                    throw new ArgumentException(
-                        $"{nameof(items)}の要素数が異なります。");
-                case DBItemValuesList.ValidationResult.ItemError:
-                    throw new ArgumentException(
-                        $"{nameof(items)}中に種類の異なる項目があります。");
-            }
+            DBItemValuesListValidateHelper.ValidateListItem(outer, this);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /// <summary>
         /// 長さ固定リストに変換する。
         /// </summary>
@@ -129,7 +121,7 @@ namespace WodiLib.Database
         public IFixedLengthDBItemValueList ToFixedLengthList() => this;
 
         /// <summary>
-        /// 容量変更可能なDBデータ設定値リストに変換する。
+        /// 自身と同じ値情報を持つ、DBItemValuesList に紐付けられていないインスタンスに変換する。
         /// </summary>
         /// <returns>DBデータ設定値リスト</returns>
         public DBItemValueList ToLengthChangeableItemValueList()
@@ -402,6 +394,15 @@ namespace WodiLib.Database
             return Equals((IReadOnlyFixedLengthCollection<DBItemValue>) other);
         }
 
+        /// <summary>
+        /// 自身と同じ型情報を持ち、すべての項目がデフォルト値で初期化された新規インスタンスを生成する。
+        /// </summary>
+        /// <returns>DBItemValueList インスタンス</returns>
+        public DBItemValueList CreateDefaultValueListInstance()
+            => new DBItemValueList(
+                this.Select(x => x.GetDefaultValue())
+            );
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Internal Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -521,7 +522,10 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
-        protected override DBItemValue MakeDefaultItem(int index) => new DBItemValue(0);
+        protected override DBItemValue MakeDefaultItem(int index) =>
+            Count > 0
+                ? this[index].Type.DBItemDefaultValue
+                : DBItemType.Int.DBItemDefaultValue;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common

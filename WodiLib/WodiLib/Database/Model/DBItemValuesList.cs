@@ -143,12 +143,14 @@ namespace WodiLib.Database
                     ErrorMessage.NotNullInList($"{nameof(initItems)}の要素"));
 
             var cnt = initItemArr.Length;
-            if (cnt < GetMinCapacity())
+            var minCapacity = GetMinCapacity();
+            var maxCapacity = GetMaxCapacity();
+            if (cnt < minCapacity)
                 throw new InvalidOperationException(
-                    ErrorMessage.UnderListLength(GetMinCapacity()));
-            if (cnt > GetMaxCapacity())
+                    ErrorMessage.UnderListLength(minCapacity));
+            if (cnt > maxCapacity)
                 throw new InvalidOperationException(
-                    ErrorMessage.OverListLength(GetMaxCapacity()));
+                    ErrorMessage.OverListLength(maxCapacity));
 
             // 親の影響を受けないよう要素を削除
             Items.Clear();
@@ -174,16 +176,7 @@ namespace WodiLib.Database
             // データが1件以上の場合、2件目以降のデータの並びが1件目と同様であるかチェック
             for (var i = 1; i < initItemArr.Length; i++)
             {
-                var result = ValidateListItem(initItemArr[0], initItemArr[i]);
-                switch (result)
-                {
-                    case ValidationResult.LengthError:
-                        throw new ArgumentException(
-                            $"{nameof(initItems)}[{i}の要素数が異なります。");
-                    case ValidationResult.ItemError:
-                        throw new ArgumentException(
-                            $"{nameof(initItems)}[{i}]中に種類の異なる項目があります。");
-                }
+                DBItemValuesListValidateHelper.ValidateListItem(this, initItemArr[i]);
 
                 Items.Add(CreateValueListInstance(initItemArr[i]));
             }
@@ -348,16 +341,7 @@ namespace WodiLib.Database
 
             var instance = new DBItemValueList(values);
 
-            var validateResult = ValidateListItem(instance);
-            switch (validateResult)
-            {
-                case ValidationResult.LengthError:
-                    throw new ArgumentException(
-                        $"{nameof(values)}の要素数が異なります。");
-                case ValidationResult.ItemError:
-                    throw new ArgumentException(
-                        $"{nameof(values)}中に種類の異なる項目があります。");
-            }
+            DBItemValuesListValidateHelper.ValidateListItem(this, instance);
 
             return instance;
         }
@@ -407,6 +391,7 @@ namespace WodiLib.Database
             {
                 // タイプ変化チェックは最初の1回だけ行えばいい
                 //   要素変更イベントを発火するため、タイプ変化していない場合でも要素を上書きする。
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 if (typeCheckFunc != null)
                 {
                     isSameType = typeCheckFunc.Invoke(target);
@@ -1038,33 +1023,6 @@ namespace WodiLib.Database
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Internal Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// 項目チェック
-        /// </summary>
-        /// <param name="checkList">チェック対象リスト</param>
-        /// <returns>チェック結果</returns>
-        internal ValidationResult ValidateListItem(DBItemValueList checkList)
-        {
-            // 基準データがない場合はcheckList自身が基準となるためチェックしない
-            if (Items.Count == 0) return ValidationResult.OK;
-
-            var baseList = Items[0];
-
-            if (baseList.Count != checkList.Count) return ValidationResult.LengthError;
-
-            var searchError = checkList.Where((t, i) => t.Type != baseList[i].Type).Any();
-            if (searchError)
-            {
-                return ValidationResult.ItemError;
-            }
-
-            return ValidationResult.OK;
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -1091,16 +1049,7 @@ namespace WodiLib.Database
                         $"既に他の{nameof(DBItemValuesList)}に紐付けられているためセットできません。"));
             }
 
-            var validateResult = ValidateListItem(writableItem);
-            switch (validateResult)
-            {
-                case ValidationResult.LengthError:
-                    throw new ArgumentException(
-                        $"{nameof(item)}の要素数が異なります。");
-                case ValidationResult.ItemError:
-                    throw new ArgumentException(
-                        $"{nameof(item)}中に種類の異なる項目があります。");
-            }
+            DBItemValuesListValidateHelper.ValidateListItem(this, writableItem);
 
             writableItem.HasRelationship = true;
 
@@ -1122,16 +1071,7 @@ namespace WodiLib.Database
                         $"既に他の{nameof(DBItemValuesList)}に紐付けられているため追加できません。"));
             }
 
-            var validateResult = ValidateListItem(writableItem);
-            switch (validateResult)
-            {
-                case ValidationResult.LengthError:
-                    throw new ArgumentException(
-                        $"{nameof(item)}の要素数が異なります。");
-                case ValidationResult.ItemError:
-                    throw new ArgumentException(
-                        $"{nameof(item)}中に種類の異なる項目があります。");
-            }
+            DBItemValuesListValidateHelper.ValidateListItem(this, writableItem);
 
             writableItem.HasRelationship = true;
 
@@ -1170,33 +1110,6 @@ namespace WodiLib.Database
                 writableItem.HasRelationship = false;
             });
             ReattachFiledCollectionNotificationIfNeed_Clear();
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// 項目チェック
-        /// </summary>
-        /// <param name="baseItems">チェック基準要素</param>
-        /// <param name="checkItems">チェック対象要素</param>
-        /// <returns>チェック結果</returns>
-        private static ValidationResult ValidateListItem(IEnumerable<DBItemValue> baseItems,
-            IEnumerable<DBItemValue> checkItems)
-        {
-            var baseArr = baseItems.ToArray();
-            var checkArr = checkItems.ToArray();
-
-            if (baseArr.Length != checkArr.Length) return ValidationResult.LengthError;
-
-            var searchError = checkArr.Where((t, i) => t.Type != baseArr[i].Type).Any();
-            if (searchError)
-            {
-                return ValidationResult.ItemError;
-            }
-
-            return ValidationResult.OK;
         }
 
         /// <summary>
@@ -1322,17 +1235,6 @@ namespace WodiLib.Database
 
             target.PropertyChanged -= OnFieldCollectionPropertyChanged;
             target.CollectionChanged -= OnFieldCollectionCollectionChanged;
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Internal Enum
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        internal enum ValidationResult
-        {
-            OK,
-            LengthError,
-            ItemError
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

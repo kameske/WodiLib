@@ -133,8 +133,8 @@ namespace WodiLib.Database
             unchecked
             {
                 var hashCode = intValue.GetHashCode();
-                hashCode = (hashCode * 397) ^ (!(stringValue is null) ? stringValue.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (!(Type is null) ? Type.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ stringValue.GetHashCode();
+                hashCode = (hashCode * 397) ^ Type.GetHashCode();
                 return hashCode;
             }
         }
@@ -165,6 +165,16 @@ namespace WodiLib.Database
                 throw new InvalidOperationException(
                     ErrorMessage.NotCast(NotCastStringReason));
             return StringValue;
+        }
+
+        /// <summary>
+        /// 自身の設定種別を基にデフォルト値を返却する。
+        /// </summary>
+        /// <returns>DBItemType.Int.DBItemDefaultValue または DBItemType.String.DBItemDefaultValue</returns>
+        public DBItemValue GetDefaultValue()
+        {
+            if (Type == DBItemType.Int) return DBItemType.Int.DBItemDefaultValue;
+            return DBItemType.String.DBItemDefaultValue;
         }
 
         /// <summary>
