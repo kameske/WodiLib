@@ -79,7 +79,7 @@ namespace WodiLib.Database
         /// <param name="dataName">[NotNull] データ名</param>
         /// <param name="itemValueList">[NotNull] 項目値リスト</param>
         /// <exception cref="ArgumentNullException">dataName, itemValuesがnullの場合</exception>
-        public DatabaseDataDesc(DataName dataName, DBItemValueList itemValueList)
+        public DatabaseDataDesc(DataName dataName, IEnumerable<DBItemValue> itemValueList)
         {
             if (dataName is null)
                 throw new ArgumentNullException(
@@ -90,7 +90,7 @@ namespace WodiLib.Database
                     ErrorMessage.NotNull(nameof(itemValueList)));
 
             DataName = dataName;
-            ItemValueList = itemValueList;
+            ItemValueList = new DBItemValueList(itemValueList);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

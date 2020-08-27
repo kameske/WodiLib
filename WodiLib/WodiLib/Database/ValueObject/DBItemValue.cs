@@ -132,8 +132,8 @@ namespace WodiLib.Database
             unchecked
             {
                 var hashCode = intValue.GetHashCode();
-                hashCode = (hashCode * 397) ^ (stringValue != null ? stringValue.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (Type != null ? Type.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ stringValue.GetHashCode();
+                hashCode = (hashCode * 397) ^ Type.GetHashCode();
                 return hashCode;
             }
         }
@@ -164,6 +164,16 @@ namespace WodiLib.Database
                 throw new InvalidOperationException(
                     ErrorMessage.NotCast(NotCastStringReason));
             return StringValue;
+        }
+
+        /// <summary>
+        /// 自身の設定種別を基にデフォルト値を返却する。
+        /// </summary>
+        /// <returns>DBItemType.Int.DBItemDefaultValue または DBItemType.String.DBItemDefaultValue</returns>
+        public DBItemValue GetDefaultValue()
+        {
+            if (Type == DBItemType.Int) return DBItemType.Int.DBItemDefaultValue;
+            return DBItemType.String.DBItemDefaultValue;
         }
 
         /// <summary>
@@ -213,9 +223,15 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        ///
+        /// <exception cref="InvalidCastException">
+        ///     src が null の場合、または
+        ///     src が数値を含まない場合
+        /// </exception>
         public static implicit operator DBValueInt(DBItemValue src)
         {
+            if (src == null)
+                throw new InvalidCastException(
+                    ErrorMessage.InvalidCastFromNull(nameof(src), nameof(DBItemValue)));
             if (src.Type != DBItemType.Int)
                 throw new InvalidCastException(
                     ErrorMessage.NotCast(NotCastIntReason));
@@ -229,6 +245,7 @@ namespace WodiLib.Database
         /// <returns>変換したインスタンス</returns>
         public static implicit operator DBItemValue(DBValueString src)
         {
+            if (src is null) return null;
             var result = new DBItemValue(src);
             return result;
         }
@@ -238,9 +255,15 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
-        ///
+        /// <exception cref="InvalidCastException">
+        ///     src が null の場合、または
+        ///     src が文字列を含まない場合
+        /// </exception>
         public static implicit operator DBValueString(DBItemValue src)
         {
+            if (src is null)
+                throw new InvalidCastException(
+                    ErrorMessage.InvalidCastFromNull(nameof(src), nameof(DBItemValue)));
             if (src.Type != DBItemType.String)
                 throw new InvalidCastException(
                     ErrorMessage.NotCast(NotCastStringReason));
