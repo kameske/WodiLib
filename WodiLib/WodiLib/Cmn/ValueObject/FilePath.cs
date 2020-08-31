@@ -102,11 +102,9 @@ namespace WodiLib.Cmn
             }
 
             // ファイル名が適切かどうかチェック
-            //   Ver 1.X とはロジックが異なる
-            var dirsAndFile = value.Split(@"\");
-            for (var i = 0; i < dirsAndFile.Length; i++)
+            var dirsAndFile = value.Split('\\');
+            foreach (var path in dirsAndFile)
             {
-                var path = dirsAndFile[i];
                 if (path.All(c => c.Equals('.'))) continue;
 
                 var fileName = Path.GetFileName(path);
