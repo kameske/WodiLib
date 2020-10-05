@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using Commons;
@@ -179,7 +180,8 @@ namespace WodiLib.Test.Sys
         [TestCase(7, 7, true)]
         public static void IndexerGetTest(int index, int initLength, bool isError)
         {
-            var instance = MakeCollectionForMethodTest(initLength, out var countDic,
+            var instance = MakeCollectionForMethodTest(initLength,
+                out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var errorOccured = false;
@@ -196,26 +198,19 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            // 各Virtualメソッドが一度も呼ばれていないこと
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが一度も呼ばれていないこと
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count,
-                0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
         }
@@ -230,7 +225,8 @@ namespace WodiLib.Test.Sys
         [TestCase(7, null, 7, true)]
         public static void IndexerSetTest(int index, string setItem, int initLength, bool isError)
         {
-            var instance = MakeCollectionForMethodTest(initLength, out var countDic,
+            var instance = MakeCollectionForMethodTest(initLength,
+                out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
 
@@ -248,26 +244,19 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            // 各Virtualメソッドが意図した回数呼ばれていること
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], isError ? 0 : 1);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], isError ? 0 : 1);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが意図した回数呼ばれていること
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count,
-                isError ? 0 : 1);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, isError ? 0 : 1);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
 
@@ -308,7 +297,8 @@ namespace WodiLib.Test.Sys
         [TestCase(7, 2, 7, true)]
         public static void GetRangeTest(int index, int count, int initLength, bool isError)
         {
-            var instance = MakeCollectionForMethodTest(initLength, out var countDic,
+            var instance = MakeCollectionForMethodTest(initLength,
+                out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var errorOccured = false;
@@ -327,24 +317,19 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            // 各Virtualメソッドが一度も呼ばれていないこと
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが一度も呼ばれていないこと
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
 
@@ -370,7 +355,8 @@ namespace WodiLib.Test.Sys
         [TestCase(null, 10, true)]
         public static void AddTest(string item, int initLength, bool isError)
         {
-            var instance = MakeCollectionForMethodTest(initLength, out var countDic,
+            var instance = MakeCollectionForMethodTest(initLength,
+                out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var errorOccured = false;
@@ -388,40 +374,39 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            // 各Virtualメソッドが意図した回数呼ばれていること
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], isError ? 0 : 1);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], isError ? 0 : 1);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが意図した回数呼ばれていること
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                        if (isError)
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        }
+                        else
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 1);
+                            var addEventArg = dic[nameof(NotifyCollectionChangedAction.Add)][0];
+                            Assert.AreEqual(addEventArg.OldStartingIndex, -1);
+                            Assert.AreEqual(addEventArg.OldItems, null);
+                            Assert.AreEqual(addEventArg.NewStartingIndex, initLength);
+                            Assert.AreEqual(addEventArg.NewItems.Count, 1);
+                            Assert.AreEqual(addEventArg.NewItems[0], item);
+                        }
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             if (isError)
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
             }
             else
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 1);
-                {
-                    var addEventArg = collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)][0];
-                    Assert.AreEqual(addEventArg.OldStartingIndex, -1);
-                    Assert.AreEqual(addEventArg.OldItems, null);
-                    Assert.AreEqual(addEventArg.NewStartingIndex, initLength);
-                    Assert.AreEqual(addEventArg.NewItems.Count, 1);
-                    Assert.AreEqual(addEventArg.NewItems[0], item);
-                }
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 1);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
             }
@@ -455,7 +440,8 @@ namespace WodiLib.Test.Sys
         [TestCase(7, 4, true, true)]
         public static void AddRangeTest(int initLength, int addLength, bool hasNullInAddLength, bool isError)
         {
-            var instance = MakeCollectionForMethodTest(initLength, out var countDic,
+            var instance = MakeCollectionForMethodTest(initLength,
+                out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var addList = MakeStringList2(addLength, hasNullInAddLength);
@@ -474,40 +460,39 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            // 各Virtualメソッドが意図した回数呼ばれていること
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], isError ? 0 : addLength);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], isError ? 0 : addLength);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが意図した回数呼ばれていること
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                        if (isError)
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        }
+                        else
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 1);
+                            var addEventArg = dic[nameof(NotifyCollectionChangedAction.Add)][0];
+                            Assert.AreEqual(addEventArg.OldStartingIndex, -1);
+                            Assert.AreEqual(addEventArg.OldItems, null);
+                            Assert.AreEqual(addEventArg.NewStartingIndex, initLength);
+                            Assert.AreEqual(addEventArg.NewItems.Count, addLength);
+                            Assert.IsTrue(addEventArg.NewItems.Cast<string>().SequenceEqual(addList));
+                        }
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             if (isError)
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
             }
             else
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 1);
-                {
-                    var addEventArg = collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)][0];
-                    Assert.AreEqual(addEventArg.OldStartingIndex, -1);
-                    Assert.AreEqual(addEventArg.OldItems, null);
-                    Assert.AreEqual(addEventArg.NewStartingIndex, initLength);
-                    Assert.AreEqual(addEventArg.NewItems.Count, addLength);
-                    Assert.IsTrue(addEventArg.NewItems.Cast<string>().SequenceEqual(addList));
-                }
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 1);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
             }
@@ -556,7 +541,8 @@ namespace WodiLib.Test.Sys
         [TestCase(10, null, 10, true)]
         public static void InsertTest(int index, string item, int initLength, bool isError)
         {
-            var instance = MakeCollectionForMethodTest(initLength, out var countDic,
+            var instance = MakeCollectionForMethodTest(initLength,
+                out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var errorOccured = false;
@@ -574,40 +560,39 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            // 各Virtualメソッドが意図した回数呼ばれていること
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], isError ? 0 : 1);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], isError ? 0 : 1);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが意図した回数呼ばれていること
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                        if (isError)
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        }
+                        else
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 1);
+                            var addEventArg = dic[nameof(NotifyCollectionChangedAction.Add)][0];
+                            Assert.AreEqual(addEventArg.OldStartingIndex, -1);
+                            Assert.AreEqual(addEventArg.OldItems, null);
+                            Assert.AreEqual(addEventArg.NewStartingIndex, index);
+                            Assert.AreEqual(addEventArg.NewItems.Count, 1);
+                            Assert.AreEqual(addEventArg.NewItems[0], item);
+                        }
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             if (isError)
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
             }
             else
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 1);
-                {
-                    var addEventArg = collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)][0];
-                    Assert.AreEqual(addEventArg.OldStartingIndex, -1);
-                    Assert.AreEqual(addEventArg.OldItems, null);
-                    Assert.AreEqual(addEventArg.NewStartingIndex, index);
-                    Assert.AreEqual(addEventArg.NewItems.Count, 1);
-                    Assert.AreEqual(addEventArg.NewItems[0], item);
-                }
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 1);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
             }
@@ -677,7 +662,8 @@ namespace WodiLib.Test.Sys
         public static void InsertRangeTest(int initLength, int index, int addLength, bool hasNullInAddLength,
             bool isError)
         {
-            var instance = MakeCollectionForMethodTest(initLength, out var countDic,
+            var instance = MakeCollectionForMethodTest(initLength,
+                out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var addList = MakeStringList2(addLength, hasNullInAddLength);
@@ -696,40 +682,41 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            // 各Virtualメソッドが意図した回数呼ばれていること
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], isError ? 0 : addLength);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], isError ? 0 : addLength);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが意図した回数呼ばれていること
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                        if (isError)
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        }
+                        else
+                        {
+                            Assert.AreEqual(
+                                collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 1);
+                            var addEventArg =
+                                collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)][0];
+                            Assert.AreEqual(addEventArg.OldStartingIndex, -1);
+                            Assert.AreEqual(addEventArg.OldItems, null);
+                            Assert.AreEqual(addEventArg.NewStartingIndex, index);
+                            Assert.AreEqual(addEventArg.NewItems.Count, addLength);
+                            Assert.IsTrue(addEventArg.NewItems.Cast<string>().SequenceEqual(addList));
+                        }
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             if (isError)
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
             }
             else
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 1);
-                {
-                    var addEventArg = collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)][0];
-                    Assert.AreEqual(addEventArg.OldStartingIndex, -1);
-                    Assert.AreEqual(addEventArg.OldItems, null);
-                    Assert.AreEqual(addEventArg.NewStartingIndex, index);
-                    Assert.AreEqual(addEventArg.NewItems.Count, addLength);
-                    Assert.IsTrue(addEventArg.NewItems.Cast<string>().SequenceEqual(addList));
-                }
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 1);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
             }
@@ -801,7 +788,8 @@ namespace WodiLib.Test.Sys
         public static void OverwriteTest(int initLength, int index, int overwriteLength, bool hasNullInAddLength,
             bool isError)
         {
-            var instance = MakeCollectionForMethodTest(initLength, out var countDic,
+            var instance = MakeCollectionForMethodTest(initLength,
+                out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var addList = MakeStringList2(overwriteLength, hasNullInAddLength);
@@ -820,64 +808,64 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            // 各Virtualメソッドが意図した回数呼ばれていること
-            var answerSetCount = initLength - index;
-            if (answerSetCount > overwriteLength) answerSetCount = overwriteLength;
-            var answerInsertCount = overwriteLength - answerSetCount;
-            if (answerInsertCount < 0) answerInsertCount = 0;
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], isError ? 0 : answerSetCount);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], isError ? 0 : answerInsertCount);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], isError ? 0 : answerSetCount);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], isError ? 0 : answerInsertCount);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが意図した回数呼ばれていること
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                        if (isError)
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        }
+                        else
+                        {
+                            var replaceMax = initLength - index;
+                            var replaceCnt = Math.Min(replaceMax, overwriteLength);
+                            var addStartIndex = index + replaceCnt;
+                            var addCnt = overwriteLength - replaceCnt;
+
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count,
+                                1);
+                            {
+                                var eventArg = dic[nameof(NotifyCollectionChangedAction.Replace)][0];
+                                Assert.AreEqual(eventArg.OldStartingIndex, index);
+                                Assert.AreEqual(eventArg.OldItems.Count, replaceCnt);
+                                Assert.AreEqual(eventArg.NewStartingIndex, index);
+                                Assert.AreEqual(eventArg.NewItems.Count, replaceCnt);
+                            }
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 1);
+                            {
+                                var addEventArg = dic[nameof(NotifyCollectionChangedAction.Add)][0];
+                                Assert.AreEqual(addEventArg.OldStartingIndex, -1);
+                                Assert.IsNull(addEventArg.OldItems);
+                                Assert.AreEqual(addEventArg.NewStartingIndex, addStartIndex);
+                                Assert.AreEqual(addEventArg.NewItems.Count, addCnt);
+                            }
+                        }
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             if (isError)
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count,
-                    0);
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
             }
             else
             {
-                var replaceMax = initLength - index;
-                var replaceCnt = Math.Min(replaceMax, overwriteLength);
-                var addStartIndex = index + replaceCnt;
-                var addCnt = overwriteLength - replaceCnt;
-
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count,
-                    1);
-                {
-                    var eventArg =
-                        collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)][0];
-                    Assert.AreEqual(eventArg.OldStartingIndex, index);
-                    Assert.AreEqual(eventArg.OldItems.Count, replaceCnt);
-                    Assert.AreEqual(eventArg.NewStartingIndex, index);
-                    Assert.AreEqual(eventArg.NewItems.Count, replaceCnt);
-                }
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 1);
-                {
-                    var addEventArg = collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)][0];
-                    Assert.AreEqual(addEventArg.OldStartingIndex, -1);
-                    Assert.IsNull(addEventArg.OldItems);
-                    Assert.AreEqual(addEventArg.NewStartingIndex, addStartIndex);
-                    Assert.AreEqual(addEventArg.NewItems.Count, addCnt);
-                }
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 1);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
             }
 
             if (errorOccured) return;
+
+            var answerSetCount = initLength - index;
+            if (answerSetCount > overwriteLength) answerSetCount = overwriteLength;
+            var answerInsertCount = overwriteLength - answerSetCount;
+            if (answerInsertCount < 0) answerInsertCount = 0;
 
             // 追加後の要素数が元の要素数+追加した要素数であること
             Assert.AreEqual(instance.Count, initLength + answerInsertCount);
@@ -942,7 +930,8 @@ namespace WodiLib.Test.Sys
         public static void MoveTest(int initLength, int oldIndex, int newIndex, bool isError)
         {
             var instance =
-                MakeCollectionForMethodTest(initLength, out var countDic,
+                MakeCollectionForMethodTest(initLength,
+                    out var collectionChangingEventArgsList,
                     out var collectionChangedEventArgsList,
                     out var propertyChangedEventCalledCount);
 
@@ -960,41 +949,39 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            // 各Virtualメソッドが意図した回数呼ばれていること
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], isError ? 0 : 1);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], isError ? 0 : 1);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが意図した回数呼ばれていること
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                        if (isError)
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        }
+                        else
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 1);
+                            var eventArg = dic[nameof(NotifyCollectionChangedAction.Move)][0];
+                            Assert.AreEqual(eventArg.OldStartingIndex, oldIndex);
+                            Assert.AreEqual(eventArg.OldItems.Count, 1);
+                            Assert.AreEqual(eventArg.NewStartingIndex, newIndex);
+                            Assert.AreEqual(eventArg.NewItems.Count, 1);
+                            Assert.IsTrue(ReferenceEquals(eventArg.OldItems[0], eventArg.NewItems[0]));
+                        }
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
             if (isError)
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
             }
             else
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 1);
-                {
-                    var eventArg =
-                        collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)][0];
-                    Assert.AreEqual(eventArg.OldStartingIndex, oldIndex);
-                    Assert.AreEqual(eventArg.OldItems.Count, 1);
-                    Assert.AreEqual(eventArg.NewStartingIndex, newIndex);
-                    Assert.AreEqual(eventArg.NewItems.Count, 1);
-                    Assert.IsTrue(ReferenceEquals(eventArg.OldItems[0], eventArg.NewItems[0]));
-                }
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
             }
 
@@ -1139,7 +1126,8 @@ namespace WodiLib.Test.Sys
         public static void MoveRangeTest(int initLength, int oldIndex, int newIndex, int count, bool isError)
         {
             var instance =
-                MakeCollectionForMethodTest(initLength, out var countDic,
+                MakeCollectionForMethodTest(initLength,
+                    out var collectionChangingEventArgsList,
                     out var collectionChangedEventArgsList,
                     out var propertyChangedEventCalledCount);
 
@@ -1157,44 +1145,42 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            // 各Virtualメソッドが意図した回数呼ばれていること
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], isError ? 0 : count);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], isError ? 0 : count);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが意図した回数呼ばれていること
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                        if (isError)
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        }
+                        else
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 1);
+                            var eventArg = dic[nameof(NotifyCollectionChangedAction.Move)][0];
+                            Assert.AreEqual(eventArg.OldStartingIndex, oldIndex);
+                            Assert.AreEqual(eventArg.OldItems.Count, count);
+                            Assert.AreEqual(eventArg.NewStartingIndex, newIndex);
+                            Assert.AreEqual(eventArg.NewItems.Count, count);
+                            for (var i = 0; i < count; i++)
+                            {
+                                Assert.IsTrue(ReferenceEquals(eventArg.OldItems[i], eventArg.NewItems[i]));
+                            }
+                        }
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
             if (isError)
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
             }
             else
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 1);
-                {
-                    var eventArg =
-                        collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)][0];
-                    Assert.AreEqual(eventArg.OldStartingIndex, oldIndex);
-                    Assert.AreEqual(eventArg.OldItems.Count, count);
-                    Assert.AreEqual(eventArg.NewStartingIndex, newIndex);
-                    Assert.AreEqual(eventArg.NewItems.Count, count);
-                    for (var i = 0; i < count; i++)
-                    {
-                        Assert.IsTrue(ReferenceEquals(eventArg.OldItems[i], eventArg.NewItems[i]));
-                    }
-                }
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
             }
 
@@ -1287,7 +1273,8 @@ namespace WodiLib.Test.Sys
             var initStrList = MakeStringList(initStrLength);
 
             var instance =
-                MakeCollection2ForMethodTest(initStrList, initLength, out var countDic,
+                MakeCollection2ForMethodTest(initStrList, initLength,
+                    out var collectionChangingEventArgsList,
                     out var collectionChangedEventArgsList,
                     out var propertyChangedEventCalledCount);
 
@@ -1311,43 +1298,39 @@ namespace WodiLib.Test.Sys
             // Remove() の結果が意図した値であること
             Assert.AreEqual(result, removeResult);
 
-            // 各Virtualメソッドが意図した回数呼ばれていること
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], !isError && removeResult ? 1 : 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], !isError && removeResult ? 1 : 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが意図した回数呼ばれていること
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                        if (isError || !removeResult)
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        }
+                        else
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 1);
+                            var eventArg = dic[nameof(NotifyCollectionChangedAction.Remove)][0];
+                            Assert.AreEqual(eventArg.OldStartingIndex, removeIndex);
+                            Assert.AreEqual(eventArg.OldItems.Count, 1);
+                            Assert.AreEqual(eventArg.OldItems[0], removeItem);
+                            Assert.AreEqual(eventArg.NewStartingIndex, -1);
+                            Assert.AreEqual(eventArg.NewItems, null);
+                        }
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             if (isError || !removeResult)
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                    0);
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
             }
             else
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                    1);
-                {
-                    var eventArg =
-                        collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)][0];
-                    Assert.AreEqual(eventArg.OldStartingIndex, removeIndex);
-                    Assert.AreEqual(eventArg.OldItems.Count, 1);
-                    Assert.AreEqual(eventArg.OldItems[0], removeItem);
-                    Assert.AreEqual(eventArg.NewStartingIndex, -1);
-                    Assert.AreEqual(eventArg.NewItems, null);
-                }
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 1);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
             }
@@ -1400,7 +1383,8 @@ namespace WodiLib.Test.Sys
         {
             var initStrList = MakeStringList(initLength);
             var instance =
-                MakeCollection2ForMethodTest(initStrList, initLength, out var countDic,
+                MakeCollection2ForMethodTest(initStrList, initLength,
+                    out var collectionChangingEventArgsList,
                     out var collectionChangedEventArgsList,
                     out var propertyChangedEventCalledCount);
 
@@ -1418,42 +1402,38 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            // 各Virtualメソッドが意図した回数呼ばれていること
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], isError ? 0 : 1);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], isError ? 0 : 1);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが意図した回数呼ばれていること
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                        if (isError)
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        }
+                        else
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 1);
+                            var eventArg = dic[nameof(NotifyCollectionChangedAction.Remove)][0];
+                            Assert.AreEqual(eventArg.OldStartingIndex, index);
+                            Assert.AreEqual(eventArg.OldItems.Count, 1);
+                            Assert.AreEqual(eventArg.NewStartingIndex, -1);
+                            Assert.AreEqual(eventArg.NewItems, null);
+                        }
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             if (isError)
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                    0);
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
             }
             else
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                    1);
-                {
-                    var eventArg =
-                        collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)][0];
-                    Assert.AreEqual(eventArg.OldStartingIndex, index);
-                    Assert.AreEqual(eventArg.OldItems.Count, 1);
-                    Assert.AreEqual(eventArg.NewStartingIndex, -1);
-                    Assert.AreEqual(eventArg.NewItems, null);
-                }
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 1);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
             }
@@ -1513,7 +1493,8 @@ namespace WodiLib.Test.Sys
         {
             var initStrList = MakeStringList(initLength);
             var instance =
-                MakeCollection2ForMethodTest(initStrList, initLength, out var countDic,
+                MakeCollection2ForMethodTest(initStrList, initLength,
+                    out var collectionChangingEventArgsList,
                     out var collectionChangedEventArgsList,
                     out var propertyChangedEventCalledCount);
 
@@ -1531,42 +1512,38 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            // 各Virtualメソッドが意図した回数呼ばれていること
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], isError ? 0 : count);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], isError ? 0 : count);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが意図した回数呼ばれていること
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                        if (isError)
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        }
+                        else
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 1);
+                            var eventArg = dic[nameof(NotifyCollectionChangedAction.Remove)][0];
+                            Assert.AreEqual(eventArg.OldStartingIndex, index);
+                            Assert.AreEqual(eventArg.OldItems.Count, count);
+                            Assert.AreEqual(eventArg.NewStartingIndex, -1);
+                            Assert.AreEqual(eventArg.NewItems, null);
+                        }
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             if (isError)
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                    0);
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
             }
             else
             {
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                    1);
-                {
-                    var eventArg =
-                        collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)][0];
-                    Assert.AreEqual(eventArg.OldStartingIndex, index);
-                    Assert.AreEqual(eventArg.OldItems.Count, count);
-                    Assert.AreEqual(eventArg.NewStartingIndex, -1);
-                    Assert.AreEqual(eventArg.NewItems, null);
-                }
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 1);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
             }
@@ -1604,18 +1581,20 @@ namespace WodiLib.Test.Sys
             var initList = MakeStringList(initLength);
 
             AbsCollectionTest instance = null;
-            Dictionary<string, int> countDic = null;
+            Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList = null;
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList = null;
             Dictionary<string, int> propertyChangedEventCalledCount = null;
             switch (classType)
             {
                 case TestClassType.Type1:
-                    instance = MakeCollectionForMethodTest(initLength, out countDic,
+                    instance = MakeCollectionForMethodTest(initLength,
+                        out collectionChangingEventArgsList,
                         out collectionChangedEventArgsList,
                         out propertyChangedEventCalledCount);
                     break;
                 case TestClassType.Type2:
-                    instance = MakeCollection2ForMethodTest(initList, initLength, out countDic,
+                    instance = MakeCollection2ForMethodTest(initList, initLength,
+                        out collectionChangingEventArgsList,
                         out collectionChangedEventArgsList,
                         out propertyChangedEventCalledCount);
                     break;
@@ -1638,86 +1617,59 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            // 各Virtualメソッドが意図した回数呼ばれていること
-            var insertedCnt = errorOccured
-                ? 0
-                : initLength < adjustLength
-                    ? adjustLength - initLength
-                    : 0;
-            var removedCnt = errorOccured
-                ? 0
-                : initLength > adjustLength
-                    ? initLength - adjustLength
-                    : 0;
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], insertedCnt);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], removedCnt);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], insertedCnt);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], removedCnt);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが意図した回数呼ばれていること
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                        if (isError)
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        }
+                        else
+                        {
+                            if (initLength < adjustLength)
+                            {
+                                Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 1);
+                                var eventArg = dic[nameof(NotifyCollectionChangedAction.Add)][0];
+                                Assert.AreEqual(eventArg.OldStartingIndex, -1);
+                                Assert.AreEqual(eventArg.OldItems, null);
+                                Assert.AreEqual(eventArg.NewStartingIndex, initLength);
+                                Assert.AreEqual(eventArg.NewItems.Count, adjustLength - initLength);
+                                Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                            }
+                            else if (initLength == adjustLength)
+                            {
+                                Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                                Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                            }
+                            else // initLength > adjustLength
+                            {
+                                Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                                Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 1);
+                                var eventArg = dic[nameof(NotifyCollectionChangedAction.Remove)][0];
+                                Assert.AreEqual(eventArg.OldStartingIndex, adjustLength);
+                                Assert.AreEqual(eventArg.OldItems.Count, initLength - adjustLength);
+                                Assert.AreEqual(eventArg.NewStartingIndex, -1);
+                                Assert.AreEqual(eventArg.NewItems, null);
+                            }
+                        }
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             if (isError)
             {
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                    0);
             }
             else
             {
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 1);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
-                if (initLength < adjustLength)
-                {
-                    Assert.AreEqual(
-                        collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count,
-                        1);
-                    {
-                        var eventArg =
-                            collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)][0];
-                        Assert.AreEqual(eventArg.OldStartingIndex, -1);
-                        Assert.AreEqual(eventArg.OldItems, null);
-                        Assert.AreEqual(eventArg.NewStartingIndex, initLength);
-                        Assert.AreEqual(eventArg.NewItems.Count, adjustLength - initLength);
-                    }
-                    Assert.AreEqual(
-                        collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                        0);
-                }
-                else if (initLength == adjustLength)
-                {
-                    Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count,
-                        0);
-                    Assert.AreEqual(
-                        collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                        0);
-                }
-                else
-                {
-                    // initLength > adjustLength
-                    Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count,
-                        0);
-                    Assert.AreEqual(
-                        collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                        1);
-                    {
-                        var eventArg =
-                            collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)][0];
-                        Assert.AreEqual(eventArg.OldStartingIndex, adjustLength);
-                        Assert.AreEqual(eventArg.OldItems.Count, initLength - adjustLength);
-                        Assert.AreEqual(eventArg.NewStartingIndex, -1);
-                        Assert.AreEqual(eventArg.NewItems, null);
-                    }
-                }
             }
 
             if (errorOccured) return;
@@ -1757,18 +1709,20 @@ namespace WodiLib.Test.Sys
             var initList = MakeStringList(initLength);
 
             AbsCollectionTest instance = null;
-            Dictionary<string, int> countDic = null;
+            Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList = null;
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList = null;
             Dictionary<string, int> propertyChangedEventCalledCount = null;
             switch (classType)
             {
                 case TestClassType.Type1:
-                    instance = MakeCollectionForMethodTest(initLength, out countDic,
+                    instance = MakeCollectionForMethodTest(initLength,
+                        out collectionChangingEventArgsList,
                         out collectionChangedEventArgsList,
                         out propertyChangedEventCalledCount);
                     break;
                 case TestClassType.Type2:
-                    instance = MakeCollection2ForMethodTest(initList, initLength, out countDic,
+                    instance = MakeCollection2ForMethodTest(initList, initLength,
+                        out collectionChangingEventArgsList,
                         out collectionChangedEventArgsList,
                         out propertyChangedEventCalledCount);
                     break;
@@ -1791,65 +1745,47 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
-            // 各Virtualメソッドが意図した回数呼ばれていること
-            var insertedCnt = errorOccured
-                ? 0
-                : initLength < adjustLength
-                    ? adjustLength - initLength
-                    : 0;
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], insertedCnt);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], insertedCnt);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが意図した回数呼ばれていること
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        if (isError)
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        }
+                        else
+                        {
+                            if (initLength >= adjustLength)
+                            {
+                                Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                            }
+                            else // initLength < adjustLength
+                            {
+                                Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 1);
+                                var eventArg = dic[nameof(NotifyCollectionChangedAction.Add)][0];
+                                Assert.AreEqual(eventArg.OldStartingIndex, -1);
+                                Assert.AreEqual(eventArg.OldItems, null);
+                                Assert.AreEqual(eventArg.NewStartingIndex, initLength);
+                                Assert.AreEqual(eventArg.NewItems.Count, adjustLength - initLength);
+                            }
+                        }
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             if (isError)
             {
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
-                Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                    0);
             }
             else
             {
                 Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 1);
                 Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
-                if (initLength >= adjustLength)
-                {
-                    Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count,
-                        0);
-                    Assert.AreEqual(
-                        collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                        0);
-                }
-                else
-                {
-                    // initLength < adjustLength
-                    Assert.AreEqual(
-                        collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count,
-                        1);
-                    {
-                        var eventArg =
-                            collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)][0];
-                        Assert.AreEqual(eventArg.OldStartingIndex, -1);
-                        Assert.AreEqual(eventArg.OldItems, null);
-                        Assert.AreEqual(eventArg.NewStartingIndex, initLength);
-                        Assert.AreEqual(eventArg.NewItems.Count, adjustLength - initLength);
-                    }
-                    Assert.AreEqual(
-                        collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count,
-                        0);
-                }
             }
 
             if (errorOccured) return;
@@ -1872,6 +1808,112 @@ namespace WodiLib.Test.Sys
             }
         }
 
+        [TestCase(TestClassType.Type1, 8, -1, -1, true)]
+        [TestCase(TestClassType.Type1, 8, 0, 0, false)]
+        [TestCase(TestClassType.Type1, 8, 10, 8, false)]
+        [TestCase(TestClassType.Type1, 8, 11, -1, true)]
+        [TestCase(TestClassType.Type2, 8, -1, -1, true)]
+        [TestCase(TestClassType.Type2, 8, 4, -1, true)]
+        [TestCase(TestClassType.Type2, 8, 5, 5, false)]
+        [TestCase(TestClassType.Type2, 8, 10, 8, false)]
+        [TestCase(TestClassType.Type2, 8, 11, -1, true)]
+        public static void AdjustLengthIfLongTest(TestClassType classType, int initLength,
+            int adjustLength, int answerLength, bool isError)
+        {
+            var initList = MakeStringList(initLength);
+
+            AbsCollectionTest instance = null;
+            Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList = null;
+            Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList = null;
+            Dictionary<string, int> propertyChangedEventCalledCount = null;
+            switch (classType)
+            {
+                case TestClassType.Type1:
+                    instance = MakeCollectionForMethodTest(initLength,
+                        out collectionChangingEventArgsList,
+                        out collectionChangedEventArgsList,
+                        out propertyChangedEventCalledCount);
+                    break;
+                case TestClassType.Type2:
+                    instance = MakeCollection2ForMethodTest(initList, initLength,
+                        out collectionChangingEventArgsList,
+                        out collectionChangedEventArgsList,
+                        out propertyChangedEventCalledCount);
+                    break;
+                default:
+                    Assert.Fail();
+                    break;
+            }
+
+            var errorOccured = false;
+            try
+            {
+                instance.AdjustLengthIfLong(adjustLength);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            // 各イベントが意図した回数呼ばれていること
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        if (isError)
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        }
+                        else
+                        {
+                            if (initLength <= adjustLength)
+                            {
+                                Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                            }
+                            else // initLength > adjustLength
+                            {
+                                Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 1);
+                                var eventArg = dic[nameof(NotifyCollectionChangedAction.Remove)][0];
+                                Assert.AreEqual(eventArg.OldStartingIndex, adjustLength);
+                                Assert.AreEqual(eventArg.OldItems.Count, initLength - adjustLength);
+                                Assert.AreEqual(eventArg.NewStartingIndex, -1);
+                                Assert.AreEqual(eventArg.NewItems, null);
+                            }
+                        }
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
+            if (isError)
+            {
+                Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
+                Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
+            }
+            else
+            {
+                Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 1);
+                Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
+            }
+
+            if (errorOccured) return;
+
+            // 要素数が調整サイズと一致すること
+            Assert.AreEqual(instance.Count, answerLength);
+
+            // 操作前の要素が変化していないこと
+            for (var i = 0; i < answerLength; i++)
+            {
+                Assert.AreEqual(instance[i], i.ToString());
+            }
+        }
+
         [TestCase(TestClassType.Type1, 0)]
         [TestCase(TestClassType.Type1, 10)]
         [TestCase(TestClassType.Type2, 5)]
@@ -1881,18 +1923,20 @@ namespace WodiLib.Test.Sys
             var initList = MakeStringList(initLength);
 
             AbsCollectionTest instance = null;
-            Dictionary<string, int> countDic = null;
+            Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList = null;
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList = null;
             Dictionary<string, int> propertyChangedEventCalledCount = null;
             switch (classType)
             {
                 case TestClassType.Type1:
-                    instance = MakeCollectionForMethodTest(initLength, out countDic,
+                    instance = MakeCollectionForMethodTest(initLength,
+                        out collectionChangingEventArgsList,
                         out collectionChangedEventArgsList,
                         out propertyChangedEventCalledCount);
                     break;
                 case TestClassType.Type2:
-                    instance = MakeCollection2ForMethodTest(initList, initLength, out countDic,
+                    instance = MakeCollection2ForMethodTest(initList, initLength,
+                        out collectionChangingEventArgsList,
                         out collectionChangedEventArgsList,
                         out propertyChangedEventCalledCount);
                     break;
@@ -1917,24 +1961,19 @@ namespace WodiLib.Test.Sys
             // エラーが発生しないこと
             Assert.IsFalse(errorOccured);
 
-            // 各Virtualメソッドが意図した回数呼ばれていること
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], minCapacity);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 1);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], minCapacity);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 1);
-
             // 各イベントが意図した回数呼ばれていること
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 1);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 1);
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 1);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
 
@@ -1953,7 +1992,8 @@ namespace WodiLib.Test.Sys
         [TestCase(5, null, false)]
         public static void ContainsTest(int initLength, string item, bool result)
         {
-            var instance = MakeCollectionForMethodTest(initLength, out var countDic,
+            var instance = MakeCollectionForMethodTest(initLength,
+                out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
             var containsResult = false;
@@ -1975,24 +2015,19 @@ namespace WodiLib.Test.Sys
             // 取得した値が意図した値と一致すること
             Assert.AreEqual(containsResult, result);
 
-            // 各Virtualメソッドが一度も呼ばれていないこと
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPreClearItemsCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostSetItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostInsertItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostMoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostRemoveItemCalled)], 0);
-            Assert.AreEqual(countDic[nameof(CollectionTest1.OnPostClearItemsCalled)], 0);
-
             // 各イベントが呼ばれていないこと
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
-            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
         }
@@ -2097,12 +2132,12 @@ namespace WodiLib.Test.Sys
         }
 
         [Test]
-        public static void PreSetErrorTest()
+        public static void CollectionChangingErrorTest()
         {
-            var instance = MakeCollection8ForPrePostTest(
-                out var methodCalledCount, out var collectionChangedEventArgsList,
+            var instance = MakeCollection8(
+                out var collectionChangingEventArgsList,
+                out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
-            instance.IsPreMethodRaiseError = true;
 
             var errorOccured = false;
             try
@@ -2118,152 +2153,23 @@ namespace WodiLib.Test.Sys
             // エラーが発生していること
             Assert.IsTrue(errorOccured);
 
-            // PostSetが実行されていないこと
-            Assert.IsTrue(methodCalledCount[nameof(CollectionTest1.OnPostSetItemCalled)] == 0);
+            // CollectionChanged が発火していないこと
+            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+            Assert.AreEqual(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
 
-            // NotifyCollectionChanged が発生していないこと
-            Assert.IsTrue(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Replace)].Count == 0);
-
-            // PropertyChanged が発生していないこと
-            Assert.IsTrue(propertyChangedEventCalledCount["Count"] == 0);
-            Assert.IsTrue(propertyChangedEventCalledCount[ListConstant.IndexerName] == 0);
-        }
-
-        [Test]
-        public static void PreInsertErrorTest()
-        {
-            var instance = MakeCollection8ForPrePostTest(
-                out var methodCalledCount, out var collectionChangedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            instance.IsPreMethodRaiseError = true;
-
-            var errorOccured = false;
-            try
-            {
-                instance.Insert(0, "new Value");
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生していること
-            Assert.IsTrue(errorOccured);
-
-            // PostInsertが実行されていないこと
-            Assert.IsTrue(methodCalledCount[nameof(CollectionTest1.OnPostInsertItemCalled)] == 0);
-
-            // NotifyCollectionChanged が発生していないこと
-            Assert.IsTrue(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Add)].Count == 0);
-
-            // PropertyChanged が発生していないこと
-            Assert.IsTrue(propertyChangedEventCalledCount["Count"] == 0);
-            Assert.IsTrue(propertyChangedEventCalledCount[ListConstant.IndexerName] == 0);
-        }
-
-        [Test]
-        public static void PreMoveErrorTest()
-        {
-            var instance = MakeCollection8ForPrePostTest(
-                out var methodCalledCount, out var collectionChangedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            instance.IsPreMethodRaiseError = true;
-
-            var errorOccured = false;
-            try
-            {
-                instance.Move(0, 1);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生していること
-            Assert.IsTrue(errorOccured);
-
-            // PostMoveが実行されていないこと
-            Assert.IsTrue(methodCalledCount[nameof(CollectionTest1.OnPostMoveItemCalled)] == 0);
-
-            // NotifyCollectionChanged が発生していないこと
-            Assert.IsTrue(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Move)].Count == 0);
-
-            // PropertyChanged が発生していないこと
-            Assert.IsTrue(propertyChangedEventCalledCount["Count"] == 0);
-            Assert.IsTrue(propertyChangedEventCalledCount[ListConstant.IndexerName] == 0);
-        }
-
-        [Test]
-        public static void PreRemoveErrorTest()
-        {
-            var instance = MakeCollection8ForPrePostTest(
-                out var methodCalledCount, out var collectionChangedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            instance.IsPreMethodRaiseError = true;
-
-            var errorOccured = false;
-            try
-            {
-                instance.RemoveAt(0);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生していること
-            Assert.IsTrue(errorOccured);
-
-            // PostRemoveが実行されていないこと
-            Assert.IsTrue(methodCalledCount[nameof(CollectionTest1.OnPostRemoveItemCalled)] == 0);
-
-            // NotifyCollectionChanged が発生していないこと
-            Assert.IsTrue(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Remove)].Count == 0);
-
-            // PropertyChanged が発生していないこと
-            Assert.IsTrue(propertyChangedEventCalledCount["Count"] == 0);
-            Assert.IsTrue(propertyChangedEventCalledCount[ListConstant.IndexerName] == 0);
-        }
-
-        [Test]
-        public static void PreClearErrorTest()
-        {
-            var instance = MakeCollection8ForPrePostTest(
-                out var methodCalledCount, out var collectionChangedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            instance.IsPreMethodRaiseError = true;
-
-            var errorOccured = false;
-            try
-            {
-                instance.Clear();
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生していること
-            Assert.IsTrue(errorOccured);
-
-            // PostClearが実行されていないこと
-            Assert.IsTrue(methodCalledCount[nameof(CollectionTest1.OnPostClearItemsCalled)] == 0);
-
-            // NotifyCollectionChanged が発生していないこと
-            Assert.IsTrue(collectionChangedEventArgsList[nameof(NotifyCollectionChangedAction.Reset)].Count == 0);
-
-            // PropertyChanged が発生していないこと
-            Assert.IsTrue(propertyChangedEventCalledCount["Count"] == 0);
-            Assert.IsTrue(propertyChangedEventCalledCount[ListConstant.IndexerName] == 0);
+            // NotifyPropertyChanged が発火していないこと
+            Assert.AreEqual(propertyChangedEventCalledCount["Count"], 0);
+            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
         }
 
         [Test]
         public static void EqualsTest_IReadOnlyRestrictedCapacityCollection()
         {
+#pragma warning disable 618
+            // TODO: Ver 2.6 まで
             {
                 // すべての要素が Equal であるリストの比較
                 var items = MakeStringList(10);
@@ -2294,6 +2200,7 @@ namespace WodiLib.Test.Sys
 
                 Assert.IsFalse(left.Equals((IReadOnlyRestrictedCapacityCollection<string>) null));
             }
+#pragma warning restore 618
         }
 
         [Test]
@@ -2418,7 +2325,7 @@ namespace WodiLib.Test.Sys
         }
 
         private static CollectionTest1 MakeCollectionForMethodTest(int initLength,
-            out Dictionary<string, int> methodCalledCount,
+            out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList,
             out Dictionary<string, int> propertyChangedEventCalledCount)
         {
@@ -2427,82 +2334,20 @@ namespace WodiLib.Test.Sys
                 ? new CollectionTest1()
                 : new CollectionTest1(initStringList);
 
-            methodCalledCount = new Dictionary<string, int>
-            {
-                {nameof(CollectionTest1.OnPreSetItemCalled), 0},
-                {nameof(CollectionTest1.OnPreInsertItemCalled), 0},
-                {nameof(CollectionTest1.OnPreMoveItemCalled), 0},
-                {nameof(CollectionTest1.OnPreRemoveItemCalled), 0},
-                {nameof(CollectionTest1.OnPreClearItemsCalled), 0},
-                {nameof(CollectionTest1.OnPostSetItemCalled), 0},
-                {nameof(CollectionTest1.OnPostInsertItemCalled), 0},
-                {nameof(CollectionTest1.OnPostMoveItemCalled), 0},
-                {nameof(CollectionTest1.OnPostRemoveItemCalled), 0},
-                {nameof(CollectionTest1.OnPostClearItemsCalled), 0},
-            };
+            collectionChangingEventArgsList = MakeCollectionChangeEventArgsDic();
+            result.CollectionChanging += MakeCollectionChangeEventHandler(true, collectionChangingEventArgsList);
 
-            var ints = methodCalledCount;
-            result.OnPreSetItemCalled = () => ints[nameof(CollectionTest1.OnPreSetItemCalled)]++;
-            result.OnPreInsertItemCalled = () => ints[nameof(CollectionTest1.OnPreInsertItemCalled)]++;
-            result.OnPreMoveItemCalled = () => ints[nameof(CollectionTest1.OnPreMoveItemCalled)]++;
-            result.OnPreRemoveItemCalled = () => ints[nameof(CollectionTest1.OnPreRemoveItemCalled)]++;
-            result.OnPreClearItemsCalled = () => ints[nameof(CollectionTest1.OnPreClearItemsCalled)]++;
-            result.OnPostSetItemCalled = () => ints[nameof(CollectionTest1.OnPostSetItemCalled)]++;
-            result.OnPostInsertItemCalled = () => ints[nameof(CollectionTest1.OnPostInsertItemCalled)]++;
-            result.OnPostMoveItemCalled = () => ints[nameof(CollectionTest1.OnPostMoveItemCalled)]++;
-            result.OnPostRemoveItemCalled = () => ints[nameof(CollectionTest1.OnPostRemoveItemCalled)]++;
-            result.OnPostClearItemsCalled = () => ints[nameof(CollectionTest1.OnPostClearItemsCalled)]++;
+            collectionChangedEventArgsList = MakeCollectionChangeEventArgsDic();
+            result.CollectionChanged += MakeCollectionChangeEventHandler(false, collectionChangedEventArgsList);
 
-            {
-                var makeEmptyList =
-                    new Func<List<NotifyCollectionChangedEventArgs>>(() =>
-                        new List<NotifyCollectionChangedEventArgs>());
-
-                collectionChangedEventArgsList = new Dictionary<string, List<NotifyCollectionChangedEventArgs>>
-                {
-                    {nameof(NotifyCollectionChangedAction.Add), makeEmptyList()},
-                    {nameof(NotifyCollectionChangedAction.Replace), makeEmptyList()},
-                    {nameof(NotifyCollectionChangedAction.Remove), makeEmptyList()},
-                    {nameof(NotifyCollectionChangedAction.Reset), makeEmptyList()},
-                    {nameof(NotifyCollectionChangedAction.Move), makeEmptyList()},
-                };
-                var cceaList = collectionChangedEventArgsList;
-
-                result.CollectionChanged += (sender, args) =>
-                {
-                    cceaList[args.Action.ToString()].Add(args);
-                    logger.Debug($"{nameof(args)}: {{");
-                    logger.Debug($"    {nameof(args.Action)}: {args.Action}");
-                    logger.Debug($"    {nameof(args.OldStartingIndex)}: {args.OldStartingIndex}");
-                    logger.Debug($"    {nameof(args.OldItems)}: {args.OldItems}");
-                    logger.Debug($"    {nameof(args.NewStartingIndex)}: {args.NewStartingIndex}");
-                    logger.Debug($"    {nameof(args.NewItems)}: {args.NewItems}");
-                    logger.Debug("}");
-                };
-            }
-
-            {
-                propertyChangedEventCalledCount = new Dictionary<string, int>
-                {
-                    {nameof(result.Count), 0},
-                    {ListConstant.IndexerName, 0},
-                };
-                var pceaList = propertyChangedEventCalledCount;
-
-                result.PropertyChanged += (sender, args) =>
-                {
-                    pceaList[args.PropertyName] += 1;
-                    logger.Debug($"{nameof(args)}: {{");
-                    logger.Debug($"    {nameof(args.PropertyName)}: {args.PropertyName}");
-                    logger.Debug("}");
-                };
-            }
+            propertyChangedEventCalledCount = MakePropertyChangedArgsDic();
+            result.PropertyChanged += MakePropertyChangedEventHandler(propertyChangedEventCalledCount);
 
             return result;
         }
 
         private static CollectionTest2 MakeCollection2ForMethodTest(List<string> initStringList, int initLength,
-            out Dictionary<string, int> methodCalledCount,
+            out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList,
             out Dictionary<string, int> propertyChangedEventCalledCount)
         {
@@ -2510,151 +2355,97 @@ namespace WodiLib.Test.Sys
                 ? new CollectionTest2()
                 : new CollectionTest2(initStringList.GetRange(0, initLength));
 
-            methodCalledCount = new Dictionary<string, int>
-            {
-                {nameof(CollectionTest1.OnPreSetItemCalled), 0},
-                {nameof(CollectionTest1.OnPreInsertItemCalled), 0},
-                {nameof(CollectionTest1.OnPreMoveItemCalled), 0},
-                {nameof(CollectionTest1.OnPreRemoveItemCalled), 0},
-                {nameof(CollectionTest1.OnPreClearItemsCalled), 0},
-                {nameof(CollectionTest1.OnPostSetItemCalled), 0},
-                {nameof(CollectionTest1.OnPostInsertItemCalled), 0},
-                {nameof(CollectionTest1.OnPostMoveItemCalled), 0},
-                {nameof(CollectionTest1.OnPostRemoveItemCalled), 0},
-                {nameof(CollectionTest1.OnPostClearItemsCalled), 0},
-            };
+            collectionChangingEventArgsList = MakeCollectionChangeEventArgsDic();
+            result.CollectionChanging += MakeCollectionChangeEventHandler(true, collectionChangingEventArgsList);
 
-            var ints = methodCalledCount;
-            result.OnPreSetItemCalled = () => ints[nameof(CollectionTest1.OnPreSetItemCalled)]++;
-            result.OnPreInsertItemCalled = () => ints[nameof(CollectionTest1.OnPreInsertItemCalled)]++;
-            result.OnPreMoveItemCalled = () => ints[nameof(CollectionTest1.OnPreMoveItemCalled)]++;
-            result.OnPreRemoveItemCalled = () => ints[nameof(CollectionTest1.OnPreRemoveItemCalled)]++;
-            result.OnPreClearItemsCalled = () => ints[nameof(CollectionTest1.OnPreClearItemsCalled)]++;
-            result.OnPostSetItemCalled = () => ints[nameof(CollectionTest1.OnPostSetItemCalled)]++;
-            result.OnPostInsertItemCalled = () => ints[nameof(CollectionTest1.OnPostInsertItemCalled)]++;
-            result.OnPostMoveItemCalled = () => ints[nameof(CollectionTest1.OnPostMoveItemCalled)]++;
-            result.OnPostRemoveItemCalled = () => ints[nameof(CollectionTest1.OnPostRemoveItemCalled)]++;
-            result.OnPostClearItemsCalled = () => ints[nameof(CollectionTest1.OnPostClearItemsCalled)]++;
+            collectionChangedEventArgsList = MakeCollectionChangeEventArgsDic();
+            result.CollectionChanged += MakeCollectionChangeEventHandler(false, collectionChangedEventArgsList);
 
-            {
-                var makeEmptyList =
-                    new Func<List<NotifyCollectionChangedEventArgs>>(() =>
-                        new List<NotifyCollectionChangedEventArgs>());
-
-                collectionChangedEventArgsList = new Dictionary<string, List<NotifyCollectionChangedEventArgs>>
-                {
-                    {nameof(NotifyCollectionChangedAction.Add), makeEmptyList()},
-                    {nameof(NotifyCollectionChangedAction.Replace), makeEmptyList()},
-                    {nameof(NotifyCollectionChangedAction.Remove), makeEmptyList()},
-                    {nameof(NotifyCollectionChangedAction.Reset), makeEmptyList()},
-                    {nameof(NotifyCollectionChangedAction.Move), makeEmptyList()},
-                };
-                var cceaList = collectionChangedEventArgsList;
-
-                result.CollectionChanged += (sender, args) =>
-                {
-                    cceaList[args.Action.ToString()].Add(args);
-                    logger.Debug($"{nameof(args)}: {{");
-                    logger.Debug($"    {nameof(args.Action)}: {args.Action}");
-                    logger.Debug($"    {nameof(args.OldStartingIndex)}: {args.OldStartingIndex}");
-                    logger.Debug($"    {nameof(args.OldItems)}: {args.OldItems}");
-                    logger.Debug($"    {nameof(args.NewStartingIndex)}: {args.NewStartingIndex}");
-                    logger.Debug($"    {nameof(args.NewItems)}: {args.NewItems}");
-                    logger.Debug("}");
-                };
-            }
-
-            {
-                propertyChangedEventCalledCount = new Dictionary<string, int>
-                {
-                    {nameof(result.Count), 0},
-                    {ListConstant.IndexerName, 0},
-                };
-                var pceaList = propertyChangedEventCalledCount;
-
-                result.PropertyChanged += (sender, args) =>
-                {
-                    pceaList[args.PropertyName] += 1;
-                    logger.Debug($"{nameof(args)}: {{");
-                    logger.Debug($"    {nameof(args.PropertyName)}: {args.PropertyName}");
-                    logger.Debug("}");
-                };
-            }
+            propertyChangedEventCalledCount = MakePropertyChangedArgsDic();
+            result.PropertyChanged += MakePropertyChangedEventHandler(propertyChangedEventCalledCount);
 
             return result;
         }
 
-        private static CollectionTest8 MakeCollection8ForPrePostTest(
-            out Dictionary<string, int> methodCalledCount,
+        private static CollectionTest8 MakeCollection8(
+            out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList,
             out Dictionary<string, int> propertyChangedEventCalledCount)
         {
             var result = new CollectionTest8();
             result.AddRange(new[] {"", "", "", "", ""});
+            result.IsThrowException = true;
 
-            methodCalledCount = new Dictionary<string, int>
-            {
-                {nameof(CollectionTest1.OnPostSetItemCalled), 0},
-                {nameof(CollectionTest1.OnPostInsertItemCalled), 0},
-                {nameof(CollectionTest1.OnPostMoveItemCalled), 0},
-                {nameof(CollectionTest1.OnPostRemoveItemCalled), 0},
-                {nameof(CollectionTest1.OnPostClearItemsCalled), 0},
-            };
+            collectionChangingEventArgsList = MakeCollectionChangeEventArgsDic();
+            result.CollectionChanging += MakeCollectionChangeEventHandler(true, collectionChangingEventArgsList);
 
-            var ints = methodCalledCount;
-            result.OnPostSetItemCalled = () => ints[nameof(CollectionTest1.OnPostSetItemCalled)]++;
-            result.OnPostInsertItemCalled = () => ints[nameof(CollectionTest1.OnPostInsertItemCalled)]++;
-            result.OnPostMoveItemCalled = () => ints[nameof(CollectionTest1.OnPostMoveItemCalled)]++;
-            result.OnPostRemoveItemCalled = () => ints[nameof(CollectionTest1.OnPostRemoveItemCalled)]++;
-            result.OnPostClearItemsCalled = () => ints[nameof(CollectionTest1.OnPostClearItemsCalled)]++;
+            collectionChangedEventArgsList = MakeCollectionChangeEventArgsDic();
+            result.CollectionChanged += MakeCollectionChangeEventHandler(false, collectionChangedEventArgsList);
 
-            {
-                var makeEmptyList =
-                    new Func<List<NotifyCollectionChangedEventArgs>>(() =>
-                        new List<NotifyCollectionChangedEventArgs>());
-
-                collectionChangedEventArgsList = new Dictionary<string, List<NotifyCollectionChangedEventArgs>>
-                {
-                    {nameof(NotifyCollectionChangedAction.Add), makeEmptyList()},
-                    {nameof(NotifyCollectionChangedAction.Replace), makeEmptyList()},
-                    {nameof(NotifyCollectionChangedAction.Remove), makeEmptyList()},
-                    {nameof(NotifyCollectionChangedAction.Reset), makeEmptyList()},
-                    {nameof(NotifyCollectionChangedAction.Move), makeEmptyList()},
-                };
-                var cceaList = collectionChangedEventArgsList;
-
-                result.CollectionChanged += (sender, args) =>
-                {
-                    cceaList[args.Action.ToString()].Add(args);
-                    logger.Debug($"{nameof(args)}: {{");
-                    logger.Debug($"    {nameof(args.Action)}: {args.Action}");
-                    logger.Debug($"    {nameof(args.OldStartingIndex)}: {args.OldStartingIndex}");
-                    logger.Debug($"    {nameof(args.OldItems)}: {args.OldItems}");
-                    logger.Debug($"    {nameof(args.NewStartingIndex)}: {args.NewStartingIndex}");
-                    logger.Debug($"    {nameof(args.NewItems)}: {args.NewItems}");
-                    logger.Debug("}");
-                };
-            }
-
-            {
-                propertyChangedEventCalledCount = new Dictionary<string, int>
-                {
-                    {nameof(result.Count), 0},
-                    {ListConstant.IndexerName, 0},
-                };
-                var pceaList = propertyChangedEventCalledCount;
-
-                result.PropertyChanged += (sender, args) =>
-                {
-                    pceaList[args.PropertyName] += 1;
-                    logger.Debug($"{nameof(args)}: {{");
-                    logger.Debug($"    {nameof(args.PropertyName)}: {args.PropertyName}");
-                    logger.Debug("}");
-                };
-            }
+            propertyChangedEventCalledCount = MakePropertyChangedArgsDic();
+            result.PropertyChanged += MakePropertyChangedEventHandler(propertyChangedEventCalledCount);
 
             return result;
         }
+
+        /// <summary>
+        /// CollectionChangedEventArgs を格納するための Dictionary インスタンスを生成する
+        /// </summary>
+        /// <returns>生成したインスタンス</returns>
+        private static Dictionary<string, List<NotifyCollectionChangedEventArgs>> MakeCollectionChangeEventArgsDic()
+            => new Dictionary<string, List<NotifyCollectionChangedEventArgs>>
+            {
+                {nameof(NotifyCollectionChangedAction.Add), new List<NotifyCollectionChangedEventArgs>()},
+                {nameof(NotifyCollectionChangedAction.Replace), new List<NotifyCollectionChangedEventArgs>()},
+                {nameof(NotifyCollectionChangedAction.Remove), new List<NotifyCollectionChangedEventArgs>()},
+                {nameof(NotifyCollectionChangedAction.Reset), new List<NotifyCollectionChangedEventArgs>()},
+                {nameof(NotifyCollectionChangedAction.Move), new List<NotifyCollectionChangedEventArgs>()},
+            };
+
+        /// <summary>
+        /// CollectionChanging, CollectionChanged に登録するイベントハンドラを生成する
+        /// </summary>
+        /// <param name="isBefore">CollectionChanging にセットする場合true, CollectionChanged にセットする場合false</param>
+        /// <param name="resultDic">発生したイベント引数を格納するDirectory</param>
+        /// <returns>生成したインスタンス</returns>
+        private static NotifyCollectionChangedEventHandler MakeCollectionChangeEventHandler(bool isBefore,
+            Dictionary<string, List<NotifyCollectionChangedEventArgs>> resultDic)
+            => (sender, args) =>
+            {
+                resultDic[args.Action.ToString()].Add(args);
+                logger.Debug($"Collection{(isBefore ? "Changing" : "Changed")} Event Raise. ");
+                logger.Debug($"{nameof(args)}: {{");
+                logger.Debug($"    {nameof(args.Action)}: {args.Action}");
+                logger.Debug($"    {nameof(args.OldStartingIndex)}: {args.OldStartingIndex}");
+                logger.Debug($"    {nameof(args.OldItems)}: {args.OldItems}");
+                logger.Debug($"    {nameof(args.NewStartingIndex)}: {args.NewStartingIndex}");
+                logger.Debug($"    {nameof(args.NewItems)}: {args.NewItems}");
+                logger.Debug("}");
+            };
+
+        /// <summary>
+        /// PropertyChanged が発火したプロパティ名/回数を格納するための Dictionary インスタンスを生成する。
+        /// </summary>
+        /// <returns>生成したインスタンス</returns>
+        private static Dictionary<string, int> MakePropertyChangedArgsDic() => new Dictionary<string, int>
+        {
+            {"Count", 0},
+            {ListConstant.IndexerName, 0},
+        };
+
+        /// <summary>
+        /// PropertyChanged に登録するイベントハンドラを生成する
+        /// </summary>
+        /// <param name="resultDic">プロパティごとに通知された回数を格納するためのDictionary</param>
+        /// <returns>生成したインスタンス</returns>
+        private static PropertyChangedEventHandler MakePropertyChangedEventHandler(Dictionary<string, int> resultDic) =>
+            (sender, args) =>
+            {
+                resultDic[args.PropertyName] += 1;
+                logger.Debug($"{nameof(args)}: {{");
+                logger.Debug($"    {nameof(args.PropertyName)}: {args.PropertyName}");
+                logger.Debug("}");
+            };
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      テスト用クラス
@@ -2698,17 +2489,6 @@ namespace WodiLib.Test.Sys
             public static int MinCapacity => 0;
             public static string Default => "test";
 
-            [field: NonSerialized] public Action OnPreSetItemCalled { get; set; }
-            [field: NonSerialized] public Action OnPreInsertItemCalled { get; set; }
-            [field: NonSerialized] public Action OnPreMoveItemCalled { get; set; }
-            [field: NonSerialized] public Action OnPreRemoveItemCalled { get; set; }
-            [field: NonSerialized] public Action OnPreClearItemsCalled { get; set; }
-            [field: NonSerialized] public Action OnPostSetItemCalled { get; set; }
-            [field: NonSerialized] public Action OnPostInsertItemCalled { get; set; }
-            [field: NonSerialized] public Action OnPostMoveItemCalled { get; set; }
-            [field: NonSerialized] public Action OnPostRemoveItemCalled { get; set; }
-            [field: NonSerialized] public Action OnPostClearItemsCalled { get; set; }
-
             public override int GetMaxCapacity() => MaxCapacity;
 
             public override int GetMinCapacity() => MinCapacity;
@@ -2721,56 +2501,6 @@ namespace WodiLib.Test.Sys
 
             public CollectionTest1(IReadOnlyCollection<string> list) : base(list)
             {
-            }
-
-            protected override void PreSetItem(int index, string item)
-            {
-                OnPreSetItemCalled?.Invoke();
-            }
-
-            protected override void PreInsertItem(int index, string item)
-            {
-                OnPreInsertItemCalled?.Invoke();
-            }
-
-            protected override void PreMoveItem(int oldIndex, int newIndex)
-            {
-                OnPreMoveItemCalled?.Invoke();
-            }
-
-            protected override void PreRemoveItem(int index)
-            {
-                OnPreRemoveItemCalled?.Invoke();
-            }
-
-            protected override void PreClearItems()
-            {
-                OnPreClearItemsCalled?.Invoke();
-            }
-
-            protected override void PostSetItem(int index, string item)
-            {
-                OnPostSetItemCalled?.Invoke();
-            }
-
-            protected override void PostInsertItem(int index, string item)
-            {
-                OnPostInsertItemCalled?.Invoke();
-            }
-
-            protected override void PostMoveItem(int oldIndex, int newIndex)
-            {
-                OnPostMoveItemCalled?.Invoke();
-            }
-
-            protected override void PostRemoveItem(int index)
-            {
-                OnPostRemoveItemCalled?.Invoke();
-            }
-
-            protected override void PostClearItems()
-            {
-                OnPostClearItemsCalled?.Invoke();
             }
 
             protected CollectionTest1(SerializationInfo info, StreamingContext context) : base(info, context)
@@ -2790,17 +2520,6 @@ namespace WodiLib.Test.Sys
             public static int MinCapacity => 5;
             public static string Default => "test";
 
-            public Action OnPreSetItemCalled { get; set; }
-            public Action OnPreInsertItemCalled { get; set; }
-            public Action OnPreMoveItemCalled { get; set; }
-            public Action OnPreRemoveItemCalled { get; set; }
-            public Action OnPreClearItemsCalled { get; set; }
-            public Action OnPostSetItemCalled { get; set; }
-            public Action OnPostInsertItemCalled { get; set; }
-            public Action OnPostMoveItemCalled { get; set; }
-            public Action OnPostRemoveItemCalled { get; set; }
-            public Action OnPostClearItemsCalled { get; set; }
-
             public override int GetMaxCapacity() => MaxCapacity;
 
             public override int GetMinCapacity() => MinCapacity;
@@ -2813,56 +2532,6 @@ namespace WodiLib.Test.Sys
 
             public CollectionTest2(IReadOnlyCollection<string> list) : base(list)
             {
-            }
-
-            protected override void PreSetItem(int index, string item)
-            {
-                OnPreSetItemCalled?.Invoke();
-            }
-
-            protected override void PreInsertItem(int index, string item)
-            {
-                OnPreInsertItemCalled?.Invoke();
-            }
-
-            protected override void PreMoveItem(int oldIndex, int newIndex)
-            {
-                OnPreMoveItemCalled?.Invoke();
-            }
-
-            protected override void PreRemoveItem(int index)
-            {
-                OnPreRemoveItemCalled?.Invoke();
-            }
-
-            protected override void PreClearItems()
-            {
-                OnPreClearItemsCalled?.Invoke();
-            }
-
-            protected override void PostSetItem(int index, string item)
-            {
-                OnPostSetItemCalled?.Invoke();
-            }
-
-            protected override void PostInsertItem(int index, string item)
-            {
-                OnPostInsertItemCalled?.Invoke();
-            }
-
-            protected override void PostMoveItem(int oldIndex, int newIndex)
-            {
-                OnPostMoveItemCalled?.Invoke();
-            }
-
-            protected override void PostRemoveItem(int index)
-            {
-                OnPostRemoveItemCalled?.Invoke();
-            }
-
-            protected override void PostClearItems()
-            {
-                OnPostClearItemsCalled?.Invoke();
             }
         }
 
@@ -2980,88 +2649,24 @@ namespace WodiLib.Test.Sys
         private class CollectionTest8 : AbsCollectionTest
         {
             /**
-             * Pre, Post メソッドテスト用
+             * CollectionChanging, CollectionChanged メソッドテスト用
              */
             public override int GetMaxCapacity() => 10;
 
             public override int GetMinCapacity() => 0;
 
+            public bool IsThrowException { get; set; }
+
             protected override string MakeDefaultItem(int index) => "";
 
-            public Action OnPostSetItemCalled { get; set; }
-            public Action OnPostInsertItemCalled { get; set; }
-            public Action OnPostMoveItemCalled { get; set; }
-            public Action OnPostRemoveItemCalled { get; set; }
-            public Action OnPostClearItemsCalled { get; set; }
-
-            /**
-             * 初期化中にPreメソッドで例外発生するとテストにならないため初期化後だけエラー発生させる
-             */
-            public bool IsPreMethodRaiseError { get; set; }
-
-            protected override void PreSetItem(int index, string item)
+            public CollectionTest8()
             {
-                if (IsPreMethodRaiseError)
-                {
-                    throw new Exception();
-                }
+                CollectionChanging += OnCollectionChanging;
             }
 
-            protected override void PreInsertItem(int index, string item)
+            private void OnCollectionChanging(object sender, NotifyCollectionChangedEventArgs e)
             {
-                if (IsPreMethodRaiseError)
-                {
-                    throw new Exception();
-                }
-            }
-
-            protected override void PreMoveItem(int oldIndex, int newIndex)
-            {
-                if (IsPreMethodRaiseError)
-                {
-                    throw new Exception();
-                }
-            }
-
-            protected override void PreRemoveItem(int index)
-            {
-                if (IsPreMethodRaiseError)
-                {
-                    throw new Exception();
-                }
-            }
-
-            protected override void PreClearItems()
-            {
-                if (IsPreMethodRaiseError)
-                {
-                    throw new Exception();
-                }
-            }
-
-            protected override void PostSetItem(int index, string item)
-            {
-                OnPostSetItemCalled?.Invoke();
-            }
-
-            protected override void PostInsertItem(int index, string item)
-            {
-                OnPostInsertItemCalled?.Invoke();
-            }
-
-            protected override void PostMoveItem(int oldIndex, int newIndex)
-            {
-                OnPostMoveItemCalled?.Invoke();
-            }
-
-            protected override void PostRemoveItem(int index)
-            {
-                OnPostRemoveItemCalled?.Invoke();
-            }
-
-            protected override void PostClearItems()
-            {
-                OnPostClearItemsCalled?.Invoke();
+                if (IsThrowException) throw new Exception();
             }
         }
     }

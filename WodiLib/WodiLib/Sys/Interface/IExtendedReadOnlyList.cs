@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : IReadOnlyRestrictedCapacityCollection.cs
+// File Name    : IExtendedReadOnlyList.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -9,16 +9,16 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Runtime.Serialization;
 
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 【読み取り専用】容量制限のあるList基底クラス
+    /// WodiLib 独自リ読み取り専用ストインタフェース
     /// </summary>
-    /// <typeparam name="T">要素の型</typeparam>
-    [Obsolete("このインタフェースは Ver 2.6 で廃止します。代わりに IExtendedReadOnlyList<T> インタフェースを使用してください。")]
-    public interface IReadOnlyRestrictedCapacityCollection<T> : IModelBase<IReadOnlyRestrictedCapacityCollection<T>>,
-        IReadOnlyList<T>, IEquatable<IReadOnlyList<T>>, INotifyCollectionChanged
+    /// <typeparam name="T">リスト内包クラス</typeparam>
+    public interface IExtendedReadOnlyList<T> : IModelBase<IExtendedReadOnlyList<T>>,
+        IReadOnlyList<T>, IEquatable<IReadOnlyList<T>>, INotifyCollectionChanged, ISerializable
     {
         /// <summary>
         /// 指定範囲の要素を簡易コピーしたリストを取得する。

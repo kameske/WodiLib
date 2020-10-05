@@ -107,7 +107,7 @@ namespace WodiLib.Database
             // validationのためにここで追加する。validation後には追加しない。
             Items.AddRange(items);
 
-            DBItemValuesListValidateHelper.ValidateListItem(outer, this);
+            DBItemValuesListValidationHelper.ValidateListItem(outer, this);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -129,6 +129,18 @@ namespace WodiLib.Database
             // Outerを解除した、自身と同じ項目を持つ別インスタンスを返す
             var result = new DBItemValueList(Items);
             return result;
+        }
+
+        /// <summary>
+        /// 容量を返す。
+        /// </summary>
+        /// <returns>容量</returns>
+        public int GetCapacity()
+        {
+            /*
+             * IFixedLengthDBItemValueListとして扱う際に必要になる
+             */
+            return Count;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -392,6 +404,22 @@ namespace WodiLib.Database
             if (ReferenceEquals(this, other)) return true;
 
             return Equals((IReadOnlyFixedLengthCollection<DBItemValue>) other);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+
+#pragma warning disable 618 // TODO Ver 2.6 まで
+        public bool Equals(IReadOnlyFixedLengthCollection<DBItemValue>? other)
+#pragma warning restore 618
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            return this.SequenceEqual(other);
         }
 
         /// <summary>

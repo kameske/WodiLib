@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -68,6 +69,7 @@ namespace WodiLib.Event
         /// </summary>
         public CharaMoveCommandList()
         {
+            StartObserveListEvent();
         }
 
         /// <summary>
@@ -81,6 +83,15 @@ namespace WodiLib.Event
         /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
         public CharaMoveCommandList(IEnumerable<ICharaMoveCommand> items) : base(items)
         {
+            StartObserveListEvent();
+        }
+
+        /// <summary>
+        /// 独自リストのイベント購読を開始する。コンストラクタ用。
+        /// </summary>
+        private void StartObserveListEvent()
+        {
+            CollectionChanged += OnCollectionChanged;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -105,29 +116,6 @@ namespace WodiLib.Event
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>
-        /// InsertItem(int, T) 実行直後に呼び出される処理
-        /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <param name="item">要素</param>
-        protected override void PostInsertItem(int index, ICharaMoveCommand item)
-        {
-            // AddValue, AssignValueの値を保有イベントによって変化させるための設定
-            switch (item)
-            {
-                case AddValue addValue:
-                    addValue.Owner = Owner;
-                    break;
-                case AssignValue assignValue:
-                    assignValue.Owner = Owner;
-                    break;
-            }
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Protected Override Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
         /// <inheritdoc />
         /// <summary>
         /// 格納対象のデフォルトインスタンスを生成する。
@@ -135,6 +123,43 @@ namespace WodiLib.Event
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override ICharaMoveCommand MakeDefaultItem(int index) => new MoveUp();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Event Handler
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        #region CollectionChanged
+
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            e.ExecuteByAction<ICharaMoveCommand>(
+                addAction: PostInsertItem
+            );
+        }
+
+        /// <summary>
+        /// 要素追加後に呼び出される処理
+        /// </summary>
+        /// <param name="index">追加するインデックス</param>
+        /// <param name="items">追加要素</param>
+        private void PostInsertItem(int index, IEnumerable<ICharaMoveCommand> items)
+        {
+            items.ForEach(item =>
+            {
+                // AddValue, AssignValueの値を保有イベントによって変化させるための設定
+                switch (item)
+                {
+                    case AddValue addValue:
+                        addValue.Owner = Owner;
+                        break;
+                    case AssignValue assignValue:
+                        assignValue.Owner = Owner;
+                        break;
+                }
+            });
+        }
+
+        #endregion
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Serializable

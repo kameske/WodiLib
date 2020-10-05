@@ -111,7 +111,8 @@ namespace WodiLib.Database
         /// </summary>
         public DBItemValuesList()
         {
-            AttachFiledCollectionNotification(this[0]);
+            InitializeItems();
+            StartObserveListEvent();
         }
 
         /// <summary>
@@ -160,7 +161,8 @@ namespace WodiLib.Database
             {
                 // 項目なし
                 Items.Add(CreateValueListInstance());
-                AttachFiledCollectionNotification(this[0]);
+                InitializeItems();
+                StartObserveListEvent();
                 return;
             }
 
@@ -169,18 +171,38 @@ namespace WodiLib.Database
 
             if (initItemArr.Length == 1)
             {
-                AttachFiledCollectionNotification(this[0]);
+                InitializeItems();
+                StartObserveListEvent();
                 return;
             }
 
             // データが1件以上の場合、2件目以降のデータの並びが1件目と同様であるかチェック
             for (var i = 1; i < initItemArr.Length; i++)
             {
-                DBItemValuesListValidateHelper.ValidateListItem(this, initItemArr[i]);
+                DBItemValuesListValidationHelper.ValidateListItem(this, initItemArr[i]);
 
                 Items.Add(CreateValueListInstance(initItemArr[i]));
             }
 
+            InitializeItems();
+            StartObserveListEvent();
+        }
+
+        /// <summary>
+        /// 独自リストのイベント購読を開始する。コンストラクタ用。
+        /// </summary>
+        private void StartObserveListEvent()
+        {
+            CollectionChanging += OnCollectionChanging;
+            CollectionChanged += OnCollectionChanged;
+        }
+
+        /// <summary>
+        /// 初期要素を初期化する。
+        /// </summary>
+        private void InitializeItems()
+        {
+            Items.ForEach(item => { ((DBItemValueList) item).HasRelationship = true; });
             AttachFiledCollectionNotification(this[0]);
         }
 
@@ -341,7 +363,7 @@ namespace WodiLib.Database
 
             var instance = new DBItemValueList(values);
 
-            DBItemValuesListValidateHelper.ValidateListItem(this, instance);
+            DBItemValuesListValidationHelper.ValidateListItem(this, instance);
 
             return instance;
         }
@@ -1034,83 +1056,158 @@ namespace WodiLib.Database
         /// <returns>デフォルトインスタンス</returns>
         protected override IFixedLengthDBItemValueList MakeDefaultItem(int index) => CreateValueListInstance();
 
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Event Handler
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        #region CollectionChanging
+
         /// <summary>
-        /// SetItem(int, T) 実行直前に呼び出される処理
+        /// 要素変更前のイベント通知
         /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <param name="item">要素</param>
-        protected override void PreSetItem(int index, IFixedLengthDBItemValueList item)
+        /// <param name="sender">自分自身</param>
+        /// <param name="e">通知引数</param>
+        private void OnCollectionChanging(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var writableItem = (DBItemValueList) item;
-            if (writableItem.HasRelationship)
-            {
-                throw new ArgumentException(
-                    ErrorMessage.Unsuitable(nameof(item),
-                        $"既に他の{nameof(DBItemValuesList)}に紐付けられているためセットできません。"));
-            }
-
-            DBItemValuesListValidateHelper.ValidateListItem(this, writableItem);
-
-            writableItem.HasRelationship = true;
-
-            ReattachFiledCollectionNotificationIfNeed_Set(index, item);
+            e.ExecuteByAction<IFixedLengthDBItemValueList>(
+                replaceAction: PreSetItem,
+                addAction: PreInsertItem,
+                moveAction: PreMoveItem,
+                removeAction: PreRemoveItem,
+                resetAction: PreClearItems
+            );
         }
 
         /// <summary>
-        /// InsertItem(int, T) 実行直前に呼び出される処理
+        /// 要素更新前に呼び出される処理
         /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <param name="item">要素</param>
-        protected override void PreInsertItem(int index, IFixedLengthDBItemValueList item)
+        /// <param name="index">更新する要素の先頭インデックス</param>
+        /// <param name="oldItems">更新前要素</param>
+        /// <param name="newItems">更新後要素</param>
+        private void PreSetItem(int index, IEnumerable<IFixedLengthDBItemValueList> oldItems,
+            IEnumerable<IFixedLengthDBItemValueList> newItems)
         {
-            var writableItem = (DBItemValueList) item;
-            if (writableItem.HasRelationship)
+            var newItemList = newItems.ToList();
+
+            newItemList.ForEach(item =>
             {
-                throw new ArgumentException(
-                    ErrorMessage.Unsuitable(nameof(item),
-                        $"既に他の{nameof(DBItemValuesList)}に紐付けられているため追加できません。"));
-            }
+                var writableItem = (DBItemValueList) item;
+                if (writableItem.HasRelationship)
+                {
+                    throw new ArgumentException(
+                        ErrorMessage.Unsuitable(nameof(item),
+                            $"既に他の{nameof(DBItemValuesList)}に紐付けられているためセットできません。"));
+                }
 
-            DBItemValuesListValidateHelper.ValidateListItem(this, writableItem);
+                DBItemValuesListValidationHelper.ValidateListItem(this, writableItem);
 
-            writableItem.HasRelationship = true;
+                writableItem.HasRelationship = true;
+            });
 
-            ReattachFiledCollectionNotificationIfNeed_Insert(index, item);
+            ReattachFiledCollectionNotificationIfNeed_Set(index, newItemList[0]);
         }
 
         /// <summary>
-        /// MoveItem(int, int) 実行直前に呼び出される処理
+        /// 要素追加前前に呼び出される処理
         /// </summary>
-        /// <param name="oldIndex">移動する項目のインデックス</param>
-        /// <param name="newIndex">移動先のインデックス</param>
-        protected override void PreMoveItem(int oldIndex, int newIndex)
+        /// <param name="index">追加するインデックス</param>
+        /// <param name="items">追加要素</param>
+        private void PreInsertItem(int index, IEnumerable<IFixedLengthDBItemValueList> items)
+        {
+            var arrItems = items.ToArray();
+
+            if (arrItems.Length == 0) return;
+
+            arrItems.ForEach(item =>
+            {
+                var writableItem = (DBItemValueList) item;
+                if (writableItem.HasRelationship)
+                {
+                    throw new ArgumentException(
+                        ErrorMessage.Unsuitable(nameof(item),
+                            $"既に他の{nameof(DBItemValuesList)}に紐付けられているため追加できません。"));
+                }
+
+                DBItemValuesListValidationHelper.ValidateListItem(this, writableItem);
+
+                writableItem.HasRelationship = true;
+            });
+
+            ReattachFiledCollectionNotificationIfNeed_Insert(index, arrItems[0]);
+        }
+
+        /// <summary>
+        /// 要素移動前に呼び出される処理
+        /// </summary>
+        /// <param name="oldIndex">移動前インデックス</param>
+        /// <param name="newIndex">移動後インデックス</param>
+        /// <param name="items">移動する要素</param>
+        private void PreMoveItem(int oldIndex, int newIndex, IEnumerable<IFixedLengthDBItemValueList> items)
         {
             ReattachFiledCollectionNotificationIfNeed_Move(oldIndex, newIndex);
         }
 
         /// <summary>
-        /// RemoveItem(int) 実行直前に呼び出される処理
+        /// 要素除去前に呼び出される処理
         /// </summary>
-        /// <param name="index">インデックス</param>
-        protected override void PreRemoveItem(int index)
+        /// <param name="index">除去する要素の先頭インデックス</param>
+        /// <param name="items">除去要素</param>
+        private void PreRemoveItem(int index, IEnumerable<IFixedLengthDBItemValueList> items)
         {
-            var writableItem = (DBItemValueList) this[index];
-            writableItem.HasRelationship = false;
-            ReattachFiledCollectionNotificationIfNeed_Remove(index);
+            var itemList = items.ToList();
+
+            itemList.ForEach(item =>
+            {
+                var writableItem = (DBItemValueList) item;
+                writableItem.HasRelationship = false;
+            });
+            ReattachFiledCollectionNotificationIfNeed_Remove(index, itemList.Count);
         }
 
         /// <summary>
-        /// ClearItems() 実行直前に呼び出される処理
+        /// 要素初期化前に呼び出される処理
         /// </summary>
-        protected override void PreClearItems()
+        private void PreClearItems()
         {
             this.ForEach(item =>
             {
                 var writableItem = (DBItemValueList) item;
                 writableItem.HasRelationship = false;
             });
-            ReattachFiledCollectionNotificationIfNeed_Clear();
+            // イベント購読 解除のみ（再登録はPostClearItems内で行う）
+            ReattachFiledCollectionNotification(this[0], null);
         }
+
+        #endregion
+
+        #region CollectionChanged
+
+        /// <summary>
+        /// 要素変更後のイベント通知
+        /// </summary>
+        /// <param name="sender">自分自身</param>
+        /// <param name="e">通知引数</param>
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            e.ExecuteByAction<IFixedLengthDBItemValueList>(
+                resetAction: PostClearItems
+            );
+        }
+
+        /// <summary>
+        /// 要素初期化後に呼び出される処理
+        /// </summary>
+        private void PostClearItems()
+        {
+            // イベント購読 再登録
+            ReattachFiledCollectionNotification(null, this[0]);
+        }
+
+        #endregion
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         /// 必要に応じて子要素通知を付け替える。<br/>
@@ -1178,23 +1275,13 @@ namespace WodiLib.Database
         /// Removeイベント用。
         /// </summary>
         /// <param name="index">インデックス</param>
-        private void ReattachFiledCollectionNotificationIfNeed_Remove(int index)
+        /// <param name="count">除去数</param>
+        private void ReattachFiledCollectionNotificationIfNeed_Remove(int index, int count)
         {
             if (index != 0) return;
             var oldItem = this[0];
-            var newItem = this[1];
+            var newItem = this[count];
             ReattachFiledCollectionNotification(oldItem, newItem);
-        }
-
-        /// <summary>
-        /// 必要に応じて子要素通知を付け替える。<br/>
-        /// Clear処理用。
-        /// </summary>
-        private void ReattachFiledCollectionNotificationIfNeed_Clear()
-        {
-            // 付け替え先はここでは取得できないのでInsert処理に任せる
-            var oldItem = this[0];
-            ReattachFiledCollectionNotification(oldItem, null);
         }
 
         /// <summary>

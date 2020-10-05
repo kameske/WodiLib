@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using WodiLib.Sys;
 
@@ -79,6 +80,12 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
+        /// 容量を返す。
+        /// </summary>
+        /// <returns>容量</returns>
+        public int GetCapacity() => Count;
+
+        /// <summary>
         /// 値を比較する。
         /// </summary>
         /// <param name="other">比較対象</param>
@@ -88,6 +95,20 @@ namespace WodiLib.Map
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
             return Equals((RestrictedCapacityCollection<TilePathSetting>) other);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+#pragma warning disable 618 // TODO: Ver 2.6 まで
+        public bool Equals(IReadOnlyFixedLengthCollection<TilePathSetting>? other)
+#pragma warning restore 618
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
+            return this.SequenceEqual(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

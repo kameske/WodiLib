@@ -100,6 +100,18 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
+        /// 容量を返す。
+        /// </summary>
+        /// <returns>容量</returns>
+        public int GetCapacity()
+        {
+            /*
+             * IFixedLengthMapChipColumns として扱う時に必要
+             */
+            return Count;
+        }
+
+        /// <summary>
         /// マップチップ情報を初期化する。
         /// </summary>
         public void InitializeChips() => InitializeChips(Count);
@@ -147,6 +159,20 @@ namespace WodiLib.Map
             if (ReferenceEquals(null, other)) return false;
             if (!(other is MapChipColumns casted)) return false;
             return Equals(casted);
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+#pragma warning disable 618 // TODO: Ver 2.6 まで
+        public bool Equals(IReadOnlyFixedLengthCollection<MapChip>? other)
+#pragma warning restore 618
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
+            return this.SequenceEqual(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

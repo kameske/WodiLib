@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -41,6 +42,7 @@ namespace WodiLib.Map
         /// </summary>
         public MapEventList()
         {
+            StartObserveListEvent();
         }
 
         /// <summary>
@@ -58,9 +60,17 @@ namespace WodiLib.Map
             var mapEvents = events.ToList();
 
             // イベントID重複チェック
-            if (!ValidateDuplicateEventId(mapEvents))
-                throw new ArgumentException(
-                    $"イベントIDが重複しています。");
+            MapEventListValidationHelper.DuplicateEventId(mapEvents);
+
+            StartObserveListEvent();
+        }
+
+        /// <summary>
+        /// 独自リストのイベント購読を開始する。コンストラクタ用。
+        /// </summary>
+        private void StartObserveListEvent()
+        {
+            CollectionChanging += OnCollectionChanging;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -90,7 +100,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="mapEventId">マップイベントID</param>
         /// <returns>マップイベント（存在しない場合null）</returns>
-        public MapEvent GetMapEvent(MapEventId mapEventId)
+        public MapEvent? GetMapEvent(MapEventId mapEventId)
             => Items.FirstOrDefault(x => x.MapEventId == mapEventId);
 
         /// <summary>
@@ -152,41 +162,6 @@ namespace WodiLib.Map
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>
-        /// SetItem(int, T) 実行直前に呼び出される処理
-        /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <param name="item">要素</param>
-        protected override void PreSetItem(int index, MapEvent item)
-        {
-            var baseMapId = Items[index].MapEventId;
-            if (baseMapId == item.MapEventId)
-            {
-                // マップイベントIDが同じならチェック無し
-                return;
-            }
-
-            // マップIDが重複する場合エラー
-            if (ContainsEventId(item.MapEventId))
-                throw new ArgumentException(
-                    $"マップイベントIDが重複するため追加できません。" +
-                    $"（マップイベントID: {item.MapEventId}）");
-        }
-
-        /// <summary>
-        /// InsertItem(int, T) 実行直前に呼び出される処理
-        /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <param name="item">要素</param>
-        protected override void PreInsertItem(int index, MapEvent item)
-        {
-            // マップIDが重複する場合エラー
-            if (ContainsEventId(item.MapEventId))
-                throw new ArgumentException(
-                    $"マップイベントIDが重複するため追加できません。" +
-                    $"（マップイベントID: {item.MapEventId}）");
-        }
-
         /// <inheritdoc />
         /// <summary>
         /// 格納対象のデフォルトインスタンスを生成する。
@@ -196,25 +171,41 @@ namespace WodiLib.Map
         protected override MapEvent MakeDefaultItem(int index) => new MapEvent();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Static Method
+        //     Event Handler
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>
-        /// マップイベントIDの重複をチェックする。
-        /// </summary>
-        /// <param name="mapEvents">マップイベントリスト</param>
-        /// <returns>重複がない場合true</returns>
-        private static bool ValidateDuplicateEventId(IEnumerable<MapEvent> mapEvents)
-        {
-            var eventIds = mapEvents.Select(x => x.MapEventId).ToList();
-            eventIds.Sort();
-            for (var i = 1; i < eventIds.Count; i++)
-            {
-                if (eventIds[i] == eventIds[i - 1]) return false;
-            }
+        #region CollectionChanging
 
-            return true;
+        private void OnCollectionChanging(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            e.ExecuteByAction<MapEvent>(
+                replaceAction: PreSetItem,
+                addAction: PreInsertItem
+            );
         }
+
+        /// <summary>
+        /// 要素更新前に呼び出される処理
+        /// </summary>
+        /// <param name="index">更新する要素の先頭インデックス</param>
+        /// <param name="oldItems">更新前要素</param>
+        /// <param name="newItems">更新後要素</param>
+        private void PreSetItem(int index, IEnumerable<MapEvent> oldItems, IEnumerable<MapEvent> newItems)
+        {
+            MapEventListValidationHelper.DuplicateSetEventId(this, index, newItems);
+        }
+
+        /// <summary>
+        /// 要素追加前に呼び出される処理
+        /// </summary>
+        /// <param name="index">追加するインデックス</param>
+        /// <param name="items">追加要素</param>
+        private void PreInsertItem(int index, IEnumerable<MapEvent> items)
+        {
+            MapEventListValidationHelper.DuplicateAddEventId(this, items);
+        }
+
+        #endregion
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common

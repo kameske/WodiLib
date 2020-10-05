@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -71,6 +72,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         public EventCommandList()
         {
+            StartObserveListEvent();
         }
 
         /// <summary>
@@ -84,6 +86,15 @@ namespace WodiLib.Event.EventCommand
         /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
         public EventCommandList(IEnumerable<IEventCommand> items) : base(items)
         {
+            StartObserveListEvent();
+        }
+
+        /// <summary>
+        /// 独自リストのイベント購読を開始する。コンストラクタ用。
+        /// </summary>
+        private void StartObserveListEvent()
+        {
+            CollectionChanged += OnCollectionChanged;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -147,19 +158,6 @@ namespace WodiLib.Event.EventCommand
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>
-        /// InsertItem(int, T) 実行直後に呼び出される処理
-        /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <param name="item">要素</param>
-        protected override void PostInsertItem(int index, IEventCommand item)
-        {
-            if (item is MoveRoute moveRoute)
-            {
-                moveRoute.Owner = Owner;
-            }
-        }
-
         /// <inheritdoc />
         /// <summary>
         /// 格納対象のデフォルトインスタンスを生成する。
@@ -167,6 +165,38 @@ namespace WodiLib.Event.EventCommand
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override IEventCommand MakeDefaultItem(int index) => new Blank();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Event Handler
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        #region CollectionChanged
+
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            e.ExecuteByAction<IEventCommand>(
+                addAction: PostInsertItem
+            );
+        }
+
+
+        /// <summary>
+        /// 要素追加後に呼び出される処理
+        /// </summary>
+        /// <param name="index">追加するインデックス</param>
+        /// <param name="items">追加要素</param>
+        private void PostInsertItem(int index, IEnumerable<IEventCommand> items)
+        {
+            items.ForEach(item =>
+            {
+                if (item is MoveRoute moveRoute)
+                {
+                    moveRoute.Owner = Owner;
+                }
+            });
+        }
+
+        #endregion
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Method

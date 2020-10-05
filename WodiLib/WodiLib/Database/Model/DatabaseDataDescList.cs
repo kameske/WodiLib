@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using WodiLib.Sys;
@@ -39,6 +40,7 @@ namespace WodiLib.Database
         /// </summary>
         public DatabaseDataDescList()
         {
+            StartObserveListEvent();
         }
 
         /// <summary>
@@ -52,6 +54,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">itemsの要素数が不適切な場合</exception>
         public DatabaseDataDescList(IEnumerable<DatabaseDataDesc> items) : base(items)
         {
+            StartObserveListEvent();
         }
 
         /// <summary>
@@ -63,8 +66,16 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentException">dataNameListとvaluesListの要素数が異なる場合</exception>
         internal DatabaseDataDescList(DataNameList dataNameList,
             DBItemValuesList valuesList)
-            : base(DatabaseDataDescCreator.CreateEnumerableDatabaseDataDesc(dataNameList, valuesList))
+            : this(DatabaseDataDescCreator.CreateEnumerableDatabaseDataDesc(dataNameList, valuesList))
         {
+        }
+
+        /// <summary>
+        /// 独自リストのイベント購読を開始する。コンストラクタ用。
+        /// </summary>
+        private void StartObserveListEvent()
+        {
+            CollectionChanging += OnCollectionChanging;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -105,36 +116,6 @@ namespace WodiLib.Database
 
         /// <inheritdoc />
         /// <summary>
-        /// SetItem(int, T) 実行直前に呼び出される処理
-        /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <param name="item">要素</param>
-        protected override void PreSetItem(int index, DatabaseDataDesc item)
-        {
-            if (Count <= 1) return;
-
-            if (!DBItemValueListItemTypeCompareHelper.Compare(this[0], item))
-                throw new InvalidOperationException(
-                    ErrorMessage.NotEqual($"{nameof(DatabaseDataDescList)}の値型情報", "セットしようとした要素の値型情報"));
-        }
-
-        /// <inheritdoc />
-        /// <summary>
-        /// InsertItem(int, T) 実行直前に呼び出される処理
-        /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <param name="item">要素</param>
-        protected override void PreInsertItem(int index, DatabaseDataDesc item)
-        {
-            if (Count <= 1) return;
-
-            if (!DBItemValueListItemTypeCompareHelper.Compare(this[0], item))
-                throw new InvalidOperationException(
-                    ErrorMessage.NotEqual($"{nameof(DatabaseDataDescList)}の値型情報", "追加しようとした要素の値型情報"));
-        }
-
-        /// <inheritdoc />
-        /// <summary>
         /// 格納対象のデフォルトインスタンスを生成する。
         /// </summary>
         /// <param name="index">挿入インデックス</param>
@@ -143,6 +124,48 @@ namespace WodiLib.Database
             => Count > 0
                 ? CreateMatchItemInstance()
                 : new DatabaseDataDesc();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Event Handler
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        #region CollectionChanging
+
+        private void OnCollectionChanging(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            e.ExecuteByAction<DatabaseDataDesc>(
+                replaceAction: OnPreSetItem,
+                addAction: OnPreInsertItem);
+        }
+
+        /// <summary>
+        /// 要素を更新する直前の処理
+        /// </summary>
+        /// <param name="index">更新する要素の先頭インデックス</param>
+        /// <param name="oldItems">更新前要素</param>
+        /// <param name="newItems">更新後要素</param>
+        /// <exception cref="InvalidOperationException">値型情報が一致しない場合場合</exception>
+        private void OnPreSetItem(int index, IEnumerable<DatabaseDataDesc> oldItems,
+            IEnumerable<DatabaseDataDesc> newItems)
+        {
+            if (Count <= 1) return;
+            newItems.ForEach(item => DBItemValueListValidationHelper.ItemTypeIsSame(this[0], item));
+        }
+
+        /// <summary>
+        /// 要素を挿入する直前の処理
+        /// </summary>
+        /// <param name="index">追加するインデックス</param>
+        /// <param name="items">追加要素</param>
+        private void OnPreInsertItem(int index, IEnumerable<DatabaseDataDesc> items)
+        {
+            if (Count <= 1) return;
+
+            items.ForEach(item => DBItemValueListValidationHelper.ItemTypeIsSame(this[0], item));
+        }
+
+        #endregion
+
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Serializable

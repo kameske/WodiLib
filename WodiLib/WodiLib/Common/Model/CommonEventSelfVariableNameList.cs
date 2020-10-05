@@ -55,7 +55,6 @@ namespace WodiLib.Common
         //     Public Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
         /// <summary>
         /// 容量を返す。
         /// </summary>

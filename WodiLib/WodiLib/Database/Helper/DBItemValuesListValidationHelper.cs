@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : DBItemValuesListValidateHelper.cs
+// File Name    : DBItemValuesListValidationHelper.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -15,7 +15,7 @@ namespace WodiLib.Database
     /// <summary>
     /// DBItemValuesList バリデーション Helper クラス
     /// </summary>
-    internal static class DBItemValuesListValidateHelper
+    internal static class DBItemValuesListValidationHelper
     {
         /// <summary>
         /// 基準となる DBItemValuesList インスタンスの項目型情報と

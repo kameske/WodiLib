@@ -51,7 +51,7 @@ namespace WodiLib.Sys
         /// <returns>エラーメッセージ</returns>
         public static string Deny(string itemName, IntOrStr value)
         {
-            return $"{itemName}に{value}を設定できません。";
+            return $"{itemName}に{value.ToValueString()}を設定できません。";
         }
 
         /// <summary>
@@ -74,7 +74,8 @@ namespace WodiLib.Sys
         /// <returns>エラーメッセージ</returns>
         public static string GreaterOrEqual(string itemName, IntOrStr limit, int value)
         {
-            return $"{itemName}は{limit}以上である必要があります。";
+            return $"{itemName}は{(limit.ToValueString())}以上である必要があります。" +
+                   $"(設定値：{value}";
         }
 
         /// <summary>
@@ -99,7 +100,7 @@ namespace WodiLib.Sys
         /// <returns>エラーメッセージ</returns>
         public static string LengthRange(string itemName, IntOrStr allowSize, int size)
         {
-            return $"{itemName}のサイズは{allowSize}にする必要があります。(サイズ：{size})";
+            return $"{itemName}のサイズは{allowSize.ToValueString()}にする必要があります。(サイズ：{size})";
         }
 
         /// <summary>
