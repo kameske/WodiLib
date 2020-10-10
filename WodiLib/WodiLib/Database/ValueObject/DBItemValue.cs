@@ -43,6 +43,7 @@ namespace WodiLib.Database
         private readonly DBValueInt intValue = 0;
 
         /// <summary>数値設定値</summary>
+        /// <exception cref="PropertyAccessException">設定種別が DBItemType.Int ではない場合</exception>
         public DBValueInt IntValue
         {
             get
@@ -57,6 +58,7 @@ namespace WodiLib.Database
         private readonly DBValueString stringValue = "";
 
         /// <summary>文字列設定値</summary>
+        /// <exception cref="PropertyAccessException">設定種別が DBItemType.String ではない場合</exception>
         public DBValueString StringValue
         {
             get
@@ -147,6 +149,7 @@ namespace WodiLib.Database
         /// DBValueIntに変換する。
         /// </summary>
         /// <returns>DBValueInt値</returns>
+        /// <exception cref="InvalidOperationException">設定種別が DBItemType.Int ではない場合</exception>
         public DBValueInt ToDBValueInt()
         {
             if (Type != DBItemType.Int)
@@ -159,6 +162,7 @@ namespace WodiLib.Database
         /// DBValueStringに変換する。
         /// </summary>
         /// <returns>DBValueString値</returns>
+        /// <exception cref="InvalidOperationException">設定種別が DBItemType.String ではない場合</exception>
         public DBValueString ToDBValueString()
         {
             if (Type != DBItemType.String)
@@ -240,7 +244,7 @@ namespace WodiLib.Database
         }
 
         /// <summary>
-        /// DBValueInt -> DBItemValue への暗黙的な型変換
+        /// DBValueString -> DBItemValue への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
@@ -253,7 +257,7 @@ namespace WodiLib.Database
         }
 
         /// <summary>
-        /// DBItemValue -> DBValueInt への暗黙的な型変換
+        /// DBItemValue -> DBValueString への暗黙的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
@@ -261,8 +265,7 @@ namespace WodiLib.Database
         ///     src が null の場合、または
         ///     src が文字列を含まない場合
         /// </exception>
-        [return: NotNullIfNotNull("src")]
-        public static implicit operator DBValueString?(DBItemValue? src)
+        public static implicit operator DBValueString(DBItemValue? src)
         {
             if (src is null)
                 throw new InvalidCastException(
@@ -304,7 +307,7 @@ namespace WodiLib.Database
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Operator
+        //     Commons
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
