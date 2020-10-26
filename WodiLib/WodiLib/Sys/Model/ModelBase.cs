@@ -27,6 +27,22 @@ namespace WodiLib.Sys
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        /// <summary>
+        /// プロパティ変更通知
+        /// </summary>
+        /// <remarks>
+        ///     同じイベントを重複して登録することはできない。
+        /// </remarks>
+        public virtual event PropertyChangedEventHandler PropertyChanged
+        {
+            add => PropertyChanged_Impl += value;
+            remove => PropertyChanged_Impl -= value;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Protected Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
         /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
         [field: NonSerialized] private event PropertyChangedEventHandler? _propertyChanged;
 
@@ -36,7 +52,7 @@ namespace WodiLib.Sys
         /// <remarks>
         ///     同じイベントを重複して登録することはできない。
         /// </remarks>
-        public event PropertyChangedEventHandler PropertyChanged
+        protected event PropertyChangedEventHandler PropertyChanged_Impl
         {
             add
             {
@@ -46,6 +62,7 @@ namespace WodiLib.Sys
             }
             remove => _propertyChanged -= value;
         }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -63,7 +80,6 @@ namespace WodiLib.Sys
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
         public abstract bool Equals([AllowNull] TChild other);
-
 
         /// <inheritdoc />
         public override bool Equals(object? obj)
@@ -88,7 +104,6 @@ namespace WodiLib.Sys
 
             return Equals((TChild) other);
         }
-
 
         /// <inheritdoc />
         public override int GetHashCode() => HashCode;
