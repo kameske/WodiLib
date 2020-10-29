@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : IExtendedReadOnlyList.cs
+// File Name    : IReadOnlyExtendedList.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -17,8 +17,9 @@ namespace WodiLib.Sys
     /// WodiLib 独自リ読み取り専用ストインタフェース
     /// </summary>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    public interface IExtendedReadOnlyList<T> : IModelBase<IExtendedReadOnlyList<T>>,
-        IReadOnlyList<T>, IEquatable<IReadOnlyList<T>>, INotifyCollectionChanged, ISerializable
+    public interface IReadOnlyExtendedList<T> : IModelBase<IReadOnlyExtendedList<T>>,
+        IReadOnlyList<T>, IEquatable<IReadOnlyList<T>>, IEquatable<IEnumerable<T>>,
+        INotifyCollectionChanged, ISerializable
     {
         /// <summary>
         /// 指定範囲の要素を簡易コピーしたリストを取得する。
@@ -29,11 +30,5 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentOutOfRangeException">index, countが0未満の場合</exception>
         /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合</exception>
         IEnumerable<T> GetRange(int index, int count);
-
-        /// <summary>
-        /// すべての列挙子を取得する。
-        /// </summary>
-        /// <returns>すべての列挙子</returns>
-        IEnumerable<T> All();
     }
 }

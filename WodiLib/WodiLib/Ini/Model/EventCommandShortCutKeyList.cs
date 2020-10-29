@@ -693,8 +693,8 @@ namespace WodiLib.Ini
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue(makeSerializationItemsKeyName(-1), Items.Length);
-            for (var i = 0; i < Items.Length; i++)
+            info.AddValue(makeSerializationItemsKeyName(-1), Count);
+            for (var i = 0; i < Count; i++)
             {
                 info.AddValue(makeSerializationItemsKeyName(i), Items[i].Code);
             }

@@ -9,8 +9,6 @@
 using System;
 using System.Collections.Generic;
 
-// ReSharper disable ParameterOnlyUsedForPreconditionCheck.Global
-
 namespace WodiLib.Sys
 {
     /// <summary>

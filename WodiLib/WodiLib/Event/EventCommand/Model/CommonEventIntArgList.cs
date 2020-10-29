@@ -17,7 +17,7 @@ namespace WodiLib.Event.EventCommand
     /// コモンイベント・数値引数リストオブジェクト
     /// </summary>
     [Serializable]
-    public class CommonEventIntArgList : RestrictedCapacityCollection<int>
+    public class CommonEventIntArgList : RestrictedCapacityList<int>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      public Constant

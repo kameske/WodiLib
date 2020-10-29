@@ -18,7 +18,7 @@ namespace WodiLib.Map
     /// マップツリー開閉状態リストクラス
     /// </summary>
     [Serializable]
-    public class MapTreeOpenStatusList : RestrictedCapacityCollection<MapTreeOpenState>
+    public class MapTreeOpenStatusList : RestrictedCapacityList<MapTreeOpenState>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

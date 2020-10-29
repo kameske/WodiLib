@@ -18,7 +18,7 @@ namespace WodiLib.Database
     /// DBデータ名リスト
     /// </summary>
     [Serializable]
-    public class DataNameList : RestrictedCapacityCollection<DataName>, IReadOnlyDataNameList
+    public class DataNameList : RestrictedCapacityList<DataName>, IReadOnlyDataNameList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

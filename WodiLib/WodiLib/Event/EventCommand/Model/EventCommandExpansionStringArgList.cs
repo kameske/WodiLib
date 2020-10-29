@@ -18,7 +18,7 @@ namespace WodiLib.Event.EventCommand
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Serializable]
-    public class EventCommandExpansionStringArgList : RestrictedCapacityCollection<string>
+    public class EventCommandExpansionStringArgList : RestrictedCapacityList<string>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      public Constant

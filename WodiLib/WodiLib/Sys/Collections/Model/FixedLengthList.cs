@@ -15,9 +15,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.Serialization;
 
-// ReSharper disable EventNeverSubscribedTo.Global
-// ReSharper disable UnusedParameter.Global
-
 namespace WodiLib.Sys
 {
     /// <summary>
@@ -29,74 +26,66 @@ namespace WodiLib.Sys
     /// <typeparam name="T">リスト内包クラス</typeparam>
     [Serializable]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class FixedLengthList<T> : ModelBase<FixedLengthList<T>>, IFixedLengthCollection<T>
+    public abstract class FixedLengthList<T> : ExtendedListBase<T>, IFixedLengthList<T>
     {
         /*
-         * 継承先用のイベントについて
-         *
-         * CollectionChanging, CollectionChanged を購読することで
-         * 要素操作の前後に処理を挟むことができる。
-         * 具体的な処理順序は以下のとおり。
-         *     - 引数の検証
-         *     - CollectionChanging 発火
-         *     - 要素に対する操作実施
-         *     - （要素数が変化している可能性がある場合）NotifyPropertyChange("Count") 発火
-         *     - NotifyPropertyChanged("Index") 発火
-         *     - CollectionChanged 発火
-         * CollectionChanging は CollectionChanged と
-         * 同一の NotifyCollectionChangedEventArgs インスタンスを送出する。
+         * このクラスの基本的な扱い方については WodiLib.Sys.RestrictedCapacityList とほぼ同様。
+         * 要素数を変更可能な処理が除外されているだけ。
          */
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Constant
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// PropertyChanged イベントの上位伝播を阻止するプロパティ名リスト
+        /// </summary>
+        private static readonly string[] NotifyPropertyChangedDenyList = new[]
+        {
+            nameof(IList.Count)
+        };
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Public Event
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        public event NotifyCollectionChangedEventHandler CollectionChanging
+        {
+            add => CollectionChanging_Impl += value;
+            remove => CollectionChanging_Impl -= value;
+        }
+
+        /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
+        [field: NonSerialized] private event PropertyChangedEventHandler? _propertyChanged;
+
+        /// <summary>
+        /// プロパティ変更通知
+        /// </summary>
+        /// <remarks>
+        ///     同じイベントを重複して登録することはできない。
+        /// </remarks>
+        public override event PropertyChangedEventHandler PropertyChanged
+        {
+            add
+            {
+                if (_propertyChanged != null
+                    && _propertyChanged.GetInvocationList().Contains(value)) return;
+                _propertyChanged += value;
+            }
+            remove => _propertyChanged -= value;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
-        [field: NonSerialized] private event NotifyCollectionChangedEventHandler? _collectionChanging;
-
-        /// <summary>
-        /// 要素変更前通知
-        /// </summary>
-        /// <remarks>
-        ///     同じイベントを重複して登録することはできない。
-        /// </remarks>
-        public event NotifyCollectionChangedEventHandler CollectionChanging
-        {
-            add
-            {
-                if (_collectionChanging != null
-                    && _collectionChanging.GetInvocationList().Contains(value)) return;
-                _collectionChanging += value;
-            }
-            remove => _collectionChanging -= value;
-        }
-
-        /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
-        [field: NonSerialized] private event NotifyCollectionChangedEventHandler? _collectionChanged;
-
-        /// <summary>
-        /// 要素変更通知
-        /// </summary>
-        /// <remarks>
-        ///     同じイベントを重複して登録することはできない。
-        /// </remarks>
-        public event NotifyCollectionChangedEventHandler CollectionChanged
-        {
-            add
-            {
-                if (_collectionChanged != null
-                    && _collectionChanged.GetInvocationList().Contains(value)) return;
-                _collectionChanged += value;
-            }
-            remove => _collectionChanged -= value;
-        }
-
         /*
          * 継承先のクラスで内部的に独自リストを使用したい場合、
          * Countプロパティを継承して独自リストの要素数を返すこと。
          */
-        /// <summary>要素数</summary>
-        public virtual int Count => Items.Length;
+        /// <inheritdoc />
+        public override int Count => Items.Length;
 
         /// <summary>
         /// インデクサによるアクセス
@@ -105,27 +94,18 @@ namespace WodiLib.Sys
         /// <returns>指定したインデックスの要素</returns>
         /// <exception cref="ArgumentNullException">nullをセットしようとした場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
-        public virtual T this[int index]
+        public new T this[int index]
         {
-            get => Items[index];
-            set
-            {
-                if (value is null)
-                    throw new ArgumentNullException(
-                        ErrorMessage.NotNull(nameof(value)));
-
-                ListValidationHelper.SelectIndex(index, Count);
-
-                Set_Impl(index, value);
-            }
+            get => Get_Impl(index, 1).First();
+            set => Set_Impl(index, value);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Protected Property
+        //     Protected Virtual Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>リスト</summary>
-        protected virtual T[] Items { get; }
+        protected virtual T[] Items { get; private set; } = Array.Empty<T>();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -137,19 +117,7 @@ namespace WodiLib.Sys
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         protected FixedLengthList()
         {
-#if DEBUG
-            try
-            {
-                ValidateDefaultItem();
-            }
-            catch (Exception ex)
-            {
-                throw new TypeInitializationException(nameof(FixedLengthList<T>), ex);
-            }
-#endif
-
-            Items = new T[GetCapacity()];
-            Fill();
+            StartObserveNotifyChangeEvent();
         }
 
         /// <summary>
@@ -159,56 +127,19 @@ namespace WodiLib.Sys
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         /// <exception cref="ArgumentNullException">
         ///     initItemsがnullの場合、
-        ///     またはinitItems中にnullが含まれる場合、
-        ///     またはinitItemsの要素数が Capacity と一致しない場合
+        ///     またはinitItems中にnullが含まれる場合
         /// </exception>
         /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
-        protected FixedLengthList(IEnumerable<T> initItems)
+        protected FixedLengthList(IEnumerable<T> initItems) : base(initItems)
         {
-#if DEBUG
-            try
-            {
-                ValidateDefaultItem();
-            }
-            catch (Exception ex)
-            {
-                throw new TypeInitializationException(nameof(RestrictedCapacityCollection<T>), ex);
-            }
-#endif
-
-            if (initItems is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(initItems)));
-
-            var items = initItems.ToArray();
-
-            ListValidationHelper.ItemsHasNotNull(items);
-            FixedLengthListValidationHelper.ItemCount(items.Length, GetCapacity());
-
-            Items = new T[GetCapacity()];
-            Set_Core(0, items);
-        }
-
-        /// <summary>
-        /// デフォルト値チェック
-        /// </summary>
-        /// <exception cref="InvalidOperationException"><see cref="MakeDefaultItem"/>がnullを返却する場合</exception>
-        private void ValidateDefaultItem()
-        {
-            var value = MakeDefaultItem(0);
-            if (value is null)
-                throw new InvalidOperationException(
-                    ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}メソッドの返戻値"));
+            StartObserveNotifyChangeEvent();
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Override Abstract Method
+        //     Public Abstract Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>
-        /// 容量を返す。
-        /// </summary>
-        /// <returns>容量</returns>
+        /// <inheritdoc />
         public abstract int GetCapacity();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -216,140 +147,52 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 指定範囲の要素を簡易コピーしたリストを取得する。
-        /// </summary>
-        /// <param name="index">[Range(0, Count - 1)] インデックス</param>
-        /// <param name="count">[Range(0, Count)] 要素数</param>
-        /// <returns>指定範囲の要素簡易コピーリスト</returns>
-        /// <exception cref="ArgumentOutOfRangeException">index, countが指定範囲外の場合</exception>
-        /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合</exception>
-        public IEnumerable<T> GetRange(int index, int count)
-        {
-            ListValidationHelper.SelectIndex(index, Count);
-            ListValidationHelper.Count(count, Count);
-            ListValidationHelper.Range(index, count, Count);
-
-            return GetRange_Impl(index, count);
-        }
-
-        /// <summary>
         /// すべての列挙子を取得する。
         /// </summary>
         /// <returns>すべての列挙子</returns>
+        [Obsolete("不適切なメソッドのため Ver 2.6 で削除します。")]
         public IEnumerable<T> All() => this;
 
-        /// <summary>
-        /// 指定したインデックスにある項目をコレクション内の新しい場所へ移動する。
-        /// </summary>
-        /// <param name="oldIndex">[Range(0, Count - 1)] 移動する項目のインデックス</param>
-        /// <param name="newIndex">[Range(0, Count - 1)] 移動先のインデックス</param>
-        /// <exception cref="InvalidOperationException">
-        ///    要素数が0の場合
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///     oldIndex, newIndex が指定範囲外の場合
-        /// </exception>
+        /// <inheritdoc />
+        public void SetRange(int index, IEnumerable<T> items)
+            => Set_Impl(index, items.ToArray());
+
+        /// <inheritdoc />
         public void Move(int oldIndex, int newIndex)
-        {
-            if (Count == 0)
-                throw new InvalidOperationException(
-                    ErrorMessage.NotExecute("リストの要素が0個のため"));
+            => Move_Impl(oldIndex, newIndex, 1);
 
-            ListValidationHelper.SelectIndex(oldIndex, Count, nameof(oldIndex));
-            ListValidationHelper.SelectIndex(newIndex, Count, nameof(newIndex));
-
-            Move_Impl(oldIndex, newIndex);
-        }
-
-        /// <summary>
-        /// 指定したインデックスから始まる連続した項目をコレクション内の新しい場所へ移動する。
-        /// </summary>
-        /// <param name="oldIndex">[Range(0, Count - 1)] 移動する項目のインデックス開始位置</param>
-        /// <param name="newIndex">[Range(0, Count - length)] 移動先のインデックス開始位置</param>
-        /// <param name="length">[Range(0, Count - oldIndex)] 移動させる要素数</param>
-        /// <exception cref="InvalidOperationException">
-        ///    要素数が0の場合
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">index, countが指定範囲外の場合</exception>
-        /// <exception cref="ArgumentException">有効な範囲外の要素を移動しようとした場合</exception>
+        /// <inheritdoc />
         public void MoveRange(int oldIndex, int newIndex, int length)
-        {
-            ListValidationHelper.ItemCountNotZero(Count);
-            ListValidationHelper.SelectIndex(oldIndex, Count, nameof(oldIndex));
-            ListValidationHelper.InsertIndex(newIndex, Count, nameof(newIndex));
-            ListValidationHelper.Count(length, Count);
-            ListValidationHelper.Range(oldIndex, length, Count, nameof(oldIndex));
-            ListValidationHelper.Range(length, newIndex, Count, nameof(length), nameof(newIndex));
+            => Move_Impl(oldIndex, newIndex, length);
 
-            MoveRange_Impl(oldIndex, newIndex, length);
-        }
-
-        /// <summary>
-        /// すべての要素を初期化する。
-        /// </summary>
+        /// <inheritdoc />
         public void Clear()
-        {
-            Clear_Impl();
-        }
+            => Clear_Impl();
 
-        /// <summary>
-        /// 指定の要素が含まれているか判断する。
-        /// </summary>
-        /// <param name="item">対象要素</param>
-        /// <returns>指定の要素が含まれる場合はtrue</returns>
+        /// <inheritdoc />
+        public void Reset(IEnumerable<T> initItems)
+            => Reset_Impl(initItems.ToArray());
+
+        /// <inheritdoc />
         public bool Contains([AllowNull] T item)
         {
-            if (item == null) return false;
-            return ((IList<T>) Items).Contains(item);
+            if (item is null) return false;
+            return Items.Contains(item);
         }
 
-        /// <summary>
-        /// 指定したオブジェクトを検索し、最初に出現する位置のインデックスを返す。
-        /// </summary>
-        /// <param name="item">対象要素</param>
-        /// <returns>要素が含まれていない場合、-1</returns>
+        /// <inheritdoc />
         public int IndexOf([AllowNull] T item)
         {
-            if (item == null) return -1;
+            if (item is null) return -1;
             return Array.IndexOf(Items, item);
         }
 
-        /// <summary>
-        /// すべての要素を、指定された配列のインデックスから始まる部分にコピーする。
-        /// </summary>
-        /// <param name="array">コピー先の配列</param>
-        /// <param name="index">[Range(0, Count - 1)] コピー開始インデックス</param>
-        /// <exception cref="ArgumentNullException">arrayがnullの場合</exception>
-        /// <exception cref="ArgumentOutOfRangeException">indexが0未満の場合</exception>
-        /// <exception cref="ArgumentException">コピー先の領域が不足する場合</exception>
-        public void CopyTo(T[] array, int index) => Items.CopyTo(array, index);
+        /// <inheritdoc />
+        public void CopyTo(T[] array, int index)
+            => Items.CopyTo(array, index);
 
-        /// <summary>
-        /// 反復処理する列挙子を返す。
-        /// </summary>
-        /// <returns>反復処理列挙子</returns>
-        public virtual IEnumerator<T> GetEnumerator() => Items.AsEnumerable().GetEnumerator();
-
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public override bool Equals(FixedLengthList<T>? other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return All().SequenceEqual(other.All());
-        }
-
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-#pragma warning disable 618 // TODO: Ver 2.6 まで
-        public bool Equals(IReadOnlyFixedLengthCollection<T>? other)
-#pragma warning restore 618
+        /// <inheritdoc />
+        public bool Equals(IReadOnlyFixedLengthList<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -357,12 +200,12 @@ namespace WodiLib.Sys
             return this.SequenceEqual(other);
         }
 
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool Equals(IReadOnlyList<T>? other)
+        /// <inheritdoc />
+        public override IEnumerator<T> GetEnumerator()
+            => Items.AsEnumerable().GetEnumerator();
+
+        /// <inheritdoc />
+        public bool Equals(IFixedLengthList<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -370,38 +213,8 @@ namespace WodiLib.Sys
             return this.SequenceEqual(other);
         }
 
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool Equals(IEnumerable<T>? other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return this.SequenceEqual(other);
-        }
-
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool Equals(IFixedLengthCollection<T>? other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return this.SequenceEqual(other);
-        }
-
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool Equals(IExtendedReadOnlyList<T>? other)
+        /// <inheritdoc />
+        public override bool Equals(ExtendedListBase<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -416,149 +229,48 @@ namespace WodiLib.Sys
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Protected Abstract Method
+        //      Protected Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>
-        /// 格納対象のデフォルトインスタンスを生成する。
-        /// </summary>
-        /// <param name="index">挿入インデックス</param>
-        /// <returns>デフォルトインスタンス</returns>
-        protected abstract T MakeDefaultItem(int index);
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        #region List Operation Impl
-
-        /// <summary>
-        /// 指定範囲の要素を簡易コピーしたリストを取得する。
-        /// </summary>
-        /// <param name="index">[Range(0, Count - 1)] インデックス</param>
-        /// <param name="count">[Range(0, Count)] 要素数</param>
-        private IEnumerable<T> GetRange_Impl(int index, int count)
+        /// <inheritdoc />
+        protected override IExtendedListValidator<T> MakeValidator()
         {
-            return Enumerable.Range(index, count)
-                .Select(i => Items[i]);
+            return new FixedLengthListValidator<T>(this);
         }
 
-        /// <summary>
-        /// 指定したインデックス位置にある要素を置き換える。
-        /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <param name="item">要素</param>
-        /// <returns>呼び出し元で NotifyCollectionChangedEvent を発火する際に必要な引数</returns>
-        private void Set_Impl(int index, T item)
+        #region Action Core
+
+        /// <inheritdoc />
+        protected override void Constructor_Core(params T[] initItems)
         {
-            var oldItem = Items[index];
-            var eventArgs = NotifyCollectionChangedEventArgsHelper.Set(item!, oldItem!, index);
-
-            CallCollectionChanging(eventArgs);
-
-            Set_Core(index, item);
-
-            NotifyPropertyChanged(ListConstant.IndexerName);
-            CallCollectionChanged(eventArgs);
+            Items = initItems;
         }
 
-        /// <summary>
-        /// 指定したインデックスにある項目をコレクション内の新しい場所へ移動する。
-        /// </summary>
-        /// <param name="oldIndex">移動する項目のインデックス</param>
-        /// <param name="newIndex">移動先のインデックス</param>
-        /// <returns>呼び出し元で NotifyCollectionChangedEvent を発火する際に必要な引数</returns>
-        private void Move_Impl(int oldIndex, int newIndex)
+        /// <inheritdoc />
+        protected override T[] Get_Core(int index, int count)
         {
-            /*
-             * 呼び出し元で
-             * ・indexの範囲チェック
-             * を実施済み。
-             */
-
-            /* 移動させる対象の要素を退避 */
-            var movedItem = Items[oldIndex];
-            var eventArgs = NotifyCollectionChangedEventArgsHelper.Move(movedItem!, newIndex, oldIndex);
-
-            CallCollectionChanging(eventArgs);
-
-            Move_Core(oldIndex, newIndex, 1);
-
-            NotifyPropertyChanged(ListConstant.IndexerName);
-            CallCollectionChanged(eventArgs);
+            return Items.GetRange(index, count)
+                .ToArray();
         }
 
-        /// <summary>
-        /// 指定したインデックスから始まる連続した項目をコレクション内の新しい場所へ移動する。
-        /// </summary>
-        /// <param name="oldIndex">[Range(0, Count - 1)] 移動する項目のインデックス開始位置</param>
-        /// <param name="newIndex">[Range(0, Count - length)] 移動先のインデックス開始位置</param>
-        /// <param name="count">[Range(0, Count - oldIndex)] 移動させる要素数</param>
-        /// <returns>呼び出し元で NotifyCollectionChangedEvent を発火する際に必要な引数</returns>
-        private void MoveRange_Impl(int oldIndex, int newIndex, int count)
-        {
-            /*
-             * 呼び出し元で
-             * ・index, lengthの範囲チェック
-             * を実施済み。
-             */
-
-            /* 移動させる対象の要素を退避 */
-            var movedItems = Items.GetRange(oldIndex, count).ToList();
-            var eventArgs = NotifyCollectionChangedEventArgsHelper.MoveRange(movedItems, newIndex, oldIndex);
-
-            CallCollectionChanging(eventArgs);
-
-            Move_Core(oldIndex, newIndex, count);
-
-            NotifyPropertyChanged(ListConstant.IndexerName);
-            CallCollectionChanged(eventArgs);
-        }
-
-        /// <summary>
-        /// 要素をすべて除去する。
-        /// </summary>
-        private void Clear_Impl()
-        {
-            var eventArgs = NotifyCollectionChangedEventArgsHelper.Clear();
-
-            CallCollectionChanging(eventArgs);
-
-            Clear_Core();
-
-            NotifyPropertyChanged(ListConstant.IndexerName);
-            CallCollectionChanged(eventArgs);
-        }
-
-        #endregion
-
-        #region List Operation Core
-
-        /// <summary>
-        /// Set 中核処理
-        /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <param name="items">要素</param>
-        private void Set_Core(int index, params T[] items)
+        /// <inheritdoc />
+        protected override void Set_Core(int index, params T[] items)
         {
             items.ForEach((item, i) => Items[index + i] = item);
         }
 
-        /// <summary>
-        /// Move 中核処理
-        /// </summary>
-        /// <param name="oldIndex">移動する項目のインデックス開始位置</param>
-        /// <param name="newIndex">移動先のインデックス開始位置</param>
-        /// <param name="count">移動させる要素数</param>
-        private void Move_Core(int oldIndex, int newIndex, int count)
+        /// <inheritdoc />
+        protected override void Move_Core(int oldIndex, int newIndex, int count)
         {
-            if (oldIndex == newIndex) return;
-
             // ロジック簡略化のため oldIndex > newIndex を強制する
             if (oldIndex < newIndex)
             {
-                Move_Core(oldIndex + count, oldIndex, newIndex - oldIndex);
-                return;
+                var beforeOldIndex = oldIndex;
+                var beforeNewIndex = newIndex;
+
+                oldIndex += count;
+                newIndex = beforeOldIndex;
+                count = beforeNewIndex - beforeOldIndex;
             }
 
             var movedItems = Enumerable.Range(newIndex, oldIndex - newIndex)
@@ -568,57 +280,48 @@ namespace WodiLib.Sys
             Set_Core(newIndex + count, movedItems);
         }
 
-        /// <summary>
-        /// Clear 中核処理
-        /// </summary>
-        private void Clear_Core()
-        {
-            Enumerable.Range(0, GetCapacity())
-                .ForEach(i => Items[i] = MakeDefaultItem(i));
-        }
-
         #endregion
 
+        /// <inheritdoc />
+        protected override IEnumerable<T> MakeInitItems()
+        {
+            return Enumerable.Range(0, GetCapacity())
+                .Select(MakeDefaultItem);
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Protected Method
+        //     Event Observe
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// デフォルト値ですべての要素を埋める。
+        /// 変更通知の購読を開始する。
         /// </summary>
-        protected void Fill()
+        private void StartObserveNotifyChangeEvent()
         {
-            // 挿入時に変更通知を発火させないようにする
-            var newItems = Enumerable.Range(0, GetCapacity())
-                .Select(MakeDefaultItem).ToArray();
-            Set_Core(0, newItems);
+            PropertyChanged_Impl += OnPropertyChanged_Impl;
         }
 
         /// <summary>
-        /// PreCollectionChanged イベントを発火する。
+        /// プロパティ変更通知
         /// </summary>
-        /// <param name="args">イベント引数</param>
-        private void CallCollectionChanging(NotifyCollectionChangedEventArgs args)
-            => _collectionChanging?.Invoke(this, args);
+        /// <param name="sender">イベント発行者</param>
+        /// <param name="e">イベント引数</param>
+        private void OnPropertyChanged_Impl(object sender, PropertyChangedEventArgs e)
+        {
+            // 特定のプロパティの場合ブロック
+            if (NotifyPropertyChangedDenyList.Contains(e.PropertyName)) return;
 
-        /// <summary>
-        /// CollectionChanged イベントを発火する。
-        /// </summary>
-        /// <param name="args">イベント引数</param>
-        private void CallCollectionChanged(NotifyCollectionChangedEventArgs args)
-            => _collectionChanged?.Invoke(this, args);
+            // 上位イベントに伝播
+            _propertyChanged?.Invoke(this, e);
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Serializable
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>
-        /// オブジェクトをシリアル化するために必要なデータを設定する。
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
+        /// <inheritdoc />
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(Items), Items);
         }
@@ -629,7 +332,7 @@ namespace WodiLib.Sys
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        protected FixedLengthList(SerializationInfo info, StreamingContext context)
+        protected FixedLengthList(SerializationInfo info, StreamingContext context) : base(info, context)
         {
             Items = info.GetValue<T[]>(nameof(Items));
         }

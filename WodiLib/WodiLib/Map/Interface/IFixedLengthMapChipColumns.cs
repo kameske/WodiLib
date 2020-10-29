@@ -14,7 +14,7 @@ namespace WodiLib.Map
     /// <summary>
     /// 長さ固定マップチップリスト
     /// </summary>
-    public interface IFixedLengthMapChipColumns : IFixedLengthCollection<MapChip>,
+    public interface IFixedLengthMapChipColumns : IFixedLengthList<MapChip>,
         IEquatable<IFixedLengthMapChipColumns>
     {
         /// <summary>

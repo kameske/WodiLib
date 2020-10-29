@@ -10,14 +10,9 @@ namespace WodiLib.Test.Sys
     {
         private static readonly object[] ExecuteByActionTestCaseSource =
         {
-            new object[] {NotifyCollectionChangedEventArgsHelper.Set(1, 2, 0)},
-            new object[] {NotifyCollectionChangedEventArgsHelper.Insert(10, 0)},
-            new object[] {NotifyCollectionChangedEventArgsHelper.InsertRange(new[] {1, 2}, 5)},
-            new object[] {NotifyCollectionChangedEventArgsHelper.Move(1, 2, 0)},
-            new object[] {NotifyCollectionChangedEventArgsHelper.MoveRange(new[] {1}, 2, 0)},
-            new object[] {NotifyCollectionChangedEventArgsHelper.Remove(1, 0)},
-            new object[] {NotifyCollectionChangedEventArgsHelper.RemoveRange(new[] {1, 2}, 0)},
-            new object[] {NotifyCollectionChangedEventArgsHelper.Clear()},
+            new object[] {NotifyCollectionChangedEventArgsHelper.Insert(new[] {1, 2}, 5)},
+            new object[] {NotifyCollectionChangedEventArgsHelper.Move(new[] {1}, 2, 0)},
+            new object[] {NotifyCollectionChangedEventArgsHelper.Remove(new[] {1, 2}, 0)},
         };
 
         [TestCaseSource(nameof(ExecuteByActionTestCaseSource))]

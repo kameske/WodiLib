@@ -20,7 +20,7 @@ namespace WodiLib.Database
     /// DB項目設定値リスト
     /// </summary>
     [Serializable]
-    public class DBItemValuesList : RestrictedCapacityCollection<IFixedLengthDBItemValueList>,
+    public class DBItemValuesList : RestrictedCapacityList<IFixedLengthDBItemValueList>,
         IReadOnlyDBItemValuesList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

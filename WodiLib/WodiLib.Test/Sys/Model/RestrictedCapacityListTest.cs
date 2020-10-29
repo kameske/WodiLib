@@ -12,7 +12,7 @@ using WodiLib.Test.Tools;
 namespace WodiLib.Test.Sys
 {
     [TestFixture]
-    public class RestrictedCapacityCollectionTest
+    public class RestrictedCapacityListTest
     {
         private static Logger logger;
 
@@ -29,7 +29,7 @@ namespace WodiLib.Test.Sys
 #if DEBUG
         [TestCase(TestClassType.Type4, true, true)]
         [TestCase(TestClassType.Type5, true, true)]
-        [TestCase(TestClassType.Type6, true, true)]
+        [TestCase(TestClassType.Type6, false, false)] // MakeDefaultValue が null を返却してもコンストラクタ中ではエラー発生しない
 #elif RELEASE
         [TestCase(TestClassType.Type4, false, true)]
         [TestCase(TestClassType.Type5, false, false)]
@@ -41,34 +41,34 @@ namespace WodiLib.Test.Sys
 
             var errorOccured = false;
 
-            AbsCollectionTest instance = null;
+            AbsListTest instance = null;
             try
             {
                 switch (testType)
                 {
                     case TestClassType.Type1:
-                        initLength = CollectionTest1.MinCapacity;
-                        instance = new CollectionTest1();
+                        initLength = ListTest1.MinCapacity;
+                        instance = new ListTest1();
                         break;
                     case TestClassType.Type2:
-                        initLength = CollectionTest2.MinCapacity;
-                        instance = new CollectionTest2();
+                        initLength = ListTest2.MinCapacity;
+                        instance = new ListTest2();
                         break;
                     case TestClassType.Type3:
-                        initLength = CollectionTest3.MinCapacity;
-                        instance = new CollectionTest3();
+                        initLength = ListTest3.MinCapacity;
+                        instance = new ListTest3();
                         break;
                     case TestClassType.Type4:
-                        initLength = CollectionTest4.MinCapacity;
-                        instance = new CollectionTest4();
+                        initLength = ListTest4.MinCapacity;
+                        instance = new ListTest4();
                         break;
                     case TestClassType.Type5:
-                        initLength = CollectionTest5.MinCapacity;
-                        instance = new CollectionTest5();
+                        initLength = ListTest5.MinCapacity;
+                        instance = new ListTest5();
                         break;
                     case TestClassType.Type6:
-                        initLength = CollectionTest6.MinCapacity;
-                        instance = new CollectionTest6();
+                        initLength = ListTest6.MinCapacity;
+                        instance = new ListTest6();
                         break;
                     default:
                         Assert.Fail();
@@ -117,13 +117,8 @@ namespace WodiLib.Test.Sys
         [TestCase(TestClassType.Type5, 10, true)]
         [TestCase(TestClassType.Type5, 11, true)]
         [TestCase(TestClassType.Type6, -1, true)]
-#if DEBUG
-        [TestCase(TestClassType.Type6, 0, true)]
-        [TestCase(TestClassType.Type6, 10, true)]
-#elif RELEASE
-        [TestCase(TestClassType.Type6, 0, false)]
+        [TestCase(TestClassType.Type6, 0, false)] // Ver 2.4 ~ コンストラクタではデフォルト値の null チェックを行わない
         [TestCase(TestClassType.Type6, 10, false)]
-#endif
         [TestCase(TestClassType.Type6, 11, true)]
         public static void ConstructorTest2(TestClassType testType, int initLength, bool isError)
         {
@@ -131,28 +126,28 @@ namespace WodiLib.Test.Sys
 
             var initList = MakeStringList(initLength);
 
-            AbsCollectionTest instance = null;
+            AbsListTest instance = null;
             try
             {
                 switch (testType)
                 {
                     case TestClassType.Type1:
-                        instance = new CollectionTest1(initList);
+                        instance = new ListTest1(initList);
                         break;
                     case TestClassType.Type2:
-                        instance = new CollectionTest2(initList);
+                        instance = new ListTest2(initList);
                         break;
                     case TestClassType.Type3:
-                        instance = new CollectionTest3(initList);
+                        instance = new ListTest3(initList);
                         break;
                     case TestClassType.Type4:
-                        instance = new CollectionTest4(initList);
+                        instance = new ListTest4(initList);
                         break;
                     case TestClassType.Type5:
-                        instance = new CollectionTest5(initList);
+                        instance = new ListTest5(initList);
                         break;
                     case TestClassType.Type6:
-                        instance = new CollectionTest6(initList);
+                        instance = new ListTest6(initList);
                         break;
                     default:
                         Assert.Fail();
@@ -1568,11 +1563,13 @@ namespace WodiLib.Test.Sys
 
         [TestCase(TestClassType.Type1, 8, -1, true)]
         [TestCase(TestClassType.Type1, 8, 0, false)]
+        [TestCase(TestClassType.Type1, 8, 8, false)]
         [TestCase(TestClassType.Type1, 8, 10, false)]
         [TestCase(TestClassType.Type1, 8, 11, true)]
         [TestCase(TestClassType.Type2, 8, -1, true)]
         [TestCase(TestClassType.Type2, 8, 4, true)]
         [TestCase(TestClassType.Type2, 8, 5, false)]
+        [TestCase(TestClassType.Type2, 8, 8, false)]
         [TestCase(TestClassType.Type2, 8, 10, false)]
         [TestCase(TestClassType.Type2, 8, 11, true)]
         public static void AdjustLengthTest(TestClassType classType, int initLength,
@@ -1580,7 +1577,7 @@ namespace WodiLib.Test.Sys
         {
             var initList = MakeStringList(initLength);
 
-            AbsCollectionTest instance = null;
+            AbsListTest instance = null;
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList = null;
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList = null;
             Dictionary<string, int> propertyChangedEventCalledCount = null;
@@ -1708,7 +1705,7 @@ namespace WodiLib.Test.Sys
         {
             var initList = MakeStringList(initLength);
 
-            AbsCollectionTest instance = null;
+            AbsListTest instance = null;
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList = null;
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList = null;
             Dictionary<string, int> propertyChangedEventCalledCount = null;
@@ -1822,7 +1819,7 @@ namespace WodiLib.Test.Sys
         {
             var initList = MakeStringList(initLength);
 
-            AbsCollectionTest instance = null;
+            AbsListTest instance = null;
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList = null;
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList = null;
             Dictionary<string, int> propertyChangedEventCalledCount = null;
@@ -1922,7 +1919,7 @@ namespace WodiLib.Test.Sys
         {
             var initList = MakeStringList(initLength);
 
-            AbsCollectionTest instance = null;
+            AbsListTest instance = null;
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList = null;
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList = null;
             Dictionary<string, int> propertyChangedEventCalledCount = null;
@@ -1985,6 +1982,71 @@ namespace WodiLib.Test.Sys
             {
                 Assert.AreEqual(t, "test");
             }
+        }
+
+        private static readonly object[] ResetTestCaseSource =
+        {
+            new object[] {-1, false, true},
+            new object[] {4, false, true},
+            new object[] {5, false, false},
+            new object[] {5, true, true},
+            new object[] {7, false, false},
+            new object[] {7, true, true},
+            new object[] {10, false, false},
+            new object[] {10, true, true},
+            new object[] {11, false, true},
+        };
+
+        [TestCaseSource(nameof(ResetTestCaseSource))]
+        public static void ResetTest(int resetItemLength, bool isResetItemHasNull, bool isError)
+        {
+            const int initItemLength = 7;
+            var initItem = MakeStringList(initItemLength);
+            var instance =
+                MakeCollection2ForMethodTest(initItem, initItemLength,
+                    out var collectionChangingEventArgsList,
+                    out var collectionChangedEventArgsList,
+                    out var propertyChangedEventCalledCount);
+            var resetItem = MakeStringList2(resetItemLength, isResetItemHasNull)?
+                .Select(s => s is null ? null : $"reset_{s}").ToList();
+
+            var errorOccured = false;
+            try
+            {
+                instance.Reset(resetItem);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (errorOccured) return;
+
+            // 要素数が初期化要素と一致すること
+            Assert.AreEqual(instance.Count, resetItemLength);
+
+            // 各イベントが意図した回数呼ばれていること
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 1);
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
+            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 1);
+            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
+
+            // 各要素が初期化した要素と一致すること
+            Assert.IsTrue(instance.SequenceEqual(resetItem));
         }
 
         [TestCase(5, "1", true)]
@@ -2135,7 +2197,7 @@ namespace WodiLib.Test.Sys
         public static void CollectionChangingErrorTest()
         {
             var instance = MakeCollection8(
-                out var collectionChangingEventArgsList,
+                out _,
                 out var collectionChangedEventArgsList,
                 out var propertyChangedEventCalledCount);
 
@@ -2166,74 +2228,74 @@ namespace WodiLib.Test.Sys
         }
 
         [Test]
-        public static void EqualsTest_IReadOnlyRestrictedCapacityCollection()
+        public static void EqualsTest_IReadOnlyRestrictedCapacityList()
         {
 #pragma warning disable 618
             // TODO: Ver 2.6 まで
             {
                 // すべての要素が Equal であるリストの比較
                 var items = MakeStringList(10);
-                var left = new CollectionTest1(items);
-                IReadOnlyRestrictedCapacityCollection<string> right = new CollectionTest1(items);
+                var left = new ListTest1(items);
+                IReadOnlyRestrictedCapacityList<string> right = new ListTest1(items);
 
                 Assert.IsTrue(left.Equals(right));
             }
             {
                 // 一つだけ要素が異なるリストの比較
-                var left = new CollectionTest1(MakeStringList(10));
+                var left = new ListTest1(MakeStringList(10));
                 var rightItems = MakeStringList(10);
                 rightItems[2] = "NotEqual";
-                IReadOnlyRestrictedCapacityCollection<string> right = new CollectionTest1(rightItems);
+                IReadOnlyRestrictedCapacityList<string> right = new ListTest1(rightItems);
 
                 Assert.IsFalse(left.Equals(right));
             }
             {
                 // 要素数が異なるリストの比較
-                var left = new CollectionTest1(MakeStringList(10));
-                IReadOnlyRestrictedCapacityCollection<string> right = new CollectionTest1(MakeStringList(9));
+                var left = new ListTest1(MakeStringList(10));
+                IReadOnlyRestrictedCapacityList<string> right = new ListTest1(MakeStringList(9));
 
                 Assert.IsFalse(left.Equals(right));
             }
             {
                 // nullとの比較
-                var left = new CollectionTest1(MakeStringList(10));
+                var left = new ListTest1(MakeStringList(10));
 
-                Assert.IsFalse(left.Equals((IReadOnlyRestrictedCapacityCollection<string>) null));
+                Assert.IsFalse(left.Equals((IReadOnlyRestrictedCapacityList<string>) null));
             }
 #pragma warning restore 618
         }
 
         [Test]
-        public static void EqualsTest_RestrictedCapacityCollection()
+        public static void EqualsTest_RestrictedCapacityList()
         {
             {
                 // すべての要素が Equal であるリストの比較
-                var left = new CollectionTest1(MakeStringList(10));
-                RestrictedCapacityCollection<string> right = new CollectionTest1(MakeStringList(10));
+                var left = new ListTest1(MakeStringList(10));
+                RestrictedCapacityList<string> right = new ListTest1(MakeStringList(10));
 
                 Assert.IsTrue(left.Equals(right));
             }
             {
                 // 一つだけ要素が異なるリストの比較
-                var left = new CollectionTest1(MakeStringList(10));
+                var left = new ListTest1(MakeStringList(10));
                 var rightItems = MakeStringList(10);
                 rightItems[2] = "NotEqual";
-                RestrictedCapacityCollection<string> right = new CollectionTest1(rightItems);
+                RestrictedCapacityList<string> right = new ListTest1(rightItems);
 
                 Assert.IsFalse(left.Equals(right));
             }
             {
                 // 要素数が異なるリストの比較
-                var left = new CollectionTest1(MakeStringList(10));
-                RestrictedCapacityCollection<string> right = new CollectionTest1(MakeStringList(9));
+                var left = new ListTest1(MakeStringList(10));
+                RestrictedCapacityList<string> right = new ListTest1(MakeStringList(9));
 
                 Assert.IsFalse(left.Equals(right));
             }
             {
                 // nullとの比較
-                var left = new CollectionTest1(MakeStringList(10));
+                var left = new ListTest1(MakeStringList(10));
 
-                Assert.IsFalse(left.Equals((RestrictedCapacityCollection<string>) null));
+                Assert.IsFalse(left.Equals((RestrictedCapacityList<string>) null));
             }
         }
 
@@ -2242,16 +2304,16 @@ namespace WodiLib.Test.Sys
         {
             {
                 // すべての要素が  Equal であるリストの比較
-                var left = new CollectionTest1(MakeStringList(10));
-                IFixedLengthCollection<string> right = new CollectionTest7();
+                var left = new ListTest1(MakeStringList(10));
+                IFixedLengthList<string> right = new CollectionTest7();
                 left.ForEach((s, i) => right[i] = s);
 
                 Assert.IsTrue(left.Equals(right));
             }
             {
                 // 一つだけ要素が異なるリストの比較
-                var left = new CollectionTest1(MakeStringList(10));
-                IFixedLengthCollection<string> right = new CollectionTest7();
+                var left = new ListTest1(MakeStringList(10));
+                IFixedLengthList<string> right = new CollectionTest7();
                 left.ForEach((s, i) => right[i] = s);
                 right[5] = "NotFound";
 
@@ -2259,16 +2321,16 @@ namespace WodiLib.Test.Sys
             }
             {
                 // 要素数が異なるリストの比較
-                var left = new CollectionTest1(MakeStringList(9));
-                IFixedLengthCollection<string> right = new CollectionTest7();
+                var left = new ListTest1(MakeStringList(9));
+                IFixedLengthList<string> right = new CollectionTest7();
 
                 Assert.IsFalse(left.Equals(right));
             }
             {
                 // nullとの比較
-                var left = new CollectionTest1(MakeStringList(10));
+                var left = new ListTest1(MakeStringList(10));
 
-                Assert.IsFalse(left.Equals((IFixedLengthCollection<string>) null));
+                Assert.IsFalse(left.Equals((IFixedLengthList<string>) null));
             }
         }
 
@@ -2324,15 +2386,15 @@ namespace WodiLib.Test.Sys
             return result;
         }
 
-        private static CollectionTest1 MakeCollectionForMethodTest(int initLength,
+        private static ListTest1 MakeCollectionForMethodTest(int initLength,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList,
             out Dictionary<string, int> propertyChangedEventCalledCount)
         {
             var initStringList = MakeStringList(initLength);
             var result = initStringList == null
-                ? new CollectionTest1()
-                : new CollectionTest1(initStringList);
+                ? new ListTest1()
+                : new ListTest1(initStringList);
 
             collectionChangingEventArgsList = MakeCollectionChangeEventArgsDic();
             result.CollectionChanging += MakeCollectionChangeEventHandler(true, collectionChangingEventArgsList);
@@ -2346,14 +2408,14 @@ namespace WodiLib.Test.Sys
             return result;
         }
 
-        private static CollectionTest2 MakeCollection2ForMethodTest(List<string> initStringList, int initLength,
+        private static ListTest2 MakeCollection2ForMethodTest(List<string> initStringList, int initLength,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList,
             out Dictionary<string, int> propertyChangedEventCalledCount)
         {
             var result = initStringList == null
-                ? new CollectionTest2()
-                : new CollectionTest2(initStringList.GetRange(0, initLength));
+                ? new ListTest2()
+                : new ListTest2(initStringList.GetRange(0, initLength));
 
             collectionChangingEventArgsList = MakeCollectionChangeEventArgsDic();
             result.CollectionChanging += MakeCollectionChangeEventHandler(true, collectionChangingEventArgsList);
@@ -2367,12 +2429,12 @@ namespace WodiLib.Test.Sys
             return result;
         }
 
-        private static CollectionTest8 MakeCollection8(
+        private static ListTest8 MakeCollection8(
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList,
             out Dictionary<string, int> propertyChangedEventCalledCount)
         {
-            var result = new CollectionTest8();
+            var result = new ListTest8();
             result.AddRange(new[] {"", "", "", "", ""});
             result.IsThrowException = true;
 
@@ -2461,24 +2523,24 @@ namespace WodiLib.Test.Sys
             Type6
         }
 
-        private abstract class AbsCollectionTest : RestrictedCapacityCollection<string>
+        private abstract class AbsListTest : RestrictedCapacityList<string>
         {
-            public AbsCollectionTest()
+            public AbsListTest()
             {
             }
 
-            public AbsCollectionTest(IReadOnlyCollection<string> list) : base(list)
+            public AbsListTest(IReadOnlyCollection<string> list) : base(list)
             {
             }
 
-            // RestrictedCapacityCollection<T>継承クラスはデシリアライズ時に呼び出せるconstructor(SerializationInfo, StreamingContext)が必須
-            protected AbsCollectionTest(SerializationInfo info, StreamingContext context) : base(info, context)
+            // RestrictedCapacityList<T>継承クラスはデシリアライズ時に呼び出せるconstructor(SerializationInfo, StreamingContext)が必須
+            protected AbsListTest(SerializationInfo info, StreamingContext context) : base(info, context)
             {
             }
         }
 
         [Serializable]
-        private class CollectionTest1 : AbsCollectionTest
+        private class ListTest1 : AbsListTest
         {
             /**
              * 正常設定
@@ -2495,20 +2557,20 @@ namespace WodiLib.Test.Sys
 
             protected override string MakeDefaultItem(int index) => Default;
 
-            public CollectionTest1()
+            public ListTest1()
             {
             }
 
-            public CollectionTest1(IReadOnlyCollection<string> list) : base(list)
+            public ListTest1(IReadOnlyCollection<string> list) : base(list)
             {
             }
 
-            protected CollectionTest1(SerializationInfo info, StreamingContext context) : base(info, context)
+            protected ListTest1(SerializationInfo info, StreamingContext context) : base(info, context)
             {
             }
         }
 
-        private class CollectionTest2 : AbsCollectionTest
+        private class ListTest2 : AbsListTest
         {
             /**
              * 正常設定
@@ -2526,16 +2588,16 @@ namespace WodiLib.Test.Sys
 
             protected override string MakeDefaultItem(int index) => Default;
 
-            public CollectionTest2()
+            public ListTest2()
             {
             }
 
-            public CollectionTest2(IReadOnlyCollection<string> list) : base(list)
+            public ListTest2(IReadOnlyCollection<string> list) : base(list)
             {
             }
         }
 
-        private class CollectionTest3 : AbsCollectionTest
+        private class ListTest3 : AbsListTest
         {
             /**
              * 正常設定
@@ -2554,16 +2616,16 @@ namespace WodiLib.Test.Sys
 
             protected override string MakeDefaultItem(int index) => Default;
 
-            public CollectionTest3()
+            public ListTest3()
             {
             }
 
-            public CollectionTest3(IReadOnlyCollection<string> list) : base(list)
+            public ListTest3(IReadOnlyCollection<string> list) : base(list)
             {
             }
         }
 
-        private class CollectionTest4 : AbsCollectionTest
+        private class ListTest4 : AbsListTest
         {
             /*
              * 異常設定（MinCapacity < 0）
@@ -2579,16 +2641,16 @@ namespace WodiLib.Test.Sys
 
             protected override string MakeDefaultItem(int index) => Default;
 
-            public CollectionTest4()
+            public ListTest4()
             {
             }
 
-            public CollectionTest4(IReadOnlyCollection<string> list) : base(list)
+            public ListTest4(IReadOnlyCollection<string> list) : base(list)
             {
             }
         }
 
-        private class CollectionTest5 : AbsCollectionTest
+        private class ListTest5 : AbsListTest
         {
             /**
              * 異常設定（MinCapacity > MaxCapacity）
@@ -2605,16 +2667,16 @@ namespace WodiLib.Test.Sys
 
             protected override string MakeDefaultItem(int index) => Default;
 
-            public CollectionTest5()
+            public ListTest5()
             {
             }
 
-            public CollectionTest5(IReadOnlyCollection<string> list) : base(list)
+            public ListTest5(IReadOnlyCollection<string> list) : base(list)
             {
             }
         }
 
-        private class CollectionTest6 : AbsCollectionTest
+        private class ListTest6 : AbsListTest
         {
             /**
              * 異常設定（DefaultValue＝null）
@@ -2630,11 +2692,11 @@ namespace WodiLib.Test.Sys
 
             protected override string MakeDefaultItem(int index) => Default;
 
-            public CollectionTest6()
+            public ListTest6()
             {
             }
 
-            public CollectionTest6(IReadOnlyCollection<string> list) : base(list)
+            public ListTest6(IReadOnlyCollection<string> list) : base(list)
             {
             }
         }
@@ -2646,7 +2708,7 @@ namespace WodiLib.Test.Sys
             protected override string MakeDefaultItem(int index) => index.ToString();
         }
 
-        private class CollectionTest8 : AbsCollectionTest
+        private class ListTest8 : AbsListTest
         {
             /**
              * CollectionChanging, CollectionChanged メソッドテスト用
@@ -2659,7 +2721,7 @@ namespace WodiLib.Test.Sys
 
             protected override string MakeDefaultItem(int index) => "";
 
-            public CollectionTest8()
+            public ListTest8()
             {
                 CollectionChanging += OnCollectionChanging;
             }

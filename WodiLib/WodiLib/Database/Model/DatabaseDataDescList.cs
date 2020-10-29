@@ -19,7 +19,7 @@ namespace WodiLib.Database
     /// DBデータ情報リスト
     /// </summary>
     [Serializable]
-    public class DatabaseDataDescList : RestrictedCapacityCollection<DatabaseDataDesc>
+    public class DatabaseDataDescList : RestrictedCapacityList<DatabaseDataDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

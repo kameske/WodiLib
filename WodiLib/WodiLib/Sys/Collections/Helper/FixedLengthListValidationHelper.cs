@@ -28,5 +28,16 @@ namespace WodiLib.Sys
                 throw new InvalidOperationException(
                     ErrorMessage.NotEqual($"{itemName}の要素数", $"適切な要素数({capacity})"));
         }
+
+        /// <summary>
+        /// 容量設定を検証する。
+        /// </summary>
+        /// <param name="capacity">容量</param>
+        public static void CapacityConfig(int capacity)
+        {
+            if (capacity < 0)
+                throw new InvalidOperationException(
+                    ErrorMessage.GreaterOrEqual("容量", 0, capacity));
+        }
     }
 }

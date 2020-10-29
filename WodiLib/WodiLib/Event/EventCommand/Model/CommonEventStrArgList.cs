@@ -18,7 +18,7 @@ namespace WodiLib.Event.EventCommand
     /// 要素4は必ず数値形式で使用する必要がある。
     /// </summary>
     [Serializable]
-    public class CommonEventStrArgList : RestrictedCapacityCollection<IntOrStr>
+    public class CommonEventStrArgList : RestrictedCapacityList<IntOrStr>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      public Constant

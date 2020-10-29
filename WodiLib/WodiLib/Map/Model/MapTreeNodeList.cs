@@ -18,7 +18,7 @@ namespace WodiLib.Map
     /// マップツリーノードリストクラス
     /// </summary>
     [Serializable]
-    public class MapTreeNodeList : RestrictedCapacityCollection<MapTreeNode>
+    public class MapTreeNodeList : RestrictedCapacityList<MapTreeNode>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

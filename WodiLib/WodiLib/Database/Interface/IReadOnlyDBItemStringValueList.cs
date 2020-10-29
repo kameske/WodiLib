@@ -6,7 +6,7 @@ namespace WodiLib.Database
     /// 【読み取り専用】データベース文字列項目値リスト
     /// </summary>
     public interface
-        IReadOnlyDBItemStringValueList : IReadOnlyRestrictedCapacityCollection<DBValueString>
+        IReadOnlyDBItemStringValueList : IReadOnlyRestrictedCapacityList<DBValueString>
     {
     }
 }

@@ -18,7 +18,7 @@ namespace WodiLib.Event.EventCommand
     /// 選択肢リスト
     /// </summary>
     [Serializable]
-    public class ChoiceCaseList : FixedLengthList<string>
+    public partial class ChoiceCaseList : FixedLengthList<string>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -30,28 +30,6 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <inheritdoc />
-        public override string this[int index]
-        {
-            get
-            {
-                if (index < 0 || CaseValue <= index)
-                    throw new ArgumentOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(index), 0, CaseValue - 1, index));
-                return base[index];
-            }
-            set
-            {
-                if (index < 0 || CaseValue <= index)
-                    throw new ArgumentOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(index), 0, CaseValue - 1, index));
-                if (value is null)
-                    throw new ArgumentNullException(
-                        ErrorMessage.NotNull(nameof(value)));
-                base[index] = value;
-            }
-        }
 
         private int caseValue = 1;
 
@@ -131,10 +109,6 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        /// <summary>
-        /// 容量を返す。
-        /// </summary>
-        /// <returns>容量</returns>
         public override int GetCapacity() => Capacity;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -142,12 +116,13 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        /// <summary>
-        /// 格納対象のデフォルトインスタンスを生成する。
-        /// </summary>
-        /// <param name="index">挿入インデックス</param>
-        /// <returns>デフォルトインスタンス</returns>
         protected override string MakeDefaultItem(int index) => "";
+
+        /// <inheritdoc />
+        protected override IExtendedListValidator<string> MakeValidator()
+        {
+            return new CustomValidator(this);
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Serializable

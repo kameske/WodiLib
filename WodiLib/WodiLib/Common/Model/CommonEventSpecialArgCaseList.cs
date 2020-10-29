@@ -19,7 +19,7 @@ namespace WodiLib.Common
     /// 選択肢情報リスト
     /// </summary>
     [Serializable]
-    public class CommonEventSpecialArgCaseList : RestrictedCapacityCollection<CommonEventSpecialArgCase>,
+    public class CommonEventSpecialArgCaseList : RestrictedCapacityList<CommonEventSpecialArgCase>,
         IReadOnlyCommonEventSpecialArgCaseList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

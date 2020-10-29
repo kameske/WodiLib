@@ -13,7 +13,7 @@ namespace WodiLib.Database
     /// <summary>
     /// 【読み取り専用】DBデータ名リスト
     /// </summary>
-    public interface IReadOnlyDataNameList : IReadOnlyRestrictedCapacityCollection<DataName>
+    public interface IReadOnlyDataNameList : IReadOnlyRestrictedCapacityList<DataName>
     {
     }
 }

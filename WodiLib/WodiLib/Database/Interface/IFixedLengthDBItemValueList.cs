@@ -14,7 +14,7 @@ namespace WodiLib.Database
     /// <summary>
     /// 【容量固定】DBデータ設定値リスト
     /// </summary>
-    public interface IFixedLengthDBItemValueList : IFixedLengthCollection<DBItemValue>, IEquatable<IFixedLengthDBItemValueList>
+    public interface IFixedLengthDBItemValueList : IFixedLengthList<DBItemValue>, IEquatable<IFixedLengthDBItemValueList>
     {
         /// <summary>
         /// 自身と同じ値情報を持つ、DBItemValuesList に紐付けられていないインスタンスに変換する。

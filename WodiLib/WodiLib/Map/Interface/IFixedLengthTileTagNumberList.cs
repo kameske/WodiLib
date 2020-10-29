@@ -13,7 +13,7 @@ namespace WodiLib.Map
     /// <summary>
     /// 長さ固定タイルタグ番号リスト
     /// </summary>
-    public interface IFixedLengthTileTagNumberList : IFixedLengthCollection<TileTagNumber>
+    public interface IFixedLengthTileTagNumberList : IFixedLengthList<TileTagNumber>
     {
     }
 }

@@ -1,13 +1,14 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : IFixedLengthCollection.cs
+// File Name    : IFixedLengthList.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
 // ========================================
 
 using System;
-using System.Diagnostics.CodeAnalysis;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace WodiLib.Sys
 {
@@ -15,24 +16,41 @@ namespace WodiLib.Sys
     /// 長さが固定されたListインタフェース
     /// </summary>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-#pragma warning disable 618 // TODO： Ver 2.6まで
-    public interface IFixedLengthCollection<T> : IModelBase<IFixedLengthCollection<T>>,
-        IReadOnlyFixedLengthCollection<T>, IExtendedReadOnlyList<T>
-#pragma warning restore 618
+    [Obsolete("不適切な名前のため Ver 2.6 で削除します。 IFixedLengthList<T> を使用してください。")]
+    public interface IFixedLengthCollection<T> : IFixedLengthList<T>
+    {
+    }
+
+    /// <summary>
+    /// 長さが固定されたListインタフェース
+    /// </summary>
+    /// <typeparam name="T">リスト内包クラス</typeparam>
+    public interface IFixedLengthList<T> : IModelBase<IFixedLengthList<T>>,
+        IReadOnlyFixedLengthList<T>
     {
         /// <summary>
         /// インデクサによるアクセス
         /// </summary>
         /// <param name="index">[Range(0, Count - 1)] インデックス</param>
         /// <returns>指定したインデックスの要素</returns>
+        /// <exception cref="ArgumentNullException">nullをセットしようとした場合</exception>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         new T this[int index] { get; set; }
 
         /// <summary>
-        /// 容量を返す。
+        /// 要素変更前通知
         /// </summary>
-        /// <returns>容量</returns>
-        int GetCapacity();
+        /// <remarks>
+        ///     同じイベントを重複して登録することはできない。
+        /// </remarks>
+        event NotifyCollectionChangedEventHandler CollectionChanging;
+
+        /// <summary>
+        /// リストの連続した要素を更新する。
+        /// </summary>
+        /// <param name="index">[Range(0, Count - 1)] 更新開始インデックス</param>
+        /// <param name="items">更新要素</param>
+        void SetRange(int index, IEnumerable<T> items);
 
         /// <summary>
         /// 指定したインデックスにある項目をコレクション内の新しい場所へ移動する。
@@ -62,10 +80,19 @@ namespace WodiLib.Sys
         void MoveRange(int oldIndex, int newIndex, int count);
 
         /// <summary>
-        /// 指定したオブジェクトを検索し、最初に出現する位置のインデックスを返す。
+        /// すべての要素を初期化する。
         /// </summary>
-        /// <param name="item">対象要素</param>
-        /// <returns>要素が含まれていない場合、-1</returns>
-        int IndexOf([AllowNull] T item);
+        void Clear();
+
+        /// <summary>
+        /// 要素を与えられた内容で一新する。
+        /// </summary>
+        /// <param name="initItems">リストに詰め直す要素</param>
+        /// <exception cref="ArgumentNullException">
+        ///     initItemsがnullの場合、
+        ///     またはinitItems中にnullが含まれる場合
+        /// </exception>
+        /// <exception cref="InvalidOperationException">initItems の要素数が不適切な場合</exception>
+        void Reset(IEnumerable<T> initItems);
     }
 }

@@ -19,7 +19,7 @@ namespace WodiLib.Map
     /// マップイベントページリストクラス
     /// </summary>
     [Serializable]
-    public class MapEventPageList : RestrictedCapacityCollection<MapEventPage>
+    public class MapEventPageList : RestrictedCapacityList<MapEventPage>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

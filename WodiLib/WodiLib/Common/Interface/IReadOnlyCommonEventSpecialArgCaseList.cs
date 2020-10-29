@@ -14,7 +14,7 @@ namespace WodiLib.Common
     /// 読み取り専用選択肢情報リスト
     /// </summary>
     public interface IReadOnlyCommonEventSpecialArgCaseList
-        : IReadOnlyRestrictedCapacityCollection<CommonEventSpecialArgCase>
+        : IReadOnlyRestrictedCapacityList<CommonEventSpecialArgCase>
     {
     }
 }

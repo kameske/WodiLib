@@ -21,7 +21,7 @@ namespace WodiLib.Event.EventCommand
     /// </remarks>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     [Serializable]
-    public class EventCommandExpansionNumberArgList : RestrictedCapacityCollection<int>
+    public class EventCommandExpansionNumberArgList : RestrictedCapacityList<int>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      public Constant

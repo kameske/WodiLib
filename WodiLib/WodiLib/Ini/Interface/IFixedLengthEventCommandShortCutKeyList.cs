@@ -16,7 +16,7 @@ namespace WodiLib.Ini
     /// 【長さ固定】イベントコマンドショートカットキーリスト
     /// </summary>
     [Obsolete("ShortCutPositionList クラスを参照してください。 Ver 2.5 で削除します。")]
-    public interface IFixedLengthEventCommandShortCutKeyList : IFixedLengthCollection<EventCommandShortCutKey>
+    public interface IFixedLengthEventCommandShortCutKeyList : IFixedLengthList<EventCommandShortCutKey>
     {
         /// <summary>
         /// リストの各項目が適切な設定であることを検証する。

@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -21,7 +20,7 @@ namespace WodiLib.Map
     /// マップイベントリストクラス
     /// </summary>
     [Serializable]
-    public class MapEventList : RestrictedCapacityCollection<MapEvent>
+    public partial class MapEventList : RestrictedCapacityList<MapEvent>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -42,7 +41,6 @@ namespace WodiLib.Map
         /// </summary>
         public MapEventList()
         {
-            StartObserveListEvent();
         }
 
         /// <summary>
@@ -51,26 +49,8 @@ namespace WodiLib.Map
         /// <param name="events">1ページ毎のマップイベント</param>
         /// <exception cref="ArgumentException">events内のイベントIDが重複している場合</exception>
         /// <exception cref="ArgumentNullException">eventsがnullの場合</exception>
-        public MapEventList(IReadOnlyList<MapEvent> events) : base(events)
+        public MapEventList(IEnumerable<MapEvent> events) : base(events)
         {
-            if (events is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(events)));
-
-            var mapEvents = events.ToList();
-
-            // イベントID重複チェック
-            MapEventListValidationHelper.DuplicateEventId(mapEvents);
-
-            StartObserveListEvent();
-        }
-
-        /// <summary>
-        /// 独自リストのイベント購読を開始する。コンストラクタ用。
-        /// </summary>
-        private void StartObserveListEvent()
-        {
-            CollectionChanging += OnCollectionChanging;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -142,6 +122,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="mapEventId">マップイベントID</param>
         /// <returns>マップイベント（取得できない場合null）</returns>
+        [Obsolete("GetMapEvent(MapEventId) メソッドと重複するメソッドのため、 Ver 2.6 にて削除します。")]
         public MapEvent? GetForMapEventId(MapEventId mapEventId)
         {
             return Items.FirstOrDefault(x => x.MapEventId == mapEventId);
@@ -163,49 +144,13 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        /// <summary>
-        /// 格納対象のデフォルトインスタンスを生成する。
-        /// </summary>
-        /// <param name="index">挿入インデックス</param>
-        /// <returns>デフォルトインスタンス</returns>
+        protected override IExtendedListValidator<MapEvent> MakeValidator()
+        {
+            return new CustomValidator(this);
+        }
+
+        /// <inheritdoc />
         protected override MapEvent MakeDefaultItem(int index) => new MapEvent();
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Event Handler
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        #region CollectionChanging
-
-        private void OnCollectionChanging(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            e.ExecuteByAction<MapEvent>(
-                replaceAction: PreSetItem,
-                addAction: PreInsertItem
-            );
-        }
-
-        /// <summary>
-        /// 要素更新前に呼び出される処理
-        /// </summary>
-        /// <param name="index">更新する要素の先頭インデックス</param>
-        /// <param name="oldItems">更新前要素</param>
-        /// <param name="newItems">更新後要素</param>
-        private void PreSetItem(int index, IEnumerable<MapEvent> oldItems, IEnumerable<MapEvent> newItems)
-        {
-            MapEventListValidationHelper.DuplicateSetEventId(this, index, newItems);
-        }
-
-        /// <summary>
-        /// 要素追加前に呼び出される処理
-        /// </summary>
-        /// <param name="index">追加するインデックス</param>
-        /// <param name="items">追加要素</param>
-        private void PreInsertItem(int index, IEnumerable<MapEvent> items)
-        {
-            MapEventListValidationHelper.DuplicateAddEventId(this, items);
-        }
-
-        #endregion
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common

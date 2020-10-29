@@ -19,7 +19,7 @@ namespace WodiLib.Map
     /// タイル通行設定リストクラス
     /// </summary>
     [Serializable]
-    public class TilePathSettingList : RestrictedCapacityCollection<TilePathSetting>,
+    public class TilePathSettingList : RestrictedCapacityList<TilePathSetting>,
         IFixedLengthTilePathSettingList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -94,7 +94,7 @@ namespace WodiLib.Map
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
-            return Equals((RestrictedCapacityCollection<TilePathSetting>) other);
+            return Equals((RestrictedCapacityList<TilePathSetting>) other);
         }
 
         /// <summary>
@@ -102,9 +102,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-#pragma warning disable 618 // TODO: Ver 2.6 まで
-        public bool Equals(IReadOnlyFixedLengthCollection<TilePathSetting>? other)
-#pragma warning restore 618
+        public bool Equals(IReadOnlyFixedLengthList<TilePathSetting>? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;

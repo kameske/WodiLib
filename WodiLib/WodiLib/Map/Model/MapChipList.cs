@@ -21,7 +21,7 @@ namespace WodiLib.Map
     /// マップチップ配列クラス
     /// </summary>
     [Serializable]
-    public class MapChipList : RestrictedCapacityCollection<IFixedLengthMapChipColumns>
+    public class MapChipList : RestrictedCapacityList<IFixedLengthMapChipColumns>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

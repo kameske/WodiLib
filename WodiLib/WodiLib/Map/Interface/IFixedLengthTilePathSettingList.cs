@@ -13,7 +13,7 @@ namespace WodiLib.Map
     /// <summary>
     /// 長さ固定タイル通行設定リスト
     /// </summary>
-    public interface IFixedLengthTilePathSettingList : IFixedLengthCollection<TilePathSetting>
+    public interface IFixedLengthTilePathSettingList : IFixedLengthList<TilePathSetting>
     {
     }
 }

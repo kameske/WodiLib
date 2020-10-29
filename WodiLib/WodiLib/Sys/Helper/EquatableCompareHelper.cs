@@ -25,10 +25,27 @@ namespace WodiLib.Sys
         public static bool Equals<T>(IEquatable<T>? left, T right)
         {
             if (ReferenceEquals(left, right)) return true;
+            // left == null && right == null を含む
 
             if (ReferenceEquals(left, null) ^ ReferenceEquals(right, null)) return false;
-
             // left, right はどちらも null ではない
+
+            return left!.Equals(right);
+        }
+
+        public static bool Equals<T>(T left, T right)
+        {
+            if (ReferenceEquals(left, right)) return true;
+            // left == null && right == null を含む
+
+            if (ReferenceEquals(left, null) ^ ReferenceEquals(right, null)) return false;
+            // left, right はどちらも null ではない
+
+            if (left is IEquatable<T> equatable)
+            {
+                return equatable.Equals(right);
+            }
+
             return left!.Equals(right);
         }
     }

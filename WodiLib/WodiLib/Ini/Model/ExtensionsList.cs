@@ -19,7 +19,7 @@ namespace WodiLib.Ini
     /// 拡張子リスト
     /// </summary>
     [Serializable]
-    public class ExtensionList : RestrictedCapacityCollection<Extension>
+    public class ExtensionList : RestrictedCapacityList<Extension>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

@@ -15,7 +15,7 @@ namespace WodiLib.Map
     /// 長さ固定オートタイルファイル名リスト
     /// </summary>
     [Obsolete("AutoTileFileNameList クラスを参照してください。 Ver 2.5 で削除します。")]
-    public interface IFixedLengthAutoTileFileNameList : IFixedLengthCollection<AutoTileFileName>
+    public interface IFixedLengthAutoTileFileNameList : IFixedLengthList<AutoTileFileName>
     {
     }
 }

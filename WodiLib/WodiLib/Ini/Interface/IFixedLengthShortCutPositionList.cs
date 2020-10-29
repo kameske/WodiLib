@@ -15,7 +15,7 @@ namespace WodiLib.Ini
     /// 【長さ固定】コマンド入力ウィンドウのコマンド表示順リスト
     /// </summary>
     [Obsolete("ShortCutPositionList クラスを参照してください。 Ver 2.5 で削除します。")]
-    public interface IFixedLengthShortCutPositionList : IFixedLengthCollection<ShortCutPosition>
+    public interface IFixedLengthShortCutPositionList : IFixedLengthList<ShortCutPosition>
     {
     }
 }

@@ -57,19 +57,19 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Overwrite時に要素数が最大数を超えないことを検証する。
+        /// 最大・最小容量設定を検証する。
         /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <param name="nowLength">現在要素数</param>
-        /// <param name="itemLength">対象要素数</param>
-        /// <param name="max">最大要素数</param>
-        public static void OverwriteLength(int index, int nowLength, int itemLength, int max)
+        /// <param name="min">最小容量</param>
+        /// <param name="max">最大容量</param>
+        public static void CapacityConfig(int min, int max)
         {
-            var updateCnt = itemLength;
-            if (updateCnt + index > nowLength) updateCnt = nowLength - index;
-            var insertCnt = itemLength - updateCnt;
+            if (min < 0)
+                throw new InvalidOperationException(
+                    ErrorMessage.GreaterOrEqual("最小容量", 0, max));
 
-            ItemMaxCount(nowLength + insertCnt, max);
+            if (min > max)
+                throw new InvalidOperationException(
+                    ErrorMessage.GreaterOrEqual("最大容量", $"最小容量（{min}）", max));
         }
     }
 }

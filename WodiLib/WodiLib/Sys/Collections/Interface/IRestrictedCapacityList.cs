@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : IRestrictedCapacityCollection.cs
+// File Name    : IRestrictedCapacityList.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -15,8 +15,16 @@ namespace WodiLib.Sys
     /// <summary>
     /// 容量制限のあるListインタフェース
     /// </summary>
-    public interface IRestrictedCapacityCollection<T> : IModelBase<IRestrictedCapacityCollection<T>>, IExtendedList<T>,
-        IReadOnlyRestrictedCapacityCollection<T>
+    [Obsolete("不適切な名前のため Ver 2.6 で削除します。 IRestrictedCapacityList<T> を使用してください。")]
+    public interface IRestrictedCapacityCollection<T> : IRestrictedCapacityList<T>
+    {
+    }
+
+    /// <summary>
+    /// 容量制限のあるListインタフェース
+    /// </summary>
+    public interface IRestrictedCapacityList<T> : IModelBase<IRestrictedCapacityList<T>>, IExtendedList<T>,
+        IReadOnlyRestrictedCapacityList<T>
     {
     }
 }
