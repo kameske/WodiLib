@@ -107,10 +107,11 @@ namespace WodiLib.Sys
         /// リスト要素数が不足する場合のエラーメッセージ
         /// </summary>
         /// <param name="limit">要素数下限</param>
+        /// <param name="target">判定対象名</param>
         /// <returns>エラーメッセージ</returns>
-        public static string UnderListLength(int limit)
+        public static string UnderListLength(int limit, string target = "要素数")
         {
-            return $"要素数が{limit}を下回るため、処理できません。";
+            return $"{target}が{limit}を下回るため、処理できません。";
         }
 
         /// <summary>
@@ -128,10 +129,11 @@ namespace WodiLib.Sys
         /// リスト要素数が超過する場合のエラーメッセージ
         /// </summary>
         /// <param name="limit">要素数上限</param>
+        /// <param name="target">判定対象名</param>
         /// <returns>エラーメッセージ</returns>
-        public static string OverListLength(int limit)
+        public static string OverListLength(int limit, string target = "要素数")
         {
-            return $"要素数が{limit}を上回るため、処理できません。";
+            return $"{target}が{limit}を上回るため、処理できません。";
         }
 
         /// <summary>

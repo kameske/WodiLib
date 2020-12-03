@@ -656,10 +656,10 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// AdjustLengthIfShort メソッドの検証処理
+        /// AdjustLengthIfShort メソッドの処理実装
         /// </summary>
         /// <param name="length">調整要素数</param>
-        protected void AdjustLengthIfShort_Main(int length)
+        private void AdjustLengthIfShort_Main(int length)
         {
             if (length <= Count)
             {
@@ -683,10 +683,10 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustLengthIfLong メソッドの検証処理
+        /// AdjustLengthIfLong メソッドの処理実装
         /// </summary>
         /// <param name="length">調整要素数</param>
-        protected void AdjustLengthIfLong_Main(int length)
+        private void AdjustLengthIfLong_Main(int length)
         {
             if (length >= Count)
             {
@@ -749,7 +749,7 @@ namespace WodiLib.Sys
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected ExtendedListBase(SerializationInfo info, StreamingContext context)
         {
-            Validator = new CommonListValidator<T>(this);
+            Validator = MakeValidator();
         }
 
         /// <inheritdoc />

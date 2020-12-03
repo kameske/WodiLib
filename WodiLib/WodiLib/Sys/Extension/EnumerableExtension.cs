@@ -44,5 +44,29 @@ namespace WodiLib.Sys
                 ? -1
                 : searchResult.idx;
         }
+
+        /// <summary>
+        /// 二重シーケンスを二次元配列に変換する。
+        /// </summary>
+        /// <param name="src">対象</param>
+        /// <typeparam name="T">対象シーケンスの内包型</typeparam>
+        /// <returns>二次元配列</returns>
+        internal static T[][] ToTwoDimensionalArray<T>(this IEnumerable<IEnumerable<T>> src)
+        {
+            return src.Select(line => line.ToArray()).ToArray();
+        }
+
+        /// <summary>
+        /// 行列を入れ替えた二次元配列を返す。<br/>
+        /// 【事前条件】<br/>
+        /// すべての行について要素数が一致すること
+        /// </summary>
+        /// <param name="src">対象</param>
+        /// <returns>src の転置行列</returns>
+        public static T[][] ToTransposedArray<T>(this IEnumerable<IEnumerable<T>> src)
+        {
+            return src.ToTwoDimensionalArray()
+                .ToTransposedArray();
+        }
     }
 }
