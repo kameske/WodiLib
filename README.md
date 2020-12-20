@@ -49,8 +49,16 @@ Branches
 Loadmap
 ----------
 
-- Ver 2.4.0 2020年内を目処（2020年内に更新不可能な可能性あり）
-    - （主に ```WodiLib.Database``` 名前空間内の各種クラス）機能の見直し
+- Ver 3.0.0 未定
+    - ```Ver 1.X```, ```2.X``` 更新終了。
+    - 言語バージョン C# 9.0
+        - 各種 ValueObject を record 化。（struct 廃止）
+    - Target Framework を ```.NET Standard 2.1``` から ```.NET Standard 2.0``` に変更
+        - ```Ver 2.X``` -> ```Ver 3.0.0``` 移行の場合のみ影響。```Ver 1.X``` は現状 ```.NET Standard 2.0``` を対象としているため。
+    - ```WodiLib.Database``` 名前空間の各種クラス見直し。
+        - ```Ver 1.X```, ```2.X``` から破壊的変更あり。
+    - Jsonシリアライズ/デシリアライズ対応。
+    - インタフェース整理。
 
 - 適宜
   - 不具合修正 / 機能追加
