@@ -19,7 +19,7 @@ namespace WodiLib.Map
     {
         public static void UpdateItemPropertyChangedEvent(
             NotifyCollectionChangedEventArgs args,
-            List<IFixedLengthMapChipColumns> items,
+            IReadOnlyList<IFixedLengthMapChipColumns> items,
             PropertyChangedEventHandler eventHandler)
         {
             // 要素0に係るイベントの場合のみ処理

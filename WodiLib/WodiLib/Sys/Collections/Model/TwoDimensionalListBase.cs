@@ -33,7 +33,7 @@ namespace WodiLib.Sys
         IReadOnlyTwoDimensionalList<T>
     {
         /*
-         * このクラスの実装観点は ExtendedListBase<T> と同じ。
+         * このクラスの実装観点は ExtendedList<T> と同じ。
          * 行数または列数が0となる操作を行った場合、
          * コンストラクタ以外では Clear_Core が呼ばれ、他の Core メソッドは実行されない。
          * コンストラクタの場合は Constructor_Core が実行される。このときの引数は空配列となる。

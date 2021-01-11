@@ -7,54 +7,76 @@
 // ========================================
 
 using System;
-using System.Diagnostics.CodeAnalysis;
+using System.Collections.Generic;
 
 namespace WodiLib.Sys
 {
     /// <summary>
     /// リスト編集メソッドの引数汎用検証処理実施クラス
     /// </summary>
-    internal class CommonListValidator<T> : IExtendedListValidator<T>
+    internal class CommonListValidator<T> : WodiLibListValidatorTemplate<T>
     {
-        private IReadOnlyExtendedList<T> Target { get; }
+        protected override IWodiLibListValidator<T>? BaseValidator => null;
 
-        public CommonListValidator(IReadOnlyExtendedList<T> target)
+        public CommonListValidator(IReadOnlyExtendedList<T> target) : base(target)
         {
-            Target = target;
         }
 
-        public void Constructor(params T[] initItems)
+        public override void Constructor(IReadOnlyList<T> initItems)
         {
+            if (initItems is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(initItems)));
             ListValidationHelper.ItemsHasNotNull(initItems, nameof(initItems));
         }
 
-        public void Get(int index, int count)
+        public override void Get(int index, int count)
         {
             ListValidationHelper.SelectIndex(index, Target.Count);
             ListValidationHelper.Count(count, Target.Count);
             ListValidationHelper.Range(index, count, Target.Count);
         }
 
-        public void Set(int index, params T[] items)
+        public override void Set(int index, T item)
+        {
+            if (item is null)
+            {
+                throw new ArgumentNullException(ErrorMessage.NotNull(nameof(item)));
+            }
+
+            Set(index, new[] {item}!);
+        }
+
+        public override void Set(int index, IReadOnlyList<T> items)
         {
             ListValidationHelper.SelectIndex(index, Target.Count);
             ListValidationHelper.ItemsHasNotNull(items);
-            ListValidationHelper.Range(index, items.Length, Target.Count);
+            ListValidationHelper.Range(index, items.Count, Target.Count);
         }
 
-        public void Insert(int index, params T[] items)
+        public override void Insert(int index, T item)
         {
+            if (item is null)
+            {
+                throw new ArgumentNullException(ErrorMessage.NotNull(nameof(item)));
+            }
+
+            Insert(index, new[] {item}!);
+        }
+
+        public override void Insert(int index, IReadOnlyList<T> items)
+        {
+            if (items is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
             ListValidationHelper.InsertIndex(index, Target.Count);
             ListValidationHelper.ItemsHasNotNull(items);
         }
 
-        public void Overwrite(int index, params T[] items)
+        public override void Overwrite(int index, IReadOnlyList<T> items)
         {
+            if (items is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
             ListValidationHelper.InsertIndex(index, Target.Count);
             ListValidationHelper.ItemsHasNotNull(items);
         }
 
-        public void Move(int oldIndex, int newIndex, int count)
+        public override void Move(int oldIndex, int newIndex, int count)
         {
             ListValidationHelper.ItemCountNotZero(Target.Count);
             ListValidationHelper.SelectIndex(oldIndex, Target.Count, nameof(oldIndex));
@@ -64,18 +86,14 @@ namespace WodiLib.Sys
             ListValidationHelper.Range(count, newIndex, Target.Count, nameof(count), nameof(newIndex));
         }
 
-        public void Remove([AllowNull] T item)
-        {
-        }
-
-        public void Remove(int index, int count)
+        public override void Remove(int index, int count)
         {
             ListValidationHelper.SelectIndex(index, Target.Count);
             ListValidationHelper.Count(count, Target.Count);
             ListValidationHelper.Range(index, count, Target.Count);
         }
 
-        public void AdjustLength(int length)
+        public override void AdjustLength(int length)
         {
             if (length < 0)
             {
@@ -84,7 +102,7 @@ namespace WodiLib.Sys
             }
         }
 
-        public void AdjustLengthIfShort(int length)
+        public override void AdjustLengthIfShort(int length)
         {
             if (length < 0)
             {
@@ -93,7 +111,7 @@ namespace WodiLib.Sys
             }
         }
 
-        public void AdjustLengthIfLong(int length)
+        public override void AdjustLengthIfLong(int length)
         {
             if (length < 0)
             {
@@ -102,8 +120,9 @@ namespace WodiLib.Sys
             }
         }
 
-        public void Reset(params T[] items)
+        public override void Reset(IReadOnlyList<T> items)
         {
+            if (items is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
             ListValidationHelper.ItemsHasNotNull(items);
         }
     }

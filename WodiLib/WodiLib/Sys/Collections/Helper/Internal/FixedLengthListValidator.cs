@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace WodiLib.Sys
@@ -14,19 +15,19 @@ namespace WodiLib.Sys
     /// <summary>
     /// IFixedLengthList の基本検証処理実施クラス
     /// </summary>
-    internal class FixedLengthListValidator<T> : IExtendedListValidator<T>
+    internal class FixedLengthListValidator<T> : WodiLibListValidatorTemplate<T>
     {
-        private IReadOnlyFixedLengthList<T> Target { get; }
+        protected override IWodiLibListValidator<T>? BaseValidator { get; }
 
-        private CommonListValidator<T> PreConditionValidator { get; }
+        private new IReadOnlyFixedLengthList<T> Target { get; }
 
-        public FixedLengthListValidator(IReadOnlyFixedLengthList<T> target)
+        public FixedLengthListValidator(IReadOnlyFixedLengthList<T> target) : base(target)
         {
             Target = target;
-            PreConditionValidator = new CommonListValidator<T>(target);
+            BaseValidator = new CommonListValidator<T>(target);
         }
 
-        public void Constructor(params T[] initItems)
+        public override void Constructor(IReadOnlyList<T> initItems)
         {
 #if DEBUG
             try
@@ -38,50 +39,38 @@ namespace WodiLib.Sys
                 throw new TypeInitializationException(Target.GetType().Name, ex);
             }
 #endif
-            PreConditionValidator.Constructor(initItems);
-            FixedLengthListValidationHelper.ItemCount(initItems.Length, Target.GetCapacity());
+            BaseValidator?.Constructor(initItems);
+            FixedLengthListValidationHelper.ItemCount(initItems.Count, Target.GetCapacity());
         }
 
-        public void Get(int index, int count)
+        public override void Reset(IReadOnlyList<T> items)
         {
-            PreConditionValidator.Get(index, count);
+            BaseValidator?.Reset(items);
+            FixedLengthListValidationHelper.ItemCount(items.Count, Target.GetCapacity());
         }
 
-        public void Set(int index, params T[] items)
-        {
-            PreConditionValidator.Set(index, items);
-        }
-
-        public void Move(int oldIndex, int newIndex, int count)
-        {
-            PreConditionValidator.Move(oldIndex, newIndex, count);
-        }
-
-        public void Reset(params T[] items)
-        {
-            PreConditionValidator.Reset(items);
-            FixedLengthListValidationHelper.ItemCount(items.Length, Target.GetCapacity());
-        }
-
-        public void Insert(int index, params T[] items)
+        public override void Insert(int index, T item)
             => throw new NotSupportedException();
 
-        public void Overwrite(int index, params T[] items)
+        public override void Insert(int index, IReadOnlyList<T> items)
             => throw new NotSupportedException();
 
-        public void Remove([AllowNull] T item)
+        public override void Overwrite(int index, IReadOnlyList<T> items)
             => throw new NotSupportedException();
 
-        public void Remove(int index, int count)
+        public override void Remove([AllowNull] T item)
             => throw new NotSupportedException();
 
-        public void AdjustLength(int length)
+        public override void Remove(int index, int count)
             => throw new NotSupportedException();
 
-        public void AdjustLengthIfShort(int length)
+        public override void AdjustLength(int length)
             => throw new NotSupportedException();
 
-        public void AdjustLengthIfLong(int length)
+        public override void AdjustLengthIfShort(int length)
+            => throw new NotSupportedException();
+
+        public override void AdjustLengthIfLong(int length)
             => throw new NotSupportedException();
     }
 }

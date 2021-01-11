@@ -144,7 +144,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        protected override IExtendedListValidator<MapEvent> MakeValidator()
+        protected override IWodiLibListValidator<MapEvent> MakeValidator()
         {
             return new CustomValidator(this);
         }

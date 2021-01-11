@@ -109,6 +109,10 @@ namespace WodiLib.Map
             return this.SequenceEqual(other);
         }
 
+        /// <inheritdoc />
+        public bool Equals(IFixedLengthList<TilePathSetting>? other)
+            => Equals((IEnumerable<TilePathSetting>?) other);
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

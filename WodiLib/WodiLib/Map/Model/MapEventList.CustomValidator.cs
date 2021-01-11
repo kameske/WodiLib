@@ -15,80 +15,45 @@ namespace WodiLib.Map
 {
     public partial class MapEventList
     {
-        private class CustomValidator : IExtendedListValidator<MapEvent>
+        private class CustomValidator : WodiLibListValidatorTemplate<MapEvent>
         {
-            private IReadOnlyRestrictedCapacityList<MapEvent> Target { get; }
+            protected override IWodiLibListValidator<MapEvent>? BaseValidator { get; }
 
-            private RestrictedCapacityListValidator<MapEvent> PreConditionValidator { get; }
+            private new IReadOnlyRestrictedCapacityList<MapEvent> Target { get; }
 
-            public CustomValidator(IReadOnlyRestrictedCapacityList<MapEvent> target)
+            public CustomValidator(IReadOnlyRestrictedCapacityList<MapEvent> target) : base(target)
             {
                 Target = target;
-                PreConditionValidator = new RestrictedCapacityListValidator<MapEvent>(target);
+                BaseValidator = new RestrictedCapacityListValidator<MapEvent>(target);
             }
 
-            public void Constructor(params MapEvent[] initItems)
+            public override void Constructor(IReadOnlyList<MapEvent> initItems)
             {
-                PreConditionValidator.Constructor(initItems);
+                BaseValidator!.Constructor(initItems);
                 DuplicateEventId(initItems);
             }
 
-            public void Get(int index, int count)
+            public override void Set(int index, IReadOnlyList<MapEvent> items)
             {
-                PreConditionValidator.Get(index, count);
-            }
-
-            public void Set(int index, params MapEvent[] items)
-            {
-                PreConditionValidator.Set(index, items);
+                BaseValidator!.Set(index, items);
                 DuplicateSetEventId(index, items);
             }
 
-            public void Insert(int index, params MapEvent[] items)
+            public override void Insert(int index, IReadOnlyList<MapEvent> items)
             {
-                PreConditionValidator.Insert(index, items);
+                BaseValidator!.Insert(index, items);
                 DuplicateAddEventId(Target, items);
             }
 
-            public void Overwrite(int index, params MapEvent[] items)
+            public override void Overwrite(int index, IReadOnlyList<MapEvent> items)
             {
-                PreConditionValidator.Overwrite(index, items);
+                BaseValidator!.Overwrite(index, items);
                 DuplicateOverwriteEventId(index, items);
             }
 
-            public void Move(int oldIndex, int newIndex, int count)
+            public override void Reset(IReadOnlyList<MapEvent> items)
             {
-                PreConditionValidator.Move(oldIndex, newIndex, count);
-            }
-
-            public void Remove(MapEvent? item)
-            {
-                PreConditionValidator.Remove(item);
-            }
-
-            public void Remove(int index, int count)
-            {
-                PreConditionValidator.Remove(index, count);
-            }
-
-            public void AdjustLength(int length)
-            {
-                PreConditionValidator.AdjustLength(length);
-            }
-
-            public void AdjustLengthIfShort(int length)
-            {
-                PreConditionValidator.AdjustLengthIfShort(length);
-            }
-
-            public void AdjustLengthIfLong(int length)
-            {
-                PreConditionValidator.AdjustLengthIfLong(length);
-            }
-
-            public void Reset(params MapEvent[] items)
-            {
-                PreConditionValidator.Reset(items);
+                BaseValidator!.Reset(items);
                 DuplicateEventId(items);
             }
 

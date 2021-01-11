@@ -21,18 +21,13 @@ namespace WodiLib.Sys
     /// 容量固定のList基底クラス
     /// </summary>
     /// <remarks>
-    /// 要素の読み取り・更新は可能だが追加・削除は不可能。<br/>
+    /// 機能概要は <seealso cref="IFixedLengthList{T}"/> 参照。
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
     [Serializable]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class FixedLengthList<T> : ExtendedListBase<T>, IFixedLengthList<T>
+    public abstract class FixedLengthList<T> : ModelBase<FixedLengthList<T>>, IFixedLengthList<T>
     {
-        /*
-         * このクラスの基本的な扱い方については WodiLib.Sys.RestrictedCapacityList とほぼ同様。
-         * 要素数を変更可能な処理が除外されているだけ。
-         */
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -40,7 +35,7 @@ namespace WodiLib.Sys
         /// <summary>
         /// PropertyChanged イベントの上位伝播を阻止するプロパティ名リスト
         /// </summary>
-        private static readonly string[] NotifyPropertyChangedDenyList = new[]
+        private static readonly string[] NotifyPropertyChangedDenyList =
         {
             nameof(IList.Count)
         };
@@ -52,60 +47,52 @@ namespace WodiLib.Sys
         /// <inheritdoc />
         public event NotifyCollectionChangedEventHandler CollectionChanging
         {
-            add => CollectionChanging_Impl += value;
-            remove => CollectionChanging_Impl -= value;
+            add => Items.CollectionChanging += value;
+            remove => Items.CollectionChanging -= value;
         }
 
-        /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
-        [field: NonSerialized] private event PropertyChangedEventHandler? _propertyChanged;
-
-        /// <summary>
-        /// プロパティ変更通知
-        /// </summary>
-        /// <remarks>
-        ///     同じイベントを重複して登録することはできない。
-        /// </remarks>
-        public override event PropertyChangedEventHandler PropertyChanged
+        /// <inheritdoc />
+        public event NotifyCollectionChangedEventHandler CollectionChanged
         {
-            add
-            {
-                if (_propertyChanged != null
-                    && _propertyChanged.GetInvocationList().Contains(value)) return;
-                _propertyChanged += value;
-            }
-            remove => _propertyChanged -= value;
+            add => Items.CollectionChanged += value;
+            remove => Items.CollectionChanged -= value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /*
-         * 継承先のクラスで内部的に独自リストを使用したい場合、
-         * Countプロパティを継承して独自リストの要素数を返すこと。
-         */
         /// <inheritdoc />
-        public override int Count => Items.Length;
+        public int Count => Items.Count;
 
-        /// <summary>
-        /// インデクサによるアクセス
-        /// </summary>
-        /// <param name="index">[Range(0, Count - 1)] インデックス</param>
-        /// <returns>指定したインデックスの要素</returns>
-        /// <exception cref="ArgumentNullException">nullをセットしようとした場合</exception>
-        /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
-        public new T this[int index]
+        /// <inheritdoc cref="IFixedLengthList{T}.this" />
+        public T this[int index]
         {
-            get => Get_Impl(index, 1).First();
-            set => Set_Impl(index, value);
+            get
+            {
+                Validator?.Get(index, 1);
+                return Items[index];
+            }
+            set
+            {
+                Validator?.Set(index, value);
+                Items[index] = value;
+            }
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Protected Virtual Property
+        //     Protected Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>リスト</summary>
-        protected virtual T[] Items { get; private set; } = Array.Empty<T>();
+        protected ExtendedList<T> Items { get; }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>引数検証処理</summary>
+        private IWodiLibListValidator<T>? Validator { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -117,7 +104,16 @@ namespace WodiLib.Sys
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         protected FixedLengthList()
         {
-            StartObserveNotifyChangeEvent();
+            var items = MakeClearItems();
+
+            Validator = MakeValidator();
+            Validator?.Constructor(items);
+
+            Items = new ExtendedList<T>(items)
+            {
+                FuncMakeItems = MakeItems
+            };
+            PropagatePropertyChangeEvent();
         }
 
         /// <summary>
@@ -130,9 +126,32 @@ namespace WodiLib.Sys
         ///     またはinitItems中にnullが含まれる場合
         /// </exception>
         /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
-        protected FixedLengthList(IEnumerable<T> initItems) : base(initItems)
+        protected FixedLengthList(IEnumerable<T> initItems)
         {
-            StartObserveNotifyChangeEvent();
+            if (initItems is null)
+            {
+                throw new ArgumentNullException(ErrorMessage.NotNull(nameof(initItems)));
+            }
+
+            var items = initItems.ToList();
+
+            Validator = MakeValidator();
+            Validator?.Constructor(items);
+            Items = new ExtendedList<T>(items)
+            {
+                FuncMakeItems = MakeItems
+            };
+            PropagatePropertyChangeEvent();
+        }
+
+        /// <summary>
+        /// <see cref="Items"/> のプロパティ変更通知を
+        /// 自身の <see cref="INotifyPropertyChanged.PropertyChanged"/> イベントに伝播させる。
+        /// </summary>
+        private void PropagatePropertyChangeEvent()
+        {
+            PropagatePropertyChangeEvent(Items,
+                (_, args) => !NotifyPropertyChangedDenyList.Contains(args.PropertyName));
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -146,32 +165,60 @@ namespace WodiLib.Sys
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>
-        /// すべての列挙子を取得する。
-        /// </summary>
-        /// <returns>すべての列挙子</returns>
-        [Obsolete("不適切なメソッドのため Ver 2.6 で削除します。")]
-        public IEnumerable<T> All() => this;
+        /// <inheritdoc />
+        public IEnumerable<T> GetRange(int index, int count)
+        {
+            Validator?.Get(index, count);
+            return Items.GetRange(index, count);
+        }
 
         /// <inheritdoc />
         public void SetRange(int index, IEnumerable<T> items)
-            => Set_Impl(index, items.ToArray());
+        {
+            if (items is null)
+            {
+                throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
+            }
+
+            var itemList = items.ToList();
+            Validator?.Set(index, itemList);
+            Items.SetRange(index, itemList);
+        }
 
         /// <inheritdoc />
         public void Move(int oldIndex, int newIndex)
-            => Move_Impl(oldIndex, newIndex, 1);
+        {
+            Validator?.Move(oldIndex, newIndex, 1);
+            Items.Move(oldIndex, newIndex);
+        }
 
         /// <inheritdoc />
-        public void MoveRange(int oldIndex, int newIndex, int length)
-            => Move_Impl(oldIndex, newIndex, length);
+        public void MoveRange(int oldIndex, int newIndex, int count)
+        {
+            Validator?.Move(oldIndex, newIndex, count);
+            Items.MoveRange(oldIndex, newIndex, count);
+        }
 
         /// <inheritdoc />
         public void Clear()
-            => Clear_Impl();
+        {
+            var initItems = MakeClearItems();
+            Items.Reset(initItems);
+        }
 
         /// <inheritdoc />
         public void Reset(IEnumerable<T> initItems)
-            => Reset_Impl(initItems.ToArray());
+        {
+            if (initItems is null)
+            {
+                throw new ArgumentNullException(ErrorMessage.NotNull(nameof(initItems)));
+            }
+
+            var itemList = initItems.ToList();
+
+            Validator?.Reset(itemList);
+            Items.Reset(itemList);
+        }
 
         /// <inheritdoc />
         public bool Contains([AllowNull] T item)
@@ -184,7 +231,7 @@ namespace WodiLib.Sys
         public int IndexOf([AllowNull] T item)
         {
             if (item is null) return -1;
-            return Array.IndexOf(Items, item);
+            return Items.IndexOf(item);
         }
 
         /// <inheritdoc />
@@ -192,34 +239,36 @@ namespace WodiLib.Sys
             => Items.CopyTo(array, index);
 
         /// <inheritdoc />
-        public bool Equals(IReadOnlyFixedLengthList<T>? other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return this.SequenceEqual(other);
-        }
-
-        /// <inheritdoc />
-        public override IEnumerator<T> GetEnumerator()
+        public virtual IEnumerator<T> GetEnumerator()
             => Items.AsEnumerable().GetEnumerator();
 
         /// <inheritdoc />
-        public bool Equals(IFixedLengthList<T>? other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return this.SequenceEqual(other);
-        }
+        public override bool Equals(FixedLengthList<T>? other)
+            => Equals(other);
 
         /// <inheritdoc />
-        public override bool Equals(ExtendedListBase<T>? other)
+        public bool Equals(IFixedLengthList<T>? other)
+            => Equals((IReadOnlyFixedLengthList<T>?) other);
+
+        /// <inheritdoc />
+        public bool Equals(IReadOnlyFixedLengthList<T>? other)
+            => Equals((IEnumerable<T>?) other);
+
+        /// <inheritdoc />
+        public bool Equals(IReadOnlyExtendedList<T>? other)
+            => Equals((IEnumerable<T>?) other);
+
+        /// <inheritdoc />
+        public bool Equals(IReadOnlyList<T>? other)
+            => Equals((IEnumerable<T>?) other);
+
+        /// <inheritdoc />
+        public bool Equals(IEnumerable<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return this.SequenceEqual(other);
+            return Items.SequenceEqual(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -232,87 +281,64 @@ namespace WodiLib.Sys
         //      Protected Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
-        protected override IExtendedListValidator<T> MakeValidator()
+        /// <summary>
+        /// 初期化された <typeparamref name="T"/> のインスタンスを生成する。
+        /// </summary>
+        /// <remarks>
+        /// このメソッドは <see langward="null"/> を返却してはならない。
+        /// <see langward="null"/> が返却された場合、呼び出し元で <see cref="NullReferenceException"/> が発生する。
+        /// </remarks>
+        /// <param name="index">インデックス</param>
+        /// <returns>要素のデフォルト値</returns>
+        protected abstract T MakeDefaultItem(int index);
+
+        /// <summary>
+        /// 自身の検証処理を実行する <see cref="IWodiLibListValidator{T}"/> インスタンスを生成する。
+        /// </summary>
+        /// <returns>検証処理実行クラスのインスタンス。検証処理を行わない場合 <see langward="null"/></returns>
+        protected virtual IWodiLibListValidator<T>? MakeValidator()
         {
             return new FixedLengthListValidator<T>(this);
         }
 
-        #region Action Core
-
-        /// <inheritdoc />
-        protected override void Constructor_Core(params T[] initItems)
-        {
-            Items = initItems;
-        }
-
-        /// <inheritdoc />
-        protected override T[] Get_Core(int index, int count)
-        {
-            return Items.GetRange(index, count)
-                .ToArray();
-        }
-
-        /// <inheritdoc />
-        protected override void Set_Core(int index, params T[] items)
-        {
-            items.ForEach((item, i) => Items[index + i] = item);
-        }
-
-        /// <inheritdoc />
-        protected override void Move_Core(int oldIndex, int newIndex, int count)
-        {
-            // ロジック簡略化のため oldIndex > newIndex を強制する
-            if (oldIndex < newIndex)
-            {
-                var beforeOldIndex = oldIndex;
-                var beforeNewIndex = newIndex;
-
-                oldIndex += count;
-                newIndex = beforeOldIndex;
-                count = beforeNewIndex - beforeOldIndex;
-            }
-
-            var movedItems = Enumerable.Range(newIndex, oldIndex - newIndex)
-                .Select(i => Items[i])
-                .ToArray();
-            Array.Copy(Items, oldIndex, Items, newIndex, count);
-            Set_Core(newIndex + count, movedItems);
-        }
-
-        #endregion
-
-        /// <inheritdoc />
-        protected override IEnumerable<T> MakeInitItems()
-        {
-            return Enumerable.Range(0, GetCapacity())
-                .Select(MakeDefaultItem);
-        }
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Event Observe
+        //     Private Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 変更通知の購読を開始する。
+        /// 引数なしコンストラクタによる要素初期化、
+        /// および <see cref="Clear"/> メソッドで初期化し直す際の要素を生成する。
         /// </summary>
-        private void StartObserveNotifyChangeEvent()
-        {
-            PropertyChanged_Impl += OnPropertyChanged_Impl;
-        }
+        /// <returns>初期化用要素</returns>
+        /// <exception cref="NullReferenceException">
+        ///     <see cref="MakeDefaultItem"/> が <see langword="null"/> を返却した場合
+        /// </exception>
+        private List<T> MakeClearItems()
+            => MakeItems(0, GetCapacity()).ToList();
 
         /// <summary>
-        /// プロパティ変更通知
+        /// 自身に設定するための要素を生成する。
         /// </summary>
-        /// <param name="sender">イベント発行者</param>
-        /// <param name="e">イベント引数</param>
-        private void OnPropertyChanged_Impl(object sender, PropertyChangedEventArgs e)
+        /// <param name="index">挿入または更新開始インデックス</param>
+        /// <param name="count">挿入または更新要素数</param>
+        /// <returns>挿入または更新要素</returns>
+        /// <exception cref="NullReferenceException">
+        /// <see cref="MakeDefaultItem"/> が <see langword="null"/> を返却した場合
+        /// </exception>
+        private IEnumerable<T> MakeItems(int index, int count)
         {
-            // 特定のプロパティの場合ブロック
-            if (NotifyPropertyChangedDenyList.Contains(e.PropertyName)) return;
+            return Enumerable.Range(0, count)
+                .Select(i =>
+                {
+                    var result = MakeDefaultItem(i + index);
+                    if (result is null)
+                    {
+                        throw new NullReferenceException(
+                            ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}(index: {i}) の結果"));
+                    }
 
-            // 上位イベントに伝播
-            _propertyChanged?.Invoke(this, e);
+                    return result;
+                });
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -321,7 +347,7 @@ namespace WodiLib.Sys
 
         /// <inheritdoc />
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue(nameof(Items), Items);
         }
@@ -332,9 +358,10 @@ namespace WodiLib.Sys
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        protected FixedLengthList(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected FixedLengthList(SerializationInfo info, StreamingContext context)
         {
-            Items = info.GetValue<T[]>(nameof(Items));
+            Items = info.GetValue<ExtendedList<T>>(nameof(Items));
+            Validator = MakeValidator();
         }
     }
 }

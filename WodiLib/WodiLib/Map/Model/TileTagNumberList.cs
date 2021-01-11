@@ -109,6 +109,10 @@ namespace WodiLib.Map
             return this.SequenceEqual(other);
         }
 
+        /// <inheritdoc />
+        public bool Equals(IFixedLengthList<TileTagNumber>? other)
+            => Equals((IEnumerable<TileTagNumber>?) other);
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

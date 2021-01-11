@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
 
@@ -14,64 +15,58 @@ namespace WodiLib.Event.EventCommand
 {
     public partial class ChoiceCaseList
     {
-        private class CustomValidator : IExtendedListValidator<string>
+        private class CustomValidator : WodiLibListValidatorTemplate<string>
         {
-            private ChoiceCaseList Target { get; }
+            protected override IWodiLibListValidator<string>? BaseValidator { get; }
 
-            private FixedLengthListValidator<string> PreConditionValidator { get; }
+            private new ChoiceCaseList Target { get; }
 
-            public CustomValidator(ChoiceCaseList target)
+            public CustomValidator(ChoiceCaseList target) : base(target)
             {
                 Target = target;
-                PreConditionValidator = new FixedLengthListValidator<string>(target);
+                BaseValidator = new FixedLengthListValidator<string>(target);
             }
 
-            public void Constructor(params string[] initItems)
+            public override void Get(int index, int count)
             {
-                PreConditionValidator.Constructor(initItems);
-            }
-
-            public void Get(int index, int count)
-            {
-                PreConditionValidator.Get(index, count);
+                BaseValidator!.Get(index, count);
                 ListValidationHelper.SelectIndex(index, Target.CaseValue);
             }
 
-            public void Set(int index, params string[] items)
+            public override void Set(int index, string item)
             {
-                PreConditionValidator.Set(index, items);
+                BaseValidator!.Set(index, item);
                 ListValidationHelper.SelectIndex(index, Target.CaseValue);
             }
 
-            public void Move(int oldIndex, int newIndex, int count)
+            public override void Set(int index, IReadOnlyList<string> items)
             {
-                PreConditionValidator.Move(oldIndex, newIndex, count);
+                BaseValidator!.Set(index, items);
+                ListValidationHelper.SelectIndex(index, Target.CaseValue);
             }
 
-            public void Reset(params string[] items)
-            {
-                PreConditionValidator.Reset(items);
-            }
-
-            public void Insert(int index, params string[] items)
+            public override void Insert(int index, string items)
                 => throw new NotSupportedException();
 
-            public void Overwrite(int index, params string[] items)
+            public override void Insert(int index, IReadOnlyList<string> items)
                 => throw new NotSupportedException();
 
-            public void Remove([AllowNull] string item)
+            public override void Overwrite(int index, IReadOnlyList<string> items)
                 => throw new NotSupportedException();
 
-            public void Remove(int index, int count)
+            public override void Remove([AllowNull] string item)
                 => throw new NotSupportedException();
 
-            public void AdjustLength(int length)
+            public override void Remove(int index, int count)
                 => throw new NotSupportedException();
 
-            public void AdjustLengthIfShort(int length)
+            public override void AdjustLength(int length)
                 => throw new NotSupportedException();
 
-            public void AdjustLengthIfLong(int length)
+            public override void AdjustLengthIfShort(int length)
+                => throw new NotSupportedException();
+
+            public override void AdjustLengthIfLong(int length)
                 => throw new NotSupportedException();
         }
     }

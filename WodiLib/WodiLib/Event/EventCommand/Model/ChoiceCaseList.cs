@@ -119,7 +119,7 @@ namespace WodiLib.Event.EventCommand
         protected override string MakeDefaultItem(int index) => "";
 
         /// <inheritdoc />
-        protected override IExtendedListValidator<string> MakeValidator()
+        protected override IWodiLibListValidator<string> MakeValidator()
         {
             return new CustomValidator(this);
         }

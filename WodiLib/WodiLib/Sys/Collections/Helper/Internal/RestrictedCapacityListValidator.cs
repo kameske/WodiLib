@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace WodiLib.Sys
@@ -14,19 +15,19 @@ namespace WodiLib.Sys
     /// <summary>
     /// リスト編集メソッドの引数汎用検証処理実施クラス
     /// </summary>
-    internal class RestrictedCapacityListValidator<T> : IExtendedListValidator<T>
+    internal class RestrictedCapacityListValidator<T> : WodiLibListValidatorTemplate<T>
     {
-        private IReadOnlyRestrictedCapacityList<T> Target { get; }
+        private new IReadOnlyRestrictedCapacityList<T> Target { get; }
 
-        private CommonListValidator<T> PreConditionValidator { get; }
+        protected override IWodiLibListValidator<T>? BaseValidator { get; }
 
-        public RestrictedCapacityListValidator(IReadOnlyRestrictedCapacityList<T> target)
+        public RestrictedCapacityListValidator(IReadOnlyRestrictedCapacityList<T> target) : base(target)
         {
             Target = target;
-            PreConditionValidator = new CommonListValidator<T>(target);
+            BaseValidator = new CommonListValidator<T>(target);
         }
 
-        public void Constructor(params T[] initItems)
+        public override void Constructor(IReadOnlyList<T> initItems)
         {
 #if DEBUG
             try
@@ -40,84 +41,76 @@ namespace WodiLib.Sys
             }
 #endif
 
-            PreConditionValidator.Constructor(initItems);
+            BaseValidator?.Constructor(initItems);
             RestrictedListValidationHelper.ItemCount(
-                initItems.Length, Target.GetMinCapacity(), Target.GetMaxCapacity());
+                initItems.Count, Target.GetMinCapacity(), Target.GetMaxCapacity());
         }
 
-        public void Get(int index, int count)
-        {
-            PreConditionValidator.Get(index, count);
-        }
+        public override void Insert(int index, T item) => Insert(index, new[] {item});
 
-        public void Set(int index, params T[] items)
+        public override void Insert(int index, IReadOnlyList<T> items)
         {
-            PreConditionValidator.Set(index, items);
-        }
-
-        public void Insert(int index, params T[] items)
-        {
-            PreConditionValidator.Insert(index, items);
+            BaseValidator?.Insert(index, items);
             RestrictedListValidationHelper.ItemMaxCount(
-                Target.Count + items.Length, Target.GetMaxCapacity());
+                Target.Count + items.Count, Target.GetMaxCapacity());
         }
 
-        public void Overwrite(int index, params T[] items)
+        public override void Overwrite(int index, IReadOnlyList<T> items)
         {
-            PreConditionValidator.Overwrite(index, items);
-            if (index + items.Length > Target.Count)
+            BaseValidator?.Overwrite(index, items);
+            if (index + items.Count > Target.Count)
             {
                 RestrictedListValidationHelper.ItemMaxCount(
-                    index + items.Length, Target.GetMaxCapacity());
+                    index + items.Count, Target.GetMaxCapacity());
             }
         }
 
-        public void Move(int oldIndex, int newIndex, int count)
+        public override void Remove([AllowNull] T item)
         {
-            PreConditionValidator.Move(oldIndex, newIndex, count);
+            var index = Target.IndexOf(item);
+            if (index == -1) return;
+
+            BaseValidator?.Remove(item);
+            RestrictedListValidationHelper.ItemMinCount(
+                Target.Count - 1, Target.GetMinCapacity());
         }
 
-        public void Remove([AllowNull] T item)
+        public override void Remove(int index, int count)
         {
-            PreConditionValidator.Remove(item);
-        }
-
-        public void Remove(int index, int count)
-        {
-            PreConditionValidator.Remove(index, count);
+            BaseValidator?.Remove(index, count);
             RestrictedListValidationHelper.ItemMinCount(
                 Target.Count - count, Target.GetMinCapacity());
         }
 
-        public void AdjustLength(int length)
+        public override void AdjustLength(int length)
         {
-            PreConditionValidator.AdjustLength(length);
+            BaseValidator?.AdjustLength(length);
             RestrictedListValidationHelper.ItemCount(
                 length, Target.GetMinCapacity(), Target.GetMaxCapacity(),
                 nameof(length));
         }
 
-        public void AdjustLengthIfShort(int length)
+        public override void AdjustLengthIfShort(int length)
         {
-            PreConditionValidator.AdjustLengthIfShort(length);
+            BaseValidator?.AdjustLengthIfShort(length);
             RestrictedListValidationHelper.ItemCount(
                 length, Target.GetMinCapacity(), Target.GetMaxCapacity(),
                 nameof(length));
         }
 
-        public void AdjustLengthIfLong(int length)
+        public override void AdjustLengthIfLong(int length)
         {
-            PreConditionValidator.AdjustLengthIfLong(length);
+            BaseValidator?.AdjustLengthIfLong(length);
             RestrictedListValidationHelper.ItemCount(
                 length, Target.GetMinCapacity(), Target.GetMaxCapacity(),
                 nameof(length));
         }
 
-        public void Reset(params T[] items)
+        public override void Reset(IReadOnlyList<T> items)
         {
-            PreConditionValidator.Reset(items);
+            BaseValidator?.Reset(items);
             RestrictedListValidationHelper.ItemCount(
-                items.Length, Target.GetMinCapacity(), Target.GetMaxCapacity(),
+                items.Count, Target.GetMinCapacity(), Target.GetMaxCapacity(),
                 nameof(items));
         }
     }

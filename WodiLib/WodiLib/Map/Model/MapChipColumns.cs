@@ -19,8 +19,8 @@ namespace WodiLib.Map
     /// マップチップ列
     /// </summary>
     [Serializable]
-    public class MapChipColumns : RestrictedCapacityList<MapChip>, IFixedLengthMapChipColumns
-        , IEquatable<MapChipColumns>
+    public class MapChipColumns : RestrictedCapacityList<MapChip>, IFixedLengthMapChipColumns,
+        IEquatable<MapChipColumns>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -172,6 +172,10 @@ namespace WodiLib.Map
             if (ReferenceEquals(null, other)) return false;
             return this.SequenceEqual(other);
         }
+
+        /// <inheritdoc />
+        public bool Equals(IFixedLengthList<MapChip> other)
+            => Equals((IEnumerable<MapChip>?) other);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Override Protected Method

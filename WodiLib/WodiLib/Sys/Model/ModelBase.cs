@@ -27,22 +27,6 @@ namespace WodiLib.Sys
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>
-        /// プロパティ変更通知
-        /// </summary>
-        /// <remarks>
-        ///     同じイベントを重複して登録することはできない。
-        /// </remarks>
-        public virtual event PropertyChangedEventHandler PropertyChanged
-        {
-            add => PropertyChanged_Impl += value;
-            remove => PropertyChanged_Impl -= value;
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Protected Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
         /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
         [field: NonSerialized] private event PropertyChangedEventHandler? _propertyChanged;
 
@@ -52,7 +36,7 @@ namespace WodiLib.Sys
         /// <remarks>
         ///     同じイベントを重複して登録することはできない。
         /// </remarks>
-        protected event PropertyChangedEventHandler PropertyChanged_Impl
+        public virtual event PropertyChangedEventHandler PropertyChanged
         {
             add
             {
@@ -121,6 +105,29 @@ namespace WodiLib.Sys
         {
             var arg = PropertyChangedEventArgsCache.GetInstance(propertyName);
             _propertyChanged?.Invoke(this, arg);
+        }
+
+        /// <summary>
+        /// 指定した <see cref="INotifyPropertyChanged"/> を実装するインスタンスが通知した
+        /// <see cref="INotifyPropertyChanged.PropertyChanged"/> イベントを
+        /// 自身のイベントとして <see cref="PropertyChanged"/> イベントで通知する。
+        /// </summary>
+        /// <remarks>
+        /// public ではないフィールド（処理転送先など）に対して設定することを前提としている。
+        /// </remarks>
+        /// <param name="target">イベント伝播元</param>
+        /// <param name="allowNotify">
+        ///     伝播可否決定関数。第一引数は送信元、第二引数はイベント。<br/>
+        ///     <see langword="null"/> の場合無条件に伝播する。
+        /// </param>
+        protected void PropagatePropertyChangeEvent(INotifyPropertyChanged target,
+            Func<object, PropertyChangedEventArgs, bool>? allowNotify = null)
+        {
+            target.PropertyChanged += (sender, args) =>
+            {
+                if (!allowNotify?.Invoke(sender, args) ?? false) return;
+                _propertyChanged?.Invoke(this, args);
+            };
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using WodiLib.Sys;
 
@@ -18,7 +19,7 @@ namespace WodiLib.Event.EventCommand
     /// 条件（文字列）条件リスト
     /// </summary>
     [Serializable]
-    public class ConditionStringList : FixedLengthList<ConditionStringDesc>
+    public class ConditionStringList : FixedLengthList<ConditionStringDesc>, IModelBase<ConditionStringList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      public Constant
@@ -49,7 +50,6 @@ namespace WodiLib.Event.EventCommand
                 NotifyPropertyChanged();
             }
         }
-
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Constructor
@@ -112,6 +112,16 @@ namespace WodiLib.Event.EventCommand
             }
 
             return 0;
+        }
+
+        /// <inheritdoc />
+        public bool Equals(ConditionStringList? other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(other, null)) return false;
+
+            return ConditionValue == other.ConditionValue
+                   && this.SequenceEqual(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
