@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net461;netstandard2.0;netcoreapp2.1</TargetFrameworks>
+        <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
         <Nullable>enable</Nullable>
         <PackageId>WodiLib</PackageId>
         <PackageVersion>2.3.65534.11</PackageVersion>
@@ -17,7 +17,7 @@
         <Product>WodiLib</Product>
         <AssemblyVersion>2.3.65534.11</AssemblyVersion>
         <AssemblyName>WodiLib</AssemblyName>
-        <LangVersion>8</LangVersion>
+        <LangVersion>9</LangVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
     </PropertyGroup>
 
