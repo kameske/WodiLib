@@ -32,33 +32,32 @@ Branches
 
 - master
   - releaseしたDLLの元となったプロジェクトのみをコミットするブランチ。
-  - Ver 2.X 公開以降は最もメジャーバージョンが大きなmasterブランチと同期。
 - develop
-  - Ver 1.2 未満のバージョンで機能追加や不具合修正を行った際に反映するブランチ。
-  - Ver 1.2 および Ver 2.2 公開以降は廃止。代わりにメジャーバージョンごとのブランチを作成。
-- XXX/master (XXX = Version)
-  - Ver XXX 専用のmasterブランチ。メジャーバージョンごとに存在。
-  - Ver 1.2 公開以降で使用される。
-- XXX/develop (XXX = Version)
-  - Ver XXX 専用のdevelopブランチ。メジャーバージョンごとに存在。
-  - Ver 1.2 公開以降で使用される。
-- features (XXX/features)
+  - 機能追加や不具合修正を行った際に反映するブランチ。
+- features
   - 機能追加時、developブランチに反映する前に作成されることがあるブランチ。
   - master ブランチに取り込まれたあとは削除される。
 
 Loadmap
 ----------
 
-- Ver 3.0.0 未定
+- Ver 3.0.0 時期未定
     - ```Ver 1.X```, ```2.X``` 更新終了。
     - 言語バージョン C# 9.0
         - 各種 ValueObject を record 化。（struct 廃止）
     - Target Framework を ```.NET Standard 2.1``` から ```.NET Standard 2.0``` に変更
-        - ```Ver 2.X``` -> ```Ver 3.0.0``` 移行の場合のみ影響。```Ver 1.X``` は現状 ```.NET Standard 2.0``` を対象としているため。
+        - ```Ver 2.X``` -> ```Ver 3.X``` 移行の場合のみ影響。```Ver 1.X``` は現状 ```.NET Standard 2.0``` を対象としているため。
+        - これにより ```Ver 3.0``` での Target Framework は ```.NET Framework 4.6.1``` および ```.NET Standard 2.0``` となる。
     - ```WodiLib.Database``` 名前空間の各種クラス見直し。
         - ```Ver 1.X```, ```2.X``` から破壊的変更あり。
     - Jsonシリアライズ/デシリアライズ対応。
+    - BinaryFormatter 対応終了。
+        - 具体的には
+            - ISerializable インタフェース実装を解除
+            - SerializableAttribute 付与を取りやめ
+        - ```.NET 5``` にて ```BinaryFormatter``` が非推奨となったため。
     - インタフェース整理。
+    - その他破壊的変更にならない範囲での機能改修。
 
 - 適宜
   - 不具合修正 / 機能追加
