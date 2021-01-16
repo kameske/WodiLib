@@ -15,7 +15,7 @@
         <Authors>Kameske</Authors>
         <RootNamespace>WodiLib</RootNamespace>
         <Product>WodiLib</Product>
-        <AssemblyVersion>2.3.65534.11</AssemblyVersion>
+        <AssemblyVersion>2.3.65534.12</AssemblyVersion>
         <AssemblyName>WodiLib</AssemblyName>
         <LangVersion>9</LangVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
