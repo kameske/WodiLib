@@ -142,13 +142,5 @@ namespace WodiLib.Test.Common
             var rightIndex = (CommonEventArgName) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (CommonEventArgName) "filePath";
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

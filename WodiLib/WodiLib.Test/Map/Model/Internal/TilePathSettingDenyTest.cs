@@ -221,19 +221,5 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(changedPropertyList.Count, 1);
             Assert.IsTrue(changedPropertyList[0].Equals(nameof(TilePathSettingDeny.IsCounter)));
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new TilePathSettingDeny
-            {
-                IsCounter = true
-            };
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

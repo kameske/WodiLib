@@ -271,7 +271,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <inheritdoc />
-        public override bool Equals(EventCommandBase other)
+        public override bool ItemEquals(EventCommandBase other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;

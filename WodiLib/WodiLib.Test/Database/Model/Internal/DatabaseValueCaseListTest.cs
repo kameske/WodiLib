@@ -96,15 +96,6 @@ namespace WodiLib.Test.Database.Internal
             Assert.AreEqual(result, resultCase);
         }
 
-        [Test]
-        public static void SerializeTest()
-        {
-            var initList = MakeInitList(1, false);
-            var target = new DatabaseValueCaseList(initList);
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
-
         private static IReadOnlyList<DatabaseValueCase> MakeInitList(int length, bool hasNullItem)
         {
             if (length == -1) return null;

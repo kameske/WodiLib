@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.Serialization;
 
 namespace WodiLib.Sys
 {
@@ -22,9 +21,10 @@ namespace WodiLib.Sys
     /// <see cref="IList{T}"/> のメソッドと <see cref="ObservableCollection{T}"/> の機能を融合した機能。
     /// <see cref="ObservableCollection{T}"/> のCRUD各種処理に範囲指定バージョン（XXXRange メソッド）を追加している。
     /// それ以外にもいくつかメソッドを追加している。<br/>
-    /// 範囲操作メソッド実行時に通知される <see cref="CollectionChanging"/> および <see cref="INotifyCollectionChanged.CollectionChanged"/> は
+    /// 範囲操作メソッド実行時に通知される <see cref="INotifyCollectionChange.CollectionChanging"/>
+    /// および <see cref="INotifyCollectionChange.CollectionChanged"/> は
     /// 要素をいくつ変更してもそれぞれ1度だけ呼ばれる。たとえ操作した要素数が0個であっても呼ばれる。<br/>
-    /// 操作前後の要素は <see cref="NotifyCollectionChangedEventArgs"/> の Items を
+    /// 操作前後の要素は <see cref="NotifyCollectionChangedEventArgs"/> の各 Items を
     /// <see cref="IList{T}"/> にキャストすることで取り出せる。
     /// この弊害として、WPFのUIにバインドした状態で範囲操作するメソッドを実行すると例外が発生するため注意。
     /// </remarks>
@@ -41,14 +41,6 @@ namespace WodiLib.Sys
 
         /// <inheritdoc cref="IList{T}.Count" />
         public new int Count { get; }
-
-        /// <summary>
-        /// 要素変更前通知
-        /// </summary>
-        /// <remarks>
-        ///     同じイベントを重複して登録することはできない。
-        /// </remarks>
-        public event NotifyCollectionChangedEventHandler CollectionChanging;
 
         /// <summary>
         /// リストの連続した要素を更新する。
@@ -209,7 +201,7 @@ namespace WodiLib.Sys
     /// <typeparam name="T">リスト内包クラス</typeparam>
     public interface IReadOnlyExtendedList<T> : IModelBase<IReadOnlyExtendedList<T>>,
         IReadOnlyList<T>, IEquatable<IReadOnlyList<T>>, IEquatable<IEnumerable<T>>,
-        INotifyCollectionChanged, ISerializable
+        INotifyCollectionChange
     {
         /// <summary>
         /// 指定範囲の要素を簡易コピーしたリストを取得する。

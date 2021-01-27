@@ -125,13 +125,5 @@ namespace WodiLib.Test.Ini.ValueObject
             var rightIndex = (DisplayNumber) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (DisplayNumber) 1;
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

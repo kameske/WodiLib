@@ -94,13 +94,5 @@ namespace WodiLib.Test.Sys
                 Assert.AreEqual(instanceStringBytes[i], result[offset + i]);
             }
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new WoditorString("String");
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

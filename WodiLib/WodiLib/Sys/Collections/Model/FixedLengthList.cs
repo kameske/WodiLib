@@ -13,7 +13,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace WodiLib.Sys
 {
@@ -24,22 +23,9 @@ namespace WodiLib.Sys
     /// 機能概要は <seealso cref="IFixedLengthList{T}"/> 参照。
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    [Serializable]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class FixedLengthList<T> : ModelBase<FixedLengthList<T>>, IFixedLengthList<T>
     {
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Constant
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// PropertyChanged イベントの上位伝播を阻止するプロパティ名リスト
-        /// </summary>
-        private static readonly string[] NotifyPropertyChangedDenyList =
-        {
-            nameof(IList.Count)
-        };
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Event
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -80,12 +66,19 @@ namespace WodiLib.Sys
             }
         }
 
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Protected Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        /// <inheritdoc cref="IReadOnlyExtendedList{T}.IsNotifyBeforeCollectionChange" />
+        public bool IsNotifyBeforeCollectionChange
+        {
+            get => Items.IsNotifyBeforeCollectionChange;
+            set => Items.IsNotifyBeforeCollectionChange = value;
+        }
 
-        /// <summary>リスト</summary>
-        protected ExtendedList<T> Items { get; }
+        /// <inheritdoc cref="IReadOnlyExtendedList{T}.IsNotifyAfterCollectionChange" />
+        public bool IsNotifyAfterCollectionChange
+        {
+            get => Items.IsNotifyAfterCollectionChange;
+            set => Items.IsNotifyAfterCollectionChange = value;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
@@ -93,6 +86,9 @@ namespace WodiLib.Sys
 
         /// <summary>引数検証処理</summary>
         private IWodiLibListValidator<T>? Validator { get; }
+
+        /// <summary>リスト</summary>
+        private ExtendedList<T> Items { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -145,13 +141,17 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// <see cref="Items"/> のプロパティ変更通知を
-        /// 自身の <see cref="INotifyPropertyChanged.PropertyChanged"/> イベントに伝播させる。
+        /// 各プロパティのプロパティ変更通知を自身に伝播させる。
         /// </summary>
         private void PropagatePropertyChangeEvent()
         {
             PropagatePropertyChangeEvent(Items,
-                (_, args) => !NotifyPropertyChangedDenyList.Contains(args.PropertyName));
+                (_, propName) =>
+                {
+                    if (propName.Equals(nameof(Count))) return null;
+                    if (propName.Equals(ListConstant.IndexerName)) return GetNotifyPropertyIndexerName();
+                    return null;
+                });
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -239,23 +239,23 @@ namespace WodiLib.Sys
             => Items.CopyTo(array, index);
 
         /// <inheritdoc />
-        public virtual IEnumerator<T> GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
             => Items.AsEnumerable().GetEnumerator();
 
         /// <inheritdoc />
-        public override bool Equals(FixedLengthList<T>? other)
-            => Equals(other);
-
-        /// <inheritdoc />
-        public bool Equals(IFixedLengthList<T>? other)
-            => Equals((IReadOnlyFixedLengthList<T>?) other);
-
-        /// <inheritdoc />
-        public bool Equals(IReadOnlyFixedLengthList<T>? other)
+        public override bool ItemEquals(FixedLengthList<T>? other)
             => Equals((IEnumerable<T>?) other);
 
         /// <inheritdoc />
-        public bool Equals(IReadOnlyExtendedList<T>? other)
+        public bool ItemEquals(IFixedLengthList<T>? other)
+            => Equals((IEnumerable<T>?) other);
+
+        /// <inheritdoc />
+        public bool ItemEquals(IReadOnlyFixedLengthList<T>? other)
+            => Equals((IEnumerable<T>?) other);
+
+        /// <inheritdoc />
+        public bool ItemEquals(IReadOnlyExtendedList<T>? other)
             => Equals((IEnumerable<T>?) other);
 
         /// <inheritdoc />
@@ -296,10 +296,24 @@ namespace WodiLib.Sys
         /// 自身の検証処理を実行する <see cref="IWodiLibListValidator{T}"/> インスタンスを生成する。
         /// </summary>
         /// <returns>検証処理実行クラスのインスタンス。検証処理を行わない場合 <see langward="null"/></returns>
-        protected virtual IWodiLibListValidator<T>? MakeValidator()
+        protected virtual IWodiLibListValidator<T> MakeValidator()
         {
             return new FixedLengthListValidator<T>(this);
         }
+
+        /// <summary>
+        /// 自身の内部リストが通知する IndexerName プロパティ変更通知のプロパティ名を変換する。
+        /// </summary>
+        /// <remarks>
+        /// デフォルトでは <see cref="ListConstant.IndexerName"/> を返却する。
+        /// </remarks>
+        /// <returns>
+        ///     IndexerName プロパティ変換後の文字列。
+        ///     <see langword="null"/> の場合通知しない。
+        /// </returns>
+        protected virtual string
+            GetNotifyPropertyIndexerName()
+            => ListConstant.IndexerName;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Method
@@ -339,29 +353,6 @@ namespace WodiLib.Sys
 
                     return result;
                 });
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <inheritdoc />
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(Items), Items);
-        }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected FixedLengthList(SerializationInfo info, StreamingContext context)
-        {
-            Items = info.GetValue<ExtendedList<T>>(nameof(Items));
-            Validator = MakeValidator();
         }
     }
 }

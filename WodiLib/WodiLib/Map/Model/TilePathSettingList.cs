@@ -8,9 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -18,7 +16,6 @@ namespace WodiLib.Map
     /// <summary>
     /// タイル通行設定リストクラス
     /// </summary>
-    [Serializable]
     public class TilePathSettingList : RestrictedCapacityList<TilePathSetting>,
         IFixedLengthTilePathSettingList
     {
@@ -102,7 +99,7 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public bool Equals(IReadOnlyFixedLengthList<TilePathSetting>? other)
+        public bool ItemEquals(IReadOnlyFixedLengthList<TilePathSetting>? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
@@ -110,7 +107,7 @@ namespace WodiLib.Map
         }
 
         /// <inheritdoc />
-        public bool Equals(IFixedLengthList<TilePathSetting>? other)
+        public bool ItemEquals(IFixedLengthList<TilePathSetting>? other)
             => Equals((IEnumerable<TilePathSetting>?) other);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -131,20 +128,6 @@ namespace WodiLib.Map
                 result.AddRange(pathSetting.ToBinary());
 
             return result.ToArray();
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected TilePathSettingList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

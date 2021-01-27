@@ -8,9 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace WodiLib.Sys
 {
@@ -23,26 +21,9 @@ namespace WodiLib.Sys
     /// 行数、列数ともに制限が設けられている。
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    [Serializable]
     public abstract class RestrictedCapacityTwoDimensionalList<T> : TwoDimensionalListBase<T>,
         IRestrictedCapacityTwoDimensionalList<T>
     {
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Public Event
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// 要素変更前通知
-        /// </summary>
-        /// <remarks>
-        ///     同じイベントを重複して登録することはできない。
-        /// </remarks>
-        public event EventHandler<TwoDimensionalCollectionChangeEventArgs<T>> TwoDimensionListChanging
-        {
-            add => TwoDimensionListChanging_Impl += value;
-            remove => TwoDimensionListChanging_Impl -= value;
-        }
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -240,7 +221,7 @@ namespace WodiLib.Sys
         }
 
         /// <inheritdoc />
-        public bool Equals(IRestrictedCapacityTwoDimensionalList<T>? other)
+        public bool ItemEquals(IRestrictedCapacityTwoDimensionalList<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             return Equals(other.AsEnumerable());
@@ -402,28 +383,6 @@ namespace WodiLib.Sys
                 Enumerable.Range(0, GetMinColumnCapacity()).Select(j =>
                     MakeDefaultItem(i, j)).ToArray()
             ).ToArray();
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <inheritdoc />
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(Items), Items);
-        }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected RestrictedCapacityTwoDimensionalList(SerializationInfo info, StreamingContext context) : base(info,
-            context)
-        {
-            Items = info.GetValue<List<List<T>>>(nameof(Items));
         }
     }
 }

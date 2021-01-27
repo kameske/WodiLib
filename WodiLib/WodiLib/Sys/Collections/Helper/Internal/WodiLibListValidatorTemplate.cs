@@ -19,6 +19,7 @@ namespace WodiLib.Sys
     /// <see cref="BaseValidator"/> の検証処理を拡張したいときに対象のメソッドをオーバーライドして
     /// 処理拡張を行う。
     /// </remarks>
+    /// <typeparam name="T">リスト内包型</typeparam>
     internal abstract class WodiLibListValidatorTemplate<T> : IWodiLibListValidator<T>
     {
         /// <summary>

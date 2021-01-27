@@ -133,13 +133,5 @@ namespace WodiLib.Test.Event.CharaMoveCommand
             var rightIndex = (CalledEventVariableAddress) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (CalledEventVariableAddress) 1100001;
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

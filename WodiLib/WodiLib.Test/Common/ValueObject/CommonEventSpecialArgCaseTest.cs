@@ -218,13 +218,5 @@ namespace WodiLib.Test.Common
             var rightInstance = (CommonEventSpecialArgCase) (rightCaseNumber, rightDescription);
             Assert.AreEqual(leftInstance.Equals(rightInstance), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (CommonEventSpecialArgCase) (21, "Case21");
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

@@ -156,22 +156,5 @@ namespace WodiLib.Test.Database
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new DatabaseDataDesc
-            {
-                DataName = "DataName",
-            };
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
     }
 }

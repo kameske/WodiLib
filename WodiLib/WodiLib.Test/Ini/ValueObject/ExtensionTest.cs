@@ -141,13 +141,5 @@ namespace WodiLib.Test.Ini.ValueObject
             var rightIndex = (Extension) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (Extension) ".ext";
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

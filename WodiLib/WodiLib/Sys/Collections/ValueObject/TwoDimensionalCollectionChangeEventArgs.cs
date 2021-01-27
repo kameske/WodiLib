@@ -66,8 +66,8 @@ namespace WodiLib.Sys
         /// <remarks>
         /// Add, Move, Remove アクション時。"行" または "列" のどちらに対して操作されたかを表す。<br/>
         /// この値によって OldItems, NewItems の順序が決定される。<br/>
-        ///   - Direction == Row の場合 "外側のリストが行、内側のリストが列" となる。<br/>
-        ///   - Direction == Column の場合 "外側のリストが列、内側のリストが行" となる。
+        ///   - <see cref="Direction"/> == Row の場合 "外側のリストが行、内側のリストが列" となる。<br/>
+        ///   - <see cref="Direction"/> == Column の場合 "外側のリストが列、内側のリストが行" となる。
         /// </remarks>
         public Direction Direction { get; } = Direction.None;
 

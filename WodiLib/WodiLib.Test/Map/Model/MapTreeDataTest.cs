@@ -65,27 +65,5 @@ namespace WodiLib.Test.Map
                 Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapTreeData.TreeNodeList)));
             }
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new MapTreeData
-            {
-                TreeNodeList = new MapTreeNodeList
-                {
-                    new MapTreeNode(1, -1),
-                    new MapTreeNode(2, -1),
-                    new MapTreeNode(3, 1),
-                }
-            };
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
     }
 }

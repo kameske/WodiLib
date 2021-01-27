@@ -8,9 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -18,7 +16,6 @@ namespace WodiLib.Database
     /// <summary>
     /// 選択肢情報リスト
     /// </summary>
-    [Serializable]
     internal class DatabaseValueCaseList : RestrictedCapacityList<DatabaseValueCase>,
         IReadOnlyDatabaseValueCaseList
     {
@@ -96,7 +93,7 @@ namespace WodiLib.Database
         /// <returns>選択肢情報。情報が存在しない場合DatabaseValueCase.Empty</returns>
         public DatabaseValueCase? GetForCaseNumber(int caseNumber)
         {
-            return Items.FirstOrDefault(x => x.CaseNumber == caseNumber);
+            return this.FirstOrDefault(x => x.CaseNumber == caseNumber);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -110,19 +107,5 @@ namespace WodiLib.Database
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override DatabaseValueCase MakeDefaultItem(int index) => new DatabaseValueCase(0, "");
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected DatabaseValueCaseList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

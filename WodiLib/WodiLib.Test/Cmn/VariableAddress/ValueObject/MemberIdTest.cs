@@ -127,13 +127,5 @@ namespace WodiLib.Test.Cmn
             var rightIndex = (MemberId) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (MemberId) 2;
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

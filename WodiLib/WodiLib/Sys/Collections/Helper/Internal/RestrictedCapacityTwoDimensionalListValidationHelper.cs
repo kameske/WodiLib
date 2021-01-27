@@ -24,29 +24,10 @@ namespace WodiLib.Sys
         /// <param name="columnMax">最大列数</param>
         public static void CapacityConfig(int rowMin, int rowMax, int columnMin, int columnMax)
         {
-            if (rowMin < 0)
-            {
-                throw new InvalidOperationException(
-                    ErrorMessage.GreaterOrEqual("最小行数", 0, rowMax));
-            }
-
-            if (rowMin > rowMax)
-            {
-                throw new InvalidOperationException(
-                    ErrorMessage.GreaterOrEqual("最大行数", $"最小行数（{rowMin}）", rowMax));
-            }
-
-            if (columnMin < 0)
-            {
-                throw new InvalidOperationException(
-                    ErrorMessage.GreaterOrEqual("最小列数", 0, columnMax));
-            }
-
-            if (columnMin > columnMax)
-            {
-                throw new InvalidOperationException(
-                    ErrorMessage.GreaterOrEqual("最大列数", $"最小列数（{columnMin}）", columnMax));
-            }
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(rowMin < 0, "最小行数", 0, rowMax);
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(rowMin > rowMax, "最大行数", $"最小行数（{rowMin}）", rowMax);
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(columnMin < 0, "最小列数", 0, columnMax);
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(columnMin > columnMax, "最大列数", $"最小列数（{columnMin}）", columnMax);
         }
 
         /// <summary>
@@ -56,15 +37,12 @@ namespace WodiLib.Sys
         /// <param name="min">最小数</param>
         /// <param name="max">最大数</param>
         /// <param name="direction">行 or 列</param>
-        /// <param name="itemName">エラーメッセージ中の項目名</param>
         public static void ItemCount(int count, int min, int max, Direction direction)
         {
             var elementName = direction == Direction.Row
                 ? "行数"
                 : "列数";
-            if (count < min || max < count)
-                throw new InvalidOperationException(
-                    ErrorMessage.OutOfRange(elementName, min, max, count));
+            ThrowHelper.ValidateArgumentValueRange(count < min || max < count, elementName, count, min, max);
         }
 
         /// <summary>
@@ -86,16 +64,14 @@ namespace WodiLib.Sys
             int colMin, int colMax, string itemName = "initItems")
         {
             var rowCount = target.Length;
-            if (rowCount < rowMin || rowMax < rowCount)
-                throw new InvalidOperationException(
-                    ErrorMessage.OutOfRange($"{itemName}の行数", rowMin, rowMax, rowCount));
+            ThrowHelper.ValidateArgumentValueRange(rowCount < rowMin || rowMax < rowCount,
+                $"{itemName}の行数", rowCount, rowMin, rowMax);
 
             if (rowCount == 0) return;
 
             var colCount = target[0].Length;
-            if (colCount < colMin || colMax < colCount)
-                throw new InvalidOperationException(
-                    ErrorMessage.OutOfRange($"{itemName}の列数", colMin, colMax, colCount));
+            ThrowHelper.ValidateArgumentValueRange(colCount < colMin || colMax < colCount,
+                $"{itemName}の列数", colCount, colMin, colMax);
         }
 
         /// <summary>
@@ -106,12 +82,8 @@ namespace WodiLib.Sys
         /// <param name="direction">行 or 列</param>
         public static void ItemMaxCount(int count, int max, Direction direction)
         {
-            if (count > max)
-            {
-                var targetName = direction == Direction.Row ? "行数" : "列数";
-                throw new InvalidOperationException(
-                    ErrorMessage.OverListLength(max, targetName));
-            }
+            ThrowHelper.ValidateListMaxItemCount(count > max,
+                direction == Direction.Row ? "行数" : "列数", max);
         }
 
         /// <summary>
@@ -122,12 +94,8 @@ namespace WodiLib.Sys
         /// <param name="direction">行 or 列</param>
         public static void ItemMinCount(int count, int min, Direction direction)
         {
-            if (count < min)
-            {
-                var targetName = direction == Direction.Row ? "行数" : "列数";
-                throw new InvalidOperationException(
-                    ErrorMessage.UnderListLength(min, targetName));
-            }
+            ThrowHelper.ValidateListMinItemCount(count < min,
+                direction == Direction.Row ? "行数" : "列数", min);
         }
     }
 }

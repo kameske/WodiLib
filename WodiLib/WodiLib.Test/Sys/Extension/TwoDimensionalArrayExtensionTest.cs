@@ -49,7 +49,7 @@ namespace WodiLib.Test.Sys
                 return items[0].Length;
             });
 
-            var targetClone = DeepCloner.DeepClone(target);
+            var targetClone = target.Select(x => x.ToArray()).ToArray();
 
             var result = target.ToTransposedArray();
 

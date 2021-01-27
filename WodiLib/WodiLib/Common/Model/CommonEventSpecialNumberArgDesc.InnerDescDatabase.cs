@@ -302,7 +302,7 @@ namespace WodiLib.Common
             /// </summary>
             /// <param name="other">比較対象</param>
             /// <returns>一致する場合、true</returns>
-            public bool Equals(IInnerDesc? other)
+            public bool ItemEquals(IInnerDesc? other)
             {
                 if (ReferenceEquals(other, null)) return false;
                 if (ReferenceEquals(other, this)) return true;
@@ -316,7 +316,7 @@ namespace WodiLib.Common
             /// </summary>
             /// <param name="other">比較対象</param>
             /// <returns>一致する場合、true</returns>
-            public override bool Equals(InnerDescDatabase? other)
+            public override bool ItemEquals(InnerDescDatabase? other)
             {
                 if (ReferenceEquals(other, null)) return false;
                 if (ReferenceEquals(other, this)) return true;

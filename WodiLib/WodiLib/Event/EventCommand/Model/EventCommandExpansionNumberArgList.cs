@@ -6,9 +6,7 @@
 // see LICENSE file
 // ========================================
 
-using System;
 using System.ComponentModel;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -20,7 +18,6 @@ namespace WodiLib.Event.EventCommand
     /// ウディタの通常の動作で使用する引数はここには含まれない。
     /// </remarks>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    [Serializable]
     public class EventCommandExpansionNumberArgList : RestrictedCapacityList<int>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -77,19 +74,5 @@ namespace WodiLib.Event.EventCommand
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override int MakeDefaultItem(int index) => 0;
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected EventCommandExpansionNumberArgList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

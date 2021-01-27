@@ -8,9 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -81,7 +79,7 @@ namespace WodiLib.Database
             var defaultValues = outer[0]
                 .Select(x => x.Type.DBItemDefaultValue)
                 .ToList();
-            Items.AddRange(defaultValues);
+            AddRange(defaultValues);
         }
 
         /// <summary>
@@ -105,7 +103,7 @@ namespace WodiLib.Database
                     ErrorMessage.NotNull(nameof(items)));
 
             // validationのためにここで追加する。validation後には追加しない。
-            Items.AddRange(items);
+            this.AddRange(items);
 
             DBItemValuesListValidationHelper.ValidateListItem(outer, this);
         }
@@ -127,7 +125,7 @@ namespace WodiLib.Database
         public DBItemValueList ToLengthChangeableItemValueList()
         {
             // Outerを解除した、自身と同じ項目を持つ別インスタンスを返す
-            var result = new DBItemValueList(Items);
+            var result = new DBItemValueList(this);
             return result;
         }
 
@@ -412,7 +410,7 @@ namespace WodiLib.Database
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
 #pragma warning disable 618 // TODO Ver 2.6 まで
-        public bool Equals(IReadOnlyFixedLengthList<DBItemValue>? other)
+        public bool ItemEquals(IReadOnlyFixedLengthList<DBItemValue>? other)
 #pragma warning restore 618
         {
             if (ReferenceEquals(null, other)) return false;
@@ -420,6 +418,10 @@ namespace WodiLib.Database
 
             return this.SequenceEqual(other);
         }
+
+        /// <inheritdoc />
+        public bool ItemEquals(IFixedLengthList<DBItemValue>? other)
+            => Equals((IEnumerable<DBItemValue>?) other);
 
         /// <summary>
         /// 自身と同じ型情報を持ち、すべての項目がデフォルト値で初期化された新規インスタンスを生成する。
@@ -567,28 +569,14 @@ namespace WodiLib.Database
             var result = new List<byte>();
 
             // 数値項目
-            Items.Where(x => x.Type == DBItemType.Int).ToList()
+            this.Where(x => x.Type == DBItemType.Int).ToList()
                 .ForEach(x => result.AddRange(x.ToBinary()));
 
             // 文字列項目
-            Items.Where(x => x.Type == DBItemType.String).ToList()
+            this.Where(x => x.Type == DBItemType.String).ToList()
                 .ForEach(x => result.AddRange(x.ToBinary()));
 
             return result.ToArray();
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected DBItemValueList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

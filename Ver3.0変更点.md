@@ -1,0 +1,90 @@
+Ver 3.0 変更点
+========================================
+
+<details open>
+
+<summary>現コミット時点で対応完了しているもの</summary>
+
+ターゲットフレームワークと言語バージョン
+----------------------------------------
+
+- TargetFramework
+    - ```.netframework461```, ```.netstandard2.0```
+    - ```Ver1.X``` と比較して ```.netcoreapp3.0``` が非対応
+    - ```Ver2.X``` と比較して ```.netframwork461``` が追加、 ```.netstandard``` がバージョンダウン
+
+共通部分（WodiLib.Sys）
+----------------------------------------
+
+- ```WodiLibConfig``` （```Ver 3.0``` にて新規追加）
+    - ```WodiLib``` 全体の動作を決定するコンフィグコンテナ。
+        - 使用方法は ```VersionConfig``` と同じ。
+            - キー名ごとに設定を保持する。
+            - ```WodiLib``` 全体に適用するコンフィグをキー名によって指定。
+    - ```Ver 3.0``` 時点では後述の「プロパティ変更通知」「コレクション変更通知」の動作決定のために使用するのみ。
+    - 既存クラス ```VersionConfig``` は続投。仕様変更等もなし。
+    - 設定値と初期値は以下のとおり。
+
+|設定名|概要|デフォルト値|
+|:--|:--|:--|
+|DefaultNotifyBeforePropertyChangeFlag|プロパティ変更前の変更通知フラグ|```false```|
+|DefaultNotifyAfterPropertyChangeFlag|プロパティ変更後の変更通知フラグ|```true```|
+|DefaultNotifyBeforeCollectionChangeFlag|コレクション変更前の変更通知フラグ|```false```|
+|DefaultNotifyAfterCollectionChangeFlag|コレクション変更後の変更通知フラグ|```true```|
+
+- ```ModelBase``` （可変クラス）
+    - ```IEquatable<T>``` を除去、 ```==``` および ```!=``` 演算子のオーバーロードを解除。
+        - デフォルトの参照型の動作と異なるため。（```List<T>.IndexOf``` などでこの影響を受けるため）
+    - ```IEquatable<T>``` の代替機能として ```IEqualityComparable<T>``` インタフェースおよび ```bool ItemEquals(T)``` メソッドを新規実装。これまでの ```IEquatable<T>.Equals(T)``` メソッド同様モデルクラスの同値比較を行い結果を返す。
+    - プロパティ変更通知に関する仕様変更および追加。
+        - 変更前の通知イベントとして ```INotifyPropertyChanging``` を実装。
+        - 変更通知の有無を決定するプロパティ ``` IsNotifyBeforePropertyChange``` および ```IsNotifyAfterPropertyChange``` を追加。それぞれ ```true``` の場合のみ ```PropertyChanging```、```PropertyChanged``` が通知される。
+            - ``` IsNotifyBeforePropertyChange``` および ```IsNotifyAfterPropertyChange``` の初期値は前述の ```WodiLibConfig``` の設定に準ずる。
+
+- ```RestrictedCapacityList```（旧名```RestrictedCapacityCollection```）、```FixedLengthList```（リストクラス）
+    - コレクション変更通知に関する仕様変更および追加。
+        - 変更前の通知イベントとして ```NotifyCollectionChangedEventHandler CollectionChanging``` イベントを実装。
+        - 変更通知の有無を決定するプロパティ ``` IsNotifyBeforeCollectionChange``` および ```IsNotifyAfterCollectionChange``` を追加。それぞれ ```true``` の場合のみ ```CollectionChanging```、```CollectionChanged``` が通知される。
+            - ``` IsNotifyBeforeCollectionChange``` および ```IsNotifyAfterCollectionChange``` の初期値は前述の ```WodiLibConfig``` の設定に準ずる。
+
+</details>
+
+----------------------------------------
+
+<details open>
+
+<summary>これから対応予定のもの・順次対応中のもの</summary>
+
+ターゲットフレームワークと言語バージョン
+----------------------------------------
+
+- langversion
+    - ```9.0```
+
+全域
+----------------------------------------
+
+- 不変なオブジェクト（値オブジェクト）を ```record``` 型に統一。
+    - ```Ver 2.X``` 以前で ```struct``` 定義されていた値オブジェクトが影響を受ける。
+    - 演算子や ```Equals``` の実装には変化なし。
+
+- すべてのモデルクラスに "インタフェース" および "ReadOnly インタフェース" を定義。
+    - インタフェースに定義されたプロパティやメソッドが扱うモデルはすべてインタフェースとする。
+
+- ```ISerializable``` インタフェースを除去、 ```SerializableAttribute``` 付与を取りやめ。
+    - ```.NET 5``` にて ```BinaryFormatter``` が非推奨となったため。
+
+- モデルクラスが持つモデル型プロパティの```Setter```を除去。
+    - ライブラリ外での意図しない操作を防ぐため。
+
+- モデルクラスのバイナリデータ化メソッド（```ToBinary()```等）をライブラリ内部に隠蔽。
+
+- ```JsonSerialize``` 対応。
+
+データベース周りの機能改修
+----------------------------------------
+
+- モデルクラスの構造変更
+    - ```Ver 2.X``` 以前ではウディタが出力するバイナリデータを基準にした構造だったものを、ウディタ上で見えるような状態を基準にした構造に変更
+
+</details>

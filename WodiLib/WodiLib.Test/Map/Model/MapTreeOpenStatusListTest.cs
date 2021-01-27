@@ -27,13 +27,5 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(maxCapacity, MapTreeOpenStatusList.MinCapacity);
         }
 
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new MapTreeOpenStatusList();
-            target.AdjustLength(3);
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

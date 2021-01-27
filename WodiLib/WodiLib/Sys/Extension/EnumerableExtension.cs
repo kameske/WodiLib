@@ -15,15 +15,14 @@ namespace WodiLib.Sys
     /// <summary>
     /// Enumerable の拡張クラス
     /// </summary>
-    [Obsolete("Ver 2.5 にて非公開クラスとします。代替案を検討してください。")]
-    public static class EnumerableExtension
+    internal static class EnumerableExtension
     {
         /// <summary>
-        /// null項目があるかどうか判定する。
+        /// <see langword="null"/>項目があるかどうか判定する。
         /// </summary>
         /// <typeparam name="T">対象リスト内の型</typeparam>
         /// <param name="src">対象</param>
-        /// <returns>null項目がある場合、true</returns>
+        /// <returns><see langword="null"/> 項目がある場合、<see langword="true"/></returns>
         public static bool HasNullItem<T>(this IEnumerable<T> src)
         {
             return src.Any(x => x is null);
@@ -35,7 +34,10 @@ namespace WodiLib.Sys
         /// <typeparam name="T">対象リスト内の型</typeparam>
         /// <param name="src">対象</param>
         /// <param name="predicate">条件</param>
-        /// <returns>条件に一致する要素が存在する場合、最初の要素のインデックス。存在しない場合-1</returns>
+        /// <returns>
+        ///     条件に一致する要素が存在する場合、最初の要素のインデックス。
+        ///     存在しない場合、-1。
+        /// </returns>
         public static int FindIndex<T>(this IEnumerable<T> src, Func<T, bool> predicate)
         {
             var searchResult = src.Select((x, idx) => (x, idx))
@@ -62,7 +64,7 @@ namespace WodiLib.Sys
         /// すべての行について要素数が一致すること
         /// </summary>
         /// <param name="src">対象</param>
-        /// <returns>src の転置行列</returns>
+        /// <returns><paramref name="src"/> の転置行列</returns>
         public static T[][] ToTransposedArray<T>(this IEnumerable<IEnumerable<T>> src)
         {
             return src.ToTwoDimensionalArray()

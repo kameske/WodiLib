@@ -24,10 +24,8 @@ namespace WodiLib.Test.Map
         [Test]
         public static void PropertyTest()
         {
-            var layer = new Layer
-            {
-                Chips = new MapChipList(GenerateTestChipsData(20, 15))
-            };
+            var layer = new Layer();
+            layer.Chips.Reset(new MapChipList(GenerateTestChipsData(20, 15)));
             var changedPropertyList = new List<string>();
             layer.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
@@ -48,10 +46,8 @@ namespace WodiLib.Test.Map
         [TestCase(40)]
         public static void UpdateWidthTest(int sizeWidth)
         {
-            var layer = new Layer
-            {
-                Chips = new MapChipList(GenerateTestChipsData(30, 15))
-            };
+            var layer = new Layer();
+            layer.Chips.Reset(new MapChipList(GenerateTestChipsData(30, 15)));
             var changedPropertyList = new List<string>();
             layer.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
@@ -84,10 +80,8 @@ namespace WodiLib.Test.Map
         [TestCase(30)]
         public static void SetHeightTest(int heightSize)
         {
-            var layer = new Layer
-            {
-                Chips = new MapChipList(GenerateTestChipsData(20, 20))
-            };
+            var layer = new Layer();
+            layer.Chips.Reset(new MapChipList(GenerateTestChipsData(20, 20)));
             var changedPropertyList = new List<string>();
             layer.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
@@ -118,9 +112,10 @@ namespace WodiLib.Test.Map
         [Test]
         public static void UpdateSizeTest()
         {
-            var instance = new MapChipList(GenerateTestChipsData(20, 20));
+            var layer = new Layer();
+            layer.Chips.Reset(new MapChipList(GenerateTestChipsData(20, 20)));
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            layer.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var width = (MapSizeWidth) 30;
             var height = (MapSizeHeight) 24;
@@ -128,7 +123,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                instance.UpdateSize(width, height);
+                layer.UpdateSize(width, height);
             }
             catch (Exception ex)
             {
@@ -140,15 +135,13 @@ namespace WodiLib.Test.Map
             Assert.IsFalse(errorOccured);
 
             // サイズが変化していること
-            Assert.AreEqual(instance.Width, width);
-            Assert.AreEqual(instance.Height, height);
+            Assert.AreEqual(layer.Width, width);
+            Assert.AreEqual(layer.Height, height);
 
             // 意図したとおりプロパティ変更通知が発火していること
-            Assert.AreEqual(changedPropertyList.Count, 4);
-            Assert.IsTrue(changedPropertyList[0].Equals(nameof(instance.Count)));
-            Assert.IsTrue(changedPropertyList[1].Equals(ListConstant.IndexerName));
-            Assert.IsTrue(changedPropertyList[2].Equals(nameof(Layer.Width)));
-            Assert.IsTrue(changedPropertyList[3].Equals(nameof(Layer.Height)));
+            Assert.AreEqual(changedPropertyList.Count, 2);
+            Assert.IsTrue(changedPropertyList[0].Equals(nameof(Layer.Width)));
+            Assert.IsTrue(changedPropertyList[1].Equals(nameof(Layer.Height)));
         }
 
         private static readonly object[] SetChipTestCaseSource =
@@ -164,10 +157,8 @@ namespace WodiLib.Test.Map
         [TestCaseSource(nameof(SetChipTestCaseSource))]
         public static void SetChipTest(int x, int y, MapChip chip, bool isError)
         {
-            var layer = new Layer
-            {
-                Chips = new MapChipList(GenerateTestChipsData(20, 15))
-            };
+            var layer = new Layer();
+            layer.Chips.Reset(new MapChipList(GenerateTestChipsData(20, 15)));
             var changedPropertyList = new List<string>();
             layer.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
             var changedChipsPropertyList = new List<string>();
@@ -231,10 +222,8 @@ namespace WodiLib.Test.Map
         [TestCase(4, 15, true)]
         public static void GetChipTest(int x, int y, bool isError)
         {
-            var layer = new Layer
-            {
-                Chips = new MapChipList(GenerateTestChipsData(20, 15))
-            };
+            var layer = new Layer();
+            layer.Chips.Reset(new MapChipList(GenerateTestChipsData(20, 15)));
             var changedPropertyList = new List<string>();
             layer.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
             var changedChipsPropertyList = new List<string>();
@@ -279,23 +268,6 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(changedChipsCollectionList.Count, 0);
             Assert.AreEqual(changedChipColumnsPropertyList.Count, 0);
             Assert.AreEqual(changedChipColumnsCollectionList.Count, 0);
-        }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new Layer
-            {
-                Chips = new MapChipList(GenerateTestChipsData(20, 15))
-            };
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
 

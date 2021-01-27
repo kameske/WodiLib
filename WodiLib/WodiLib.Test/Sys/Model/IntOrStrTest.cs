@@ -386,13 +386,5 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(instance.ToInt(), src.Item1);
             Assert.AreEqual(instance.ToStr(), src.Item2);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (IntOrStr) "filePath";
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

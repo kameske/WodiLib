@@ -207,23 +207,6 @@ namespace WodiLib.Test.Database
             }
         }
 
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new DBTypeSet
-            {
-                Memo = "Memo"
-            };
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
-
         [OneTimeTearDown]
         public static void TearDown()
         {

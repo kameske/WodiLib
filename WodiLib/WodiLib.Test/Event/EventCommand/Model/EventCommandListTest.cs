@@ -91,14 +91,6 @@ namespace WodiLib.Test.Event.EventCommand.Model
             Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new EventCommandList(GenerateEventCommandList(3));
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
-
         private static IReadOnlyList<IEventCommand> GenerateEventCommandList(int length)
         {
             var list = new List<IEventCommand>();

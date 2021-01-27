@@ -8,8 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.Serialization;
 using WodiLib.Project;
 using WodiLib.Sys;
 
@@ -146,26 +144,12 @@ namespace WodiLib.Common
             result.AddRange(Count.ToBytes(Endian.Woditor));
 
             // コモンイベントリスト
-            foreach (var commonEvent in Items)
+            foreach (var commonEvent in this)
             {
                 result.AddRange(commonEvent.ToBinary());
             }
 
             return result.ToArray();
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected CommonEventList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

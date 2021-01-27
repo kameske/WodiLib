@@ -8,10 +8,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 using ThisPropertyChangedHelper = WodiLib.Map.MapChipListCollectionChangedHelper;
 
@@ -20,7 +18,6 @@ namespace WodiLib.Map
     /// <summary>
     /// マップチップ配列クラス
     /// </summary>
-    [Serializable]
     public class MapChipList : RestrictedCapacityList<IFixedLengthMapChipColumns>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -38,40 +35,11 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>サイズ横</summary>
-        public MapSizeWidth Width => Items.Count;
+        public MapSizeWidth Width => Count;
 
         // コンストラクタ中で呼ばれる場合は Items.Count == 0 となる
         /// <summary>サイズ縦</summary>
-        public MapSizeHeight Height => Items.Count > 0 ? Items[0].Count : MinCapacity;
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     InnerNotifyChanged
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// 自身コレクション変更通知
-        /// </summary>
-        /// <param name="sender">送信元</param>
-        /// <param name="args">情報</param>
-        private void OnThisCollectionChanged(object sender, NotifyCollectionChangedEventArgs args)
-        {
-            ThisPropertyChangedHelper.UpdateItemPropertyChangedEvent(args, Items, OnItem0PropertyChanged);
-        }
-
-        /// <summary>
-        /// 要素0のプロパティ変更通知
-        /// </summary>
-        /// <param name="sender">送信元</param>
-        /// <param name="args">情報</param>
-        private void OnItem0PropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            switch (args.PropertyName)
-            {
-                case nameof(Count):
-                    NotifyPropertyChanged(nameof(Height));
-                    break;
-            }
-        }
+        public MapSizeHeight Height => Count > 0 ? this[0].Count : MinCapacity;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -92,8 +60,6 @@ namespace WodiLib.Map
         public MapChipList(MapSizeWidth width, MapSizeHeight height)
         {
             InitializeChips(width, height);
-            CollectionChanged += OnThisCollectionChanged;
-            this[0].PropertyChanged += OnItem0PropertyChanged;
         }
 
         /// <summary>
@@ -137,9 +103,6 @@ namespace WodiLib.Map
             }
 
             Overwrite(0, chips);
-
-            CollectionChanged += OnThisCollectionChanged;
-            this[0].PropertyChanged += OnItem0PropertyChanged;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -209,6 +172,8 @@ namespace WodiLib.Map
 
                 column.UpdateSize(value);
             }
+
+            NotifyPropertyChanged(nameof(Height));
         }
 
         /// <summary>
@@ -246,20 +211,6 @@ namespace WodiLib.Map
                 result.AddRange(chipColumn.ToBinary());
 
             return result.ToArray();
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected MapChipList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

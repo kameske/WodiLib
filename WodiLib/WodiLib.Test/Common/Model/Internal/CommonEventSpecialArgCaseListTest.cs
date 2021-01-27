@@ -108,20 +108,6 @@ namespace WodiLib.Test.Common.Internal
             Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new CommonEventSpecialArgCaseList(MakeInitList(3, false));
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
-
 
         private static IReadOnlyList<CommonEventSpecialArgCase> MakeInitList(int length, bool hasNullItem)
         {

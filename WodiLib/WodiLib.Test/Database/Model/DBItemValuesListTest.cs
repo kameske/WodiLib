@@ -3317,15 +3317,6 @@ namespace WodiLib.Test.Database
             Assert.IsTrue(listB[1][1].Equals(moveItemValB));
         }
 
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new DBItemValuesList();
-            target.AdjustLength(3);
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
-
         private static IReadOnlyList<IReadOnlyList<DBItemValue>> MakeInitList(int dataLength, bool hasNullInData,
             int fieldLength, bool hasNullInField)
         {

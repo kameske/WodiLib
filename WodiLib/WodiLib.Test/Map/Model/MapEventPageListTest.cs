@@ -32,19 +32,5 @@ namespace WodiLib.Test.Map
             // 取得した値が容量最大値と一致すること
             Assert.AreEqual(maxCapacity, MapEventPageList.MinCapacity);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new MapEventPageList(new []
-            {
-                new MapEventPage
-                {
-                    ShadowGraphicId = 2,
-                },
-            });
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

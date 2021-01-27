@@ -123,13 +123,5 @@ namespace WodiLib.Test.Map
             var rightIndex = (ShadowGraphicId) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (ShadowGraphicId) 3;
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

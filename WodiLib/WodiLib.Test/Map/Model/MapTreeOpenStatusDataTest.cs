@@ -65,14 +65,5 @@ namespace WodiLib.Test.Map
                 Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapTreeOpenStatusData.StatusList)));
             }
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new MapTreeOpenStatusData();
-            target.StatusList.AdjustLength(3);
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

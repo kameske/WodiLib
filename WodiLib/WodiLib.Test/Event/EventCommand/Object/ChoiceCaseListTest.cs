@@ -198,22 +198,5 @@ namespace WodiLib.Test.Event.EventCommand
                 if (i != index)
                     Assert.IsTrue(instance.Get(i).Equals(initObj.Get(i)));
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new ChoiceCaseList
-            {
-                CaseValue = 3,
-            };
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
     }
 }

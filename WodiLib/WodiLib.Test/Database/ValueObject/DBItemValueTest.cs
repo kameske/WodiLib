@@ -286,22 +286,6 @@ namespace WodiLib.Test.Database
         }
 
 
-        [Test]
-        public static void SerializeTest()
-        {
-            {        // 数値
-                var target = MakeInstance(DBItemType.Int);
-                var clone = DeepCloner.DeepClone(target);
-                Assert.IsTrue(clone.Equals(target));
-            }
-
-            {        // 文字列
-                var target = MakeInstance(DBItemType.String);
-                var clone = DeepCloner.DeepClone(target);
-                Assert.IsTrue(clone.Equals(target));
-            }
-        }
-
         private static DBItemValue MakeInstance(DBItemType type)
         {
             if (type == DBItemType.Int)

@@ -8,8 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -17,7 +15,6 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// 選択肢リスト
     /// </summary>
-    [Serializable]
     public partial class ChoiceCaseList : FixedLengthList<string>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -122,20 +119,6 @@ namespace WodiLib.Event.EventCommand
         protected override IWodiLibListValidator<string> MakeValidator()
         {
             return new CustomValidator(this);
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected ChoiceCaseList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

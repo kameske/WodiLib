@@ -138,7 +138,7 @@ namespace WodiLib.Event.CharaMoveCommand
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(CharaMoveCommandBase? other)
+        public override bool ItemEquals(CharaMoveCommandBase? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;

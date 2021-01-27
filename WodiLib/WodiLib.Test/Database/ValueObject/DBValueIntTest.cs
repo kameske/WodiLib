@@ -129,13 +129,5 @@ namespace WodiLib.Test.Database
             var rightIndex = (DBValueInt) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (DBValueInt) 3322;
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

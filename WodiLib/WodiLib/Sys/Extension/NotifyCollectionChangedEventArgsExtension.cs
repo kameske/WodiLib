@@ -14,7 +14,7 @@ using System.Linq;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// NotifyCollectionChangedEventArgs 拡張クラス
+    /// <see cref="NotifyCollectionChangedEventArgs"/> 拡張クラス
     /// </summary>
     internal static class NotifyCollectionChangedEventArgsExtension
     {

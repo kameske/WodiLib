@@ -6,11 +6,7 @@
 // see LICENSE file
 // ========================================
 
-// ReSharper disable once CheckNamespace
-// ReSharper disable UnusedType.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-
+// ReSharper disable CheckNamespace
 namespace System.Diagnostics.CodeAnalysis
 {
     /// <summary>Specifies that null is allowed as an input even if the corresponding type disallows it.</summary>

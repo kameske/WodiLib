@@ -343,17 +343,6 @@ namespace WodiLib.Test.Map
             Assert.IsTrue(changedTilePathSettingListCollectionList[0].Action == NotifyCollectionChangedAction.Add);
         }
 
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new TileSetSetting
-            {
-                Name = "Name"
-            };
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
-
 
         private static TileTagNumberList MakeTileTagNumberList(int length)
         {

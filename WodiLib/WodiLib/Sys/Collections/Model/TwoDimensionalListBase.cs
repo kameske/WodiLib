@@ -11,7 +11,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace WodiLib.Sys
 {
@@ -27,7 +26,6 @@ namespace WodiLib.Sys
     /// TwoDimensionalList 内では 0 * 0 の 空リストとして扱う。
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    [Serializable]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract partial class TwoDimensionalListBase<T> : ModelBase<TwoDimensionalListBase<T>>,
         IReadOnlyTwoDimensionalList<T>
@@ -44,11 +42,28 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
+        public event EventHandler<TwoDimensionalCollectionChangeEventArgs<T>> TwoDimensionListChanging
+        {
+            add => TwoDimensionListChanging_Impl += value;
+            remove => TwoDimensionListChanging_Impl -= value;
+        }
+
+        /// <inheritdoc />
         public virtual event EventHandler<TwoDimensionalCollectionChangeEventArgs<T>>? TwoDimensionListChanged
         {
             add => TwoDimensionListChanged_Impl += value;
             remove => TwoDimensionListChanged_Impl -= value;
         }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Public Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        public bool IsNotifyBeforeCollectionChange { get; }
+
+        /// <inheritdoc />
+        public bool IsNotifyAfterCollectionChange { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Event
@@ -204,14 +219,14 @@ namespace WodiLib.Sys
         }
 
         /// <inheritdoc />
-        public bool Equals(IReadOnlyTwoDimensionalList<T>? other)
+        public bool ItemEquals(IReadOnlyTwoDimensionalList<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             return Equals(other.AsEnumerable());
         }
 
         /// <inheritdoc />
-        public override bool Equals(TwoDimensionalListBase<T>? other)
+        public override bool ItemEquals(TwoDimensionalListBase<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -310,7 +325,7 @@ namespace WodiLib.Sys
             => throw new NotSupportedException();
 
         /// <summary>
-        /// AddRow, AddRowRange, InsertRow, InsertRowRange メソッドの処理本体
+        /// AddDataValues, AddRowRange, InsertRow, InsertRowRange メソッドの処理本体
         /// </summary>
         /// <param name="row">挿入行番号</param>
         /// <param name="items">挿入要素</param>
@@ -361,7 +376,7 @@ namespace WodiLib.Sys
 
         /// <summary>
         /// Reset メソッドの処理本体<br/>
-        /// AddRow, AddRowRange, InsertRow, InsertRowRange,
+        /// AddDataValues, AddRowRange, InsertRow, InsertRowRange,
         /// AddColumn, AddColumnRange, InsertColumn, InsertColumnRange メソッドにおいて
         /// 自身が空リストの場合にも呼び出される
         /// </summary>
@@ -464,7 +479,7 @@ namespace WodiLib.Sys
 
 
         /// <summary>
-        /// AddRow, AddRowRange, InsertRow, InsertRowRange メソッドの処理実装
+        /// AddDataValues, AddRowRange, InsertRow, InsertRowRange メソッドの処理実装
         /// </summary>
         /// <param name="row">挿入行番号</param>
         /// <param name="items">挿入要素</param>
@@ -815,24 +830,5 @@ namespace WodiLib.Sys
         /// <param name="args">イベント引数</param>
         private void CallCollectionChanged(TwoDimensionalCollectionChangeEventArgs<T> args)
             => _twoDimensionListChanged?.Invoke(this, args);
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <inheritdoc />
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public abstract void GetObjectData(SerializationInfo info, StreamingContext context);
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected TwoDimensionalListBase(SerializationInfo info, StreamingContext context)
-        {
-            Validator = MakeValidator();
-        }
     }
 }

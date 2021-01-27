@@ -8,8 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -100,26 +98,12 @@ namespace WodiLib.Database
             result.AddRange(Count.ToBytes(Endian.Woditor));
 
             // DBデータ設定
-            foreach (var item in Items)
+            foreach (var item in this)
             {
                 result.AddRange(item.ToBinary());
             }
 
             return result.ToArray();
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected DBDataSettingList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

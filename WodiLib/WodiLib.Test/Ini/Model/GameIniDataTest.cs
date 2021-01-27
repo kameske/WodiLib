@@ -444,22 +444,5 @@ namespace WodiLib.Test.Ini.Model
             Assert.AreEqual(changedPropertyList.Count, 1);
             Assert.IsTrue(changedPropertyList[0].Equals(nameof(GameIniData.IsUseOldDirectX)));
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new GameIniData
-            {
-                DisplayNumber = 2,
-            };
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
     }
 }

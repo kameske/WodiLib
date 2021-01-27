@@ -219,13 +219,5 @@ namespace WodiLib.Test.Cmn
             // もとの値が変化していないこと
             Assert.AreEqual((int) instance, srcVariableAddress);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (HeroInfoAddress) 9180003;
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

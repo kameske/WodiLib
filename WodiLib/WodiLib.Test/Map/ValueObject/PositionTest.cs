@@ -72,13 +72,5 @@ namespace WodiLib.Test.Map
         {
             Assert.AreEqual(left.Equals(right), answer);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (Position) (3, 2);
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

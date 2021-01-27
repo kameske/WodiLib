@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Project;
 using WodiLib.Sys;
@@ -21,7 +20,6 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンドリスト
     /// </summary>
-    [Serializable]
     public class EventCommandList : RestrictedCapacityList<IEventCommand>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -51,17 +49,10 @@ namespace WodiLib.Event.EventCommand
             set
             {
                 owner = value;
-                Items.OfType<MoveRoute>().ToList()
+                this.OfType<MoveRoute>().ToList()
                     .ForEach(x => x.Owner = value);
             }
         }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>所有イベント保持フラグ</summary>
-        private bool HasOwner => !(owner is null);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Constructor
@@ -125,7 +116,7 @@ namespace WodiLib.Event.EventCommand
         /// <returns>適切ではないデータの場合、false</returns>
         public bool Validate()
         {
-            if (!CheckLastCommand(Items)) return false;
+            if (!CheckLastCommand(this)) return false;
 
             return true;
         }
@@ -135,7 +126,7 @@ namespace WodiLib.Event.EventCommand
         /// </summary>
         /// <returns>イベントコードリスト</returns>
         public IReadOnlyList<string> GetEventCodeStringList()
-            => Items.Select(x => x.ToEventCodeString()).ToList();
+            => this.Select(x => x.ToEventCodeString()).ToList();
 
         /// <summary>
         /// イベントコマンド文字列情報リストを取得する。
@@ -152,7 +143,7 @@ namespace WodiLib.Event.EventCommand
         public IReadOnlyList<EventCommandSentenceInfo> MakeEventCommandSentenceInfoList(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
             EventCommandSentenceResolveDesc? desc)
-            => Items.Select((x, idx) => x.GetEventCommandSentenceInfo(resolver, type, desc)).ToList();
+            => this.Select(x => x.GetEventCommandSentenceInfo(resolver, type, desc)).ToList();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
@@ -227,7 +218,7 @@ namespace WodiLib.Event.EventCommand
         /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
         {
-            if (!CheckLastCommand(Items))
+            if (!CheckLastCommand(this))
             {
                 throw new InvalidOperationException(
                     "コマンド末尾は「空白行」である必要があります。");
@@ -239,7 +230,7 @@ namespace WodiLib.Event.EventCommand
             result.AddRange(Count.ToWoditorIntBytes());
 
             // イベントコマンド
-            foreach (var command in Items)
+            foreach (var command in this)
             {
                 result.AddRange(command.ToBinary());
             }
@@ -248,35 +239,6 @@ namespace WodiLib.Event.EventCommand
             result.AddRange(EndEventCommand);
 
             return result.ToArray();
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// オブジェクトをシリアル化するために必要なデータを設定する。
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue(nameof(HasOwner), HasOwner);
-            if (HasOwner) info.AddValue(nameof(owner), owner!.Id);
-        }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected EventCommandList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            var savedOwner = info.GetBoolean(nameof(HasOwner));
-            if (savedOwner) owner = TargetAddressOwner.FromId(info.GetValue<string>(nameof(owner)));
         }
     }
 }

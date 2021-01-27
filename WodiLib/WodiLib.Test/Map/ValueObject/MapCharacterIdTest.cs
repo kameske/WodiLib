@@ -194,13 +194,5 @@ namespace WodiLib.Test.Map
             var rightInstance = (MapCharacterId) right;
             Assert.AreEqual(leftInstance > rightInstance, left > right);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (MapCharacterId) 3;
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

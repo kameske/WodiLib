@@ -141,13 +141,5 @@ namespace WodiLib.Test.Ini.ValueObject
             var rightIndex = (ProxyAddress) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (ProxyAddress) "127.127.127.127";
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

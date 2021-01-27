@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using Commons;
 using NUnit.Framework;
 using WodiLib.Sys;
@@ -133,6 +132,7 @@ namespace WodiLib.Test.Sys
             var instance = MakeCollectionForMethodTest(10,
                 out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
+                out var propertyChangingEventCalledCount,
                 out var propertyChangedEventCalledCount);
             var errorOccured = false;
             try
@@ -159,6 +159,7 @@ namespace WodiLib.Test.Sys
                     });
             assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
             assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
+            Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], 0);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
         }
 
@@ -175,6 +176,7 @@ namespace WodiLib.Test.Sys
             var instance = MakeCollectionForMethodTest(10,
                 out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
+                out var propertyChangingEventCalledCount,
                 out var propertyChangedEventCalledCount);
 
             var errorOccured = false;
@@ -202,6 +204,7 @@ namespace WodiLib.Test.Sys
                     });
             assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
             assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
+            Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
 
             if (errorOccured) return;
@@ -243,6 +246,7 @@ namespace WodiLib.Test.Sys
             var instance = MakeCollectionForMethodTest(10,
                 out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
+                out var propertyChangingEventCalledCount,
                 out var propertyChangedEventCalledCount);
             var errorOccured = false;
             IEnumerable<string> result = null;
@@ -271,6 +275,7 @@ namespace WodiLib.Test.Sys
                     });
             assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
             assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
+            Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], 0);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
 
             if (errorOccured) return;
@@ -316,6 +321,7 @@ namespace WodiLib.Test.Sys
             var instance = MakeCollectionForMethodTest(length,
                 out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
+                out var propertyChangingEventCalledCount,
                 out var propertyChangedEventCalledCount);
 
             var errorOccured = false;
@@ -356,14 +362,8 @@ namespace WodiLib.Test.Sys
                     });
             assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
             assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
-            if (isError)
-            {
-                Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
-            }
-            else
-            {
-                Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
-            }
+            Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
+            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
 
             if (errorOccured) return;
 
@@ -497,6 +497,7 @@ namespace WodiLib.Test.Sys
             var instance = MakeCollectionForMethodTest(length,
                 out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
+                out var propertyChangingEventCalledCount,
                 out var propertyChangedEventCalledCount);
 
             var errorOccured = false;
@@ -540,14 +541,8 @@ namespace WodiLib.Test.Sys
                     });
             assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
             assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
-            if (isError)
-            {
-                Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
-            }
-            else
-            {
-                Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
-            }
+            Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
+            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
 
             if (errorOccured) return;
 
@@ -625,6 +620,7 @@ namespace WodiLib.Test.Sys
             var instance = MakeCollectionForMethodTest(initLength,
                 out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
+                out var propertyChangingEventCalledCount,
                 out var propertyChangedEventCalledCount);
 
             var capacity = instance.GetCapacity();
@@ -654,6 +650,7 @@ namespace WodiLib.Test.Sys
                     });
             assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
             assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
+            Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], 1);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
 
             // 要素数が容量と一致すること
@@ -681,6 +678,7 @@ namespace WodiLib.Test.Sys
             var instance = MakeCollectionForMethodTest(initLength,
                 out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
+                out var propertyChangingEventCalledCount,
                 out var propertyChangedEventCalledCount);
             var resetItem = MakeStringList(resetItemLength)?.Select(s => s is null ? null : $"reset_{s}").ToList();
 
@@ -714,6 +712,7 @@ namespace WodiLib.Test.Sys
                     });
             assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
             assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
+            Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], 1);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
 
             // 各要素が初期化した要素と一致すること
@@ -728,6 +727,7 @@ namespace WodiLib.Test.Sys
             var instance = MakeCollectionForMethodTest(initLength,
                 out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
+                out var propertyChangingEventCalledCount,
                 out var propertyChangedEventCalledCount);
 
             var containsResult = false;
@@ -760,6 +760,7 @@ namespace WodiLib.Test.Sys
                     });
             assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
             assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
+            Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], 0);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
         }
 
@@ -768,7 +769,7 @@ namespace WodiLib.Test.Sys
         [TestCase(null, -1)]
         public static void IndexOfTest(string item, int result)
         {
-            var instance = MakeCollectionForMethodTest(10, out _, out _, out _);
+            var instance = MakeCollectionForMethodTest(10, out _, out _, out _, out _);
 
             var indexOfResult = -1;
 
@@ -809,7 +810,7 @@ namespace WodiLib.Test.Sys
         [TestCase(11, 2, true)]
         public static void CopyToTest(int arrayLength, int index, bool isError)
         {
-            var instance = MakeCollectionForMethodTest(10, out _, out _, out _);
+            var instance = MakeCollectionForMethodTest(10, out _, out _, out _, out _);
             var copyArray = MakeStringArray(arrayLength);
 
             var errorOccured = false;
@@ -851,7 +852,7 @@ namespace WodiLib.Test.Sys
         [Test]
         public static void GetEnumeratorTest()
         {
-            var instance = MakeCollectionForMethodTest(10, out _, out _, out _);
+            var instance = MakeCollectionForMethodTest(10, out _, out _, out _, out _);
 
             // foreachを用いた処理で要素が正しく取得できること
             var i = 0;
@@ -865,9 +866,15 @@ namespace WodiLib.Test.Sys
         [Test]
         public static void CollectionChangingErrorTest()
         {
+            /*
+             * NotifyCollectionChanging に登録したイベントの中でエラーを起こす。
+             * NotifyCollectionChanging は勿論、NotifyPropertyChanging もイベントの検出ができないこと。
+             */
+
             var instance = MakeCollection4ForOrdinalEventTest(
                 out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
+                out var propertyChangingEventCalledCount,
                 out var propertyChangedEventCalledCount);
 
             var errorOccured = false;
@@ -895,16 +902,8 @@ namespace WodiLib.Test.Sys
                     });
             assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
             assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
+            Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], 0);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
-        }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = MakeCollectionForMethodTest(10, out _, out _, out _);
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -937,6 +936,7 @@ namespace WodiLib.Test.Sys
         private static CollectionTest1 MakeCollectionForMethodTest(int initLength,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList,
+            out Dictionary<string, int> propertyChangingEventCalledCount,
             out Dictionary<string, int> propertyChangedEventCalledCount)
         {
             var initStringList = MakeStringList(initLength);
@@ -944,11 +944,20 @@ namespace WodiLib.Test.Sys
                 ? new CollectionTest1()
                 : new CollectionTest1(initStringList);
 
+            // Observerに購読させないよう、イベントObserver登録より前に通知フラグ設定
+            result.IsNotifyBeforePropertyChange = true;
+            result.IsNotifyAfterPropertyChange = true;
+            result.IsNotifyBeforeCollectionChange = true;
+            result.IsNotifyAfterCollectionChange = true;
+
             collectionChangingEventArgsList = MakeCollectionChangeEventArgsDic();
             result.CollectionChanging += MakeCollectionChangeEventHandler(true, collectionChangingEventArgsList);
 
             collectionChangedEventArgsList = MakeCollectionChangeEventArgsDic();
             result.CollectionChanged += MakeCollectionChangeEventHandler(false, collectionChangedEventArgsList);
+
+            propertyChangingEventCalledCount = MakePropertyChangedArgsDic();
+            result.PropertyChanging += MakePropertyChangingEventHandler(propertyChangingEventCalledCount);
 
             propertyChangedEventCalledCount = MakePropertyChangedArgsDic();
             result.PropertyChanged += MakePropertyChangedEventHandler(propertyChangedEventCalledCount);
@@ -959,15 +968,26 @@ namespace WodiLib.Test.Sys
         private static CollectionTest4 MakeCollection4ForOrdinalEventTest(
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList,
+            out Dictionary<string, int> propertyChangingEventCalledCount,
             out Dictionary<string, int> propertyChangedEventCalledCount)
         {
-            var result = new CollectionTest4();
+            var result = new CollectionTest4
+            {
+                // Observerに購読させないよう、イベントObserver登録より前に通知フラグ設定
+                IsNotifyBeforePropertyChange = true,
+                IsNotifyAfterPropertyChange = true,
+                IsNotifyBeforeCollectionChange = true,
+                IsNotifyAfterCollectionChange = true
+            };
 
             collectionChangingEventArgsList = MakeCollectionChangeEventArgsDic();
             result.CollectionChanging += MakeCollectionChangeEventHandler(true, collectionChangingEventArgsList);
 
             collectionChangedEventArgsList = MakeCollectionChangeEventArgsDic();
             result.CollectionChanged += MakeCollectionChangeEventHandler(false, collectionChangedEventArgsList);
+
+            propertyChangingEventCalledCount = MakePropertyChangedArgsDic();
+            result.PropertyChanging += MakePropertyChangingEventHandler(propertyChangingEventCalledCount);
 
             propertyChangedEventCalledCount = MakePropertyChangedArgsDic();
             result.PropertyChanged += MakePropertyChangedEventHandler(propertyChangedEventCalledCount);
@@ -1018,6 +1038,21 @@ namespace WodiLib.Test.Sys
         };
 
         /// <summary>
+        /// PropertyChanging に登録するイベントハンドラを生成する
+        /// </summary>
+        /// <param name="resultDic">プロパティごとに通知された回数を格納するためのDictionary</param>
+        /// <returns>生成したインスタンス</returns>
+        private static PropertyChangingEventHandler
+            MakePropertyChangingEventHandler(Dictionary<string, int> resultDic) =>
+            (sender, args) =>
+            {
+                resultDic[args.PropertyName] += 1;
+                logger.Debug($"{nameof(args)}: {{");
+                logger.Debug($"    {nameof(args.PropertyName)}: {args.PropertyName}");
+                logger.Debug("}");
+            };
+
+        /// <summary>
         /// PropertyChanged に登録するイベントハンドラを生成する
         /// </summary>
         /// <param name="resultDic">プロパティごとに通知された回数を格納するためのDictionary</param>
@@ -1051,11 +1086,6 @@ namespace WodiLib.Test.Sys
             public AbsCollectionTest(IReadOnlyCollection<string> list) : base(list)
             {
             }
-
-            // FixedLengthList<T>継承クラスはデシリアライズ時に呼び出せるconstructor(SerializationInfo, StreamingContext)が必須
-            protected AbsCollectionTest(SerializationInfo info, StreamingContext context) : base(info, context)
-            {
-            }
         }
 
         [Serializable]
@@ -1078,10 +1108,6 @@ namespace WodiLib.Test.Sys
             }
 
             public CollectionTest1(IReadOnlyCollection<string> list) : base(list)
-            {
-            }
-
-            protected CollectionTest1(SerializationInfo info, StreamingContext context) : base(info, context)
             {
             }
         }

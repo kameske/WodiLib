@@ -19,7 +19,7 @@ namespace WodiLib.Sys
         /// 空文字かどうかを返す。
         /// </summary>
         /// <param name="src">対象</param>
-        /// <returns>空文字の場合、true</returns>
+        /// <returns>空文字の場合、<see langword="true"/></returns>
         public static bool IsEmpty(this string src)
         {
             return src.Equals(string.Empty);
@@ -29,7 +29,7 @@ namespace WodiLib.Sys
         /// 改行を含むかどうかを返す。
         /// </summary>
         /// <param name="src">対象</param>
-        /// <returns>改行を含む場合、true</returns>
+        /// <returns>改行を含む場合、<see langword="true"/></returns>
         public static bool HasNewLine(this string src)
         {
             return src.Contains("\n") || src.Contains("\r\n");
@@ -39,7 +39,7 @@ namespace WodiLib.Sys
         /// ファイル名に使用不可能な文字列を含むかどうかを返す。
         /// </summary>
         /// <param name="src">対象</param>
-        /// <returns>使用不可能な文字列を含む場合、true</returns>
+        /// <returns>使用不可能な文字列を含む場合、<see langword="true"/></returns>
         public static bool HasInvalidFileNameChars(this string src)
         {
             // "COM0", "LPT0" は作成可能
@@ -56,7 +56,7 @@ namespace WodiLib.Sys
         /// 文字列をintに変換する。
         /// </summary>
         /// <param name="src">対象</param>
-        /// <returns>変換したint値。変換に失敗した場合、null</returns>
+        /// <returns>変換したint値。変換に失敗した場合、<see langword="null"/></returns>
         public static int? TryToInt(this string src)
         {
             var result = int.TryParse(src, out var numeric);

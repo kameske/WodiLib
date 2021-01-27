@@ -242,22 +242,5 @@ namespace WodiLib.Test.Map
             // instance をここまで開放したくないので無駄な処理を入れる
             instance.MoveSpeed = MoveSpeed.Fast;
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new MapEventPageMoveRouteInfo
-            {
-                MoveSpeed = MoveSpeed.Slowest,
-            };
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
     }
 }

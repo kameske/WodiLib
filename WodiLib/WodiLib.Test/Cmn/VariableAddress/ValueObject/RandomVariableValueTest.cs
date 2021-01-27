@@ -127,13 +127,5 @@ namespace WodiLib.Test.Cmn
             var rightIndex = (RandomVariableValue) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (RandomVariableValue) 12345;
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

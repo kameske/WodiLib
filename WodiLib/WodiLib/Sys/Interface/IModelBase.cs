@@ -6,7 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using System;
 using System.ComponentModel;
 
 namespace WodiLib.Sys
@@ -16,8 +15,19 @@ namespace WodiLib.Sys
     /// </summary>
     /// <typeparam name="TChild">Model実装クラス型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public interface IModelBase<TChild> : IEquatable<TChild>, INotifyPropertyChanged
+    public interface IModelBase<in TChild> : IReadOnlyModelBase<TChild>, INotifyPropertyChange
         where TChild : IModelBase<TChild>
+    {
+    }
+
+    /// <summary>
+    /// 【読み取り専用】各Modelクラス基底クラスインタフェース
+    /// </summary>
+    /// <typeparam name="TChild">Model実装クラス型</typeparam>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public interface IReadOnlyModelBase<in TChild> : IReadOnlyNotifyPropertyChange,
+        IEqualityComparable<TChild>
+        where TChild : IReadOnlyModelBase<TChild>
     {
     }
 }

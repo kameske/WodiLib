@@ -8,9 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -18,7 +16,6 @@ namespace WodiLib.Database
     /// <summary>
     /// DB項目設定と設定値リスト
     /// </summary>
-    [Serializable]
     public class DatabaseItemDescList : RestrictedCapacityList<DatabaseItemDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -107,19 +104,5 @@ namespace WodiLib.Database
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override DatabaseItemDesc MakeDefaultItem(int index) => new DatabaseItemDesc();
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected DatabaseItemDescList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

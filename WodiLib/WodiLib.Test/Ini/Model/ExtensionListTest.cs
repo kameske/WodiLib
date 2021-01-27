@@ -43,13 +43,5 @@ namespace WodiLib.Test.Ini.Model
 
             Assert.IsTrue(allExtString.Equals(answer));
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new ExtensionList(new List<Extension> { ".A", ".B", "CCC" });
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

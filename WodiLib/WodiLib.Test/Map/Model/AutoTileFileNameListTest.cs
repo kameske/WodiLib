@@ -26,16 +26,5 @@ namespace WodiLib.Test.Map
             // 取得した値が容量最大値と一致すること
             Assert.AreEqual(maxCapacity, AutoTileFileNameList.MinCapacity);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new AutoTileFileNameList
-            {
-                [3] = "FileName"
-            };
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

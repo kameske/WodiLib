@@ -91,23 +91,6 @@ namespace WodiLib.Test.Common.Internal
             Assert.AreEqual(changedPropertyList.Count, 0);
         }
 
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new CommonEventSelfVariableNameList
-            {
-                [3] = "SelfName",
-            };
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
-
         private static List<CommonEventSelfVariableName> MakeInitList(int length, bool hasNullItem)
         {
             if (length == -1) return null;

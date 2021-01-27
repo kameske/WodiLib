@@ -8,8 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -17,7 +15,6 @@ namespace WodiLib.Map
     /// <summary>
     /// マップツリー開閉状態リストクラス
     /// </summary>
-    [Serializable]
     public class MapTreeOpenStatusList : RestrictedCapacityList<MapTreeOpenState>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -92,52 +89,5 @@ namespace WodiLib.Map
 
             return result.ToArray();
         }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// オブジェクトをシリアル化するために必要なデータを設定する。
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(MakeSerializeKeyNameForItem(-1), Items.Count);
-            for (var i = 0; i < Items.Count; i++)
-            {
-                info.AddValue(MakeSerializeKeyNameForItem(i), Items[i].Code);
-            }
-        }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected MapTreeOpenStatusList(SerializationInfo info, StreamingContext context) : base(
-            ((Func<List<MapTreeOpenState>>) (() =>
-            {
-                var count = info.GetInt32(MakeSerializeKeyNameForItem(-1));
-                var result = new List<MapTreeOpenState>();
-                for (var i = 0; i < count; i++)
-                {
-                    result.Add(MapTreeOpenState.FromCode(info.GetByte(MakeSerializeKeyNameForItem(i))));
-                }
-
-                return result;
-            }))())
-        {
-        }
-
-        /// <summary>
-        /// シリアライズ時のリスト要素用キー名を作成する。
-        /// </summary>
-        /// <param name="index">配列Index</param>
-        /// <returns>キー名</returns>
-        private static string MakeSerializeKeyNameForItem(int index) => $"ITEM_{index}";
     }
 }

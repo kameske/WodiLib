@@ -8,9 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -18,7 +16,6 @@ namespace WodiLib.Ini
     /// <summary>
     /// ショートカット位置リスト
     /// </summary>
-    [Serializable]
     public class ShortCutPositionList : FixedLengthList<ShortCutPosition>,
         IFixedLengthShortCutPositionList, IEquatable<ShortCutPositionList>
     {
@@ -109,7 +106,7 @@ namespace WodiLib.Ini
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
-            return Items.SequenceEqual(other.Items);
+            return this.SequenceEqual(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -123,19 +120,5 @@ namespace WodiLib.Ini
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override ShortCutPosition MakeDefaultItem(int index) => 0;
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected ShortCutPositionList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

@@ -188,13 +188,5 @@ namespace WodiLib.Test.Map
             var rightInstance = (MapEventId) right;
             Assert.AreEqual(leftInstance > rightInstance, left > right);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (MapEventId) 121;
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

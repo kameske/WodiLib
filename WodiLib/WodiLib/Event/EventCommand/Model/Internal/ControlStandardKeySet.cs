@@ -160,7 +160,7 @@ namespace WodiLib.Event.EventCommand
             return builder.ToString();
         }
 
-        public override bool Equals(ControlStandardKeySet? other)
+        public override bool ItemEquals(ControlStandardKeySet? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

@@ -6,6 +6,7 @@ namespace WodiLib.Sys
     /// <summary>
     /// System.Runtime.Serialization.SerializationInfo 拡張クラス
     /// </summary>
+    [Obsolete]
     internal static class SerializationInfoExtension
     {
         /// <summary>

@@ -26,14 +26,5 @@ namespace WodiLib.Test.Database
             // 取得した値が容量最大値と一致すること
             Assert.AreEqual(maxCapacity, DatabaseItemDescList.MinCapacity);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new DatabaseItemDescList();
-            target.AdjustLength(2);
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

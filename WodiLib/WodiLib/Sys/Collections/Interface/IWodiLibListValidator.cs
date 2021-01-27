@@ -8,7 +8,7 @@ namespace WodiLib.Sys
     /// WodiLib 独自実装リスト検証処理インタフェース
     /// </summary>
     /// <remarks>
-    /// <see cref="IExtendedList{T}"/>, <see cref="IRestrictedCapacityList{T}"/>,
+    /// <see cref="IExtendedList{T, TImpl}"/>, <see cref="IRestrictedCapacityList{T}"/>,
     /// <see cref="IFixedLengthList{T}"/> で用いられる。
     /// </remarks>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -17,9 +17,6 @@ namespace WodiLib.Sys
         /// <summary>
         /// コンストラクタの検証処理
         /// </summary>
-        /// <remarks>
-        ///
-        /// </remarks>
         /// <param name="initItems">初期要素</param>
         void Constructor(IReadOnlyList<T> initItems);
 
@@ -48,8 +45,8 @@ namespace WodiLib.Sys
         /// Add, Insert メソッドの検証処理
         /// </summary>
         /// <param name="index">挿入先インデックス</param>
-        /// <param name="items">挿入要素</param>
-        void Insert(int index, T items);
+        /// <param name="item">挿入要素</param>
+        void Insert(int index, T item);
 
         /// <summary>
         /// AddRange, InsertRange メソッドの検証処理

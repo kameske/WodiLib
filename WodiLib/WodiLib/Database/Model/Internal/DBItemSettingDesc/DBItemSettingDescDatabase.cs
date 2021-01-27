@@ -190,7 +190,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(IDBItemSettingDesc? other)
+        public override bool ItemEquals(IDBItemSettingDesc? other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -205,7 +205,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DBItemSettingDescBase? other)
+        public override bool ItemEquals(DBItemSettingDescBase? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

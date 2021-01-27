@@ -6,9 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using System;
-using System.ComponentModel;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -17,7 +14,6 @@ namespace WodiLib.Event.EventCommand
     /// コモンイベント・文字列引数リストオブジェクト
     /// 要素4は必ず数値形式で使用する必要がある。
     /// </summary>
-    [Serializable]
     public class CommonEventStrArgList : RestrictedCapacityList<IntOrStr>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -129,19 +125,5 @@ namespace WodiLib.Event.EventCommand
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override IntOrStr MakeDefaultItem(int index) => new IntOrStr();
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected CommonEventStrArgList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

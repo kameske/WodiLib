@@ -9,10 +9,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Ini
@@ -20,7 +18,6 @@ namespace WodiLib.Ini
     /// <summary>
     /// イベントコマンドショートカットキーリスト
     /// </summary>
-    [Serializable]
     public class EventCommandShortCutKeyList : FixedLengthList<EventCommandShortCutKey>,
         IFixedLengthEventCommandShortCutKeyList, IEquatable<EventCommandShortCutKeyList>
     {
@@ -628,7 +625,7 @@ namespace WodiLib.Ini
         /// <returns>キー重複が存在しない場合、true</returns>
         public bool ValidateDuplicateKey([NotNullWhen(false)] out string? errorMsg)
         {
-            var cloneList = Items.Where(x => !x.Equals(EventCommandShortCutKey.None)).ToList();
+            var cloneList = this.Where(x => !x.Equals(EventCommandShortCutKey.None)).ToList();
             cloneList.Sort((left, right) =>
                 String.Compare(left.Code, right.Code, StringComparison.CurrentCultureIgnoreCase));
 
@@ -666,7 +663,7 @@ namespace WodiLib.Ini
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
-            return Items.SequenceEqual(other.Items);
+            return this.SequenceEqual(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -680,61 +677,5 @@ namespace WodiLib.Ini
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override EventCommandShortCutKey MakeDefaultItem(int index) => EventCommandShortCutKey.One;
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// オブジェクトをシリアル化するために必要なデータを設定する。
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(makeSerializationItemsKeyName(-1), Count);
-            for (var i = 0; i < Count; i++)
-            {
-                info.AddValue(makeSerializationItemsKeyName(i), Items[i].Code);
-            }
-        }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected EventCommandShortCutKeyList(SerializationInfo info, StreamingContext context) : base(ReadList(info))
-        {
-            InitializeNotUseIndexes();
-        }
-
-        /// <summary>
-        /// SerializationInfoから要素情報を取り出す。
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <returns>取り出したリスト</returns>
-        private static IReadOnlyList<EventCommandShortCutKey> ReadList(SerializationInfo info)
-        {
-            var result = new List<EventCommandShortCutKey>();
-
-            var count = info.GetInt32(makeSerializationItemsKeyName(-1));
-            for (var i = 0; i < count; i++)
-            {
-                result.Add(
-                    EventCommandShortCutKey.FromCode(info.GetValue<string>(makeSerializationItemsKeyName(i))));
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// シリアライズ時の要素のキー名を生成する。
-        /// </summary>
-        /// <param name="index">要素インデックス</param>
-        /// <returns>キー名</returns>
-        private static string makeSerializationItemsKeyName(int index) => $"key_{index}";
     }
 }

@@ -9,9 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys;
 
@@ -20,7 +18,6 @@ namespace WodiLib.Event
     /// <summary>
     /// キャラ動作指定コマンドリスト
     /// </summary>
-    [Serializable]
     public class CharaMoveCommandList : RestrictedCapacityList<ICharaMoveCommand>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -46,19 +43,12 @@ namespace WodiLib.Event
             set
             {
                 owner = value;
-                Items.OfType<AddValue>().ToList()
+                this.OfType<AddValue>().ToList()
                     .ForEach(x => x.Owner = value);
-                Items.OfType<AssignValue>().ToList()
+                this.OfType<AssignValue>().ToList()
                     .ForEach(x => x.Owner = value);
             }
         }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>所有イベント保持フラグ</summary>
-        private bool HasOwner => !(owner is null);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -160,34 +150,5 @@ namespace WodiLib.Event
         }
 
         #endregion
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// オブジェクトをシリアル化するために必要なデータを設定する。
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-            info.AddValue(nameof(HasOwner), HasOwner);
-            if (HasOwner) info.AddValue(nameof(owner), owner!.Id);
-        }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected CharaMoveCommandList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-            var savedOwner = info.GetBoolean(nameof(HasOwner));
-            if (savedOwner) owner = TargetAddressOwner.FromId(info.GetValue<string>(nameof(owner)));
-        }
     }
 }

@@ -256,7 +256,7 @@ namespace WodiLib.Event.EventCommand
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(desc)));
 
-            var forkStrList = ConditionList.Select((x, idx) =>
+            var forkStrList = ConditionList.Take(StringVariableCount).Select((x, idx) =>
             {
                 var leftVarName = resolver.GetStringVariableAddressString(x.LeftSide, type, desc);
                 var rightVarName = x.IsUseNumberVariable

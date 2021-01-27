@@ -26,14 +26,5 @@ namespace WodiLib.Test.Map
             // 取得した値が容量最大値と一致すること
             Assert.AreEqual(maxCapacity, TilePathSettingList.MinCapacity);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new TilePathSettingList();
-            target.AdjustLength(30);
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

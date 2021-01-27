@@ -18,13 +18,15 @@ namespace WodiLib.Sys
     internal static class IntExtension
     {
         /// <summary>
-        ///     エンディアンを指定して byte[] -> int32 変換を行う
+        ///     エンディアンを指定して byte[] の指定したオフセットから始まる4バイトデータ -> int32 変換を行う
         /// </summary>
-        /// <param name="value">バイト配列</param>
+        /// <param name="value">変換対象バイト配列</param>
         /// <param name="endian">エンディアン</param>
         /// <param name="offset">読み込み開始オフセット</param>
         /// <returns>変換後の値</returns>
-        /// <exception cref="ArgumentException">変換対象が0バイトの場合</exception>
+        /// <exception cref="ArgumentException">
+        ///     変換対象が0バイトの場合。
+        /// </exception>
         public static int ToInt32(this byte[] value, Endian endian, long offset = 0)
         {
             var byteList = new List<byte>();
@@ -76,7 +78,7 @@ namespace WodiLib.Sys
         ///     1byte -> int32 変換を行う
         /// </summary>
         /// <param name="value">対象バイト</param>
-        /// <returns></returns>
+        /// <returns>変換したint値</returns>
         public static int ToInt32(this byte value)
         {
             // リトルエンディアンとして扱う
@@ -88,9 +90,9 @@ namespace WodiLib.Sys
         /// <summary>
         ///     リトル/ビッグエンディアンを指定し、intをバイト列に変換する。
         /// </summary>
-        /// <param name="value"></param>
-        /// <param name="endian"></param>
-        /// <returns></returns>
+        /// <param name="value">変換対象のint値</param>
+        /// <param name="endian">エンディアン</param>
+        /// <returns>変換後のバイト列</returns>
         public static byte[] ToBytes(this int value, Endian endian)
         {
             var bytes = BitConverter.GetBytes(value);
@@ -100,9 +102,9 @@ namespace WodiLib.Sys
         /// <summary>
         ///     リトル/ビッグエンディアンを判定し、（必要ならば反転した）バイト列を返す。
         /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="endian"></param>
-        /// <returns></returns>
+        /// <param name="bytes">変換対象のint値</param>
+        /// <param name="endian">エンディアン</param>
+        /// <returns>変換後のバイト列</returns>
         private static byte[] GetEndianBytes(byte[] bytes, Endian endian)
         {
             if (BitConverter.IsLittleEndian ^ (endian == Endian.Little)) return bytes.Reverse().ToArray();
@@ -113,8 +115,8 @@ namespace WodiLib.Sys
         /// <summary>
         ///     intをウディタ内部で使用するbyte配列に変換する。
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        /// <param name="value">変換対象のint値</param>
+        /// <returns>変換後のバイト列</returns>
         public static byte[] ToWoditorIntBytes(this int value)
         {
             return value.ToBytes(Endian.Woditor);
@@ -124,10 +126,16 @@ namespace WodiLib.Sys
         /// 指定した桁から指定桁数のIntを取り出す。
         /// </summary>
         /// <param name="target">対象</param>
-        /// <param name="beginColumn">[Range(0, targetの桁数-1)] 取り出し開始桁（1の位＝0とする）</param>
-        /// <param name="length">[Range(1, 10)] 取り出す桁数</param>
+        /// <param name="beginColumn">
+        ///     [Range(0, targetの桁数-1)] 取り出し開始桁（1の位＝0とする）
+        /// </param>
+        /// <param name="length">
+        ///     [Range(1, 10)] 取り出す桁数
+        /// </param>
         /// <returns>取り出した数値</returns>
-        /// <exception cref="ArgumentOutOfRangeException">beginColumn, length が指定範囲以外の場合</exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="beginColumn"/>, <paramref name="length"/> が指定範囲以外の場合。
+        /// </exception>
         public static int SubInt(this int target, int beginColumn, int length)
         {
             const int lengthMin = 1;

@@ -39,17 +39,5 @@ namespace WodiLib.Test.Event.EventCommand
             };
             Assert.AreEqual(instance.ToByte(), flagByte);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new ChoiceForkFlags
-            {
-                IsForkLeftKey = true,
-                IsStopForce = true
-            };
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

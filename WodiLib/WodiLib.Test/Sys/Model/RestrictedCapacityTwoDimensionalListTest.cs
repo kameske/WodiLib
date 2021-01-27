@@ -3701,10 +3701,6 @@ namespace WodiLib.Test.Sys
                 {
                 }
 
-                protected ListTest1(SerializationInfo info, StreamingContext context) : base(info, context)
-                {
-                }
-
                 private void OnTwoDimensionListChanging(object sender,
                     TwoDimensionalCollectionChangeEventArgs<string> e)
                 {
@@ -3745,10 +3741,6 @@ namespace WodiLib.Test.Sys
                 public ListTest2(IEnumerable<IEnumerable<string>> list) : base(list)
                 {
                 }
-
-                protected ListTest2(SerializationInfo info, StreamingContext context) : base(info, context)
-                {
-                }
             }
 
             /// <summary>
@@ -3782,10 +3774,6 @@ namespace WodiLib.Test.Sys
                 }
 
                 public ListTest3(IEnumerable<IEnumerable<string>> list) : base(list)
-                {
-                }
-
-                protected ListTest3(SerializationInfo info, StreamingContext context) : base(info, context)
                 {
                 }
             }

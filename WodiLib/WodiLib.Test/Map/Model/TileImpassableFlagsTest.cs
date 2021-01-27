@@ -350,7 +350,7 @@ namespace WodiLib.Test.Map
         [TestCase(7, 1, false)]
         [TestCase(7, 7, true)]
         [TestCase(7, 15, false)]
-        public static void EqualsTest(int targetCode, int otherCode, bool answer)
+        public static void ItemEqualsTest(int targetCode, int otherCode, bool answer)
         {
             var target = new TileImpassableFlags(targetCode);
             var other = new TileImpassableFlags(otherCode);
@@ -360,7 +360,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                result = target.Equals(other);
+                result = target.ItemEquals(other);
             }
             catch (Exception ex)
             {
@@ -373,17 +373,6 @@ namespace WodiLib.Test.Map
 
             // 結果が取得した値と一致すること
             Assert.AreEqual(result, answer);
-        }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new TileImpassableFlags
-            {
-                LeftDown = true
-            };
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

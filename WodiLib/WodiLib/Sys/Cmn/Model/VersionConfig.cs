@@ -13,8 +13,7 @@ namespace WodiLib.Sys.Cmn
     /// <summary>
     /// WodiLib全体のバージョン設定
     /// </summary>
-    [Serializable]
-    public class VersionConfig
+    public class VersionConfig : IVersionConfig
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Constant
@@ -32,8 +31,10 @@ namespace WodiLib.Sys.Cmn
         /// <summary>
         /// 現在の設定キー名
         /// </summary>
+        /// <remarks>
+        /// キー名の変更は <see cref="ChangeTargetKey"/> メソッドで行う。
+        /// </remarks>
         public static string TargetKeyName { get; private set; } = default!;
-
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -50,6 +51,15 @@ namespace WodiLib.Sys.Cmn
         public WoditorVersion Version { get; private set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Static Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンフィグコンテナ
+        /// </summary>
+        private static WodiLibContainer ConfigContainer { get; } = new();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Static Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -57,16 +67,14 @@ namespace WodiLib.Sys.Cmn
         /// メインで使用する設定キーを変更する。
         /// </summary>
         /// <param name="keyName">[NotEmpty] 設定キー名</param>
-        /// <exception cref="ArgumentNullException">keyNameがnullの場合</exception>
-        /// <exception cref="ArgumentException">keyNameが空文字の場合</exception>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="keyName"/> が <see langword="null"/> の場合。
+        /// </exception>
+        /// <exception cref="ArgumentException"><paramref name="keyName"/> が空文字の場合。</exception>
         public static void ChangeTargetKey(string keyName)
         {
-            if (keyName is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(keyName)));
-            if (keyName.IsEmpty())
-                throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(keyName)));
+            ThrowHelper.ValidateArgumentNotNull(keyName is null, nameof(keyName));
+            ThrowHelper.ValidateArgumentNotEmpty(keyName.IsEmpty(), nameof(keyName));
 
             TargetKeyName = keyName;
 
@@ -76,7 +84,10 @@ namespace WodiLib.Sys.Cmn
         /// <summary>
         /// 設定したウディタバージョンを取得する。
         /// </summary>
-        /// <param name="keyName">設定キー名</param>
+        /// <param name="keyName">
+        ///     設定キー名。<br/>
+        ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
+        /// </param>
         /// <returns>ウディタバージョン</returns>
         public static WoditorVersion GetConfigWoditorVersion(string? keyName = null)
         {
@@ -85,34 +96,40 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
+        /// 指定されたキー名で管理される <see cref="VersionConfig"/> インスタンスに
         /// ウディタバージョンをセットする。
-        /// <para>keyNameがnullの場合、TargetKeyNameに指定したキー名の設定に対して処理を行う。</para>
         /// </summary>
         /// <param name="version">ウディタバージョン</param>
-        /// <param name="keyName">設定キー名</param>
-        /// <exception cref="ArgumentNullException">versionがnullの場合</exception>
+        /// <param name="keyName">
+        ///     設定対象キー名。<br/>
+        ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="version"/> が <see langword="null"/> の場合。
+        /// </exception>
         public static void SetConfigWoditorVersion(WoditorVersion version, string? keyName = null)
         {
-            if (version is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(version)));
+            ThrowHelper.ValidateArgumentNotNull(version is null, nameof(version));
+
             var config = GetConfig(keyName ?? TargetKeyName);
             config.Version = version;
         }
 
         /// <summary>
         /// コンフィグに設定されたバージョンが指定されたバージョンより上かどうかを返す。
-        /// <para>keyNameがnullの場合、TargetKeyNameに指定したキー名の設定に対して処理を行う。</para>
         /// </summary>
         /// <param name="version">比較バージョン</param>
-        /// <param name="keyName">設定キー名</param>
-        /// <returns>コンフィグ設定バージョン &gt; version の場合true</returns>
-        /// <exception cref="ArgumentNullException">versionがnullの場合</exception>
+        /// <param name="keyName">
+        ///     設定対象キー名。<br/>
+        ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
+        /// </param>
+        /// <returns>コンフィグ設定バージョン &gt; <paramref name="version"/> の場合 <see langword="true"/></returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="version"/> が <see langword="null"/> の場合。
+        /// </exception>
         public static bool IsOverVersion(WoditorVersion version, string? keyName = null)
         {
-            if (version is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(version)));
+            ThrowHelper.ValidateArgumentNotNull(version is null, nameof(version));
 
             var config = GetConfig(keyName ?? TargetKeyName);
             return config.Version > version;
@@ -120,17 +137,19 @@ namespace WodiLib.Sys.Cmn
 
         /// <summary>
         /// コンフィグに設定されたバージョンが指定されたバージョン以上かどうかを返す。
-        /// <para>keyNameがnullの場合、TargetKeyNameに指定したキー名の設定に対して処理を行う。</para>
         /// </summary>
         /// <param name="version">比較バージョン</param>
-        /// <param name="keyName">設定キー名</param>
-        /// <returns>コンフィグ設定バージョン &gt;= version の場合true</returns>
-        /// <exception cref="ArgumentNullException">versionがnullの場合</exception>
+        /// <param name="keyName">
+        ///     設定対象キー名。<br/>
+        ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
+        /// </param>
+        /// <returns>コンフィグ設定バージョン &gt;= <paramref name="version"/> の場合 <see langword="true"/></returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="version"/> が <see langword="null"/> の場合。
+        /// </exception>
         public static bool IsGreaterVersion(WoditorVersion version, string? keyName = null)
         {
-            if (version is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(version)));
+            ThrowHelper.ValidateArgumentNotNull(version is null, nameof(version));
 
             var config = GetConfig(keyName ?? TargetKeyName);
             return config.Version >= version;
@@ -138,17 +157,19 @@ namespace WodiLib.Sys.Cmn
 
         /// <summary>
         /// コンフィグに設定されたバージョンが指定されたバージョン以下かどうかを返す。
-        /// <para>keyNameがnullの場合、TargetKeyNameに指定したキー名の設定に対して処理を行う。</para>
         /// </summary>
         /// <param name="version">比較バージョン</param>
-        /// <param name="keyName">設定キー名</param>
-        /// <returns>コンフィグ設定バージョン &lt;= version の場合true</returns>
-        /// <exception cref="ArgumentNullException">versionがnullの場合</exception>
+        /// <param name="keyName">
+        ///     設定対象キー名。<br/>
+        ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
+        /// </param>
+        /// <returns>コンフィグ設定バージョン &lt;= <paramref name="version"/> の場合 <see langword="true"/></returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="version"/> が <see langword="null"/> の場合。
+        /// </exception>
         public static bool IsSameVersion(WoditorVersion version, string? keyName = null)
         {
-            if (version is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(version)));
+            ThrowHelper.ValidateArgumentNotNull(version is null, nameof(version));
 
             var config = GetConfig(keyName ?? TargetKeyName);
             return config.Version == version;
@@ -156,17 +177,19 @@ namespace WodiLib.Sys.Cmn
 
         /// <summary>
         /// コンフィグに設定されたバージョンが指定されたバージョン以下かどうかを返す。
-        /// <para>keyNameがnullの場合、TargetKeyNameに指定したキー名の設定に対して処理を行う。</para>
         /// </summary>
         /// <param name="version">比較バージョン</param>
-        /// <param name="keyName">設定キー名</param>
-        /// <returns>コンフィグ設定バージョン &lt;= version の場合true</returns>
-        /// <exception cref="ArgumentNullException">versionがnullの場合</exception>
+        /// <param name="keyName">
+        ///     設定対象キー名。<br/>
+        ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
+        /// </param>
+        /// <returns>コンフィグ設定バージョン &lt;= <paramref name="version"/> の場合 <see langword="true"/></returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="version"/> が <see langword="null"/> の場合。
+        /// </exception>
         public static bool IsLessVersion(WoditorVersion version, string? keyName = null)
         {
-            if (version is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(version)));
+            ThrowHelper.ValidateArgumentNotNull(version is null, nameof(version));
 
             var config = GetConfig(keyName ?? TargetKeyName);
             return config.Version <= version;
@@ -174,17 +197,19 @@ namespace WodiLib.Sys.Cmn
 
         /// <summary>
         /// コンフィグに設定されたバージョンが指定されたバージョン未満かどうかを返す。
-        /// <para>keyNameがnullの場合、TargetKeyNameに指定したキー名の設定に対して処理を行う。</para>
         /// </summary>
         /// <param name="version">比較バージョン</param>
-        /// <param name="keyName">設定キー名</param>
-        /// <returns>コンフィグ設定バージョン &lt; version の場合true</returns>
-        /// <exception cref="ArgumentNullException">versionがnullの場合</exception>
+        /// <param name="keyName">
+        ///     設定対象キー名。<br/>
+        ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
+        /// </param>
+        /// <returns>コンフィグ設定バージョン &lt; <paramref name="version"/> の場合 <see langword="true"/></returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="version"/> が <see langword="null"/> の場合。
+        /// </exception>
         public static bool IsUnderVersion(WoditorVersion version, string? keyName = null)
         {
-            if (version is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(version)));
+            ThrowHelper.ValidateArgumentNotNull(version is null, nameof(version));
 
             var config = GetConfig(keyName ?? TargetKeyName);
             return config.Version < version;
@@ -200,9 +225,9 @@ namespace WodiLib.Sys.Cmn
         /// <param name="keyName">設定キー名</param>
         private static void RegisterConfigInstanceIfNeeded(string keyName)
         {
-            if (!WodiLibContainer.HasCreateMethod<VersionConfig>(keyName))
+            if (!ConfigContainer.HasCreateMethod<VersionConfig>(keyName))
             {
-                WodiLibContainer.Register(() => new VersionConfig(), WodiLibContainer.Lifetime.Container,
+                ConfigContainer.Register(() => new VersionConfig(), WodiLibContainer.Lifetime.Container,
                     keyName);
             }
         }
@@ -215,7 +240,7 @@ namespace WodiLib.Sys.Cmn
         private static VersionConfig GetConfig(string keyName)
         {
             RegisterConfigInstanceIfNeeded(keyName);
-            return WodiLibContainer.Resolve<VersionConfig>(keyName);
+            return ConfigContainer.Resolve<VersionConfig>(keyName);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

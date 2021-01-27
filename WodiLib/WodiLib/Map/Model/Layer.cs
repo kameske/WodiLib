@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -35,9 +34,7 @@ namespace WodiLib.Map
                 if (value is null)
                     throw new PropertyNullException(
                         ErrorMessage.NotNull(nameof(Chips)));
-                chips.PropertyChanged -= OnChipsPropertyChanged;
                 chips = value;
-                chips.PropertyChanged += OnChipsPropertyChanged;
                 NotifyPropertyChanged();
             }
         }
@@ -86,31 +83,11 @@ namespace WodiLib.Map
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(Layer? other)
+        public override bool ItemEquals(Layer? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
             return chips.Equals(other.chips);
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     InnerNotifyChanged
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// マップチッププロパティ変更通知
-        /// </summary>
-        /// <param name="sender">送信元</param>
-        /// <param name="args">情報</param>
-        private void OnChipsPropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            switch (args.PropertyName)
-            {
-                case nameof(MapChipList.Width):
-                case nameof(MapChipList.Height):
-                    NotifyPropertyChanged(args.PropertyName);
-                    break;
-            }
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -122,7 +99,11 @@ namespace WodiLib.Map
         /// </summary>
         public Layer()
         {
-            chips.PropertyChanged += OnChipsPropertyChanged;
+            PropagatePropertyChangeEvent(chips, (_, name) =>
+            {
+                if (name.Equals(nameof(Width)) || name.Equals(nameof(Height))) return name;
+                return null;
+            });
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

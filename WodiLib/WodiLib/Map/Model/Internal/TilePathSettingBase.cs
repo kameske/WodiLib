@@ -110,7 +110,7 @@ namespace WodiLib.Map
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        public bool Equals(ITilePathSetting? other)
+        public bool ItemEquals(ITilePathSetting? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
@@ -121,7 +121,7 @@ namespace WodiLib.Map
                    && IsCounter == other.IsCounter;
         }
 
-        public override bool Equals(TilePathSettingBase? other)
+        public override bool ItemEquals(TilePathSettingBase? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;

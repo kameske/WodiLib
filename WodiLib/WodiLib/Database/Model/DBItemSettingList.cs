@@ -8,9 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -18,7 +16,6 @@ namespace WodiLib.Database
     /// <summary>
     /// DB項目設定リスト
     /// </summary>
-    [Serializable]
     public class DBItemSettingList : RestrictedCapacityList<DBItemSetting>, IReadOnlyDBItemSettingList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -109,7 +106,7 @@ namespace WodiLib.Database
             result.AddRange(Count.ToBytes(Endian.Woditor));
 
             // 項目名
-            var nameList = Items.Select(x => x.ItemName);
+            var nameList = this.Select(x => x.ItemName);
             foreach (var name in nameList)
             {
                 result.AddRange(name.ToWoditorStringBytes());
@@ -130,7 +127,7 @@ namespace WodiLib.Database
             result.AddRange(ItemSpecialTypeLength.ToBytes(Endian.Woditor));
 
             // 特殊指定
-            var settingTypeList = Items.Select(x => x.SpecialSettingDesc.SettingType);
+            var settingTypeList = this.Select(x => x.SpecialSettingDesc.SettingType);
             result.AddRange(settingTypeList.Select(valueType => valueType.Code));
             // 足りない分を「特殊な指定方法を使用しない」で埋める
             for (var i = Count; i < ItemSpecialTypeLength; i++)
@@ -145,7 +142,7 @@ namespace WodiLib.Database
             var specialCaseNumbers = new List<IReadOnlyList<DatabaseValueCaseNumber>>();
             var initValues = new List<DBItemValue>();
 
-            var useDataList = Items.Select(x => x.SpecialSettingDesc);
+            var useDataList = this.Select(x => x.SpecialSettingDesc);
             foreach (var data in useDataList)
             {
                 itemMemos.Add(data.ItemMemo);
@@ -205,7 +202,7 @@ namespace WodiLib.Database
         {
             var result = new List<byte>();
 
-            var itemTypeList = Items.Select(x => x.ItemType).ToList();
+            var itemTypeList = this.Select(x => x.ItemType).ToList();
 
             // 項目数
             result.AddRange(itemTypeList.Count.ToWoditorIntBytes());
@@ -226,20 +223,6 @@ namespace WodiLib.Database
             }
 
             return result.ToArray();
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected DBItemSettingList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

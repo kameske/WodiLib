@@ -22,7 +22,7 @@ namespace WodiLib.Sys
     public abstract class TypeSafeEnum<T> where T : TypeSafeEnum<T>
     {
         /// <summary>列挙子管理</summary>
-        private static readonly EnumItemsManager EnumItems = new EnumItemsManager();
+        private static readonly EnumItemsManager EnumItems = new();
 
         /// <summary>全ての要素</summary>
         protected static IEnumerable<T> AllItems => EnumItems.AllEnums;
@@ -55,7 +55,7 @@ namespace WodiLib.Sys
         /// </summary>
         private class EnumItemsManager
         {
-            private Dictionary<string, TypeSafeEnum<T>> ItemDic { get; } = new Dictionary<string, TypeSafeEnum<T>>();
+            private Dictionary<string, TypeSafeEnum<T>> ItemDic { get; } = new();
 
             /// <summary>
             /// 列挙アイテムの全リスト

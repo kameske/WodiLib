@@ -16,8 +16,7 @@ namespace WodiLib.Sys
     /// <summary>
     /// ウディタ仕様の文字列
     /// </summary>
-    [Serializable]
-    internal class WoditorString : IEquatable<WoditorString>
+    internal record WoditorString
     {
         /// <summary>ウディタ内部のエンコーディング</summary>
         public static Encoding WoditorEncoding
@@ -33,7 +32,7 @@ namespace WodiLib.Sys
         /// 特殊変換文字群
         /// </summary>
         private static readonly List<Tuple<string, string>> SpecialConversionStringList =
-            new List<Tuple<string, string>>
+            new()
             {
                 new Tuple<string, string>("\n", "<\\n>"),
                 new Tuple<string, string>("\r\n", "<\\n>"),
@@ -94,7 +93,9 @@ namespace WodiLib.Sys
             StringByte = copy;
         }
 
-        /// <summary>stringからインスタンスを生成する</summary>
+        /// <summary>
+        /// stringからインスタンスを生成する
+        /// </summary>
         public WoditorString(string src)
         {
             // 文字列
@@ -127,43 +128,5 @@ namespace WodiLib.Sys
 
         /// <inheritdoc />
         public override string ToString() => String;
-
-        public bool Equals(WoditorString? other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return String == other.String;
-        }
-
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="obj">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public override bool Equals(object? obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (!(obj is WoditorString other)) return false;
-            return Equals(other);
-        }
-
-        public override int GetHashCode()
-        {
-            return String.GetHashCode();
-        }
-
-        public static bool operator ==(WoditorString? left, WoditorString? right)
-        {
-            if (ReferenceEquals(left, right)) return true;
-            if (ReferenceEquals(null, left)) return false;
-            if (ReferenceEquals(null, right)) return false;
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(WoditorString? left, WoditorString? right)
-        {
-            return !(left == right);
-        }
     }
 }

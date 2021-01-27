@@ -230,7 +230,7 @@ namespace WodiLib.Common
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(CommonEventSpecialNumberArgDesc? other)
+        public override bool ItemEquals(CommonEventSpecialNumberArgDesc? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;

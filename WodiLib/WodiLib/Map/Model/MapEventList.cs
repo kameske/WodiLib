@@ -8,9 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using WodiLib.Event;
 using WodiLib.Sys;
 
@@ -19,7 +17,6 @@ namespace WodiLib.Map
     /// <summary>
     /// マップイベントリストクラス
     /// </summary>
-    [Serializable]
     public partial class MapEventList : RestrictedCapacityList<MapEvent>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -81,7 +78,7 @@ namespace WodiLib.Map
         /// <param name="mapEventId">マップイベントID</param>
         /// <returns>マップイベント（存在しない場合null）</returns>
         public MapEvent? GetMapEvent(MapEventId mapEventId)
-            => Items.FirstOrDefault(x => x.MapEventId == mapEventId);
+            => this.FirstOrDefault(x => x.MapEventId == mapEventId);
 
         /// <summary>
         /// 指定したマップイベントIDのマップイベントページリストを取得する。
@@ -125,7 +122,7 @@ namespace WodiLib.Map
         [Obsolete("GetMapEvent(MapEventId) メソッドと重複するメソッドのため、 Ver 2.6 にて削除します。")]
         public MapEvent? GetForMapEventId(MapEventId mapEventId)
         {
-            return Items.FirstOrDefault(x => x.MapEventId == mapEventId);
+            return this.FirstOrDefault(x => x.MapEventId == mapEventId);
         }
 
         /// <summary>
@@ -135,7 +132,7 @@ namespace WodiLib.Map
         /// <returns>イベント保持フラグ</returns>
         public bool ContainsEventId(MapEventId mapEventId)
         {
-            var searchEvent = Items.FirstOrDefault(x => x.MapEventId == mapEventId);
+            var searchEvent = this.FirstOrDefault(x => x.MapEventId == mapEventId);
             return !(searchEvent is null);
         }
 
@@ -164,26 +161,12 @@ namespace WodiLib.Map
         {
             var result = new List<byte>();
 
-            foreach (var mapEvent in Items)
+            foreach (var mapEvent in this)
             {
                 result.AddRange(mapEvent.ToBinary());
             }
 
             return result.ToArray();
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected MapEventList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

@@ -26,14 +26,5 @@ namespace WodiLib.Test.Map
             // 取得した値が容量最大値と一致すること
             Assert.AreEqual(maxCapacity, MapTreeNodeList.MinCapacity);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new MapTreeNodeList();
-            target.AdjustLength(3);
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

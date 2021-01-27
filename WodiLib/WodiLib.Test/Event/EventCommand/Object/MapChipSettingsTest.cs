@@ -298,13 +298,5 @@ namespace WodiLib.Test.Event.EventCommand
             };
             Assert.AreEqual(instance.ToInt(), flagValue);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new MapChipSettings(650);
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

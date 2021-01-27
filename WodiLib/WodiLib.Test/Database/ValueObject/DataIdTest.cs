@@ -133,13 +133,5 @@ namespace WodiLib.Test.Database
             var rightInstance = (DataId) right;
             Assert.AreEqual(leftInstance.Equals(rightInstance), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (DataId) 3;
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

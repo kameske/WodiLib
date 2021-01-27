@@ -8,9 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -18,7 +16,6 @@ namespace WodiLib.Map
     /// <summary>
     /// オートタイルファイル名リストクラス
     /// </summary>
-    [Serializable]
     public class AutoTileFileNameList : FixedLengthList<AutoTileFileName>,
         IFixedLengthAutoTileFileNameList, IEquatable<AutoTileFileNameList>
     {
@@ -100,7 +97,7 @@ namespace WodiLib.Map
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
-            return Items.SequenceEqual(other.Items);
+            return this.SequenceEqual(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -126,20 +123,6 @@ namespace WodiLib.Map
                 result.AddRange(new WoditorString(fileName).StringByte);
 
             return result.ToArray();
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected AutoTileFileNameList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

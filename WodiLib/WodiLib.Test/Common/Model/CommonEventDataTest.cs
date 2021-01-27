@@ -63,24 +63,6 @@ namespace WodiLib.Test.Common
             }
         }
 
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new CommonEventData
-            {
-                CommonEventList = MakeCommonEventList(1),
-            };
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
-
 
         private static CommonEventList MakeCommonEventList(int length)
         {

@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace WodiLib.Sys
@@ -23,21 +24,13 @@ namespace WodiLib.Sys
         /// <param name="itemName">エラーメッセージ中の要素名</param>
         /// <typeparam name="T">リスト内包型</typeparam>
         /// <exception cref="ArgumentNullException">
-        ///   target の行、または列に null 要素が存在する場合
+        ///   <paramref name="target"/> の行、または列に <see langword="true"/> 要素が存在する場合
         /// </exception>
-        public static void ItemNotNull<T>(T[][] target, string itemName = "initItems")
+        public static void ItemNotNull<T>(IReadOnlyList<IReadOnlyList<T>> target,
+            string itemName = "initItems")
         {
-            if (target.HasNullItem())
-            {
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNullInList(itemName));
-            }
-
-            if (target.Any(x => x.HasNullItem()))
-            {
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNullInList($"{itemName}の要素"));
-            }
+            ThrowHelper.ValidateArgumentItemsHasNotNull(target.HasNullItem(), itemName);
+            ThrowHelper.ValidateArgumentItemsHasNotNull(target.Any(x => x.HasNullItem()), $"{itemName}の要素");
         }
 
         /// <summary>
@@ -48,18 +41,14 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentException">
         ///     行数が2以上であり、かつ0行目の要素数と異なる行が存在する場合
         /// </exception>
-        public static void InnerItemLength<T>(T[][] target)
+        public static void InnerItemLength<T>(IReadOnlyList<IReadOnlyList<T>> target)
         {
-            if (target.Length < 2) return;
+            if (target.Count < 2) return;
 
-            var baseLength = target[0].Length;
+            var baseLength = target[0].Count;
             var errorRowIndex = target.Skip(1)
-                .FindIndex(x => x.Length != baseLength);
-            if (errorRowIndex != -1)
-            {
-                throw new ArgumentException(
-                    $"{errorRowIndex}行目の要素数が基準要素数と異なります。");
-            }
+                .FindIndex(x => x.Count != baseLength);
+            ThrowHelper.ValidateTwoDimListInnerItemLength(errorRowIndex != -1, errorRowIndex);
         }
 
         /// <summary>
@@ -69,12 +58,10 @@ namespace WodiLib.Sys
         /// <param name="count">一致すべき値</param>
         /// <param name="sizeName">エラーメッセージ中のサイズ名称</param>
         /// <param name="countName">エラーメッセージ中のカウント名称</param>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public static void SizeEqual(int size, int count, string sizeName = "size", string countName = "count")
         {
-            if (size != count)
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.NotEqual(sizeName, countName));
+            ThrowHelper.ValidateArgumentNotEqual(size != count, sizeName, countName);
         }
 
         /// <summary>
@@ -87,9 +74,8 @@ namespace WodiLib.Sys
         /// </exception>
         public static void LengthNotZero(int listCount, Direction direction)
         {
-            if (listCount == 0)
-                throw new InvalidOperationException(
-                    ErrorMessage.NotExecute($"{(direction == Direction.Row ? "行" : "列")}数が0のため"));
+            ThrowHelper.InvalidOperationIf(listCount == 0,
+                () => ErrorMessage.NotExecute($"{(direction == Direction.Row ? "行" : "列")}数が0のため"));
         }
     }
 }

@@ -8,8 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -17,7 +15,6 @@ namespace WodiLib.Database
     /// <summary>
     /// DBデータ名リスト
     /// </summary>
-    [Serializable]
     public class DataNameList : RestrictedCapacityList<DataName>, IReadOnlyDataNameList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -97,26 +94,12 @@ namespace WodiLib.Database
             result.AddRange(Count.ToBytes(Endian.Woditor));
 
             // データ名
-            foreach (var name in Items)
+            foreach (var name in this)
             {
                 result.AddRange(name.ToWoditorStringBytes());
             }
 
             return result.ToArray();
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected DataNameList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

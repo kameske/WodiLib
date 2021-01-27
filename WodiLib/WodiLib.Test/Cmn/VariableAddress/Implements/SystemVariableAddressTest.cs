@@ -237,13 +237,5 @@ namespace WodiLib.Test.Cmn
             // もとの値が変化していないこと
             Assert.AreEqual((int) instance, srcVariableAddress);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (SystemVariableAddress) 9003213;
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

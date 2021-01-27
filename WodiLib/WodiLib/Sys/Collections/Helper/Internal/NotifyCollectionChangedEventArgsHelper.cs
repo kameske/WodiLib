@@ -12,7 +12,7 @@ using System.Collections.Specialized;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// NotifyCollectionChangedEventArgs Helperクラス
+    /// <see cref="NotifyCollectionChangedEventArgs"/> インスタンス生成 Helper クラス
     /// </summary>
     internal static class NotifyCollectionChangedEventArgsHelper
     {
@@ -22,9 +22,9 @@ namespace WodiLib.Sys
         /// <param name="newItems">変更後オブジェクト</param>
         /// <param name="oldItems">変更前オブジェクト</param>
         /// <param name="startingIndex">対象インデックス</param>
-        /// <returns>CollectionChangedイベント引数</returns>
+        /// <returns>イベント引数</returns>
         public static NotifyCollectionChangedEventArgs Set(IList newItems, IList oldItems, int startingIndex)
-            => new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems,
+            => new(NotifyCollectionChangedAction.Replace, newItems, oldItems,
                 startingIndex);
 
         /// <summary>
@@ -32,9 +32,9 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="items">挿入オブジェクト</param>
         /// <param name="index">対象インデックス</param>
-        /// <returns>CollectionChangedイベント引数</returns>
+        /// <returns>イベント引数</returns>
         public static NotifyCollectionChangedEventArgs Insert(IList items, int index)
-            => new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items, index);
+            => new(NotifyCollectionChangedAction.Add, items, index);
 
         /// <summary>
         /// MoveRangeイベント時の変更通知
@@ -42,24 +42,24 @@ namespace WodiLib.Sys
         /// <param name="items">挿入オブジェクト</param>
         /// <param name="newIndex">移動先インデックス</param>
         /// <param name="oldIndex">移動元インデックス</param>
-        /// <returns>CollectionChangedイベント引数</returns>
+        /// <returns>イベント引数</returns>
         public static NotifyCollectionChangedEventArgs Move(IList items, int newIndex, int oldIndex)
-            => new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, items, newIndex, oldIndex);
+            => new(NotifyCollectionChangedAction.Move, items, newIndex, oldIndex);
 
         /// <summary>
         /// RemoveRangeイベント時の変更通知
         /// </summary>
         /// <param name="items">除去オブジェクト</param>
         /// <param name="index">対象インデックス</param>
-        /// <returns>CollectionChangedイベント引数</returns>
+        /// <returns>イベント引数</returns>
         public static NotifyCollectionChangedEventArgs Remove(IList items, int index)
-            => new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, items, index);
+            => new(NotifyCollectionChangedAction.Remove, items, index);
 
         /// <summary>
         /// Clearイベント時の変更通知
         /// </summary>
-        /// <returns>CollectionChangedイベント引数</returns>
+        /// <returns>イベント引数</returns>
         public static NotifyCollectionChangedEventArgs Clear()
-            => new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+            => new(NotifyCollectionChangedAction.Reset);
     }
 }

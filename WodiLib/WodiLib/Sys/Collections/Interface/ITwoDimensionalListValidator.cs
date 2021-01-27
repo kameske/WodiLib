@@ -9,7 +9,7 @@
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// TwoDimensionalList 検証者インタフェース
+    /// <see cref="ITwoDimensionalList{T, TImpl}"/> 検証者インタフェース
     /// </summary>
     public interface ITwoDimensionalListValidator<in T>
     {
@@ -51,7 +51,7 @@ namespace WodiLib.Sys
         void Set(int row, int column, T[][] items);
 
         /// <summary>
-        /// AddRow, AddRowRange, InsertRow, InsertRowRange メソッドの検証処理
+        /// AddDataValues, AddRowRange, InsertRow, InsertRowRange メソッドの検証処理
         /// </summary>
         /// <param name="row">挿入行番号</param>
         /// <param name="items">挿入要素</param>

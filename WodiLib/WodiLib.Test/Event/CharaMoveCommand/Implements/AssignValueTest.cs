@@ -88,23 +88,5 @@ namespace WodiLib.Test.Event.CharaMoveCommand
                 Assert.IsTrue(changedPropertyList[0].Equals(nameof(AssignValue.TargetAddress)));
             }
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new AssignValue
-            {
-                Value = 21,
-                Owner = TargetAddressOwner.CommonEvent
-            };
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
     }
 }

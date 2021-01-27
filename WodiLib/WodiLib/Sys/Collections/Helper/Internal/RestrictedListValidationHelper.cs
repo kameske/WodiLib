@@ -25,9 +25,8 @@ namespace WodiLib.Sys
         /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
         public static void ItemCount(int count, int min, int max, string itemName = "initItems")
         {
-            if (count < min || max < count)
-                throw new InvalidOperationException(
-                    ErrorMessage.OutOfRange($"{itemName}の要素数", min, max, count));
+            ThrowHelper.ValidateArgumentValueRange(count < min || max < count,
+                $"{itemName}の要素数", count, min, max);
         }
 
         /// <summary>
@@ -38,9 +37,7 @@ namespace WodiLib.Sys
         /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
         public static void ItemMaxCount(int count, int max)
         {
-            if (count > max)
-                throw new InvalidOperationException(
-                    ErrorMessage.OverListLength(max));
+            ThrowHelper.ValidateListMaxItemCount(count > max, "要素数", max);
         }
 
         /// <summary>
@@ -48,12 +45,10 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="count">要素数</param>
         /// <param name="min">最小要素数</param>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
         public static void ItemMinCount(int count, int min)
         {
-            if (count < min)
-                throw new InvalidOperationException(
-                    ErrorMessage.UnderListLength(min));
+            ThrowHelper.ValidateListMinItemCount(count < min, "要素数", min);
         }
 
         /// <summary>
@@ -63,13 +58,8 @@ namespace WodiLib.Sys
         /// <param name="max">最大容量</param>
         public static void CapacityConfig(int min, int max)
         {
-            if (min < 0)
-                throw new InvalidOperationException(
-                    ErrorMessage.GreaterOrEqual("最小容量", 0, max));
-
-            if (min > max)
-                throw new InvalidOperationException(
-                    ErrorMessage.GreaterOrEqual("最大容量", $"最小容量（{min}）", max));
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(min < 0, "最小容量", 0, min);
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(min > max, "最大容量", $"最小容量（{min}）", max);
         }
     }
 }

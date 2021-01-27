@@ -6,7 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using System;
 using System.Collections.Generic;
 
 namespace WodiLib.Sys
@@ -14,6 +13,7 @@ namespace WodiLib.Sys
     /// <summary>
     /// リスト編集メソッドの引数汎用検証処理実施クラス
     /// </summary>
+    /// <typeparam name="T">リスト内包型</typeparam>
     internal class CommonListValidator<T> : WodiLibListValidatorTemplate<T>
     {
         protected override IWodiLibListValidator<T>? BaseValidator => null;
@@ -24,7 +24,7 @@ namespace WodiLib.Sys
 
         public override void Constructor(IReadOnlyList<T> initItems)
         {
-            if (initItems is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(initItems)));
+            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
             ListValidationHelper.ItemsHasNotNull(initItems, nameof(initItems));
         }
 
@@ -37,10 +37,7 @@ namespace WodiLib.Sys
 
         public override void Set(int index, T item)
         {
-            if (item is null)
-            {
-                throw new ArgumentNullException(ErrorMessage.NotNull(nameof(item)));
-            }
+            ThrowHelper.ValidateArgumentNotNull(item is null, nameof(item));
 
             Set(index, new[] {item}!);
         }
@@ -54,24 +51,21 @@ namespace WodiLib.Sys
 
         public override void Insert(int index, T item)
         {
-            if (item is null)
-            {
-                throw new ArgumentNullException(ErrorMessage.NotNull(nameof(item)));
-            }
+            ThrowHelper.ValidateArgumentNotNull(item is null, nameof(item));
 
             Insert(index, new[] {item}!);
         }
 
         public override void Insert(int index, IReadOnlyList<T> items)
         {
-            if (items is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
             ListValidationHelper.InsertIndex(index, Target.Count);
             ListValidationHelper.ItemsHasNotNull(items);
         }
 
         public override void Overwrite(int index, IReadOnlyList<T> items)
         {
-            if (items is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
             ListValidationHelper.InsertIndex(index, Target.Count);
             ListValidationHelper.ItemsHasNotNull(items);
         }
@@ -95,34 +89,25 @@ namespace WodiLib.Sys
 
         public override void AdjustLength(int length)
         {
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.GreaterOrEqual(nameof(length), 0, length));
-            }
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
+                nameof(length), 0, length);
         }
 
         public override void AdjustLengthIfShort(int length)
         {
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.GreaterOrEqual(nameof(length), 0, length));
-            }
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
+                nameof(length), 0, length);
         }
 
         public override void AdjustLengthIfLong(int length)
         {
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.GreaterOrEqual(nameof(length), 0, length));
-            }
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
+                nameof(length), 0, length);
         }
 
         public override void Reset(IReadOnlyList<T> items)
         {
-            if (items is null) throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
             ListValidationHelper.ItemsHasNotNull(items);
         }
     }

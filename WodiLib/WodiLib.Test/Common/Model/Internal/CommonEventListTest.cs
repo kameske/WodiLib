@@ -98,14 +98,6 @@ namespace WodiLib.Test.Common.Internal
             Assert.AreEqual(maxCapacity, CommonEventList.MinCapacity);
         }
 
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new CommonEventList(MakeInitList(3, false));
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
-
 
         private static List<CommonEvent> MakeInitList(int length, bool hasNullItem)
         {

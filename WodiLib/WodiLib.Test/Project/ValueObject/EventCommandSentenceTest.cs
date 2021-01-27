@@ -141,13 +141,5 @@ namespace WodiLib.Test.Project.ValueObject
             var rightIndex = (EventCommandSentence) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (EventCommandSentence) "sentence";
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

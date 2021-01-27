@@ -280,14 +280,5 @@ namespace WodiLib.Test.Database
             Assert.IsTrue(result.Equals(answer));
         }
 
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new DatabaseDataDescList();
-            target.AdjustLength(2);
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

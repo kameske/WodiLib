@@ -127,15 +127,6 @@ namespace WodiLib.Test.Map
             }
         }
 
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new TileSetData();
-            target.TileSetSettingList.AdjustLength(3);
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
-
 
         [OneTimeTearDown]
         public static void TearDown()

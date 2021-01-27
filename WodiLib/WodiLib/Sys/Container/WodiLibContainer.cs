@@ -15,10 +15,10 @@ namespace WodiLib.Sys
     /// <summary>
     /// オブジェクト注入用クラス
     /// </summary>
-    internal static class WodiLibContainer
+    internal class WodiLibContainer
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Static Property
+        //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
@@ -26,9 +26,9 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="key">キー名</param>
         /// <typeparam name="T">チェック対象のクラス型</typeparam>
-        /// <returns>生成メソッドが登録されている場合true</returns>
-        /// <exception cref="ArgumentNullException">keyがnullの場合</exception>
-        public static bool HasCreateMethod<T>(string key = "default")
+        /// <returns>生成メソッドが登録されている場合 <see langword="true"/></returns>
+        /// <exception cref="ArgumentNullException"><paramref name="key"/> が <see langword="null"/> の場合</exception>
+        public bool HasCreateMethod<T>(string key = "default")
         {
             if (key is null)
                 throw new ArgumentNullException(
@@ -50,7 +50,7 @@ namespace WodiLib.Sys
         /// <param name="lifetime">ライフタイム</param>
         /// <param name="key">コンテナ名</param>
         /// <typeparam name="T">登録型</typeparam>
-        public static void Register<T>(Func<T> createMethod, Lifetime lifetime, string key = "default")
+        public void Register<T>(Func<T> createMethod, Lifetime lifetime, string key = "default")
         {
             // 登録情報作成
             var createObjMethod = new Func<object>(() => (object) createMethod()!);
@@ -82,7 +82,7 @@ namespace WodiLib.Sys
         /// <typeparam name="T">インスタンス型</typeparam>
         /// <returns></returns>
         /// <exception cref="NotImplementedException">登録されていない型を指定した場合</exception>
-        public static T Resolve<T>(string key = "default")
+        public T Resolve<T>(string key = "default")
         {
             // コンテナ取得
             if (!ContainerDic.ContainsKey(key)) throw new ContainerNotRegistrationException();
@@ -108,16 +108,8 @@ namespace WodiLib.Sys
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private static readonly Dictionary<string, Dictionary<Type, CreateInfo>> ContainerDic;
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Constructor
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        static WodiLibContainer()
-        {
-            ContainerDic = new Dictionary<string, Dictionary<Type, CreateInfo>>();
-        }
+        private readonly Dictionary<string, Dictionary<Type, CreateInfo>> ContainerDic
+            = new();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Inner Class

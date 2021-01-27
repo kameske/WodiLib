@@ -911,21 +911,6 @@ namespace WodiLib.Test.Common.Internal
                 NotifyCollectionChangedAction.Reset);
         }
 
-        [Test]
-        public static void SerializeTest()
-        {
-            var argCaseList = new CommonEventSpecialArgCaseList(MakeArgCaseList(2).ToArray());
-            var target = new CommonEventSpecialNumberArgDesc.InnerDescManual(argCaseList);
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
-
 
         private static IEnumerable<CommonEventSpecialArgCase> MakeArgCaseList(int length)
         {

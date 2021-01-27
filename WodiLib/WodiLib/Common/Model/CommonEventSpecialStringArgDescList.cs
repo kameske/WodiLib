@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Common
@@ -9,7 +7,6 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベント文字列引数特殊指定情報リスト
     /// </summary>
-    [Serializable]
     public class CommonEventSpecialStringArgDescList : FixedLengthList<CommonEventSpecialStringArgDesc>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -64,20 +61,5 @@ namespace WodiLib.Common
         /// <returns>デフォルトインスタンス</returns>
         protected override CommonEventSpecialStringArgDesc MakeDefaultItem(int index) =>
             new CommonEventSpecialStringArgDesc();
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected CommonEventSpecialStringArgDescList(SerializationInfo info, StreamingContext context) : base(info,
-            context)
-        {
-        }
     }
 }

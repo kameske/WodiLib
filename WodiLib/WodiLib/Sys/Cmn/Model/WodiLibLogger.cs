@@ -34,6 +34,15 @@ namespace WodiLib.Sys.Cmn
         public static string TargetKeyName { get; private set; } = "";
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Static Property
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンフィグコンテナ
+        /// </summary>
+        private static WodiLibContainer ConfigContainer { get; } = new();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
@@ -50,16 +59,16 @@ namespace WodiLib.Sys.Cmn
         /// メインで使用する設定キーを変更する。
         /// </summary>
         /// <param name="keyName">設定キー名</param>
-        /// <exception cref="ArgumentNullException">keyNameがnullの場合</exception>
-        /// <exception cref="ArgumentException">keyNameが空文字の場合</exception>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="keyName"/> が <see langword="null"/> の場合。
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="keyName"/> が空文字の場合。
+        /// </exception>
         public static void ChangeTargetKey(string keyName)
         {
-            if (keyName == null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(keyName)));
-            if (keyName.IsEmpty())
-                throw new ArgumentException(
-                    ErrorMessage.NotEmpty(nameof(keyName)));
+            ThrowHelper.ValidateArgumentNotNull(keyName is null, nameof(keyName));
+            ThrowHelper.ValidateArgumentNotEmpty(keyName.IsEmpty(), nameof(keyName));
 
             TargetKeyName = keyName;
 
@@ -69,28 +78,32 @@ namespace WodiLib.Sys.Cmn
         /// <summary>
         /// 設定キー名からインスタンスを取得する。
         /// </summary>
-        /// <param name="keyName">設定キー名</param>
-        /// <returns>設定インスタンス。
-        /// keyNameがnullの場合 WodiLibLogger.TargetKeyName を設定キー名としてインスタンスを取得する。</returns>
+        /// <param name="keyName">
+        ///     設定キー名<br/>
+        ///     <see langword="null"/> の場合、<see cref="TargetKeyName"/> を使用する。
+        /// </param>
+        /// <returns>設定インスタンス</returns>
         public static WodiLibLogger GetInstance(string? keyName = null)
         {
             var innerKeyName = keyName ?? TargetKeyName;
             RegisterInstanceIfNeeded(innerKeyName);
-            return WodiLibContainer.Resolve<WodiLibLogger>(innerKeyName);
+            return ConfigContainer.Resolve<WodiLibLogger>(innerKeyName);
         }
 
         /// <summary>
         /// ログハンドラを設定する。
-        /// <para>keyNameがnullの場合、TargetKeyNameに指定したキー名の設定に対して処理を行う。</para>
         /// </summary>
         /// <param name="logHandler">ログ出力ハンドラ</param>
-        /// <param name="keyName">設定キー名</param>
-        /// <exception cref="ArgumentNullException">logHandlerがnullの場合</exception>
+        /// <param name="keyName">
+        ///     設定キー名<br/>
+        ///     <see langword="null"/> の場合、<see cref="TargetKeyName"/> に指定したキー名の設定に対して処理を行う。
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="logHandler"/> が <see langword="null"/> の場合。
+        /// </exception>
         public static void SetLogHandler(WodiLibLogHandler logHandler, string? keyName = null)
         {
-            if (logHandler == null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(logHandler)));
+            ThrowHelper.ValidateArgumentNotNull(logHandler is null, nameof(logHandler));
 
             var innerKeyName = keyName ?? TargetKeyName;
             var instance = GetInstance(innerKeyName);
@@ -107,9 +120,9 @@ namespace WodiLib.Sys.Cmn
         /// <param name="keyName">設定キー名</param>
         private static void RegisterInstanceIfNeeded(string keyName)
         {
-            if (!WodiLibContainer.HasCreateMethod<WodiLibLogger>(keyName))
+            if (!ConfigContainer.HasCreateMethod<WodiLibLogger>(keyName))
             {
-                WodiLibContainer.Register(() => new WodiLibLogger(WodiLibLogHandler.Default),
+                ConfigContainer.Register(() => new WodiLibLogger(WodiLibLogHandler.Default),
                     WodiLibContainer.Lifetime.Container, keyName);
             }
         }
@@ -127,12 +140,12 @@ namespace WodiLib.Sys.Cmn
         /// コンストラクタ
         /// </summary>
         /// <param name="logHandler">ログハンドラ</param>
-        /// <exception cref="ArgumentNullException">logHandlerがnullの場合</exception>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="logHandler"/> が <see langword="null"/> の場合。
+        /// </exception>
         public WodiLibLogger(WodiLibLogHandler logHandler)
         {
-            if (logHandler == null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(logHandler)));
+            ThrowHelper.ValidateArgumentNotNull(logHandler is null, nameof(logHandler));
 
             LogHandler = logHandler;
         }

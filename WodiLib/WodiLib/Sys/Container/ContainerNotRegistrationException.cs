@@ -10,9 +10,8 @@ using System;
 
 namespace WodiLib.Sys
 {
-    /// <inheritdoc />
     /// <summary>
-    ///     Containerに登録されていないインスタンスを呼び出そうとしたときの例外
+    ///     <see cref="WodiLibContainer"/> に登録されていないインスタンスを呼び出そうとしたときの例外
     /// </summary>
     public class ContainerNotRegistrationException : Exception
     {

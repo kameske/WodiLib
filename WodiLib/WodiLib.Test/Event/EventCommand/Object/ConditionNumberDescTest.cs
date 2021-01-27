@@ -65,17 +65,5 @@ namespace WodiLib.Test.Event.EventCommand
 
             Assert.IsTrue(isError);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new ConditionNumberDesc()
-            {
-                LeftSide = 2000002,
-                RightSide = 3,
-            };
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

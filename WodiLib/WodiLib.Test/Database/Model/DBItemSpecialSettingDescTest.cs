@@ -1480,20 +1480,6 @@ namespace WodiLib.Test.Database
             }
         }
 
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = MakeInstance(DBItemSpecialSettingType.LoadFile);
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
-
 
         public static DBItemSpecialSettingDesc MakeInstance(DBItemSpecialSettingType type)
         {

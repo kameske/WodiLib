@@ -141,13 +141,5 @@ namespace WodiLib.Test.Map
             var rightIndex = (MapEventName) right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (MapEventName) "MapEventName";
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

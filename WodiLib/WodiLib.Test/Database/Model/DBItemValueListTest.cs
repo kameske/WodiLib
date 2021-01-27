@@ -169,14 +169,5 @@ namespace WodiLib.Test.Database
             // 意図した値が取得されること
             Assert.IsTrue(answer.SequenceEqual(result));
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new DBItemValueList();
-            target.AdjustLength(3);
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

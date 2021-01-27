@@ -13,8 +13,7 @@ namespace WodiLib.Sys
     /// <summary>
     /// ウディタ仕様の数値
     /// </summary>
-    [Serializable]
-    internal readonly struct WoditorInt
+    internal record WoditorInt
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

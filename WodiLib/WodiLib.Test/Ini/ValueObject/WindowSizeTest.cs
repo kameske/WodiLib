@@ -174,13 +174,5 @@ namespace WodiLib.Test.Ini.ValueObject
         {
             Assert.AreEqual(left.Equals(right), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (WindowSize) (640, 480);
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

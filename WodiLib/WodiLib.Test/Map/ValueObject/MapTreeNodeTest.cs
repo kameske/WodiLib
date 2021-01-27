@@ -119,13 +119,5 @@ namespace WodiLib.Test.Map
         {
             Assert.AreEqual(left.Equals(right), isEqual);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new MapTreeNode(20, 21);
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

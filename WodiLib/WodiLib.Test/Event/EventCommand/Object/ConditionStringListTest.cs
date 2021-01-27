@@ -97,13 +97,5 @@ namespace WodiLib.Test.Event.EventCommand
             var max = instance.SearchUseNumberVariableForRightSideMax();
             Assert.AreEqual(max, result);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new ConditionStringList {[0] = {LeftSide = 2200023}};
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

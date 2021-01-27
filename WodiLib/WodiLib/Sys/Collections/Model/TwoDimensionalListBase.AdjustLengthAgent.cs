@@ -77,7 +77,7 @@ namespace WodiLib.Sys
             public static AdjustLengthAgent ForAdjustLength(
                 TwoDimensionalListBase<T> outer, int rowLength, int columnLength)
             {
-                return new AdjustLengthAgent(outer, rowLength, columnLength,
+                return new(outer, rowLength, columnLength,
                     Direction.None, MethodType.None);
             }
 
@@ -91,7 +91,7 @@ namespace WodiLib.Sys
             public static AdjustLengthAgent ForAdjustLengthIfShort(
                 TwoDimensionalListBase<T> outer, int rowLength, int columnLength)
             {
-                return new AdjustLengthAgent(outer, rowLength, columnLength,
+                return new(outer, rowLength, columnLength,
                     Direction.None, MethodType.IfShort);
             }
 
@@ -105,7 +105,7 @@ namespace WodiLib.Sys
             public static AdjustLengthAgent ForAdjustLengthIfLong(
                 TwoDimensionalListBase<T> outer, int rowLength, int columnLength)
             {
-                return new AdjustLengthAgent(outer, rowLength, columnLength,
+                return new(outer, rowLength, columnLength,
                     Direction.None, MethodType.IfLong);
             }
 
@@ -118,7 +118,7 @@ namespace WodiLib.Sys
             public static AdjustLengthAgent ForAdjustRowLength(
                 TwoDimensionalListBase<T> outer, int length)
             {
-                return new AdjustLengthAgent(outer, length, outer.ColumnCount,
+                return new(outer, length, outer.ColumnCount,
                     Direction.Row, MethodType.None);
             }
 
@@ -131,7 +131,7 @@ namespace WodiLib.Sys
             public static AdjustLengthAgent ForAdjustRowLengthIfShort(
                 TwoDimensionalListBase<T> outer, int length)
             {
-                return new AdjustLengthAgent(outer, length, outer.ColumnCount,
+                return new(outer, length, outer.ColumnCount,
                     Direction.Row, MethodType.IfShort);
             }
 
@@ -144,7 +144,7 @@ namespace WodiLib.Sys
             public static AdjustLengthAgent ForAdjustRowLengthIfLong(
                 TwoDimensionalListBase<T> outer, int length)
             {
-                return new AdjustLengthAgent(outer, length, outer.ColumnCount,
+                return new(outer, length, outer.ColumnCount,
                     Direction.Row, MethodType.IfLong);
             }
 
@@ -157,7 +157,7 @@ namespace WodiLib.Sys
             public static AdjustLengthAgent ForAdjustColumnLength(
                 TwoDimensionalListBase<T> outer, int length)
             {
-                return new AdjustLengthAgent(outer, outer.RowCount, length,
+                return new(outer, outer.RowCount, length,
                     Direction.Column, MethodType.None);
             }
 
@@ -170,7 +170,7 @@ namespace WodiLib.Sys
             public static AdjustLengthAgent ForAdjustColumnLengthIfShort(
                 TwoDimensionalListBase<T> outer, int length)
             {
-                return new AdjustLengthAgent(outer, outer.RowCount, length,
+                return new(outer, outer.RowCount, length,
                     Direction.Column, MethodType.IfShort);
             }
 
@@ -183,7 +183,7 @@ namespace WodiLib.Sys
             public static AdjustLengthAgent ForAdjustColumnLengthIfLong(
                 TwoDimensionalListBase<T> outer, int length)
             {
-                return new AdjustLengthAgent(outer, outer.RowCount, length,
+                return new(outer, outer.RowCount, length,
                     Direction.Column, MethodType.IfLong);
             }
 

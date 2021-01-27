@@ -26,16 +26,5 @@ namespace WodiLib.Test.Ini.Model
             // 取得した値が容量最大値と一致すること
             Assert.AreEqual(maxCapacity, ShortCutPositionList.MinCapacity);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new ShortCutPositionList
-            {
-                [2] = new ShortCutPosition(2)
-            };
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

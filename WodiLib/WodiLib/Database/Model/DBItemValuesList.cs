@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Database
@@ -19,7 +18,6 @@ namespace WodiLib.Database
     /// <summary>
     /// DB項目設定値リスト
     /// </summary>
-    [Serializable]
     public class DBItemValuesList : RestrictedCapacityList<IFixedLengthDBItemValueList>,
         IReadOnlyDBItemValuesList
     {
@@ -154,20 +152,20 @@ namespace WodiLib.Database
                     ErrorMessage.OverListLength(maxCapacity));
 
             // 親の影響を受けないよう要素を削除
-            Items.Clear();
+            Clear();
 
             // 基準になるデータを生成
             if (initItemArr.Length == 0)
             {
                 // 項目なし
-                Items.Add(CreateValueListInstance());
+                Add(CreateValueListInstance());
                 InitializeItems();
                 StartObserveListEvent();
                 return;
             }
 
             // 入力データの1行目を基準データにする
-            Items.Add(CreateValueListInstance(initItemArr[0]));
+            this[0] = new DBItemValueList(initItemArr[0]);
 
             if (initItemArr.Length == 1)
             {
@@ -181,7 +179,7 @@ namespace WodiLib.Database
             {
                 DBItemValuesListValidationHelper.ValidateListItem(this, initItemArr[i]);
 
-                Items.Add(CreateValueListInstance(initItemArr[i]));
+                Add(CreateValueListInstance(initItemArr[i]));
             }
 
             InitializeItems();
@@ -202,7 +200,7 @@ namespace WodiLib.Database
         /// </summary>
         private void InitializeItems()
         {
-            Items.ForEach(item => { ((DBItemValueList) item).HasRelationship = true; });
+            this.ForEach(item => { ((DBItemValueList) item).HasRelationship = true; });
             AttachFiledCollectionNotification(this[0]);
         }
 
@@ -382,7 +380,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         public void SetField(ItemId itemId, DBItemType type)
         {
-            var max = Items[0].Count - 1;
+            var max = this[0].Count - 1;
             const int min = 0;
             if (itemId < min || max < itemId)
                 throw new ArgumentOutOfRangeException(
@@ -435,7 +433,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentNullException">typeがnullの場合</exception>
         public void SetField(ItemId itemId, DBItemValue value)
         {
-            var max = Items[0].Count - 1;
+            var max = this[0].Count - 1;
             const int min = 0;
             if (itemId < min || max < itemId)
                 throw new ArgumentOutOfRangeException(
@@ -487,7 +485,7 @@ namespace WodiLib.Database
         /// </exception>
         public void SetField(ItemId itemId, Func<DataId, DBItemValue> funcGetValue)
         {
-            var max = Items[0].Count - 1;
+            var max = this[0].Count - 1;
             const int min = 0;
             if (itemId < min || max < itemId)
                 throw new ArgumentOutOfRangeException(
@@ -529,7 +527,7 @@ namespace WodiLib.Database
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 
-            var addedLength = Items[0].Count + 1;
+            var addedLength = this[0].Count + 1;
             if (addedLength > DBItemValueList.MaxCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
@@ -550,7 +548,7 @@ namespace WodiLib.Database
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(value)));
 
-            var addedLength = Items[0].Count + 1;
+            var addedLength = this[0].Count + 1;
             if (addedLength > DBItemValueList.MaxCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
@@ -575,7 +573,7 @@ namespace WodiLib.Database
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(funcGetValue)));
 
-            var addedLength = Items[0].Count + 1;
+            var addedLength = this[0].Count + 1;
             if (addedLength > DBItemValueList.MaxCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
@@ -614,7 +612,7 @@ namespace WodiLib.Database
 
             var typeArr = types.ToArray();
 
-            var addedLength = Items[0].Count + typeArr.Length;
+            var addedLength = this[0].Count + typeArr.Length;
             if (addedLength > DBItemValueList.MaxCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
@@ -638,7 +636,7 @@ namespace WodiLib.Database
 
             var valueArr = values.ToArray();
 
-            var addedLength = Items[0].Count + valueArr.Length;
+            var addedLength = this[0].Count + valueArr.Length;
             if (addedLength > DBItemValueList.MaxCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
@@ -678,7 +676,7 @@ namespace WodiLib.Database
                 {
                     firstTypes = values.Select(x => x.Type).ToList();
 
-                    var addedLength = Items[0].Count + firstTypes.Count;
+                    var addedLength = this[0].Count + firstTypes.Count;
                     if (addedLength > DBItemValueList.MaxCapacity)
                         throw new InvalidOperationException(
                             ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
@@ -702,7 +700,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">要素数がDBItemValueList.MaxCapacityを超える場合</exception>
         public void InsertField(ItemId itemId, DBItemType type)
         {
-            var max = Items[0].Count;
+            var max = this[0].Count;
             const int min = 0;
             if (itemId < min || max < itemId)
                 throw new ArgumentOutOfRangeException(
@@ -712,7 +710,7 @@ namespace WodiLib.Database
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(type)));
 
-            var insertedLength = Items[0].Count + 1;
+            var insertedLength = this[0].Count + 1;
             if (insertedLength > DBItemValueList.MaxCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
@@ -731,7 +729,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">要素数がDBItemValueList.MaxCapacityを超える場合</exception>
         public void InsertField(ItemId itemId, DBItemValue value)
         {
-            var max = Items[0].Count;
+            var max = this[0].Count;
             const int min = 0;
             if (itemId < min || max < itemId)
                 throw new ArgumentOutOfRangeException(
@@ -741,7 +739,7 @@ namespace WodiLib.Database
                 throw new ArgumentNullException(
                     ErrorMessage.NotNull(nameof(value)));
 
-            var insertedLength = Items[0].Count + 1;
+            var insertedLength = this[0].Count + 1;
             if (insertedLength > DBItemValueList.MaxCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
@@ -764,7 +762,7 @@ namespace WodiLib.Database
         /// </exception>
         public void InsertField(ItemId itemId, Func<DataId, DBItemValue> funcGetValue)
         {
-            var max = Items[0].Count;
+            var max = this[0].Count;
             const int min = 0;
             if (itemId < min || max < itemId)
                 throw new ArgumentOutOfRangeException(
@@ -807,7 +805,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">要素数がDBItemValueList.MaxCapacityを超える場合</exception>
         public void InsertFieldRange(ItemId itemId, IEnumerable<DBItemType> types)
         {
-            var max = Items[0].Count;
+            var max = this[0].Count;
             const int min = 0;
             if (itemId < min || max < itemId)
                 throw new ArgumentOutOfRangeException(
@@ -821,7 +819,7 @@ namespace WodiLib.Database
                 throw new ArgumentNullException(
                     ErrorMessage.NotNullInList(nameof(types)));
 
-            var addedLength = Items[0].Count + typeArr.Length;
+            var addedLength = this[0].Count + typeArr.Length;
             if (addedLength > DBItemValueList.MaxCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
@@ -844,7 +842,7 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">要素数がDBItemValueList.MaxCapacityを超える場合</exception>
         public void InsertFieldRange(ItemId itemId, IEnumerable<DBItemValue> values)
         {
-            var max = Items[0].Count;
+            var max = this[0].Count;
             const int min = 0;
             if (itemId < min || max < itemId)
                 throw new ArgumentOutOfRangeException(
@@ -858,7 +856,7 @@ namespace WodiLib.Database
                 throw new ArgumentNullException(
                     ErrorMessage.NotNullInList(nameof(values)));
 
-            var addedLength = Items[0].Count + valueArr.Length;
+            var addedLength = this[0].Count + valueArr.Length;
             if (addedLength > DBItemValueList.MaxCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
@@ -881,7 +879,7 @@ namespace WodiLib.Database
         /// </exception>
         public void InsertFieldRange(ItemId itemId, Func<DataId, IEnumerable<DBItemValue>> funcGetValues)
         {
-            var max = Items[0].Count;
+            var max = this[0].Count;
             const int min = 0;
             if (itemId < min || max < itemId)
                 throw new ArgumentOutOfRangeException(
@@ -902,7 +900,7 @@ namespace WodiLib.Database
                 {
                     firstTypes = values.Select(x => x.Type).ToList();
 
-                    var addedLength = Items[0].Count + firstTypes.Count;
+                    var addedLength = this[0].Count + firstTypes.Count;
                     if (addedLength > DBItemValueList.MaxCapacity)
                         throw new InvalidOperationException(
                             ErrorMessage.OverListLength(DBItemValueList.MaxCapacity));
@@ -928,11 +926,11 @@ namespace WodiLib.Database
         /// </exception>
         public void MoveField(ItemId oldItemId, ItemId newItemId)
         {
-            if (Items[0].Count == 0)
+            if (this[0].Count == 0)
                 throw new InvalidOperationException(
                     ErrorMessage.NotExecute("リストの要素が0個のため"));
 
-            var max = Items[0].Count - 1;
+            var max = this[0].Count - 1;
             const int min = 0;
             if (oldItemId < min || max < oldItemId)
                 throw new ArgumentOutOfRangeException(
@@ -958,20 +956,20 @@ namespace WodiLib.Database
         /// </exception>
         public void MoveFieldRange(ItemId oldItemId, ItemId newItemId, int count)
         {
-            if (Items[0].Count == 0)
+            if (this[0].Count == 0)
                 throw new InvalidOperationException(
                     ErrorMessage.NotExecute("リストの要素が0個のため"));
 
             const int min = 0;
-            var oldIndexMax = Items[0].Count - 1;
+            var oldIndexMax = this[0].Count - 1;
             if (oldItemId < min || oldIndexMax < oldItemId)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(oldItemId), min, oldIndexMax, oldItemId));
-            var lengthMax = Items[0].Count - oldItemId;
+            var lengthMax = this[0].Count - oldItemId;
             if (count < min || lengthMax < count)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(newItemId), min, lengthMax, newItemId));
-            var newIndexMax = Items[0].Count - count;
+            var newIndexMax = this[0].Count - count;
             if (newItemId < min || newIndexMax < newItemId)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(newItemId), min, newIndexMax, newItemId));
@@ -987,13 +985,13 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">削除した結果要素数がDBItemValueList.MinValue未満になる場合</exception>
         public void RemoveFieldAt(ItemId itemId)
         {
-            var max = Items[0].Count - 1;
+            var max = this[0].Count - 1;
             const int min = 0;
             if (itemId < min || max < itemId)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(itemId), min, max, itemId));
 
-            var removedLength = Items[0].Count - 1;
+            var removedLength = this[0].Count - 1;
             if (removedLength < DBItemValueList.MinCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.UnderListLength(DBItemValueList.MinCapacity));
@@ -1011,24 +1009,24 @@ namespace WodiLib.Database
         /// <exception cref="InvalidOperationException">削除した結果要素数がDBItemValueList.MinValue未満になる場合</exception>
         public void RemoveFieldRange(ItemId itemId, int count)
         {
-            var indexMax = Items[0].Count - 1;
+            var indexMax = this[0].Count - 1;
             const int min = 0;
 
             if (itemId < min || indexMax < itemId)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(itemId), min, indexMax, itemId));
 
-            var countMax = Items[0].Count;
+            var countMax = this[0].Count;
 
             if (count < min || countMax < count)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(count), min, countMax, count));
 
-            if (Items[0].Count - itemId < count)
+            if (this[0].Count - itemId < count)
                 throw new ArgumentException(
                     $"{nameof(itemId)}および{nameof(count)}が有効な範囲を示していません。");
 
-            var removedLength = Items[0].Count - count;
+            var removedLength = this[0].Count - count;
             if (removedLength < DBItemValueList.MinCapacity)
                 throw new InvalidOperationException(
                     ErrorMessage.UnderListLength(GetMinCapacity()));
@@ -1337,7 +1335,7 @@ namespace WodiLib.Database
             var result = new List<byte>();
 
             // 要素数
-            result.AddRange(Items[0].Count.ToBytes(Endian.Woditor));
+            result.AddRange(this[0].Count.ToBytes(Endian.Woditor));
 
             // 要素
             var cntDict = new Dictionary<DBItemType, int>
@@ -1346,7 +1344,7 @@ namespace WodiLib.Database
                 {DBItemType.String, 0}
             };
 
-            foreach (var itemType in Items[0].Select(x => x.Type))
+            foreach (var itemType in this[0].Select(x => x.Type))
             {
                 var addValue = itemType.TypeOrderStart + cntDict[itemType];
                 result.AddRange(addValue.ToBytes(Endian.Woditor));
@@ -1369,26 +1367,12 @@ namespace WodiLib.Database
             result.AddRange(Count.ToBytes(Endian.Woditor));
 
             // DB項目設定値リスト
-            foreach (var item in Items.Select(x => (DBItemValueList) x))
+            foreach (var item in this.Select(x => (DBItemValueList) x))
             {
                 result.AddRange(item.ToBinary());
             }
 
             return result.ToArray();
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected DBItemValuesList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
         }
     }
 }

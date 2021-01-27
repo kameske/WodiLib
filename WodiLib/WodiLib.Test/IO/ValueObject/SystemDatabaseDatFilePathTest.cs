@@ -52,13 +52,5 @@ namespace WodiLib.Test.IO.ValueObject
             // 内容が一致すること
             Assert.AreEqual((string) instance, path);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = (SystemDatabaseDatFilePath) "test\\SysDatabase.dat";
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

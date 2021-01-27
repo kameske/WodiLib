@@ -22,7 +22,7 @@ namespace WodiLib.Sys
         /// <param name="min">最小値</param>
         /// <param name="max">最大値</param>
         /// <param name="setValue">設定値</param>
-        /// <returns></returns>
+        /// <returns>メッセージ</returns>
         public static string OutOfRange(string itemName, IntOrStr min, IntOrStr max, int setValue)
         {
             return $"{itemName}は{min.ToValueString()}～{max.ToValueString()}の範囲外で設定されているため、" +
@@ -34,7 +34,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
         /// <param name="setValue">設定値</param>
-        /// <returns></returns>
+        /// <returns>メッセージ</returns>
         public static string CannotSetValue(string itemName, object setValue)
         {
             return $"{itemName}にウディタ上では設定できない値が設定されました。" +

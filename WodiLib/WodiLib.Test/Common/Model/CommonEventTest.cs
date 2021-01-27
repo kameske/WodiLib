@@ -862,22 +862,5 @@ namespace WodiLib.Test.Common
             // commonEvent をここまで開放したくないので無駄な処理を入れる
             commonEvent.Memo = "";
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new CommonEvent
-            {
-                Id = 20,
-            };
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
     }
 }

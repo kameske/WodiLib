@@ -6,27 +6,30 @@
 // see LICENSE file
 // ========================================
 
-
-using System;
-
 namespace WodiLib.Sys
 {
-    internal class CommonTwoDimensionalListValidator<T> : ITwoDimensionalListValidator<T>
+    /// <summary>
+    /// 二次元リスト編集メソッドの引数汎用検証処理実施クラス
+    /// </summary>
+    /// <typeparam name="T">リスト内包型</typeparam>
+    internal class CommonTwoDimensionalListValidator<T> : WodiLibTwoDimensionalListValidator<T>
     {
-        private IReadOnlyTwoDimensionalList<T> Target { get; }
+        protected override ITwoDimensionalListValidator<T>? BaseValidator => null;
 
-        public CommonTwoDimensionalListValidator(IReadOnlyTwoDimensionalList<T> target)
+        private new IReadOnlyTwoDimensionalList<T> Target { get; }
+
+        public CommonTwoDimensionalListValidator(IReadOnlyTwoDimensionalList<T> target) : base(target)
         {
             Target = target;
         }
 
-        public void Constructor(T[][] initItems)
+        public override void Constructor(T[][] initItems)
         {
             TwoDimensionalListValidationHelper.ItemNotNull(initItems);
             TwoDimensionalListValidationHelper.InnerItemLength(initItems);
         }
 
-        public void Get(int row, int rowCount, int column, int columnCount)
+        public override void Get(int row, int rowCount, int column, int columnCount)
         {
             ListValidationHelper.SelectIndex(row, Target.RowCount, nameof(row));
             ListValidationHelper.Count(rowCount, Target.RowCount, nameof(rowCount));
@@ -36,14 +39,14 @@ namespace WodiLib.Sys
             ListValidationHelper.Range(column, columnCount, Target.ColumnCount, nameof(column), nameof(columnCount));
         }
 
-        public void GetRow(int row, int count)
+        public override void GetRow(int row, int count)
         {
             ListValidationHelper.SelectIndex(row, Target.RowCount, nameof(row));
             ListValidationHelper.Count(count, Target.RowCount);
             ListValidationHelper.Range(row, count, Target.RowCount, nameof(row));
         }
 
-        public void GetColumn(int column, int count)
+        public override void GetColumn(int column, int count)
         {
             ValidateTargetIsEmpty();
             ListValidationHelper.SelectIndex(column, Target.ColumnCount, nameof(column));
@@ -51,7 +54,7 @@ namespace WodiLib.Sys
             ListValidationHelper.Range(column, count, Target.ColumnCount, nameof(column));
         }
 
-        public void Set(int row, int column, T[][] items)
+        public override void Set(int row, int column, T[][] items)
         {
             ListValidationHelper.SelectIndex(row, Target.RowCount, nameof(row));
             ListValidationHelper.SelectIndex(column, Target.ColumnCount, nameof(column));
@@ -64,7 +67,7 @@ namespace WodiLib.Sys
             }
         }
 
-        public void InsertRow(int row, T[][] items)
+        public override void InsertRow(int row, T[][] items)
         {
             ListValidationHelper.InsertIndex(row, Target.RowCount, nameof(row));
             TwoDimensionalListValidationHelper.InnerItemLength(items);
@@ -76,7 +79,7 @@ namespace WodiLib.Sys
             }
         }
 
-        public void InsertColumn(int column, T[][] items)
+        public override void InsertColumn(int column, T[][] items)
         {
             ValidateTargetIsEmpty();
             ListValidationHelper.InsertIndex(column, Target.ColumnCount, nameof(column));
@@ -89,7 +92,7 @@ namespace WodiLib.Sys
             }
         }
 
-        public void OverwriteRow(int row, T[][] items)
+        public override void OverwriteRow(int row, T[][] items)
         {
             ListValidationHelper.InsertIndex(row, Target.RowCount, nameof(row));
             TwoDimensionalListValidationHelper.InnerItemLength(items);
@@ -101,7 +104,7 @@ namespace WodiLib.Sys
             }
         }
 
-        public void OverwriteColumn(int column, T[][] items)
+        public override void OverwriteColumn(int column, T[][] items)
         {
             ValidateTargetIsEmpty();
             ListValidationHelper.InsertIndex(column, Target.ColumnCount, nameof(column));
@@ -114,7 +117,7 @@ namespace WodiLib.Sys
             }
         }
 
-        public void MoveRow(int oldRow, int newRow, int count)
+        public override void MoveRow(int oldRow, int newRow, int count)
         {
             ValidateTargetIsEmpty();
             TwoDimensionalListValidationHelper.LengthNotZero(Target.RowCount, Direction.Row);
@@ -125,7 +128,7 @@ namespace WodiLib.Sys
             ListValidationHelper.Range(count, newRow, Target.RowCount, nameof(count), nameof(newRow));
         }
 
-        public void MoveColumn(int oldColumn, int newColumn, int count)
+        public override void MoveColumn(int oldColumn, int newColumn, int count)
         {
             ValidateTargetIsEmpty();
             TwoDimensionalListValidationHelper.LengthNotZero(Target.ColumnCount, Direction.Column);
@@ -136,7 +139,7 @@ namespace WodiLib.Sys
             ListValidationHelper.Range(count, newColumn, Target.ColumnCount, nameof(count), nameof(newColumn));
         }
 
-        public void RemoveRow(int row, int count)
+        public override void RemoveRow(int row, int count)
         {
             ValidateTargetIsEmpty();
             ListValidationHelper.SelectIndex(row, Target.RowCount, nameof(row));
@@ -144,7 +147,7 @@ namespace WodiLib.Sys
             ListValidationHelper.Range(row, count, Target.RowCount, nameof(row));
         }
 
-        public void RemoveColumn(int column, int count)
+        public override void RemoveColumn(int column, int count)
         {
             ValidateTargetIsEmpty();
             ListValidationHelper.SelectIndex(column, Target.ColumnCount, nameof(column));
@@ -152,79 +155,61 @@ namespace WodiLib.Sys
             ListValidationHelper.Range(column, count, Target.ColumnCount, nameof(column));
         }
 
-        public void AdjustLength(int rowLength, int columnLength)
+        public override void AdjustLength(int rowLength, int columnLength)
         {
             ValidateSquareSize(rowLength, columnLength);
         }
 
-        public void AdjustLengthIfShort(int rowLength, int columnLength)
+        public override void AdjustLengthIfShort(int rowLength, int columnLength)
         {
             ValidateSquareSize(rowLength, columnLength);
         }
 
-        public void AdjustLengthIfLong(int rowLength, int columnLength)
+        public override void AdjustLengthIfLong(int rowLength, int columnLength)
         {
             ValidateSquareSize(rowLength, columnLength);
         }
 
-        public void AdjustRowLength(int length)
+        public override void AdjustRowLength(int length)
         {
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.GreaterOrEqual(nameof(length), 0, length));
-            }
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
+                nameof(length), 0, length);
         }
 
-        public void AdjustColumnLength(int length)
+        public override void AdjustColumnLength(int length)
         {
             ValidateTargetIsEmpty();
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.GreaterOrEqual(nameof(length), 0, length));
-            }
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
+                nameof(length), 0, length);
         }
 
-        public void AdjustRowLengthIfShort(int length)
+        public override void AdjustRowLengthIfShort(int length)
         {
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.GreaterOrEqual(nameof(length), 0, length));
-            }
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
+                nameof(length), 0, length);
         }
 
-        public void AdjustColumnLengthIfShort(int length)
+        public override void AdjustColumnLengthIfShort(int length)
         {
             ValidateTargetIsEmpty();
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.GreaterOrEqual(nameof(length), 0, length));
-            }
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
+                nameof(length), 0, length);
         }
 
-        public void AdjustRowLengthIfLong(int length)
+        public override void AdjustRowLengthIfLong(int length)
         {
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.GreaterOrEqual(nameof(length), 0, length));
-            }
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
+                nameof(length), 0, length);
         }
 
-        public void AdjustColumnLengthIfLong(int length)
+        public override void AdjustColumnLengthIfLong(int length)
         {
             ValidateTargetIsEmpty();
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.GreaterOrEqual(nameof(length), 0, length));
-            }
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
+                nameof(length), 0, length);
         }
 
-        public void Reset(T[][] items)
+        public override void Reset(T[][] items)
         {
             TwoDimensionalListValidationHelper.ItemNotNull(items);
             TwoDimensionalListValidationHelper.InnerItemLength(items);
@@ -232,26 +217,16 @@ namespace WodiLib.Sys
 
         private void ValidateTargetIsEmpty()
         {
-            if (Target.IsEmpty)
-            {
-                throw new InvalidOperationException(
-                    ErrorMessage.NotExecute("空リストのため"));
-            }
+            ThrowHelper.InvalidOperationIf(Target.IsEmpty,
+                () => ErrorMessage.NotExecute("空リストのため"));
         }
 
         private static void ValidateSquareSize(int rowLength, int columnLength)
         {
-            if (rowLength < 0)
-            {
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.GreaterOrEqual(nameof(rowLength), 0, rowLength));
-            }
-
-            if (columnLength < 0)
-            {
-                throw new ArgumentOutOfRangeException(
-                    ErrorMessage.GreaterOrEqual(nameof(columnLength), 0, columnLength));
-            }
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(rowLength < 0,
+                nameof(rowLength), 0, rowLength);
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(columnLength < 0,
+                nameof(columnLength), 0, columnLength);
 
             if (rowLength > 0) return;
             // rowLength == 0
@@ -259,8 +234,8 @@ namespace WodiLib.Sys
             if (columnLength == 0) return;
 
             // rowLength == 0 && columnLength != 0 は不正な指定
-            throw new ArgumentException(
-                ErrorMessage.Unsuitable("行数および列数の指定", "行数 == 0 かつ 列数 != 0 の指定はできません"));
+            ThrowHelper.ValidateArgumentUnsuitable(true,
+                "行数および列数の指定", "行数 == 0 かつ 列数 != 0 の指定はできません");
         }
     }
 }

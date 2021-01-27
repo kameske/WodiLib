@@ -182,17 +182,5 @@ namespace WodiLib.Test.Event
             };
             return instance;
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new ActionEntry
-            {
-                IsWaitForComplete = true,
-                IsRepeatAction = true,
-            };
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-        }
     }
 }

@@ -7,9 +7,7 @@
 // ========================================
 
 using System;
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.Serialization;
 
 namespace WodiLib.Sys
 {
@@ -17,7 +15,7 @@ namespace WodiLib.Sys
     ///     int、stringを持つクラス
     /// </summary>
     [Serializable]
-    public class IntOrStr : ModelBase<IntOrStr>, ISerializable
+    public class IntOrStr : ModelBase<IntOrStr>
     {
         private static string NotifyPropertyChangedName = "Value";
 
@@ -43,6 +41,8 @@ namespace WodiLib.Sys
         /// <param name="strValue">設定値</param>
         public IntOrStr(string strValue)
         {
+            ThrowHelper.ValidateArgumentNotNull(strValue is null, nameof(strValue));
+
             numValue = 0;
             this.strValue = strValue;
             InstanceIntOrStrType = IntOrStrType.Str;
@@ -55,6 +55,8 @@ namespace WodiLib.Sys
         /// <param name="strValue">string設定値</param>
         public IntOrStr(int numValue, string strValue)
         {
+            ThrowHelper.ValidateArgumentNotNull(strValue is null, nameof(strValue));
+
             this.numValue = numValue;
             this.strValue = strValue;
             InstanceIntOrStrType = IntOrStrType.IntAndStr;
@@ -161,15 +163,16 @@ namespace WodiLib.Sys
             return "";
         }
 
-#nullable disable
         /// <summary>
         /// int -> IntOrStr 暗黙型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
-        public static implicit operator IntOrStr(int src)
+        [return: NotNullIfNotNull("src")]
+        public static implicit operator IntOrStr?(int? src)
         {
-            return new IntOrStr(src);
+            if (src is null) return null;
+            return new IntOrStr(src.Value);
         }
 
         /// <summary>
@@ -178,7 +181,7 @@ namespace WodiLib.Sys
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
         [return: NotNullIfNotNull("src")]
-        public static implicit operator IntOrStr(string src)
+        public static implicit operator IntOrStr?(string? src)
         {
             if (src is null) return null;
             return new IntOrStr(src);
@@ -189,7 +192,8 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
-        public static implicit operator IntOrStr(Tuple<int, string> tuple)
+        [return: NotNullIfNotNull("tuple")]
+        public static implicit operator IntOrStr?(Tuple<int, string>? tuple)
         {
             if (tuple is null) return null;
             return new IntOrStr(tuple.Item1, tuple.Item2);
@@ -200,11 +204,12 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
-        public static implicit operator IntOrStr(ValueTuple<int, string> tuple)
+        [return: NotNullIfNotNull("tuple")]
+        public static implicit operator IntOrStr?(ValueTuple<int, string>? tuple)
         {
-            return new IntOrStr(tuple.Item1, tuple.Item2);
+            if (tuple is null) return null;
+            return new IntOrStr(tuple.Value.Item1, tuple.Value.Item2);
         }
-#nullable restore
 
         /// <inheritdoc />
         public override string ToString()
@@ -227,13 +232,12 @@ namespace WodiLib.Sys
             return guidForHash.GetHashCode();
         }
 
-
         /// <summary>
         /// 値を比較する。
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(IntOrStr? other)
+        public override bool ItemEquals(IntOrStr? other)
         {
             if (other is null) return false;
 
@@ -242,38 +246,6 @@ namespace WodiLib.Sys
             if (HasStr && !strValue!.Equals(other.strValue)) return false;
 
             return true;
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// オブジェクトをシリアル化するために必要なデータを設定する。
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(guidForHash), guidForHash);
-            info.AddValue(nameof(numValue), numValue);
-            info.AddValue(nameof(strValue), strValue);
-            info.AddValue(nameof(InstanceIntOrStrType), InstanceIntOrStrType.Id);
-        }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected IntOrStr(SerializationInfo info, StreamingContext context)
-        {
-            guidForHash = info.GetValue<Guid>(nameof(guidForHash));
-            numValue = info.GetInt32(nameof(numValue));
-            strValue = info.GetValue<string>(nameof(strValue));
-            InstanceIntOrStrType = IntOrStrType.FromId(info.GetValue<string>(nameof(InstanceIntOrStrType)));
         }
     }
 }

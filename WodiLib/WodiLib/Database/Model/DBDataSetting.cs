@@ -260,7 +260,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
-        public override bool Equals(DBDataSetting? other)
+        public override bool ItemEquals(DBDataSetting? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -273,9 +273,7 @@ namespace WodiLib.Database
             if (DataSettingType == DBDataSettingType.DesignatedType)
             {
                 // データの設定方法 ＝指定DB の場合のみ、DB参照情報の比較
-                if (
-                    !EquatableCompareHelper.Equals(ReferDatabaseDesc, other.ReferDatabaseDesc)
-                ) return false;
+                if (!ReferDatabaseDesc.Equals(other.ReferDatabaseDesc)) return false;
             }
 
             return true;

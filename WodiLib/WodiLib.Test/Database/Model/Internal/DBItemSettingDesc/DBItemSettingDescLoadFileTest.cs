@@ -527,22 +527,5 @@ namespace WodiLib.Test.Database.Internal.DBItemSettingDesc
             // プロパティ変更通知が発火していないこと
             Assert.AreEqual(changedPropertyList.Count, 0);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new DBItemSettingDescLoadFile
-            {
-                FolderName = "FolderName"
-            };
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
     }
 }

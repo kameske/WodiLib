@@ -8,9 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using WodiLib.Sys;
 
 namespace WodiLib.Event.EventCommand
@@ -18,7 +16,6 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// 条件（文字列）条件リスト
     /// </summary>
-    [Serializable]
     public class ConditionStringList : FixedLengthList<ConditionStringDesc>, IModelBase<ConditionStringList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -87,15 +84,6 @@ namespace WodiLib.Event.EventCommand
         /// <returns>容量最大値</returns>
         public override int GetCapacity() => Capacity;
 
-        /// <inheritdoc />
-        public override IEnumerator<ConditionStringDesc> GetEnumerator()
-        {
-            for (var i = 0; i < ConditionValue; i++)
-            {
-                yield return Items[i];
-            }
-        }
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -115,7 +103,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <inheritdoc />
-        public bool Equals(ConditionStringList? other)
+        public bool ItemEquals(ConditionStringList? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(other, null)) return false;
@@ -136,19 +124,5 @@ namespace WodiLib.Event.EventCommand
         /// <returns>デフォルトインスタンス</returns>
         protected override ConditionStringDesc MakeDefaultItem(int index)
             => new ConditionStringDesc();
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected ConditionStringList(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

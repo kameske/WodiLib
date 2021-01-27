@@ -795,20 +795,5 @@ namespace WodiLib.Test.Common.Internal
             Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
             Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new CommonEventSpecialNumberArgDesc.InnerDescDatabase();
-            target.SetDatabaseRefer(DBKind.System, 20);
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
     }
 }

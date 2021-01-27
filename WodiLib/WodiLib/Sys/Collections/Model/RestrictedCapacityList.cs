@@ -10,10 +10,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace WodiLib.Sys
 {
@@ -24,7 +22,6 @@ namespace WodiLib.Sys
     /// 機能概要は <seealso cref="IRestrictedCapacityList{T}"/> 参照。
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    [Serializable]
     public abstract class RestrictedCapacityList<T> : ModelBase<RestrictedCapacityList<T>>,
         IRestrictedCapacityList<T>
     {
@@ -50,10 +47,10 @@ namespace WodiLib.Sys
         //      Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
-        public virtual int Count => Items.Count;
+        /// <inheritdoc cref="IRestrictedCapacityList{T}.Count" />
+        public int Count => Items.Count;
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IRestrictedCapacityList{T}.this" />
         public T this[int index]
         {
             get
@@ -68,12 +65,19 @@ namespace WodiLib.Sys
             }
         }
 
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Protected Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        /// <inheritdoc cref="IReadOnlyExtendedList{T}.IsNotifyBeforeCollectionChange" />
+        public bool IsNotifyBeforeCollectionChange
+        {
+            get => Items.IsNotifyBeforeCollectionChange;
+            set => Items.IsNotifyBeforeCollectionChange = value;
+        }
 
-        /// <summary>リスト</summary>
-        protected virtual ExtendedList<T> Items { get; }
+        /// <inheritdoc cref="IReadOnlyExtendedList{T}.IsNotifyAfterCollectionChange" />
+        public bool IsNotifyAfterCollectionChange
+        {
+            get => Items.IsNotifyAfterCollectionChange;
+            set => Items.IsNotifyAfterCollectionChange = value;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Private Property
@@ -81,6 +85,9 @@ namespace WodiLib.Sys
 
         /// <summary>引数検証処理</summary>
         private IWodiLibListValidator<T>? Validator { get; }
+
+        /// <summary>リスト</summary>
+        private ExtendedList<T> Items { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Constructor
@@ -104,7 +111,8 @@ namespace WodiLib.Sys
             {
                 FuncMakeItems = MakeItems
             };
-            PropagatePropertyChangeEvent(Items);
+
+            PropagatePropertyChangeEvent();
         }
 
         /// <summary>
@@ -113,16 +121,13 @@ namespace WodiLib.Sys
         /// <param name="initItems">初期要素</param>
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         /// <exception cref="ArgumentNullException">
-        ///     initItemsがnullの場合、
-        ///     またはinitItems中にnullが含まれる場合
+        ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合
         /// </exception>
-        /// <exception cref="InvalidOperationException">initItemsの要素数が不適切な場合</exception>
+        /// <exception cref="InvalidOperationException"><paramref name="initItems"/> の要素数が不適切な場合</exception>
         protected RestrictedCapacityList(IEnumerable<T> initItems)
         {
-            if (initItems is null)
-            {
-                throw new ArgumentNullException(ErrorMessage.NotNull(nameof(initItems)));
-            }
+            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
 
             var items = initItems.ToList();
 
@@ -132,7 +137,16 @@ namespace WodiLib.Sys
             {
                 FuncMakeItems = MakeItems
             };
-            PropagatePropertyChangeEvent(Items);
+
+            PropagatePropertyChangeEvent();
+        }
+
+        /// <summary>
+        /// 各プロパティのプロパティ変更通知を自身に伝播させる。
+        /// </summary>
+        private void PropagatePropertyChangeEvent()
+        {
+            PropagatePropertyChangeEvent(Items, GetNotifyPropertyNameMapper());
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -159,10 +173,7 @@ namespace WodiLib.Sys
         /// <inheritdoc />
         public void SetRange(int index, IEnumerable<T> items)
         {
-            if (items is null)
-            {
-                throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
-            }
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
 
             var itemList = items.ToList();
             Validator?.Set(index, itemList);
@@ -179,10 +190,7 @@ namespace WodiLib.Sys
         /// <inheritdoc />
         public void AddRange(IEnumerable<T> items)
         {
-            if (items is null)
-            {
-                throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
-            }
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
 
             var itemList = items.ToList();
             Validator?.Insert(Count, itemList);
@@ -199,10 +207,7 @@ namespace WodiLib.Sys
         /// <inheritdoc />
         public void InsertRange(int index, IEnumerable<T> items)
         {
-            if (items is null)
-            {
-                throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
-            }
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
 
             var itemList = items.ToList();
             Validator?.Insert(index, itemList);
@@ -212,10 +217,7 @@ namespace WodiLib.Sys
         /// <inheritdoc />
         public void Overwrite(int index, IEnumerable<T> items)
         {
-            if (items is null)
-            {
-                throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
-            }
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
 
             var itemList = items.ToList();
             Validator?.Overwrite(index, itemList);
@@ -291,10 +293,7 @@ namespace WodiLib.Sys
         /// <inheritdoc />
         public void Reset(IEnumerable<T> initItems)
         {
-            if (initItems is null)
-            {
-                throw new ArgumentNullException(ErrorMessage.NotNull(nameof(initItems)));
-            }
+            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
 
             var itemList = initItems.ToList();
 
@@ -325,19 +324,19 @@ namespace WodiLib.Sys
             => Items.GetEnumerator();
 
         /// <inheritdoc />
-        public override bool Equals(RestrictedCapacityList<T>? other)
+        public override bool ItemEquals(RestrictedCapacityList<T>? other)
             => Equals((IEnumerable<T>?) other);
 
         /// <inheritdoc />
-        public bool Equals(IRestrictedCapacityList<T>? other)
+        public bool ItemEquals(IRestrictedCapacityList<T>? other)
             => Equals((IEnumerable<T>?) other);
 
         /// <inheritdoc />
-        public bool Equals(IReadOnlyRestrictedCapacityList<T>? other)
+        public bool ItemEquals(IReadOnlyRestrictedCapacityList<T>? other)
             => Equals((IEnumerable<T>?) other);
 
         /// <inheritdoc />
-        public bool Equals(IReadOnlyExtendedList<T>? other)
+        public bool ItemEquals(IReadOnlyExtendedList<T>? other)
             => Equals((IEnumerable<T>?) other);
 
         /// <inheritdoc />
@@ -378,10 +377,25 @@ namespace WodiLib.Sys
         /// 自身の検証処理を実行する <see cref="IWodiLibListValidator{T}"/> インスタンスを生成する。
         /// </summary>
         /// <returns>検証処理実行クラスのインスタンス。検証処理を行わない場合 <see langward="null"/></returns>
-        protected virtual IWodiLibListValidator<T>? MakeValidator()
+        protected virtual IWodiLibListValidator<T> MakeValidator()
         {
             return new RestrictedCapacityListValidator<T>(this);
         }
+
+        /// <summary>
+        /// 自身の内部リストが通知するプロパティ変更通知のプロパティ名を変換するためのMapperを取得する。
+        /// </summary>
+        /// <remarks>
+        /// 対象のプロパティ名は <see cref="Count"/> および <see cref="ListConstant.IndexerName"/>。<br/>
+        /// デフォルトでは <see langword="null"/> を返却する。
+        /// </remarks>
+        /// <returns>
+        ///     プロパティ名Mapper。
+        ///     <see langword="null"/> の場合変換を行わず通知する。
+        /// </returns>
+        protected virtual PropertyChangeNotificationHelper.MapNotifyPropertyName?
+            GetNotifyPropertyNameMapper()
+            => null;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Method
@@ -421,29 +435,6 @@ namespace WodiLib.Sys
 
                     return result;
                 });
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Serializable
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <inheritdoc />
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(Items), Items);
-        }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="info">デシリアライズ情報</param>
-        /// <param name="context">コンテキスト</param>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected RestrictedCapacityList(SerializationInfo info, StreamingContext context)
-        {
-            Items = info.GetValue<ExtendedList<T>>(nameof(Items));
-            Validator = MakeValidator();
         }
     }
 }

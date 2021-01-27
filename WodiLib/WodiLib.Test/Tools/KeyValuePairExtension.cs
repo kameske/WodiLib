@@ -1,14 +1,6 @@
-// ========================================
-// Project Name : WodiLib
-// File Name    : KeyValuePairExtension.cs
-//
-// MIT License Copyright(c) 2019 kameske
-// see LICENSE file
-// ========================================
-
 using System.Collections.Generic;
 
-namespace WodiLib.Sys
+namespace WodiLib.Test.Tools
 {
     /// <summary>
     /// KeyValuePair拡張メソッド

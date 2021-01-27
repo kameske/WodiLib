@@ -236,7 +236,7 @@ namespace WodiLib.Test.Map
                 Assert.AreEqual(instance.PathPermission, TilePathPermission.Allow);
 
                 // 通行方向設定がセットした値と一致すること（設定を指定しなかった場合デフォルト値が設定されていること）
-                Assert.IsTrue(instance.CannotPassingFlags.Equals(flags ?? new TileCannotPassingFlags()));
+                Assert.IsTrue(instance.CannotPassingFlags.ItemEquals(flags ?? new TileCannotPassingFlags()));
             }
 
             // 意図したとおりプロパティ変更通知が発火していること
@@ -288,7 +288,7 @@ namespace WodiLib.Test.Map
                 Assert.AreEqual(instance.PathPermission, TilePathPermission.Dependent);
 
                 // 通行方向設定がセットした値と一致すること（設定を指定しなかった場合デフォルト値が設定されていること）
-                Assert.IsTrue(instance.CannotPassingFlags.Equals(flags ?? new TileCannotPassingFlags()));
+                Assert.IsTrue(instance.CannotPassingFlags.ItemEquals(flags ?? new TileCannotPassingFlags()));
             }
 
             // 意図したとおりプロパティ変更通知が発火していること
@@ -373,7 +373,7 @@ namespace WodiLib.Test.Map
                 Assert.AreEqual(instance.PathPermission, TilePathPermission.PartialDeny);
 
                 // 通行許可設定がセットした値と一致すること（設定を指定しなかった場合デフォルト値が設定されていること）
-                Assert.IsTrue(instance.ImpassableFlags.Equals(flags ?? new TileImpassableFlags()));
+                Assert.IsTrue(instance.ImpassableFlags.ItemEquals(flags ?? new TileImpassableFlags()));
             }
 
             // 意図したとおりプロパティ変更通知が発火していること
@@ -390,17 +390,6 @@ namespace WodiLib.Test.Map
                 Assert.IsTrue(changedPropertyList[3].Equals(nameof(TilePathSetting.CannotPassingFlags)));
                 Assert.IsTrue(changedPropertyList[4].Equals(nameof(TilePathSetting.IsCounter)));
             }
-        }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new TilePathSetting
-            {
-                IsCounter = true
-            };
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
         }
     }
 }

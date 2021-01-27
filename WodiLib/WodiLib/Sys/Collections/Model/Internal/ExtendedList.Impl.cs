@@ -6,22 +6,19 @@
 // see LICENSE file
 // ========================================
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace WodiLib.Sys
 {
-    public partial class ExtendedList<T>
+    internal partial class ExtendedList<T>
     {
         /// <summary>
         /// <see cref="ExtendedList{T}"/> 処理転送先クラス
         /// </summary>
-        [Serializable]
         private class Impl : ModelBase<Impl>,
-            IEnumerable<T>, IEquatable<IEnumerable<T>>, ISerializable
+            IEnumerable<T>
         {
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Public Property
@@ -79,10 +76,6 @@ namespace WodiLib.Sys
             public void Set(int index, params T[] items)
                 => items.ForEach((item, i) => Items[index + i] = item);
 
-            /// <inheritdoc cref="List{T}.ForEach"/>
-            public void ForEach(Action<T> action)
-                => Items.ForEach(action);
-
             /// <summary>
             /// Add, AddRange, Insert, InsertRange メソッドの処理本体
             /// </summary>
@@ -117,36 +110,12 @@ namespace WodiLib.Sys
                 => Items.CopyTo(array, arrayIndex);
 
             /// <inheritdoc />
-            public override bool Equals(Impl? other)
-                => Equals(other);
-
-            /// <inheritdoc />
-            public bool Equals(IEnumerable<T>? other)
+            public override bool ItemEquals(Impl? other)
             {
                 if (ReferenceEquals(null, other)) return false;
                 if (ReferenceEquals(this, other)) return true;
 
                 return this.SequenceEqual(other);
-            }
-
-            // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-            //     Serializable
-            // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-            /// <summary>
-            /// コンストラクタ
-            /// </summary>
-            /// <param name="info">デシリアライズ情報</param>
-            /// <param name="context">コンテキスト</param>
-            protected Impl(SerializationInfo info, StreamingContext context)
-            {
-                Items = info.GetValue<List<T>>(nameof(Items));
-            }
-
-            /// <inheritdoc/>
-            public void GetObjectData(SerializationInfo info, StreamingContext context)
-            {
-                info.AddValue(nameof(Items), Items);
             }
         }
     }

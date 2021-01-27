@@ -216,22 +216,5 @@ namespace WodiLib.Test.Map
                 Assert.IsTrue(changedPropertyList[1].Equals(nameof(MapEventPageGraphicInfo.CharaChipFilePath)));
             }
         }
-
-        [Test]
-        public static void SerializeTest()
-        {
-            var target = new MapEventPageGraphicInfo
-            {
-                InitDirection = CharaChipDirection.LeftDown
-            };
-            var changedPropertyList = new List<string>();
-            target.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var clone = DeepCloner.DeepClone(target);
-            Assert.IsTrue(clone.Equals(target));
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
     }
 }
