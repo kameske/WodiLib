@@ -21,7 +21,6 @@ namespace WodiLib.Sys
     /// </summary>
     /// <typeparam name="TChild">Model実装クラス型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    [Serializable]
     public abstract partial class ModelBase<TChild> : IModelBase<TChild>, IEqualityComparable<ModelBase<TChild>>
         where TChild : ModelBase<TChild>
     {

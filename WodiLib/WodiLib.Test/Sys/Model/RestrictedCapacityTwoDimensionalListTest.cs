@@ -3671,7 +3671,6 @@ namespace WodiLib.Test.Sys
             /// 行範囲：0 ~ 5<br/>
             /// 列範囲：0 ~ 10<br/>
             /// </remarks>
-            [Serializable]
             public class ListTest1 : RestrictedCapacityTwoDimensionalList<string>, IListTest
             {
                 public static int RowMaxCapacity => 5;
@@ -3715,7 +3714,6 @@ namespace WodiLib.Test.Sys
             /// 行範囲：5 ~ 10<br/>
             /// 列範囲：10 ~ 20<br/>
             /// </remarks>
-            [Serializable]
             public class ListTest2 : RestrictedCapacityTwoDimensionalList<string>, IListTest
             {
                 public static int RowMaxCapacity => 10;
@@ -3750,7 +3748,6 @@ namespace WodiLib.Test.Sys
             /// 行範囲：2<br/>
             /// 列範囲：5<br/>
             /// </remarks>
-            [Serializable]
             public class ListTest3 : RestrictedCapacityTwoDimensionalList<string>, IListTest
             {
                 public static int RowMaxCapacity => 2;

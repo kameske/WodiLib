@@ -1088,7 +1088,6 @@ namespace WodiLib.Test.Sys
             }
         }
 
-        [Serializable]
         private class CollectionTest1 : AbsCollectionTest
         {
             /**

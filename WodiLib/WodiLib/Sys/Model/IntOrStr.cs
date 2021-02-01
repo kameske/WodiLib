@@ -14,7 +14,6 @@ namespace WodiLib.Sys
     /// <summary>
     ///     int、stringを持つクラス
     /// </summary>
-    [Serializable]
     public class IntOrStr : ModelBase<IntOrStr>
     {
         private static string NotifyPropertyChangedName = "Value";

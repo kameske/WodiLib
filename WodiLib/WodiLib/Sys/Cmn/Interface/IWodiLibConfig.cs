@@ -54,7 +54,7 @@ namespace WodiLib.Sys.Cmn
 
         /// <summary>
         /// 新規作成した <see cref="IReadOnlyExtendedList{T}"/> の
-        /// <see cref="IReadOnlyExtendedList{T}.IsNotifyBeforeCollectionChange"/> 初期価値
+        /// <see cref="IReadOnlyExtendedList{T}.IsNotifyBeforeCollectionChange"/> 初期化値
         /// </summary>
         /// <remarks>
         /// <para>
@@ -71,7 +71,7 @@ namespace WodiLib.Sys.Cmn
         /// 新規作成した <see cref="IReadOnlyExtendedList{TChild}"/> の
         /// <see cref="IReadOnlyExtendedList{T}.IsNotifyAfterCollectionChange"/>、
         /// および <see cref="IReadOnlyTwoDimensionalList{TChild}"/> の
-        /// <see cref="IReadOnlyTwoDimensionalList{T}.IsNotifyAfterCollectionChange"/>初期価値
+        /// <see cref="IReadOnlyTwoDimensionalList{T}.IsNotifyAfterCollectionChange"/>初期化値
         /// </summary>
         /// <remarks>
         /// <para>

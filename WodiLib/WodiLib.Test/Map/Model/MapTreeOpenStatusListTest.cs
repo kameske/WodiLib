@@ -26,6 +26,5 @@ namespace WodiLib.Test.Map
             // 取得した値が容量最大値と一致すること
             Assert.AreEqual(maxCapacity, MapTreeOpenStatusList.MinCapacity);
         }
-
     }
 }

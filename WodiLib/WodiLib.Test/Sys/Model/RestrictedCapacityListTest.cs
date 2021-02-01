@@ -2664,7 +2664,6 @@ namespace WodiLib.Test.Sys
             }
         }
 
-        [Serializable]
         private class ListTest1 : AbsListTest
         {
             /**
