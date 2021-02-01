@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using System.Text.RegularExpressions;
+
 namespace WodiLib.Sys
 {
     /// <summary>
@@ -158,6 +160,17 @@ namespace WodiLib.Sys
         public static string Unsuitable(string itemName, object item)
         {
             return $"{itemName}が不適切です。{{ {item} }}";
+        }
+
+        /// <summary>
+        /// 不適切な文字列の場合のエラーメッセージ
+        /// </summary>
+        /// <param name="value">文字列</param>
+        /// <param name="regex">適切な正規表現</param>
+        /// <returns>メッセージ</returns>
+        public static string StringNotMatchRegex(string value, Regex regex)
+        {
+            return $"\"{value}\"は正規表現\"{regex}\"に一致しません。";
         }
 
         /// <summary>

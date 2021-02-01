@@ -42,6 +42,17 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
+        /// 正規表現に一致しない文字列の場合の警告メッセージ
+        /// </summary>
+        /// <param name="value">対象文字列</param>
+        /// <param name="regex">適切な正規表現</param>
+        /// <returns>メッセージ</returns>
+        public static string NotMatchRegex(string value, Regex regex)
+        {
+            return $"\"{value}\"は正規表現\"{regex}\"に一致しません。";
+        }
+
+        /// <summary>
         /// 不適切なファイル名の場合の警告メッセージ
         /// </summary>
         /// <param name="path">対象ファイルパス</param>

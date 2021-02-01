@@ -8,6 +8,7 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.RegularExpressions;
 
 namespace WodiLib.Sys
 {
@@ -131,6 +132,59 @@ namespace WodiLib.Sys
 
             throw new ArgumentException(
                 ErrorMessage.NotEqual(itemName, otherName));
+        }
+
+        /// <summary>
+        /// 文字列に改行が含まれないことの検証時の例外処理。
+        /// </summary>
+        /// <param name="isThrow">検証結果</param>
+        /// <param name="itemName">検証項目名</param>
+        /// <param name="value">検証値</param>
+        /// <exception cref="ArgumentNewLineException">
+        ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
+        /// </exception>
+        public static void ValidateArgumentNotNewLine([DoesNotReturnIf(true)] bool isThrow,
+            string itemName, string value)
+        {
+            if (!isThrow) return;
+
+            throw new ArgumentNewLineException(
+                ErrorMessage.NotNewLine(itemName, value));
+        }
+
+        /// <summary>
+        /// 文字列に改行が含まれないことの検証時の例外処理。
+        /// </summary>
+        /// <param name="isThrow">検証結果</param>
+        /// <param name="value">検証値</param>
+        /// <param name="regex">正規表現</param>
+        /// <exception cref="ArgumentNewLineException">
+        ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
+        /// </exception>
+        public static void ValidateArgumentNotRegex([DoesNotReturnIf(true)] bool isThrow,
+            string value, Regex regex)
+        {
+            if (!isThrow) return;
+
+            throw new ArgumentNewLineException(
+                ErrorMessage.StringNotMatchRegex(value, regex));
+        }
+
+        /// <summary>
+        /// サイズが指定以下であることの検証時の例外処理
+        /// </summary>
+        /// <param name="isThrow">検証結果</param>
+        /// <param name="maxSize">最大サイズ</param>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
+        /// </exception>
+        public static void ValidateOverDataSize([DoesNotReturnIf(true)] bool isThrow,
+            int maxSize)
+        {
+            if (!isThrow) return;
+
+            throw new ArgumentException(
+                ErrorMessage.OverDataSize(maxSize));
         }
 
         #endregion
@@ -292,6 +346,38 @@ namespace WodiLib.Sys
 
             throw new InvalidOperationException(
                 ErrorMessage.NotExecute(message()));
+        }
+
+        /// <summary>
+        /// 検証エラー時に <see cref="InvalidOperationException"/> を発生させる。
+        /// </summary>
+        /// <param name="isThrow">検証結果</param>
+        /// <exception cref="InvalidCastException">
+        ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
+        /// </exception>
+        public static void InvalidCastIf([DoesNotReturnIf(true)] bool isThrow)
+        {
+            if (!isThrow) return;
+
+            throw new InvalidCastException();
+        }
+
+        #endregion
+
+        #region NullPointer
+
+        /// <summary>
+        /// <see langword="null"/> 検証時に <see langword="NullReferenceException"/> を発生させる。
+        /// </summary>
+        /// <param name="isThrow">検証結果</param>
+        /// <exception cref="NullReferenceException">
+        ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
+        /// </exception>
+        public static void ValidateNotNull([DoesNotReturnIf(true)] bool isThrow)
+        {
+            if (!isThrow) return;
+
+            throw new NullReferenceException();
         }
 
         #endregion

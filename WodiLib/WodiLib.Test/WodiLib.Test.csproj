@@ -11,17 +11,17 @@
 
         <AssemblyName>WodiLib.Test</AssemblyName>
 
-        <LangVersion>8</LangVersion>
+        <LangVersion>9</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="nunit" Version="3.12.0"/>
-        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.0"/>
+        <PackageReference Include="nunit" Version="3.12.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\WodiLib\WodiLib.csproj"/>
+        <ProjectReference Include="..\WodiLib\WodiLib.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -29,9 +29,9 @@
             Remove Temporarily
         _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ -->
         <!-- Database -->
-        <Compile Remove="Database\**"/>
-        <Compile Remove="IO\Database*.cs"/>
-        <Compile Remove="IO\DB*.cs"/>
+        <Compile Remove="Database\**" />
+        <Compile Remove="IO\Database*.cs" />
+        <Compile Remove="IO\DB*.cs" />
     </ItemGroup>
 
     <ItemGroup>
@@ -46,7 +46,7 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>TestResources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <EmbeddedResource Remove="Database\**"/>
+        <EmbeddedResource Remove="Database\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -71,7 +71,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="Database\**"/>
+        <None Remove="Database\**" />
     </ItemGroup>
 
 </Project>
