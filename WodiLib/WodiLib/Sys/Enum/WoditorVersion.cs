@@ -12,9 +12,9 @@ using System.Linq;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// ウディタバージョン列挙
+    ///     ウディタバージョン列挙
     /// </summary>
-    public class WoditorVersion : TypeSafeEnum<WoditorVersion>
+    public record WoditorVersion : TypeSafeEnum<WoditorVersion>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -84,7 +84,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// staticコンストラクタ
+        ///     staticコンストラクタ
         /// </summary>
         static WoditorVersion()
         {
@@ -104,7 +104,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="id">識別子</param>
         /// <param name="versionCode">バージョン識別コード</param>
@@ -120,7 +120,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// &lt;比較演算子
+        ///     &lt;比較演算子
         /// </summary>
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
@@ -131,7 +131,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// &gt;比較演算子
+        ///     &gt;比較演算子
         /// </summary>
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
@@ -142,7 +142,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// &lt;=比較演算子
+        ///     &lt;=比較演算子
         /// </summary>
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
@@ -153,7 +153,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// &gt;=比較演算子
+        ///     &gt;=比較演算子
         /// </summary>
         /// <param name="left">左辺</param>
         /// <param name="right">右辺</param>
@@ -164,7 +164,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// バージョンコードを指定してインスタンスを取得する。
+        ///     バージョンコードを指定してインスタンスを取得する。
         /// </summary>
         /// <param name="versionCode">バージョンコード</param>
         /// <returns>バージョンインスタンス</returns>
@@ -174,7 +174,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// バージョン名を指定してインスタンスを取得する。
+        ///     バージョン名を指定してインスタンスを取得する。
         /// </summary>
         /// <param name="versionName">バージョン名</param>
         /// <returns>バージョンインスタンス</returns>
@@ -201,5 +201,9 @@ namespace WodiLib.Sys
             // 通常ここには来ない
             throw new InvalidOperationException();
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// 画面スクロールスピード
+    ///     画面スクロールスピード
     /// </summary>
-    public class ScrollSpeed : TypeSafeEnum<ScrollSpeed>
+    public record ScrollSpeed : TypeSafeEnum<ScrollSpeed>
     {
         /// <summary>1/8倍速</summary>
         public static readonly ScrollSpeed Speed1of8;
@@ -91,7 +91,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -99,5 +99,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

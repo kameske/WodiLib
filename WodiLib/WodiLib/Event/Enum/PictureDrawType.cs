@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event
 {
     /// <summary>
-    /// ピクチャ表示形式
+    ///     ピクチャ表示形式
     /// </summary>
-    public class PictureDrawType : TypeSafeEnum<PictureDrawType>
+    public record PictureDrawType : TypeSafeEnum<PictureDrawType>
     {
         /// <summary>通常</summary>
         public static readonly PictureDrawType Normal;
@@ -54,7 +54,7 @@ namespace WodiLib.Event
         }
 
         /// <summary>
-        /// Byte値からオブジェクトを取得する。
+        ///     Byte値からオブジェクトを取得する。
         /// </summary>
         /// <param name="code">種別コード</param>
         /// <returns>DBType</returns>
@@ -62,5 +62,9 @@ namespace WodiLib.Event
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

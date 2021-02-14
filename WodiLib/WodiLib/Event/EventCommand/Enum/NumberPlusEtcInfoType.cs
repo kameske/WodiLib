@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// 変数操作＋（その他）・取得情報種別
+    ///     変数操作＋（その他）・取得情報種別
     /// </summary>
-    public class NumberPlusEtcInfoType : TypeSafeEnum<NumberPlusEtcInfoType>
+    public record NumberPlusEtcInfoType : TypeSafeEnum<NumberPlusEtcInfoType>
     {
         /// <summary>現在のマップID</summary>
         public static readonly NumberPlusEtcInfoType CurrentMapId;
@@ -146,7 +146,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -154,5 +154,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

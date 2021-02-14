@@ -13,7 +13,7 @@ namespace WodiLib.Sys
     /// <summary>
     ///     エンディアン
     /// </summary>
-    public class Endian : TypeSafeEnum<Endian>
+    public record Endian : TypeSafeEnum<Endian>
     {
         /// <summary>ビッグエンディアン</summary>
         public static readonly Endian Big;
@@ -47,5 +47,9 @@ namespace WodiLib.Sys
         ///     ウディタ内部で使用されるエンディアン
         /// </summary>
         public static Endian Woditor => Little;
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

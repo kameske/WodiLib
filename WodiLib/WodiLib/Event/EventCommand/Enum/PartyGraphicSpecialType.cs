@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// パーティ画像（特殊処理）種類
+    ///     パーティ画像（特殊処理）種類
     /// </summary>
-    public class PartyGraphicSpecialType : TypeSafeEnum<PartyGraphicSpecialType>
+    public record PartyGraphicSpecialType : TypeSafeEnum<PartyGraphicSpecialType>
     {
         /// <summary>キャラクターを前に詰める</summary>
         public static readonly PartyGraphicSpecialType PushCharactersFront;
@@ -91,7 +91,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -99,5 +99,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

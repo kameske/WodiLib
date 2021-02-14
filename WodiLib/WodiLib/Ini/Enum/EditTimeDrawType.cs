@@ -13,15 +13,18 @@ using WodiLib.Sys;
 namespace WodiLib.Ini
 {
     /// <summary>
-    /// 編集時間表示種別
+    ///     編集時間表示種別
     /// </summary>
-    public class EditTimeDrawType : TypeSafeEnum<EditTimeDrawType>
+    public record EditTimeDrawType : TypeSafeEnum<EditTimeDrawType>
     {
         /// <summary>OFF</summary>
         public static readonly EditTimeDrawType Off;
 
         /// <summary>ON</summary>
         public static readonly EditTimeDrawType On;
+
+        /// <summary>コード値</summary>
+        public string Code { get; }
 
         static EditTimeDrawType()
         {
@@ -30,7 +33,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="id">ID</param>
         /// <param name="code">コード値</param>
@@ -38,9 +41,6 @@ namespace WodiLib.Ini
         {
             Code = code;
         }
-
-        /// <summary>コード値</summary>
-        public string Code { get; }
 
         /// <summary>
         ///     対象コードからオブジェクトを取得する。
@@ -77,5 +77,9 @@ namespace WodiLib.Ini
             if (code is null || code.Equals(string.Empty)) return On;
             return FromCode(code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

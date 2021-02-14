@@ -15,7 +15,7 @@ namespace WodiLib.Database
     /// <summary>
     /// データの設定方法種別
     /// </summary>
-    public class DBDataSettingType : TypeSafeEnum<DBDataSettingType>
+    public record DBDataSettingType : TypeSafeEnum<DBDataSettingType>
     {
         /// <summary>手動で設定</summary>
         public static readonly DBDataSettingType Manual;

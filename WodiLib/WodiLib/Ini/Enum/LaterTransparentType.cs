@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Ini
 {
     /// <summary>
-    /// マップ編集時の下レイヤーの暗さ種別
+    ///     マップ編集時の下レイヤーの暗さ種別
     /// </summary>
-    public class LaterTransparentType : TypeSafeEnum<LaterTransparentType>
+    public record LaterTransparentType : TypeSafeEnum<LaterTransparentType>
     {
         /// <summary>真っ暗</summary>
         public static readonly LaterTransparentType Black;
@@ -32,6 +32,9 @@ namespace WodiLib.Ini
         /// <summary>暗くしない</summary>
         public static readonly LaterTransparentType NoDimming;
 
+        /// <summary>コード値</summary>
+        public string Code { get; }
+
         static LaterTransparentType()
         {
             Black = new LaterTransparentType(nameof(Black), "0");
@@ -42,7 +45,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="id">ID</param>
         /// <param name="code">コード値</param>
@@ -50,9 +53,6 @@ namespace WodiLib.Ini
         {
             Code = code;
         }
-
-        /// <summary>コード値</summary>
-        public string Code { get; }
 
         /// <summary>
         ///     対象コードからオブジェクトを取得する。
@@ -89,5 +89,9 @@ namespace WodiLib.Ini
             if (code is null || code.Equals(string.Empty)) return SomewhatDark;
             return FromCode(code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

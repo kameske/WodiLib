@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Ini
 {
     /// <summary>
-    /// ショートカットキー
+    ///     ショートカットキー
     /// </summary>
-    public class EventCommandShortCutKey : TypeSafeEnum<EventCommandShortCutKey>
+    public record EventCommandShortCutKey : TypeSafeEnum<EventCommandShortCutKey>
     {
         /// <summary>0</summary>
         public static readonly EventCommandShortCutKey Zero;
@@ -128,6 +128,9 @@ namespace WodiLib.Ini
         /// <summary>未使用項目の設定値</summary>
         public static EventCommandShortCutKey None => One;
 
+        /// <summary>コード値</summary>
+        public string Code { get; }
+
         static EventCommandShortCutKey()
         {
             Zero = new EventCommandShortCutKey(nameof(Zero), "0");
@@ -169,7 +172,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="id">ID</param>
         /// <param name="code">コード値</param>
@@ -177,9 +180,6 @@ namespace WodiLib.Ini
         {
             Code = code;
         }
-
-        /// <summary>コード値</summary>
-        public string Code { get; }
 
         /// <summary>
         ///     対象コードからオブジェクトを取得する。
@@ -216,5 +216,9 @@ namespace WodiLib.Ini
             if (code is null || code.Equals(string.Empty)) return None;
             return FromCode(code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

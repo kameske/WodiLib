@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event
 {
     /// <summary>
-    /// アニメ頻度
+    ///     アニメ頻度
     /// </summary>
-    public class AnimateSpeed : TypeSafeEnum<AnimateSpeed>
+    public record AnimateSpeed : TypeSafeEnum<AnimateSpeed>
     {
         /// <summary>0:毎フレーム</summary>
         public static readonly AnimateSpeed Frame;
@@ -61,7 +61,7 @@ namespace WodiLib.Event
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -69,5 +69,9 @@ namespace WodiLib.Event
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

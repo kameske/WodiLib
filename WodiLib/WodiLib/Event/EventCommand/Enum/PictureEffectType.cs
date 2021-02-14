@@ -14,9 +14,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// ピクチャエフェクト種別
+    ///     ピクチャエフェクト種別
     /// </summary>
-    public class PictureEffectType : TypeSafeEnum<PictureEffectType>
+    public record PictureEffectType : TypeSafeEnum<PictureEffectType>
     {
         /// <summary>フラッシュ</summary>
         public static readonly PictureEffectType Flush;
@@ -97,7 +97,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -107,7 +107,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// イベントコマンド文字列を生成する。
+        ///     イベントコマンド文字列を生成する。
         /// </summary>
         /// <param name="resolver">名前解決クラスインスタンス</param>
         /// <param name="type">イベント種別</param>
@@ -127,5 +127,9 @@ namespace WodiLib.Event.EventCommand
             return string.Format(EventCommandSentenceFormat,
                 value1Name, value2Name, value3Name);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

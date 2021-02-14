@@ -118,7 +118,7 @@ namespace WodiLib.Sys
         /// <summary>
         /// インスタンスのライフタイム
         /// </summary>
-        public class Lifetime : TypeSafeEnum<Lifetime>
+        public record Lifetime : TypeSafeEnum<Lifetime>
         {
             /// <summary>コンテナで一意</summary>
             public static readonly Lifetime Container;

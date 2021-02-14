@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// CSV読み書きモード
+    ///     CSV読み書きモード
     /// </summary>
-    public class CsvIOMode : TypeSafeEnum<CsvIOMode>
+    public record CsvIOMode : TypeSafeEnum<CsvIOMode>
     {
         /// <summary>読み込み</summary>
         public static readonly CsvIOMode Input;
@@ -37,7 +37,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -45,5 +45,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

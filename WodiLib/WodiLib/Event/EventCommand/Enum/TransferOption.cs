@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// トランジションオプション
+    ///     トランジションオプション
     /// </summary>
-    public class TransferOption : TypeSafeEnum<TransferOption>
+    public record TransferOption : TypeSafeEnum<TransferOption>
     {
         /// <summary>トランジションなし</summary>
         public static readonly TransferOption NoTransition;
@@ -49,7 +49,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -57,5 +57,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

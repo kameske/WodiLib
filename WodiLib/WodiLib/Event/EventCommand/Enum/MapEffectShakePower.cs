@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// マップエフェクト・揺れの強さ
+    ///     マップエフェクト・揺れの強さ
     /// </summary>
-    public class MapEffectShakePower : TypeSafeEnum<MapEffectShakePower>
+    public record MapEffectShakePower : TypeSafeEnum<MapEffectShakePower>
     {
         /// <summary>強さ1</summary>
         public static readonly MapEffectShakePower Power1;
@@ -71,7 +71,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -79,5 +79,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

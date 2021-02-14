@@ -17,7 +17,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// 各情報アドレス情報種別
     /// </summary>
-    public class InfoAddressInfoType : TypeSafeEnum<InfoAddressInfoType>
+    public record InfoAddressInfoType : TypeSafeEnum<InfoAddressInfoType>
     {
         /// <summary>X座標</summary>
         public static readonly InfoAddressInfoType PositionX;
@@ -140,5 +140,9 @@ namespace WodiLib.Cmn
 
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

@@ -14,13 +14,16 @@ namespace WodiLib.Map
     /// <summary>
     ///     マップツリー開閉状態
     /// </summary>
-    public class MapTreeOpenState : TypeSafeEnum<MapTreeOpenState>
+    public record MapTreeOpenState : TypeSafeEnum<MapTreeOpenState>
     {
         /// <summary>開いている</summary>
         public static readonly MapTreeOpenState Open;
 
         /// <summary>閉じている・または子ノードなし</summary>
         public static readonly MapTreeOpenState Close;
+
+        /// <summary>開閉状態コード値</summary>
+        public byte Code { get; }
 
         static MapTreeOpenState()
         {
@@ -33,11 +36,8 @@ namespace WodiLib.Map
             Code = code;
         }
 
-        /// <summary>開閉状態コード値</summary>
-        public byte Code { get; }
-
         /// <summary>
-        /// コード値からインスタンスを返す。
+        ///     コード値からインスタンスを返す。
         /// </summary>
         /// <param name="code">コード値</param>
         /// <returns>インスタンス</returns>
@@ -45,5 +45,9 @@ namespace WodiLib.Map
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

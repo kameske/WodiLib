@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// サウンド・音声指定方法
+    ///     サウンド・音声指定方法
     /// </summary>
-    public class AudioSpecification : TypeSafeEnum<AudioSpecification>
+    public record AudioSpecification : TypeSafeEnum<AudioSpecification>
     {
         /// <summary>ファイル名指定</summary>
         public static readonly AudioSpecification FileName;
@@ -41,7 +41,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -49,5 +49,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

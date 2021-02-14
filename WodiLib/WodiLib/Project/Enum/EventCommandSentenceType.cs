@@ -12,10 +12,10 @@ using WodiLib.Sys;
 namespace WodiLib.Project
 {
     /// <summary>
-    /// イベントコマンド文種別
+    ///     イベントコマンド文種別
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class EventCommandSentenceType : TypeSafeEnum<EventCommandSentenceType>
+    public record EventCommandSentenceType : TypeSafeEnum<EventCommandSentenceType>
     {
         /// <summary>マップイベント</summary>
         public static readonly EventCommandSentenceType Map;
@@ -32,5 +32,9 @@ namespace WodiLib.Project
         private EventCommandSentenceType(string id) : base(id)
         {
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

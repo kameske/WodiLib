@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// キー入力（基本）方向キー種別
+    ///     キー入力（基本）方向キー種別
     /// </summary>
-    public class DirectionKeyType : TypeSafeEnum<DirectionKeyType>
+    public record DirectionKeyType : TypeSafeEnum<DirectionKeyType>
     {
         /// <summary>受け付けない</summary>
         public static readonly DirectionKeyType NotAccept;
@@ -81,7 +81,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -89,5 +89,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

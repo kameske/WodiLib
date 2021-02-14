@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// DB操作（数値）代入演算子
+    ///     DB操作（数値）代入演算子
     /// </summary>
-    public class DBNumberAssignmentOperator : TypeSafeEnum<DBNumberAssignmentOperator>
+    public record DBNumberAssignmentOperator : TypeSafeEnum<DBNumberAssignmentOperator>
     {
         /// <summary>=</summary>
         public static readonly DBNumberAssignmentOperator Assign;
@@ -76,7 +76,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -84,5 +84,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

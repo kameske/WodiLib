@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Ini
 {
     /// <summary>
-    /// マップ編集時の下レイヤーの暗さ種別
+    ///     マップ編集時の下レイヤーの暗さ種別
     /// </summary>
-    public class EventLayerOpacityType : TypeSafeEnum<EventLayerOpacityType>
+    public record EventLayerOpacityType : TypeSafeEnum<EventLayerOpacityType>
     {
         /// <summary>100%</summary>
         public static readonly EventLayerOpacityType Completely;
@@ -32,6 +32,9 @@ namespace WodiLib.Ini
         /// <summary>表示しない</summary>
         public static readonly EventLayerOpacityType Not;
 
+        /// <summary>コード値</summary>
+        public string Code { get; }
+
         static EventLayerOpacityType()
         {
             Completely = new EventLayerOpacityType(nameof(Completely), "4");
@@ -42,7 +45,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="id">ID</param>
         /// <param name="code">コード値</param>
@@ -50,9 +53,6 @@ namespace WodiLib.Ini
         {
             Code = code;
         }
-
-        /// <summary>コード値</summary>
-        public string Code { get; }
 
         /// <summary>
         ///     対象コードからオブジェクトを取得する。
@@ -89,5 +89,9 @@ namespace WodiLib.Ini
             if (code is null || code.Equals(string.Empty)) return Quoter;
             return FromCode(code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

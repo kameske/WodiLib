@@ -15,7 +15,7 @@ namespace WodiLib.Map
     /// <summary>
     ///     タイル通行許可
     /// </summary>
-    public class TilePathPermission : TypeSafeEnum<TilePathPermission>
+    public record TilePathPermission : TypeSafeEnum<TilePathPermission>
     {
         /// <summary>通行可</summary>
         public static readonly TilePathPermission Allow;
@@ -28,6 +28,20 @@ namespace WodiLib.Map
 
         /// <summary>下レイヤーに依存</summary>
         public static readonly TilePathPermission Dependent;
+
+        /// <summary>
+        ///     ロガー
+        /// </summary>
+        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
+
+        /// <summary>コード値</summary>
+        public int Code { get; }
+
+        /// <summary>サポート最小バージョン（nullの場合制限なし）</summary>
+        private WoditorVersion? SupportVersion { get; }
+
+        /// <summary>内部処理用グループコード</summary>
+        internal InnerFlagGroup GroupCode { get; }
 
         static TilePathPermission()
         {
@@ -48,22 +62,8 @@ namespace WodiLib.Map
         }
 
         /// <summary>
-        /// ロガー
-        /// </summary>
-        private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
-
-        /// <summary>コード値</summary>
-        public int Code { get; }
-
-        /// <summary>サポート最小バージョン（nullの場合制限なし）</summary>
-        private WoditorVersion? SupportVersion { get; }
-
-        /// <summary>内部処理用グループコード</summary>
-        internal InnerFlagGroup GroupCode { get; }
-
-        /// <summary>
-        /// VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、
-        /// イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
+        ///     VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、
+        ///     イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
         /// </summary>
         public void OutputVersionWarningLogIfNeed()
         {
@@ -79,7 +79,7 @@ namespace WodiLib.Map
         }
 
         /// <summary>
-        /// コード値からインスタンスを取得する。
+        ///     コード値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">コード値</param>
         /// <returns>インスタンス</returns>
@@ -91,6 +91,10 @@ namespace WodiLib.Map
 
             return AllItems.First(x => x.Code == 0);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
 
         internal enum InnerFlagGroup
         {

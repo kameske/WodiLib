@@ -14,7 +14,7 @@ namespace WodiLib.Cmn
     /// <summary>
     /// 各情報アドレス情報種別
     /// </summary>
-    public class VariableAddressValueType : TypeSafeEnum<VariableAddressValueType>
+    public record VariableAddressValueType : TypeSafeEnum<VariableAddressValueType>
     {
         /// <summary>数値</summary>
         public static readonly VariableAddressValueType Numeric;
@@ -72,5 +72,9 @@ namespace WodiLib.Cmn
             if (target is null) return false;
             return (TypeFlag & target.TypeFlag) != 0;
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

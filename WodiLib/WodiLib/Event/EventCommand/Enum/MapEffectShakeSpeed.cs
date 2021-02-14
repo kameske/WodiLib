@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// マップエフェクト・揺れの速さ
+    ///     マップエフェクト・揺れの速さ
     /// </summary>
-    public class MapEffectShakeSpeed : TypeSafeEnum<MapEffectShakeSpeed>
+    public record MapEffectShakeSpeed : TypeSafeEnum<MapEffectShakeSpeed>
     {
         /// <summary>速度1</summary>
         public static readonly MapEffectShakeSpeed Speed1;
@@ -71,7 +71,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -79,5 +79,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

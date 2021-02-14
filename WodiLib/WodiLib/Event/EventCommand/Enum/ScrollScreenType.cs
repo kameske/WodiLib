@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// 画面スクロール種別
+    ///     画面スクロール種別
     /// </summary>
-    public class ScrollScreenType : TypeSafeEnum<ScrollScreenType>
+    public record ScrollScreenType : TypeSafeEnum<ScrollScreenType>
     {
         /// <summary>画面移動</summary>
         public static readonly ScrollScreenType MoveScreen;
@@ -64,7 +64,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -72,5 +72,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

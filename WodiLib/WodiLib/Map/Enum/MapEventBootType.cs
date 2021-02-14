@@ -14,7 +14,7 @@ namespace WodiLib.Map
     /// <summary>
     ///     マップイベント起動条件
     /// </summary>
-    public class MapEventBootType : TypeSafeEnum<MapEventBootType>
+    public record MapEventBootType : TypeSafeEnum<MapEventBootType>
     {
         /// <summary>決定キー</summary>
         public static readonly MapEventBootType PushOKKey;
@@ -30,6 +30,9 @@ namespace WodiLib.Map
 
         /// <summary>イベント接触</summary>
         public static readonly MapEventBootType HitMapEvent;
+
+        /// <summary>起動条件コード</summary>
+        public byte Code { get; }
 
         static MapEventBootType()
         {
@@ -49,11 +52,8 @@ namespace WodiLib.Map
             Code = code;
         }
 
-        /// <summary>起動条件コード</summary>
-        public byte Code { get; }
-
         /// <summary>
-        /// コード値からインスタンスを返す。
+        ///     コード値からインスタンスを返す。
         /// </summary>
         /// <param name="code">コード値</param>
         /// <returns>インスタンス</returns>
@@ -61,5 +61,9 @@ namespace WodiLib.Map
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// 変数操作＋（座標）・取得情報種別
+    ///     変数操作＋（座標）・取得情報種別
     /// </summary>
-    public class NumberPlusPositionInfoType : TypeSafeEnum<NumberPlusPositionInfoType>
+    public record NumberPlusPositionInfoType : TypeSafeEnum<NumberPlusPositionInfoType>
     {
         /// <summary>イベントID</summary>
         public static readonly NumberPlusPositionInfoType EventId;
@@ -91,7 +91,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -99,5 +99,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

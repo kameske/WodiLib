@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// 選択肢キャンセル分岐先
+    ///     選択肢キャンセル分岐先
     /// </summary>
-    public class ChoiceCancelForkType : TypeSafeEnum<ChoiceCancelForkType>
+    public record ChoiceCancelForkType : TypeSafeEnum<ChoiceCancelForkType>
     {
         /// <summary>選択肢1</summary>
         public static readonly ChoiceCancelForkType Case1;
@@ -77,7 +77,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -85,5 +85,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

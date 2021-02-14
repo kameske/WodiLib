@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// イベントコマンドコード
+    ///     イベントコマンドコード
     /// </summary>
-    public class EventCommandCode : TypeSafeEnum<EventCommandCode>
+    public record EventCommandCode : TypeSafeEnum<EventCommandCode>
     {
         ///<summary>空白行</summary>
         public static readonly EventCommandCode Blank;
@@ -297,7 +297,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -305,5 +305,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

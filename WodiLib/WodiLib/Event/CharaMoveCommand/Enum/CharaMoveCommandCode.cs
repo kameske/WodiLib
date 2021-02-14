@@ -14,7 +14,7 @@ namespace WodiLib.Event.CharaMoveCommand
     /// <summary>
     /// 動作指定コマンドコード
     /// </summary>
-    public class CharaMoveCommandCode : TypeSafeEnum<CharaMoveCommandCode>
+    public record CharaMoveCommandCode : TypeSafeEnum<CharaMoveCommandCode>
     {
         /// <summary>下に移動 </summary>
         public static readonly CharaMoveCommandCode MoveDown;
@@ -265,5 +265,9 @@ namespace WodiLib.Event.CharaMoveCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc />
+        public override string ToString()
+            => base.ToString();
     }
 }

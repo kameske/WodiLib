@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// ピクチャ表示位置
+    ///     ピクチャ表示位置
     /// </summary>
-    public class PictureAnchorPosition : TypeSafeEnum<PictureAnchorPosition>
+    public record PictureAnchorPosition : TypeSafeEnum<PictureAnchorPosition>
     {
         /// <summary>左上</summary>
         public static readonly PictureAnchorPosition LeftUp;
@@ -61,7 +61,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -69,5 +69,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

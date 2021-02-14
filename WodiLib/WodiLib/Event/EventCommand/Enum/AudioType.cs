@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// 音声タイプ
+    ///     音声タイプ
     /// </summary>
-    public class AudioType : TypeSafeEnum<AudioType>
+    public record AudioType : TypeSafeEnum<AudioType>
     {
         /// <summary>BGM</summary>
         public static readonly AudioType Bgm;
@@ -58,7 +58,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -66,5 +66,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

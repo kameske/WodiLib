@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// キー入力（マウス）取得対象
+    ///     キー入力（マウス）取得対象
     /// </summary>
-    public class KeyInputMouseTarget : TypeSafeEnum<KeyInputMouseTarget>
+    public record KeyInputMouseTarget : TypeSafeEnum<KeyInputMouseTarget>
     {
         /// <summary>クリック状態</summary>
         public static readonly KeyInputMouseTarget ClickState;
@@ -56,7 +56,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -64,5 +64,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Ini
 {
     /// <summary>
-    /// バックアップ種別
+    ///     バックアップ種別
     /// </summary>
-    public class ProjectBackupType : TypeSafeEnum<ProjectBackupType>
+    public record ProjectBackupType : TypeSafeEnum<ProjectBackupType>
     {
         /// <summary>バックアップしない</summary>
         public static readonly ProjectBackupType None;
@@ -41,6 +41,8 @@ namespace WodiLib.Ini
         /// <summary>5回分＋毎月1日と15日に保存</summary>
         public static readonly ProjectBackupType RegularlyAndFiveTimes;
 
+        /// <summary>コード値</summary>
+        public string Code { get; }
 
         static ProjectBackupType()
         {
@@ -55,7 +57,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="id">ID</param>
         /// <param name="code">コード値</param>
@@ -63,9 +65,6 @@ namespace WodiLib.Ini
         {
             Code = code;
         }
-
-        /// <summary>コード値</summary>
-        public string Code { get; }
 
         /// <summary>
         ///     対象コードからオブジェクトを取得する。
@@ -102,5 +101,9 @@ namespace WodiLib.Ini
             if (code is null || code.Equals(string.Empty)) return ThreeTimes;
             return FromCode(code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

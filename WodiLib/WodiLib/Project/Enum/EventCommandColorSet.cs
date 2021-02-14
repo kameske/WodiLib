@@ -15,9 +15,9 @@ using WodiLib.Sys;
 namespace WodiLib.Project
 {
     /// <summary>
-    /// イベントコマンド色
+    ///     イベントコマンド色
     /// </summary>
-    public class EventCommandColorSet : TypeSafeEnum<EventCommandColorSet>
+    public record EventCommandColorSet : TypeSafeEnum<EventCommandColorSet>
     {
         /// <summary>黒セット</summary>
         public static readonly EventCommandColorSet Black;
@@ -114,7 +114,7 @@ namespace WodiLib.Project
         }
 
         /// <summary>
-        /// コマンドカラー種別からコマンドカラーを取得する。
+        ///     コマンドカラー種別からコマンドカラーを取得する。
         /// </summary>
         /// <param name="type">コマンドカラー種別</param>
         /// <returns>コマンドカラー</returns>
@@ -134,7 +134,7 @@ namespace WodiLib.Project
         }
 
         /// <summary>
-        /// IDからインスタンスを取得する。
+        ///     IDからインスタンスを取得する。
         /// </summary>
         /// <param name="id">ID</param>
         /// <returns>IDで検索したインスタンス</returns>
@@ -142,5 +142,9 @@ namespace WodiLib.Project
         {
             return AllItems.First(x => x.Id.Equals(id));
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event
 {
     /// <summary>
-    /// 移動速度
+    ///     移動速度
     /// </summary>
-    public class MoveSpeed : TypeSafeEnum<MoveSpeed>
+    public record MoveSpeed : TypeSafeEnum<MoveSpeed>
     {
         /// <summary>0:最遅</summary>
         public static readonly MoveSpeed Slowest;
@@ -61,7 +61,7 @@ namespace WodiLib.Event
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -69,5 +69,9 @@ namespace WodiLib.Event
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

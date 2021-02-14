@@ -13,7 +13,7 @@ namespace WodiLib.Sys
     /// <summary>
     ///     所有タイプフラグ
     /// </summary>
-    public class IntOrStrType : TypeSafeEnum<IntOrStrType>
+    public record IntOrStrType : TypeSafeEnum<IntOrStrType>
     {
         /// <summary>数値</summary>
         public static readonly IntOrStrType Int;
@@ -43,5 +43,9 @@ namespace WodiLib.Sys
         {
             return AllItems.First(x => x.Id.Equals(id));
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

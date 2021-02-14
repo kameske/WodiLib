@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// 変数操作＋：取得画像情報種別
+    ///     変数操作＋：取得画像情報種別
     /// </summary>
-    public class NumberPlusPictureInfoType : TypeSafeEnum<NumberPlusPictureInfoType>
+    public record NumberPlusPictureInfoType : TypeSafeEnum<NumberPlusPictureInfoType>
     {
         /// <summary>X座標</summary>
         public static readonly NumberPlusPictureInfoType PositionX;
@@ -141,7 +141,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -149,5 +149,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

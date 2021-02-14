@@ -13,15 +13,18 @@ using WodiLib.Sys;
 namespace WodiLib.Ini
 {
     /// <summary>
-    /// データの設定方法種別
+    ///     データの設定方法種別
     /// </summary>
-    public class DatabaseValueNumberDrawType : TypeSafeEnum<DatabaseValueNumberDrawType>
+    public record DatabaseValueNumberDrawType : TypeSafeEnum<DatabaseValueNumberDrawType>
     {
         /// <summary>手動で設定</summary>
         public static readonly DatabaseValueNumberDrawType Off;
 
         /// <summary>最初の文字列データと同じ</summary>
         public static readonly DatabaseValueNumberDrawType On;
+
+        /// <summary>コード値</summary>
+        public string Code { get; }
 
         static DatabaseValueNumberDrawType()
         {
@@ -30,7 +33,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="id">ID</param>
         /// <param name="code">コード値</param>
@@ -38,9 +41,6 @@ namespace WodiLib.Ini
         {
             Code = code;
         }
-
-        /// <summary>コード値</summary>
-        public string Code { get; }
 
         /// <summary>
         ///     対象コードからオブジェクトを取得する。
@@ -77,5 +77,9 @@ namespace WodiLib.Ini
             if (code is null || code.Equals(string.Empty)) return Off;
             return FromCode(code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

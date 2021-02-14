@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Map
 {
     /// <summary>
-    /// キャラチップ向き
+    ///     キャラチップ向き
     /// </summary>
-    public class CharaChipDirection : TypeSafeEnum<CharaChipDirection>
+    public record CharaChipDirection : TypeSafeEnum<CharaChipDirection>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -85,5 +85,9 @@ namespace WodiLib.Map
         {
             Code = code;
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

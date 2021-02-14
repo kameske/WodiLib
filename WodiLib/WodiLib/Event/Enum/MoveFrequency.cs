@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event
 {
     /// <summary>
-    /// 移動頻度
+    ///     移動頻度
     /// </summary>
-    public class MoveFrequency : TypeSafeEnum<MoveFrequency>
+    public record MoveFrequency : TypeSafeEnum<MoveFrequency>
     {
         /// <summary>0:毎フレーム</summary>
         public static readonly MoveFrequency Frame;
@@ -57,7 +57,7 @@ namespace WodiLib.Event
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -65,5 +65,9 @@ namespace WodiLib.Event
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

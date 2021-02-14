@@ -13,9 +13,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// 条件（変数） 条件演算子
+    ///     条件（変数） 条件演算子
     /// </summary>
-    public class NumberConditionalOperator : TypeSafeEnum<NumberConditionalOperator>
+    public record NumberConditionalOperator : TypeSafeEnum<NumberConditionalOperator>
     {
         /// <summary>より大きい</summary>
         public static readonly NumberConditionalOperator Above;
@@ -71,7 +71,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="src">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -79,5 +79,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == src);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

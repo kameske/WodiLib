@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Common
 {
     /// <summary>
-    /// コモンイベント起動条件
+    ///     コモンイベント起動条件
     /// </summary>
-    public class CommonEventBootType : TypeSafeEnum<CommonEventBootType>
+    public record CommonEventBootType : TypeSafeEnum<CommonEventBootType>
     {
         /// <summary>呼び出しのみ</summary>
         public static readonly CommonEventBootType OnlyCall;
@@ -45,7 +45,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// コード値からインスタンスを返す。
+        ///     コード値からインスタンスを返す。
         /// </summary>
         /// <param name="code">コード値</param>
         /// <returns>インスタンス</returns>
@@ -53,5 +53,9 @@ namespace WodiLib.Common
         {
             return AllItems.First(x => x.Code == code);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

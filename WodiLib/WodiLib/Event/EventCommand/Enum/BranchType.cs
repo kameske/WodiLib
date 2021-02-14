@@ -11,9 +11,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// 分岐種別
+    ///     分岐種別
     /// </summary>
-    public class BranchType : TypeSafeEnum<BranchType>
+    public record BranchType : TypeSafeEnum<BranchType>
     {
         /// <summary>選択肢</summary>
         public static readonly BranchType Choice;
@@ -34,5 +34,9 @@ namespace WodiLib.Event.EventCommand
         private BranchType(string id) : base(id)
         {
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }

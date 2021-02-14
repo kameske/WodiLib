@@ -14,7 +14,7 @@ namespace WodiLib.Database
     /// <summary>
     /// DB項目値特殊指定タイプ
     /// </summary>
-    public class DBItemSpecialSettingType : TypeSafeEnum<DBItemSpecialSettingType>
+    public record DBItemSpecialSettingType : TypeSafeEnum<DBItemSpecialSettingType>
     {
         /// <summary>特殊な指定方法を使用しない</summary>
         public static readonly DBItemSpecialSettingType Normal;

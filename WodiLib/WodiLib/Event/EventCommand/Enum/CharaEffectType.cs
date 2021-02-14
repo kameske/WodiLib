@@ -14,9 +14,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// キャラエフェクト種別
+    ///     キャラエフェクト種別
     /// </summary>
-    public class CharaEffectType : TypeSafeEnum<CharaEffectType>
+    public record CharaEffectType : TypeSafeEnum<CharaEffectType>
     {
         /// <summary>フラッシュ</summary>
         public static readonly CharaEffectType Flush;
@@ -56,7 +56,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// イベントコマンド文文字列を取得する。
+        ///     イベントコマンド文文字列を取得する。
         /// </summary>
         /// <param name="resolver">名前解決クラスインスタンス</param>
         /// <param name="type">イベント種別</param>
@@ -85,7 +85,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// バイト値から種別インスタンスを取得する。
+        ///     バイト値から種別インスタンスを取得する。
         /// </summary>
         /// <param name="src">コード値</param>
         /// <returns>インスタンス</returns>
@@ -93,5 +93,9 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == src);
         }
+
+        /// <inheritdoc/>
+        public override string ToString()
+            => base.ToString();
     }
 }
