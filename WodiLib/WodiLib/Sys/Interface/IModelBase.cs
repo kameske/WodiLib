@@ -15,7 +15,7 @@ namespace WodiLib.Sys
     /// </summary>
     /// <typeparam name="TChild">Model実装クラス型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public interface IModelBase<in TChild> : IReadOnlyModelBase<TChild>, INotifyPropertyChange
+    public interface IModelBase<TChild> : IReadOnlyModelBase<TChild>, INotifyPropertyChange
         where TChild : IModelBase<TChild>
     {
     }
@@ -25,8 +25,8 @@ namespace WodiLib.Sys
     /// </summary>
     /// <typeparam name="TChild">Model実装クラス型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public interface IReadOnlyModelBase<in TChild> : IReadOnlyNotifyPropertyChange,
-        IEqualityComparable<TChild>
+    public interface IReadOnlyModelBase<TChild> : IReadOnlyNotifyPropertyChange,
+        IEqualityComparable<TChild>, IDeepCloneable<TChild>
         where TChild : IReadOnlyModelBase<TChild>
     {
     }

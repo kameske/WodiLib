@@ -15,7 +15,7 @@ namespace WodiLib.Map
     /// <summary>
     /// タイルセット設定リストクラス
     /// </summary>
-    public class TileSetSettingList : RestrictedCapacityList<TileSetSetting>
+    public class TileSetSettingList : RestrictedCapacityList<TileSetSetting, TileSetSettingList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

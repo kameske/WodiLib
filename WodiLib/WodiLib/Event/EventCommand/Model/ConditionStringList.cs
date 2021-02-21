@@ -16,7 +16,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// 条件（文字列）条件リスト
     /// </summary>
-    public class ConditionStringList : FixedLengthList<ConditionStringDesc>, IModelBase<ConditionStringList>
+    public class ConditionStringList : FixedLengthList<ConditionStringDesc, ConditionStringList>, IModelBase<ConditionStringList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      public Constant

@@ -22,9 +22,11 @@ namespace WodiLib.Sys
     /// <remarks>
     /// 機能概要は <seealso cref="IFixedLengthList{T}"/> 参照。
     /// </remarks>
-    /// <typeparam name="T">リスト内包クラス</typeparam>
+    /// <typeparam name="T">リスト内包型</typeparam>
+    /// <typeparam name="TImpl">リスト実装型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class FixedLengthList<T> : ModelBase<FixedLengthList<T>>, IFixedLengthList<T>
+    public abstract class FixedLengthList<T, TImpl> : ModelBase<TImpl>, IFixedLengthList<T>
+        where TImpl : FixedLengthList<T, TImpl>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Event
@@ -149,7 +151,7 @@ namespace WodiLib.Sys
                 (_, propName) =>
                 {
                     if (propName.Equals(nameof(Count))) return null;
-                    if (propName.Equals(ListConstant.IndexerName)) return GetNotifyPropertyIndexerName();
+                    if (propName.Equals(ListConstant.IndexerName)) return new[] {GetNotifyPropertyIndexerName()};
                     return null;
                 });
         }
@@ -242,34 +244,70 @@ namespace WodiLib.Sys
         public IEnumerator<T> GetEnumerator()
             => Items.AsEnumerable().GetEnumerator();
 
-        /// <inheritdoc />
-        public override bool ItemEquals(FixedLengthList<T>? other)
-            => Equals((IEnumerable<T>?) other);
+        /// <inheritdoc/>
+        public override bool ItemEquals(TImpl? other)
+            => ItemEquals((IEnumerable<T>?) other);
 
         /// <inheritdoc />
         public bool ItemEquals(IFixedLengthList<T>? other)
-            => Equals((IEnumerable<T>?) other);
+            => ItemEquals((IEnumerable<T>?) other);
 
         /// <inheritdoc />
         public bool ItemEquals(IReadOnlyFixedLengthList<T>? other)
-            => Equals((IEnumerable<T>?) other);
+            => ItemEquals((IEnumerable<T>?) other);
 
         /// <inheritdoc />
         public bool ItemEquals(IReadOnlyExtendedList<T>? other)
-            => Equals((IEnumerable<T>?) other);
+            => ItemEquals((IEnumerable<T>?) other);
 
         /// <inheritdoc />
-        public bool Equals(IReadOnlyList<T>? other)
-            => Equals((IEnumerable<T>?) other);
+        public bool ItemEquals(IEnumerable<T>? other)
+            => Items.ItemEquals(other);
 
-        /// <inheritdoc />
-        public bool Equals(IEnumerable<T>? other)
+        IFixedLengthList<T> IDeepCloneable<IFixedLengthList<T>>.DeepClone()
+            => DeepClone();
+
+        IReadOnlyFixedLengthList<T> IDeepCloneable<IReadOnlyFixedLengthList<T>>.DeepClone()
+            => DeepClone();
+
+        IReadOnlyExtendedList<T> IDeepCloneable<IReadOnlyExtendedList<T>>.DeepClone()
+            => DeepClone();
+
+        /// <inheritdoc cref="IFixedLengthList{T}.DeepCloneWith(IEnumerable{System.Collections.Generic.KeyValuePair{int,T}}?)"/>
+        public TImpl DeepCloneWith(IEnumerable<KeyValuePair<int, T>>? values = null)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
+            var result = DeepClone();
 
-            return Items.SequenceEqual(other);
+            values?.ForEach(pair =>
+            {
+                ThrowHelper.ValidateArgumentNotNull(pair.Value is null, $"{nameof(values)} の要素 (Key: {pair.Key})");
+                if (-1 < pair.Key && pair.Key < result.Count) result[pair.Key] = pair.Value;
+            });
+
+            return result;
         }
+
+        /// <inheritdoc/>
+        IFixedLengthList<T> IFixedLengthList<T>.DeepCloneWith(IEnumerable<KeyValuePair<int, T>>? values)
+            => DeepCloneWith(values);
+
+        /// <inheritdoc/>
+        IReadOnlyFixedLengthList<T> IReadOnlyFixedLengthList<T>.DeepCloneWith(IEnumerable<KeyValuePair<int, T>>? values)
+            => DeepCloneWith(values);
+
+        /// <inheritdoc/>
+        IReadOnlyExtendedList<T> IReadOnlyExtendedList<T>.DeepCloneWith(int? length,
+            IEnumerable<KeyValuePair<int, T>>? values)
+            => DeepCloneWith(values);
+
+        /// <inheritdoc/>
+        IFixedLengthList<T> IFixedLengthList<T>.DeepCloneWith(int? length, IEnumerable<KeyValuePair<int, T>>? values)
+            => DeepCloneWith(values);
+
+        /// <inheritdoc/>
+        IReadOnlyFixedLengthList<T> IReadOnlyFixedLengthList<T>.DeepCloneWith(int? length,
+            IEnumerable<KeyValuePair<int, T>>? values)
+            => DeepCloneWith(values);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Implements Method

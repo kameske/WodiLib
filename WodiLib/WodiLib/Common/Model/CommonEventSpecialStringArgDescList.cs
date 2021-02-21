@@ -7,7 +7,7 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベント文字列引数特殊指定情報リスト
     /// </summary>
-    public class CommonEventSpecialStringArgDescList : FixedLengthList<CommonEventSpecialStringArgDesc>
+    public class CommonEventSpecialStringArgDescList : FixedLengthList<CommonEventSpecialStringArgDesc, CommonEventSpecialStringArgDescList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

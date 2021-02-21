@@ -247,12 +247,11 @@ namespace WodiLib.Common
             /// </summary>
             /// <param name="other">比較対象</param>
             /// <returns>一致する場合、true</returns>
-            public bool ItemEquals(IInnerDesc? other)
+            bool IEqualityComparable<IInnerDesc>.ItemEquals(IInnerDesc? other)
             {
                 if (ReferenceEquals(this, other)) return true;
                 if (ReferenceEquals(null, other)) return false;
-                if (!(other is InnerDescNormal casted)) return false;
-                return Equals((IEquatable<InnerDescNormal>) casted);
+                return ItemEquals(other as InnerDescNormal);
             }
 
             /// <summary>
@@ -265,6 +264,11 @@ namespace WodiLib.Common
                 if (ReferenceEquals(this, other)) return true;
                 if (ReferenceEquals(null, other)) return false;
                 return true;
+            }
+
+            public new IInnerDesc DeepClone()
+            {
+                throw new NotImplementedException();
             }
         }
     }

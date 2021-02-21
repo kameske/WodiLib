@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// <summary>
     /// タイルタグ番号リストクラス
     /// </summary>
-    public class TileTagNumberList : RestrictedCapacityList<TileTagNumber>,
+    public class TileTagNumberList : RestrictedCapacityList<TileTagNumber, TileTagNumberList>,
         IFixedLengthTileTagNumberList, IEquatable<TileTagNumberList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -91,7 +91,7 @@ namespace WodiLib.Map
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
-            return Equals((RestrictedCapacityList<TileTagNumber>) other);
+            return ItemEquals(other);
         }
 
         /// <summary>
@@ -109,6 +109,40 @@ namespace WodiLib.Map
         /// <inheritdoc />
         public bool ItemEquals(IFixedLengthList<TileTagNumber>? other)
             => Equals((IEnumerable<TileTagNumber>?) other);
+
+        IReadOnlyFixedLengthList<TileTagNumber> IDeepCloneable<IReadOnlyFixedLengthList<TileTagNumber>>.DeepClone()
+        {
+            throw new NotImplementedException();
+        }
+
+        IFixedLengthList<TileTagNumber> IDeepCloneable<IFixedLengthList<TileTagNumber>>.DeepClone()
+        {
+            throw new NotImplementedException();
+        }
+
+        IFixedLengthList<TileTagNumber> IFixedLengthList<TileTagNumber>.DeepCloneWith(
+            IEnumerable<KeyValuePair<int, TileTagNumber>>? values)
+        {
+            throw new NotImplementedException();
+        }
+
+        IFixedLengthList<TileTagNumber> IFixedLengthList<TileTagNumber>.DeepCloneWith(int? length,
+            IEnumerable<KeyValuePair<int, TileTagNumber>>? values)
+        {
+            throw new NotImplementedException();
+        }
+
+        IReadOnlyFixedLengthList<TileTagNumber> IReadOnlyFixedLengthList<TileTagNumber>.DeepCloneWith(
+            IEnumerable<KeyValuePair<int, TileTagNumber>>? values)
+        {
+            throw new NotImplementedException();
+        }
+
+        IReadOnlyFixedLengthList<TileTagNumber> IReadOnlyFixedLengthList<TileTagNumber>.DeepCloneWith(int? length,
+            IEnumerable<KeyValuePair<int, TileTagNumber>>? values)
+        {
+            throw new NotImplementedException();
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common

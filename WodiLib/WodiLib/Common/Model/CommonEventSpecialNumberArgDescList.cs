@@ -8,7 +8,7 @@ namespace WodiLib.Common
     /// コモンイベント数値引数特殊指定情報リスト
     /// </summary>
     [Serializable]
-    public class CommonEventSpecialNumberArgDescList : FixedLengthList<CommonEventSpecialNumberArgDesc>
+    public class CommonEventSpecialNumberArgDescList : FixedLengthList<CommonEventSpecialNumberArgDesc, CommonEventSpecialNumberArgDescList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

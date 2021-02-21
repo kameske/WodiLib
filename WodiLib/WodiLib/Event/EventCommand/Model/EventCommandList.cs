@@ -20,7 +20,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// イベントコマンドリスト
     /// </summary>
-    public class EventCommandList : RestrictedCapacityList<IEventCommand>
+    public class EventCommandList : RestrictedCapacityList<IEventCommand, EventCommandList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Public Constant

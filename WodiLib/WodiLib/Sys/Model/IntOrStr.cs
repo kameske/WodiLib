@@ -16,9 +16,7 @@ namespace WodiLib.Sys
     /// </summary>
     public class IntOrStr : ModelBase<IntOrStr>
     {
-        private static string NotifyPropertyChangedName = "Value";
-
-        private readonly Guid guidForHash = Guid.NewGuid();
+        private static readonly string NotifyPropertyChangedName = "Value";
 
         private int numValue;
         private string? strValue;
@@ -216,21 +214,6 @@ namespace WodiLib.Sys
             return $"Type: {InstanceIntOrStrType}, Value: \"{ToValueString()}\"";
         }
 
-        /// <inheritdoc />
-        public override bool Equals(object? obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals((IntOrStr) obj);
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return guidForHash.GetHashCode();
-        }
-
         /// <summary>
         /// 値を比較する。
         /// </summary>
@@ -245,6 +228,77 @@ namespace WodiLib.Sys
             if (HasStr && !strValue!.Equals(other.strValue)) return false;
 
             return true;
+        }
+
+        /// <inheritdoc cref="IDeepCloneable{T}.DeepClone"/>
+        public override IntOrStr DeepClone()
+        {
+            if (InstanceIntOrStrType == IntOrStrType.Int) return new IntOrStr(numValue);
+            if (InstanceIntOrStrType == IntOrStrType.Str) return new IntOrStr(strValue!);
+            if (InstanceIntOrStrType == IntOrStrType.None) return new IntOrStr();
+            return new IntOrStr(numValue, strValue!);
+        }
+
+        /// <summary>
+        ///     自身の要素をコピーした新たなインスタンスを返却する。
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// 引数 <paramref name="instanceIntOrStrType"/> を指定した場合、生成したインスタンスの値の種類を指定した種類に変更する。<br/>
+        /// 指定されていない場合はコピー元と同じ値種別となる。
+        /// </para>
+        /// <para>
+        /// 引数 <paramref name="intValue"/> を指定した場合、生成したインスタンスが持つ数値情報を指定した値に更新する。<br/>
+        /// この引数は値の種類が <see cref="IntOrStrType.Int"/> または <see cref="IntOrStrType.IntAndStr"/> 以外の場合無視される。
+        /// </para>
+        /// <para>
+        /// 引数 <paramref name="strValue"/> を指定した場合、生成したインスタンスが持つ文字列情報を指定した値に更新する。<br/>
+        /// この引数は値の種類が <see cref="IntOrStrType.Str"/> または <see cref="IntOrStrType.IntAndStr"/> 以外の場合無視される。
+        /// </para>
+        /// </remarks>
+        /// <param name="instanceIntOrStrType">保有する値の種類</param>
+        /// <param name="intValue">保有する数値</param>
+        /// <param name="strValue">保有する文字列</param>
+        /// <returns>自身をディープコピーしたインスタンス</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="instanceIntOrStrType"/> が <see cref="IntOrStrType.Int"/> または <see cref="IntOrStrType.IntAndStr"/>
+        ///     かつ <paramref name="intValue"/> が <see langword="null"/>
+        ///     かつコピー元の <see cref="InstanceIntOrStrType"/> が <see cref="IntOrStrType.None"/> または <see cref="IntOrStrType.Str"/> の場合、
+        ///     または <paramref name="instanceIntOrStrType"/> が <see cref="IntOrStrType.Str"/> または <see cref="IntOrStrType.IntAndStr"/>
+        ///     かつ <paramref name="strValue"/> が <see langword="null"/>
+        ///     かつコピー元の <see cref="InstanceIntOrStrType"/> が <see cref="IntOrStrType.None"/> または <see cref="IntOrStrType.Int"/> の場合、
+        /// </exception>
+        public IntOrStr DeepCloneWith(IntOrStrType? instanceIntOrStrType = null,
+            int? intValue = null, string? strValue = null)
+        {
+            var tmpIntVal = HasInt ? numValue : (int?) null;
+            var tmpStrVal = HasStr ? strValue : null;
+
+            var tmpType = instanceIntOrStrType ?? InstanceIntOrStrType;
+
+            if (tmpType == IntOrStrType.None)
+            {
+                return new IntOrStr();
+            }
+
+            if (tmpType == IntOrStrType.Int)
+            {
+                tmpIntVal = intValue ?? tmpIntVal;
+                ThrowHelper.ValidateArgumentNotNull(tmpIntVal is null, nameof(intValue));
+                return new IntOrStr(tmpIntVal.Value);
+            }
+
+            if (tmpType == IntOrStrType.Str)
+            {
+                tmpStrVal = strValue ?? tmpStrVal;
+                ThrowHelper.ValidateArgumentNotNull(tmpStrVal is null, nameof(strValue));
+                return new IntOrStr(tmpStrVal);
+            }
+
+            /* tmpType == IntOrStrType.IntAndStr */
+            ThrowHelper.ValidateArgumentNotNull(tmpIntVal is null, nameof(intValue));
+            ThrowHelper.ValidateArgumentNotNull(tmpStrVal is null, nameof(strValue));
+            return new IntOrStr(tmpIntVal.Value, tmpStrVal);
         }
     }
 }

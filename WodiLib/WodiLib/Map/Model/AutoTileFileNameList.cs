@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// <summary>
     /// オートタイルファイル名リストクラス
     /// </summary>
-    public class AutoTileFileNameList : FixedLengthList<AutoTileFileName>,
+    public class AutoTileFileNameList : FixedLengthList<AutoTileFileName, AutoTileFileNameList>,
         IFixedLengthAutoTileFileNameList, IEquatable<AutoTileFileNameList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

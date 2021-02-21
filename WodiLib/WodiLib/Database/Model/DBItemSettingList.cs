@@ -16,7 +16,7 @@ namespace WodiLib.Database
     /// <summary>
     /// DB項目設定リスト
     /// </summary>
-    public class DBItemSettingList : RestrictedCapacityList<DBItemSetting>, IReadOnlyDBItemSettingList
+    public class DBItemSettingList : RestrictedCapacityList<DBItemSetting, DBItemSettingList>, IReadOnlyDBItemSettingList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

@@ -18,7 +18,7 @@ namespace WodiLib.Event
     /// <summary>
     /// キャラ動作指定コマンドリスト
     /// </summary>
-    public class CharaMoveCommandList : RestrictedCapacityList<ICharaMoveCommand>
+    public class CharaMoveCommandList : RestrictedCapacityList<ICharaMoveCommand, CharaMoveCommandList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

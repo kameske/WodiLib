@@ -16,7 +16,7 @@ namespace WodiLib.Database
     /// <summary>
     /// 選択肢情報リスト
     /// </summary>
-    internal class DatabaseValueCaseList : RestrictedCapacityList<DatabaseValueCase>,
+    internal class DatabaseValueCaseList : RestrictedCapacityList<DatabaseValueCase, DatabaseValueCaseList>,
         IReadOnlyDatabaseValueCaseList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

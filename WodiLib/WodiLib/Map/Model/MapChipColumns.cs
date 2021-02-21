@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// <summary>
     /// マップチップ列
     /// </summary>
-    public class MapChipColumns : RestrictedCapacityList<MapChip>, IFixedLengthMapChipColumns,
+    public class MapChipColumns : RestrictedCapacityList<MapChip, MapChipColumns>, IFixedLengthMapChipColumns,
         IEquatable<MapChipColumns>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -141,7 +141,7 @@ namespace WodiLib.Map
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
-            return Equals((RestrictedCapacityList<MapChip>) other);
+            return Equals((RestrictedCapacityList<MapChip, MapChipColumns>) other);
         }
 
 
@@ -172,7 +172,47 @@ namespace WodiLib.Map
 
         /// <inheritdoc />
         public bool ItemEquals(IFixedLengthList<MapChip>? other)
-            => Equals((IEnumerable<MapChip>?) other);
+            => ItemEquals((IEnumerable<MapChip>?) other);
+
+        /// <inheritdoc />
+        IReadOnlyFixedLengthList<MapChip> IDeepCloneable<IReadOnlyFixedLengthList<MapChip>>.DeepClone()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        IFixedLengthList<MapChip> IDeepCloneable<IFixedLengthList<MapChip>>.DeepClone()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        IFixedLengthList<MapChip> IFixedLengthList<MapChip>.DeepCloneWith(
+            IEnumerable<KeyValuePair<int, MapChip>>? values)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        IFixedLengthList<MapChip> IFixedLengthList<MapChip>.DeepCloneWith(int? length,
+            IEnumerable<KeyValuePair<int, MapChip>>? values)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        IReadOnlyFixedLengthList<MapChip> IReadOnlyFixedLengthList<MapChip>.DeepCloneWith(
+            IEnumerable<KeyValuePair<int, MapChip>>? values)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        IReadOnlyFixedLengthList<MapChip> IReadOnlyFixedLengthList<MapChip>.DeepCloneWith(int? length,
+            IEnumerable<KeyValuePair<int, MapChip>>? values)
+        {
+            throw new NotImplementedException();
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Override Protected Method

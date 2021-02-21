@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// 選択肢リスト
     /// </summary>
-    public partial class ChoiceCaseList : FixedLengthList<string>
+    public partial class ChoiceCaseList : FixedLengthList<string, ChoiceCaseList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

@@ -16,7 +16,7 @@ namespace WodiLib.Ini
     /// <summary>
     /// ショートカット位置リスト
     /// </summary>
-    public class ShortCutPositionList : FixedLengthList<ShortCutPosition>,
+    public class ShortCutPositionList : FixedLengthList<ShortCutPosition, ShortCutPositionList>,
         IFixedLengthShortCutPositionList, IEquatable<ShortCutPositionList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

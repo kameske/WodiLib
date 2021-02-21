@@ -117,6 +117,12 @@ namespace WodiLib.Sys
 
                 return this.SequenceEqual(other);
             }
+
+            /// <inheritdoc/>
+            public override Impl DeepClone()
+            {
+                return new();
+            }
         }
     }
 }

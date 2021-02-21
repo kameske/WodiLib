@@ -16,7 +16,7 @@ namespace WodiLib.Common
     /// コモンイベントセルフ変数名リスト
     /// </summary>
     [Serializable]
-    public class CommonEventSelfVariableNameList : FixedLengthList<CommonEventSelfVariableName>,
+    public class CommonEventSelfVariableNameList : FixedLengthList<CommonEventSelfVariableName, CommonEventSelfVariableNameList>,
         IReadOnlyCommonEventSelfVariableNameList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

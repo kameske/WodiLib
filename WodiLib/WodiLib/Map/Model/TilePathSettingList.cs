@@ -16,7 +16,7 @@ namespace WodiLib.Map
     /// <summary>
     /// タイル通行設定リストクラス
     /// </summary>
-    public class TilePathSettingList : RestrictedCapacityList<TilePathSetting>,
+    public class TilePathSettingList : RestrictedCapacityList<TilePathSetting, TilePathSettingList>,
         IFixedLengthTilePathSettingList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -82,6 +82,42 @@ namespace WodiLib.Map
         /// <returns>容量</returns>
         public int GetCapacity() => Count;
 
+        /// <inheritdoc />
+        IReadOnlyFixedLengthList<TilePathSetting> IDeepCloneable<IReadOnlyFixedLengthList<TilePathSetting>>.DeepClone()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        IFixedLengthList<TilePathSetting> IDeepCloneable<IFixedLengthList<TilePathSetting>>.DeepClone()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        IFixedLengthList<TilePathSetting> IFixedLengthList<TilePathSetting>.DeepCloneWith(IEnumerable<KeyValuePair<int, TilePathSetting>>? values)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        IFixedLengthList<TilePathSetting> IFixedLengthList<TilePathSetting>.DeepCloneWith(int? length, IEnumerable<KeyValuePair<int, TilePathSetting>>? values)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        IReadOnlyFixedLengthList<TilePathSetting> IReadOnlyFixedLengthList<TilePathSetting>.DeepCloneWith(IEnumerable<KeyValuePair<int, TilePathSetting>>? values)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        IReadOnlyFixedLengthList<TilePathSetting> IReadOnlyFixedLengthList<TilePathSetting>.DeepCloneWith(int? length, IEnumerable<KeyValuePair<int, TilePathSetting>>? values)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// 値を比較する。
         /// </summary>
@@ -91,7 +127,7 @@ namespace WodiLib.Map
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
-            return Equals((RestrictedCapacityList<TilePathSetting>) other);
+            return ItemEquals(other);
         }
 
         /// <summary>

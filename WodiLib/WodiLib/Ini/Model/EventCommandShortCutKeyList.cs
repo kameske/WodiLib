@@ -18,7 +18,7 @@ namespace WodiLib.Ini
     /// <summary>
     /// イベントコマンドショートカットキーリスト
     /// </summary>
-    public class EventCommandShortCutKeyList : FixedLengthList<EventCommandShortCutKey>,
+    public class EventCommandShortCutKeyList : FixedLengthList<EventCommandShortCutKey, EventCommandShortCutKeyList>,
         IFixedLengthEventCommandShortCutKeyList, IEquatable<EventCommandShortCutKeyList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

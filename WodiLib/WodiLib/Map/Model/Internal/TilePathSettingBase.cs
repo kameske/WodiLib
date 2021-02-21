@@ -129,6 +129,16 @@ namespace WodiLib.Map
             return Equals(other);
         }
 
+        /// <inheritdoc />
+        public override TilePathSettingBase DeepClone()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        ITilePathSetting IDeepCloneable<ITilePathSetting>.DeepClone()
+            => DeepClone();
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Abstract Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -9,7 +9,7 @@
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// <see cref="ITwoDimensionalList{T, TImpl}"/> 検証者インタフェース
+    /// <see cref="ITwoDimensionalList{T}"/> 検証者インタフェース
     /// </summary>
     public interface ITwoDimensionalListValidator<in T>
     {

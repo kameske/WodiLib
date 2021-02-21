@@ -16,7 +16,7 @@ namespace WodiLib.Database
     /// <summary>
     /// DBデータ情報リスト
     /// </summary>
-    public class DatabaseDataDescList : RestrictedCapacityList<DatabaseDataDesc>
+    public class DatabaseDataDescList : RestrictedCapacityList<DatabaseDataDesc, DatabaseDataDescList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

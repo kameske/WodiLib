@@ -17,7 +17,7 @@ namespace WodiLib.Map
     /// <summary>
     /// マップイベントリストクラス
     /// </summary>
-    public partial class MapEventList : RestrictedCapacityList<MapEvent>
+    public partial class MapEventList : RestrictedCapacityList<MapEvent, MapEventList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

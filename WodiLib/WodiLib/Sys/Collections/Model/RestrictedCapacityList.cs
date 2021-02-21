@@ -21,9 +21,11 @@ namespace WodiLib.Sys
     /// <remarks>
     /// 機能概要は <seealso cref="IRestrictedCapacityList{T}"/> 参照。
     /// </remarks>
-    /// <typeparam name="T">リスト内包クラス</typeparam>
-    public abstract class RestrictedCapacityList<T> : ModelBase<RestrictedCapacityList<T>>,
+    /// <typeparam name="T">リスト内包型</typeparam>
+    /// <typeparam name="TImpl">リスト実装型</typeparam>
+    public abstract class RestrictedCapacityList<T, TImpl> : ModelBase<TImpl>,
         IRestrictedCapacityList<T>
+        where TImpl : RestrictedCapacityList<T, TImpl>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Public Event
@@ -323,34 +325,77 @@ namespace WodiLib.Sys
         public IEnumerator<T> GetEnumerator()
             => Items.GetEnumerator();
 
-        /// <inheritdoc />
-        public override bool ItemEquals(RestrictedCapacityList<T>? other)
-            => Equals((IEnumerable<T>?) other);
+        /// <inheritdoc/>
+        public override bool ItemEquals(TImpl? other)
+            => ItemEquals((IEnumerable<T>?) other);
 
         /// <inheritdoc />
         public bool ItemEquals(IRestrictedCapacityList<T>? other)
-            => Equals((IEnumerable<T>?) other);
+            => ItemEquals((IEnumerable<T>?) other);
 
         /// <inheritdoc />
         public bool ItemEquals(IReadOnlyRestrictedCapacityList<T>? other)
-            => Equals((IEnumerable<T>?) other);
+            => ItemEquals((IEnumerable<T>?) other);
 
         /// <inheritdoc />
         public bool ItemEquals(IReadOnlyExtendedList<T>? other)
-            => Equals((IEnumerable<T>?) other);
+            => ItemEquals((IEnumerable<T>?) other);
 
-        /// <inheritdoc />
-        public bool Equals(IReadOnlyList<T>? other)
-            => Equals((IEnumerable<T>?) other);
-
-        /// <inheritdoc />
-        public bool Equals(IEnumerable<T>? other)
+        /// <inheritdoc/>
+        public bool ItemEquals(IEnumerable<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return Items.SequenceEqual(other);
+            return Items.ItemEquals(other);
         }
+
+        /// <inheritdoc/>
+        IRestrictedCapacityList<T> IDeepCloneable<IRestrictedCapacityList<T>>.DeepClone()
+            => DeepClone();
+
+        /// <inheritdoc/>
+        IReadOnlyRestrictedCapacityList<T> IDeepCloneable<IReadOnlyRestrictedCapacityList<T>>.DeepClone()
+            => DeepClone();
+
+        /// <inheritdoc/>
+        IReadOnlyExtendedList<T> IDeepCloneable<IReadOnlyExtendedList<T>>.DeepClone()
+            => DeepClone();
+
+        /// <inheritdoc cref="IRestrictedCapacityList{T}.DeepCloneWith"/>
+        public TImpl DeepCloneWith(int? length = null,
+            IEnumerable<KeyValuePair<int, T>>? values = null)
+        {
+            var result = DeepClone();
+
+            if (length is not null)
+            {
+                result.AdjustLength(length.Value);
+            }
+
+            values?.ForEach(pair =>
+            {
+                ThrowHelper.ValidateArgumentNotNull(pair.Value is null, $"{nameof(values)} の要素 (Key: {pair.Key})");
+                if (-1 < pair.Key && pair.Key < result.Count) result[pair.Key] = pair.Value;
+            });
+
+            return result;
+        }
+
+        /// <inheritdoc/>
+        IReadOnlyExtendedList<T> IReadOnlyExtendedList<T>.DeepCloneWith(int? length,
+            IEnumerable<KeyValuePair<int, T>>? values)
+            => DeepCloneWith(length, values);
+
+        /// <inheritdoc/>
+        IRestrictedCapacityList<T> IRestrictedCapacityList<T>.DeepCloneWith(int? length,
+            IEnumerable<KeyValuePair<int, T>>? values)
+            => DeepCloneWith(length, values);
+
+        /// <inheritdoc/>
+        IReadOnlyRestrictedCapacityList<T> IReadOnlyRestrictedCapacityList<T>.DeepCloneWith(int? length,
+            IEnumerable<KeyValuePair<int, T>>? values)
+            => DeepCloneWith(length, values);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Implements Method
@@ -377,7 +422,7 @@ namespace WodiLib.Sys
         /// 自身の検証処理を実行する <see cref="IWodiLibListValidator{T}"/> インスタンスを生成する。
         /// </summary>
         /// <returns>検証処理実行クラスのインスタンス。検証処理を行わない場合 <see langward="null"/></returns>
-        protected virtual IWodiLibListValidator<T> MakeValidator()
+        protected virtual IWodiLibListValidator<T>? MakeValidator()
         {
             return new RestrictedCapacityListValidator<T>(this);
         }

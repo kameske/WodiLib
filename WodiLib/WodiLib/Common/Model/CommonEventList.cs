@@ -17,7 +17,7 @@ namespace WodiLib.Common
     /// コモンイベントリスト
     /// </summary>
     [Serializable]
-    public class CommonEventList : RestrictedCapacityList<CommonEvent>,
+    public class CommonEventList : RestrictedCapacityList<CommonEvent, CommonEventList>,
         IReadOnlyCommonEventList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

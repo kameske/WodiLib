@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// 条件（変数）条件リスト
     /// </summary>
-    public class ConditionNumberList : RestrictedCapacityList<ConditionNumberDesc>
+    public class ConditionNumberList : RestrictedCapacityList<ConditionNumberDesc, ConditionNumberList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Public Constant

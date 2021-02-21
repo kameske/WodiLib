@@ -267,6 +267,10 @@ namespace WodiLib.Sys
         ///     または<see cref="IReadOnlyRestrictedCapacityList{T}.GetMaxCapacity"/> を超える場合。
         /// </exception>
         public void Reset(IEnumerable<T> initItems);
+
+        /// <inheritdoc cref="IReadOnlyRestrictedCapacityList{T}.DeepCloneWith"/>
+        public new IRestrictedCapacityList<T> DeepCloneWith(int? length = null,
+            IEnumerable<KeyValuePair<int, T>>? values = null);
     }
 
     /// <summary>
@@ -287,5 +291,18 @@ namespace WodiLib.Sys
         /// </summary>
         /// <returns>容量最小値</returns>
         int GetMinCapacity();
+
+        /// <inheritdoc cref="IReadOnlyExtendedList{T}.DeepCloneWith" select="summary|remarks"/>
+        /// <param name="length">
+        ///     [Range(<see cref="GetMinCapacity"/>, <see cref="GetMaxCapacity"/>)]
+        ///     ディープコピー後の要素数
+        /// </param>
+        /// <param name="values">ディープコピー時の上書き要素</param>
+        /// <returns>自身をディープコピーしたインスタンス</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="length"/> が <see langword="null"/> ではない かつ 指定範囲外の場合
+        /// </exception>
+        public new IReadOnlyRestrictedCapacityList<T> DeepCloneWith(int? length = null,
+            IEnumerable<KeyValuePair<int, T>>? values = null);
     }
 }

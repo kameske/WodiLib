@@ -17,7 +17,7 @@ namespace WodiLib.Database
     /// DBデータ設定値リスト
     /// </summary>
     [Serializable]
-    public class DBItemValueList : RestrictedCapacityList<DBItemValue>,
+    public class DBItemValueList : RestrictedCapacityList<DBItemValue, DBItemValueList>,
         IFixedLengthDBItemValueList, IReadOnlyDBItemValueList, IEquatable<DBItemValueList>,
         IChildDBItemValueList
     {
@@ -139,6 +139,30 @@ namespace WodiLib.Database
              * IFixedLengthDBItemValueListとして扱う際に必要になる
              */
             return Count;
+        }
+
+        IFixedLengthList<DBItemValue> IFixedLengthList<DBItemValue>.DeepCloneWith(
+            IEnumerable<KeyValuePair<int, DBItemValue>>? values)
+        {
+            throw new NotImplementedException();
+        }
+
+        IFixedLengthList<DBItemValue> IFixedLengthList<DBItemValue>.DeepCloneWith(int? length,
+            IEnumerable<KeyValuePair<int, DBItemValue>>? values)
+        {
+            throw new NotImplementedException();
+        }
+
+        IReadOnlyFixedLengthList<DBItemValue> IReadOnlyFixedLengthList<DBItemValue>.DeepCloneWith(
+            IEnumerable<KeyValuePair<int, DBItemValue>>? values)
+        {
+            throw new NotImplementedException();
+        }
+
+        IReadOnlyFixedLengthList<DBItemValue> IReadOnlyFixedLengthList<DBItemValue>.DeepCloneWith(int? length,
+            IEnumerable<KeyValuePair<int, DBItemValue>>? values)
+        {
+            throw new NotImplementedException();
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -388,7 +412,7 @@ namespace WodiLib.Database
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals((RestrictedCapacityList<DBItemValue>) other);
+            return ItemEquals(other);
         }
 
         /// <summary>
@@ -577,6 +601,16 @@ namespace WodiLib.Database
                 .ForEach(x => result.AddRange(x.ToBinary()));
 
             return result.ToArray();
+        }
+
+        IReadOnlyFixedLengthList<DBItemValue> IDeepCloneable<IReadOnlyFixedLengthList<DBItemValue>>.DeepClone()
+        {
+            throw new NotImplementedException();
+        }
+
+        IFixedLengthList<DBItemValue> IDeepCloneable<IFixedLengthList<DBItemValue>>.DeepClone()
+        {
+            throw new NotImplementedException();
         }
     }
 }

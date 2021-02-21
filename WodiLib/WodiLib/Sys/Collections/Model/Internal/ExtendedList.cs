@@ -233,18 +233,74 @@ namespace WodiLib.Sys
         public bool ItemEquals(IReadOnlyExtendedList<T>? other)
             => Equals((IEnumerable<T>?) other);
 
-        /// <inheritdoc />
-        public bool Equals(IReadOnlyList<T>? other)
-            => Equals((IEnumerable<T>?) other);
-
-        /// <inheritdoc />
-        public bool Equals(IEnumerable<T>? other)
+        /// <inheritdoc/>
+        public bool ItemEquals(IEnumerable<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return this.SequenceEqual(other);
+            var otherList = other.ToList();
+
+            if (Count != otherList.Count) return false;
+            if (Count == 0) return true;
+
+            return this.Zip(otherList).All(zip =>
+            {
+                var (x, y) = zip;
+                if (x is IEqualityComparable comparable)
+                {
+                    return comparable.ItemEquals(y);
+                }
+
+                return x!.Equals(y);
+            });
         }
+
+        #endregion
+
+        #region Clone
+
+        /// <inheritdoc />
+        public override ExtendedList<T> DeepClone()
+        {
+            return new(this);
+        }
+
+        /// <inheritdoc />
+        IExtendedList<T> IDeepCloneable<IExtendedList<T>>.DeepClone()
+            => DeepClone();
+
+        /// <inheritdoc />
+        IReadOnlyExtendedList<T> IDeepCloneable<IReadOnlyExtendedList<T>>.DeepClone()
+            => DeepClone();
+
+        /// <inheritdoc cref="IExtendedList{T}.DeepCloneWith"/>
+        public ExtendedList<T> DeepCloneWith(int? length, IEnumerable<KeyValuePair<int, T>>? values)
+        {
+            var result = DeepClone();
+
+            if (length is not null)
+            {
+                result.AdjustLength(length.Value);
+            }
+
+            values?.ForEach(pair =>
+            {
+                ThrowHelper.ValidateArgumentNotNull(pair.Value is null, $"{nameof(values)} の要素 (Key: {pair.Key})");
+                if (result.Count < pair.Key) result[pair.Key] = pair.Value;
+            });
+
+            return result;
+        }
+
+        /// <inheritdoc />
+        IExtendedList<T> IExtendedList<T>.DeepCloneWith(int? length, IEnumerable<KeyValuePair<int, T>>? values)
+            => DeepCloneWith(length, values);
+
+        /// <inheritdoc />
+        IReadOnlyExtendedList<T> IReadOnlyExtendedList<T>.DeepCloneWith(int? length,
+            IEnumerable<KeyValuePair<int, T>>? values)
+            => DeepCloneWith(length, values);
 
         #endregion
 

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace WodiLib.Sys
 {
@@ -113,6 +114,14 @@ namespace WodiLib.Sys
         ///     <see cref="IReadOnlyFixedLengthList{T}.GetCapacity"/> と一致しない場合。
         /// </exception>
         public void Reset(IEnumerable<T> initItems);
+
+        /// <inheritdoc cref="IReadOnlyFixedLengthList{T}.DeepCloneWith(IEnumerable{KeyValuePair{int, T}})"/>
+        public new IFixedLengthList<T> DeepCloneWith(IEnumerable<KeyValuePair<int, T>>? values = null);
+
+        /// <inheritdoc cref="IReadOnlyFixedLengthList{T}.DeepCloneWith(int?,IEnumerable{KeyValuePair{int, T}})"/>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public new IFixedLengthList<T> DeepCloneWith(int? length = null,
+            IEnumerable<KeyValuePair<int, T>>? values = null);
     }
 
     /// <summary>
@@ -127,5 +136,45 @@ namespace WodiLib.Sys
         /// </summary>
         /// <returns>容量</returns>
         public int GetCapacity();
+
+        /// <summary>
+        ///     自身の要素をコピーした新たなインスタンスを返却する。
+        /// </summary>
+        /// <remarks>
+        ///     <para>
+        ///         自身の内包する要素が構造体・クラス型の場合、返却するインスタンスの要素はすべてディープコピーされた状態で格納される。
+        ///         レコードの場合はシャローコピーされた要素が格納される。
+        ///     </para>
+        ///     <para>
+        ///         引数 <paramref name="values"/> を指定した場合、<paramref name="values"/> のキーに指定されたインデックスの要素を <paramref name="values"/>
+        ///         の値で上書きする。<br/>
+        ///         返却する要素数を上回るインデックスが指定されている場合、その要素は無視される。
+        ///     </para>
+        /// </remarks>
+        /// <param name="values">ディープコピー時の上書き要素</param>
+        /// <returns>自身をディープコピーしたインスタンス</returns>
+        public IReadOnlyFixedLengthList<T> DeepCloneWith(IEnumerable<KeyValuePair<int, T>>? values = null);
+
+        /// <inheritdoc cref="IReadOnlyExtendedList{T}.DeepCloneWith" select="summary"/>
+        /// <remarks>
+        ///     <para>
+        ///         自身の内包する要素が構造体・クラス型の場合、返却するインスタンスの要素はすべてディープコピーされた状態で格納される。
+        ///         レコードの場合はシャローコピーされた要素が格納される。
+        ///     </para>
+        ///     <para>
+        ///         引数 <paramref name="length"/> は無視される。
+        ///     </para>
+        ///     <para>
+        ///         引数 <paramref name="values"/> を指定した場合、<paramref name="values"/> のキーに指定されたインデックスの要素を <paramref name="values"/>
+        ///         の値で上書きする。<br/>
+        ///         返却する要素数を上回るインデックスが指定されている場合、その要素は無視される。
+        ///     </para>
+        /// </remarks>
+        /// <param name="length">未使用</param>
+        /// <param name="values">ディープコピー時の上書き要素</param>
+        /// <returns>自身をディープコピーしたインスタンス</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public new IReadOnlyFixedLengthList<T> DeepCloneWith(int? length = null,
+            IEnumerable<KeyValuePair<int, T>>? values = null);
     }
 }

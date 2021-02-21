@@ -53,7 +53,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>リスト実体</summary>
-        protected virtual List<List<T>> Items { get; } = new List<List<T>>();
+        protected virtual List<List<T>> Items { get; } = new();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -225,6 +225,12 @@ namespace WodiLib.Sys
         {
             if (ReferenceEquals(null, other)) return false;
             return Equals(other.AsEnumerable());
+        }
+
+        IRestrictedCapacityTwoDimensionalList<T>
+            IDeepCloneable<IRestrictedCapacityTwoDimensionalList<T>>.DeepClone()
+        {
+            throw new NotImplementedException();
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

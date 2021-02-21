@@ -35,7 +35,7 @@ namespace WodiLib.Test.Sys
 
             var errorOccured = false;
 
-            AbsCollectionTest instance = null;
+            IFixedLengthList<string> instance = null;
             try
             {
                 switch (testType)
@@ -89,7 +89,7 @@ namespace WodiLib.Test.Sys
 
             var initList = MakeStringList(initLength);
 
-            AbsCollectionTest instance = null;
+            IFixedLengthList<string> instance = null;
             try
             {
                 switch (testType)
@@ -906,6 +906,351 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
         }
 
+        [Test]
+        public static void DeepCloneTest()
+        {
+            const int initCount = 10;
+            var instance = MakeCollection5(initCount);
+            CollectionTest5 clone = null;
+
+            var guidList = instance.Select(x => x.Guid).ToList();
+
+            var errorOccured = false;
+            try
+            {
+                clone = instance.DeepClone();
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
+
+            // ----- Original Test -----
+
+            // 元のリストが変化していないこと
+            Assert.AreEqual(instance.Count, guidList.Count);
+            for (var i = 0; i < instance.Count; i++)
+            {
+                Assert.IsTrue(instance[i].Guid.Equals(guidList[i]));
+            }
+
+            // ----- Clone Test -----
+
+            // 元とは異なる参照であること
+            Assert.False(ReferenceEquals(clone, instance));
+
+            // 元の要素数から変化していないこと
+            Assert.AreEqual(clone.Count, initCount);
+
+            // 各要素がディープクローンであること
+            for (var i = 0; i < initCount; i++)
+            {
+                Assert.IsTrue(clone[i].Guid.Equals(guidList[i]));
+                Assert.IsFalse(ReferenceEquals(instance[i], clone[i]));
+            }
+        }
+
+        [Test]
+        public static void DeepCloneWithTest()
+        {
+            const int initCount = 10;
+            var instance = MakeCollection5(initCount);
+
+            var guidList = instance.Select(x => x.Guid).ToList();
+
+            CollectionTest5 clone = null;
+
+            var errorOccured = false;
+            try
+            {
+                clone = instance.DeepCloneWith();
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
+
+            // ----- Original Test -----
+
+            // 元のリストが変化していないこと
+            Assert.AreEqual(instance.Count, guidList.Count);
+            for (var i = 0; i < instance.Count; i++)
+            {
+                Assert.IsTrue(instance[i].Guid.Equals(guidList[i]));
+            }
+
+            // ----- Clone Test -----
+
+            // 元とは異なる参照であること
+            Assert.False(ReferenceEquals(clone, instance));
+
+            // 元の要素数から変化していないこと
+            Assert.AreEqual(clone.Count, initCount);
+
+            // 各要素がディープクローンであること
+            for (var i = 0; i < Math.Min(initCount, clone.Count); i++)
+            {
+                Assert.IsTrue(clone[i].Guid.Equals(guidList[i]));
+                Assert.IsFalse(ReferenceEquals(instance[i], clone[i]));
+            }
+        }
+
+        private static readonly object[] DeepCloneWithTestCaseSource_1 =
+        {
+            new object[] {null, false},
+            new object[] {-1, false},
+            new object[] {0, false},
+            new object[] {10, false},
+            new object[] {11, false},
+        };
+
+        [TestCaseSource(nameof(DeepCloneWithTestCaseSource_1))]
+        public static void DeepCloneWithTest(int? length, bool isError)
+        {
+            const int initCount = 10;
+            var instance = MakeCollection5(initCount);
+
+            var guidList = instance.Select(x => x.Guid).ToList();
+
+            IReadOnlyExtendedList<TestClass> clone = null;
+
+            var errorOccured = false;
+            try
+            {
+                clone = ((IReadOnlyExtendedList<TestClass>) instance).DeepCloneWith(length);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (errorOccured) return;
+
+            // ----- Original Test -----
+
+            // 元のリストが変化していないこと
+            Assert.AreEqual(instance.Count, guidList.Count);
+            for (var i = 0; i < instance.Count; i++)
+            {
+                Assert.IsTrue(instance[i].Guid.Equals(guidList[i]));
+            }
+
+            // ----- Clone Test -----
+
+            // 元とは異なる参照であること
+            Assert.False(ReferenceEquals(clone, instance));
+
+            // 元の要素数から変化していないこと
+            Assert.AreEqual(clone.Count, initCount);
+
+            // 各要素がディープクローンであること（既存要素のみ）
+            for (var i = 0; i < Math.Min(initCount, clone.Count); i++)
+            {
+                Assert.IsTrue(clone[i].Guid.Equals(guidList[i]));
+                Assert.IsFalse(ReferenceEquals(instance[i], clone[i]));
+            }
+        }
+
+        private static readonly object[] DeepCloneWithTestCaseSource_2 =
+        {
+            new object[] {null, false},
+            new object[] {Array.Empty<KeyValuePair<int, TestClass>>(), false},
+            new object[] {new KeyValuePair<int, TestClass>[] {new(-1, new TestClass())}, false},
+            new object[] {new KeyValuePair<int, TestClass>[] {new(0, new TestClass())}, false},
+            new object[] {new KeyValuePair<int, TestClass>[] {new(4, new TestClass())}, false},
+            new object[] {new KeyValuePair<int, TestClass>[] {new(5, new TestClass())}, false},
+            new object[]
+                {new KeyValuePair<int, TestClass>[] {new(-1, new TestClass()), new(0, new TestClass())}, false},
+            new object[] {new KeyValuePair<int, TestClass>[] {new(0, new TestClass()), new(4, new TestClass())}, false},
+            new object[] {new KeyValuePair<int, TestClass>[] {new(3, new TestClass()), new(3, new TestClass())}, false},
+            new object[] {new KeyValuePair<int, TestClass>[] {new(1, null)}, true},
+            new object[] {new KeyValuePair<int, TestClass>[] {new(3, new TestClass()), new(3, null)}, true},
+        };
+
+        [TestCaseSource(nameof(DeepCloneWithTestCaseSource_2))]
+        public static void DeepCloneWithTest(IEnumerable<KeyValuePair<int, TestClass>> values, bool isError)
+        {
+            const int initCount = 10;
+            var instance = MakeCollection5(initCount);
+
+            var guidList = instance.Select(x => x.Guid).ToList();
+            var valueList = values?.ToList();
+
+            CollectionTest5 clone = null;
+
+            var errorOccured = false;
+            try
+            {
+                clone = instance.DeepCloneWith(valueList);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (errorOccured) return;
+
+            // ----- Original Test -----
+
+            // 元のリストが変化していないこと
+            Assert.AreEqual(instance.Count, guidList.Count);
+            for (var i = 0; i < instance.Count; i++)
+            {
+                Assert.IsTrue(instance[i].Guid.Equals(guidList[i]));
+            }
+
+            // ----- Clone Test -----
+
+            // 元とは異なる参照であること
+            Assert.False(ReferenceEquals(clone, instance));
+
+            // 元の要素数から変化していないこと
+            Assert.AreEqual(clone.Count, initCount);
+
+            if (values is null)
+            {
+                // 各要素がディープクローンであること（既存要素のみ）
+                for (var i = 0; i < Math.Min(initCount, clone.Count); i++)
+                {
+                    Assert.IsTrue(clone[i].Guid.Equals(guidList[i]));
+                    Assert.IsFalse(ReferenceEquals(instance[i], clone[i]));
+                }
+            }
+            else
+            {
+                // 指定された要素のみ変化していること
+                var guidList2 = new List<string>(guidList);
+                valueList.ForEach(pair =>
+                {
+                    var (key, value) = pair;
+                    if (0 <= key && key < initCount) guidList2[key] = value.Guid;
+                });
+
+                for (var i = 0; i < Math.Min(initCount, clone.Count); i++)
+                {
+                    Assert.IsTrue(clone[i].Guid.Equals(guidList2[i]));
+                }
+            }
+        }
+
+        private static readonly object[] DeepCloneWithTestCaseSource_3 =
+        {
+            new object[] {null, null, false},
+            new object[] {null, Array.Empty<KeyValuePair<int, TestClass>>(), false},
+            new object[] {null, new KeyValuePair<int, TestClass>[] {new(-1, new TestClass())}, false},
+            new object[] {null, new KeyValuePair<int, TestClass>[] {new(0, new TestClass())}, false},
+            new object[] {null, new KeyValuePair<int, TestClass>[] {new(4, new TestClass())}, false},
+            new object[] {null, new KeyValuePair<int, TestClass>[] {new(5, new TestClass())}, false},
+            new object[]
+                {null, new KeyValuePair<int, TestClass>[] {new(-1, new TestClass()), new(0, new TestClass())}, false},
+            new object[]
+                {null, new KeyValuePair<int, TestClass>[] {new(0, new TestClass()), new(4, new TestClass())}, false},
+            new object[]
+                {null, new KeyValuePair<int, TestClass>[] {new(3, new TestClass()), new(3, new TestClass())}, false},
+            new object[] {-1, null, false},
+            new object[] {0, null, false},
+            new object[] {10, null, false},
+            new object[] {11, null, false},
+            new object[] {0, Array.Empty<KeyValuePair<int, TestClass>>(), false},
+            new object[] {0, new KeyValuePair<int, TestClass>[] {new(0, new TestClass())}, false},
+            new object[] {3, Array.Empty<KeyValuePair<int, TestClass>>(), false},
+            new object[]
+                {3, new KeyValuePair<int, TestClass>[] {new(0, new TestClass()), new(2, new TestClass())}, false},
+            new object[]
+                {3, new KeyValuePair<int, TestClass>[] {new(0, new TestClass()), new(3, new TestClass())}, false},
+            new object[]
+                {3, new KeyValuePair<int, TestClass>[] {new(0, null)}, true},
+            new object[]
+                {3, new KeyValuePair<int, TestClass>[] {new(0, null), new(3, new TestClass())}, true},
+        };
+
+        [TestCaseSource(nameof(DeepCloneWithTestCaseSource_3))]
+        public static void DeepCloneWithTest(int? length,
+            IEnumerable<KeyValuePair<int, TestClass>> values, bool isError)
+        {
+            const int initCount = 10;
+            var instance = MakeCollection5(initCount);
+
+            var guidList = instance.Select(x => x.Guid).ToList();
+            var valueList = values?.ToList();
+
+            IReadOnlyExtendedList<TestClass> clone = null;
+
+            var errorOccured = false;
+            try
+            {
+                clone = ((IReadOnlyExtendedList<TestClass>) instance).DeepCloneWith(length, valueList);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (errorOccured) return;
+
+            // ----- Original Test -----
+
+            // 元のリストが変化していないこと
+            Assert.AreEqual(instance.Count, guidList.Count);
+            for (var i = 0; i < instance.Count; i++)
+            {
+                Assert.IsTrue(instance[i].Guid.Equals(guidList[i]));
+            }
+
+            // ----- Clone Test -----
+
+            // 元とは異なる参照であること
+            Assert.False(ReferenceEquals(clone, instance));
+
+            // 元の要素数から変化していないこと
+            Assert.AreEqual(clone.Count, initCount);
+
+            if (values is null)
+            {
+                // 各要素がディープクローンであること（既存要素のみ）
+                for (var i = 0; i < Math.Min(initCount, clone.Count); i++)
+                {
+                    Assert.IsTrue(clone[i].Guid.Equals(guidList[i]));
+                    Assert.IsFalse(ReferenceEquals(instance[i], clone[i]));
+                }
+            }
+            else
+            {
+                // 指定された要素のみ変化していること
+                var guidList2 = new List<string>(guidList);
+                valueList.ForEach(pair =>
+                {
+                    var (key, value) = pair;
+                    if (0 <= key && key < guidList2.Count) guidList2[key] = value.Guid;
+                });
+
+                for (var i = 0; i < Math.Min(initCount, clone.Count); i++)
+                {
+                    Assert.IsTrue(clone[i].Guid.Equals(guidList2[i]));
+                }
+            }
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      テストデータ
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -995,6 +1340,11 @@ namespace WodiLib.Test.Sys
             return result;
         }
 
+        public static CollectionTest5 MakeCollection5(int length)
+        {
+            return new CollectionTest5(Enumerable.Repeat("", length).Select(_ => new TestClass()));
+        }
+
         /// <summary>
         /// CollectionChangedEventArgs を格納するための Dictionary インスタンスを生成する
         /// </summary>
@@ -1015,7 +1365,7 @@ namespace WodiLib.Test.Sys
         /// <returns>生成したインスタンス</returns>
         private static NotifyCollectionChangedEventHandler MakeCollectionChangeEventHandler(bool isBefore,
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> resultDic)
-            => (sender, args) =>
+            => (_, args) =>
             {
                 resultDic[args.Action.ToString()].Add(args);
                 logger.Debug($"Collection{(isBefore ? "Changing" : "Changed")} Event Raise. ");
@@ -1044,7 +1394,7 @@ namespace WodiLib.Test.Sys
         /// <returns>生成したインスタンス</returns>
         private static PropertyChangingEventHandler
             MakePropertyChangingEventHandler(Dictionary<string, int> resultDic) =>
-            (sender, args) =>
+            (_, args) =>
             {
                 resultDic[args.PropertyName] += 1;
                 logger.Debug($"{nameof(args)}: {{");
@@ -1058,7 +1408,7 @@ namespace WodiLib.Test.Sys
         /// <param name="resultDic">プロパティごとに通知された回数を格納するためのDictionary</param>
         /// <returns>生成したインスタンス</returns>
         private static PropertyChangedEventHandler MakePropertyChangedEventHandler(Dictionary<string, int> resultDic) =>
-            (sender, args) =>
+            (_, args) =>
             {
                 resultDic[args.PropertyName] += 1;
                 logger.Debug($"{nameof(args)}: {{");
@@ -1077,18 +1427,19 @@ namespace WodiLib.Test.Sys
             Type3
         }
 
-        private abstract class AbsCollectionTest : FixedLengthList<string>
+        private abstract class AbsCollectionTest<T> : FixedLengthList<string, T>
+            where T : AbsCollectionTest<T>
         {
             public AbsCollectionTest()
             {
             }
 
-            public AbsCollectionTest(IReadOnlyCollection<string> list) : base(list)
+            public AbsCollectionTest(IEnumerable<string> list) : base(list)
             {
             }
         }
 
-        private class CollectionTest1 : AbsCollectionTest
+        private class CollectionTest1 : AbsCollectionTest<CollectionTest1>
         {
             /**
              * 正常設定
@@ -1106,12 +1457,17 @@ namespace WodiLib.Test.Sys
             {
             }
 
-            public CollectionTest1(IReadOnlyCollection<string> list) : base(list)
+            public CollectionTest1(IEnumerable<string> list) : base(list)
             {
+            }
+
+            public override CollectionTest1 DeepClone()
+            {
+                throw new NotImplementedException();
             }
         }
 
-        private class CollectionTest2 : AbsCollectionTest
+        private class CollectionTest2 : AbsCollectionTest<CollectionTest2>
         {
             /*
              * 異常設定（Capacity < 0）
@@ -1131,9 +1487,14 @@ namespace WodiLib.Test.Sys
             public CollectionTest2(IReadOnlyCollection<string> list) : base(list)
             {
             }
+
+            public override CollectionTest2 DeepClone()
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        private class CollectionTest3 : AbsCollectionTest
+        private class CollectionTest3 : AbsCollectionTest<CollectionTest3>
         {
             /**
              * 異常設定（DefaultValue＝null）
@@ -1153,9 +1514,14 @@ namespace WodiLib.Test.Sys
             public CollectionTest3(IReadOnlyCollection<string> list) : base(list)
             {
             }
+
+            public override CollectionTest3 DeepClone()
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        private class CollectionTest4 : AbsCollectionTest
+        private class CollectionTest4 : AbsCollectionTest<CollectionTest4>
         {
             public override int GetCapacity() => 10;
 
@@ -1170,6 +1536,51 @@ namespace WodiLib.Test.Sys
             {
                 throw new Exception();
             }
+
+            public override CollectionTest4 DeepClone()
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public class CollectionTest5 : FixedLengthList<TestClass, CollectionTest5>
+        {
+            public override int GetCapacity() => 10;
+
+            public CollectionTest5()
+            {
+            }
+
+            public CollectionTest5(IEnumerable<TestClass> values) : base(values.Select(x => x.DeepClone()))
+            {
+            }
+
+            public override CollectionTest5 DeepClone()
+                => new(this);
+
+            protected override TestClass MakeDefaultItem(int index)
+                => new();
+        }
+
+        public class TestClass : IEqualityComparable<TestClass>
+        {
+            public string Guid { get; private set; } = System.Guid.NewGuid().ToString();
+
+            public bool ItemEquals(TestClass other)
+            {
+                if (ReferenceEquals(this, other)) return true;
+                if (ReferenceEquals(null, other)) return false;
+
+                return Guid.Equals(other.Guid);
+            }
+
+            public bool ItemEquals(object other)
+                => ItemEquals(other as TestClass);
+
+            public TestClass DeepClone() => new()
+            {
+                Guid = Guid,
+            };
         }
     }
 }

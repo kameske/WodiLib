@@ -115,5 +115,10 @@ namespace WodiLib.Database
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
         public abstract bool ItemEquals(IDBItemSettingDesc? other);
+
+        public IDBItemSettingDesc DeepClone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

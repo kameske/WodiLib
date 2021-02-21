@@ -18,7 +18,7 @@ namespace WodiLib.Event.EventCommand
     /// ウディタの通常の動作で使用する引数はここには含まれない。
     /// </remarks>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public class EventCommandExpansionNumberArgList : RestrictedCapacityList<int>
+    public class EventCommandExpansionNumberArgList : RestrictedCapacityList<int, EventCommandExpansionNumberArgList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      public Constant

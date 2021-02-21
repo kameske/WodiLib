@@ -101,7 +101,7 @@ namespace WodiLib.Map
         {
             PropagatePropertyChangeEvent(chips, (_, name) =>
             {
-                if (name.Equals(nameof(Width)) || name.Equals(nameof(Height))) return name;
+                if (name.Equals(nameof(Width)) || name.Equals(nameof(Height))) return new[] {name};
                 return null;
             });
         }

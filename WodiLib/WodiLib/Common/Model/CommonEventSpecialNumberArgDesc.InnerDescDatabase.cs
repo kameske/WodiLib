@@ -302,13 +302,12 @@ namespace WodiLib.Common
             /// </summary>
             /// <param name="other">比較対象</param>
             /// <returns>一致する場合、true</returns>
-            public bool ItemEquals(IInnerDesc? other)
+            bool IEqualityComparable<IInnerDesc>.ItemEquals(IInnerDesc? other)
             {
                 if (ReferenceEquals(other, null)) return false;
                 if (ReferenceEquals(other, this)) return true;
                 if (ArgType != other.ArgType) return false;
-                if (!(other is InnerDescDatabase casted)) return false;
-                return Equals((IEquatable<InnerDescDatabase>) casted);
+                return ItemEquals(other as InnerDescDatabase);
             }
 
             /// <summary>
@@ -324,6 +323,12 @@ namespace WodiLib.Common
                        && DatabaseDbTypeId.Equals(other.DatabaseDbTypeId)
                        && DatabaseUseAdditionalItemsFlag == other.DatabaseUseAdditionalItemsFlag
                        && ArgCaseList.Equals(other.ArgCaseList);
+            }
+
+            /// <inheritdoc />
+            public new IInnerDesc DeepClone()
+            {
+                throw new NotImplementedException();
             }
 
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

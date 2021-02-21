@@ -40,6 +40,8 @@ Ver 3.0 変更点
         - 変更前の通知イベントとして ```INotifyPropertyChanging``` を実装。
         - 変更通知の有無を決定するプロパティ ``` IsNotifyBeforePropertyChange``` および ```IsNotifyAfterPropertyChange``` を追加。それぞれ ```true``` の場合のみ ```PropertyChanging```、```PropertyChanged``` が通知される。
             - ``` IsNotifyBeforePropertyChange``` および ```IsNotifyAfterPropertyChange``` の初期値は前述の ```WodiLibConfig``` の設定に準ずる。
+    - ディープコピーできることを示す ```IDeepCloneable<T>``` インタフェース、およびディープコピー用のメソッド ```DeepClone()``` を新規追加。
+        - このメソッドで作成したコピーインスタンスはすべての参照がディープコピーされる。
 
 - ```RestrictedCapacityList```（旧名```RestrictedCapacityCollection```）、```FixedLengthList```（リストクラス）
     - コレクション変更通知に関する仕様変更および追加。
@@ -74,12 +76,16 @@ Ver 3.0 変更点
 - ```ISerializable``` インタフェースを除去、 ```SerializableAttribute``` 付与を取りやめ。
     - ```.NET 5``` にて ```BinaryFormatter``` が非推奨となったため。
 
-- モデルクラスが持つモデル型プロパティの```Setter```を除去。
+- モデルクラスが持つモデル型プロパティの```Setter```を極力除去。
     - ライブラリ外での意図しない操作を防ぐため。
+    - 代替として状態を更新するためのメソッドを追加。
 
 - モデルクラスのバイナリデータ化メソッド（```ToBinary()```等）をライブラリ内部に隠蔽。
 
 - ```JsonSerialize``` 対応。
+
+- 内部状態の一部を更新しながらディープコピーを作成する ```DeepCloneWith()``` メソッドの実装。
+    - 引数や制約などは各インタフェース/クラスに依存する。
 
 データベース周りの機能改修
 ----------------------------------------

@@ -15,7 +15,7 @@ namespace WodiLib.Database
     /// <summary>
     /// DBタイプ設定リスト
     /// </summary>
-    public class DBTypeSettingList : RestrictedCapacityList<DBTypeSetting>
+    public class DBTypeSettingList : RestrictedCapacityList<DBTypeSetting, DBTypeSettingList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant

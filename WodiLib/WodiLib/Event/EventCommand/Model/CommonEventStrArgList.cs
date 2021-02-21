@@ -14,7 +14,7 @@ namespace WodiLib.Event.EventCommand
     /// コモンイベント・文字列引数リストオブジェクト
     /// 要素4は必ず数値形式で使用する必要がある。
     /// </summary>
-    public class CommonEventStrArgList : RestrictedCapacityList<IntOrStr>
+    public class CommonEventStrArgList : RestrictedCapacityList<IntOrStr, CommonEventStrArgList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      public Constant

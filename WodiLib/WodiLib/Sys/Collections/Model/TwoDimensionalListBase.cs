@@ -830,5 +830,9 @@ namespace WodiLib.Sys
         /// <param name="args">イベント引数</param>
         private void CallCollectionChanged(TwoDimensionalCollectionChangeEventArgs<T> args)
             => _twoDimensionListChanged?.Invoke(this, args);
+
+        /// <inheritdoc />
+        IReadOnlyTwoDimensionalList<T> IDeepCloneable<IReadOnlyTwoDimensionalList<T>>.DeepClone()
+            => DeepClone();
     }
 }
