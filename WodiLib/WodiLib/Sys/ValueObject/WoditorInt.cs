@@ -11,7 +11,7 @@ using System;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// ウディタ仕様の数値
+    ///     ウディタ仕様の数値
     /// </summary>
     internal record WoditorInt
     {
@@ -49,7 +49,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int -> WoditorInt への明示的な型変換
+        ///     int -> WoditorInt への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
@@ -60,7 +60,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// WoditorInt -> int への明示的な型変換
+        ///     WoditorInt -> int への明示的な型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換したインスタンス</returns>
@@ -76,7 +76,7 @@ namespace WodiLib.Sys
         #region int
 
         /// <summary>
-        /// 項目ID + int を計算し、構造体を返す。
+        ///     項目ID + int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">項目ID</param>
         /// <param name="value">加算値</param>
@@ -96,7 +96,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 項目ID - int を計算し、構造体を返す。
+        ///     項目ID - int を計算し、構造体を返す。
         /// </summary>
         /// <param name="src">項目ID</param>
         /// <param name="value">減算値</param>

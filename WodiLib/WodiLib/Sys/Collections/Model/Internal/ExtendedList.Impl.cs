@@ -15,7 +15,7 @@ namespace WodiLib.Sys
     internal partial class ExtendedList<T>
     {
         /// <summary>
-        /// <see cref="ExtendedList{T}"/> 処理転送先クラス
+        ///     <see cref="ExtendedList{T}"/> 処理転送先クラス
         /// </summary>
         private class Impl : ModelBase<Impl>,
             IEnumerable<T>
@@ -48,16 +48,16 @@ namespace WodiLib.Sys
             //     Public Method
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public IEnumerator<T> GetEnumerator()
                 => Items.GetEnumerator();
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             IEnumerator IEnumerable.GetEnumerator()
                 => GetEnumerator();
 
             /// <summary>
-            /// インデクサによる要素取得、GetRange メソッドの処理本体
+            ///     インデクサによる要素取得、GetRange メソッドの処理本体
             /// </summary>
             /// <param name="index">インデックス</param>
             /// <param name="count">要素数</param>
@@ -69,7 +69,7 @@ namespace WodiLib.Sys
                 => Items.IndexOf(item);
 
             /// <summary>
-            /// インデクサによる要素更新、SetRange メソッドの処理本体
+            ///     インデクサによる要素更新、SetRange メソッドの処理本体
             /// </summary>
             /// <param name="index">更新開始インデックス</param>
             /// <param name="items">更新要素</param>
@@ -77,7 +77,7 @@ namespace WodiLib.Sys
                 => items.ForEach((item, i) => Items[index + i] = item);
 
             /// <summary>
-            /// Add, AddRange, Insert, InsertRange メソッドの処理本体
+            ///     Add, AddRange, Insert, InsertRange メソッドの処理本体
             /// </summary>
             /// <param name="index">挿入先インデックス</param>
             /// <param name="items">挿入要素</param>
@@ -85,7 +85,7 @@ namespace WodiLib.Sys
                 => Items.InsertRange(index, items);
 
             /// <summary>
-            /// Move, MoveRange メソッドの処理本体
+            ///     Move, MoveRange メソッドの処理本体
             /// </summary>
             /// <param name="oldIndex">移動する項目のインデックス開始位置</param>
             /// <param name="newIndex">移動先のインデックス開始位置</param>
@@ -98,18 +98,18 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// Remove, Remove, RemoveRange メソッドの処理本体
+            ///     Remove, Remove, RemoveRange メソッドの処理本体
             /// </summary>
             /// <param name="index">除去開始インデックス</param>
             /// <param name="count">除去する要素数</param>
             public void Remove(int index, int count)
                 => Items.RemoveRange(index, count);
 
-            /// <inheritdoc cref="List{T}.CopyTo(T[], int)" />
+            /// <inheritdoc cref="List{T}.CopyTo(T[], int)"/>
             public void CopyTo(T[] array, int arrayIndex)
                 => Items.CopyTo(array, arrayIndex);
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override bool ItemEquals(Impl? other)
             {
                 if (ReferenceEquals(null, other)) return false;

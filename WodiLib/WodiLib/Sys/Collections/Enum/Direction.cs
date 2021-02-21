@@ -9,7 +9,7 @@
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 方向
+    ///     方向
     /// </summary>
     public record Direction : TypeSafeEnum<Direction>
     {

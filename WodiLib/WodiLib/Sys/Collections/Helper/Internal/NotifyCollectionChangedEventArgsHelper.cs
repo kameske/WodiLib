@@ -12,12 +12,12 @@ using System.Collections.Specialized;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// <see cref="NotifyCollectionChangedEventArgs"/> インスタンス生成 Helper クラス
+    ///     <see cref="NotifyCollectionChangedEventArgs"/> インスタンス生成 Helper クラス
     /// </summary>
     internal static class NotifyCollectionChangedEventArgsHelper
     {
         /// <summary>
-        /// SetRangeイベント時の変更通知
+        ///     SetRangeイベント時の変更通知
         /// </summary>
         /// <param name="newItems">変更後オブジェクト</param>
         /// <param name="oldItems">変更前オブジェクト</param>
@@ -28,7 +28,7 @@ namespace WodiLib.Sys
                 startingIndex);
 
         /// <summary>
-        /// Insertイベント時の変更通知
+        ///     Insertイベント時の変更通知
         /// </summary>
         /// <param name="items">挿入オブジェクト</param>
         /// <param name="index">対象インデックス</param>
@@ -37,7 +37,7 @@ namespace WodiLib.Sys
             => new(NotifyCollectionChangedAction.Add, items, index);
 
         /// <summary>
-        /// MoveRangeイベント時の変更通知
+        ///     MoveRangeイベント時の変更通知
         /// </summary>
         /// <param name="items">挿入オブジェクト</param>
         /// <param name="newIndex">移動先インデックス</param>
@@ -47,7 +47,7 @@ namespace WodiLib.Sys
             => new(NotifyCollectionChangedAction.Move, items, newIndex, oldIndex);
 
         /// <summary>
-        /// RemoveRangeイベント時の変更通知
+        ///     RemoveRangeイベント時の変更通知
         /// </summary>
         /// <param name="items">除去オブジェクト</param>
         /// <param name="index">対象インデックス</param>
@@ -56,7 +56,7 @@ namespace WodiLib.Sys
             => new(NotifyCollectionChangedAction.Remove, items, index);
 
         /// <summary>
-        /// Clearイベント時の変更通知
+        ///     Clearイベント時の変更通知
         /// </summary>
         /// <returns>イベント引数</returns>
         public static NotifyCollectionChangedEventArgs Clear()

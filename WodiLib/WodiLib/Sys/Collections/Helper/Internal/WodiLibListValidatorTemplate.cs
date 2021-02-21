@@ -12,21 +12,21 @@ using System.Diagnostics.CodeAnalysis;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// リスト編集メソッドの引数検証クラステンプレート
+    ///     リスト編集メソッドの引数検証クラステンプレート
     /// </summary>
     /// <remarks>
-    /// 継承先で定義した <see cref="BaseValidator"/> を起動するだけの実装。<br/>
-    /// <see cref="BaseValidator"/> の検証処理を拡張したいときに対象のメソッドをオーバーライドして
-    /// 処理拡張を行う。
+    ///     継承先で定義した <see cref="BaseValidator"/> を起動するだけの実装。<br/>
+    ///     <see cref="BaseValidator"/> の検証処理を拡張したいときに対象のメソッドをオーバーライドして
+    ///     処理拡張を行う。
     /// </remarks>
     /// <typeparam name="T">リスト内包型</typeparam>
     internal abstract class WodiLibListValidatorTemplate<T> : IWodiLibListValidator<T>
     {
         /// <summary>
-        /// カスタマイズ元の検証処理。
+        ///     カスタマイズ元の検証処理。
         /// </summary>
         /// <remarks>
-        /// カスタマイズ元が存在しない場合 <see langword="null"/> を返却する。
+        ///     カスタマイズ元が存在しない場合 <see langword="null"/> を返却する。
         /// </remarks>
         protected abstract IWodiLibListValidator<T>? BaseValidator { get; }
 

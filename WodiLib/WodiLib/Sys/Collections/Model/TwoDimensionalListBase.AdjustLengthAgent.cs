@@ -11,18 +11,18 @@ namespace WodiLib.Sys
     public partial class TwoDimensionalListBase<T>
     {
         /// <summary>
-        /// AdjustLength 系メソッドの処理代理インタフェース
+        ///     AdjustLength 系メソッドの処理代理インタフェース
         /// </summary>
         private interface IAdjustLengthAgent
         {
             /// <summary>
-            /// コンストラクタで与えられた情報をもとに、必要な処理を実施する。
+            ///     コンストラクタで与えられた情報をもとに、必要な処理を実施する。
             /// </summary>
             void Execute();
         }
 
         /// <summary>
-        /// AdjustLength 系メソッドの処理代理クラス
+        ///     AdjustLength 系メソッドの処理代理クラス
         /// </summary>
         private partial class AdjustLengthAgent : IAdjustLengthAgent
         {
@@ -37,13 +37,13 @@ namespace WodiLib.Sys
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
             /// <summary>
-            /// コンストラクタ
+            ///     コンストラクタ
             /// </summary>
             /// <remarks>
-            /// 【事前条件】<br/>
-            /// ・<paramref name="direction"/> が <see cref="Direction.Row"/> または
-            /// <see cref="Direction.Column"/> の場合、 <paramref name="outer"/> の
-            /// 行列数が0でないこと。<br/>
+            ///     【事前条件】<br/>
+            ///     ・<paramref name="direction"/> が <see cref="Direction.Row"/> または
+            ///     <see cref="Direction.Column"/> の場合、 <paramref name="outer"/> の
+            ///     行列数が0でないこと。<br/>
             /// </remarks>
             /// <param name="outer">処理対象</param>
             /// <param name="rowLength">調整行数</param>
@@ -68,7 +68,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// AdjustLength メソッド用のインスタンスを作成する。
+            ///     AdjustLength メソッド用のインスタンスを作成する。
             /// </summary>
             /// <param name="outer">処理対象</param>
             /// <param name="rowLength">調整行数</param>
@@ -82,7 +82,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// AdjustLengthIfShort メソッド用のインスタンスを作成する。
+            ///     AdjustLengthIfShort メソッド用のインスタンスを作成する。
             /// </summary>
             /// <param name="outer">処理対象</param>
             /// <param name="rowLength">調整行数</param>
@@ -96,7 +96,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// AdjustLengthIfLong メソッド用のインスタンスを作成する。
+            ///     AdjustLengthIfLong メソッド用のインスタンスを作成する。
             /// </summary>
             /// <param name="outer">処理対象</param>
             /// <param name="rowLength">調整行数</param>
@@ -110,7 +110,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// AdjustRowLength メソッド用のインスタンスを作成する。
+            ///     AdjustRowLength メソッド用のインスタンスを作成する。
             /// </summary>
             /// <param name="outer">処理対象</param>
             /// <param name="length">調整行数</param>
@@ -123,7 +123,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// AdjustRowLengthIfShort メソッド用のインスタンスを作成する。
+            ///     AdjustRowLengthIfShort メソッド用のインスタンスを作成する。
             /// </summary>
             /// <param name="outer">処理対象</param>
             /// <param name="length">調整行数</param>
@@ -136,7 +136,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// AdjustRowLengthIfLong メソッド用のインスタンスを作成する。
+            ///     AdjustRowLengthIfLong メソッド用のインスタンスを作成する。
             /// </summary>
             /// <param name="outer">処理対象</param>
             /// <param name="length">調整行数</param>
@@ -149,7 +149,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// AdjustColumnLength メソッド用のインスタンスを作成する。
+            ///     AdjustColumnLength メソッド用のインスタンスを作成する。
             /// </summary>
             /// <param name="outer">処理対象</param>
             /// <param name="length">調整列数</param>
@@ -162,7 +162,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// AdjustColumnLengthIfShort メソッド用のインスタンスを作成する。
+            ///     AdjustColumnLengthIfShort メソッド用のインスタンスを作成する。
             /// </summary>
             /// <param name="outer">処理対象</param>
             /// <param name="length">調整列数</param>
@@ -175,7 +175,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// AdjustColumnLengthIfLong メソッド用のインスタンスを作成する。
+            ///     AdjustColumnLengthIfLong メソッド用のインスタンスを作成する。
             /// </summary>
             /// <param name="outer">処理対象</param>
             /// <param name="length">調整列数</param>
@@ -192,7 +192,7 @@ namespace WodiLib.Sys
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
             /// <summary>
-            /// コンストラクタで与えられた情報をもとに、必要な処理を実施する。
+            ///     コンストラクタで与えられた情報をもとに、必要な処理を実施する。
             /// </summary>
             public void Execute()
             {
@@ -204,7 +204,7 @@ namespace WodiLib.Sys
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
             /// <summary>
-            /// メソッド種別
+            ///     メソッド種別
             /// </summary>
             internal enum MethodType
             {

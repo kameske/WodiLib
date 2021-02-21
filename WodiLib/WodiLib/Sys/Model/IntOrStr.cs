@@ -22,7 +22,7 @@ namespace WodiLib.Sys
         private string? strValue;
 
         /// <summary>
-        /// int値を持つインスタンスを生成するコンストラクタ
+        ///     int値を持つインスタンスを生成するコンストラクタ
         /// </summary>
         /// <param name="intValue">設定値</param>
         public IntOrStr(int intValue)
@@ -33,7 +33,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// string値を持つインスタンスを生成するコンストラクタ
+        ///     string値を持つインスタンスを生成するコンストラクタ
         /// </summary>
         /// <param name="strValue">設定値</param>
         public IntOrStr(string strValue)
@@ -46,7 +46,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// int, string どちらの値も持つインスタンスを生成するコンストラクタ
+        ///     int, string どちらの値も持つインスタンスを生成するコンストラクタ
         /// </summary>
         /// <param name="numValue">int設定値</param>
         /// <param name="strValue">string設定値</param>
@@ -60,7 +60,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// int, string どちらも持たないインスタンスを生成するコンストラクタ
+        ///     int, string どちらも持たないインスタンスを生成するコンストラクタ
         /// </summary>
         public IntOrStr()
         {
@@ -70,7 +70,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 保有する値の種類
+        ///     保有する値の種類
         /// </summary>
         public IntOrStrType InstanceIntOrStrType { get; private set; }
 
@@ -149,7 +149,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 内容を文字列化する。
+        ///     内容を文字列化する。
         /// </summary>
         /// <returns>文字列化した内容</returns>
         public string ToValueString()
@@ -161,7 +161,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// int -> IntOrStr 暗黙型変換
+        ///     int -> IntOrStr 暗黙型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
@@ -173,7 +173,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// string -> IntOrStr 暗黙型変換
+        ///     string -> IntOrStr 暗黙型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
@@ -185,7 +185,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Tuple&lt;int, string> -> IntOrStr 暗黙型変換
+        ///     Tuple&lt;int, string> -> IntOrStr 暗黙型変換
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
@@ -197,7 +197,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// (int, string) -> IntOrStr 暗黙型変換
+        ///     (int, string) -> IntOrStr 暗黙型変換
         /// </summary>
         /// <param name="tuple">変換元</param>
         /// <returns>変換した値</returns>
@@ -208,14 +208,14 @@ namespace WodiLib.Sys
             return new IntOrStr(tuple.Value.Item1, tuple.Value.Item2);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"Type: {InstanceIntOrStrType}, Value: \"{ToValueString()}\"";
         }
 
         /// <summary>
-        /// 値を比較する。
+        ///     値を比較する。
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>

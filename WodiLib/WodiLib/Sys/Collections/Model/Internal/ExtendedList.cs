@@ -17,10 +17,10 @@ using WodiLib.Sys.Cmn;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// WodiLib 独自リスト
+    ///     WodiLib 独自リスト
     /// </summary>
     /// <remarks>
-    /// 機能概要は <seealso cref="IExtendedList{T}"/> 参照。
+    ///     機能概要は <seealso cref="IExtendedList{T}"/> 参照。
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
     internal partial class ExtendedList<T> : ModelBase<ExtendedList<T>>, IExtendedList<T>
@@ -40,7 +40,7 @@ namespace WodiLib.Sys
         /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
         [field: NonSerialized] private event NotifyCollectionChangedEventHandler? _collectionChanging;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public event NotifyCollectionChangedEventHandler CollectionChanging
         {
             add
@@ -55,7 +55,7 @@ namespace WodiLib.Sys
         /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
         [field: NonSerialized] private event NotifyCollectionChangedEventHandler? _collectionChanged;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public event NotifyCollectionChangedEventHandler CollectionChanged
         {
             add
@@ -71,7 +71,7 @@ namespace WodiLib.Sys
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc cref="IExtendedList{T}.this" />
+        /// <inheritdoc cref="IExtendedList{T}.this"/>
         public T this[int index]
         {
             get => Get_Impl(index, 1).First();
@@ -80,27 +80,27 @@ namespace WodiLib.Sys
 
         T IReadOnlyList<T>.this[int index] => Get_Impl(index, 1).First();
 
-        /// <inheritdoc cref="IExtendedList{T}.Count" />
+        /// <inheritdoc cref="IExtendedList{T}.Count"/>
         public int Count => Items.Count;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool IsReadOnly => false;
 
         /// <summary>
-        /// 要素初期化関数
+        ///     要素初期化関数
         /// </summary>
         /// <remarks>
-        /// 第一引数：開始インデックス<br/>
-        /// 第二引数：必要要素数<br/>
-        /// 呼び出し元で設定必須。
+        ///     第一引数：開始インデックス<br/>
+        ///     第二引数：必要要素数<br/>
+        ///     呼び出し元で設定必須。
         /// </remarks>
         public Func<int, int, IEnumerable<T>> FuncMakeItems { get; set; } = default!;
 
-        /// <inheritdoc cref="IExtendedList{T}.IsNotifyBeforeCollectionChange" />
+        /// <inheritdoc cref="IExtendedList{T}.IsNotifyBeforeCollectionChange"/>
         public bool IsNotifyBeforeCollectionChange { get; set; }
             = WodiLibConfig.GetDefaultNotifyBeforeCollectionChangeFlag();
 
-        /// <inheritdoc cref="IExtendedList{T}.IsNotifyAfterCollectionChange" />
+        /// <inheritdoc cref="IExtendedList{T}.IsNotifyAfterCollectionChange"/>
         public bool IsNotifyAfterCollectionChange { get; set; }
             = WodiLibConfig.GetDefaultNotifyAfterCollectionChangeFlag();
 
@@ -116,7 +116,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="initItems">初期要素</param>
         internal ExtendedList(IEnumerable<T>? initItems = null)
@@ -132,18 +132,18 @@ namespace WodiLib.Sys
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator() => Items.GetEnumerator();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
 
-        /// <inheritdoc cref="IExtendedList{T}.IndexOf" />
+        /// <inheritdoc cref="IExtendedList{T}.IndexOf"/>
         public int IndexOf([AllowNull] T item)
             => Items.IndexOf(item);
 
-        /// <inheritdoc cref="IExtendedList{T}.Contains" />
+        /// <inheritdoc cref="IExtendedList{T}.Contains"/>
         public bool Contains([AllowNull] T item)
             => Items.Contains(item);
 
@@ -215,23 +215,23 @@ namespace WodiLib.Sys
         public void Clear()
             => Clear_Impl();
 
-        /// <inheritdoc cref="IExtendedList{T}.IndexOf" />
+        /// <inheritdoc cref="IExtendedList{T}.IndexOf"/>
         public void CopyTo(T[] array, int arrayIndex)
             => Items.CopyTo(array, arrayIndex);
 
         #region Equals
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override bool ItemEquals(ExtendedList<T>? other)
-            => Equals((IEnumerable<T>?) other);
+            => ItemEquals((IEnumerable<T>?) other);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool ItemEquals(IExtendedList<T>? other)
-            => Equals((IEnumerable<T>?) other);
+            => ItemEquals((IEnumerable<T>?) other);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool ItemEquals(IReadOnlyExtendedList<T>? other)
-            => Equals((IEnumerable<T>?) other);
+            => ItemEquals((IEnumerable<T>?) other);
 
         /// <inheritdoc/>
         public bool ItemEquals(IEnumerable<T>? other)
@@ -311,7 +311,7 @@ namespace WodiLib.Sys
         #region Action Implements
 
         /// <summary>
-        /// インデクサによる要素取得、GetRange メソッドの実装処理
+        ///     インデクサによる要素取得、GetRange メソッドの実装処理
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="count">要素数</param>
@@ -320,7 +320,7 @@ namespace WodiLib.Sys
             => Items.Get(index, count);
 
         /// <summary>
-        /// インデクサによる要素更新、SetRange メソッドの実装処理
+        ///     インデクサによる要素更新、SetRange メソッドの実装処理
         /// </summary>
         /// <param name="index">更新開始インデックス</param>
         /// <param name="items">更新要素</param>
@@ -341,7 +341,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Add, AddRange, Insert, InsertRange メソッドの実装処理
+        ///     Add, AddRange, Insert, InsertRange メソッドの実装処理
         /// </summary>
         /// <param name="index">挿入先インデックス</param>
         /// <param name="items">挿入要素</param>
@@ -359,7 +359,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Overwrite メソッドの実装処理
+        ///     Overwrite メソッドの実装処理
         /// </summary>
         /// <param name="index">上書き開始インデックス</param>
         /// <param name="items">上書き要素</param>
@@ -423,7 +423,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Move, MoveRange メソッドの実装処理
+        ///     Move, MoveRange メソッドの実装処理
         /// </summary>
         /// <param name="oldIndex">移動する項目のインデックス開始位置</param>
         /// <param name="newIndex">移動先のインデックス開始位置</param>
@@ -446,7 +446,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Remove メソッドの実装処理
+        ///     Remove メソッドの実装処理
         /// </summary>
         /// <param name="item">除去対象</param>
         /// <returns>削除成否</returns>
@@ -471,7 +471,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Remove, RemoveRange メソッドの実装処理
+        ///     Remove, RemoveRange メソッドの実装処理
         /// </summary>
         /// <param name="index">除去開始インデックス</param>
         /// <param name="count">除去する要素数</param>
@@ -493,7 +493,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustLength メソッドの検証処理
+        ///     AdjustLength メソッドの処理実装
         /// </summary>
         /// <param name="length">調整要素数</param>
         private void AdjustLength_Impl(int length)
@@ -520,7 +520,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustLengthIfShort メソッドの検証処理
+        ///     AdjustLengthIfShort メソッドの処理実装
         /// </summary>
         /// <param name="length">調整要素数</param>
         private void AdjustLengthIfShort_Impl(int length)
@@ -529,7 +529,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustLengthIfLong メソッドの検証処理
+        ///     AdjustLengthIfLong メソッドの処理実装
         /// </summary>
         /// <param name="length">調整要素数</param>
         private void AdjustLengthIfLong_Impl(int length)
@@ -538,7 +538,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustLengthIfShort メソッドの処理実装
+        ///     AdjustLengthIfShort メソッドの処理実装
         /// </summary>
         /// <param name="length">調整要素数</param>
         private void AdjustLengthIfShort_Main(int length)
@@ -572,7 +572,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustLengthIfLong メソッドの処理実装
+        ///     AdjustLengthIfLong メソッドの処理実装
         /// </summary>
         /// <param name="length">調整要素数</param>
         private void AdjustLengthIfLong_Main(int length)
@@ -609,7 +609,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Clear メソッドの実装処理
+        ///     Clear メソッドの実装処理
         /// </summary>
         private void Clear_Impl()
         {
@@ -617,7 +617,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Reset メソッドの実装処理
+        ///     Reset メソッドの実装処理
         /// </summary>
         /// <param name="items">初期化要素</param>
         private void Reset_Impl(params T[] items)
@@ -666,14 +666,14 @@ namespace WodiLib.Sys
         #endregion
 
         /// <summary>
-        /// PreCollectionChanged イベントを発火する。
+        ///     PreCollectionChanged イベントを発火する。
         /// </summary>
         /// <param name="args">イベント引数</param>
         private void CallCollectionChanging(NotifyCollectionChangedEventArgs args)
             => _collectionChanging?.Invoke(this, args);
 
         /// <summary>
-        /// CollectionChanged イベントを発火する。
+        ///     CollectionChanged イベントを発火する。
         /// </summary>
         /// <param name="args">イベント引数</param>
         private void CallCollectionChanged(NotifyCollectionChangedEventArgs args)

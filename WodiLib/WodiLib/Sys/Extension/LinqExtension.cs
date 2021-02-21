@@ -13,16 +13,18 @@ using System.Linq;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// Linq拡張クラス
+    ///     Linq拡張クラス
     /// </summary>
     internal static class LinqExtension
     {
         /// <summary>
-        /// <see cref="IEnumerable{T}"/> の各要素について何かしらの処理を実行する。
+        ///     <see cref="IEnumerable{T}"/> の各要素について何かしらの処理を実行する。
         /// </summary>
         /// <param name="source">処理を呼び出す対象となる値のシーケンス。</param>
-        /// <param name="action">各ソース要素に適用する処理。
-        /// この関数の 2 つ目のパラメーターは、ソース要素のインデックスを表す。</param>
+        /// <param name="action">
+        ///     各ソース要素に適用する処理。
+        ///     この関数の 2 つ目のパラメーターは、ソース要素のインデックスを表す。
+        /// </param>
         /// <typeparam name="TSource"><paramref name="source"/> の要素の型。</typeparam>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="source"/> または <paramref name="action"/> が <see langword="null"/> の場合。
@@ -47,13 +49,13 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// <see cref="IEnumerable{T}"/>の各要素について何かしらの処理を実行する。
+        ///     <see cref="IEnumerable{T}"/>の各要素について何かしらの処理を実行する。
         /// </summary>
         /// <param name="source">処理を呼び出す対象となる値のシーケンス。</param>
         /// <param name="action">各ソース要素に適用する処理。</param>
         /// <typeparam name="TSource"><paramref name="source"/>の要素の型。</typeparam>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="source"/> または <paramref name="action"/> が <see langword="null"/> の場合。
+        ///     <paramref name="source"/> または <paramref name="action"/> が <see langword="null"/> の場合。
         /// </exception>
         public static void ForEach<TSource>(
             this IEnumerable<TSource> source,
@@ -66,7 +68,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// シーケンスの任意の要素が条件を満たすかどうかを決定する。
+        ///     シーケンスの任意の要素が条件を満たすかどうかを決定する。
         /// </summary>
         /// <param name="source">術後を適用する要素</param>
         /// <param name="predicate">各要素が条件を満たしているかどうかをテストする関数</param>
@@ -96,7 +98,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 2つのシーケンスの要素を組み合わせた一つのValueTupleシーケンスを生成する。
+        ///     2つのシーケンスの要素を組み合わせた一つのValueTupleシーケンスを生成する。
         /// </summary>
         /// <param name="src">組み合わせ元1</param>
         /// <param name="other">組み合わせ元2</param>
@@ -110,7 +112,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// シーケンスの指定した範囲を切り出す。
+        ///     シーケンスの指定した範囲を切り出す。
         /// </summary>
         /// <param name="src">対象シーケンス</param>
         /// <param name="index">取得開始インデックス</param>

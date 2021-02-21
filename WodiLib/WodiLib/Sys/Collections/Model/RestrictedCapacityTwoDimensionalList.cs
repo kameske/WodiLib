@@ -13,12 +13,12 @@ using System.Linq;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 容量制限のある二次元リスト基底クラス
+    ///     容量制限のある二次元リスト基底クラス
     /// </summary>
     /// <remarks>
-    /// 外側のリストを「行（Row）」、内側のリストを「列（Column）」として扱う。
-    /// すべての行について列数は常に同じ値を取り続ける。<br/>
-    /// 行数、列数ともに制限が設けられている。
+    ///     外側のリストを「行（Row）」、内側のリストを「列（Column）」として扱う。
+    ///     すべての行について列数は常に同じ値を取り続ける。<br/>
+    ///     行数、列数ともに制限が設けられている。
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
     public abstract class RestrictedCapacityTwoDimensionalList<T> : TwoDimensionalListBase<T>,
@@ -28,17 +28,17 @@ namespace WodiLib.Sys
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc cref="ITwoDimensionalList{T}.this" />
+        /// <inheritdoc cref="ITwoDimensionalList{T}.this"/>
         public new T this[int row, int column]
         {
             get => Get_Impl(row, 1, column, 1).First().First();
             set => Set_Impl(row, column, new[] {new[] {value}});
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override int RowCount => Items.Count;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override int ColumnCount
         {
             get
@@ -60,14 +60,14 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         protected RestrictedCapacityTwoDimensionalList()
         {
         }
 
         /// <summary>
-        /// コンストラクタ（初期値指定）
+        ///     コンストラクタ（初期値指定）
         /// </summary>
         /// <param name="initItems">初期要素</param>
         /// <exception cref="ArgumentNullException">
@@ -86,141 +86,141 @@ namespace WodiLib.Sys
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public abstract int GetMaxRowCapacity();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public abstract int GetMinRowCapacity();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public abstract int GetMaxColumnCapacity();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public abstract int GetMinColumnCapacity();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void AddRow(IEnumerable<T> rowItems)
             => InsertRow_Impl(RowCount, new[] {rowItems.ToArray()});
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void AddColumn(IEnumerable<T> columnItems)
             => InsertColumn_Impl(ColumnCount, new[] {columnItems.ToArray()});
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void AddRowRange(IEnumerable<IEnumerable<T>> items)
             => InsertRow_Impl(RowCount, items.ToTwoDimensionalArray());
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void AddColumnRange(IEnumerable<IEnumerable<T>> items)
             => InsertColumn_Impl(ColumnCount, items.ToTwoDimensionalArray());
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void InsertRow(int row, IEnumerable<T> rowItems)
             => InsertRow_Impl(row, new[] {rowItems.ToArray()});
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void InsertColumn(int column, IEnumerable<T> columnItems)
             => InsertColumn_Impl(column, new[] {columnItems.ToArray()});
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void InsertRowRange(int row, IEnumerable<IEnumerable<T>> items)
             => InsertRow_Impl(row, items.ToTwoDimensionalArray());
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void InsertColumnRange(int column, IEnumerable<IEnumerable<T>> items)
             => InsertColumn_Impl(column, items.ToTwoDimensionalArray());
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void OverwriteRow(int row, IEnumerable<IEnumerable<T>> items)
             => OverwriteRow_Impl(row, items.ToTwoDimensionalArray());
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void OverwriteColumn(int column, IEnumerable<IEnumerable<T>> items)
             => OverwriteColumn_Impl(column, items.ToTwoDimensionalArray());
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void MoveRow(int oldRow, int newRow)
             => MoveRow_Impl(oldRow, newRow, 1);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void MoveColumn(int oldColumn, int newColumn)
             => MoveColumn_Impl(oldColumn, newColumn, 1);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void MoveRowRange(int oldRow, int newRow, int count)
             => MoveRow_Impl(oldRow, newRow, count);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void MoveColumnRange(int oldColumn, int newColumn, int count)
             => MoveColumn_Impl(oldColumn, newColumn, count);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void RemoveRow(int row)
             => RemoveRow_Impl(row, 1);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void RemoveColumn(int column)
             => RemoveColumn_Impl(column, 1);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void RemoveRowRange(int row, int count)
             => RemoveRow_Impl(row, count);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void RemoveColumnRange(int column, int count)
             => RemoveColumn_Impl(column, count);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void AdjustLength(int rowLength, int columnLength)
             => AdjustLength_Impl(rowLength, columnLength);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void AdjustLengthIfShort(int rowLength, int columnLength)
             => AdjustLengthIfShort_Impl(rowLength, columnLength);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void AdjustLengthIfLong(int rowLength, int columnLength)
             => AdjustLengthIfLong_Impl(rowLength, columnLength);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void AdjustRowLength(int length)
             => AdjustRowLength_Impl(length);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void AdjustColumnLength(int length)
             => AdjustColumnLength_Impl(length);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void AdjustRowLengthIfShort(int length)
             => AdjustRowLengthIfShort_Impl(length);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void AdjustColumnLengthIfShort(int length)
             => AdjustColumnLengthIfShort_Impl(length);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void AdjustRowLengthIfLong(int length)
             => AdjustRowLengthIfLong_Impl(length);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void AdjustColumnLengthIfLong(int length)
             => AdjustColumnLengthIfLong_Impl(length);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Clear()
             => Clear_Impl();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Reset(IEnumerable<IEnumerable<T>> initItems)
             => Reset_Impl(initItems.ToTwoDimensionalArray());
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override IEnumerator<IEnumerable<T>> GetEnumerator()
         {
             return Items.GetEnumerator();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool ItemEquals(IRestrictedCapacityTwoDimensionalList<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -237,7 +237,7 @@ namespace WodiLib.Sys
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override ITwoDimensionalListValidator<T> MakeValidator()
         {
             return new RestrictedCapacityTwoDimensionalListValidator<T>(this);
@@ -245,7 +245,7 @@ namespace WodiLib.Sys
 
         #region Action Core
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void Constructor_Core(params T[][] initItems)
         {
             Items.Clear();
@@ -253,7 +253,7 @@ namespace WodiLib.Sys
             Items.AddRange(initItems.Select(row => row.ToList()));
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override IEnumerable<IEnumerable<T>> Get_Core(int row, int rowCount,
             int column, int columnCount)
         {
@@ -263,7 +263,7 @@ namespace WodiLib.Sys
                 .Select(innerItems => innerItems.GetRange(column, columnCount));
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override IEnumerable<IEnumerable<T>> GetRow_Core(int row, int count)
         {
             if (count == 0) return new List<IEnumerable<T>>();
@@ -271,7 +271,7 @@ namespace WodiLib.Sys
             return Items.GetRange(row, count);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override IEnumerable<IEnumerable<T>> GetColumn_Core(int column, int count)
         {
             if (count == 0) return Enumerable.Empty<IEnumerable<T>>();
@@ -281,7 +281,7 @@ namespace WodiLib.Sys
                     Items[i][j]));
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void Set_Core(int row, int column, T[][] items)
         {
             items.ForEach((rowItems, rIdx) =>
@@ -290,7 +290,7 @@ namespace WodiLib.Sys
             });
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void InsertRow_Core(int row, T[][] items)
         {
             if (IsEmpty)
@@ -303,7 +303,7 @@ namespace WodiLib.Sys
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void InsertColumn_Core(int column, T[][] items)
         {
             var transposedItems = items.ToTransposedArray();
@@ -317,7 +317,7 @@ namespace WodiLib.Sys
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void MoveRow_Core(int oldRow, int newRow, int count)
         {
             var moveItems = Items.GetRange(oldRow, count);
@@ -325,7 +325,7 @@ namespace WodiLib.Sys
             Items.InsertRange(newRow, moveItems);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void MoveColumn_Core(int oldColumn, int newColumn, int count)
         {
             Items.ForEach(line =>
@@ -336,7 +336,7 @@ namespace WodiLib.Sys
             });
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void RemoveRow_Core(int row, int count)
         {
             var removedRowCount = RowCount - count;
@@ -350,13 +350,13 @@ namespace WodiLib.Sys
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void RemoveColumn_Core(int column, int count)
         {
             Items.ForEach(line => { line.RemoveRange(column, count); });
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void Reset_Core(T[][] items)
         {
             if (items.Length == 0)
@@ -369,7 +369,7 @@ namespace WodiLib.Sys
             Items.AddRange(items.Select(line => new List<T>(line)));
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void Clear_Core()
         {
             Items.Clear();
@@ -377,7 +377,7 @@ namespace WodiLib.Sys
 
         #endregion
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override T[][] MakeInitItems()
         {
             if (GetMinRowCapacity() == 0 || GetMinColumnCapacity() == 0)

@@ -12,18 +12,18 @@ using System.Collections.Generic;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// リストバリデーションヘルパークラス
+    ///     リストバリデーションヘルパークラス
     /// </summary>
     internal static class ListValidationHelper
     {
         /// <summary>
-        /// リスト操作時のIndex値を検証する。
+        ///     リスト操作時のIndex値を検証する。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="listCount">リスト要素数</param>
         /// <param name="itemName">エラーメッセージ中の項目名</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///    <paramref name="index"/> が 0 未満 または <paramref name="listCount"/> - 1 以上の場合。
+        ///     <paramref name="index"/> が 0 未満 または <paramref name="listCount"/> - 1 以上の場合。
         /// </exception>
         public static void SelectIndex(int index, int listCount, string itemName = "index")
         {
@@ -34,13 +34,13 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// リスト操作時のIndex値を検証する。
+        ///     リスト操作時のIndex値を検証する。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="listCount">リスト要素数</param>
         /// <param name="itemName">エラーメッセージ中の項目名</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///    <paramref name="index"/> が 0 未満 または <paramref name="listCount"/> を超える場合。
+        ///     <paramref name="index"/> が 0 未満 または <paramref name="listCount"/> を超える場合。
         /// </exception>
         public static void InsertIndex(int index, int listCount, string itemName = "index")
         {
@@ -51,13 +51,13 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// リスト操作時のIndex値を検証する。
+        ///     リスト操作時のIndex値を検証する。
         /// </summary>
         /// <param name="count">要素数</param>
         /// <param name="listCount">リスト要素数</param>
         /// <param name="itemName">エラーメッセージ中の項目名</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///    count が 0 未満 または listCount を超える場合
+        ///     count が 0 未満 または listCount を超える場合
         /// </exception>
         public static void Count(int count, int listCount,
             string itemName = "count")
@@ -68,7 +68,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 範囲操作時のパラメータを検証する。
+        ///     範囲操作時のパラメータを検証する。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="count">範囲数</param>
@@ -86,7 +86,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 要素列挙に <see langword="null"/> 要素が含まれていないことを検証する。
+        ///     要素列挙に <see langword="null"/> 要素が含まれていないことを検証する。
         /// </summary>
         /// <param name="items">要素列挙</param>
         /// <param name="itemName">エラーメッセージ中の項目名</param>
@@ -100,7 +100,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// リストの要素数が0でないことを検証する。
+        ///     リストの要素数が0でないことを検証する。
         /// </summary>
         /// <param name="listCount">要素数</param>
         /// <exception cref="InvalidOperationException">

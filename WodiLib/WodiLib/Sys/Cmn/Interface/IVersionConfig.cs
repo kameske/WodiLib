@@ -9,21 +9,21 @@
 namespace WodiLib.Sys.Cmn
 {
     /// <summary>
-    /// WodiLib全体のバージョン設定インタフェース
+    ///     WodiLib全体のバージョン設定インタフェース
     /// </summary>
     /// <remarks>
-    /// バージョン設定の新規作成や更新は <see cref="VersionConfig"/> の
-    /// 各種 <see langword="static"/> メソッドを通じて行う。
+    ///     バージョン設定の新規作成や更新は <see cref="VersionConfig"/> の
+    ///     各種 <see langword="static"/> メソッドを通じて行う。
     /// </remarks>
     public interface IVersionConfig
     {
         /// <summary>
-        /// 設定キー名
+        ///     設定キー名
         /// </summary>
         public string KeyName { get; }
 
         /// <summary>
-        /// 設定バージョン
+        ///     設定バージョン
         /// </summary>
         public WoditorVersion Version { get; }
     }

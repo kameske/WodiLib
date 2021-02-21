@@ -11,12 +11,12 @@ using System;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// ファイル読み込み/書き出し汎用メッセージ
+    ///     ファイル読み込み/書き出し汎用メッセージ
     /// </summary>
     internal static class FileIOMessage
     {
         /// <summary>
-        /// 読み込み開始メッセージ
+        ///     読み込み開始メッセージ
         /// </summary>
         /// <param name="readerClassType">対象クラス</param>
         /// <returns>メッセージ</returns>
@@ -26,7 +26,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 読み込み終了メッセージ
+        ///     読み込み終了メッセージ
         /// </summary>
         /// <param name="readerClassType">対象クラス</param>
         /// <returns>メッセージ</returns>
@@ -36,7 +36,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 書き出し開始メッセージ
+        ///     書き出し開始メッセージ
         /// </summary>
         /// <param name="readerClassType">対象クラス</param>
         /// <returns>メッセージ</returns>
@@ -46,7 +46,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 書き出し終了メッセージ
+        ///     書き出し終了メッセージ
         /// </summary>
         /// <param name="readerClassType">対象クラス</param>
         /// <returns>メッセージ</returns>
@@ -56,7 +56,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 読み込み開始メッセージ（汎用）
+        ///     読み込み開始メッセージ（汎用）
         /// </summary>
         /// <param name="readerClassType">対象クラス</param>
         /// <param name="description">読み込み内容</param>
@@ -67,7 +67,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 読み込み終了メッセージ（汎用）
+        ///     読み込み終了メッセージ（汎用）
         /// </summary>
         /// <param name="readerClassType">対象クラス</param>
         /// <param name="description">読み込み内容</param>
@@ -78,7 +78,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// チェックOK時のメッセージ
+        ///     チェックOK時のメッセージ
         /// </summary>
         /// <param name="readerClassType">対象クラス</param>
         /// <param name="itemName">対象項目名</param>
@@ -90,7 +90,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 項目読み込み時のメッセージ
+        ///     項目読み込み時のメッセージ
         /// </summary>
         /// <param name="readerClassType">対象クラス</param>
         /// <param name="itemName">対象項目名</param>

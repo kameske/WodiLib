@@ -7,11 +7,12 @@
 // ========================================
 
 using System;
+using WodiLib.Sys.Cmn;
 
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 単一数値レコード
+    ///     単一数値レコード
     /// </summary>
     public abstract record SingleIntValueRecord<T> : IConvertibleInt, IComparable<T>
         where T : SingleIntValueRecord<T>
@@ -21,17 +22,27 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 値上限値
+        ///     値上限値
         /// </summary>
         protected abstract int _MaxValue { get; }
 
         /// <summary>
-        /// 値下限値
+        ///     値下限値
         /// </summary>
         protected abstract int _MinValue { get; }
 
         /// <summary>
-        /// 値
+        ///     安全に使用できる上限値
+        /// </summary>
+        protected virtual int? _SafetyMaxValue { get; } = null;
+
+        /// <summary>
+        ///     安全に使用できる下限値
+        /// </summary>
+        protected virtual int? _SafetyMinValue { get; } = null;
+
+        /// <summary>
+        ///     値
         /// </summary>
         protected int Value { get; }
 
@@ -40,7 +51,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="value">[Range(<see cref="_MaxValue"/>, <see cref="_MinValue"/>)] 値</param>
         /// <exception cref="ArgumentOutOfRangeException"><see cref="value"/> が 指定範囲外の場合</exception>
@@ -49,6 +60,16 @@ namespace WodiLib.Sys
             ThrowHelper.ValidateArgumentValueRange(
                 value < _MinValue || _MaxValue < value,
                 nameof(value), value, _MinValue, _MaxValue);
+
+            var safetyMaxValue = _SafetyMaxValue ?? _MaxValue;
+            var safetyMinValue = _SafetyMinValue ?? _MinValue;
+            if (value < safetyMinValue || safetyMaxValue < value)
+            {
+                var logger = WodiLibLogger.GetInstance();
+                logger.Warning(
+                    WarningMessage.OutOfRange(nameof(value), safetyMinValue, safetyMaxValue, value));
+            }
+
             Value = value;
         }
 
@@ -56,12 +77,12 @@ namespace WodiLib.Sys
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
             => Value.ToString();
 
         /// <summary>
-        /// int に変換する。
+        ///     int に変換する。
         /// </summary>
         /// <returns>int値</returns>
         public int ToInt() => Value;

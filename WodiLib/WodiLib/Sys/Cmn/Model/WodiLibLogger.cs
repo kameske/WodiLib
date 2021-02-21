@@ -11,7 +11,7 @@ using System;
 namespace WodiLib.Sys.Cmn
 {
     /// <summary>
-    /// WodiLib内で使用するロガークラス
+    ///     WodiLib内で使用するロガークラス
     /// </summary>
     public class WodiLibLogger
     {
@@ -20,7 +20,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// デフォルト設定キー名
+        ///     デフォルト設定キー名
         /// </summary>
         private static string DefaultKeyName => "default";
 
@@ -29,7 +29,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 現在の設定キー名
+        ///     現在の設定キー名
         /// </summary>
         public static string TargetKeyName { get; private set; } = "";
 
@@ -38,7 +38,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンフィグコンテナ
+        ///     コンフィグコンテナ
         /// </summary>
         private static WodiLibContainer ConfigContainer { get; } = new();
 
@@ -47,7 +47,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// ログハンドラ
+        ///     ログハンドラ
         /// </summary>
         public WodiLibLogHandler LogHandler { get; private set; }
 
@@ -56,7 +56,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// メインで使用する設定キーを変更する。
+        ///     メインで使用する設定キーを変更する。
         /// </summary>
         /// <param name="keyName">設定キー名</param>
         /// <exception cref="ArgumentNullException">
@@ -76,7 +76,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// 設定キー名からインスタンスを取得する。
+        ///     設定キー名からインスタンスを取得する。
         /// </summary>
         /// <param name="keyName">
         ///     設定キー名<br/>
@@ -91,7 +91,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// ログハンドラを設定する。
+        ///     ログハンドラを設定する。
         /// </summary>
         /// <param name="logHandler">ログ出力ハンドラ</param>
         /// <param name="keyName">
@@ -115,7 +115,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 指定した設定キー名の設定インスタンスがコンテナに登録されていなければ登録する。
+        ///     指定した設定キー名の設定インスタンスがコンテナに登録されていなければ登録する。
         /// </summary>
         /// <param name="keyName">設定キー名</param>
         private static void RegisterInstanceIfNeeded(string keyName)
@@ -137,7 +137,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="logHandler">ログハンドラ</param>
         /// <exception cref="ArgumentNullException">
@@ -155,7 +155,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// エラーメッセージを処理する。
+        ///     エラーメッセージを処理する。
         /// </summary>
         /// <param name="message">メッセージ</param>
         public void Error(string? message)
@@ -164,7 +164,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// 警告メッセージを処理する。
+        ///     警告メッセージを処理する。
         /// </summary>
         /// <param name="message">メッセージ</param>
         public void Warning(string? message)
@@ -173,7 +173,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// 情報メッセージを処理する。
+        ///     情報メッセージを処理する。
         /// </summary>
         /// <param name="message">メッセージ</param>
         public void Info(string? message)
@@ -182,7 +182,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// デバッグメッセージを処理する。
+        ///     デバッグメッセージを処理する。
         /// </summary>
         /// <param name="message">メッセージ</param>
         public void Debug(string? message)

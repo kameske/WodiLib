@@ -17,10 +17,10 @@ namespace WodiLib.Sys
         private partial class AdjustLengthAgent
         {
             /// <summary>
-            /// 空リストが関与しない処理の代理クラス
+            ///     空リストが関与しない処理の代理クラス
             /// </summary>
             /// <remarks>
-            /// すべての処理で、変更前後のリストの状態がどちらも空ではない場合このクラスを使用する。
+            ///     すべての処理で、変更前後のリストの状態がどちらも空ではない場合このクラスを使用する。
             /// </remarks>
             private class NoneEmpty : IAdjustLengthAgent
             {
@@ -196,7 +196,7 @@ namespace WodiLib.Sys
                 // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
                 /// <summary>
-                /// コンストラクタ
+                ///     コンストラクタ
                 /// </summary>
                 /// <param name="outer">処理対象</param>
                 /// <param name="rowLength">調整行数</param>
@@ -218,7 +218,7 @@ namespace WodiLib.Sys
                 // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
                 /// <summary>
-                /// コンストラクタで与えられた情報をもとに、必要な処理を実施する。
+                ///     コンストラクタで与えられた情報をもとに、必要な処理を実施する。
                 /// </summary>
                 public void Execute()
                 {
@@ -233,7 +233,7 @@ namespace WodiLib.Sys
                 // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
                 /// <summary>
-                /// プロパティ変更通知を行う
+                ///     プロパティ変更通知を行う
                 /// </summary>
                 private void NotifyPropertyChanged()
                 {
@@ -251,7 +251,7 @@ namespace WodiLib.Sys
                 }
 
                 /// <summary>
-                /// 要素変更前通知を行う
+                ///     要素変更前通知を行う
                 /// </summary>
                 private void CallCollectionChanging()
                 {
@@ -259,7 +259,7 @@ namespace WodiLib.Sys
                 }
 
                 /// <summary>
-                /// メイン処理を行う
+                ///     メイン処理を行う
                 /// </summary>
                 private void ExecuteMain()
                 {
@@ -291,7 +291,7 @@ namespace WodiLib.Sys
                 }
 
                 /// <summary>
-                /// 要素変更後通知を行う
+                ///     要素変更後通知を行う
                 /// </summary>
                 private void CallCollectionChanged()
                 {
@@ -301,7 +301,7 @@ namespace WodiLib.Sys
                 #region Argument Create Methods
 
                 /// <summary>
-                /// 要素変更通知イベント引数を生成する。
+                ///     要素変更通知イベント引数を生成する。
                 /// </summary>
                 /// <returns>イベント引数の列挙子</returns>
                 private IEnumerable<TwoDimensionalCollectionChangeEventArgs<T>> CreateCollectionChangeEventArgs()
@@ -334,8 +334,8 @@ namespace WodiLib.Sys
                 }
 
                 /// <summary>
-                /// 行除去イベント用の引数を生成する。
-                /// 行列どちらも除去される場合、重複する領域の要素が含まれる。
+                ///     行除去イベント用の引数を生成する。
+                ///     行列どちらも除去される場合、重複する領域の要素が含まれる。
                 /// </summary>
                 /// <returns>イベント引数</returns>
                 private TwoDimensionalCollectionChangeEventArgs<T> CreateRemoveRowEventArgs()
@@ -346,8 +346,8 @@ namespace WodiLib.Sys
                 }
 
                 /// <summary>
-                /// 列除去イベント用の引数を生成する。
-                /// 行列どちらも除去される場合、重複する領域の要素は含まれない。
+                ///     列除去イベント用の引数を生成する。
+                ///     行列どちらも除去される場合、重複する領域の要素は含まれない。
                 /// </summary>
                 /// <returns>イベント引数</returns>
                 private TwoDimensionalCollectionChangeEventArgs<T> CreateRemoveColumnEventArgs()
@@ -358,8 +358,8 @@ namespace WodiLib.Sys
                 }
 
                 /// <summary>
-                /// 行追加イベント用の引数を生成する。
-                /// 行列どちらも追加される場合、重複する領域の要素は含まれない。
+                ///     行追加イベント用の引数を生成する。
+                ///     行列どちらも追加される場合、重複する領域の要素は含まれない。
                 /// </summary>
                 /// <returns>イベント引数</returns>
                 private TwoDimensionalCollectionChangeEventArgs<T> CreateAddRowEventArgs()
@@ -371,8 +371,8 @@ namespace WodiLib.Sys
                 }
 
                 /// <summary>
-                /// 列追加イベント用の引数を生成する。
-                /// 行列どちらも追加される場合、重複する領域の要素が含まれる。
+                ///     列追加イベント用の引数を生成する。
+                ///     行列どちらも追加される場合、重複する領域の要素が含まれる。
                 /// </summary>
                 /// <returns>イベント引数</returns>
                 private TwoDimensionalCollectionChangeEventArgs<T> CreateAddColumnEventArgs()

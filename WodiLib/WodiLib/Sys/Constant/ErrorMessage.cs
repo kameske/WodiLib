@@ -11,12 +11,12 @@ using System.Text.RegularExpressions;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// エラーメッセージ生成クラス
+    ///     エラーメッセージ生成クラス
     /// </summary>
     internal static class ErrorMessage
     {
         /// <summary>
-        /// NotNullエラーメッセージ
+        ///     NotNullエラーメッセージ
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
         /// <returns>エラーメッセージ</returns>
@@ -26,7 +26,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// List中にnull項目がある場合のエラーメッセージ
+        ///     List中にnull項目がある場合のエラーメッセージ
         /// </summary>
         /// <param name="listName">エラー項目名</param>
         /// <returns>エラーメッセージ</returns>
@@ -36,7 +36,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// NotEmptyエラーメッセージ
+        ///     NotEmptyエラーメッセージ
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
         /// <returns>エラーメッセージ</returns>
@@ -46,7 +46,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Denyエラーメッセージ
+        ///     Denyエラーメッセージ
         /// </summary>
         /// <param name="itemName">項目名</param>
         /// <param name="value">設定値</param>
@@ -57,7 +57,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// NotEqualエラーメッセージ
+        ///     NotEqualエラーメッセージ
         /// </summary>
         /// <param name="itemLeft">右辺項目名</param>
         /// <param name="itemRight">左辺項目名</param>
@@ -68,7 +68,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// GreaterOrEqualエラーメッセージ
+        ///     GreaterOrEqualエラーメッセージ
         /// </summary>
         /// <param name="itemName">項目名</param>
         /// <param name="limit">上限値</param>
@@ -81,7 +81,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 範囲エラーメッセージ
+        ///     範囲エラーメッセージ
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
         /// <param name="min">最小値</param>
@@ -94,7 +94,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 項目数エラーメッセージ
+        ///     項目数エラーメッセージ
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
         /// <param name="allowSize">許容サイズ</param>
@@ -106,7 +106,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// リスト要素数が不足する場合のエラーメッセージ
+        ///     リスト要素数が不足する場合のエラーメッセージ
         /// </summary>
         /// <param name="limit">要素数下限</param>
         /// <param name="target">判定対象名</param>
@@ -117,7 +117,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// リスト要素数が不足する場合のエラーメッセージ
+        ///     リスト要素数が不足する場合のエラーメッセージ
         /// </summary>
         /// <param name="itemName">要素名</param>
         /// <param name="limit">要素数下限</param>
@@ -128,7 +128,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// リスト要素数が超過する場合のエラーメッセージ
+        ///     リスト要素数が超過する場合のエラーメッセージ
         /// </summary>
         /// <param name="limit">要素数上限</param>
         /// <param name="target">判定対象名</param>
@@ -139,7 +139,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 項目数エラーメッセージ
+        ///     項目数エラーメッセージ
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
         /// <param name="min">最小値</param>
@@ -152,7 +152,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// オブジェクト不適切エラーメッセージ
+        ///     オブジェクト不適切エラーメッセージ
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
         /// <param name="item">エラーオブジェクト</param>
@@ -163,7 +163,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 不適切な文字列の場合のエラーメッセージ
+        ///     不適切な文字列の場合のエラーメッセージ
         /// </summary>
         /// <param name="value">文字列</param>
         /// <param name="regex">適切な正規表現</param>
@@ -174,7 +174,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 改行を含む場合のエラーメッセージ
+        ///     改行を含む場合のエラーメッセージ
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
         /// <param name="value">エラー文字列</param>
@@ -185,7 +185,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// いずれの型にもキャスト不可能な場合のエラーメッセージ
+        ///     いずれの型にもキャスト不可能な場合のエラーメッセージ
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
         /// <param name="needCastClassNameList">キャスト可能であるべき型名リスト</param>
@@ -197,7 +197,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// nullのためキャスト不可能な場合のエラーメッセージ
+        ///     nullのためキャスト不可能な場合のエラーメッセージ
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
         /// <param name="className">キャスト先型名</param>
@@ -208,7 +208,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// アクセスできない場合のエラーメッセージ
+        ///     アクセスできない場合のエラーメッセージ
         /// </summary>
         /// <param name="reason">アクセスできない理由</param>
         /// <returns>エラーメッセージ</returns>
@@ -218,7 +218,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// キャスト不可能な場合のエラーメッセージ
+        ///     キャスト不可能な場合のエラーメッセージ
         /// </summary>
         /// <param name="reason">キャストできない理由</param>
         /// <returns>エラーメッセージ</returns>
@@ -228,7 +228,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 処理不可能な場合のエラーメッセージ
+        ///     処理不可能な場合のエラーメッセージ
         /// </summary>
         /// <param name="reason">処理できない理由</param>
         /// <returns>エラーメッセージ</returns>
@@ -238,7 +238,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// データが存在しない場合のエラーメッセージ
+        ///     データが存在しない場合のエラーメッセージ
         /// </summary>
         /// <param name="itemName">項目名</param>
         /// <returns>エラーメッセージ</returns>
@@ -248,7 +248,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// データサイズが超過する場合のエラーメッセージ
+        ///     データサイズが超過する場合のエラーメッセージ
         /// </summary>
         /// <param name="maxByte">データ最大バイト数</param>
         /// <returns>エラーメッセージ</returns>

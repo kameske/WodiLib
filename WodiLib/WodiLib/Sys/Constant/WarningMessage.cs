@@ -11,12 +11,12 @@ using System.Text.RegularExpressions;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 警告メッセージ
+    ///     警告メッセージ
     /// </summary>
     internal static class WarningMessage
     {
         /// <summary>
-        /// 範囲警告メッセージ
+        ///     範囲警告メッセージ
         /// </summary>
         /// <param name="itemName">警告項目名</param>
         /// <param name="min">最小値</param>
@@ -30,7 +30,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// いずれの型にもキャスト不可能な場合の警告メッセージ
+        ///     いずれの型にもキャスト不可能な場合の警告メッセージ
         /// </summary>
         /// <param name="itemName">エラー項目名</param>
         /// <param name="setValue">設定値</param>
@@ -42,7 +42,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 正規表現に一致しない文字列の場合の警告メッセージ
+        ///     正規表現に一致しない文字列の場合の警告メッセージ
         /// </summary>
         /// <param name="value">対象文字列</param>
         /// <param name="regex">適切な正規表現</param>
@@ -53,7 +53,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 不適切なファイル名の場合の警告メッセージ
+        ///     不適切なファイル名の場合の警告メッセージ
         /// </summary>
         /// <param name="path">対象ファイルパス</param>
         /// <param name="regex">適切な正規表現</param>

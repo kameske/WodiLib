@@ -13,10 +13,10 @@ using System.ComponentModel;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// TwoDimensionalCollection の要素が変更された際に発火するイベントの引数
+    ///     TwoDimensionalCollection の要素が変更された際に発火するイベントの引数
     /// </summary>
     /// <remarks>
-    /// <see cref="CollectionChangeEventArgs"/> と同様の使い方ができる、2次元リストの変更通知引数。
+    ///     <see cref="CollectionChangeEventArgs"/> と同様の使い方ができる、2次元リストの変更通知引数。
     /// </remarks>
     /// <typeparam name="T">イベント発火基二次元リストの内包型</typeparam>
     public partial class TwoDimensionalCollectionChangeEventArgs<T> : EventArgs
@@ -26,48 +26,48 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 変更前要素開始行
+        ///     変更前要素開始行
         /// </summary>
         public int OldStartRow { get; } = -1;
 
         /// <summary>
-        /// 変更後要素開始行
+        ///     変更後要素開始行
         /// </summary>
         public int NewStartRow { get; } = -1;
 
         /// <summary>
-        /// 変更前要素開始列
+        ///     変更前要素開始列
         /// </summary>
         public int OldStartColumn { get; } = -1;
 
         /// <summary>
-        /// 変更後要素開始列
+        ///     変更後要素開始列
         /// </summary>
         public int NewStartColumn { get; } = -1;
 
         /// <summary>
-        /// 変更前要素
+        ///     変更前要素
         /// </summary>
         public IReadOnlyList<IReadOnlyList<T>>? OldItems { get; }
 
         /// <summary>
-        /// 変更後要素
+        ///     変更後要素
         /// </summary>
         public IReadOnlyList<IReadOnlyList<T>>? NewItems { get; }
 
         /// <summary>
-        /// 変更アクション
+        ///     変更アクション
         /// </summary>
         public TwoDimensionalCollectionChangeAction Action { get; }
 
         /// <summary>
-        /// 操作方向
+        ///     操作方向
         /// </summary>
         /// <remarks>
-        /// Add, Move, Remove アクション時。"行" または "列" のどちらに対して操作されたかを表す。<br/>
-        /// この値によって OldItems, NewItems の順序が決定される。<br/>
-        ///   - <see cref="Direction"/> == Row の場合 "外側のリストが行、内側のリストが列" となる。<br/>
-        ///   - <see cref="Direction"/> == Column の場合 "外側のリストが列、内側のリストが行" となる。
+        ///     Add, Move, Remove アクション時。"行" または "列" のどちらに対して操作されたかを表す。<br/>
+        ///     この値によって OldItems, NewItems の順序が決定される。<br/>
+        ///     - <see cref="Direction"/> == Row の場合 "外側のリストが行、内側のリストが列" となる。<br/>
+        ///     - <see cref="Direction"/> == Column の場合 "外側のリストが列、内側のリストが行" となる。
         /// </remarks>
         public Direction Direction { get; } = Direction.None;
 
@@ -76,7 +76,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ（Add, Remove イベント専用）
+        ///     コンストラクタ（Add, Remove イベント専用）
         /// </summary>
         /// <param name="index">開始行番号または開始列番号</param>
         /// <param name="items">通知要素</param>
@@ -123,7 +123,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// コンストラクタ（Move イベント専用）
+        ///     コンストラクタ（Move イベント専用）
         /// </summary>
         /// <param name="oldIndex">移動前開始行番号/列番号</param>
         /// <param name="newIndex">移動後開始列番号/列番号</param>
@@ -156,7 +156,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// コンストラクタ（Replace イベント専用）
+        ///     コンストラクタ（Replace イベント専用）
         /// </summary>
         /// <param name="row">更新開始行番号</param>
         /// <param name="column">更新開始列番号</param>
@@ -175,7 +175,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// コンストラクタ（Reset イベント専用）
+        ///     コンストラクタ（Reset イベント専用）
         /// </summary>
         private TwoDimensionalCollectionChangeEventArgs()
         {

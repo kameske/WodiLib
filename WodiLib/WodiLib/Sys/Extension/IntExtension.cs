@@ -123,7 +123,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 指定した桁から指定桁数のIntを取り出す。
+        ///     指定した桁から指定桁数のIntを取り出す。
         /// </summary>
         /// <param name="target">対象</param>
         /// <param name="beginColumn">

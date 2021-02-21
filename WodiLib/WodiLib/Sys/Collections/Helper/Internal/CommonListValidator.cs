@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// リスト編集メソッドの引数汎用検証処理実施クラス
+    ///     リスト編集メソッドの引数汎用検証処理実施クラス
     /// </summary>
     /// <typeparam name="T">リスト内包型</typeparam>
     internal class CommonListValidator<T> : WodiLibListValidatorTemplate<T>

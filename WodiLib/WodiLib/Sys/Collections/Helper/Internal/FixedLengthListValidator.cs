@@ -13,7 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// IFixedLengthList の基本検証処理実施クラス
+    ///     IFixedLengthList の基本検証処理実施クラス
     /// </summary>
     internal class FixedLengthListValidator<T> : WodiLibListValidatorTemplate<T>
     {

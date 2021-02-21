@@ -13,9 +13,9 @@ namespace WodiLib.Sys
     internal static class TwoDimensionalArrayExtension
     {
         /// <summary>
-        /// 行列を入れ替えた二次元配列を返す。<br/>
-        /// 【事前条件】<br/>
-        /// すべての行について要素数が一致すること
+        ///     行列を入れ替えた二次元配列を返す。<br/>
+        ///     【事前条件】<br/>
+        ///     すべての行について要素数が一致すること
         /// </summary>
         /// <param name="src">対象</param>
         /// <returns>src の転置行列</returns>
@@ -42,8 +42,8 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 内側配列の長さを取得する。<br/>
-        /// 外側配列の要素数が0の場合、0を返却する。
+        ///     内側配列の長さを取得する。<br/>
+        ///     外側配列の要素数が0の場合、0を返却する。
         /// </summary>
         /// <param name="src">対象</param>
         /// <typeparam name="T">配列内包型</typeparam>

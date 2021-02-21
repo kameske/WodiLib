@@ -11,12 +11,12 @@ using System;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 長さ制限リストの検証Helperクラス
+    ///     長さ制限リストの検証Helperクラス
     /// </summary>
     internal static class RestrictedListValidationHelper
     {
         /// <summary>
-        /// 要素数が適切であることを検証する。
+        ///     要素数が適切であることを検証する。
         /// </summary>
         /// <param name="count">要素数</param>
         /// <param name="min">要素最小数</param>
@@ -30,7 +30,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 要素数が最大数を超えないことを検証する。
+        ///     要素数が最大数を超えないことを検証する。
         /// </summary>
         /// <param name="count">要素数</param>
         /// <param name="max">要素最大数</param>
@@ -41,7 +41,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 要素数が最小数未満にならないことを検証する。
+        ///     要素数が最小数未満にならないことを検証する。
         /// </summary>
         /// <param name="count">要素数</param>
         /// <param name="min">最小要素数</param>
@@ -52,7 +52,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 最大・最小容量設定を検証する。
+        ///     最大・最小容量設定を検証する。
         /// </summary>
         /// <param name="min">最小容量</param>
         /// <param name="max">最大容量</param>

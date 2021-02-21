@@ -24,12 +24,6 @@ namespace WodiLib.Sys
         /// <summary>列挙子管理</summary>
         private static readonly EnumItemsManager EnumItems = new();
 
-        /// <summary>全ての要素</summary>
-        protected static IEnumerable<T> AllItems => EnumItems.AllEnums;
-
-        /// <summary>列挙子識別子</summary>
-        public string Id { get; }
-
         /// <summary>
         ///     コンストラクタ
         /// </summary>
@@ -39,6 +33,12 @@ namespace WodiLib.Sys
             Id = id;
             EnumItems.Add(id, this);
         }
+
+        /// <summary>全ての要素</summary>
+        protected static IEnumerable<T> AllItems => EnumItems.AllEnums;
+
+        /// <summary>列挙子識別子</summary>
+        public string Id { get; }
 
         /// <summary>
         ///     条件に合致する最初の要素を返却する。

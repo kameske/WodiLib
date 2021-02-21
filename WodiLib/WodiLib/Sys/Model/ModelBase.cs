@@ -17,7 +17,7 @@ using WodiLib.Sys.Cmn;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 各Modelクラス基底クラス
+    ///     各Modelクラス基底クラス
     /// </summary>
     /// <typeparam name="TChild">Model実装クラス型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -31,7 +31,7 @@ namespace WodiLib.Sys
         /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
         [field: NonSerialized] private event PropertyChangingEventHandler? _propertyChanging;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public virtual event PropertyChangingEventHandler PropertyChanging
         {
             add
@@ -45,7 +45,7 @@ namespace WodiLib.Sys
 
         [field: NonSerialized] private event PropertyChangedEventHandler? _propertyChanged;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public virtual event PropertyChangedEventHandler PropertyChanged
         {
             add
@@ -60,7 +60,7 @@ namespace WodiLib.Sys
         private bool isNotifyBeforePropertyChange
             = WodiLibConfig.GetDefaultNotifyBeforePropertyChangeFlag();
 
-        /// <inheritdoc cref="IReadOnlyModelBase{TChild}.IsNotifyBeforePropertyChange" />
+        /// <inheritdoc cref="IReadOnlyModelBase{TChild}.IsNotifyBeforePropertyChange"/>
         public virtual bool IsNotifyBeforePropertyChange
         {
             get => isNotifyBeforePropertyChange;
@@ -79,7 +79,7 @@ namespace WodiLib.Sys
         private bool isNotifyAfterPropertyChange
             = WodiLibConfig.GetDefaultNotifyAfterPropertyChangeFlag();
 
-        /// <inheritdoc cref="IReadOnlyModelBase{TChild}.IsNotifyAfterPropertyChange" />
+        /// <inheritdoc cref="IReadOnlyModelBase{TChild}.IsNotifyAfterPropertyChange"/>
         public virtual bool IsNotifyAfterPropertyChange
         {
             get => isNotifyAfterPropertyChange;
@@ -100,7 +100,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// プロパティ変更通知伝播元リスト
+        ///     プロパティ変更通知伝播元リスト
         /// </summary>
         private List<INotifyPropertyChange> Propagators { get; }
             = new();
@@ -109,10 +109,10 @@ namespace WodiLib.Sys
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public abstract bool ItemEquals([AllowNull] TChild other);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool ItemEquals(ModelBase<TChild>? other)
         {
             if (ReferenceEquals(other, this)) return true;
@@ -146,7 +146,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// プロパティ変更前イベント
+        ///     プロパティ変更前イベント
         /// </summary>
         /// <param name="propertyName">プロパティ名</param>
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -159,7 +159,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// プロパティ変更後イベント
+        ///     プロパティ変更後イベント
         /// </summary>
         /// <param name="propertyName">プロパティ名</param>
         [EditorBrowsable(EditorBrowsableState.Never)]

@@ -13,12 +13,12 @@ using System.Linq;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// Enumerable の拡張クラス
+    ///     Enumerable の拡張クラス
     /// </summary>
     internal static class EnumerableExtension
     {
         /// <summary>
-        /// <see langword="null"/>項目があるかどうか判定する。
+        ///     <see langword="null"/>項目があるかどうか判定する。
         /// </summary>
         /// <typeparam name="T">対象リスト内の型</typeparam>
         /// <param name="src">対象</param>
@@ -29,7 +29,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 条件を満たす要素のインデックスを取得する。
+        ///     条件を満たす要素のインデックスを取得する。
         /// </summary>
         /// <typeparam name="T">対象リスト内の型</typeparam>
         /// <param name="src">対象</param>
@@ -48,7 +48,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 二重シーケンスを二次元配列に変換する。
+        ///     二重シーケンスを二次元配列に変換する。
         /// </summary>
         /// <param name="src">対象</param>
         /// <typeparam name="T">対象シーケンスの内包型</typeparam>
@@ -59,9 +59,9 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 行列を入れ替えた二次元配列を返す。<br/>
-        /// 【事前条件】<br/>
-        /// すべての行について要素数が一致すること
+        ///     行列を入れ替えた二次元配列を返す。<br/>
+        ///     【事前条件】<br/>
+        ///     すべての行について要素数が一致すること
         /// </summary>
         /// <param name="src">対象</param>
         /// <returns><paramref name="src"/> の転置行列</returns>

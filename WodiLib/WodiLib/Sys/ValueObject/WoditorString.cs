@@ -14,7 +14,7 @@ using System.Text;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// ウディタ仕様の文字列
+    ///     ウディタ仕様の文字列
     /// </summary>
     internal record WoditorString
     {
@@ -29,7 +29,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 特殊変換文字群
+        ///     特殊変換文字群
         /// </summary>
         private static readonly List<Tuple<string, string>> SpecialConversionStringList =
             new()
@@ -49,8 +49,8 @@ namespace WodiLib.Sys
         public int ByteLength { get; }
 
         /// <summary>
-        /// バイト配列からインスタンスを生成する。
-        /// 配列末尾に不要なデータがあっても無視する。
+        ///     バイト配列からインスタンスを生成する。
+        ///     配列末尾に不要なデータがあっても無視する。
         /// </summary>
         /// <param name="src">変換対象byte配列</param>
         /// <param name="offset">読み込み開始オフセット</param>
@@ -59,8 +59,8 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// バイト配列からインスタンスを生成する。
-        /// 配列末尾に不要なデータがあっても無視する。
+        ///     バイト配列からインスタンスを生成する。
+        ///     配列末尾に不要なデータがあっても無視する。
         /// </summary>
         /// <param name="src">変換対象byte配列</param>
         /// <param name="offset">読み込み開始オフセット</param>
@@ -94,7 +94,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// stringからインスタンスを生成する
+        ///     stringからインスタンスを生成する
         /// </summary>
         public WoditorString(string src)
         {
@@ -126,7 +126,7 @@ namespace WodiLib.Sys
             ByteLength = strBytes.Count;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString() => String;
     }
 }

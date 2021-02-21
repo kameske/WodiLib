@@ -12,11 +12,11 @@ using System.Linq;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 二重シーケンス比較
+    ///     二重シーケンス比較
     /// </summary>
     /// <remarks>
-    /// 状態を持たないのでシングルトンクラスとする。
-    /// インスタンスが必要なときは <see cref="GetInstance"/> メソッドで取得。
+    ///     状態を持たないのでシングルトンクラスとする。
+    ///     インスタンスが必要なときは <see cref="GetInstance"/> メソッドで取得。
     /// </remarks>
     internal class DoubleSequenceEqualityComparer<T> : IEqualityComparer<IEnumerable<IEnumerable<T>>>
     {
@@ -27,7 +27,7 @@ namespace WodiLib.Sys
         private static DoubleSequenceEqualityComparer<T>? _instance;
 
         /// <summary>
-        /// インスタンスを取得する。
+        ///     インスタンスを取得する。
         /// </summary>
         /// <returns></returns>
         public static DoubleSequenceEqualityComparer<T> GetInstance()
@@ -37,7 +37,7 @@ namespace WodiLib.Sys
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool Equals(IEnumerable<IEnumerable<T>>? left, IEnumerable<IEnumerable<T>>? right)
         {
             if (ReferenceEquals(left, right)) return true;
@@ -53,7 +53,7 @@ namespace WodiLib.Sys
                 .All(tuple => tuple.l2.SequenceEqual(tuple.r2));
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public int GetHashCode(IEnumerable<IEnumerable<T>> obj)
         {
             return obj.GetHashCode();

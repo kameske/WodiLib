@@ -11,7 +11,7 @@ using System;
 namespace WodiLib.Sys.Cmn
 {
     /// <summary>
-    /// WodiLib 全体の設定クラス
+    ///     WodiLib 全体の設定クラス
     /// </summary>
     public class WodiLibConfig : IWodiLibConfig
     {
@@ -20,7 +20,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// デフォルト設定キー名
+        ///     デフォルト設定キー名
         /// </summary>
         private static string DefaultKeyName => "default";
 
@@ -29,16 +29,16 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 現在の設定キー名
+        ///     現在の設定キー名
         /// </summary>
         /// <remarks>
-        /// キー名の変更は <see cref="ChangeTargetKey"/> メソッドで行う。
+        ///     キー名の変更は <see cref="ChangeTargetKey"/> メソッドで行う。
         /// </remarks>
         public static string TargetKeyName { get; private set; } = default!;
 
         /// <summary>
-        /// 指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        /// <see cref="IWodiLibConfig.DefaultNotifyBeforePropertyChangeFlag"/> プロパティを設定する。
+        ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
+        ///     <see cref="IWodiLibConfig.DefaultNotifyBeforePropertyChangeFlag"/> プロパティを設定する。
         /// </summary>
         /// <param name="flag">設定値</param>
         /// <param name="keyName">
@@ -52,8 +52,8 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// 指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        /// <see cref="IWodiLibConfig.DefaultNotifyBeforePropertyChangeFlag"/> プロパティを取得する。
+        ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
+        ///     <see cref="IWodiLibConfig.DefaultNotifyBeforePropertyChangeFlag"/> プロパティを取得する。
         /// </summary>
         /// <param name="keyName">
         ///     設定対象キー名。<br/>
@@ -66,8 +66,8 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// 指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        /// <see cref="IWodiLibConfig.DefaultNotifyAfterPropertyChangeFlag"/> プロパティを設定する。
+        ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
+        ///     <see cref="IWodiLibConfig.DefaultNotifyAfterPropertyChangeFlag"/> プロパティを設定する。
         /// </summary>
         /// <param name="flag">設定値</param>
         /// <param name="keyName">
@@ -81,8 +81,8 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// 指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        /// <see cref="IWodiLibConfig.DefaultNotifyAfterPropertyChangeFlag"/> プロパティを取得する。
+        ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
+        ///     <see cref="IWodiLibConfig.DefaultNotifyAfterPropertyChangeFlag"/> プロパティを取得する。
         /// </summary>
         /// <param name="keyName">
         ///     設定対象キー名。<br/>
@@ -95,8 +95,8 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// 指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        /// <see cref="IWodiLibConfig.DefaultNotifyBeforeCollectionChangeFlag"/> プロパティを設定する。
+        ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
+        ///     <see cref="IWodiLibConfig.DefaultNotifyBeforeCollectionChangeFlag"/> プロパティを設定する。
         /// </summary>
         /// <param name="flag">設定値</param>
         /// <param name="keyName">
@@ -110,8 +110,8 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// 指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        /// <see cref="IWodiLibConfig.DefaultNotifyBeforeCollectionChangeFlag"/> プロパティを取得する。
+        ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
+        ///     <see cref="IWodiLibConfig.DefaultNotifyBeforeCollectionChangeFlag"/> プロパティを取得する。
         /// </summary>
         /// <param name="keyName">
         ///     設定対象キー名。<br/>
@@ -124,8 +124,8 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// 指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        /// <see cref="IWodiLibConfig.DefaultNotifyAfterCollectionChangeFlag"/> プロパティを設定する。
+        ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
+        ///     <see cref="IWodiLibConfig.DefaultNotifyAfterCollectionChangeFlag"/> プロパティを設定する。
         /// </summary>
         /// <param name="flag">設定値</param>
         /// <param name="keyName">
@@ -139,8 +139,8 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// 指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        /// <see cref="IWodiLibConfig.DefaultNotifyAfterCollectionChangeFlag"/> プロパティを取得する。
+        ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
+        ///     <see cref="IWodiLibConfig.DefaultNotifyAfterCollectionChangeFlag"/> プロパティを取得する。
         /// </summary>
         /// <param name="keyName">
         ///     設定対象キー名。<br/>
@@ -157,7 +157,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンフィグコンテナ
+        ///     コンフィグコンテナ
         /// </summary>
         private static WodiLibContainer ConfigContainer { get; } = new();
 
@@ -166,7 +166,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// メインで使用する設定キーを変更する。
+        ///     メインで使用する設定キーを変更する。
         /// </summary>
         /// <param name="keyName">[NotEmpty] 設定キー名</param>
         /// <exception cref="ArgumentNullException">
@@ -187,19 +187,19 @@ namespace WodiLib.Sys.Cmn
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public string KeyName { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool DefaultNotifyBeforePropertyChangeFlag { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool DefaultNotifyAfterPropertyChangeFlag { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool DefaultNotifyBeforeCollectionChangeFlag { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool DefaultNotifyAfterCollectionChangeFlag { get; set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -212,7 +212,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         private WodiLibConfig()
         {
@@ -228,7 +228,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 指定した設定キー名の設定インスタンスがコンテナに登録されていなければ登録する。
+        ///     指定した設定キー名の設定インスタンスがコンテナに登録されていなければ登録する。
         /// </summary>
         /// <param name="keyName">設定キー名</param>
         private static void RegisterConfigInstanceIfNeeded(string keyName)
@@ -241,7 +241,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// 設定キー名から設定インスタンスを取得する。
+        ///     設定キー名から設定インスタンスを取得する。
         /// </summary>
         /// <param name="keyName">設定キー名</param>
         /// <returns>設定インスタンス</returns>

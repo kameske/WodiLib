@@ -9,18 +9,18 @@
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// <see cref="ITwoDimensionalList{T}"/> 検証者インタフェース
+    ///     <see cref="ITwoDimensionalList{T}"/> 検証者インタフェース
     /// </summary>
     public interface ITwoDimensionalListValidator<in T>
     {
         /// <summary>
-        /// コンストラクタの検証処理
+        ///     コンストラクタの検証処理
         /// </summary>
         /// <param name="initItems">初期要素</param>
         void Constructor(T[][] initItems);
 
         /// <summary>
-        /// Get, GetRange メソッドの検証処理
+        ///     Get, GetRange メソッドの検証処理
         /// </summary>
         /// <param name="row">行番号</param>
         /// <param name="rowCount">行数</param>
@@ -29,21 +29,21 @@ namespace WodiLib.Sys
         void Get(int row, int rowCount, int column, int columnCount);
 
         /// <summary>
-        /// GetRow, GetRowRange メソッドの検証処理
+        ///     GetRow, GetRowRange メソッドの検証処理
         /// </summary>
         /// <param name="row">行番号</param>
         /// <param name="count">行数</param>
         void GetRow(int row, int count);
 
         /// <summary>
-        /// GetColumn, GetColumnRange メソッドの検証処理
+        ///     GetColumn, GetColumnRange メソッドの検証処理
         /// </summary>
         /// <param name="column">列番号</param>
         /// <param name="count">列数</param>
         void GetColumn(int column, int count);
 
         /// <summary>
-        /// Set, SetRange メソッドの検証処理
+        ///     Set, SetRange メソッドの検証処理
         /// </summary>
         /// <param name="row">更新開始行番号</param>
         /// <param name="column">更新開始列番号</param>
@@ -51,35 +51,35 @@ namespace WodiLib.Sys
         void Set(int row, int column, T[][] items);
 
         /// <summary>
-        /// AddDataValues, AddRowRange, InsertRow, InsertRowRange メソッドの検証処理
+        ///     AddDataValues, AddRowRange, InsertRow, InsertRowRange メソッドの検証処理
         /// </summary>
         /// <param name="row">挿入行番号</param>
         /// <param name="items">挿入要素</param>
         void InsertRow(int row, T[][] items);
 
         /// <summary>
-        /// AddColumn, AddColumnRange, InsertColumn, InsertColumnRange メソッドの検証処理
+        ///     AddColumn, AddColumnRange, InsertColumn, InsertColumnRange メソッドの検証処理
         /// </summary>
         /// <param name="column">挿入列番号</param>
         /// <param name="items">挿入要素</param>
         void InsertColumn(int column, T[][] items);
 
         /// <summary>
-        /// OverwriteRow メソッドの検証処理
+        ///     OverwriteRow メソッドの検証処理
         /// </summary>
         /// <param name="row">開始行番号</param>
         /// <param name="items">上書き/追加リスト</param>
         void OverwriteRow(int row, T[][] items);
 
         /// <summary>
-        /// OverwriteColumn メソッドの検証処理
+        ///     OverwriteColumn メソッドの検証処理
         /// </summary>
         /// <param name="column">開始列番号</param>
         /// <param name="items">上書き/追加リスト</param>
         void OverwriteColumn(int column, T[][] items);
 
         /// <summary>
-        /// MoveRow, MoveRowRange メソッドの検証処理
+        ///     MoveRow, MoveRowRange メソッドの検証処理
         /// </summary>
         /// <param name="oldRow">移動前行番号</param>
         /// <param name="newRow">移動後行番号</param>
@@ -87,7 +87,7 @@ namespace WodiLib.Sys
         void MoveRow(int oldRow, int newRow, int count);
 
         /// <summary>
-        /// MoveColumn, MoveColumnRange メソッドの検証処理
+        ///     MoveColumn, MoveColumnRange メソッドの検証処理
         /// </summary>
         /// <param name="oldColumn">移動前列番号</param>
         /// <param name="newColumn">移動後列番号</param>
@@ -95,78 +95,78 @@ namespace WodiLib.Sys
         void MoveColumn(int oldColumn, int newColumn, int count);
 
         /// <summary>
-        /// RemoveRow, RemoveRowRange メソッドの検証処理
+        ///     RemoveRow, RemoveRowRange メソッドの検証処理
         /// </summary>
         /// <param name="row">削除開始行番号</param>
         /// <param name="count">削除行数</param>
         void RemoveRow(int row, int count);
 
         /// <summary>
-        /// RemoveColumn, RemoveColumnRange メソッドの検証処理
+        ///     RemoveColumn, RemoveColumnRange メソッドの検証処理
         /// </summary>
         /// <param name="column">削除開始列番号</param>
         /// <param name="count">削除列数</param>
         void RemoveColumn(int column, int count);
 
         /// <summary>
-        /// AdjustLength メソッドの検証処理
+        ///     AdjustLength メソッドの検証処理
         /// </summary>
         /// <param name="rowLength">調整行数</param>
         /// <param name="columnLength">調整列数</param>
         void AdjustLength(int rowLength, int columnLength);
 
         /// <summary>
-        /// AdjustLengthIfShort メソッドの検証処理
+        ///     AdjustLengthIfShort メソッドの検証処理
         /// </summary>
         /// <param name="rowLength">調整行数</param>
         /// <param name="columnLength">調整列数</param>
         void AdjustLengthIfShort(int rowLength, int columnLength);
 
         /// <summary>
-        /// AdjustLengthIfLong メソッドの検証処理
+        ///     AdjustLengthIfLong メソッドの検証処理
         /// </summary>
         /// <param name="rowLength">調整行数</param>
         /// <param name="columnLength">調整列数</param>
         void AdjustLengthIfLong(int rowLength, int columnLength);
 
         /// <summary>
-        /// AdjustRowLength メソッドの検証処理
+        ///     AdjustRowLength メソッドの検証処理
         /// </summary>
         /// <param name="length">調整要素数</param>
         void AdjustRowLength(int length);
 
         /// <summary>
-        /// AdjustColumnLength メソッドの検証処理
+        ///     AdjustColumnLength メソッドの検証処理
         /// </summary>
         /// <param name="length">調整要素数</param>
         void AdjustColumnLength(int length);
 
         /// <summary>
-        /// AdjustRowLengthIfShort メソッドの検証処理
+        ///     AdjustRowLengthIfShort メソッドの検証処理
         /// </summary>
         /// <param name="length">調整要素数</param>
         void AdjustRowLengthIfShort(int length);
 
         /// <summary>
-        /// AdjustColumnLengthIfShort メソッドの検証処理
+        ///     AdjustColumnLengthIfShort メソッドの検証処理
         /// </summary>
         /// <param name="length">調整要素数</param>
         void AdjustColumnLengthIfShort(int length);
 
         /// <summary>
-        /// AdjustRowLengthIfLong メソッドの検証処理
+        ///     AdjustRowLengthIfLong メソッドの検証処理
         /// </summary>
         /// <param name="length">調整要素数</param>
         void AdjustRowLengthIfLong(int length);
 
         /// <summary>
-        /// AdjustColumnLengthIfLong メソッドの検証処理
+        ///     AdjustColumnLengthIfLong メソッドの検証処理
         /// </summary>
         /// <param name="length">調整要素数</param>
         void AdjustColumnLengthIfLong(int length);
 
         /// <summary>
-        /// Reset, Clear メソッドの検証処理
+        ///     Reset, Clear メソッドの検証処理
         /// </summary>
         /// <param name="items">初期化要素</param>
         void Reset(T[][] items);

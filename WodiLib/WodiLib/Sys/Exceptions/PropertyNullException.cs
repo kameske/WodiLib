@@ -8,23 +8,23 @@
 
 namespace WodiLib.Sys
 {
-    /// <inheritdoc />
+    /// <inheritdoc/>
     /// <summary>
     ///     Nullを許容していないプロパティにNullが渡されたときの例外
     /// </summary>
     public class PropertyNullException : PropertyException
     {
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         public PropertyNullException()
         {
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="message">エラーメッセージ</param>
         public PropertyNullException(string message) : base(message)

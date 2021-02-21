@@ -11,12 +11,12 @@ using System;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 長さ固定リストの検証Helperクラス
+    ///     長さ固定リストの検証Helperクラス
     /// </summary>
     internal static class FixedLengthListValidationHelper
     {
         /// <summary>
-        /// 要素数が適切であることを検証する。
+        ///     要素数が適切であることを検証する。
         /// </summary>
         /// <param name="count">要素数</param>
         /// <param name="capacity">要素数</param>
@@ -29,7 +29,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 容量設定を検証する。
+        ///     容量設定を検証する。
         /// </summary>
         /// <param name="capacity">容量</param>
         public static void CapacityConfig(int capacity)

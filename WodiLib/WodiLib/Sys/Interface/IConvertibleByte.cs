@@ -9,12 +9,12 @@
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// <see cref="byte"/>に変換できることを示すインタフェース。
+    ///     <see cref="byte"/>に変換できることを示すインタフェース。
     /// </summary>
     public interface IConvertibleByte
     {
         /// <summary>
-        /// <see cref="byte"/>に変換する。
+        ///     <see cref="byte"/>に変換する。
         /// </summary>
         /// <returns><see cref="byte"/>値</returns>
         public byte ToByte();

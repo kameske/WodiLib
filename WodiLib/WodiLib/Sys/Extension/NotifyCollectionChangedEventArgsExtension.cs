@@ -14,12 +14,12 @@ using System.Linq;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// <see cref="NotifyCollectionChangedEventArgs"/> 拡張クラス
+    ///     <see cref="NotifyCollectionChangedEventArgs"/> 拡張クラス
     /// </summary>
     internal static class NotifyCollectionChangedEventArgsExtension
     {
         /// <summary>
-        /// インスタンスが持つ Action の内容を基に与えられたアクションのいずれかを実行する。
+        ///     インスタンスが持つ Action の内容を基に与えられたアクションのいずれかを実行する。
         /// </summary>
         /// <param name="e">NotifyCollectionChangedEventArgsインスタンス</param>
         /// <param name="replaceAction">Replaceイベントである場合に実行するアクション</param>
@@ -64,7 +64,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Setイベント
+        ///     Setイベント
         /// </summary>
         /// <param name="index">更新する要素の先頭インデックス</param>
         /// <param name="oldItems">更新前要素</param>
@@ -73,7 +73,7 @@ namespace WodiLib.Sys
         public delegate void ReplaceAction<in T>(int index, IEnumerable<T> oldItems, IEnumerable<T> newItems);
 
         /// <summary>
-        /// Addイベント
+        ///     Addイベント
         /// </summary>
         /// <param name="index">追加するインデックス</param>
         /// <param name="items">追加要素</param>
@@ -81,7 +81,7 @@ namespace WodiLib.Sys
         public delegate void AddAction<in T>(int index, IEnumerable<T> items);
 
         /// <summary>
-        /// Moveイベント
+        ///     Moveイベント
         /// </summary>
         /// <param name="oldIndex">移動前要素の先頭インデックス</param>
         /// <param name="newIndex">移動後のインデックス</param>
@@ -90,7 +90,7 @@ namespace WodiLib.Sys
         public delegate void MoveAction<in T>(int oldIndex, int newIndex, IEnumerable<T> items);
 
         /// <summary>
-        /// Removeイベント
+        ///     Removeイベント
         /// </summary>
         /// <param name="index">除去する要素の先頭インデックス</param>
         /// <param name="items">除去要素</param>
@@ -98,7 +98,7 @@ namespace WodiLib.Sys
         public delegate void RemoveAction<in T>(int index, IEnumerable<T> items);
 
         /// <summary>
-        /// Clearイベント
+        ///     Clearイベント
         /// </summary>
         public delegate void ResetAction();
     }

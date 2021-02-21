@@ -10,23 +10,23 @@ using System;
 
 namespace WodiLib.Sys
 {
-    /// <inheritdoc />
+    /// <inheritdoc/>
     /// <summary>
     ///     プロパティの例外
     /// </summary>
     public class PropertyException : Exception
     {
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         public PropertyException()
         {
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="message">エラーメッセージ</param>
         public PropertyException(string message) : base(message)

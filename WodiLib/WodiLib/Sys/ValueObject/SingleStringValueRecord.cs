@@ -14,7 +14,7 @@ using WodiLib.Sys.Cmn;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 単一文字列レコード
+    ///     単一文字列レコード
     /// </summary>
     public abstract record SingleStringValueRecord<T> : IComparable<T>
         where T : SingleStringValueRecord<T>
@@ -24,32 +24,32 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 空文字許容フラグ
+        ///     空文字許容フラグ
         /// </summary>
         protected virtual bool IsAllowEmpty => false;
 
         /// <summary>
-        /// 改行コード許容フラグ
+        ///     改行コード許容フラグ
         /// </summary>
         protected virtual bool IsAllowNewLine => false;
 
         /// <summary>
-        /// 必須文字列の正規表現
+        ///     必須文字列の正規表現
         /// </summary>
         protected virtual Regex? RequireRegex => null;
 
         /// <summary>
-        /// 文字列データ（Shift-JIS）の必須サイズ最大
+        ///     文字列データ（Shift-JIS）の必須サイズ最大
         /// </summary>
         protected virtual int? RequireSJisByteLengthMax => null;
 
         /// <summary>
-        /// 推奨する文字列の正規表現
+        ///     推奨する文字列の正規表現
         /// </summary>
         protected virtual Regex? SafetyRegex => null;
 
         /// <summary>
-        /// 値
+        ///     値
         /// </summary>
         protected string Value { get; }
 
@@ -60,7 +60,7 @@ namespace WodiLib.Sys
         private Encoding? shiftJisEncoding;
 
         /// <summary>
-        /// Shift-Jis エンコーディング
+        ///     Shift-Jis エンコーディング
         /// </summary>
         private Encoding ShiftJisEncoding
         {
@@ -80,7 +80,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="value">文字列値</param>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> が <see langword="null"/> の場合</exception>

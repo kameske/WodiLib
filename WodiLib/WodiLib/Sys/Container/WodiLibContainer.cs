@@ -13,7 +13,7 @@ using System.Linq;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// オブジェクト注入用クラス
+    ///     オブジェクト注入用クラス
     /// </summary>
     internal class WodiLibContainer
     {
@@ -22,7 +22,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 指定したキー名のコンテナ内に指定したクラスの生成メソッドが登録されているかどうかを返す。
+        ///     指定したキー名のコンテナ内に指定したクラスの生成メソッドが登録されているかどうかを返す。
         /// </summary>
         /// <param name="key">キー名</param>
         /// <typeparam name="T">チェック対象のクラス型</typeparam>
@@ -44,7 +44,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 実装クラスを登録する。登録済みの型でも上書き可能。
+        ///     実装クラスを登録する。登録済みの型でも上書き可能。
         /// </summary>
         /// <param name="createMethod">インスタンス生成メソッド</param>
         /// <param name="lifetime">ライフタイム</param>
@@ -77,7 +77,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 実装クラスからインスタンスを生成して返却する。
+        ///     実装クラスからインスタンスを生成して返却する。
         /// </summary>
         /// <typeparam name="T">インスタンス型</typeparam>
         /// <returns></returns>
@@ -116,7 +116,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// インスタンスのライフタイム
+        ///     インスタンスのライフタイム
         /// </summary>
         public record Lifetime : TypeSafeEnum<Lifetime>
         {
@@ -138,7 +138,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// インスタンス生成情報
+        ///     インスタンス生成情報
         /// </summary>
         private class CreateInfo
         {
@@ -153,7 +153,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// ライフタイムに応じたインスタンス取得
+            ///     ライフタイムに応じたインスタンス取得
             /// </summary>
             /// <returns></returns>
             /// <exception cref="InvalidOperationException"></exception>

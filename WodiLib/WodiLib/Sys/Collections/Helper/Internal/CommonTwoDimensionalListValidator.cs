@@ -9,7 +9,7 @@
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 二次元リスト編集メソッドの引数汎用検証処理実施クラス
+    ///     二次元リスト編集メソッドの引数汎用検証処理実施クラス
     /// </summary>
     /// <typeparam name="T">リスト内包型</typeparam>
     internal class CommonTwoDimensionalListValidator<T> : WodiLibTwoDimensionalListValidator<T>

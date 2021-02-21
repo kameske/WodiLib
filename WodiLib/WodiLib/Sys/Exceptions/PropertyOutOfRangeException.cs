@@ -8,23 +8,23 @@
 
 namespace WodiLib.Sys
 {
-    /// <inheritdoc />
+    /// <inheritdoc/>
     /// <summary>
     ///     プロパティに許容範囲外の値が渡されたときの例外
     /// </summary>
     public class PropertyOutOfRangeException : PropertyException
     {
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         public PropertyOutOfRangeException()
         {
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="message">エラーメッセージ</param>
         public PropertyOutOfRangeException(string message) : base(message)

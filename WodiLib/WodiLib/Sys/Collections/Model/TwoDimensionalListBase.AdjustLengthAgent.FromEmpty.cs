@@ -15,12 +15,12 @@ namespace WodiLib.Sys
         private partial class AdjustLengthAgent
         {
             /// <summary>
-            /// 空リストから変化させる処理の代理クラス
+            ///     空リストから変化させる処理の代理クラス
             /// </summary>
             /// <remarks>
-            /// AdjustLength, AdjustLengthIfShort, AdjustLengthIfLong メソッドの処理で
-            /// 変更前の状態が空リストの場合に使用する。<br/>
-            /// ただし変更後の状態も空リストの場合は <see cref="ToEmpty"/> で扱う。
+            ///     AdjustLength, AdjustLengthIfShort, AdjustLengthIfLong メソッドの処理で
+            ///     変更前の状態が空リストの場合に使用する。<br/>
+            ///     ただし変更後の状態も空リストの場合は <see cref="ToEmpty"/> で扱う。
             /// </remarks>
             private class FromEmpty : IAdjustLengthAgent
             {
@@ -68,7 +68,7 @@ namespace WodiLib.Sys
                 // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
                 /// <summary>
-                /// コンストラクタ
+                ///     コンストラクタ
                 /// </summary>
                 /// <param name="outer">処理対象</param>
                 /// <param name="rowLength">調整行数</param>
@@ -88,7 +88,7 @@ namespace WodiLib.Sys
                 // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
                 /// <summary>
-                /// コンストラクタで与えられた情報をもとに、必要な処理を実施する。
+                ///     コンストラクタで与えられた情報をもとに、必要な処理を実施する。
                 /// </summary>
                 public void Execute()
                 {
@@ -109,7 +109,7 @@ namespace WodiLib.Sys
                 // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
                 /// <summary>
-                /// プロパティ変更通知を行う
+                ///     プロパティ変更通知を行う
                 /// </summary>
                 private void NotifyPropertyChanged()
                 {
@@ -119,7 +119,7 @@ namespace WodiLib.Sys
                 }
 
                 /// <summary>
-                /// 要素変更前通知を行う
+                ///     要素変更前通知を行う
                 /// </summary>
                 private void CallCollectionChanging()
                 {
@@ -127,7 +127,7 @@ namespace WodiLib.Sys
                 }
 
                 /// <summary>
-                /// メイン処理を行う
+                ///     メイン処理を行う
                 /// </summary>
                 private void ExecuteMain()
                 {
@@ -137,7 +137,7 @@ namespace WodiLib.Sys
                 }
 
                 /// <summary>
-                /// 要素変更後通知を行う
+                ///     要素変更後通知を行う
                 /// </summary>
                 private void CallCollectionChanged()
                 {
@@ -145,7 +145,7 @@ namespace WodiLib.Sys
                 }
 
                 /// <summary>
-                /// 要素変更通知イベント引数を生成する。
+                ///     要素変更通知イベント引数を生成する。
                 /// </summary>
                 /// <returns>イベント引数の列挙子</returns>
                 private TwoDimensionalCollectionChangeEventArgs<T> CreateCollectionChangeEventArgs()

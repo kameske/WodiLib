@@ -9,14 +9,14 @@
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// ウディタバージョンによる警告メッセージ
+    ///     ウディタバージョンによる警告メッセージ
     /// </summary>
     internal static class VersionWarningMessage
     {
         #region Command
 
         /// <summary>
-        /// 指定バージョン未満のバージョンを指定できないコマンドの警告メッセージ
+        ///     指定バージョン未満のバージョンを指定できないコマンドの警告メッセージ
         /// </summary>
         /// <param name="itemName">項目名</param>
         /// <param name="currentVersion">設定バージョン</param>
@@ -30,7 +30,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 指定バージョン未満のバージョンを指定できないコマンド設定の警告メッセージ
+        ///     指定バージョン未満のバージョンを指定できないコマンド設定の警告メッセージ
         /// </summary>
         /// <param name="itemName">項目名</param>
         /// <param name="targetName">設定対象名</param>
@@ -45,7 +45,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 指定バージョン以上のバージョンを指定できないコマンドの警告メッセージ
+        ///     指定バージョン以上のバージョンを指定できないコマンドの警告メッセージ
         /// </summary>
         /// <param name="itemName">項目名</param>
         /// <param name="currentVersion">設定バージョン</param>
@@ -63,7 +63,7 @@ namespace WodiLib.Sys
         #region CommandSetting
 
         /// <summary>
-        /// 指定バージョン以上のバージョンを指定できないコマンド設定の警告メッセージ
+        ///     指定バージョン以上のバージョンを指定できないコマンド設定の警告メッセージ
         /// </summary>
         /// <param name="itemName">項目名</param>
         /// <param name="targetName">設定対象名</param>
@@ -82,7 +82,7 @@ namespace WodiLib.Sys
         #region CharaMoveCommand
 
         /// <summary>
-        /// 指定バージョン未満のバージョンを指定できないコマンドの警告メッセージ
+        ///     指定バージョン未満のバージョンを指定できないコマンドの警告メッセージ
         /// </summary>
         /// <param name="itemName">項目名</param>
         /// <param name="currentVersion">設定バージョン</param>
@@ -100,7 +100,7 @@ namespace WodiLib.Sys
         #region VariableAddress
 
         /// <summary>
-        /// 指定バージョン未満のバージョンを指定できないコマンドの警告メッセージ
+        ///     指定バージョン未満のバージョンを指定できないコマンドの警告メッセージ
         /// </summary>
         /// <param name="value">変数アドレス値</param>
         /// <param name="currentVersion">設定バージョン</param>
@@ -114,7 +114,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 変数アドレス範囲内の使用されていない値の場合の警告メッセージ
+        ///     変数アドレス範囲内の使用されていない値の場合の警告メッセージ
         /// </summary>
         /// <param name="value">変数アドレス値</param>
         /// <returns>メッセージ</returns>
@@ -128,7 +128,7 @@ namespace WodiLib.Sys
         #region Setting
 
         /// <summary>
-        /// 指定バージョン未満のバージョンを指定できないコマンドの警告メッセージ
+        ///     指定バージョン未満のバージョンを指定できないコマンドの警告メッセージ
         /// </summary>
         /// <param name="itemName">項目名</param>
         /// <param name="currentVersion">設定バージョン</param>

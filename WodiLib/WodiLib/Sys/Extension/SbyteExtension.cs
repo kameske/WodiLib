@@ -9,12 +9,12 @@
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// sbyte 拡張クラス
+    ///     sbyte 拡張クラス
     /// </summary>
     internal static class SbyteExtension
     {
         /// <summary>
-        /// byte に変換する。
+        ///     byte に変換する。
         /// </summary>
         /// <param name="src">対象</param>
         /// <returns>byte値</returns>

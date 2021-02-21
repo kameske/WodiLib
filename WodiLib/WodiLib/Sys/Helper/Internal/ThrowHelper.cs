@@ -13,11 +13,44 @@ using System.Text.RegularExpressions;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 例外スロー用Helperクラス
+    ///     例外スロー用Helperクラス
     /// </summary>
     internal static class ThrowHelper
     {
         #region Validate Property
+
+        /// <summary>
+        ///     プロパティにアクセスできない場合の例外処理。
+        /// </summary>
+        /// <param name="isThrow">検証結果</param>
+        /// <param name="reason">アクセス不可能な理由</param>
+        /// <exception cref="PropertyAccessException">
+        ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
+        /// </exception>
+        public static void ValidatePropertyAccess([DoesNotReturnIf(true)] bool isThrow,
+            string reason)
+        {
+            if (!isThrow) return;
+
+            throw new PropertyAccessException(
+                ErrorMessage.NotAccess(reason));
+        }
+
+        /// <summary>
+        ///     プロパティ設定値が <see langword="null"/> でないことを検証する際の例外処理
+        /// </summary>
+        /// <param name="isThrow">検証結果</param>
+        /// <param name="itemName">検証項目名</param>
+        /// <exception cref="PropertyNullException">
+        ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
+        /// </exception>
+        public static void ValidatePropertyNotNull([DoesNotReturnIf(true)] bool isThrow, string itemName)
+        {
+            if (!isThrow) return;
+
+            throw new PropertyNullException(
+                ErrorMessage.NotNull(itemName));
+        }
 
         #endregion
 
@@ -26,7 +59,7 @@ namespace WodiLib.Sys
         #region Null
 
         /// <summary>
-        /// 引数が <see langword="null"/> でないことを検証する際の例外処理
+        ///     引数が <see langword="null"/> でないことを検証する際の例外処理
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="itemName">検証項目名</param>
@@ -42,7 +75,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 引数が 空文字 でないことを検証する際の例外処理。
+        ///     引数が 空文字 でないことを検証する際の例外処理。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="itemName">検証項目名</param>
@@ -58,7 +91,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 列挙子に <see langword="null"/> が含まれないことを検証する際の例外処理。
+        ///     列挙子に <see langword="null"/> が含まれないことを検証する際の例外処理。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="itemName">検証項目名</param>
@@ -78,7 +111,7 @@ namespace WodiLib.Sys
         #region Value Compare
 
         /// <summary>
-        /// 値が指定値以上であることの検証時の例外処理。
+        ///     値が指定値以上であることの検証時の例外処理。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="itemName">検証項目名</param>
@@ -97,7 +130,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 値の範囲検証処理時の例外処理。
+        ///     値の範囲検証処理時の例外処理。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="itemName">検証項目名</param>
@@ -117,7 +150,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 同値検証時の例外処理。
+        ///     同値検証時の例外処理。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="itemName">検証項目名</param>
@@ -135,7 +168,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 文字列に改行が含まれないことの検証時の例外処理。
+        ///     文字列に改行が含まれないことの検証時の例外処理。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="itemName">検証項目名</param>
@@ -153,7 +186,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 文字列に改行が含まれないことの検証時の例外処理。
+        ///     文字列に改行が含まれないことの検証時の例外処理。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="value">検証値</param>
@@ -171,7 +204,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// サイズが指定以下であることの検証時の例外処理
+        ///     サイズが指定以下であることの検証時の例外処理
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="maxSize">最大サイズ</param>
@@ -192,7 +225,7 @@ namespace WodiLib.Sys
         #region Validate Argument in List
 
         /// <summary>
-        /// リストの範囲取得メソッドでインデックスと取得数の相関チェック時の例外処理。
+        ///     リストの範囲取得メソッドでインデックスと取得数の相関チェック時の例外処理。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="indexArgName">インデックス引数名</param>
@@ -210,7 +243,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 要素数が0でないことを検証する際の例外処理。
+        ///     要素数が0でないことを検証する際の例外処理。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="itemName">検証項目名</param>
@@ -226,7 +259,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// リスト要素数が超過しないことを検証する際の例外処理。
+        ///     リスト要素数が超過しないことを検証する際の例外処理。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="itemName">検証項目名</param>
@@ -244,7 +277,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// リスト要素数が不足しないことを検証する際の例外処理。
+        ///     リスト要素数が不足しないことを検証する際の例外処理。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="itemName">検証項目名</param>
@@ -266,7 +299,7 @@ namespace WodiLib.Sys
         #region Validate Argument in Tow Dimensional List
 
         /// <summary>
-        /// 二重リストの全行の要素数が一致することを検証する際の例外処理。
+        ///     二重リストの全行の要素数が一致することを検証する際の例外処理。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="rowNum">エラー行数</param>
@@ -287,7 +320,7 @@ namespace WodiLib.Sys
         #region Suitable
 
         /// <summary>
-        /// 引数不適切な場合の例外処理
+        ///     引数不適切な場合の例外処理
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="itemName">検証項目名</param>
@@ -309,7 +342,7 @@ namespace WodiLib.Sys
         #region Not Execute
 
         /// <summary>
-        /// 引数を理由に処理できない場合の例外処理。
+        ///     引数を理由に処理できない場合の例外処理。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="message">エラーメッセージ</param>
@@ -332,7 +365,7 @@ namespace WodiLib.Sys
         #region Invalid Operation
 
         /// <summary>
-        /// 検証エラー時に <see cref="InvalidOperationException"/> を発生させる。
+        ///     検証エラー時に <see cref="InvalidOperationException"/> を発生させる。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="message">エラーメッセージ</param>
@@ -349,15 +382,23 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 検証エラー時に <see cref="InvalidOperationException"/> を発生させる。
+        ///     検証エラー時に <see cref="InvalidOperationException"/> を発生させる。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
+        /// <param name="message">エラーメッセージ</param>
         /// <exception cref="InvalidCastException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void InvalidCastIf([DoesNotReturnIf(true)] bool isThrow)
+        public static void InvalidCastIf([DoesNotReturnIf(true)] bool isThrow,
+            Func<string>? message = null)
         {
             if (!isThrow) return;
+
+            if (message is not null)
+            {
+                throw new InvalidCastException(
+                    ErrorMessage.NotCast(message()));
+            }
 
             throw new InvalidCastException();
         }
@@ -367,7 +408,7 @@ namespace WodiLib.Sys
         #region NullPointer
 
         /// <summary>
-        /// <see langword="null"/> 検証時に <see langword="NullReferenceException"/> を発生させる。
+        ///     <see langword="null"/> 検証時に <see langword="NullReferenceException"/> を発生させる。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <exception cref="NullReferenceException">

@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 各Modelクラス基底クラスインタフェース
+    ///     各Modelクラス基底クラスインタフェース
     /// </summary>
     /// <typeparam name="TChild">Model実装クラス型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -21,7 +21,7 @@ namespace WodiLib.Sys
     }
 
     /// <summary>
-    /// 【読み取り専用】各Modelクラス基底クラスインタフェース
+    ///     【読み取り専用】各Modelクラス基底クラスインタフェース
     /// </summary>
     /// <typeparam name="TChild">Model実装クラス型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]

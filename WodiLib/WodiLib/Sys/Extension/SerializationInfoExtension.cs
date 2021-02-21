@@ -4,13 +4,13 @@ using System.Runtime.Serialization;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// System.Runtime.Serialization.SerializationInfo 拡張クラス
+    ///     System.Runtime.Serialization.SerializationInfo 拡張クラス
     /// </summary>
     [Obsolete]
     internal static class SerializationInfoExtension
     {
         /// <summary>
-        /// Serializationストアから値を返す。
+        ///     Serializationストアから値を返す。
         /// </summary>
         /// <param name="info">自分自身</param>
         /// <param name="name">取得する値に関連付けられた名前</param>

@@ -15,7 +15,7 @@ namespace WodiLib.Sys
     public partial class TwoDimensionalListBase<T>
     {
         /// <summary>
-        /// Overwrite メソッドの処理代理クラス
+        ///     Overwrite メソッドの処理代理クラス
         /// </summary>
         private class OverwriteAgent
         {
@@ -42,20 +42,20 @@ namespace WodiLib.Sys
             private Direction Direction { get; }
 
             /// <summary>変更前通知アクションリスト</summary>
-            private List<Action> CallCollectionChangingActionList { get; } = new List<Action>();
+            private List<Action> CallCollectionChangingActionList { get; } = new();
 
             /// <summary>処理本体リスト</summary>
-            private List<Action> CoreActionList { get; } = new List<Action>();
+            private List<Action> CoreActionList { get; } = new();
 
             /// <summary>変更後通知アクションリスト</summary>
-            private List<Action> CallCollectionChangedActionList { get; } = new List<Action>();
+            private List<Action> CallCollectionChangedActionList { get; } = new();
 
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Private Computed Property
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
             /// <summary>
-            /// 処理基準になる要素数
+            ///     処理基準になる要素数
             /// </summary>
             private int MainCount =>
                 Direction == Direction.Row
@@ -63,7 +63,7 @@ namespace WodiLib.Sys
                     : Outer.ColumnCount;
 
             /// <summary>
-            /// 更新要素数
+            ///     更新要素数
             /// </summary>
             private int UpdateCount =>
                 Index + OverwriteItems.Length > MainCount
@@ -71,14 +71,14 @@ namespace WodiLib.Sys
                     : OverwriteItems.Length;
 
             /// <summary>
-            /// 追加要素数
+            ///     追加要素数
             /// </summary>
             private int AddCount =>
                 OverwriteItems.Length - UpdateCount;
 
             /// <summary>
-            /// 行方向処理フラグ<br/>
-            /// 列方向処理の場合false
+            ///     行方向処理フラグ<br/>
+            ///     列方向処理の場合false
             /// </summary>
             private bool IsRowExecution =>
                 Direction == Direction.Row;
@@ -97,12 +97,12 @@ namespace WodiLib.Sys
 
             public static OverwriteAgent ForOverwriteRow(TwoDimensionalListBase<T> outer, int row, T[][] items)
             {
-                return new OverwriteAgent(outer, row, items, Direction.Row);
+                return new(outer, row, items, Direction.Row);
             }
 
             public static OverwriteAgent ForOverwriteColumn(TwoDimensionalListBase<T> outer, int column, T[][] items)
             {
-                return new OverwriteAgent(outer, column, items, Direction.Column);
+                return new(outer, column, items, Direction.Column);
             }
 
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -110,7 +110,7 @@ namespace WodiLib.Sys
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
             /// <summary>
-            /// コンストラクタで与えられた情報をもとに、必要な処理を実施する。
+            ///     コンストラクタで与えられた情報をもとに、必要な処理を実施する。
             /// </summary>
             public void Execute()
             {
@@ -123,7 +123,7 @@ namespace WodiLib.Sys
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
             /// <summary>
-            /// 処理実行の準備を行う。
+            ///     処理実行の準備を行う。
             /// </summary>
             private void PrepareExecuteMain()
             {
@@ -132,7 +132,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// 上書き処理実行の準備を行う。
+            ///     上書き処理実行の準備を行う。
             /// </summary>
             private void PrepareExecuteMain_ReplaceItem()
             {
@@ -167,7 +167,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// 追加処理実行の準備を行う。
+            ///     追加処理実行の準備を行う。
             /// </summary>
             private void PrepareExecuteMain_AddItems()
             {
@@ -197,7 +197,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// 処理実行本体
+            ///     処理実行本体
             /// </summary>
             private void ExecuteMain()
             {

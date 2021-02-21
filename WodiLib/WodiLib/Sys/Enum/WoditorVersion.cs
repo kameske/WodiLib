@@ -70,12 +70,12 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// バージョン識別コード
+        ///     バージョン識別コード
         /// </summary>
         public int VersionCode { get; }
 
         /// <summary>
-        /// バージョン名
+        ///     バージョン名
         /// </summary>
         public string VersionName { get; }
 

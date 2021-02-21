@@ -13,7 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// リスト編集メソッドの引数汎用検証処理実施クラス
+    ///     リスト編集メソッドの引数汎用検証処理実施クラス
     /// </summary>
     internal class RestrictedCapacityListValidator<T> : WodiLibListValidatorTemplate<T>
     {

@@ -11,7 +11,7 @@ using System;
 namespace WodiLib.Sys.Cmn
 {
     /// <summary>
-    /// ログ出力処理ハンドラクラス
+    ///     ログ出力処理ハンドラクラス
     /// </summary>
     public class WodiLibLogHandler
     {
@@ -52,7 +52,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="errorAction">エラーメッセージ処理</param>
         /// <param name="warningAction">警告メッセージ処理</param>
@@ -72,28 +72,28 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// エラーメッセージを処理する。
+        ///     エラーメッセージを処理する。
         /// </summary>
         /// <param name="message">メッセージ</param>
         internal void DoError(string? message)
             => ErrorAction?.Invoke(message);
 
         /// <summary>
-        /// 警告メッセージを処理する。
+        ///     警告メッセージを処理する。
         /// </summary>
         /// <param name="message">メッセージ</param>
         internal void DoWarning(string? message)
             => WarningAction?.Invoke(message);
 
         /// <summary>
-        /// 情報メッセージを処理する。
+        ///     情報メッセージを処理する。
         /// </summary>
         /// <param name="message">メッセージ</param>
         internal void DoInfo(string? message)
             => InfoAction?.Invoke(message);
 
         /// <summary>
-        /// デバッグメッセージを処理する。
+        ///     デバッグメッセージを処理する。
         /// </summary>
         /// <param name="message">メッセージ</param>
         internal void DoDebug(string? message)

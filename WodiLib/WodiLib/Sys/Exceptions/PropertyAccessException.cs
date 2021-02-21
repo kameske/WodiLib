@@ -8,23 +8,23 @@
 
 namespace WodiLib.Sys
 {
-    /// <inheritdoc />
+    /// <inheritdoc/>
     /// <summary>
-    /// プロパティアクセス禁止例外
+    ///     プロパティアクセス禁止例外
     /// </summary>
     public class PropertyAccessException : PropertyException
     {
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         public PropertyAccessException()
         {
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="message">エラーメッセージ</param>
         public PropertyAccessException(string message) : base(message)

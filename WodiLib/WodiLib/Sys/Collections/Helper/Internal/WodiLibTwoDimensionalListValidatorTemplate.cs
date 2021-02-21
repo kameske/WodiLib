@@ -9,12 +9,12 @@
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 二次元リスト編集メソッドの引数検証クラステンプレート
+    ///     二次元リスト編集メソッドの引数検証クラステンプレート
     /// </summary>
     /// <remarks>
-    /// 継承先で定義した <see cref="BaseValidator"/> を起動するだけの実装。<br/>
-    /// <see cref="BaseValidator"/> の検証処理を拡張したいときに対象のメソッドをオーバーライドして
-    /// 処理拡張を行う。
+    ///     継承先で定義した <see cref="BaseValidator"/> を起動するだけの実装。<br/>
+    ///     <see cref="BaseValidator"/> の検証処理を拡張したいときに対象のメソッドをオーバーライドして
+    ///     処理拡張を行う。
     /// </remarks>
     /// <typeparam name="T">リスト内包型</typeparam>
     internal abstract class WodiLibTwoDimensionalListValidator<T> : ITwoDimensionalListValidator<T>

@@ -11,7 +11,7 @@ using System;
 namespace WodiLib.Sys.Cmn
 {
     /// <summary>
-    /// WodiLib全体のバージョン設定
+    ///     WodiLib全体のバージョン設定
     /// </summary>
     public class VersionConfig : IVersionConfig
     {
@@ -20,7 +20,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// デフォルト設定キー名
+        ///     デフォルト設定キー名
         /// </summary>
         private static string DefaultKeyName => "default";
 
@@ -29,10 +29,10 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 現在の設定キー名
+        ///     現在の設定キー名
         /// </summary>
         /// <remarks>
-        /// キー名の変更は <see cref="ChangeTargetKey"/> メソッドで行う。
+        ///     キー名の変更は <see cref="ChangeTargetKey"/> メソッドで行う。
         /// </remarks>
         public static string TargetKeyName { get; private set; } = default!;
 
@@ -41,12 +41,12 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 設定キー名
+        ///     設定キー名
         /// </summary>
         public string KeyName { get; }
 
         /// <summary>
-        /// 設定バージョン
+        ///     設定バージョン
         /// </summary>
         public WoditorVersion Version { get; private set; }
 
@@ -55,7 +55,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンフィグコンテナ
+        ///     コンフィグコンテナ
         /// </summary>
         private static WodiLibContainer ConfigContainer { get; } = new();
 
@@ -64,7 +64,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// メインで使用する設定キーを変更する。
+        ///     メインで使用する設定キーを変更する。
         /// </summary>
         /// <param name="keyName">[NotEmpty] 設定キー名</param>
         /// <exception cref="ArgumentNullException">
@@ -82,7 +82,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// 設定したウディタバージョンを取得する。
+        ///     設定したウディタバージョンを取得する。
         /// </summary>
         /// <param name="keyName">
         ///     設定キー名。<br/>
@@ -96,8 +96,8 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// 指定されたキー名で管理される <see cref="VersionConfig"/> インスタンスに
-        /// ウディタバージョンをセットする。
+        ///     指定されたキー名で管理される <see cref="VersionConfig"/> インスタンスに
+        ///     ウディタバージョンをセットする。
         /// </summary>
         /// <param name="version">ウディタバージョン</param>
         /// <param name="keyName">
@@ -116,7 +116,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// コンフィグに設定されたバージョンが指定されたバージョンより上かどうかを返す。
+        ///     コンフィグに設定されたバージョンが指定されたバージョンより上かどうかを返す。
         /// </summary>
         /// <param name="version">比較バージョン</param>
         /// <param name="keyName">
@@ -136,7 +136,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// コンフィグに設定されたバージョンが指定されたバージョン以上かどうかを返す。
+        ///     コンフィグに設定されたバージョンが指定されたバージョン以上かどうかを返す。
         /// </summary>
         /// <param name="version">比較バージョン</param>
         /// <param name="keyName">
@@ -156,7 +156,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// コンフィグに設定されたバージョンが指定されたバージョン以下かどうかを返す。
+        ///     コンフィグに設定されたバージョンが指定されたバージョン以下かどうかを返す。
         /// </summary>
         /// <param name="version">比較バージョン</param>
         /// <param name="keyName">
@@ -176,7 +176,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// コンフィグに設定されたバージョンが指定されたバージョン以下かどうかを返す。
+        ///     コンフィグに設定されたバージョンが指定されたバージョン以下かどうかを返す。
         /// </summary>
         /// <param name="version">比較バージョン</param>
         /// <param name="keyName">
@@ -196,7 +196,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// コンフィグに設定されたバージョンが指定されたバージョン未満かどうかを返す。
+        ///     コンフィグに設定されたバージョンが指定されたバージョン未満かどうかを返す。
         /// </summary>
         /// <param name="version">比較バージョン</param>
         /// <param name="keyName">
@@ -220,7 +220,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 指定した設定キー名の設定インスタンスがコンテナに登録されていなければ登録する。
+        ///     指定した設定キー名の設定インスタンスがコンテナに登録されていなければ登録する。
         /// </summary>
         /// <param name="keyName">設定キー名</param>
         private static void RegisterConfigInstanceIfNeeded(string keyName)
@@ -233,7 +233,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// 設定キー名から設定インスタンスを取得する。
+        ///     設定キー名から設定インスタンスを取得する。
         /// </summary>
         /// <param name="keyName">設定キー名</param>
         /// <returns>設定インスタンス</returns>
@@ -253,7 +253,7 @@ namespace WodiLib.Sys.Cmn
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         private VersionConfig()
         {

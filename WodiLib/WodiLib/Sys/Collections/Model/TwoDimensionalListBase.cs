@@ -15,15 +15,15 @@ using System.Linq;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 二次元リスト基底クラス
+    ///     二次元リスト基底クラス
     /// </summary>
     /// <remarks>
-    /// 外側のリストを「行（Row）」、内側のリストを「列（Column）」として扱う。
-    /// すべての行について列数は常に同じ値を取り続ける。<br/>
-    /// <br/>
-    /// 要素の除去によって行数または列数が0となる場合、行数および列数どちらも0（=空の2次元リスト）となる。<br/>
-    /// コンストラクタに n * 0 のリストなどを設定しても
-    /// TwoDimensionalList 内では 0 * 0 の 空リストとして扱う。
+    ///     外側のリストを「行（Row）」、内側のリストを「列（Column）」として扱う。
+    ///     すべての行について列数は常に同じ値を取り続ける。<br/>
+    ///     <br/>
+    ///     要素の除去によって行数または列数が0となる場合、行数および列数どちらも0（=空の2次元リスト）となる。<br/>
+    ///     コンストラクタに n * 0 のリストなどを設定しても
+    ///     TwoDimensionalList 内では 0 * 0 の 空リストとして扱う。
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -41,14 +41,14 @@ namespace WodiLib.Sys
         //      Public Virtual Event
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public event EventHandler<TwoDimensionalCollectionChangeEventArgs<T>> TwoDimensionListChanging
         {
             add => TwoDimensionListChanging_Impl += value;
             remove => TwoDimensionListChanging_Impl -= value;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public virtual event EventHandler<TwoDimensionalCollectionChangeEventArgs<T>>? TwoDimensionListChanged
         {
             add => TwoDimensionListChanged_Impl += value;
@@ -59,10 +59,10 @@ namespace WodiLib.Sys
         //      Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool IsNotifyBeforeCollectionChange { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool IsNotifyAfterCollectionChange { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -74,7 +74,7 @@ namespace WodiLib.Sys
         private event EventHandler<TwoDimensionalCollectionChangeEventArgs<T>>? _twoDimensionListChanging;
 
         /// <summary>
-        /// 要素変更前通知
+        ///     要素変更前通知
         /// </summary>
         /// <remarks>
         ///     同じイベントを重複して登録することはできない。
@@ -94,7 +94,7 @@ namespace WodiLib.Sys
         private event EventHandler<TwoDimensionalCollectionChangeEventArgs<T>>? _twoDimensionListChanged;
 
         /// <summary>
-        /// 要素変更後通知
+        ///     要素変更後通知
         /// </summary>
         /// <remarks>
         ///     同じイベントを重複して登録することはできない。
@@ -114,16 +114,16 @@ namespace WodiLib.Sys
         //     Public Abstract Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public T this[int row, int column] => Get_Impl(row, 1, column, 1).First().First();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public abstract int RowCount { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public abstract int ColumnCount { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool IsEmpty => RowCount == 0;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -131,7 +131,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 各種操作時の検証処理実装
+        ///     各種操作時の検証処理実装
         /// </summary>
         private ITwoDimensionalListValidator<T>? Validator { get; }
 
@@ -140,7 +140,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         protected TwoDimensionalListBase()
         {
@@ -150,7 +150,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="initItems">初期要素</param>
         /// <exception cref="ArgumentNullException">
@@ -179,35 +179,35 @@ namespace WodiLib.Sys
         //     Public Abstract Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public abstract IEnumerator<IEnumerable<T>> GetEnumerator();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IEnumerable<T> GetRow(int row)
             => GetRow_Impl(row, 1).First();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IEnumerable<T> GetColumn(int column)
             => GetColumn_Impl(column, 1).First();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IEnumerable<IEnumerable<T>> GetRowRange(int row, int count)
             => GetRow_Impl(row, count);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IEnumerable<IEnumerable<T>> GetColumnRange(int column, int count)
             => GetColumn_Impl(column, count);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IEnumerable<IEnumerable<T>> GetRange(
             int row, int rowCount, int column, int columnCount)
             => Get_Impl(row, rowCount, column, columnCount);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool Equals(IEnumerable<IEnumerable<T>>? other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -218,14 +218,14 @@ namespace WodiLib.Sys
             return comparer.Equals(this, other);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool ItemEquals(IReadOnlyTwoDimensionalList<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             return Equals(other.AsEnumerable());
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override bool ItemEquals(TwoDimensionalListBase<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -250,11 +250,11 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 要素のデフォルト値を生成する。
+        ///     要素のデフォルト値を生成する。
         /// </summary>
         /// <remarks>
-        /// AdjustLength で要素を追加する必要がある際に
-        /// このメソッドで作成された値を追加する。
+        ///     AdjustLength で要素を追加する必要がある際に
+        ///     このメソッドで作成された値を追加する。
         /// </remarks>
         /// <param name="row">行番号</param>
         /// <param name="column">列番号</param>
@@ -266,10 +266,10 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// ITwoDimensionalListValidator&gt;T&lt; インスタンスを作成する。
+        ///     ITwoDimensionalListValidator&gt;T&lt; インスタンスを作成する。
         /// </summary>
         /// <remarks>
-        /// このメソッドはコンストラクタの冒頭で呼ばれる。
+        ///     このメソッドはコンストラクタの冒頭で呼ばれる。
         /// </remarks>
         /// <returns>検証処理インスタンス</returns>
         protected virtual ITwoDimensionalListValidator<T> MakeValidator()
@@ -280,14 +280,14 @@ namespace WodiLib.Sys
         #region Action Core
 
         /// <summary>
-        /// コンストラクタ処理本体
+        ///     コンストラクタ処理本体
         /// </summary>
         /// <param name="initItems">初期化要素</param>
         protected virtual void Constructor_Core(params T[][] initItems)
             => throw new NotSupportedException();
 
         /// <summary>
-        /// Get, GetRange メソッドの処理本体
+        ///     Get, GetRange メソッドの処理本体
         /// </summary>
         /// <param name="row">行番号</param>
         /// <param name="rowCount">行数</param>
@@ -298,7 +298,7 @@ namespace WodiLib.Sys
             => throw new NotSupportedException();
 
         /// <summary>
-        /// GetRow, GetRowRange メソッドの処理本体
+        ///     GetRow, GetRowRange メソッドの処理本体
         /// </summary>
         /// <param name="row">行番号</param>
         /// <param name="count">行数</param>
@@ -307,7 +307,7 @@ namespace WodiLib.Sys
             => throw new NotSupportedException();
 
         /// <summary>
-        /// GetColumn, GetColumnRange メソッドの処理本体
+        ///     GetColumn, GetColumnRange メソッドの処理本体
         /// </summary>
         /// <param name="column">列番号</param>
         /// <param name="count">列数</param>
@@ -316,7 +316,7 @@ namespace WodiLib.Sys
             => throw new NotSupportedException();
 
         /// <summary>
-        /// Set, SetRange メソッドの処理本体
+        ///     Set, SetRange メソッドの処理本体
         /// </summary>
         /// <param name="row">更新開始行番号</param>
         /// <param name="column">更新開始列番号</param>
@@ -325,7 +325,7 @@ namespace WodiLib.Sys
             => throw new NotSupportedException();
 
         /// <summary>
-        /// AddDataValues, AddRowRange, InsertRow, InsertRowRange メソッドの処理本体
+        ///     AddDataValues, AddRowRange, InsertRow, InsertRowRange メソッドの処理本体
         /// </summary>
         /// <param name="row">挿入行番号</param>
         /// <param name="items">挿入要素</param>
@@ -333,7 +333,7 @@ namespace WodiLib.Sys
             => throw new NotSupportedException();
 
         /// <summary>
-        /// AddColumn, AddColumnRange, InsertColumn, InsertColumnRange メソッドの処理本体
+        ///     AddColumn, AddColumnRange, InsertColumn, InsertColumnRange メソッドの処理本体
         /// </summary>
         /// <param name="column">挿入列番号</param>
         /// <param name="items">挿入要素</param>
@@ -341,7 +341,7 @@ namespace WodiLib.Sys
             => throw new NotSupportedException();
 
         /// <summary>
-        /// MoveRow, MoveRowRange メソッドの処理本体
+        ///     MoveRow, MoveRowRange メソッドの処理本体
         /// </summary>
         /// <param name="oldRow">移動前行番号</param>
         /// <param name="newRow">移動後行番号</param>
@@ -350,7 +350,7 @@ namespace WodiLib.Sys
             => throw new NotSupportedException();
 
         /// <summary>
-        /// MoveColumn, MoveColumnRange メソッドの処理本体
+        ///     MoveColumn, MoveColumnRange メソッドの処理本体
         /// </summary>
         /// <param name="oldColumn">移動前列番号</param>
         /// <param name="newColumn">移動後列番号</param>
@@ -359,7 +359,7 @@ namespace WodiLib.Sys
             => throw new NotSupportedException();
 
         /// <summary>
-        /// RemoveRow, RemoveRowRange メソッドの処理本体
+        ///     RemoveRow, RemoveRowRange メソッドの処理本体
         /// </summary>
         /// <param name="row">削除開始行番号</param>
         /// <param name="count">削除行数</param>
@@ -367,7 +367,7 @@ namespace WodiLib.Sys
             => throw new NotSupportedException();
 
         /// <summary>
-        /// RemoveColumn, RemoveColumnRange メソッドの処理本体
+        ///     RemoveColumn, RemoveColumnRange メソッドの処理本体
         /// </summary>
         /// <param name="column">削除開始列番号</param>
         /// <param name="count">削除列数</param>
@@ -375,18 +375,18 @@ namespace WodiLib.Sys
             => throw new NotSupportedException();
 
         /// <summary>
-        /// Reset メソッドの処理本体<br/>
-        /// AddDataValues, AddRowRange, InsertRow, InsertRowRange,
-        /// AddColumn, AddColumnRange, InsertColumn, InsertColumnRange メソッドにおいて
-        /// 自身が空リストの場合にも呼び出される
+        ///     Reset メソッドの処理本体<br/>
+        ///     AddDataValues, AddRowRange, InsertRow, InsertRowRange,
+        ///     AddColumn, AddColumnRange, InsertColumn, InsertColumnRange メソッドにおいて
+        ///     自身が空リストの場合にも呼び出される
         /// </summary>
         /// <param name="items">初期化要素</param>
         protected virtual void Reset_Core(T[][] items)
             => throw new NotSupportedException();
 
         /// <summary>
-        /// Clear メソッドの処理本体<br/>
-        /// 何らかの操作によって行数または列数が0になる場合も呼び出される。
+        ///     Clear メソッドの処理本体<br/>
+        ///     何らかの操作によって行数または列数が0になる場合も呼び出される。
         /// </summary>
         protected virtual void Clear_Core()
             => throw new NotSupportedException();
@@ -394,7 +394,7 @@ namespace WodiLib.Sys
         #endregion
 
         /// <summary>
-        /// 引数なしコンストラクタ、 Clear メソッド実行時に配列を初期化するための要素を作成する。
+        ///     引数なしコンストラクタ、 Clear メソッド実行時に配列を初期化するための要素を作成する。
         /// </summary>
         /// <returns>初期化要素。デフォルトでは空配列</returns>
         protected virtual T[][] MakeInitItems()
@@ -409,7 +409,7 @@ namespace WodiLib.Sys
         #region Action Implements
 
         /// <summary>
-        /// コンストラクタの処理実装
+        ///     コンストラクタの処理実装
         /// </summary>
         /// <param name="initItems">初期要素</param>
         protected void Constructor_Impl(params T[][] initItems)
@@ -419,7 +419,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Get, GetRange メソッドの処理実装
+        ///     Get, GetRange メソッドの処理実装
         /// </summary>
         /// <param name="row">行番号</param>
         /// <param name="rowCount">行数</param>
@@ -432,7 +432,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// GetRow, GetRowRange メソッドの処理実装
+        ///     GetRow, GetRowRange メソッドの処理実装
         /// </summary>
         /// <param name="row">行番号</param>
         /// <param name="count">行数</param>
@@ -443,7 +443,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// GetColumn, GetColumnRange メソッドの処理実装
+        ///     GetColumn, GetColumnRange メソッドの処理実装
         /// </summary>
         /// <param name="column">列番号</param>
         /// <param name="count">列数</param>
@@ -454,7 +454,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Set, SetRange メソッドの処理実装
+        ///     Set, SetRange メソッドの処理実装
         /// </summary>
         /// <param name="row">更新開始行番号</param>
         /// <param name="column">更新開始列番号</param>
@@ -479,7 +479,7 @@ namespace WodiLib.Sys
 
 
         /// <summary>
-        /// AddDataValues, AddRowRange, InsertRow, InsertRowRange メソッドの処理実装
+        ///     AddDataValues, AddRowRange, InsertRow, InsertRowRange メソッドの処理実装
         /// </summary>
         /// <param name="row">挿入行番号</param>
         /// <param name="items">挿入要素</param>
@@ -504,7 +504,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AddColumn, AddColumnRange, InsertColumn, InsertColumnRange メソッドの処理実装
+        ///     AddColumn, AddColumnRange, InsertColumn, InsertColumnRange メソッドの処理実装
         /// </summary>
         /// <param name="column">挿入列番号</param>
         /// <param name="items">挿入要素</param>
@@ -525,7 +525,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// OverwriteRow メソッドの処理実装
+        ///     OverwriteRow メソッドの処理実装
         /// </summary>
         /// <param name="row">開始行番号</param>
         /// <param name="items">上書き/追加リスト</param>
@@ -538,7 +538,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// OverwriteColumn メソッドの処理実装
+        ///     OverwriteColumn メソッドの処理実装
         /// </summary>
         /// <param name="column">開始列番号</param>
         /// <param name="items">上書き/追加リスト</param>
@@ -551,7 +551,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// MoveRow, MoveRowRange メソッドの処理実装
+        ///     MoveRow, MoveRowRange メソッドの処理実装
         /// </summary>
         /// <param name="oldRow">移動前行番号</param>
         /// <param name="newRow">移動後行番号</param>
@@ -573,7 +573,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// MoveColumn, MoveColumnRange メソッドの処理実装
+        ///     MoveColumn, MoveColumnRange メソッドの処理実装
         /// </summary>
         /// <param name="oldColumn">移動前列番号</param>
         /// <param name="newColumn">移動後列番号</param>
@@ -596,7 +596,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// RemoveRow, RemoveRowRange メソッドの処理実装
+        ///     RemoveRow, RemoveRowRange メソッドの処理実装
         /// </summary>
         /// <param name="row">削除開始行番号</param>
         /// <param name="count">削除行数</param>
@@ -631,7 +631,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// RemoveColumn, RemoveColumnRange メソッドの処理実装
+        ///     RemoveColumn, RemoveColumnRange メソッドの処理実装
         /// </summary>
         /// <param name="column">削除開始列番号</param>
         /// <param name="count">削除列数</param>
@@ -653,7 +653,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustLength メソッドの処理実装
+        ///     AdjustLength メソッドの処理実装
         /// </summary>
         /// <param name="rowLength">調整行数</param>
         /// <param name="columnLength">調整列数</param>
@@ -666,7 +666,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustLengthIfShort メソッドの処理実装
+        ///     AdjustLengthIfShort メソッドの処理実装
         /// </summary>
         /// <param name="rowLength">調整行数</param>
         /// <param name="columnLength">調整列数</param>
@@ -679,7 +679,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustLengthIfLong メソッドの処理実装
+        ///     AdjustLengthIfLong メソッドの処理実装
         /// </summary>
         /// <param name="rowLength">調整行数</param>
         /// <param name="columnLength">調整列数</param>
@@ -692,7 +692,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustRowLength メソッドの処理実装
+        ///     AdjustRowLength メソッドの処理実装
         /// </summary>
         /// <param name="length">調整要素数</param>
         protected void AdjustRowLength_Impl(int length)
@@ -704,7 +704,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustColumnLength メソッドの処理実装
+        ///     AdjustColumnLength メソッドの処理実装
         /// </summary>
         /// <param name="length">調整要素数</param>
         protected void AdjustColumnLength_Impl(int length)
@@ -716,7 +716,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustRowLengthIfShort メソッドの処理実装
+        ///     AdjustRowLengthIfShort メソッドの処理実装
         /// </summary>
         /// <param name="length">調整要素数</param>
         protected void AdjustRowLengthIfShort_Impl(int length)
@@ -728,7 +728,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustColumnLengthIfShort メソッドの処理実装
+        ///     AdjustColumnLengthIfShort メソッドの処理実装
         /// </summary>
         /// <param name="length">調整要素数</param>
         protected void AdjustColumnLengthIfShort_Impl(int length)
@@ -740,7 +740,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustRowLengthIfLong メソッドの処理実装
+        ///     AdjustRowLengthIfLong メソッドの処理実装
         /// </summary>
         /// <param name="length">調整要素数</param>
         protected void AdjustRowLengthIfLong_Impl(int length)
@@ -752,7 +752,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// AdjustColumnLengthIfLong メソッドの処理実装
+        ///     AdjustColumnLengthIfLong メソッドの処理実装
         /// </summary>
         /// <param name="length">調整要素数</param>
         protected void AdjustColumnLengthIfLong_Impl(int length)
@@ -764,7 +764,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Clear メソッドの処理実装
+        ///     Clear メソッドの処理実装
         /// </summary>
         protected void Clear_Impl()
         {
@@ -773,7 +773,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// Reset メソッドの処理実装
+        ///     Reset メソッドの処理実装
         /// </summary>
         /// <param name="items">初期化要素</param>
         protected void Reset_Impl(T[][] items)
@@ -799,7 +799,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// デフォルト要素配列を作成する。
+        ///     デフォルト要素配列を作成する。
         /// </summary>
         /// <param name="row">開始行番号</param>
         /// <param name="rowCount">行数</param>
@@ -818,14 +818,14 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// TwoDimensionalCollectionChanging イベントを発火する。
+        ///     TwoDimensionalCollectionChanging イベントを発火する。
         /// </summary>
         /// <param name="args">イベント引数</param>
         private void CallCollectionChanging(TwoDimensionalCollectionChangeEventArgs<T> args)
             => _twoDimensionListChanging?.Invoke(this, args);
 
         /// <summary>
-        /// TwoDimensionalCollectionChanged イベントを発火する。
+        ///     TwoDimensionalCollectionChanged イベントを発火する。
         /// </summary>
         /// <param name="args">イベント引数</param>
         private void CallCollectionChanged(TwoDimensionalCollectionChangeEventArgs<T> args)

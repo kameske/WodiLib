@@ -15,7 +15,7 @@ namespace WodiLib.Sys
     public abstract partial class ModelBase<TChild>
     {
         /// <summary>
-        /// <see cref="ModelBase{TChild}"/> のプロパティ変更通知Helperクラス
+        ///     <see cref="ModelBase{TChild}"/> のプロパティ変更通知Helperクラス
         /// </summary>
         protected static class PropertyChangeNotificationHelper
         {
@@ -33,23 +33,23 @@ namespace WodiLib.Sys
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
             /// <summary>
-            /// <see cref="INotifyPropertyChange"/> が通知したプロパティ名を
-            /// 自身が通知するかを決定する。
+            ///     <see cref="INotifyPropertyChange"/> が通知したプロパティ名を
+            ///     自身が通知するかを決定する。
             /// </summary>
             /// <remarks>
-            /// <see langword="false"/> を返却した場合、そのプロパティは通知しない。<br/>
-            /// 通知プロパティ名を変化させたい場合は <see cref="MapNotifyPropertyName"/> を使用する。
+            ///     <see langword="false"/> を返却した場合、そのプロパティは通知しない。<br/>
+            ///     通知プロパティ名を変化させたい場合は <see cref="MapNotifyPropertyName"/> を使用する。
             /// </remarks>
             /// <param name="sender">通知送信インスタンス</param>
             /// <param name="propertyName">通知プロパティ名</param>
             public delegate bool FilterNotifyPropertyName(object sender, string propertyName);
 
             /// <summary>
-            /// <see cref="INotifyPropertyChange"/> が通知したプロパティ名を
-            /// 自身がどのように通知するかを決定する。
+            ///     <see cref="INotifyPropertyChange"/> が通知したプロパティ名を
+            ///     自身がどのように通知するかを決定する。
             /// </summary>
             /// <remarks>
-            /// <see langword="null"/> を返却した場合、そのプロパティは通知しない。
+            ///     <see langword="null"/> を返却した場合、そのプロパティは通知しない。
             /// </remarks>
             /// <param name="sender">通知送信インスタンス</param>
             /// <param name="propertyName">通知プロパティ名</param>
@@ -124,7 +124,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// プロパティ名 Mapper から <see cref="PropertyChangingEventArgs"/> を取得する。
+            ///     プロパティ名 Mapper から <see cref="PropertyChangingEventArgs"/> を取得する。
             /// </summary>
             /// <param name="sender">通知送信インスタンス</param>
             /// <param name="origArgs">送信通知引数</param>
@@ -208,7 +208,7 @@ namespace WodiLib.Sys
             }
 
             /// <summary>
-            /// プロパティ名 Mapper から <see cref="PropertyChangedEventArgs"/> を取得する。
+            ///     プロパティ名 Mapper から <see cref="PropertyChangedEventArgs"/> を取得する。
             /// </summary>
             /// <param name="sender">通知送信インスタンス</param>
             /// <param name="origArgs">送信通知引数</param>

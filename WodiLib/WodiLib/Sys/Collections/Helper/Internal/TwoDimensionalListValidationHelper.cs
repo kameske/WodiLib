@@ -13,18 +13,18 @@ using System.Linq;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 二次元リスト検証 Helper クラス
+    ///     二次元リスト検証 Helper クラス
     /// </summary>
     internal static class TwoDimensionalListValidationHelper
     {
         /// <summary>
-        /// 各要素が null でないことを検証する。
+        ///     各要素が null でないことを検証する。
         /// </summary>
         /// <param name="target">検証対象</param>
         /// <param name="itemName">エラーメッセージ中の要素名</param>
         /// <typeparam name="T">リスト内包型</typeparam>
         /// <exception cref="ArgumentNullException">
-        ///   <paramref name="target"/> の行、または列に <see langword="true"/> 要素が存在する場合
+        ///     <paramref name="target"/> の行、または列に <see langword="true"/> 要素が存在する場合
         /// </exception>
         public static void ItemNotNull<T>(IReadOnlyList<IReadOnlyList<T>> target,
             string itemName = "initItems")
@@ -34,7 +34,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// 各行の要素数が一致することを検証する。
+        ///     各行の要素数が一致することを検証する。
         /// </summary>
         /// <param name="target">検証対象</param>
         /// <typeparam name="T">リスト内包型</typeparam>
@@ -52,7 +52,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// サイズが一致することを検証する。
+        ///     サイズが一致することを検証する。
         /// </summary>
         /// <param name="size">検証対象</param>
         /// <param name="count">一致すべき値</param>
@@ -65,7 +65,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        /// リストの要素数が0でないことを検証する。
+        ///     リストの要素数が0でないことを検証する。
         /// </summary>
         /// <param name="listCount">要素数</param>
         /// <param name="direction">操作方向</param>

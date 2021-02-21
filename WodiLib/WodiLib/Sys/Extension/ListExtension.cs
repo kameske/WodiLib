@@ -12,12 +12,12 @@ using System.Collections.Generic;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// リストの拡張クラス
+    ///     リストの拡張クラス
     /// </summary>
     internal static class ListExtension
     {
         /// <summary>
-        /// リストの長さを調整する。
+        ///     リストの長さを調整する。
         /// </summary>
         /// <param name="target">対象</param>
         /// <param name="length">

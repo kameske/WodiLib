@@ -11,7 +11,7 @@ using System;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// <see cref="TypeSafeEnum{T}"/>の要素が重複して登録されようとした場合に発生する例外
+    ///     <see cref="TypeSafeEnum{T}"/>の要素が重複して登録されようとした場合に発生する例外
     /// </summary>
     public class DuplicateEnumException : Exception
     {
