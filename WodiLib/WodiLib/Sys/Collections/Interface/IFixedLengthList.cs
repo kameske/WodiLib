@@ -109,7 +109,7 @@ namespace WodiLib.Sys
         ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
         ///     または <paramref name="initItems"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
-        /// <exception cref="InvalidOperationException">
+        /// <exception cref="ArgumentException">
         ///     <paramref name="initItems"/> の要素数が
         ///     <see cref="IReadOnlyFixedLengthList{T}.GetCapacity"/> と一致しない場合。
         /// </exception>

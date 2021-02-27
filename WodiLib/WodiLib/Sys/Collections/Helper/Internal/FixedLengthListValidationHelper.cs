@@ -21,10 +21,10 @@ namespace WodiLib.Sys
         /// <param name="count">要素数</param>
         /// <param name="capacity">要素数</param>
         /// <param name="itemName">エラーメッセージ中の項目名</param>
-        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
+        /// <exception cref="ArgumentException">リストの要素数が不適切な場合</exception>
         public static void ItemCount(int count, int capacity, string itemName = "initItems")
         {
-            ThrowHelper.InvalidOperationIf(count != capacity,
+            ThrowHelper.ValidateArgumentNotExecute(count != capacity,
                 () => ErrorMessage.NotEqual($"{itemName}の要素数", $"適切な要素数({capacity})"));
         }
 
@@ -32,9 +32,13 @@ namespace WodiLib.Sys
         ///     容量設定を検証する。
         /// </summary>
         /// <param name="capacity">容量</param>
+        /// <exception cref="InvalidOperationException">
+        ///     <paramref name="capacity"/> が 0 未満の場合。
+        /// </exception>
         public static void CapacityConfig(int capacity)
         {
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(capacity < 0, "容量", 0, capacity);
+            ThrowHelper.InvalidOperationIf(capacity < 0,
+                () => ErrorMessage.GreaterOrEqual("Capacity", 0, capacity));
         }
     }
 }

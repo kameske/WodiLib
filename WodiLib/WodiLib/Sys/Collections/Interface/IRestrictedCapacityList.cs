@@ -58,8 +58,8 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="item"/> が <see langword="null"/> の場合。
         /// </exception>
-        /// <exception cref="InvalidOperationException">
-        ///     追加操作によって要素数が<see cref="IReadOnlyRestrictedCapacityList{T}.GetMaxCapacity"/>を超える場合。
+        /// <exception cref="ArgumentException">
+        ///     追加操作によって要素数が <see cref="IReadOnlyRestrictedCapacityList{T}.GetMaxCapacity"/> を超える場合。
         /// </exception>
         public void Add(T item);
 
@@ -71,8 +71,8 @@ namespace WodiLib.Sys
         ///     <paramref name="items"/> が <see langword="null"/> の場合、
         ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
-        /// <exception cref="InvalidOperationException">
-        ///     追加操作によって要素数が<see cref="IReadOnlyRestrictedCapacityList{T}.GetMaxCapacity"/>を超える場合。
+        /// <exception cref="ArgumentException">
+        ///     追加操作によって要素数が <see cref="IReadOnlyRestrictedCapacityList{T}.GetMaxCapacity"/> を超える場合。
         /// </exception>
         public void AddRange(IEnumerable<T> items);
 
@@ -88,8 +88,8 @@ namespace WodiLib.Sys
         ///     <paramref name="item"/> が <see langword="null"/> の場合、
         ///     または <paramref name="item"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
-        /// <exception cref="InvalidOperationException">
-        ///     追加操作によって要素数が<see cref="IReadOnlyRestrictedCapacityList{T}.GetMaxCapacity"/>を超える場合。
+        /// <exception cref="ArgumentException">
+        ///     追加操作によって要素数が <see cref="IReadOnlyRestrictedCapacityList{T}.GetMaxCapacity"/> を超える場合。
         /// </exception>
         public void Insert(int index, T item);
 
@@ -105,8 +105,8 @@ namespace WodiLib.Sys
         ///     <paramref name="items"/> が <see langword="null"/> の場合、
         ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
-        /// <exception cref="InvalidOperationException">
-        ///     追加操作によって要素数が<see cref="IReadOnlyRestrictedCapacityList{T}.GetMaxCapacity"/>を超える場合。
+        /// <exception cref="ArgumentException">
+        ///     追加操作によって要素数が <see cref="IReadOnlyRestrictedCapacityList{T}.GetMaxCapacity"/> を超える場合。
         /// </exception>
         public void InsertRange(int index, IEnumerable<T> items);
 
@@ -125,8 +125,8 @@ namespace WodiLib.Sys
         ///     <paramref name="items"/> が <see langword="null"/> の場合。
         ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
-        /// <exception cref="InvalidOperationException">
-        ///     追加操作によって要素数が<see cref="IReadOnlyRestrictedCapacityList{T}.GetMaxCapacity"/>を超える場合。
+        /// <exception cref="ArgumentException">
+        ///     追加操作によって要素数が <see cref="IReadOnlyRestrictedCapacityList{T}.GetMaxCapacity"/> を超える場合。
         /// </exception>
         public void Overwrite(int index, IEnumerable<T> items);
 
@@ -174,7 +174,7 @@ namespace WodiLib.Sys
         /// <returns>
         ///     <paramref name="item"/> が存在する場合 <see langword="true"/>。それ以外の場合は <see langword="false"/>。
         /// </returns>
-        /// <exception cref="InvalidOperationException">
+        /// <exception cref="ArgumentException">
         ///     削除した結果要素数が<see cref="IReadOnlyRestrictedCapacityList{T}.GetMinCapacity"/>未満になる場合。
         /// </exception>
         public bool Remove([AllowNull] T item);
@@ -186,7 +186,7 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="index"/> が指定範囲外の場合。
         /// </exception>
-        /// <exception cref="InvalidOperationException">
+        /// <exception cref="ArgumentException">
         ///     削除した結果要素数が<see cref="IReadOnlyRestrictedCapacityList{T}.GetMinCapacity"/>未満になる場合。
         /// </exception>
         public void RemoveAt(int index);
@@ -199,9 +199,9 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="index"/>, <paramref name="count"/> が指定範囲外の場合。
         /// </exception>
-        /// <exception cref="ArgumentException">有効な範囲外の要素を削除しようとした場合。</exception>
-        /// <exception cref="InvalidOperationException">
-        ///     削除した結果要素数が<see cref="IReadOnlyRestrictedCapacityList{T}.GetMinCapacity"/>未満になる場合。
+        /// <exception cref="ArgumentException">
+        ///     有効な範囲外の要素を削除しようとした場合、
+        ///     または削除した結果要素数が<see cref="IReadOnlyRestrictedCapacityList{T}.GetMinCapacity"/>未満になる場合。
         /// </exception>
         public void RemoveRange(int index, int count);
 
@@ -261,7 +261,7 @@ namespace WodiLib.Sys
         ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
         ///     または <paramref name="initItems"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
-        /// <exception cref="InvalidOperationException">
+        /// <exception cref="ArgumentException">
         ///     <paramref name="initItems"/> の要素数が
         ///     <see cref="IReadOnlyRestrictedCapacityList{T}.GetMinCapacity"/> 未満、
         ///     または<see cref="IReadOnlyRestrictedCapacityList{T}.GetMaxCapacity"/> を超える場合。
@@ -300,7 +300,7 @@ namespace WodiLib.Sys
         /// <param name="values">ディープコピー時の上書き要素</param>
         /// <returns>自身をディープコピーしたインスタンス</returns>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="length"/> が <see langword="null"/> ではない かつ 指定範囲外の場合
+        ///     <paramref name="length"/> が <see langword="null"/> ではない かつ 指定範囲外の場合。
         /// </exception>
         public new IReadOnlyRestrictedCapacityList<T> DeepCloneWith(int? length = null,
             IEnumerable<KeyValuePair<int, T>>? values = null);

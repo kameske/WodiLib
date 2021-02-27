@@ -55,7 +55,7 @@ namespace WodiLib.Sys
         /// <param name="items">追加する要素</param>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="items"/> が <see langword="null"/> の場合、
-        ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合
+        ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
         public void AddRange(IEnumerable<T> items);
 
@@ -65,11 +65,11 @@ namespace WodiLib.Sys
         /// <param name="index">[Range(0, <see cref="IReadOnlyList{T}.Count"/>)] インデックス</param>
         /// <param name="items">追加する要素</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="index"/> が指定範囲外の場合
+        ///     <paramref name="index"/> が指定範囲外の場合。
         /// </exception>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="items"/> が <see langword="null"/> の場合、
-        ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合
+        ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
         public void InsertRange(int index, IEnumerable<T> items);
 
@@ -79,11 +79,11 @@ namespace WodiLib.Sys
         /// <param name="index">[Range(0, <see cref="IReadOnlyList{T}.Count"/>)] インデックス</param>
         /// <param name="items">上書き/追加リスト</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="index"/> が指定範囲外の場合
+        ///     <paramref name="index"/> が指定範囲外の場合。
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        ///     <paramref name="items"/> が <see langword="null"/> の場合
-        ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合
+        ///     <paramref name="items"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
         /// <example>
         ///     <code>
@@ -107,10 +107,10 @@ namespace WodiLib.Sys
         /// <param name="oldIndex">[Range(0, <see cref="IReadOnlyList{T}.Count"/> - 1)] 移動する項目のインデックス</param>
         /// <param name="newIndex">[Range(0, <see cref="IReadOnlyList{T}.Count"/> - 1)] 移動先のインデックス</param>
         /// <exception cref="InvalidOperationException">
-        ///     自身の要素数が0の場合
+        ///     自身の要素数が0の場合。
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="oldIndex"/>, <paramref name="newIndex"/> が指定範囲外の場合
+        ///     <paramref name="oldIndex"/>, <paramref name="newIndex"/> が指定範囲外の場合。
         /// </exception>
         public void Move(int oldIndex, int newIndex);
 
@@ -130,10 +130,10 @@ namespace WodiLib.Sys
         ///     移動させる要素数
         /// </param>
         /// <exception cref="InvalidOperationException">
-        ///     自身の要素数が0の場合
+        ///     自身の要素数が0の場合。
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="oldIndex"/>, <paramref name="newIndex"/>, <paramref name="count"/> が指定範囲外の場合
+        ///     <paramref name="oldIndex"/>, <paramref name="newIndex"/>, <paramref name="count"/> が指定範囲外の場合。
         /// </exception>
         /// <exception cref="ArgumentException">有効な範囲外の要素を移動しようとした場合</exception>
         public void MoveRange(int oldIndex, int newIndex, int count);
@@ -144,7 +144,7 @@ namespace WodiLib.Sys
         /// <param name="index">[Range(0, <see cref="IReadOnlyList{T}.Count"/> - 1)] インデックス</param>
         /// <param name="count">[Range(0, <see cref="IReadOnlyList{T}.Count"/>)] 削除する要素数</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="index"/>, <paramref name="count"/> が指定範囲外の場合
+        ///     <paramref name="index"/>, <paramref name="count"/> が指定範囲外の場合。
         /// </exception>
         /// <exception cref="ArgumentException">有効な範囲外の要素を削除しようとした場合</exception>
         public void RemoveRange(int index, int count);
@@ -154,7 +154,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="length">[Range(0, <see cref="int.MaxValue"/>)] 調整する要素数</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="length"/> が指定範囲外の場合
+        ///     <paramref name="length"/> が指定範囲外の場合。
         /// </exception>
         public void AdjustLength(int length);
 
@@ -163,7 +163,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="length">[Range(0, <see cref="int.MaxValue"/>)] 調整する要素数</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="length"/> が指定範囲外の場合
+        ///     <paramref name="length"/> が指定範囲外の場合。
         /// </exception>
         public void AdjustLengthIfShort(int length);
 
@@ -172,7 +172,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="length">[Range(0, <see cref="int.MaxValue"/>)] 調整する要素数</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="length"/> が指定範囲外の場合
+        ///     <paramref name="length"/> が指定範囲外の場合。
         /// </exception>
         public void AdjustLengthIfLong(int length);
 
@@ -182,7 +182,7 @@ namespace WodiLib.Sys
         /// <param name="initItems">リストに詰め直す要素</param>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
-        ///     または<paramref name="initItems"/> に <see langword="null"/> 要素が含まれる場合
+        ///     または<paramref name="initItems"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
         public void Reset(IEnumerable<T> initItems);
 
@@ -214,7 +214,7 @@ namespace WodiLib.Sys
         /// <param name="count">[Range(0, <see cref="IReadOnlyList{T}.Count"/>)] 要素数</param>
         /// <returns>指定範囲の要素簡易コピーリスト</returns>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="index"/>, <paramref name="count"/>が指定範囲外の場合
+        ///     <paramref name="index"/>, <paramref name="count"/>が指定範囲外の場合。
         /// </exception>
         /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合</exception>
         public IEnumerable<T> GetRange(int index, int count);
@@ -239,10 +239,10 @@ namespace WodiLib.Sys
         /// <param name="array">コピー先の配列</param>
         /// <param name="index">[Range(0, <see cref="IReadOnlyCollection{T}.Count"/> - 1)] コピー開始インデックス</param>
         /// <exception cref="ArgumentNullException">
-        ///     <paramref name="array"/> が <see langword="null"/> の場合
+        ///     <paramref name="array"/> が <see langword="null"/> の場合。
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="index"/> が 0 未満の場合
+        ///     <paramref name="index"/> が 0 未満の場合。
         /// </exception>
         /// <exception cref="ArgumentException">コピー先の領域が不足する場合</exception>
         public void CopyTo(T[] array, int index);

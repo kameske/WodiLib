@@ -99,7 +99,6 @@ namespace WodiLib.Sys
         /// <summary>
         ///     コンストラクタ
         /// </summary>
-        /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         protected FixedLengthList()
         {
             var items = MakeClearItems();
@@ -118,12 +117,13 @@ namespace WodiLib.Sys
         ///     コンストラクタ
         /// </summary>
         /// <param name="initItems">初期リスト</param>
-        /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         /// <exception cref="ArgumentNullException">
-        ///     initItemsがnullの場合、
-        ///     またはinitItems中にnullが含まれる場合
+        ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
         /// </exception>
-        /// <exception cref="InvalidOperationException">listの要素数が不適切な場合</exception>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="initItems"/> の要素数が <see cref="GetCapacity"/> と異なる場合。
+        /// </exception>
         protected FixedLengthList(IEnumerable<T> initItems)
         {
             if (initItems is null)
@@ -328,12 +328,14 @@ namespace WodiLib.Sys
         /// </remarks>
         /// <param name="index">インデックス</param>
         /// <returns>要素のデフォルト値</returns>
+        [return: NotNull]
         protected abstract T MakeDefaultItem(int index);
 
         /// <summary>
         ///     自身の検証処理を実行する <see cref="IWodiLibListValidator{T}"/> インスタンスを生成する。
         /// </summary>
         /// <returns>検証処理実行クラスのインスタンス。検証処理を行わない場合 <see langward="null"/></returns>
+        [return: MaybeNull]
         protected virtual IWodiLibListValidator<T> MakeValidator()
         {
             return new FixedLengthListValidator<T>(this);
@@ -363,7 +365,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <returns>初期化用要素</returns>
         /// <exception cref="NullReferenceException">
-        ///     <see cref="MakeDefaultItem"/> が <see langword="null"/> を返却した場合
+        ///     <see cref="MakeDefaultItem"/> が <see langword="null"/> を返却した場合。
         /// </exception>
         private List<T> MakeClearItems()
             => MakeItems(0, GetCapacity()).ToList();
@@ -375,7 +377,7 @@ namespace WodiLib.Sys
         /// <param name="count">挿入または更新要素数</param>
         /// <returns>挿入または更新要素</returns>
         /// <exception cref="NullReferenceException">
-        ///     <see cref="MakeDefaultItem"/> が <see langword="null"/> を返却した場合
+        ///     <see cref="MakeDefaultItem"/> が <see langword="null"/> を返却した場合。
         /// </exception>
         private IEnumerable<T> MakeItems(int index, int count)
         {

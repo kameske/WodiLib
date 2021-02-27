@@ -259,12 +259,12 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        ///     リスト要素数が超過しないことを検証する際の例外処理。
+        ///     引数を元にした操作によってリスト要素数が超過しないことを検証する際の例外処理。
         /// </summary>
         /// <param name="isThrow">検証結果</param>
         /// <param name="itemName">検証項目名</param>
         /// <param name="limit">要素上限数</param>
-        /// <exception cref="InvalidOperationException">
+        /// <exception cref="ArgumentException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
         public static void ValidateListMaxItemCount([DoesNotReturnIf(true)] bool isThrow,
@@ -272,7 +272,7 @@ namespace WodiLib.Sys
         {
             if (!isThrow) return;
 
-            throw new InvalidOperationException(
+            throw new ArgumentException(
                 ErrorMessage.OverListLength(limit, itemName));
         }
 
@@ -290,7 +290,7 @@ namespace WodiLib.Sys
         {
             if (!isThrow) return;
 
-            throw new InvalidOperationException(
+            throw new ArgumentException(
                 ErrorMessage.UnderListLength(limit, itemName));
         }
 

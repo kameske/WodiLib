@@ -23,7 +23,7 @@ namespace WodiLib.Sys
         /// <param name="listCount">リスト要素数</param>
         /// <param name="itemName">エラーメッセージ中の項目名</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="index"/> が 0 未満 または <paramref name="listCount"/> - 1 以上の場合。
+        ///     <paramref name="index"/> が 0 未満 または <paramref name="listCount"/> 以上の場合。
         /// </exception>
         public static void SelectIndex(int index, int listCount, string itemName = "index")
         {
@@ -57,7 +57,7 @@ namespace WodiLib.Sys
         /// <param name="listCount">リスト要素数</param>
         /// <param name="itemName">エラーメッセージ中の項目名</param>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     count が 0 未満 または listCount を超える場合
+        ///     <paramref name="count"/> が 0 未満 または <paramref name="listCount"/> を超える場合
         /// </exception>
         public static void Count(int count, int listCount,
             string itemName = "count")
@@ -104,7 +104,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="listCount">要素数</param>
         /// <exception cref="InvalidOperationException">
-        ///     要素数が0の場合
+        ///     <paramref name="listCount"/> が 0 の場合
         /// </exception>
         public static void ItemCountNotZero(int listCount)
         {

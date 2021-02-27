@@ -98,7 +98,6 @@ namespace WodiLib.Sys
         /// <summary>
         ///     コンストラクタ
         /// </summary>
-        /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         protected RestrictedCapacityList()
         {
             // MakeClearItems() 内で自身にアクセスする可能性を考慮して Items を空リストで初期化
@@ -121,12 +120,14 @@ namespace WodiLib.Sys
         ///     コンストラクタ
         /// </summary>
         /// <param name="initItems">初期要素</param>
-        /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
-        ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合
+        ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
         /// </exception>
-        /// <exception cref="InvalidOperationException"><paramref name="initItems"/> の要素数が不適切な場合</exception>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="initItems"/> の要素数が <see cref="GetMinCapacity"/> 未満
+        ///     または <see cref="GetMaxCapacity"/> を超える場合。
+        /// </exception>
         protected RestrictedCapacityList(IEnumerable<T> initItems)
         {
             ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
@@ -416,6 +417,7 @@ namespace WodiLib.Sys
         /// </remarks>
         /// <param name="index">インデックス</param>
         /// <returns>要素のデフォルト値</returns>
+        [return: NotNull]
         protected abstract T MakeDefaultItem(int index);
 
         /// <summary>
@@ -452,7 +454,7 @@ namespace WodiLib.Sys
         /// </summary>
         /// <returns>初期化用要素</returns>
         /// <exception cref="NullReferenceException">
-        ///     <see cref="MakeDefaultItem"/> が <see langword="null"/> を返却した場合
+        ///     <see cref="MakeDefaultItem"/> が <see langword="null"/> を返却した場合。
         /// </exception>
         private List<T> MakeClearItems()
             => MakeItems(0, GetMinCapacity()).ToList();
@@ -464,7 +466,7 @@ namespace WodiLib.Sys
         /// <param name="count">挿入または更新要素数</param>
         /// <returns>挿入または更新要素</returns>
         /// <exception cref="NullReferenceException">
-        ///     <see cref="MakeDefaultItem"/> が <see langword="null"/> を返却した場合
+        ///     <see cref="MakeDefaultItem"/> が <see langword="null"/> を返却した場合。
         /// </exception>
         private IEnumerable<T> MakeItems(int index, int count)
         {

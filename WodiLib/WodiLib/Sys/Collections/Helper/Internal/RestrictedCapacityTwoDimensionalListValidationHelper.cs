@@ -81,6 +81,9 @@ namespace WodiLib.Sys
         /// <param name="count">要素数</param>
         /// <param name="max">最大値</param>
         /// <param name="direction">行 or 列</param>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="count"/> &gt; <paramref name="max"/> の場合。
+        /// </exception>
         public static void ItemMaxCount(int count, int max, Direction direction)
         {
             ThrowHelper.ValidateListMaxItemCount(count > max,
@@ -93,6 +96,9 @@ namespace WodiLib.Sys
         /// <param name="count">要素数</param>
         /// <param name="min">最小値</param>
         /// <param name="direction">行 or 列</param>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="count"/> &lt; <paramref name="min"/> の場合。
+        /// </exception>
         public static void ItemMinCount(int count, int min, Direction direction)
         {
             ThrowHelper.ValidateListMinItemCount(count < min,

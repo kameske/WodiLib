@@ -42,7 +42,7 @@ namespace WodiLib.Sys
 #endif
 
             BaseValidator?.Constructor(initItems);
-            RestrictedListValidationHelper.ItemCount(
+            RestrictedListValidationHelper.ArgumentItemsCount(
                 initItems.Count, Target.GetMinCapacity(), Target.GetMaxCapacity());
         }
 
@@ -85,7 +85,7 @@ namespace WodiLib.Sys
         public override void AdjustLength(int length)
         {
             BaseValidator?.AdjustLength(length);
-            RestrictedListValidationHelper.ItemCount(
+            RestrictedListValidationHelper.ArgumentItemsCount(
                 length, Target.GetMinCapacity(), Target.GetMaxCapacity(),
                 nameof(length));
         }
@@ -93,7 +93,7 @@ namespace WodiLib.Sys
         public override void AdjustLengthIfShort(int length)
         {
             BaseValidator?.AdjustLengthIfShort(length);
-            RestrictedListValidationHelper.ItemCount(
+            RestrictedListValidationHelper.ArgumentItemsCount(
                 length, Target.GetMinCapacity(), Target.GetMaxCapacity(),
                 nameof(length));
         }
@@ -101,7 +101,7 @@ namespace WodiLib.Sys
         public override void AdjustLengthIfLong(int length)
         {
             BaseValidator?.AdjustLengthIfLong(length);
-            RestrictedListValidationHelper.ItemCount(
+            RestrictedListValidationHelper.ArgumentItemsCount(
                 length, Target.GetMinCapacity(), Target.GetMaxCapacity(),
                 nameof(length));
         }
@@ -109,7 +109,7 @@ namespace WodiLib.Sys
         public override void Reset(IReadOnlyList<T> items)
         {
             BaseValidator?.Reset(items);
-            RestrictedListValidationHelper.ItemCount(
+            RestrictedListValidationHelper.ArgumentItemsCount(
                 items.Count, Target.GetMinCapacity(), Target.GetMaxCapacity(),
                 nameof(items));
         }

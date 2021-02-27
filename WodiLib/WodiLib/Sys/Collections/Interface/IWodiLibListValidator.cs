@@ -8,7 +8,7 @@ namespace WodiLib.Sys
     ///     WodiLib 独自実装リスト検証処理インタフェース
     /// </summary>
     /// <remarks>
-    ///     <see cref="IExtendedList{T, TImpl}"/>, <see cref="IRestrictedCapacityList{T}"/>,
+    ///     <see cref="IRestrictedCapacityList{T}"/>,
     ///     <see cref="IFixedLengthList{T}"/> で用いられる。
     /// </remarks>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
