@@ -42,7 +42,7 @@ namespace WodiLib.Database
         /// </summary>
         /// <param name="id">ID</param>
         /// <param name="code">コード値</param>
-        public DBDataSettingType(string id, int code) : base(id)
+        private DBDataSettingType(string id, int code) : base(id)
         {
             Code = code;
         }
