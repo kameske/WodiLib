@@ -173,7 +173,7 @@ namespace WodiLib.Ini
         /// </summary>
         /// <param name="id">ID</param>
         /// <param name="code">コード値</param>
-        public EventCommandShortCutKey(string id, string code) : base(id)
+        private EventCommandShortCutKey(string id, string code) : base(id)
         {
             Code = code;
         }
