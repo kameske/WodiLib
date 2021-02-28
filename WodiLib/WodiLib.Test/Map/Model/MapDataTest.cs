@@ -704,6 +704,58 @@ namespace WodiLib.Test.Map
         }
 
         [Test]
+        public static void ToBinaryVer2255MapTest()
+        {
+            MapFileTestItemGenerator.OutputMapFile();
+            var fixMapData = MapFileTestItemGenerator.GenerateMap2255Data();
+            var fixMapDataBuf = fixMapData.ToBinary();
+
+            using (var fs = new FileStream($@"{MapFileTestItemGenerator.TestWorkRootDir}\Map2.255.mps", FileMode.Open))
+            {
+                var length = (int) fs.Length;
+                // ファイルサイズが規定でない場合誤作動防止の為テスト失敗にする
+                Assert.AreEqual(length, 3890);
+
+                var fileData = new byte[length];
+                fs.Read(fileData, 0, length);
+
+                // binデータ出力用
+                var builder = new StringBuilder();
+                foreach (var str in fileData.Select((s, index) => $"=\"[{index}] = {{byte}} {s}\""))
+                {
+                    builder.AppendLine(str);
+                }
+
+                var result = builder.ToString();
+                Console.WriteLine(result);
+
+                builder = new StringBuilder();
+                foreach (var str in fixMapDataBuf.Select((s, index) => $"=\"[{index}] = {{byte}} {s}\""))
+                {
+                    builder.AppendLine(str);
+                }
+
+                result = builder.ToString();
+                Console.WriteLine(result);
+
+                for (var i = 0; i < fixMapDataBuf.Length; i++)
+                {
+                    if (i == fileData.Length)
+                        Assert.Fail(
+                            $"データ長が異なります。（期待値：{fileData.Length}, 実際：{fixMapDataBuf.Length}）");
+
+                    if (fileData[i] != fixMapDataBuf[i])
+                        Assert.Fail(
+                            $"offset: {i} のバイナリが異なります。（期待値：{fileData[i]}, 実際：{fixMapDataBuf[i]}）");
+                }
+
+                if (fileData.Length != fixMapDataBuf.Length)
+                    Assert.Fail(
+                        $"データ長が異なります。（期待値：{fileData.Length}, 実際：{fixMapDataBuf.Length}）");
+            }
+        }
+
+        [Test]
         public static void SerializeTest()
         {
             var target = new MapData

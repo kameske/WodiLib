@@ -20,6 +20,24 @@ namespace WodiLib.Sys
         //     Public Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        /// <summary>Ver2.255</summary>
+        public static readonly WoditorVersion Ver2_255;
+
+        /// <summary>Ver2.254</summary>
+        public static readonly WoditorVersion Ver2_254;
+
+        /// <summary>Ver2.253</summary>
+        public static readonly WoditorVersion Ver2_253;
+
+        /// <summary>Ver2.252</summary>
+        public static readonly WoditorVersion Ver2_252;
+
+        /// <summary>Ver2.251</summary>
+        public static readonly WoditorVersion Ver2_251;
+
+        /// <summary>Ver2.25</summary>
+        public static readonly WoditorVersion Ver2_25;
+
         /// <summary>Ver2.24</summary>
         public static readonly WoditorVersion Ver2_24;
 
@@ -63,7 +81,7 @@ namespace WodiLib.Sys
         public static WoditorVersion Default => Ver2_24;
 
         /// <summary>最新バージョン</summary>
-        public static WoditorVersion Latest => Ver2_24;
+        public static WoditorVersion Latest => Ver2_255;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Property
@@ -88,6 +106,12 @@ namespace WodiLib.Sys
         /// </summary>
         static WoditorVersion()
         {
+            Ver2_255 = new WoditorVersion(nameof(Ver2_255), 2255, nameof(Ver2_255));
+            Ver2_254 = new WoditorVersion(nameof(Ver2_254), 2254, nameof(Ver2_254));
+            Ver2_253 = new WoditorVersion(nameof(Ver2_253), 2253, nameof(Ver2_253));
+            Ver2_252 = new WoditorVersion(nameof(Ver2_252), 2252, nameof(Ver2_252));
+            Ver2_251 = new WoditorVersion(nameof(Ver2_251), 2251, nameof(Ver2_251));
+            Ver2_25 = new WoditorVersion(nameof(Ver2_25), 2250, nameof(Ver2_25));
             Ver2_24 = new WoditorVersion(nameof(Ver2_24), 2240, nameof(Ver2_24));
             Ver2_23 = new WoditorVersion(nameof(Ver2_23), 2230, nameof(Ver2_23));
             Ver2_22 = new WoditorVersion(nameof(Ver2_22), 2220, nameof(Ver2_22));
