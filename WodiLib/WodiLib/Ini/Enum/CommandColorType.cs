@@ -37,7 +37,7 @@ namespace WodiLib.Ini
         /// </summary>
         /// <param name="id">ID</param>
         /// <param name="code">コード値</param>
-        public CommandColorType(string id, string code) : base(id)
+        private CommandColorType(string id, string code) : base(id)
         {
             Code = code;
         }
