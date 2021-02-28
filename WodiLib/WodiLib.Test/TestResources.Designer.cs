@@ -283,6 +283,16 @@ namespace WodiLib.Test {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] EventCommandSentence_Ver2255_Map2255 {
+            get {
+                object obj = ResourceManager.GetObject("EventCommandSentence_Ver2255_Map2255", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] FixMap {
             get {
                 object obj = ResourceManager.GetObject("FixMap", resourceCulture);
@@ -306,6 +316,16 @@ namespace WodiLib.Test {
         internal static byte[] GameIni1 {
             get {
                 object obj = ResourceManager.GetObject("GameIni1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Map2_255_mps {
+            get {
+                object obj = ResourceManager.GetObject("Map2.255.mps", resourceCulture);
                 return ((byte[])(obj));
             }
         }

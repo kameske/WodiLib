@@ -379,4 +379,14 @@
             Culture=neutral, PublicKeyToken=b77a5c561934e089
         </value>
     </data>
+    <data name="Map2.255.mps" xml:space="preserve" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\Map2.255.mps;System.Byte[], mscorlib, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
+    <data name="EventCommandSentence_Ver2255_Map2255" type="System.Resources.ResXFileRef, System.Windows.Forms">
+        <value>resources\EventCommandSentence/Ver2255_Map2.255.txt;System.Byte[], mscorlib, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089
+        </value>
+    </data>
 </root>
