@@ -6,6 +6,8 @@
 // see LICENSE file
 // ========================================
 
+using WodiLib.Sys.Collections;
+
 namespace WodiLib.Sys.Cmn
 {
     /// <summary>

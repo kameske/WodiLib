@@ -8,7 +8,7 @@
 
 using System.Collections.Specialized;
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     /// <summary>
     ///     二次元リストのアクション

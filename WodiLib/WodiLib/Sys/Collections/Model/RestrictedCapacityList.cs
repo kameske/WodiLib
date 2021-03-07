@@ -13,7 +13,7 @@ using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     /// <summary>
     ///     容量制限のあるListクラス
@@ -89,7 +89,7 @@ namespace WodiLib.Sys
         private IWodiLibListValidator<T>? Validator { get; }
 
         /// <summary>リスト</summary>
-        private ExtendedList<T> Items { get; }
+        private Collections.ExtendedList<T> Items { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Constructor
@@ -101,14 +101,14 @@ namespace WodiLib.Sys
         protected RestrictedCapacityList()
         {
             // MakeClearItems() 内で自身にアクセスする可能性を考慮して Items を空リストで初期化
-            Items = new ExtendedList<T>();
+            Items = new Collections.ExtendedList<T>();
 
             var items = MakeClearItems();
 
             Validator = MakeValidator();
             Validator?.Constructor(items);
 
-            Items = new ExtendedList<T>(items)
+            Items = new Collections.ExtendedList<T>(items)
             {
                 FuncMakeItems = MakeItems
             };
@@ -136,7 +136,7 @@ namespace WodiLib.Sys
 
             Validator = MakeValidator();
             Validator?.Constructor(items);
-            Items = new ExtendedList<T>(items)
+            Items = new Collections.ExtendedList<T>(items)
             {
                 FuncMakeItems = MakeItems
             };

@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     /// <summary>
     ///     TwoDimensionalCollection の要素が変更された際に発火するイベントの引数

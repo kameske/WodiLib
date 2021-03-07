@@ -6,7 +6,7 @@
 // see LICENSE file
 // ========================================
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     /// <summary>
     ///     <see cref="ITwoDimensionalList{T}"/> 検証者インタフェース

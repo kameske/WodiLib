@@ -9,7 +9,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     /// <summary>
     ///     リスト編集メソッドの引数検証クラステンプレート

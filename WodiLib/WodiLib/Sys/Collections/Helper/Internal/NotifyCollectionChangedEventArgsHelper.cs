@@ -9,7 +9,7 @@
 using System.Collections;
 using System.Collections.Specialized;
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     /// <summary>
     ///     <see cref="NotifyCollectionChangedEventArgs"/> インスタンス生成 Helper クラス

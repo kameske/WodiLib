@@ -14,7 +14,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using WodiLib.Sys.Cmn;
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     /// <summary>
     ///     WodiLib 独自リスト
@@ -145,7 +145,7 @@ namespace WodiLib.Sys
 
         /// <inheritdoc cref="IExtendedList{T}.Contains"/>
         public bool Contains([AllowNull] T item)
-            => Items.Contains(item);
+            => Enumerable.Contains<T>(Items, item);
 
         /// <inheritdoc/>
         public IEnumerable<T> GetRange(int index, int count)
@@ -329,7 +329,7 @@ namespace WodiLib.Sys
             var notifyManager = MakeNotifyManager(() =>
             {
                 var oldItems = Items.Get(index, items.Length);
-                var eventArgs = NotifyCollectionChangedEventArgsHelper.Set(items, oldItems.ToList(), index);
+                var eventArgs = NotifyCollectionChangedEventArgsHelper.Set(items, Enumerable.ToList<T>(oldItems), index);
                 return eventArgs;
             }, ListConstant.IndexerName);
 
@@ -391,7 +391,7 @@ namespace WodiLib.Sys
                     var replaceOldItems = Items.Get(index, updateCnt);
 
                     var eventArgs = NotifyCollectionChangedEventArgsHelper.Set(
-                        replaceItems, replaceOldItems.ToList(), index);
+                        replaceItems, Enumerable.ToList<T>(replaceOldItems), index);
                     return eventArgs;
                 }, nameof(IList.Count), ListConstant.IndexerName));
 
@@ -434,7 +434,7 @@ namespace WodiLib.Sys
             {
                 var movedItems = Items.Get(oldIndex, count);
                 var eventArgs = NotifyCollectionChangedEventArgsHelper.Move(
-                    movedItems.ToArray(), newIndex, oldIndex);
+                    Enumerable.ToArray<T>(movedItems), newIndex, oldIndex);
                 return eventArgs;
             }, ListConstant.IndexerName);
 

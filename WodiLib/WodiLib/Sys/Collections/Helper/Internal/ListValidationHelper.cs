@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     /// <summary>
     ///     リストバリデーションヘルパークラス

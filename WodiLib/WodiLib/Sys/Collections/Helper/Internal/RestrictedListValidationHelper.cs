@@ -8,7 +8,7 @@
 
 using System;
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     /// <summary>
     ///     長さ制限リストの検証Helperクラス

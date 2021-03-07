@@ -8,7 +8,7 @@
 
 using System;
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     public partial class TwoDimensionalListBase<T>
     {
@@ -20,7 +20,7 @@ namespace WodiLib.Sys
             /// <remarks>
             ///     AdjustLength, AdjustLengthIfShort, AdjustLengthIfLong メソッドの処理で
             ///     変更前の状態が空リストの場合に使用する。<br/>
-            ///     ただし変更後の状態も空リストの場合は <see cref="ToEmpty"/> で扱う。
+            ///     ただし変更後の状態も空リストの場合は <see cref="TwoDimensionalListBase{T}.AdjustLengthAgent.ToEmpty"/> で扱う。
             /// </remarks>
             private class FromEmpty : IAdjustLengthAgent
             {

@@ -12,6 +12,7 @@ using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using WodiLib.Sys;
+using WodiLib.Sys.Collections;
 
 namespace WodiLib.Ini
 {

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using WodiLib.Sys;
+using WodiLib.Sys.Collections;
 using ThisPropertyChangedHelper = WodiLib.Map.MapChipListCollectionChangedHelper;
 
 namespace WodiLib.Map

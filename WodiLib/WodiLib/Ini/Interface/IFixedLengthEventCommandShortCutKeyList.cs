@@ -9,6 +9,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
+using WodiLib.Sys.Collections;
 
 namespace WodiLib.Ini
 {

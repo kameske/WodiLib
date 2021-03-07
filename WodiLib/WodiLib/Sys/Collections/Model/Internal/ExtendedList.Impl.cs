@@ -10,12 +10,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     internal partial class ExtendedList<T>
     {
         /// <summary>
-        ///     <see cref="ExtendedList{T}"/> 処理転送先クラス
+        ///     <see cref="Collections.ExtendedList{T}"/> 処理転送先クラス
         /// </summary>
         private class Impl : ModelBase<Impl>,
             IEnumerable<T>

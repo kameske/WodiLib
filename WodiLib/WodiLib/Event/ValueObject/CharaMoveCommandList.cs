@@ -12,6 +12,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Sys;
+using WodiLib.Sys.Collections;
 
 namespace WodiLib.Event
 {

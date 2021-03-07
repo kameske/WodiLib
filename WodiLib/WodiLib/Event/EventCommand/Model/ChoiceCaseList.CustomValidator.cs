@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
+using WodiLib.Sys.Collections;
 
 namespace WodiLib.Event.EventCommand
 {

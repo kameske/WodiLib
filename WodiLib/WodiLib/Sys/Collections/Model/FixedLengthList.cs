@@ -14,7 +14,7 @@ using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     /// <summary>
     ///     容量固定のList基底クラス
@@ -90,7 +90,7 @@ namespace WodiLib.Sys
         private IWodiLibListValidator<T>? Validator { get; }
 
         /// <summary>リスト</summary>
-        private ExtendedList<T> Items { get; }
+        private Collections.ExtendedList<T> Items { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -106,7 +106,7 @@ namespace WodiLib.Sys
             Validator = MakeValidator();
             Validator?.Constructor(items);
 
-            Items = new ExtendedList<T>(items)
+            Items = new Collections.ExtendedList<T>(items)
             {
                 FuncMakeItems = MakeItems
             };
@@ -135,7 +135,7 @@ namespace WodiLib.Sys
 
             Validator = MakeValidator();
             Validator?.Constructor(items);
-            Items = new ExtendedList<T>(items)
+            Items = new Collections.ExtendedList<T>(items)
             {
                 FuncMakeItems = MakeItems
             };

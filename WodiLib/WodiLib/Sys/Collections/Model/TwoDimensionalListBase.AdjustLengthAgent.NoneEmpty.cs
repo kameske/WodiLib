@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     public partial class TwoDimensionalListBase<T>
     {

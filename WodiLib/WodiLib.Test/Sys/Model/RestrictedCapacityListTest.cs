@@ -6,6 +6,7 @@ using System.Linq;
 using Commons;
 using NUnit.Framework;
 using WodiLib.Sys;
+using WodiLib.Sys.Collections;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Sys

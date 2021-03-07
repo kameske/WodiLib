@@ -10,7 +10,7 @@ using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     internal partial class ExtendedList<T>
     {

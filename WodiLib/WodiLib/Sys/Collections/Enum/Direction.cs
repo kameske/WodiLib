@@ -6,7 +6,7 @@
 // see LICENSE file
 // ========================================
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     /// <summary>
     ///     方向

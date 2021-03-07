@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using Commons;
 using NUnit.Framework;
 using WodiLib.Sys;
+using WodiLib.Sys.Collections;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Sys

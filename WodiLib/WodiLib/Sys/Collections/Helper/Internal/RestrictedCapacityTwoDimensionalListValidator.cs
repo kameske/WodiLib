@@ -7,7 +7,7 @@
 // ========================================
 
 
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     internal class RestrictedCapacityTwoDimensionalListValidator<T> : ITwoDimensionalListValidator<T>
     {

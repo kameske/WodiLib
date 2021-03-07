@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using WodiLib.Event;
 using WodiLib.Sys;
+using WodiLib.Sys.Collections;
 
 namespace WodiLib.Map
 {

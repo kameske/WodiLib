@@ -1,4 +1,4 @@
-namespace WodiLib.Sys
+namespace WodiLib.Sys.Collections
 {
     public partial class TwoDimensionalCollectionChangeEventArgs<T>
     {
