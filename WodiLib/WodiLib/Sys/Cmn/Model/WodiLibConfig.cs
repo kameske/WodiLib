@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using WodiLib.Sys.Collections;
 
 namespace WodiLib.Sys.Cmn
 {
@@ -38,118 +39,144 @@ namespace WodiLib.Sys.Cmn
 
         /// <summary>
         ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        ///     <see cref="IWodiLibConfig.DefaultNotifyBeforePropertyChangeFlag"/> プロパティを設定する。
+        ///     <see cref="IWodiLibConfig.DefaultNotifyBeforePropertyChangeEventType"/> プロパティを設定する。
         /// </summary>
-        /// <param name="flag">設定値</param>
+        /// <param name="type">設定値</param>
         /// <param name="keyName">
         ///     設定対象キー名。<br/>
         ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
         /// </param>
-        public static void SetDefaultNotifyBeforePropertyChangeFlag(bool flag, string? keyName = null)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="type"/> が <see langword="null"/> の場合。
+        /// </exception>
+        public static void SetDefaultNotifyBeforePropertyChangeEventType(
+            NotifyPropertyChangeEventType type, string? keyName = null)
         {
+            ThrowHelper.ValidateArgumentNotNull(type is null, nameof(type));
+
             var config = GetConfig(keyName ?? TargetKeyName);
-            config.DefaultNotifyBeforePropertyChangeFlag = flag;
+            config.DefaultNotifyBeforePropertyChangeEventType = type;
         }
 
         /// <summary>
         ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        ///     <see cref="IWodiLibConfig.DefaultNotifyBeforePropertyChangeFlag"/> プロパティを取得する。
+        ///     <see cref="IWodiLibConfig.DefaultNotifyBeforePropertyChangeEventType"/> プロパティを取得する。
         /// </summary>
         /// <param name="keyName">
         ///     設定対象キー名。<br/>
         ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
         /// </param>
-        public static bool GetDefaultNotifyBeforePropertyChangeFlag(string? keyName = null)
+        public static NotifyPropertyChangeEventType GetDefaultNotifyBeforePropertyChangeEventType(
+            string? keyName = null)
         {
             var config = GetConfig(keyName ?? TargetKeyName);
-            return config.DefaultNotifyBeforePropertyChangeFlag;
+            return config.DefaultNotifyBeforePropertyChangeEventType;
         }
 
         /// <summary>
         ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        ///     <see cref="IWodiLibConfig.DefaultNotifyAfterPropertyChangeFlag"/> プロパティを設定する。
+        ///     <see cref="IWodiLibConfig.DefaultNotifyAfterPropertyChangeEventType"/> プロパティを設定する。
         /// </summary>
-        /// <param name="flag">設定値</param>
+        /// <param name="type">設定値</param>
         /// <param name="keyName">
         ///     設定対象キー名。<br/>
         ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
         /// </param>
-        public static void SetDefaultNotifyAfterPropertyChangeFlag(bool flag, string? keyName = null)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="type"/> が <see langword="null"/> の場合。
+        /// </exception>
+        public static void SetDefaultNotifyAfterPropertyChangeEventType(
+            NotifyPropertyChangeEventType type, string? keyName = null)
         {
+            ThrowHelper.ValidateArgumentNotNull(type is null, nameof(type));
+
             var config = GetConfig(keyName ?? TargetKeyName);
-            config.DefaultNotifyAfterPropertyChangeFlag = flag;
+            config.DefaultNotifyAfterPropertyChangeEventType = type;
         }
 
         /// <summary>
         ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        ///     <see cref="IWodiLibConfig.DefaultNotifyAfterPropertyChangeFlag"/> プロパティを取得する。
+        ///     <see cref="IWodiLibConfig.DefaultNotifyAfterPropertyChangeEventType"/> プロパティを取得する。
         /// </summary>
         /// <param name="keyName">
         ///     設定対象キー名。<br/>
         ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
         /// </param>
-        public static bool GetDefaultNotifyAfterPropertyChangeFlag(string? keyName = null)
+        public static NotifyPropertyChangeEventType GetDefaultNotifyAfterPropertyChangeEventType(
+            string? keyName = null)
         {
             var config = GetConfig(keyName ?? TargetKeyName);
-            return config.DefaultNotifyAfterPropertyChangeFlag;
+            return config.DefaultNotifyAfterPropertyChangeEventType;
         }
 
         /// <summary>
         ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        ///     <see cref="IWodiLibConfig.DefaultNotifyBeforeCollectionChangeFlag"/> プロパティを設定する。
+        ///     <see cref="IWodiLibConfig.DefaultNotifyBeforeCollectionChangeEventType"/> プロパティを設定する。
         /// </summary>
-        /// <param name="flag">設定値</param>
+        /// <param name="type">設定値</param>
         /// <param name="keyName">
         ///     設定対象キー名。<br/>
         ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
         /// </param>
-        public static void SetDefaultNotifyBeforeCollectionChangeFlag(bool flag, string? keyName = null)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="type"/> が <see langword="null"/> の場合。
+        /// </exception>
+        public static void SetDefaultNotifyBeforeCollectionChangeFlag(
+            NotifyCollectionChangeEventType type, string? keyName = null)
         {
+            ThrowHelper.ValidateArgumentNotNull(type is null, nameof(type));
+
             var config = GetConfig(keyName ?? TargetKeyName);
-            config.DefaultNotifyBeforeCollectionChangeFlag = flag;
+            config.DefaultNotifyBeforeCollectionChangeEventType = type;
         }
 
         /// <summary>
         ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        ///     <see cref="IWodiLibConfig.DefaultNotifyBeforeCollectionChangeFlag"/> プロパティを取得する。
+        ///     <see cref="IWodiLibConfig.DefaultNotifyBeforeCollectionChangeEventType"/> プロパティを取得する。
         /// </summary>
         /// <param name="keyName">
         ///     設定対象キー名。<br/>
         ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
         /// </param>
-        public static bool GetDefaultNotifyBeforeCollectionChangeFlag(string? keyName = null)
+        public static NotifyCollectionChangeEventType GetDefaultNotifyBeforeCollectionChangeEventType(
+            string? keyName = null)
         {
             var config = GetConfig(keyName ?? TargetKeyName);
-            return config.DefaultNotifyBeforeCollectionChangeFlag;
+            return config.DefaultNotifyBeforeCollectionChangeEventType;
         }
 
         /// <summary>
         ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        ///     <see cref="IWodiLibConfig.DefaultNotifyAfterCollectionChangeFlag"/> プロパティを設定する。
+        ///     <see cref="IWodiLibConfig.DefaultNotifyAfterCollectionChangeEventType"/> プロパティを設定する。
         /// </summary>
-        /// <param name="flag">設定値</param>
+        /// <param name="type">設定値</param>
         /// <param name="keyName">
         ///     設定対象キー名。<br/>
         ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
         /// </param>
-        public static void SetDefaultNotifyAfterCollectionChangeFlag(bool flag, string? keyName = null)
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="type"/> が <see langword="null"/> の場合。
+        /// </exception>
+        public static void SetDefaultNotifyAfterCollectionChangeEventType(
+            NotifyCollectionChangeEventType type, string? keyName = null)
         {
             var config = GetConfig(keyName ?? TargetKeyName);
-            config.DefaultNotifyAfterCollectionChangeFlag = flag;
+            config.DefaultNotifyAfterCollectionChangeEventType = type;
         }
 
         /// <summary>
         ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        ///     <see cref="IWodiLibConfig.DefaultNotifyAfterCollectionChangeFlag"/> プロパティを取得する。
+        ///     <see cref="IWodiLibConfig.DefaultNotifyAfterCollectionChangeEventType"/> プロパティを取得する。
         /// </summary>
         /// <param name="keyName">
         ///     設定対象キー名。<br/>
         ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
         /// </param>
-        public static bool GetDefaultNotifyAfterCollectionChangeFlag(string? keyName = null)
+        public static NotifyCollectionChangeEventType GetDefaultNotifyAfterCollectionChangeEventType(
+            string? keyName = null)
         {
             var config = GetConfig(keyName ?? TargetKeyName);
-            return config.DefaultNotifyAfterCollectionChangeFlag;
+            return config.DefaultNotifyAfterCollectionChangeEventType;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -191,16 +218,16 @@ namespace WodiLib.Sys.Cmn
         public string KeyName { get; }
 
         /// <inheritdoc/>
-        public bool DefaultNotifyBeforePropertyChangeFlag { get; set; }
+        public NotifyPropertyChangeEventType DefaultNotifyBeforePropertyChangeEventType { get; set; }
 
         /// <inheritdoc/>
-        public bool DefaultNotifyAfterPropertyChangeFlag { get; set; }
+        public NotifyPropertyChangeEventType DefaultNotifyAfterPropertyChangeEventType { get; set; }
 
         /// <inheritdoc/>
-        public bool DefaultNotifyBeforeCollectionChangeFlag { get; set; }
+        public NotifyCollectionChangeEventType DefaultNotifyBeforeCollectionChangeEventType { get; set; }
 
         /// <inheritdoc/>
-        public bool DefaultNotifyAfterCollectionChangeFlag { get; set; }
+        public NotifyCollectionChangeEventType DefaultNotifyAfterCollectionChangeEventType { get; set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -217,10 +244,10 @@ namespace WodiLib.Sys.Cmn
         private WodiLibConfig()
         {
             KeyName = "";
-            DefaultNotifyBeforePropertyChangeFlag = false;
-            DefaultNotifyAfterPropertyChangeFlag = true;
-            DefaultNotifyBeforeCollectionChangeFlag = false;
-            DefaultNotifyAfterCollectionChangeFlag = true;
+            DefaultNotifyBeforePropertyChangeEventType = NotifyPropertyChangeEventType.Disabled;
+            DefaultNotifyAfterPropertyChangeEventType = NotifyPropertyChangeEventType.Enabled;
+            DefaultNotifyBeforeCollectionChangeEventType = NotifyCollectionChangeEventType.None;
+            DefaultNotifyAfterCollectionChangeEventType = NotifyCollectionChangeEventType.Single;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

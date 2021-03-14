@@ -30,19 +30,13 @@ namespace WodiLib.Sys.Collections
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
     public interface IRestrictedCapacityList<T> : IModelBase<IRestrictedCapacityList<T>>,
-        IReadOnlyRestrictedCapacityList<T>
+        IReadOnlyRestrictedCapacityList<T>, IDeepCloneableRestrictedCapacityList<IRestrictedCapacityList<T>, T>
     {
         /// <inheritdoc cref="IList{T}.this"/>
         public new T this[int index] { get; set; }
 
         /// <inheritdoc cref="IList{T}.Count"/>
         public new int Count { get; }
-
-        /// <inheritdoc cref="IReadOnlyExtendedList{T}.IsNotifyBeforeCollectionChange"/>
-        public new bool IsNotifyBeforeCollectionChange { get; set; }
-
-        /// <inheritdoc cref="IReadOnlyExtendedList{T}.IsNotifyAfterCollectionChange"/>
-        public new bool IsNotifyAfterCollectionChange { get; set; }
 
         /// <summary>
         ///     リストの連続した要素を更新する。
@@ -267,10 +261,6 @@ namespace WodiLib.Sys.Collections
         ///     または<see cref="IReadOnlyRestrictedCapacityList{T}.GetMaxCapacity"/> を超える場合。
         /// </exception>
         public void Reset(IEnumerable<T> initItems);
-
-        /// <inheritdoc cref="IReadOnlyRestrictedCapacityList{T}.DeepCloneWith"/>
-        public new IRestrictedCapacityList<T> DeepCloneWith(int? length = null,
-            IEnumerable<KeyValuePair<int, T>>? values = null);
     }
 
     /// <summary>
@@ -278,7 +268,7 @@ namespace WodiLib.Sys.Collections
     /// </summary>
     /// <typeparam name="T">要素の型</typeparam>
     public interface IReadOnlyRestrictedCapacityList<T> : IModelBase<IReadOnlyRestrictedCapacityList<T>>,
-        IReadOnlyExtendedList<T>
+        IReadOnlyExtendedList<T>, IDeepCloneableRestrictedCapacityList<IReadOnlyRestrictedCapacityList<T>, T>
     {
         /// <summary>
         ///     容量最大値を返す。
@@ -291,18 +281,49 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <returns>容量最小値</returns>
         int GetMinCapacity();
+    }
 
-        /// <inheritdoc cref="IReadOnlyExtendedList{T}.DeepCloneWith" select="summary|remarks"/>
+    /// <summary>
+    /// <see cref="IRestrictedCapacityList{T}"/> ディープクローンインタフェース
+    /// </summary>
+    /// <typeparam name="T">クローン返却型</typeparam>
+    /// <typeparam name="TIn"><see cref="IFixedLengthList{T}"/>内包型</typeparam>
+    public interface IDeepCloneableRestrictedCapacityList<out T, TIn>
+        where T : IReadOnlyRestrictedCapacityList<TIn>
+    {
+        /// <summary>
+        ///     自身の要素をコピーした新たなインスタンスを返却する。
+        /// </summary>
+        /// <remarks>
+        ///     <para>
+        ///         自身の内包する要素が構造体・クラス型の場合、返却するインスタンスの要素はすべてディープコピーされた状態で格納される。
+        ///         レコードの場合はシャローコピーされた要素が格納される。
+        ///     </para>
+        ///     <para>
+        ///         引数 <paramref name="length"/> を指定した場合、返却する列挙子の要素数を指定された数にする。<br/>
+        ///         <paramref name="length"/> &lt; <see cref="IReadOnlyCollection{T}.Count"/> の場合、超過する要素は切り捨てられる。<br/>
+        ///         <paramref name="length"/> &gt; <see cref="IReadOnlyCollection{T}.Count"/> の場合、不足する要素は内包型ごとに定められたデフォルト値（
+        ///         <see langword="null"/>ではない）が格納される。
+        ///     </para>
+        ///     <para>
+        ///         引数 <paramref name="values"/> を指定した場合、<paramref name="values"/> のキーに指定されたインデックスの要素を <paramref name="values"/>
+        ///         の値で上書きする。<br/>
+        ///         返却する要素数を上回るインデックスが指定されている場合、その要素は無視される。
+        ///     </para>
+        /// </remarks>
         /// <param name="length">
-        ///     [Range(<see cref="GetMinCapacity"/>, <see cref="GetMaxCapacity"/>)]
-        ///     ディープコピー後の要素数
+        /// [Range(<typeparamref name="T"/> の <see cref="IRestrictedCapacityList{T}.GetMinCapacity"/>,
+        /// <typeparamref name="T"/> の <see cref="IRestrictedCapacityList{T}.GetMaxCapacity"/>)]
+        /// ディープコピー後の要素数
         /// </param>
-        /// <param name="values">ディープコピー時の上書き要素</param>
+        /// <param name="values">ディープコピー時の上書きインデックスと値のペア列挙子</param>
         /// <returns>自身をディープコピーしたインスタンス</returns>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///     <paramref name="length"/> が <see langword="null"/> ではない かつ 指定範囲外の場合。
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="values"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
-        public new IReadOnlyRestrictedCapacityList<T> DeepCloneWith(int? length = null,
-            IEnumerable<KeyValuePair<int, T>>? values = null);
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="length"/> が指定範囲外の場合。
+        /// </exception>
+        public T DeepCloneWith(int? length = null, IReadOnlyDictionary<int, TIn>? values = null);
     }
 }

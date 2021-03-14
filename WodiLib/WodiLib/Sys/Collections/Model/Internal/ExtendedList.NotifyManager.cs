@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
@@ -23,9 +24,7 @@ namespace WodiLib.Sys.Collections
         /// <param name="notifyProperties">変更通知プロパティ名</param>
         /// <returns><see cref="NotifyManager"/> インスタンス</returns>
         private NotifyManager MakeNotifyManager(params string[] notifyProperties)
-            => new(IsNotifyBeforePropertyChange,
-                IsNotifyAfterPropertyChange,
-                NotifyPropertyChanging,
+            => new(NotifyPropertyChanging,
                 NotifyPropertyChanged,
                 notifyProperties);
 
@@ -35,20 +34,19 @@ namespace WodiLib.Sys.Collections
         /// <remarks>
         ///     プロパティ変更通知およびコレクション変更通知を行う可能性がある。
         /// </remarks>
-        /// <param name="collectionChangedEventArgs">コレクション変更通知引数生成関数</param>
+        /// <param name="collectionChangingEventArgs">コレクション変更前通知イベント引数</param>
+        /// <param name="collectionChangedEventArgs">コレクション変更後通知イベント引数</param>
         /// <param name="notifyProperties">変更通知プロパティ名</param>
         /// <returns><see cref="NotifyManager"/> インスタンス</returns>
         private NotifyManager MakeNotifyManager(
-            Func<NotifyCollectionChangedEventArgs> collectionChangedEventArgs,
+            IEnumerable<NotifyCollectionChangedEventArgsEx<T>> collectionChangingEventArgs,
+            IEnumerable<NotifyCollectionChangedEventArgsEx<T>> collectionChangedEventArgs,
             params string[] notifyProperties)
-            => new(IsNotifyBeforePropertyChange,
-                IsNotifyAfterPropertyChange,
-                IsNotifyBeforeCollectionChange,
-                IsNotifyAfterCollectionChange,
-                NotifyPropertyChanging,
+            => new(NotifyPropertyChanging,
                 NotifyPropertyChanged,
                 CallCollectionChanging,
                 CallCollectionChanged,
+                collectionChangingEventArgs,
                 collectionChangedEventArgs,
                 notifyProperties);
 
@@ -60,26 +58,6 @@ namespace WodiLib.Sys.Collections
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Private Property
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-            /// <summary>
-            ///     <see cref="INotifyPropertyChanging.PropertyChanging"/> 通知フラグ
-            /// </summary>
-            private bool IsNotifyBeforePropertyChange { get; }
-
-            /// <summary>
-            ///     <see cref="INotifyPropertyChanged.PropertyChanged"/> 通知フラグ
-            /// </summary>
-            private bool IsNotifyAfterPropertyChange { get; }
-
-            /// <summary>
-            ///     <see cref="INotifyCollectionChange.CollectionChanging"/> 通知フラグ
-            /// </summary>
-            private bool IsNotifyBeforeCollectionChange { get; }
-
-            /// <summary>
-            ///     <see cref="INotifyCollectionChanged.CollectionChanged"/> 通知フラグ
-            /// </summary>
-            private bool IsNotifyAfterCollectionChange { get; }
 
             /// <summary>
             ///     <see cref="INotifyPropertyChanging.PropertyChanging"/> 通知アクション
@@ -94,83 +72,65 @@ namespace WodiLib.Sys.Collections
             /// <summary>
             ///     <see cref="INotifyCollectionChange.CollectionChanging"/> 通知アクション
             /// </summary>
-            private Action<NotifyCollectionChangedEventArgs> CollectionChangingAction { get; }
+            private Action<NotifyCollectionChangedEventArgs>? CollectionChangingAction { get; }
 
             /// <summary>
             ///     <see cref="INotifyCollectionChanged.CollectionChanged"/> 通知アクション
             /// </summary>
-            private Action<NotifyCollectionChangedEventArgs> CollectionChangedAction { get; }
-
-            /// <summary>
-            ///     <see cref="INotifyCollectionChange.CollectionChanging"/>
-            ///     および <see cref="INotifyCollectionChanged.CollectionChanged"/>
-            ///     通知引数生成関数
-            /// </summary>
-            private Func<NotifyCollectionChangedEventArgs> CollectionChangedEventArgs { get; }
+            private Action<NotifyCollectionChangedEventArgs>? CollectionChangedAction { get; }
 
             private string[] NotifyProperties { get; }
 
             /// <summary>
             ///     <see cref="INotifyCollectionChange.CollectionChanging"/>
-            ///     および <see cref="INotifyCollectionChanged.CollectionChanged"/>
             ///     通知引数
             /// </summary>
             /// <summary>
             ///     <see langword="null"/> 非許容型だが不要な場合は <see langword="null"/> が設定される。
             /// </summary>
-            private NotifyCollectionChangedEventArgs CollectionChangeEventArgs { get; }
+            private IEnumerable<NotifyCollectionChangedEventArgsEx<T>>? CollectionChangingEventArgs { get; }
+
+            /// <summary>
+            ///     <see cref="INotifyCollectionChange.CollectionChanged"/>
+            ///     通知引数
+            /// </summary>
+            private IEnumerable<NotifyCollectionChangedEventArgsEx<T>>? CollectionChangedEventArgs { get; }
 
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Constructor
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
             public NotifyManager(
-                bool isNotifyBeforePropertyChange,
-                bool isNotifyAfterPropertyChange,
                 Action<string> propertyChangingAction,
                 Action<string> propertyChangedAction,
                 params string[] notifyProperties)
                 : this(
-                    isNotifyBeforePropertyChange,
-                    isNotifyAfterPropertyChange,
-                    false, false,
                     propertyChangingAction,
                     propertyChangedAction,
-                    null!, null!, null!,
+                    null, null, null, null,
                     notifyProperties
                 )
             {
             }
 
             public NotifyManager(
-                bool isNotifyBeforePropertyChange,
-                bool isNotifyAfterPropertyChange,
-                bool isNotifyBeforeCollectionChange,
-                bool isNotifyAfterCollectionChange,
                 Action<string> propertyChangingAction,
                 Action<string> propertyChangedAction,
-                Action<NotifyCollectionChangedEventArgs> collectionChangingAction,
-                Action<NotifyCollectionChangedEventArgs> collectionChangedAction,
-                Func<NotifyCollectionChangedEventArgs> collectionChangedEventArgs,
+                Action<NotifyCollectionChangedEventArgs>? collectionChangingAction,
+                Action<NotifyCollectionChangedEventArgs>? collectionChangedAction,
+                IEnumerable<NotifyCollectionChangedEventArgsEx<T>>? collectionChangingEventArgs,
+                IEnumerable<NotifyCollectionChangedEventArgsEx<T>>? collectionChangedEventArgs,
                 params string[] notifyProperties)
             {
-                IsNotifyBeforePropertyChange = isNotifyBeforePropertyChange;
-                IsNotifyAfterPropertyChange = isNotifyAfterPropertyChange;
-                IsNotifyBeforeCollectionChange = isNotifyBeforeCollectionChange;
-                IsNotifyAfterCollectionChange = isNotifyAfterCollectionChange;
-
                 PropertyChangingAction = propertyChangingAction;
                 PropertyChangedAction = propertyChangedAction;
                 CollectionChangingAction = collectionChangingAction;
                 CollectionChangedAction = collectionChangedAction;
 
-                CollectionChangedEventArgs = collectionChangedEventArgs;
                 NotifyProperties = notifyProperties;
 
-                CollectionChangeEventArgs =
-                    IsNotifyBeforeCollectionChange || IsNotifyAfterCollectionChange
-                        ? CollectionChangedEventArgs()
-                        : null!;
+                CollectionChangingEventArgs = collectionChangingEventArgs;
+                CollectionChangedEventArgs = collectionChangedEventArgs;
             }
 
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -184,15 +144,12 @@ namespace WodiLib.Sys.Collections
             {
                 /* CollectionChange -> PropertyChange の順で通知（Afterと逆） */
 
-                if (IsNotifyBeforeCollectionChange)
+                if (CollectionChangingAction is not null)
                 {
-                    CollectionChangingAction(CollectionChangeEventArgs);
+                    CollectionChangingEventArgs?.ForEach(args => CollectionChangingAction(args));
                 }
 
-                if (IsNotifyBeforePropertyChange)
-                {
-                    NotifyProperties.ForEach(prop => PropertyChangingAction(prop));
-                }
+                NotifyProperties.ForEach(prop => PropertyChangingAction(prop));
             }
 
             /// <summary>
@@ -202,14 +159,11 @@ namespace WodiLib.Sys.Collections
             {
                 /* PropertyChange -> CollectionChange の順で通知（Beforeと逆） */
 
-                if (IsNotifyAfterPropertyChange)
-                {
-                    NotifyProperties.ForEach(prop => PropertyChangedAction(prop));
-                }
+                NotifyProperties.ForEach(prop => PropertyChangedAction(prop));
 
-                if (IsNotifyAfterCollectionChange)
+                if (CollectionChangedAction is not null)
                 {
-                    CollectionChangedAction(CollectionChangeEventArgs);
+                    CollectionChangedEventArgs?.ForEach(args => CollectionChangedAction(args));
                 }
             }
         }

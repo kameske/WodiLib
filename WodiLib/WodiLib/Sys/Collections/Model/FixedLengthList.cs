@@ -68,18 +68,26 @@ namespace WodiLib.Sys.Collections
             }
         }
 
-        /// <inheritdoc cref="IReadOnlyExtendedList{T}.IsNotifyBeforeCollectionChange"/>
-        public bool IsNotifyBeforeCollectionChange
+        /// <inheritdoc />
+        public NotifyCollectionChangeEventType NotifyCollectionChangingEventType
         {
-            get => Items.IsNotifyBeforeCollectionChange;
-            set => Items.IsNotifyBeforeCollectionChange = value;
+            get => Items.NotifyCollectionChangingEventType;
+            set
+            {
+                ThrowHelper.ValidateArgumentNotNull(value is null, nameof(value));
+                Items.NotifyCollectionChangingEventType = value;
+            }
         }
 
-        /// <inheritdoc cref="IReadOnlyExtendedList{T}.IsNotifyAfterCollectionChange"/>
-        public bool IsNotifyAfterCollectionChange
+        /// <inheritdoc />
+        public NotifyCollectionChangeEventType NotifyCollectionChangedEventType
         {
-            get => Items.IsNotifyAfterCollectionChange;
-            set => Items.IsNotifyAfterCollectionChange = value;
+            get => Items.NotifyCollectionChangedEventType;
+            set
+            {
+                ThrowHelper.ValidateArgumentNotNull(value is null, nameof(value));
+                Items.NotifyCollectionChangedEventType = value;
+            }
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -90,7 +98,7 @@ namespace WodiLib.Sys.Collections
         private IWodiLibListValidator<T>? Validator { get; }
 
         /// <summary>リスト</summary>
-        private Collections.ExtendedList<T> Items { get; }
+        private ExtendedList<T> Items { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -106,7 +114,7 @@ namespace WodiLib.Sys.Collections
             Validator = MakeValidator();
             Validator?.Constructor(items);
 
-            Items = new Collections.ExtendedList<T>(items)
+            Items = new ExtendedList<T>(items)
             {
                 FuncMakeItems = MakeItems
             };
@@ -135,7 +143,7 @@ namespace WodiLib.Sys.Collections
 
             Validator = MakeValidator();
             Validator?.Constructor(items);
-            Items = new Collections.ExtendedList<T>(items)
+            Items = new ExtendedList<T>(items)
             {
                 FuncMakeItems = MakeItems
             };
@@ -264,50 +272,64 @@ namespace WodiLib.Sys.Collections
         public bool ItemEquals(IEnumerable<T>? other)
             => Items.ItemEquals(other);
 
-        IFixedLengthList<T> IDeepCloneable<IFixedLengthList<T>>.DeepClone()
-            => DeepClone();
-
-        IReadOnlyFixedLengthList<T> IDeepCloneable<IReadOnlyFixedLengthList<T>>.DeepClone()
-            => DeepClone();
-
+        /// <inheritdoc />
         IReadOnlyExtendedList<T> IDeepCloneable<IReadOnlyExtendedList<T>>.DeepClone()
             => DeepClone();
 
-        /// <inheritdoc cref="IFixedLengthList{T}.DeepCloneWith(IEnumerable{System.Collections.Generic.KeyValuePair{int,T}}?)"/>
-        public TImpl DeepCloneWith(IEnumerable<KeyValuePair<int, T>>? values = null)
+        /// <inheritdoc />
+        IReadOnlyFixedLengthList<T> IDeepCloneable<IReadOnlyFixedLengthList<T>>.DeepClone()
+            => DeepClone();
+
+        /// <inheritdoc />
+        IFixedLengthList<T> IDeepCloneable<IFixedLengthList<T>>.DeepClone()
+            => DeepClone();
+
+        /// <inheritdoc cref="IDeepCloneableFixedLengthList{T,TIn}.DeepCloneWith"/>
+        public TImpl DeepCloneWith(IReadOnlyDictionary<int, T>? values = null)
         {
+            var valueDic = values?.ToArray() ?? Array.Empty<KeyValuePair<int, T>>();
+
+            ThrowHelper.ValidateArgumentItemsHasNotNull(valueDic.HasNullItem(), nameof(values));
+
             var result = DeepClone();
 
-            values?.ForEach(pair =>
+            valueDic.ForEach(pair =>
             {
-                ThrowHelper.ValidateArgumentNotNull(pair.Value is null, $"{nameof(values)} の要素 (Key: {pair.Key})");
                 if (-1 < pair.Key && pair.Key < result.Count) result[pair.Key] = pair.Value;
             });
 
             return result;
         }
 
-        /// <inheritdoc/>
-        IFixedLengthList<T> IFixedLengthList<T>.DeepCloneWith(IEnumerable<KeyValuePair<int, T>>? values)
+        /// <inheritdoc />
+        IFixedLengthList<T> IDeepCloneableFixedLengthList<IFixedLengthList<T>, T>.DeepCloneWith(
+            IReadOnlyDictionary<int, T>? values)
             => DeepCloneWith(values);
 
-        /// <inheritdoc/>
-        IReadOnlyFixedLengthList<T> IReadOnlyFixedLengthList<T>.DeepCloneWith(IEnumerable<KeyValuePair<int, T>>? values)
+        /// <inheritdoc />
+        IReadOnlyFixedLengthList<T> IDeepCloneableFixedLengthList<IReadOnlyFixedLengthList<T>, T>.DeepCloneWith(
+            IReadOnlyDictionary<int, T>? values)
             => DeepCloneWith(values);
 
-        /// <inheritdoc/>
-        IReadOnlyExtendedList<T> IReadOnlyExtendedList<T>.DeepCloneWith(int? length,
-            IEnumerable<KeyValuePair<int, T>>? values)
-            => DeepCloneWith(values);
+        /// <inheritdoc />
+        public IReadOnlyExtendedList<T> DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
+        {
+            if (length is not null)
+            {
+                ThrowHelper.ValidateArgumentValueGreaterOrEqual(length.Value < 0,
+                    nameof(length), 0, length.Value);
+            }
 
-        /// <inheritdoc/>
-        IFixedLengthList<T> IFixedLengthList<T>.DeepCloneWith(int? length, IEnumerable<KeyValuePair<int, T>>? values)
-            => DeepCloneWith(values);
+            values?.ForEach(pair =>
+            {
+                ThrowHelper.ValidateArgumentNotNull(pair.Value is null, $"{nameof(values)} の要素 (Key: {pair.Key})");
+            });
 
-        /// <inheritdoc/>
-        IReadOnlyFixedLengthList<T> IReadOnlyFixedLengthList<T>.DeepCloneWith(int? length,
-            IEnumerable<KeyValuePair<int, T>>? values)
-            => DeepCloneWith(values);
+            // 子要素のクローン処理を実装に任せるためクローン後の要素は DeepClone() に作らせる
+            var cloneItems = DeepClone().ToArray();
+
+            return new ExtendedList<T>(cloneItems, length, values, MakeDefaultItem);
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Implements Method

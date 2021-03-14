@@ -227,6 +227,12 @@ namespace WodiLib.Sys.Collections
             return Equals(other.AsEnumerable());
         }
 
+        /// <inheritdoc />
+        public override TwoDimensionalListBase<T> DeepClone()
+        {
+            throw new NotImplementedException();
+        }
+
         IRestrictedCapacityTwoDimensionalList<T>
             IDeepCloneable<IRestrictedCapacityTwoDimensionalList<T>>.DeepClone()
         {

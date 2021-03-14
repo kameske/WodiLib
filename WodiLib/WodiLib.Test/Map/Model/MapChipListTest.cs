@@ -280,16 +280,13 @@ namespace WodiLib.Test.Map
             }
 
             // 意図したとおりプロパティ変更通知が発火していること
-            Assert.AreEqual(changedPropertyList.Count, 3);
-            Assert.IsTrue(changedPropertyList[0].Equals(nameof(instance.Count)));
-            Assert.IsTrue(changedPropertyList[1].Equals(ListConstant.IndexerName));
-            Assert.IsTrue(changedPropertyList[2].Equals(nameof(instance.Width)));
-            if (initWidth == width)
+            var isUpdate = instance.Width != initWidth;
+            if (isUpdate)
             {
-                Assert.AreEqual(changedCollectionList.Count, 0);
-            }
-            else
-            {
+                Assert.AreEqual(changedPropertyList.Count, 3);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(instance.Count)));
+                Assert.IsTrue(changedPropertyList[1].Equals(ListConstant.IndexerName));
+                Assert.IsTrue(changedPropertyList[2].Equals(nameof(instance.Width)));
                 Assert.AreEqual(changedCollectionList.Count, 1);
                 if (initWidth > width)
                 {
@@ -307,6 +304,12 @@ namespace WodiLib.Test.Map
                     Assert.IsTrue(changedCollectionList[0].NewStartingIndex == initWidth);
                     Assert.IsTrue(changedCollectionList[0].NewItems.Count == width - initWidth);
                 }
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(instance.Width)));
+                Assert.AreEqual(changedCollectionList.Count, 0);
             }
 
             Assert.AreEqual(changedColumnsPropertyList.Count, 0);
@@ -376,22 +379,19 @@ namespace WodiLib.Test.Map
             }
 
             // 意図したとおりプロパティ変更通知が発火していること
-            Assert.AreEqual(changedPropertyList.Count, 1);
-            Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapChipList.Height)));
-            Assert.AreEqual(changedCollectionList.Count, 0);
-            Assert.AreEqual(changedColumnsPropertyList.Count, initWidth * 2);
-            for (var i = 0; i < initWidth; i++)
+            var isChanged = instance.Height != initHeight;
+            if (isChanged)
             {
-                Assert.IsTrue(changedColumnsPropertyList[2 * i].Equals(nameof(IFixedLengthMapChipColumns.Count)));
-                Assert.IsTrue(changedColumnsPropertyList[2 * i + 1].Equals(ListConstant.IndexerName));
-            }
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapChipList.Height)));
+                Assert.AreEqual(changedCollectionList.Count, 0);
+                Assert.AreEqual(changedColumnsPropertyList.Count, initWidth * 2);
+                for (var i = 0; i < initWidth; i++)
+                {
+                    Assert.IsTrue(changedColumnsPropertyList[2 * i].Equals(nameof(IFixedLengthMapChipColumns.Count)));
+                    Assert.IsTrue(changedColumnsPropertyList[2 * i + 1].Equals(ListConstant.IndexerName));
+                }
 
-            if (initHeight == height)
-            {
-                Assert.AreEqual(changedColumnsCollectionList.Count, 0);
-            }
-            else
-            {
                 Assert.AreEqual(changedColumnsCollectionList.Count, initWidth);
                 if (initHeight > height)
                 {
@@ -415,6 +415,12 @@ namespace WodiLib.Test.Map
                         Assert.IsTrue(changedColumnsCollectionList[i].NewItems.Count == height - initHeight);
                     }
                 }
+            }
+            else
+            {
+                Assert.AreEqual(changedPropertyList.Count, 1);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapChipList.Height)));
+                Assert.AreEqual(changedColumnsCollectionList.Count, 0);
             }
         }
 

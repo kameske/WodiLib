@@ -142,30 +142,6 @@ namespace WodiLib.Database
             return Count;
         }
 
-        IFixedLengthList<DBItemValue> IFixedLengthList<DBItemValue>.DeepCloneWith(
-            IEnumerable<KeyValuePair<int, DBItemValue>>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        IFixedLengthList<DBItemValue> IFixedLengthList<DBItemValue>.DeepCloneWith(int? length,
-            IEnumerable<KeyValuePair<int, DBItemValue>>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        IReadOnlyFixedLengthList<DBItemValue> IReadOnlyFixedLengthList<DBItemValue>.DeepCloneWith(
-            IEnumerable<KeyValuePair<int, DBItemValue>>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        IReadOnlyFixedLengthList<DBItemValue> IReadOnlyFixedLengthList<DBItemValue>.DeepCloneWith(int? length,
-            IEnumerable<KeyValuePair<int, DBItemValue>>? values)
-        {
-            throw new NotImplementedException();
-        }
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -602,6 +578,19 @@ namespace WodiLib.Database
                 .ForEach(x => result.AddRange(x.ToBinary()));
 
             return result.ToArray();
+        }
+
+        IReadOnlyFixedLengthList<DBItemValue>
+            IDeepCloneableFixedLengthList<IReadOnlyFixedLengthList<DBItemValue>, DBItemValue>.DeepCloneWith(
+                IReadOnlyDictionary<int, DBItemValue>? values)
+        {
+            throw new NotImplementedException();
+        }
+
+        IFixedLengthList<DBItemValue> IDeepCloneableFixedLengthList<IFixedLengthList<DBItemValue>, DBItemValue>.
+            DeepCloneWith(IReadOnlyDictionary<int, DBItemValue>? values)
+        {
+            throw new NotImplementedException();
         }
 
         IReadOnlyFixedLengthList<DBItemValue> IDeepCloneable<IReadOnlyFixedLengthList<DBItemValue>>.DeepClone()

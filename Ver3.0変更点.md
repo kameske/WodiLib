@@ -27,10 +27,10 @@ Ver 3.0 変更点
 
 |設定名|概要|デフォルト値|
 |:--|:--|:--|
-|DefaultNotifyBeforePropertyChangeFlag|プロパティ変更前の変更通知フラグ|```false```|
-|DefaultNotifyAfterPropertyChangeFlag|プロパティ変更後の変更通知フラグ|```true```|
-|DefaultNotifyBeforeCollectionChangeFlag|コレクション変更前の変更通知フラグ|```false```|
-|DefaultNotifyAfterCollectionChangeFlag|コレクション変更後の変更通知フラグ|```true```|
+|DefaultNotifyBeforePropertyChangeFlag|プロパティ変更前の変更通知タイプ|```Disabled```|
+|DefaultNotifyAfterPropertyChangeFlag|プロパティ変更後の変更通知タイプ|```Enabled```|
+|DefaultNotifyBeforeCollectionChangeFlag|コレクション変更前の変更通知タイプ|```None```|
+|DefaultNotifyAfterCollectionChangeFlag|コレクション変更後の変更通知タイプ|```Single```|
 
 - ```ModelBase``` （可変クラス）
     - ```IEquatable<T>``` を除去、 ```==``` および ```!=``` 演算子のオーバーロードを解除。
@@ -38,16 +38,20 @@ Ver 3.0 変更点
     - ```IEquatable<T>``` の代替機能として ```IEqualityComparable<T>``` インタフェースおよび ```bool ItemEquals(T)``` メソッドを新規実装。これまでの ```IEquatable<T>.Equals(T)``` メソッド同様モデルクラスの同値比較を行い結果を返す。
     - プロパティ変更通知に関する仕様変更および追加。
         - 変更前の通知イベントとして ```INotifyPropertyChanging``` を実装。
-        - 変更通知の有無を決定するプロパティ ``` IsNotifyBeforePropertyChange``` および ```IsNotifyAfterPropertyChange``` を追加。それぞれ ```true``` の場合のみ ```PropertyChanging```、```PropertyChanged``` が通知される。
-            - ``` IsNotifyBeforePropertyChange``` および ```IsNotifyAfterPropertyChange``` の初期値は前述の ```WodiLibConfig``` の設定に準ずる。
+        - 変更通知の有無を決定するプロパティ ``` NotifyPropertyChangingEventType``` および ```NotifyPropertyChangedEventType``` を追加。それぞれ ```Enabled``` の場合のみ ```PropertyChanging```、```PropertyChanged``` が通知される。
+            - ``` NotifyPropertyChangingEventType``` および ```NotifyPropertyChangedEventType``` の初期値は前述の ```WodiLibConfig``` の設定に準ずる。
     - ディープコピーできることを示す ```IDeepCloneable<T>``` インタフェース、およびディープコピー用のメソッド ```DeepClone()``` を新規追加。
         - このメソッドで作成したコピーインスタンスはすべての参照がディープコピーされる。
 
 - ```RestrictedCapacityList```（旧名```RestrictedCapacityCollection```）、```FixedLengthList```（リストクラス）
     - コレクション変更通知に関する仕様変更および追加。
         - 変更前の通知イベントとして ```NotifyCollectionChangedEventHandler CollectionChanging``` イベントを実装。
-        - 変更通知の有無を決定するプロパティ ``` IsNotifyBeforeCollectionChange``` および ```IsNotifyAfterCollectionChange``` を追加。それぞれ ```true``` の場合のみ ```CollectionChanging```、```CollectionChanged``` が通知される。
-            - ``` IsNotifyBeforeCollectionChange``` および ```IsNotifyAfterCollectionChange``` の初期値は前述の ```WodiLibConfig``` の設定に準ずる。
+        - 変更通知の有無を決定するプロパティ ```NotifyCollectionChangingEventType``` および ```NotifyCollectionChangedEventType``` を追加。設定値に応じて ```CollectionChanging```、```CollectionChanged``` が通知される際のイベント引数の内容が変化する。
+            - ``` NotifyCollectionChangingEventType``` および ```NotifyCollectionChangedEventType``` の初期値は前述の ```WodiLibConfig``` の設定に準ずる。
+            - ```NotifyCollectionChangingEventType``` および ```NotifyCollectionChangedEventType``` に設定する値の意味は [NotifyCollectionChangeEventType.cs](https://github.com/kameske/WodiLib/blob/v2.x/feature/WodiLib/WodiLib/Sys/Collections/Enum/NotifyCollectionChangeEventType.cs) を参照。
+        - 通知する引数の実装を独自クラスである ```NotifyCollectionChangedEventArgsEx<T>``` (標準クラスである ```NotifyCollectionChangedEventArgs``` を継承) に変更。```NotifyCollectionChangedEventArgs``` との違いは以下のとおり。
+            - ```OldItems```, ```NewItems``` が ```IList``` ではなく ```WodiLib.Sys.Collections.IReadOnlyExtendedList<T>``` で定義される。
+            - ```Reset``` イベントが通知された際に変更前の要素が ```OldItems``` に格納される。
 
 </details>
 

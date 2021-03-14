@@ -57,40 +57,34 @@ namespace WodiLib.Sys
             remove => _propertyChanged -= value;
         }
 
-        private bool isNotifyBeforePropertyChange
-            = WodiLibConfig.GetDefaultNotifyBeforePropertyChangeFlag();
+        private NotifyPropertyChangeEventType notifyPropertyChangingEventType
+            = WodiLibConfig.GetDefaultNotifyBeforePropertyChangeEventType();
 
-        /// <inheritdoc cref="IReadOnlyModelBase{TChild}.IsNotifyBeforePropertyChange"/>
-        public virtual bool IsNotifyBeforePropertyChange
+        /// <inheritdoc cref="IReadOnlyModelBase{TChild}.NotifyPropertyChangingEventType"/>
+        public virtual NotifyPropertyChangeEventType NotifyPropertyChangingEventType
         {
-            get => isNotifyBeforePropertyChange;
+            get => notifyPropertyChangingEventType;
             set
             {
                 NotifyPropertyChanging();
-
-                isNotifyBeforePropertyChange = value;
-
-                Propagators.ForEach(item => item.IsNotifyBeforePropertyChange = value);
-
+                notifyPropertyChangingEventType = value;
+                Propagators.ForEach(item => item.NotifyPropertyChangingEventType = value);
                 NotifyPropertyChanged();
             }
         }
 
-        private bool isNotifyAfterPropertyChange
-            = WodiLibConfig.GetDefaultNotifyAfterPropertyChangeFlag();
+        private NotifyPropertyChangeEventType isNotifyAfterPropertyChange
+            = WodiLibConfig.GetDefaultNotifyAfterPropertyChangeEventType();
 
-        /// <inheritdoc cref="IReadOnlyModelBase{TChild}.IsNotifyAfterPropertyChange"/>
-        public virtual bool IsNotifyAfterPropertyChange
+        /// <inheritdoc cref="IReadOnlyModelBase{T}.NotifyPropertyChangedEventType"/>
+        public virtual NotifyPropertyChangeEventType NotifyPropertyChangedEventType
         {
             get => isNotifyAfterPropertyChange;
             set
             {
                 NotifyPropertyChanging();
-
                 isNotifyAfterPropertyChange = value;
-
-                Propagators.ForEach(item => item.IsNotifyAfterPropertyChange = value);
-
+                Propagators.ForEach(item => item.NotifyPropertyChangedEventType = value);
                 NotifyPropertyChanged();
             }
         }
@@ -152,7 +146,7 @@ namespace WodiLib.Sys
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected void NotifyPropertyChanging([CallerMemberName] string propertyName = "")
         {
-            if (!IsNotifyBeforePropertyChange) return;
+            if (!NotifyPropertyChangingEventType.IsNotify) return;
 
             var arg = PropertyChangingEventArgsCache.GetInstance(propertyName);
             _propertyChanging?.Invoke(this, arg);
@@ -165,7 +159,7 @@ namespace WodiLib.Sys
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            if (!IsNotifyAfterPropertyChange) return;
+            if (!NotifyPropertyChangedEventType.IsNotify) return;
 
             var arg = PropertyChangedEventArgsCache.GetInstance(propertyName);
             _propertyChanged?.Invoke(this, arg);

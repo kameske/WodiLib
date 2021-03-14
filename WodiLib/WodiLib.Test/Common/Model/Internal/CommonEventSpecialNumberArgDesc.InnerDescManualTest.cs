@@ -432,7 +432,10 @@ namespace WodiLib.Test.Common.Internal
             {
                 var argCases = isNullArgCases
                     ? null
-                    : new List<CommonEventSpecialArgCase>();
+                    : new List<CommonEventSpecialArgCase>
+                    {
+                        new(1, "Case")
+                    };
                 instance.AddRangeSpecialCase(argCases);
             }
             catch (Exception ex)
@@ -590,14 +593,10 @@ namespace WodiLib.Test.Common.Internal
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
+            var isChanged = !isError && insertLength > 0;
+
             // 意図したとおりプロパティ変更通知が発火していること
-            if (isError)
-            {
-                Assert.AreEqual(changedDescPropertyList.Count, 0);
-                Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
-                Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
-            }
-            else
+            if (isChanged)
             {
                 Assert.AreEqual(changedDescPropertyList.Count, 0);
                 Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 2);
@@ -608,6 +607,12 @@ namespace WodiLib.Test.Common.Internal
                 Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 1);
                 Assert.AreEqual(changedSpecialArgCaseListCollectionArgList[0].Action,
                     NotifyCollectionChangedAction.Add);
+            }
+            else
+            {
+                Assert.AreEqual(changedDescPropertyList.Count, 0);
+                Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+                Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
             }
         }
 
@@ -846,14 +851,10 @@ namespace WodiLib.Test.Common.Internal
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
+            var isChanged = !isError && count > 0;
+
             // 意図したとおりプロパティ変更通知が発火していること
-            if (isError)
-            {
-                Assert.AreEqual(changedDescPropertyList.Count, 0);
-                Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
-                Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
-            }
-            else
+            if (isChanged)
             {
                 Assert.AreEqual(changedDescPropertyList.Count, 0);
                 Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 2);
@@ -864,6 +865,12 @@ namespace WodiLib.Test.Common.Internal
                 Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 1);
                 Assert.AreEqual(changedSpecialArgCaseListCollectionArgList[0].Action,
                     NotifyCollectionChangedAction.Remove);
+            }
+            else
+            {
+                Assert.AreEqual(changedDescPropertyList.Count, 0);
+                Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 0);
+                Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 0);
             }
         }
 

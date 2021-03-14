@@ -24,8 +24,8 @@ namespace WodiLib.Sys
             /// </summary>
             private static readonly string[] NotifyFlagPropertyNames =
             {
-                nameof(IsNotifyBeforePropertyChange),
-                nameof(IsNotifyAfterPropertyChange),
+                nameof(NotifyPropertyChangingEventType),
+                nameof(NotifyPropertyChangedEventType),
             };
 
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

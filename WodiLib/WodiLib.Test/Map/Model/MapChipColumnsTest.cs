@@ -218,6 +218,7 @@ namespace WodiLib.Test.Map
             var chips = MakeMapChipList(initLength);
 
             var instance = new MapChipColumns(chips);
+            var beforeHeight = instance.Count;
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
             var changedCollectionList = new List<NotifyCollectionChangedEventArgs>();
@@ -256,23 +257,32 @@ namespace WodiLib.Test.Map
             }
 
             // 意図したとおりプロパティ変更通知が発火していること
-            Assert.AreEqual(changedPropertyList.Count, 2);
-            Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapChipColumns.Count)));
-            Assert.IsTrue(changedPropertyList[1].Equals(ListConstant.IndexerName));
-            if (initLength > height)
+            var isChanged = instance.Count != beforeHeight;
+            if (isChanged)
             {
-                Assert.AreEqual(changedCollectionList.Count, 1);
-                Assert.IsTrue(changedCollectionList[0].Action == NotifyCollectionChangedAction.Remove);
-            }
-            else if (initLength == height)
-            {
-                Assert.AreEqual(changedCollectionList.Count, 0);
+                Assert.AreEqual(changedPropertyList.Count, 2);
+                Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapChipColumns.Count)));
+                Assert.IsTrue(changedPropertyList[1].Equals(ListConstant.IndexerName));
+                if (initLength > height)
+                {
+                    Assert.AreEqual(changedCollectionList.Count, 1);
+                    Assert.IsTrue(changedCollectionList[0].Action == NotifyCollectionChangedAction.Remove);
+                }
+                else if (initLength == height)
+                {
+                    Assert.AreEqual(changedCollectionList.Count, 0);
+                }
+                else
+                {
+                    // initLength < height
+                    Assert.AreEqual(changedCollectionList.Count, 1);
+                    Assert.IsTrue(changedCollectionList[0].Action == NotifyCollectionChangedAction.Add);
+                }
             }
             else
             {
-                // initLength < height
-                Assert.AreEqual(changedCollectionList.Count, 1);
-                Assert.IsTrue(changedCollectionList[0].Action == NotifyCollectionChangedAction.Add);
+                Assert.AreEqual(changedPropertyList.Count, 0);
+                Assert.AreEqual(changedCollectionList.Count, 0);
             }
         }
 

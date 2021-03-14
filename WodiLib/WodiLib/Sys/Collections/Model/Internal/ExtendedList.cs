@@ -23,7 +23,8 @@ namespace WodiLib.Sys.Collections
     ///     機能概要は <seealso cref="IExtendedList{T}"/> 参照。
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    internal partial class ExtendedList<T> : ModelBase<ExtendedList<T>>, IExtendedList<T>
+    internal partial class ExtendedList<T> : ModelBase<ExtendedList<T>>, IExtendedList<T>,
+        IDeepCloneableExtendedList<ExtendedList<T>, T>
     {
         /*
          * WodiLib 内部で使用する独自汎用リスト。
@@ -96,13 +97,13 @@ namespace WodiLib.Sys.Collections
         /// </remarks>
         public Func<int, int, IEnumerable<T>> FuncMakeItems { get; set; } = default!;
 
-        /// <inheritdoc cref="IExtendedList{T}.IsNotifyBeforeCollectionChange"/>
-        public bool IsNotifyBeforeCollectionChange { get; set; }
-            = WodiLibConfig.GetDefaultNotifyBeforeCollectionChangeFlag();
+        /// <inheritdoc cref="INotifyCollectionChange.NotifyCollectionChangingEventType"/>
+        public NotifyCollectionChangeEventType NotifyCollectionChangingEventType { get; set; }
+            = WodiLibConfig.GetDefaultNotifyBeforeCollectionChangeEventType();
 
-        /// <inheritdoc cref="IExtendedList{T}.IsNotifyAfterCollectionChange"/>
-        public bool IsNotifyAfterCollectionChange { get; set; }
-            = WodiLibConfig.GetDefaultNotifyAfterCollectionChangeFlag();
+        /// <inheritdoc cref="INotifyCollectionChange.NotifyCollectionChangedEventType"/>
+        public NotifyCollectionChangeEventType NotifyCollectionChangedEventType { get; set; }
+            = WodiLibConfig.GetDefaultNotifyAfterCollectionChangeEventType();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
@@ -128,6 +129,34 @@ namespace WodiLib.Sys.Collections
             PropagatePropertyChangeEvent(Items);
         }
 
+        /// <summary>
+        /// ディープコピーコンストラクタ
+        /// </summary>
+        /// <param name="src">コピー元</param>
+        /// <param name="length">コピー後の要素数</param>
+        /// <param name="values">コピー時上書き要素</param>
+        /// <param name="funcMakeDefaultItem">デフォルト要素生成関数</param>
+        internal ExtendedList(IEnumerable<T> src, int? length, IReadOnlyDictionary<int, T>? values,
+            Func<int, T> funcMakeDefaultItem)
+        {
+            Items = new Impl(src);
+            FuncMakeItems = (index, count) => Enumerable.Range(index, count).Select(funcMakeDefaultItem);
+
+            if (length is not null)
+            {
+                AdjustLength(length.Value);
+            }
+
+            values?.ForEach(pair =>
+            {
+                var key = pair.Key;
+                if (0 <= key && key < Count)
+                {
+                    this[key] = pair.Value;
+                }
+            });
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -145,7 +174,7 @@ namespace WodiLib.Sys.Collections
 
         /// <inheritdoc cref="IExtendedList{T}.Contains"/>
         public bool Contains([AllowNull] T item)
-            => Enumerable.Contains<T>(Items, item);
+            => Items.Contains(item);
 
         /// <inheritdoc/>
         public IEnumerable<T> GetRange(int index, int count)
@@ -274,9 +303,15 @@ namespace WodiLib.Sys.Collections
         IReadOnlyExtendedList<T> IDeepCloneable<IReadOnlyExtendedList<T>>.DeepClone()
             => DeepClone();
 
-        /// <inheritdoc cref="IExtendedList{T}.DeepCloneWith"/>
-        public ExtendedList<T> DeepCloneWith(int? length, IEnumerable<KeyValuePair<int, T>>? values)
+        /// <inheritdoc cref="IDeepCloneableExtendedList{T,TIn}.DeepCloneWith"/>
+        public ExtendedList<T> DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
         {
+            var valueList = values?.ToList();
+            valueList?.ForEach(pair =>
+            {
+                ThrowHelper.ValidateArgumentNotNull(pair.Value is null, $"{nameof(values)} の要素 (Key: {pair.Key})");
+            });
+
             var result = DeepClone();
 
             if (length is not null)
@@ -284,9 +319,8 @@ namespace WodiLib.Sys.Collections
                 result.AdjustLength(length.Value);
             }
 
-            values?.ForEach(pair =>
+            valueList?.ForEach(pair =>
             {
-                ThrowHelper.ValidateArgumentNotNull(pair.Value is null, $"{nameof(values)} の要素 (Key: {pair.Key})");
                 if (result.Count < pair.Key) result[pair.Key] = pair.Value;
             });
 
@@ -294,12 +328,13 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <inheritdoc />
-        IExtendedList<T> IExtendedList<T>.DeepCloneWith(int? length, IEnumerable<KeyValuePair<int, T>>? values)
+        IReadOnlyExtendedList<T> IDeepCloneableExtendedList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length,
+            IReadOnlyDictionary<int, T>? values)
             => DeepCloneWith(length, values);
 
         /// <inheritdoc />
-        IReadOnlyExtendedList<T> IReadOnlyExtendedList<T>.DeepCloneWith(int? length,
-            IEnumerable<KeyValuePair<int, T>>? values)
+        IExtendedList<T> IDeepCloneableExtendedList<IExtendedList<T>, T>.DeepCloneWith(int? length,
+            IReadOnlyDictionary<int, T>? values)
             => DeepCloneWith(length, values);
 
         #endregion
@@ -326,12 +361,17 @@ namespace WodiLib.Sys.Collections
         /// <param name="items">更新要素</param>
         private void Set_Impl(int index, params T[] items)
         {
-            var notifyManager = MakeNotifyManager(() =>
-            {
-                var oldItems = Items.Get(index, items.Length);
-                var eventArgs = NotifyCollectionChangedEventArgsHelper.Set(items, Enumerable.ToList<T>(oldItems), index);
-                return eventArgs;
-            }, ListConstant.IndexerName);
+            if (items.Length == 0) return;
+
+            var oldItems = Items.Get(index, items.Length).ToArray();
+
+            var collectionChangeEventArgsFactory =
+                CollectionChangeEventArgsFactory.CreateSet(this, index, oldItems, items);
+
+            var notifyManager = MakeNotifyManager(
+                collectionChangeEventArgsFactory.CollectionChangingEventArgs,
+                collectionChangeEventArgsFactory.CollectionChangedEventArgs,
+                ListConstant.IndexerName);
 
             notifyManager.NotifyBeforeEvent();
 
@@ -347,8 +387,14 @@ namespace WodiLib.Sys.Collections
         /// <param name="items">挿入要素</param>
         private void Insert_Impl(int index, params T[] items)
         {
+            if (items.Length == 0) return;
+
+            var collectionChangeEventArgsFactory =
+                CollectionChangeEventArgsFactory.CreateInsert(this, index, items);
+
             var notifyManager = MakeNotifyManager(
-                () => NotifyCollectionChangedEventArgsHelper.Insert(items, index),
+                collectionChangeEventArgsFactory.CollectionChangingEventArgs,
+                collectionChangeEventArgsFactory.CollectionChangedEventArgs,
                 nameof(IList.Count), ListConstant.IndexerName);
 
             notifyManager.NotifyBeforeEvent();
@@ -365,61 +411,26 @@ namespace WodiLib.Sys.Collections
         /// <param name="items">上書き要素</param>
         private void Overwrite_Impl(int index, params T[] items)
         {
-            /*
-             * 要素を上書きする場合に Set、追加する場合に Insert の処理をそれぞれ実行する。
-             * PropertyChanged は "Item[]", "Count" ともに通知するが、
-             * CollectionChange は実行するものだけを通知。
-             * そのため実行する必要がある処理を事前に作成しておき、最後にまとめて実行する。
-             */
+            if (items.Length == 0) return;
 
-            // 通知アクションリスト
-            var notifyManagerList = new List<NotifyManager>();
-            // 処理本体リスト
-            var actionCoreList = new List<Action>();
+            var param = OverwriteParam.Factory.Create(this, index, items);
 
+            var collectionChangeEventArgsFactory =
+                CollectionChangeEventArgsFactory.CreateOverwrite(this, index, param.ReplaceOldItems,
+                    param.ReplaceNewItems, param.InsertItems);
 
-            var updateCnt = index + items.Length > Count
-                ? Count - index
-                : items.Length;
-
-            // 上書き要素
-            {
-                var replaceItems = items.Take(updateCnt).ToArray();
-
-                notifyManagerList.Add(MakeNotifyManager(() =>
-                {
-                    var replaceOldItems = Items.Get(index, updateCnt);
-
-                    var eventArgs = NotifyCollectionChangedEventArgsHelper.Set(
-                        replaceItems, Enumerable.ToList<T>(replaceOldItems), index);
-                    return eventArgs;
-                }, nameof(IList.Count), ListConstant.IndexerName));
-
-                actionCoreList.Add(
-                    () => Items.Set(index, replaceItems)
-                );
-            }
-
-            // 追加要素
-            {
-                var insertStartIndex = index + updateCnt;
-                var insertItems = items.Skip(updateCnt).ToArray();
-
-                notifyManagerList.Add(MakeNotifyManager(() =>
-                    NotifyCollectionChangedEventArgsHelper.Insert(
-                        insertItems, insertStartIndex)));
-
-                actionCoreList.Add(
-                    () => Items.Insert(insertStartIndex, insertItems)
-                );
-            }
+            var notifyManager = MakeNotifyManager(
+                collectionChangeEventArgsFactory.CollectionChangingEventArgs,
+                collectionChangeEventArgsFactory.CollectionChangedEventArgs,
+                param.NotifyProperties);
 
             // 処理本体
-            notifyManagerList.ForEach(manager => manager.NotifyBeforeEvent());
+            notifyManager.NotifyBeforeEvent();
 
-            actionCoreList.ForEach(action => action());
+            Items.Set(index, param.ReplaceNewItems);
+            Items.Insert(param.InsertStartIndex, param.InsertItems);
 
-            notifyManagerList.ForEach(manager => manager.NotifyAfterEvent());
+            notifyManager.NotifyAfterEvent();
         }
 
         /// <summary>
@@ -430,13 +441,17 @@ namespace WodiLib.Sys.Collections
         /// <param name="count">移動させる要素数</param>
         private void Move_Impl(int oldIndex, int newIndex, int count)
         {
-            var notifyManager = MakeNotifyManager(() =>
-            {
-                var movedItems = Items.Get(oldIndex, count);
-                var eventArgs = NotifyCollectionChangedEventArgsHelper.Move(
-                    Enumerable.ToArray<T>(movedItems), newIndex, oldIndex);
-                return eventArgs;
-            }, ListConstant.IndexerName);
+            if (count == 0) return;
+
+            var moveItems = Items.Get(oldIndex, count).ToArray();
+
+            var collectionChangeEventArgsFactory =
+                CollectionChangeEventArgsFactory.CreateMove(this, oldIndex, newIndex, moveItems);
+
+            var notifyManager = MakeNotifyManager(
+                collectionChangeEventArgsFactory.CollectionChangingEventArgs,
+                collectionChangeEventArgsFactory.CollectionChangedEventArgs,
+                ListConstant.IndexerName);
 
             notifyManager.NotifyBeforeEvent();
 
@@ -457,8 +472,12 @@ namespace WodiLib.Sys.Collections
             var index = Items.IndexOf(item);
             if (index < 0) return false;
 
+            var collectionChangeEventArgsFactory =
+                CollectionChangeEventArgsFactory.CreateRemove(this, index, new List<T> {item});
+
             var notifyManager = MakeNotifyManager(
-                () => NotifyCollectionChangedEventArgsHelper.Remove(new[] {item}, index),
+                collectionChangeEventArgsFactory.CollectionChangingEventArgs,
+                collectionChangeEventArgsFactory.CollectionChangedEventArgs,
                 nameof(IList.Count), ListConstant.IndexerName);
 
             notifyManager.NotifyBeforeEvent();
@@ -477,13 +496,17 @@ namespace WodiLib.Sys.Collections
         /// <param name="count">除去する要素数</param>
         private void Remove_Impl(int index, int count)
         {
-            var notifyManager = MakeNotifyManager(() =>
-            {
-                var removeItems = Get_Impl(index, count)
-                    .ToArray();
-                var eventArgs = NotifyCollectionChangedEventArgsHelper.Remove(removeItems, index);
-                return eventArgs;
-            }, nameof(IList.Count), ListConstant.IndexerName);
+            if (count == 0) return;
+
+            var removeItems = Get_Impl(index, count).ToArray();
+
+            var collectionChangeEventArgsFactory =
+                CollectionChangeEventArgsFactory.CreateRemove(this, index, removeItems);
+
+            var notifyManager = MakeNotifyManager(
+                collectionChangeEventArgsFactory.CollectionChangingEventArgs,
+                collectionChangeEventArgsFactory.CollectionChangedEventArgs,
+                nameof(IList.Count), ListConstant.IndexerName);
 
             notifyManager.NotifyBeforeEvent();
 
@@ -500,12 +523,6 @@ namespace WodiLib.Sys.Collections
         {
             if (length == Count)
             {
-                var notifyManager = MakeNotifyManager(
-                    nameof(Count), ListConstant.IndexerName);
-
-                notifyManager.NotifyBeforeEvent();
-                notifyManager.NotifyAfterEvent();
-
                 return;
             }
 
@@ -525,6 +542,8 @@ namespace WodiLib.Sys.Collections
         /// <param name="length">調整要素数</param>
         private void AdjustLengthIfShort_Impl(int length)
         {
+            if (length <= Count) return;
+
             AdjustLengthIfShort_Main(length);
         }
 
@@ -534,6 +553,8 @@ namespace WodiLib.Sys.Collections
         /// <param name="length">調整要素数</param>
         private void AdjustLengthIfLong_Impl(int length)
         {
+            if (length >= Count) return;
+
             AdjustLengthIfLong_Main(length);
         }
 
@@ -543,26 +564,17 @@ namespace WodiLib.Sys.Collections
         /// <param name="length">調整要素数</param>
         private void AdjustLengthIfShort_Main(int length)
         {
-            NotifyManager notifyManager;
-
-            if (length <= Count)
-            {
-                notifyManager = MakeNotifyManager(
-                    nameof(Count), ListConstant.IndexerName);
-
-                notifyManager.NotifyBeforeEvent();
-                notifyManager.NotifyAfterEvent();
-
-                return;
-            }
-
             var startIndex = Count;
             var items = FuncMakeItems(startIndex, length - startIndex)
                 .ToArray();
 
-            notifyManager = MakeNotifyManager(
-                () => NotifyCollectionChangedEventArgsHelper.Insert(items, startIndex),
-                nameof(Count), ListConstant.IndexerName);
+            var collectionChangeEventArgsFactory =
+                CollectionChangeEventArgsFactory.CreateAdjustLengthIfShort(this, startIndex, items);
+
+            var notifyManager = MakeNotifyManager(
+                collectionChangeEventArgsFactory.CollectionChangingEventArgs,
+                collectionChangeEventArgsFactory.CollectionChangedEventArgs,
+                nameof(IList.Count), ListConstant.IndexerName);
 
             notifyManager.NotifyBeforeEvent();
 
@@ -577,29 +589,17 @@ namespace WodiLib.Sys.Collections
         /// <param name="length">調整要素数</param>
         private void AdjustLengthIfLong_Main(int length)
         {
-            NotifyManager notifyManager;
-
-            if (length >= Count)
-            {
-                notifyManager = MakeNotifyManager(
-                    nameof(Count), ListConstant.IndexerName);
-
-                notifyManager.NotifyBeforeEvent();
-                notifyManager.NotifyAfterEvent();
-
-                return;
-            }
-
             var index = length;
             var count = Count - length;
+            var removeItems = Get_Impl(index, count).ToArray();
 
-            notifyManager = MakeNotifyManager(() =>
-            {
-                var removeItems = Get_Impl(index, count)
-                    .ToArray();
-                var eventArgs = NotifyCollectionChangedEventArgsHelper.Remove(removeItems, index);
-                return eventArgs;
-            }, nameof(Count), ListConstant.IndexerName);
+            var collectionChangeEventArgsFactory =
+                CollectionChangeEventArgsFactory.CreateAdjustLengthIfLong(this, index, removeItems);
+
+            var notifyManager = MakeNotifyManager(
+                collectionChangeEventArgsFactory.CollectionChangingEventArgs,
+                collectionChangeEventArgsFactory.CollectionChangedEventArgs,
+                nameof(IList.Count), ListConstant.IndexerName);
 
             notifyManager.NotifyBeforeEvent();
 
@@ -622,43 +622,17 @@ namespace WodiLib.Sys.Collections
         /// <param name="items">初期化要素</param>
         private void Reset_Impl(params T[] items)
         {
-            // Replace, Add, Remove のうち必要な処理を先にAction化 → 最後にまとめて実行
-            var coreActions = new List<Action>();
-
-            var replaceLength = Math.Min(items.Length, Count);
-            var insertLength = items.Length - Count;
-
-            if (replaceLength != 0)
-            {
-                var newItems = items.Take(replaceLength).ToArray();
-
-                coreActions.Add(() => Items.Set(0, newItems));
-            }
-
-            if (insertLength > 0)
-            {
-                var index = Count;
-                var insertItems = items.Skip(replaceLength).ToArray();
-
-                coreActions.Add(() => Items.Insert(index, insertItems));
-            }
-
-            if (insertLength < 0)
-            {
-                var removeLength = Math.Abs(insertLength);
-                var index = Count - removeLength;
-
-                coreActions.Add(() => Items.Remove(index, removeLength));
-            }
+            var collectionChangeEventArgsFactory =
+                CollectionChangeEventArgsFactory.CreateReset(this, this, items);
 
             var notifyManager = MakeNotifyManager(
-                NotifyCollectionChangedEventArgsHelper.Clear,
+                collectionChangeEventArgsFactory.CollectionChangingEventArgs,
+                collectionChangeEventArgsFactory.CollectionChangedEventArgs,
                 nameof(IList.Count), ListConstant.IndexerName);
 
             notifyManager.NotifyBeforeEvent();
 
-            // 必要な処理を順次実行
-            coreActions.ForEach(action => action.Invoke());
+            Items.Reset(items);
 
             notifyManager.NotifyAfterEvent();
         }

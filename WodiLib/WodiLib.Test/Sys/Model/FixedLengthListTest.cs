@@ -515,6 +515,8 @@ namespace WodiLib.Test.Sys
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
 
+            var isMoved = !isError && count > 0;
+
             // 各イベントが意図した回数呼ばれていること
             var assertCollectionChangeEventArgsList =
                 new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
@@ -522,11 +524,7 @@ namespace WodiLib.Test.Sys
                     {
                         Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
                         Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 0);
-                        if (isError)
-                        {
-                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
-                        }
-                        else
+                        if (isMoved)
                         {
                             Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 1);
                             var eventArg = dic[nameof(NotifyCollectionChangedAction.Move)][0];
@@ -539,11 +537,15 @@ namespace WodiLib.Test.Sys
                                 Assert.IsTrue(ReferenceEquals(eventArg.OldItems[i], eventArg.NewItems[i]));
                             }
                         }
+                        else
+                        {
+                            Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        }
                     });
             assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
             assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
-            Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
-            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
+            Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], isMoved ? 1 : 0);
+            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], isMoved ? 1 : 0);
 
             if (errorOccured) return;
 
@@ -968,7 +970,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                clone = instance.DeepCloneWith();
+                clone = instance.DeepCloneWith(new Dictionary<int, TestClass>());
             }
             catch (Exception ex)
             {
@@ -1007,7 +1009,7 @@ namespace WodiLib.Test.Sys
         private static readonly object[] DeepCloneWithTestCaseSource_1 =
         {
             new object[] {null, false},
-            new object[] {-1, false},
+            new object[] {-1, true},
             new object[] {0, false},
             new object[] {10, false},
             new object[] {11, false},
@@ -1053,8 +1055,13 @@ namespace WodiLib.Test.Sys
             // 元とは異なる参照であること
             Assert.False(ReferenceEquals(clone, instance));
 
-            // 元の要素数から変化していないこと
-            Assert.AreEqual(clone.Count, initCount);
+            /*
+             * 引数 length が
+             *      指定されている場合、指定した要素数であること
+             *      指定されていない場合、元の要素数から変化していないこと
+             */
+            var clonedLength = length ?? initCount;
+            Assert.AreEqual(clone.Count, clonedLength);
 
             // 各要素がディープクローンであること（既存要素のみ）
             for (var i = 0; i < Math.Min(initCount, clone.Count); i++)
@@ -1075,9 +1082,8 @@ namespace WodiLib.Test.Sys
             new object[]
                 {new KeyValuePair<int, TestClass>[] {new(-1, new TestClass()), new(0, new TestClass())}, false},
             new object[] {new KeyValuePair<int, TestClass>[] {new(0, new TestClass()), new(4, new TestClass())}, false},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(3, new TestClass()), new(3, new TestClass())}, false},
             new object[] {new KeyValuePair<int, TestClass>[] {new(1, null)}, true},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(3, new TestClass()), new(3, null)}, true},
+            new object[] {new KeyValuePair<int, TestClass>[] {new(3, new TestClass()), new(2, null)}, true},
         };
 
         [TestCaseSource(nameof(DeepCloneWithTestCaseSource_2))]
@@ -1087,7 +1093,8 @@ namespace WodiLib.Test.Sys
             var instance = MakeCollection5(initCount);
 
             var guidList = instance.Select(x => x.Guid).ToList();
-            var valueList = values?.ToList();
+            var valueList =
+                new Dictionary<int, TestClass>(values?.ToArray() ?? Array.Empty<KeyValuePair<int, TestClass>>());
 
             CollectionTest5 clone = null;
 
@@ -1163,8 +1170,8 @@ namespace WodiLib.Test.Sys
             new object[]
                 {null, new KeyValuePair<int, TestClass>[] {new(0, new TestClass()), new(4, new TestClass())}, false},
             new object[]
-                {null, new KeyValuePair<int, TestClass>[] {new(3, new TestClass()), new(3, new TestClass())}, false},
-            new object[] {-1, null, false},
+                {null, new KeyValuePair<int, TestClass>[] {new(3, new TestClass()), new(11, new TestClass())}, false},
+            new object[] {-1, null, true},
             new object[] {0, null, false},
             new object[] {10, null, false},
             new object[] {11, null, false},
@@ -1189,7 +1196,8 @@ namespace WodiLib.Test.Sys
             var instance = MakeCollection5(initCount);
 
             var guidList = instance.Select(x => x.Guid).ToList();
-            var valueList = values?.ToList();
+            var valueList =
+                new Dictionary<int, TestClass>(values?.ToArray() ?? Array.Empty<KeyValuePair<int, TestClass>>());
 
             IReadOnlyExtendedList<TestClass> clone = null;
 
@@ -1223,8 +1231,13 @@ namespace WodiLib.Test.Sys
             // 元とは異なる参照であること
             Assert.False(ReferenceEquals(clone, instance));
 
-            // 元の要素数から変化していないこと
-            Assert.AreEqual(clone.Count, initCount);
+            /*
+             * 引数 length が
+             *      指定されている場合、指定した要素数であること
+             *      指定されていない場合、元の要素数から変化していないこと
+             */
+            var clonedLength = length ?? initCount;
+            Assert.AreEqual(clone.Count, clonedLength);
 
             if (values is null)
             {
@@ -1291,10 +1304,10 @@ namespace WodiLib.Test.Sys
                 : new CollectionTest1(initStringList);
 
             // Observerに購読させないよう、イベントObserver登録より前に通知フラグ設定
-            result.IsNotifyBeforePropertyChange = true;
-            result.IsNotifyAfterPropertyChange = true;
-            result.IsNotifyBeforeCollectionChange = true;
-            result.IsNotifyAfterCollectionChange = true;
+            result.NotifyPropertyChangingEventType = NotifyPropertyChangeEventType.Enabled;
+            result.NotifyPropertyChangedEventType = NotifyPropertyChangeEventType.Enabled;
+            result.NotifyCollectionChangingEventType = NotifyCollectionChangeEventType.Single;
+            result.NotifyCollectionChangedEventType = NotifyCollectionChangeEventType.Single;
 
             collectionChangingEventArgsList = MakeCollectionChangeEventArgsDic();
             result.CollectionChanging += MakeCollectionChangeEventHandler(true, collectionChangingEventArgsList);
@@ -1320,10 +1333,10 @@ namespace WodiLib.Test.Sys
             var result = new CollectionTest4
             {
                 // Observerに購読させないよう、イベントObserver登録より前に通知フラグ設定
-                IsNotifyBeforePropertyChange = true,
-                IsNotifyAfterPropertyChange = true,
-                IsNotifyBeforeCollectionChange = true,
-                IsNotifyAfterCollectionChange = true
+                NotifyPropertyChangingEventType = NotifyPropertyChangeEventType.Enabled,
+                NotifyPropertyChangedEventType = NotifyPropertyChangeEventType.Enabled,
+                NotifyCollectionChangingEventType = NotifyCollectionChangeEventType.Single,
+                NotifyCollectionChangedEventType = NotifyCollectionChangeEventType.Single
             };
 
             collectionChangingEventArgsList = MakeCollectionChangeEventArgsDic();
@@ -1463,9 +1476,7 @@ namespace WodiLib.Test.Sys
             }
 
             public override CollectionTest1 DeepClone()
-            {
-                throw new NotImplementedException();
-            }
+                => new(this);
         }
 
         private class CollectionTest2 : AbsCollectionTest<CollectionTest2>

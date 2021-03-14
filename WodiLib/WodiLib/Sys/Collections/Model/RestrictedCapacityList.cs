@@ -67,18 +67,18 @@ namespace WodiLib.Sys.Collections
             }
         }
 
-        /// <inheritdoc cref="IReadOnlyExtendedList{T}.IsNotifyBeforeCollectionChange"/>
-        public bool IsNotifyBeforeCollectionChange
+        /// <inheritdoc cref="INotifyCollectionChange.NotifyCollectionChangingEventType"/>
+        public NotifyCollectionChangeEventType NotifyCollectionChangingEventType
         {
-            get => Items.IsNotifyBeforeCollectionChange;
-            set => Items.IsNotifyBeforeCollectionChange = value;
+            get => Items.NotifyCollectionChangingEventType;
+            set => Items.NotifyCollectionChangingEventType = value;
         }
 
-        /// <inheritdoc cref="IReadOnlyExtendedList{T}.IsNotifyAfterCollectionChange"/>
-        public bool IsNotifyAfterCollectionChange
+        /// <inheritdoc cref="IReadOnlyExtendedList{T}.NotifyCollectionChangedEventType"/>
+        public NotifyCollectionChangeEventType NotifyCollectionChangedEventType
         {
-            get => Items.IsNotifyAfterCollectionChange;
-            set => Items.IsNotifyAfterCollectionChange = value;
+            get => Items.NotifyCollectionChangedEventType;
+            set => Items.NotifyCollectionChangedEventType = value;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -89,7 +89,7 @@ namespace WodiLib.Sys.Collections
         private IWodiLibListValidator<T>? Validator { get; }
 
         /// <summary>リスト</summary>
-        private Collections.ExtendedList<T> Items { get; }
+        private ExtendedList<T> Items { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Constructor
@@ -101,14 +101,14 @@ namespace WodiLib.Sys.Collections
         protected RestrictedCapacityList()
         {
             // MakeClearItems() 内で自身にアクセスする可能性を考慮して Items を空リストで初期化
-            Items = new Collections.ExtendedList<T>();
+            Items = new ExtendedList<T>();
 
             var items = MakeClearItems();
 
             Validator = MakeValidator();
             Validator?.Constructor(items);
 
-            Items = new Collections.ExtendedList<T>(items)
+            Items = new ExtendedList<T>(items)
             {
                 FuncMakeItems = MakeItems
             };
@@ -136,7 +136,7 @@ namespace WodiLib.Sys.Collections
 
             Validator = MakeValidator();
             Validator?.Constructor(items);
-            Items = new Collections.ExtendedList<T>(items)
+            Items = new ExtendedList<T>(items)
             {
                 FuncMakeItems = MakeItems
             };
@@ -327,6 +327,9 @@ namespace WodiLib.Sys.Collections
             => Items.GetEnumerator();
 
         /// <inheritdoc/>
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable) Items).GetEnumerator();
+
+        /// <inheritdoc/>
         public override bool ItemEquals(TImpl? other)
             => ItemEquals((IEnumerable<T>?) other);
 
@@ -355,7 +358,6 @@ namespace WodiLib.Sys.Collections
         IRestrictedCapacityList<T> IDeepCloneable<IRestrictedCapacityList<T>>.DeepClone()
             => DeepClone();
 
-        /// <inheritdoc/>
         IReadOnlyRestrictedCapacityList<T> IDeepCloneable<IReadOnlyRestrictedCapacityList<T>>.DeepClone()
             => DeepClone();
 
@@ -363,10 +365,22 @@ namespace WodiLib.Sys.Collections
         IReadOnlyExtendedList<T> IDeepCloneable<IReadOnlyExtendedList<T>>.DeepClone()
             => DeepClone();
 
-        /// <inheritdoc cref="IRestrictedCapacityList{T}.DeepCloneWith"/>
+        /// <inheritdoc cref="IDeepCloneableRestrictedCapacityList{T,TIn}.DeepCloneWith"/>
         public TImpl DeepCloneWith(int? length = null,
-            IEnumerable<KeyValuePair<int, T>>? values = null)
+            IReadOnlyDictionary<int, T>? values = null)
         {
+            if (length is not null)
+            {
+                ThrowHelper.ValidateArgumentValueRange(
+                    length.Value < GetMinCapacity() || GetMaxCapacity() < length.Value, nameof(length), length.Value,
+                    GetMinCapacity(), GetMaxCapacity());
+            }
+
+            values?.ForEach(pair =>
+            {
+                ThrowHelper.ValidateArgumentNotNull(pair.Value is null, $"{nameof(values)} の要素 (Key: {pair.Key})");
+            });
+
             var result = DeepClone();
 
             if (length is not null)
@@ -376,7 +390,6 @@ namespace WodiLib.Sys.Collections
 
             values?.ForEach(pair =>
             {
-                ThrowHelper.ValidateArgumentNotNull(pair.Value is null, $"{nameof(values)} の要素 (Key: {pair.Key})");
                 if (-1 < pair.Key && pair.Key < result.Count) result[pair.Key] = pair.Value;
             });
 
@@ -384,25 +397,18 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <inheritdoc/>
-        IReadOnlyExtendedList<T> IReadOnlyExtendedList<T>.DeepCloneWith(int? length,
-            IEnumerable<KeyValuePair<int, T>>? values)
+        IRestrictedCapacityList<T> IDeepCloneableRestrictedCapacityList<IRestrictedCapacityList<T>, T>.DeepCloneWith(
+            int? length, IReadOnlyDictionary<int, T>? values)
+            => DeepCloneWith(length, values);
+
+        IReadOnlyRestrictedCapacityList<T> IDeepCloneableRestrictedCapacityList<IReadOnlyRestrictedCapacityList<T>, T>.
+            DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
             => DeepCloneWith(length, values);
 
         /// <inheritdoc/>
-        IRestrictedCapacityList<T> IRestrictedCapacityList<T>.DeepCloneWith(int? length,
-            IEnumerable<KeyValuePair<int, T>>? values)
-            => DeepCloneWith(length, values);
-
-        /// <inheritdoc/>
-        IReadOnlyRestrictedCapacityList<T> IReadOnlyRestrictedCapacityList<T>.DeepCloneWith(int? length,
-            IEnumerable<KeyValuePair<int, T>>? values)
-            => DeepCloneWith(length, values);
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Implements Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable) Items).GetEnumerator();
+        IReadOnlyExtendedList<T> IDeepCloneableExtendedList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length,
+            IReadOnlyDictionary<int, T>? values)
+            => new ExtendedList<T>(this, length, values, MakeDefaultItem);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Method

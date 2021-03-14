@@ -105,6 +105,16 @@ namespace WodiLib.Sys.Collections
             public void Remove(int index, int count)
                 => Items.RemoveRange(index, count);
 
+            /// <summary>
+            /// Reset, Clear メソッドの処理本体
+            /// </summary>
+            /// <param name="items">初期化要素</param>
+            public void Reset(params T[] items)
+            {
+                Items.Clear();
+                Items.AddRange(items);
+            }
+
             /// <inheritdoc cref="List{T}.CopyTo(T[], int)"/>
             public void CopyTo(T[] array, int arrayIndex)
                 => Items.CopyTo(array, arrayIndex);
@@ -121,7 +131,7 @@ namespace WodiLib.Sys.Collections
             /// <inheritdoc/>
             public override Impl DeepClone()
             {
-                return new();
+                return new(this);
             }
         }
     }

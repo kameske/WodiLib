@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
 
 namespace WodiLib.Sys.Collections
@@ -20,16 +19,11 @@ namespace WodiLib.Sys.Collections
     /// <remarks>
     ///     <see cref="IList{T}"/> のメソッドと <see cref="ObservableCollection{T}"/> の機能を融合した機能。
     ///     <see cref="ObservableCollection{T}"/> のCRUD各種処理に範囲指定バージョン（XXXRange メソッド）を追加している。
-    ///     それ以外にもいくつかメソッドを追加している。<br/>
-    ///     範囲操作メソッド実行時に通知される <see cref="INotifyCollectionChange.CollectionChanging"/>
-    ///     および <see cref="INotifyCollectionChange.CollectionChanged"/> は
-    ///     要素をいくつ変更してもそれぞれ1度だけ呼ばれる。たとえ操作した要素数が0個であっても呼ばれる。<br/>
-    ///     操作前後の要素は <see cref="NotifyCollectionChangedEventArgs"/> の各 Items を
-    ///     <see cref="IList{T}"/> にキャストすることで取り出せる。
-    ///     この弊害として、WPFのUIにバインドした状態で範囲操作するメソッドを実行すると例外が発生するため注意。
+    ///     それ以外にもいくつかメソッドを追加している。
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    public interface IExtendedList<T> : IModelBase<IExtendedList<T>>, IList<T>, IReadOnlyExtendedList<T>
+    public interface IExtendedList<T> : IModelBase<IExtendedList<T>>, IList<T>,
+        IReadOnlyExtendedList<T>, IDeepCloneableExtendedList<IExtendedList<T>, T>
     {
         /*
          * IList<T> と IReadOnlyList<T>、
@@ -194,10 +188,6 @@ namespace WodiLib.Sys.Collections
 
         /// <inheritdoc cref="IReadOnlyExtendedList{T}.CopyTo"/>
         public new void CopyTo(T[] array, int index);
-
-        /// <inheritdoc cref="IReadOnlyExtendedList{T}.DeepCloneWith"/>
-        public new IExtendedList<T> DeepCloneWith(int? length = null,
-            IEnumerable<KeyValuePair<int, T>>? values = null);
     }
 
     /// <summary>
@@ -205,7 +195,7 @@ namespace WodiLib.Sys.Collections
     /// </summary>
     /// <typeparam name="T">リスト内包クラス</typeparam>
     public interface IReadOnlyExtendedList<T> : IModelBase<IReadOnlyExtendedList<T>>,
-        IReadOnlyList<T>, INotifyCollectionChange
+        IReadOnlyList<T>, INotifyCollectionChange, IDeepCloneableExtendedList<IReadOnlyExtendedList<T>, T>
     {
         /// <summary>
         ///     指定範囲の要素を簡易コピーしたリストを取得する。
@@ -249,7 +239,16 @@ namespace WodiLib.Sys.Collections
 
         /// <inheritdoc cref="IEqualityComparable.ItemEquals"/>
         public bool ItemEquals(IEnumerable<T>? other);
+    }
 
+    /// <summary>
+    /// <see cref="IReadOnlyExtendedList{TIn}"/> ディープクローンインタフェース
+    /// </summary>
+    /// <typeparam name="T">クローン返却型</typeparam>
+    /// <typeparam name="TIn"><see cref="IReadOnlyExtendedList{T}"/>内包型</typeparam>
+    public interface IDeepCloneableExtendedList<out T, TIn> : IDeepCloneable<T>
+        where T : IReadOnlyExtendedList<TIn>
+    {
         /// <summary>
         ///     自身の要素をコピーした新たなインスタンスを返却する。
         /// </summary>
@@ -273,10 +272,13 @@ namespace WodiLib.Sys.Collections
         /// <param name="length">ディープコピー後の要素数</param>
         /// <param name="values">ディープコピー時の上書きインデックスと値のペア列挙子</param>
         /// <returns>自身をディープコピーしたインスタンス</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// 	<paramref name="length"/> が 0 未満の場合。
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="values"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
-        public IReadOnlyExtendedList<T> DeepCloneWith(int? length = null,
-            IEnumerable<KeyValuePair<int, T>>? values = null);
+        public T DeepCloneWith(int? length = null,
+            IReadOnlyDictionary<int, TIn>? values = null);
     }
 }

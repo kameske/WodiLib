@@ -95,26 +95,16 @@ namespace WodiLib.Map
             throw new NotImplementedException();
         }
 
-        /// <inheritdoc />
-        IFixedLengthList<TilePathSetting> IFixedLengthList<TilePathSetting>.DeepCloneWith(IEnumerable<KeyValuePair<int, TilePathSetting>>? values)
+        IReadOnlyFixedLengthList<TilePathSetting>
+            IDeepCloneableFixedLengthList<IReadOnlyFixedLengthList<TilePathSetting>, TilePathSetting>.DeepCloneWith(
+                IReadOnlyDictionary<int, TilePathSetting>? values)
         {
             throw new NotImplementedException();
         }
 
-        /// <inheritdoc />
-        IFixedLengthList<TilePathSetting> IFixedLengthList<TilePathSetting>.DeepCloneWith(int? length, IEnumerable<KeyValuePair<int, TilePathSetting>>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        IReadOnlyFixedLengthList<TilePathSetting> IReadOnlyFixedLengthList<TilePathSetting>.DeepCloneWith(IEnumerable<KeyValuePair<int, TilePathSetting>>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        IReadOnlyFixedLengthList<TilePathSetting> IReadOnlyFixedLengthList<TilePathSetting>.DeepCloneWith(int? length, IEnumerable<KeyValuePair<int, TilePathSetting>>? values)
+        IFixedLengthList<TilePathSetting>
+            IDeepCloneableFixedLengthList<IFixedLengthList<TilePathSetting>, TilePathSetting>.DeepCloneWith(
+                IReadOnlyDictionary<int, TilePathSetting>? values)
         {
             throw new NotImplementedException();
         }

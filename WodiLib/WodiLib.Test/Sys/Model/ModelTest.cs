@@ -36,8 +36,12 @@ namespace WodiLib.Test.Sys
             {
                 var model = new BasicModel
                 {
-                    IsNotifyBeforePropertyChange = isNotifyBeforePropertyChange,
-                    IsNotifyAfterPropertyChange = isNotifyAfterPropertyChange,
+                    NotifyPropertyChangingEventType = isNotifyBeforePropertyChange
+                        ? NotifyPropertyChangeEventType.Enabled
+                        : NotifyPropertyChangeEventType.Disabled,
+                    NotifyPropertyChangedEventType = isNotifyAfterPropertyChange
+                        ? NotifyPropertyChangeEventType.Enabled
+                        : NotifyPropertyChangeEventType.Disabled,
                 };
                 model.PropertyChanging += (_, args) => propertyChanging.Add(args.PropertyName);
                 model.PropertyChanged += (_, args) => propertyChanged.Add(args.PropertyName);
@@ -74,8 +78,12 @@ namespace WodiLib.Test.Sys
             {
                 var model = new ExtendModel
                 {
-                    IsNotifyBeforePropertyChange = isNotifyBeforePropertyChange,
-                    IsNotifyAfterPropertyChange = isNotifyAfterPropertyChange,
+                    NotifyPropertyChangingEventType = isNotifyBeforePropertyChange
+                        ? NotifyPropertyChangeEventType.Enabled
+                        : NotifyPropertyChangeEventType.Disabled,
+                    NotifyPropertyChangedEventType = isNotifyAfterPropertyChange
+                        ? NotifyPropertyChangeEventType.Enabled
+                        : NotifyPropertyChangeEventType.Disabled,
                 };
                 model.PropertyChanging += (_, args) => propertyChanging.Add(args.PropertyName);
                 model.PropertyChanged += (_, args) => propertyChanged.Add(args.PropertyName);
@@ -112,8 +120,12 @@ namespace WodiLib.Test.Sys
             {
                 var model = new WrapperModel0
                 {
-                    IsNotifyBeforePropertyChange = isNotifyBeforePropertyChange,
-                    IsNotifyAfterPropertyChange = isNotifyAfterPropertyChange,
+                    NotifyPropertyChangingEventType = isNotifyBeforePropertyChange
+                        ? NotifyPropertyChangeEventType.Enabled
+                        : NotifyPropertyChangeEventType.Disabled,
+                    NotifyPropertyChangedEventType = isNotifyAfterPropertyChange
+                        ? NotifyPropertyChangeEventType.Enabled
+                        : NotifyPropertyChangeEventType.Disabled,
                 };
                 model.PropertyChanging += (_, args) => propertyChanging.Add(args.PropertyName);
                 model.PropertyChanged += (_, args) => propertyChanged.Add(args.PropertyName);
@@ -154,8 +166,12 @@ namespace WodiLib.Test.Sys
             {
                 var model = new WrapperModel1
                 {
-                    IsNotifyBeforePropertyChange = isNotifyBeforePropertyChange,
-                    IsNotifyAfterPropertyChange = isNotifyAfterPropertyChange,
+                    NotifyPropertyChangingEventType = isNotifyBeforePropertyChange
+                        ? NotifyPropertyChangeEventType.Enabled
+                        : NotifyPropertyChangeEventType.Disabled,
+                    NotifyPropertyChangedEventType = isNotifyAfterPropertyChange
+                        ? NotifyPropertyChangeEventType.Enabled
+                        : NotifyPropertyChangeEventType.Disabled,
                 };
                 model.PropertyChanging += (_, args) => propertyChanging.Add(args.PropertyName);
                 model.PropertyChanged += (_, args) => propertyChanged.Add(args.PropertyName);
@@ -194,8 +210,12 @@ namespace WodiLib.Test.Sys
             {
                 var model = new WrapperModel2
                 {
-                    IsNotifyBeforePropertyChange = isNotifyBeforePropertyChange,
-                    IsNotifyAfterPropertyChange = isNotifyAfterPropertyChange,
+                    NotifyPropertyChangingEventType = isNotifyBeforePropertyChange
+                        ? NotifyPropertyChangeEventType.Enabled
+                        : NotifyPropertyChangeEventType.Disabled,
+                    NotifyPropertyChangedEventType = isNotifyAfterPropertyChange
+                        ? NotifyPropertyChangeEventType.Enabled
+                        : NotifyPropertyChangeEventType.Disabled,
                 };
                 model.PropertyChanging += (_, args) => propertyChanging.Add(args.PropertyName);
                 model.PropertyChanged += (_, args) => propertyChanged.Add(args.PropertyName);
@@ -232,8 +252,12 @@ namespace WodiLib.Test.Sys
             {
                 var model = new WrapperModel3
                 {
-                    IsNotifyBeforePropertyChange = isNotifyBeforePropertyChange,
-                    IsNotifyAfterPropertyChange = isNotifyAfterPropertyChange,
+                    NotifyPropertyChangingEventType = isNotifyBeforePropertyChange
+                        ? NotifyPropertyChangeEventType.Enabled
+                        : NotifyPropertyChangeEventType.Disabled,
+                    NotifyPropertyChangedEventType = isNotifyAfterPropertyChange
+                        ? NotifyPropertyChangeEventType.Enabled
+                        : NotifyPropertyChangeEventType.Disabled,
                 };
                 model.PropertyChanging += (_, args) => propertyChanging.Add(args.PropertyName);
                 model.PropertyChanged += (_, args) => propertyChanged.Add(args.PropertyName);

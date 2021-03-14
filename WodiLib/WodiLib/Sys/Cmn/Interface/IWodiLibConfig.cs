@@ -25,38 +25,44 @@ namespace WodiLib.Sys.Cmn
         public string KeyName { get; }
 
         /// <summary>
-        ///     新規作成した <see cref="IReadOnlyModelBase{TChild}"/> の
-        ///     <see cref="IReadOnlyModelBase{TChild}.IsNotifyBeforePropertyChange"/> 初期価値
+        ///     新規作成した <see cref="IReadOnlyModelBase{T}"/> の
+        ///     <see cref="P:IReadOnlyModelBase{T}.NotifyPropertyChangingEventType"/> 初期化値
         /// </summary>
         /// <remarks>
         ///     <para>
-        ///         <see cref="IReadOnlyModelBase{TChild}"/> を実装するすべてのクラスが影響を受ける。<br/>
+        ///         <see cref="IReadOnlyModelBase{T}"/> を実装するすべてのクラスが影響を受ける。<br/>
         ///         各種モデルクラスおよびリストクラスが該当。
         ///     </para>
         ///     <para>
-        ///         デフォルトでは <see langword="false"/> が設定されている。
+        ///         デフォルトでは <see cref="NotifyPropertyChangeEventType.Disabled"/> が設定されている。
         ///     </para>
         /// </remarks>
-        public bool DefaultNotifyBeforePropertyChangeFlag { get; set; }
+        public NotifyPropertyChangeEventType DefaultNotifyBeforePropertyChangeEventType { get; set; }
 
         /// <summary>
-        ///     新規作成した <see cref="IReadOnlyModelBase{TChild}"/> の
-        ///     <see cref="IReadOnlyModelBase{TChild}.IsNotifyAfterPropertyChange"/> 初期価値
+        ///     新規作成した <see cref="IReadOnlyModelBase{T}"/> の
+        ///     <see cref="P:IReadOnlyModelBase{T}.NotifyPropertyChangedEventType"/> 初期化値
         /// </summary>
         /// <remarks>
         ///     <para>
-        ///         <see cref="IReadOnlyModelBase{TChild}"/> を実装するすべてのクラスが影響を受ける。<br/>
+        ///         <see cref="IReadOnlyModelBase{T}"/> を実装するすべてのクラスが影響を受ける。<br/>
         ///         各種モデルクラスおよびリストクラスが該当。
         ///     </para>
         ///     <para>
-        ///         デフォルトでは <see langword="true"/> が設定されている。
+        ///         デフォルトでは <see cref="NotifyPropertyChangeEventType.Enabled"/> が設定されている。
         ///     </para>
         /// </remarks>
-        public bool DefaultNotifyAfterPropertyChangeFlag { get; set; }
+        public NotifyPropertyChangeEventType DefaultNotifyAfterPropertyChangeEventType { get; set; }
 
         /// <summary>
         ///     新規作成した <see cref="IReadOnlyExtendedList{T}"/> の
-        ///     <see cref="IReadOnlyExtendedList{T}.IsNotifyBeforeCollectionChange"/> 初期化値
+        ///     <see cref="P:IReadOnlyExtendedList{T}.NotifyCollectionChangingEventType"/>、
+        ///     および <see cref="IRestrictedCapacityList{T}"/> の
+        ///     <see cref="P:IRestrictedCapacityList{T}.NotifyCollectionChangingEventType"/>、
+        ///     および <see cref="IFixedLengthList{T}"/> の
+        ///     <see cref="P:IFixedLengthList{T}.NotifyCollectionChangingEventType"/>、
+        ///     および <see cref="IReadOnlyTwoDimensionalList{T}"/> の
+        ///     <see cref="P:IReadOnlyTwoDimensionalList{T}.NotifyCollectionChangingEventType"/> 初期化値
         /// </summary>
         /// <remarks>
         ///     <para>
@@ -64,16 +70,20 @@ namespace WodiLib.Sys.Cmn
         ///         各種モデルクラスおよびリストクラスが該当。
         ///     </para>
         ///     <para>
-        ///         デフォルトでは <see langword="false"/> が設定されている。
+        ///         デフォルトでは <see cref="NotifyCollectionChangeEventType.None"/> が設定されている。
         ///     </para>
         /// </remarks>
-        public bool DefaultNotifyBeforeCollectionChangeFlag { get; set; }
+        public NotifyCollectionChangeEventType DefaultNotifyBeforeCollectionChangeEventType { get; set; }
 
         /// <summary>
-        ///     新規作成した <see cref="IReadOnlyExtendedList{TChild}"/> の
-        ///     <see cref="IReadOnlyExtendedList{T}.IsNotifyAfterCollectionChange"/>、
-        ///     および <see cref="IReadOnlyTwoDimensionalList{TChild}"/> の
-        ///     <see cref="IReadOnlyTwoDimensionalList{T}.IsNotifyAfterCollectionChange"/>初期化値
+        ///     新規作成した <see cref="IReadOnlyExtendedList{T}"/> の
+        ///     <see cref="P:IReadOnlyExtendedList{T}.NotifyCollectionChangedEventType"/>、
+        ///     および <see cref="IRestrictedCapacityList{T}"/> の
+        ///     <see cref="P:IRestrictedCapacityList{T}.NotifyCollectionChangedEventType"/>、
+        ///     および <see cref="IFixedLengthList{T}"/> の
+        ///     <see cref="P:IFixedLengthList{T}.NotifyCollectionChangedEventType"/>、
+        ///     および <see cref="IReadOnlyTwoDimensionalList{T}"/> の
+        ///     <see cref="P:IReadOnlyTwoDimensionalList{T}.NotifyCollectionChangedEventType"/> 初期化値
         /// </summary>
         /// <remarks>
         ///     <para>
@@ -81,9 +91,9 @@ namespace WodiLib.Sys.Cmn
         ///         各種モデルクラスおよびリストクラスが該当。
         ///     </para>
         ///     <para>
-        ///         デフォルトでは <see langword="false"/> が設定されている。
+        ///         デフォルトでは <see cref="NotifyCollectionChangeEventType.Single"/> が設定されている。
         ///     </para>
         /// </remarks>
-        public bool DefaultNotifyAfterCollectionChangeFlag { get; set; }
+        public NotifyCollectionChangeEventType DefaultNotifyAfterCollectionChangeEventType { get; set; }
     }
 }

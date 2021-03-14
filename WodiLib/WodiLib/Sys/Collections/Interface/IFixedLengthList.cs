@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 
 namespace WodiLib.Sys.Collections
 {
@@ -31,7 +30,7 @@ namespace WodiLib.Sys.Collections
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
     public interface IFixedLengthList<T> : IModelBase<IFixedLengthList<T>>,
-        IReadOnlyFixedLengthList<T>
+        IReadOnlyFixedLengthList<T>, IDeepCloneableFixedLengthList<IFixedLengthList<T>, T>
     {
         /// <summary>
         ///     インデクサによるアクセス
@@ -41,12 +40,6 @@ namespace WodiLib.Sys.Collections
         /// <exception cref="ArgumentNullException">nullをセットしようとした場合。</exception>
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合。</exception>
         public new T this[int index] { get; set; }
-
-        /// <inheritdoc cref="IReadOnlyExtendedList{T}.IsNotifyBeforeCollectionChange"/>
-        public new bool IsNotifyBeforeCollectionChange { get; set; }
-
-        /// <inheritdoc cref="IReadOnlyExtendedList{T}.IsNotifyAfterCollectionChange"/>
-        public new bool IsNotifyAfterCollectionChange { get; set; }
 
         /// <summary>
         ///     リストの連続した要素を更新する。
@@ -114,14 +107,6 @@ namespace WodiLib.Sys.Collections
         ///     <see cref="IReadOnlyFixedLengthList{T}.GetCapacity"/> と一致しない場合。
         /// </exception>
         public void Reset(IEnumerable<T> initItems);
-
-        /// <inheritdoc cref="IReadOnlyFixedLengthList{T}.DeepCloneWith(IEnumerable{KeyValuePair{int, T}})"/>
-        public new IFixedLengthList<T> DeepCloneWith(IEnumerable<KeyValuePair<int, T>>? values = null);
-
-        /// <inheritdoc cref="IReadOnlyFixedLengthList{T}.DeepCloneWith(int?,IEnumerable{KeyValuePair{int, T}})"/>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new IFixedLengthList<T> DeepCloneWith(int? length = null,
-            IEnumerable<KeyValuePair<int, T>>? values = null);
     }
 
     /// <summary>
@@ -129,14 +114,23 @@ namespace WodiLib.Sys.Collections
     /// </summary>
     /// <typeparam name="T">リスト内包クラス</typeparam>
     public interface IReadOnlyFixedLengthList<T> : IModelBase<IReadOnlyFixedLengthList<T>>,
-        IReadOnlyExtendedList<T>
+        IReadOnlyExtendedList<T>, IDeepCloneableFixedLengthList<IReadOnlyFixedLengthList<T>, T>
     {
         /// <summary>
         ///     容量を返す。
         /// </summary>
         /// <returns>容量</returns>
         public int GetCapacity();
+    }
 
+    /// <summary>
+    /// <see cref="IFixedLengthList{TIn}"/> ディープクローンインタフェース
+    /// </summary>
+    /// <typeparam name="T">クローン返却型</typeparam>
+    /// <typeparam name="TIn"><see cref="IFixedLengthList{T}"/>内包型</typeparam>
+    public interface IDeepCloneableFixedLengthList<out T, TIn>
+        where T : IReadOnlyFixedLengthList<TIn>
+    {
         /// <summary>
         ///     自身の要素をコピーした新たなインスタンスを返却する。
         /// </summary>
@@ -151,30 +145,11 @@ namespace WodiLib.Sys.Collections
         ///         返却する要素数を上回るインデックスが指定されている場合、その要素は無視される。
         ///     </para>
         /// </remarks>
-        /// <param name="values">ディープコピー時の上書き要素</param>
+        /// <param name="values">ディープコピー時の上書きインデックスと値のペア列挙子</param>
         /// <returns>自身をディープコピーしたインスタンス</returns>
-        public IReadOnlyFixedLengthList<T> DeepCloneWith(IEnumerable<KeyValuePair<int, T>>? values = null);
-
-        /// <inheritdoc cref="IReadOnlyExtendedList{T}.DeepCloneWith" select="summary"/>
-        /// <remarks>
-        ///     <para>
-        ///         自身の内包する要素が構造体・クラス型の場合、返却するインスタンスの要素はすべてディープコピーされた状態で格納される。
-        ///         レコードの場合はシャローコピーされた要素が格納される。
-        ///     </para>
-        ///     <para>
-        ///         引数 <paramref name="length"/> は無視される。
-        ///     </para>
-        ///     <para>
-        ///         引数 <paramref name="values"/> を指定した場合、<paramref name="values"/> のキーに指定されたインデックスの要素を <paramref name="values"/>
-        ///         の値で上書きする。<br/>
-        ///         返却する要素数を上回るインデックスが指定されている場合、その要素は無視される。
-        ///     </para>
-        /// </remarks>
-        /// <param name="length">未使用</param>
-        /// <param name="values">ディープコピー時の上書き要素</param>
-        /// <returns>自身をディープコピーしたインスタンス</returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new IReadOnlyFixedLengthList<T> DeepCloneWith(int? length = null,
-            IEnumerable<KeyValuePair<int, T>>? values = null);
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="values"/> に <see langword="null"/> 要素が含まれる場合。
+        /// </exception>
+        public T DeepCloneWith(IReadOnlyDictionary<int, TIn>? values = null);
     }
 }

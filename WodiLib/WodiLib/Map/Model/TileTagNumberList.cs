@@ -121,26 +121,15 @@ namespace WodiLib.Map
             throw new NotImplementedException();
         }
 
-        IFixedLengthList<TileTagNumber> IFixedLengthList<TileTagNumber>.DeepCloneWith(
-            IEnumerable<KeyValuePair<int, TileTagNumber>>? values)
+        IReadOnlyFixedLengthList<TileTagNumber>
+            IDeepCloneableFixedLengthList<IReadOnlyFixedLengthList<TileTagNumber>, TileTagNumber>.DeepCloneWith(
+                IReadOnlyDictionary<int, TileTagNumber>? values)
         {
             throw new NotImplementedException();
         }
 
-        IFixedLengthList<TileTagNumber> IFixedLengthList<TileTagNumber>.DeepCloneWith(int? length,
-            IEnumerable<KeyValuePair<int, TileTagNumber>>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        IReadOnlyFixedLengthList<TileTagNumber> IReadOnlyFixedLengthList<TileTagNumber>.DeepCloneWith(
-            IEnumerable<KeyValuePair<int, TileTagNumber>>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        IReadOnlyFixedLengthList<TileTagNumber> IReadOnlyFixedLengthList<TileTagNumber>.DeepCloneWith(int? length,
-            IEnumerable<KeyValuePair<int, TileTagNumber>>? values)
+        IFixedLengthList<TileTagNumber> IDeepCloneableFixedLengthList<IFixedLengthList<TileTagNumber>, TileTagNumber>.
+            DeepCloneWith(IReadOnlyDictionary<int, TileTagNumber>? values)
         {
             throw new NotImplementedException();
         }

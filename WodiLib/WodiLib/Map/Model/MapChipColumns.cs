@@ -187,30 +187,14 @@ namespace WodiLib.Map
             throw new NotImplementedException();
         }
 
-        /// <inheritdoc />
-        IFixedLengthList<MapChip> IFixedLengthList<MapChip>.DeepCloneWith(
-            IEnumerable<KeyValuePair<int, MapChip>>? values)
+        IReadOnlyFixedLengthList<MapChip> IDeepCloneableFixedLengthList<IReadOnlyFixedLengthList<MapChip>, MapChip>.
+            DeepCloneWith(IReadOnlyDictionary<int, MapChip>? values)
         {
             throw new NotImplementedException();
         }
 
-        /// <inheritdoc />
-        IFixedLengthList<MapChip> IFixedLengthList<MapChip>.DeepCloneWith(int? length,
-            IEnumerable<KeyValuePair<int, MapChip>>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        IReadOnlyFixedLengthList<MapChip> IReadOnlyFixedLengthList<MapChip>.DeepCloneWith(
-            IEnumerable<KeyValuePair<int, MapChip>>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        IReadOnlyFixedLengthList<MapChip> IReadOnlyFixedLengthList<MapChip>.DeepCloneWith(int? length,
-            IEnumerable<KeyValuePair<int, MapChip>>? values)
+        IFixedLengthList<MapChip> IDeepCloneableFixedLengthList<IFixedLengthList<MapChip>, MapChip>.DeepCloneWith(
+            IReadOnlyDictionary<int, MapChip>? values)
         {
             throw new NotImplementedException();
         }
