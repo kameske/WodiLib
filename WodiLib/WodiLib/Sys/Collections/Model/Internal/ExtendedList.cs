@@ -28,7 +28,7 @@ namespace WodiLib.Sys.Collections
     {
         /*
          * WodiLib 内部で使用する独自汎用リスト。
-         * リストとしての機能は 内部クラス Impl に実装。
+         * リストとしての機能は SimpleList<T> に委譲。
          * ExtendedList はコレクション変更通知を行うためのラッパークラスとする。
          *
          * 引数の検証も当クラスでは行わない。
@@ -75,8 +75,8 @@ namespace WodiLib.Sys.Collections
         /// <inheritdoc cref="IExtendedList{T}.this"/>
         public T this[int index]
         {
-            get => Get_Impl(index, 1).First();
-            set => Set_Impl(index, value);
+            get => Items[index];
+            set => Items[index] = value;
         }
 
         T IReadOnlyList<T>.this[int index] => Get_Impl(index, 1).First();
@@ -110,7 +110,7 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>リスト本体</summary>
-        private Impl Items { get; }
+        private SimpleList<T> Items { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -124,7 +124,7 @@ namespace WodiLib.Sys.Collections
         {
             var initItemArray = initItems?.ToArray() ?? Array.Empty<T>();
 
-            Items = new Impl(initItemArray);
+            Items = new SimpleList<T>(initItemArray);
 
             PropagatePropertyChangeEvent(Items);
         }
@@ -139,7 +139,7 @@ namespace WodiLib.Sys.Collections
         internal ExtendedList(IEnumerable<T> src, int? length, IReadOnlyDictionary<int, T>? values,
             Func<int, T> funcMakeDefaultItem)
         {
-            Items = new Impl(src);
+            Items = new SimpleList<T>(src);
             FuncMakeItems = (index, count) => Enumerable.Range(index, count).Select(funcMakeDefaultItem);
 
             if (length is not null)
@@ -366,7 +366,7 @@ namespace WodiLib.Sys.Collections
             var oldItems = Items.Get(index, items.Length).ToArray();
 
             var collectionChangeEventArgsFactory =
-                CollectionChangeEventArgsFactory.CreateSet(this, index, oldItems, items);
+                CollectionChangeEventArgsFactory<T>.CreateSet(this, index, oldItems, items);
 
             var notifyManager = MakeNotifyManager(
                 collectionChangeEventArgsFactory.CollectionChangingEventArgs,
@@ -390,7 +390,7 @@ namespace WodiLib.Sys.Collections
             if (items.Length == 0) return;
 
             var collectionChangeEventArgsFactory =
-                CollectionChangeEventArgsFactory.CreateInsert(this, index, items);
+                CollectionChangeEventArgsFactory<T>.CreateInsert(this, index, items);
 
             var notifyManager = MakeNotifyManager(
                 collectionChangeEventArgsFactory.CollectionChangingEventArgs,
@@ -413,10 +413,10 @@ namespace WodiLib.Sys.Collections
         {
             if (items.Length == 0) return;
 
-            var param = OverwriteParam.Factory.Create(this, index, items);
+            var param = OverwriteParam<T>.Factory.Create(this, index, items);
 
             var collectionChangeEventArgsFactory =
-                CollectionChangeEventArgsFactory.CreateOverwrite(this, index, param.ReplaceOldItems,
+                CollectionChangeEventArgsFactory<T>.CreateOverwrite(this, index, param.ReplaceOldItems,
                     param.ReplaceNewItems, param.InsertItems);
 
             var notifyManager = MakeNotifyManager(
@@ -446,7 +446,7 @@ namespace WodiLib.Sys.Collections
             var moveItems = Items.Get(oldIndex, count).ToArray();
 
             var collectionChangeEventArgsFactory =
-                CollectionChangeEventArgsFactory.CreateMove(this, oldIndex, newIndex, moveItems);
+                CollectionChangeEventArgsFactory<T>.CreateMove(this, oldIndex, newIndex, moveItems);
 
             var notifyManager = MakeNotifyManager(
                 collectionChangeEventArgsFactory.CollectionChangingEventArgs,
@@ -473,7 +473,7 @@ namespace WodiLib.Sys.Collections
             if (index < 0) return false;
 
             var collectionChangeEventArgsFactory =
-                CollectionChangeEventArgsFactory.CreateRemove(this, index, new List<T> {item});
+                CollectionChangeEventArgsFactory<T>.CreateRemove(this, index, new List<T> {item});
 
             var notifyManager = MakeNotifyManager(
                 collectionChangeEventArgsFactory.CollectionChangingEventArgs,
@@ -501,7 +501,7 @@ namespace WodiLib.Sys.Collections
             var removeItems = Get_Impl(index, count).ToArray();
 
             var collectionChangeEventArgsFactory =
-                CollectionChangeEventArgsFactory.CreateRemove(this, index, removeItems);
+                CollectionChangeEventArgsFactory<T>.CreateRemove(this, index, removeItems);
 
             var notifyManager = MakeNotifyManager(
                 collectionChangeEventArgsFactory.CollectionChangingEventArgs,
@@ -569,7 +569,7 @@ namespace WodiLib.Sys.Collections
                 .ToArray();
 
             var collectionChangeEventArgsFactory =
-                CollectionChangeEventArgsFactory.CreateAdjustLengthIfShort(this, startIndex, items);
+                CollectionChangeEventArgsFactory<T>.CreateAdjustLengthIfShort(this, startIndex, items);
 
             var notifyManager = MakeNotifyManager(
                 collectionChangeEventArgsFactory.CollectionChangingEventArgs,
@@ -594,7 +594,7 @@ namespace WodiLib.Sys.Collections
             var removeItems = Get_Impl(index, count).ToArray();
 
             var collectionChangeEventArgsFactory =
-                CollectionChangeEventArgsFactory.CreateAdjustLengthIfLong(this, index, removeItems);
+                CollectionChangeEventArgsFactory<T>.CreateAdjustLengthIfLong(this, index, removeItems);
 
             var notifyManager = MakeNotifyManager(
                 collectionChangeEventArgsFactory.CollectionChangingEventArgs,
@@ -623,7 +623,7 @@ namespace WodiLib.Sys.Collections
         private void Reset_Impl(params T[] items)
         {
             var collectionChangeEventArgsFactory =
-                CollectionChangeEventArgsFactory.CreateReset(this, this, items);
+                CollectionChangeEventArgsFactory<T>.CreateReset(this, this, items);
 
             var notifyManager = MakeNotifyManager(
                 collectionChangeEventArgsFactory.CollectionChangingEventArgs,
