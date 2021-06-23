@@ -25,7 +25,8 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="T">リスト内包型</typeparam>
     /// <typeparam name="TImpl">リスト実装型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class FixedLengthList<T, TImpl> : ModelBase<TImpl>, IFixedLengthList<T>
+    public abstract class FixedLengthList<T, TImpl> : ModelBase<TImpl>, IFixedLengthList<T>,
+        IDeepCloneableFixedLengthList<TImpl, T>
         where TImpl : FixedLengthList<T, TImpl>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -68,7 +69,7 @@ namespace WodiLib.Sys.Collections
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public NotifyCollectionChangeEventType NotifyCollectionChangingEventType
         {
             get => Items.NotifyCollectionChangingEventType;
@@ -79,7 +80,7 @@ namespace WodiLib.Sys.Collections
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public NotifyCollectionChangeEventType NotifyCollectionChangedEventType
         {
             get => Items.NotifyCollectionChangedEventType;
@@ -257,32 +258,16 @@ namespace WodiLib.Sys.Collections
             => ItemEquals((IEnumerable<T>?) other);
 
         /// <inheritdoc/>
-        public bool ItemEquals(IFixedLengthList<T>? other)
-            => ItemEquals((IEnumerable<T>?) other);
-
-        /// <inheritdoc/>
-        public bool ItemEquals(IReadOnlyFixedLengthList<T>? other)
-            => ItemEquals((IEnumerable<T>?) other);
-
-        /// <inheritdoc/>
         public bool ItemEquals(IReadOnlyExtendedList<T>? other)
             => ItemEquals((IEnumerable<T>?) other);
 
         /// <inheritdoc/>
         public bool ItemEquals(IEnumerable<T>? other)
-            => Items.ItemEquals(other);
+            => ItemEquals(other, null);
 
-        /// <inheritdoc />
-        IReadOnlyExtendedList<T> IDeepCloneable<IReadOnlyExtendedList<T>>.DeepClone()
-            => DeepClone();
-
-        /// <inheritdoc />
-        IReadOnlyFixedLengthList<T> IDeepCloneable<IReadOnlyFixedLengthList<T>>.DeepClone()
-            => DeepClone();
-
-        /// <inheritdoc />
-        IFixedLengthList<T> IDeepCloneable<IFixedLengthList<T>>.DeepClone()
-            => DeepClone();
+        /// <inheritdoc/>
+        public bool ItemEquals(IEnumerable<T>? other, IEqualityComparer<T>? itemComparer)
+            => Items.ItemEquals(other, itemComparer);
 
         /// <inheritdoc cref="IDeepCloneableFixedLengthList{T,TIn}.DeepCloneWith"/>
         public TImpl DeepCloneWith(IReadOnlyDictionary<int, T>? values = null)
@@ -299,36 +284,6 @@ namespace WodiLib.Sys.Collections
             });
 
             return result;
-        }
-
-        /// <inheritdoc />
-        IFixedLengthList<T> IDeepCloneableFixedLengthList<IFixedLengthList<T>, T>.DeepCloneWith(
-            IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(values);
-
-        /// <inheritdoc />
-        IReadOnlyFixedLengthList<T> IDeepCloneableFixedLengthList<IReadOnlyFixedLengthList<T>, T>.DeepCloneWith(
-            IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(values);
-
-        /// <inheritdoc />
-        public IReadOnlyExtendedList<T> DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
-        {
-            if (length is not null)
-            {
-                ThrowHelper.ValidateArgumentValueGreaterOrEqual(length.Value < 0,
-                    nameof(length), 0, length.Value);
-            }
-
-            values?.ForEach(pair =>
-            {
-                ThrowHelper.ValidateArgumentNotNull(pair.Value is null, $"{nameof(values)} の要素 (Key: {pair.Key})");
-            });
-
-            // 子要素のクローン処理を実装に任せるためクローン後の要素は DeepClone() に作らせる
-            var cloneItems = DeepClone().ToArray();
-
-            return new ExtendedList<T>(cloneItems, length, values, MakeDefaultItem);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

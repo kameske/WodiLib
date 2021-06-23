@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using Commons;
 using NUnit.Framework;
@@ -13,6 +12,55 @@ namespace WodiLib.Test.Sys
     [TestFixture]
     public class RestrictedCapacityTwoDimensionalListTest
     {
+        /*
+         * RestrictedCapacityTwoDimensionalList は処理中核を TwoDimensionalList に転送することを前提とする。
+         * 制約のない二次元リストとしての動作確認は TwoDimensionalList の各種ユニットテストに一存する。
+         *
+         * ここでは容量制限が正しく作用していることを確認する。
+         */
+        private static TestClass.CapacityInfo _initCapacityInfo;
+
+        /// <summary>
+        ///     テスト時に使用する二次元リストの通常容量範囲
+        /// </summary>
+        private static TestClass.CapacityInfo InitCapacityInfo
+        {
+            get
+            {
+                return _initCapacityInfo ??= new TestClass.CapacityInfo(
+                    InitMaxCapacity, InitMinCapacity,
+                    InitMaxItemCapacity, InitMinItemCapacity);
+            }
+        }
+
+        private static TestClass.CapacityInfo _initEmptyCapacityInfo;
+
+        /// <summary>
+        ///     テスト時に使用する空状態を許容する二次元リストの容量範囲
+        /// </summary>
+        /// <remarks>
+        ///     <see cref="TestClass.CapacityInfo.MinCapacity"/> および
+        ///     <see cref="TestClass.CapacityInfo.MinItemCapacity"/> は 0 を返す。
+        /// </remarks>
+        private static TestClass.CapacityInfo InitEmptyCapacityInfo
+        {
+            get
+            {
+                return _initEmptyCapacityInfo ??= new TestClass.CapacityInfo(
+                    InitMaxCapacity, 0,
+                    InitMaxItemCapacity, 0);
+            }
+        }
+
+        private const int InitMaxCapacity = 10;
+        private const int InitMinCapacity = 4;
+        private const int InitMaxItemCapacity = 12;
+        private const int InitMinItemCapacity = 2;
+
+        private const int InitCapacity = 6;
+        private const int InitItemCapacity = 4;
+
+
         private static Logger logger;
 
         [SetUp]
@@ -22,68 +70,60 @@ namespace WodiLib.Test.Sys
             logger = Logger.GetInstance();
         }
 
-        [TestCase(TestClass.TestClassType.Type1, false, false)]
-        [TestCase(TestClass.TestClassType.Type2, false, false)]
-        [TestCase(TestClass.TestClassType.Type3, false, false)]
+        [TestCase(-1, -1, -1, -1, false, true, true)]
+        [TestCase(-1, -1, -1, 10, true, true, true)]
+        [TestCase(-1, -1, 0, -1, true, true, true)]
+        [TestCase(-1, -1, 10, 10, false, true, true)]
+        [TestCase(-1, 0, -1, 0, false, true, true)]
+        [TestCase(-1, 0, 0, 10, false, true, true)]
+        [TestCase(-1, 5, 10, -1, true, true, true)]
+        [TestCase(-1, 5, 10, -1, false, true, true)]
+        [TestCase(-1, 5, 10, 10, false, true, true)]
+        [TestCase(0, -1, 0, 0, false, true, true)]
+        [TestCase(0, -1, -1, -1, false, true, true)]
+        [TestCase(0, -1, 10, 0, true, true, true)]
+        [TestCase(0, 0, 0, 0, false, false, false)]
+        [TestCase(0, 5, -1, 10, false, true, true)]
+        [TestCase(0, 5, 10, 10, false, false, false)]
+        [TestCase(5, -1, -1, 10, false, true, true)]
+        [TestCase(5, -1, 10, 10, false, true, true)]
+        [TestCase(5, 0, -1, -1, true, true, true)]
+        [TestCase(5, 0, 0, -1, false, true, true)]
+        [TestCase(5, 5, 0, 0, false, false, false)]
 #if DEBUG
-        [TestCase(TestClass.TestClassType.Type4, true, true)]
-        [TestCase(TestClass.TestClassType.Type5, true, true)]
-        [TestCase(TestClass.TestClassType.Type6, true, true)]
-        [TestCase(TestClass.TestClassType.Type7, true, true)]
-        [TestCase(TestClass.TestClassType.Type8, true, true)]
+        [TestCase(0, 0, 10, 0, false, true, true)]
+        [TestCase(6, 5, 10, 0, false, true, true)]
+        [TestCase(5, 6, 11, 10, false, true, true)]
 #elif RELEASE
-        [TestCase(TestClass.TestClassType.Type4, false, true)]
-        [TestCase(TestClass.TestClassType.Type5, false, true)]
-        [TestCase(TestClass.TestClassType.Type6, false, true)]
-        [TestCase(TestClass.TestClassType.Type7, false, true)]
-        [TestCase(TestClass.TestClassType.Type8, false, false)]
+        [TestCase(0, 0, 10, 0, false, false, true)]
+        [TestCase(6, 5, 10, 0, false, false, true)]
+        [TestCase(5, 6, 11, 10, false, false, true)]
 #endif
-        public static void ConstructorTest1(TestClass.TestClassType testType, bool isError, bool isErrorState)
+        public static void ConstructorTest1(int minCapacity, int maxCapacity,
+            int minItemCapacity, int maxItemCapacity,
+            bool funcMakeItemIsNull,
+            bool isError, bool isErrorState)
         {
             var errorOccured = false;
 
-            TestClass.IListTest instance = null;
+            Func<int, int, TestClass.TwoDimItem> makeDefaultValueItem;
+            if (funcMakeItemIsNull)
+            {
+                makeDefaultValueItem = null;
+            }
+            else
+            {
+                makeDefaultValueItem = TestClass.MakeDefaultValueItem;
+            }
+
+            TestClass.TestTwoDimClass instance = null;
 
             try
             {
-                switch (testType)
-                {
-                    case TestClass.TestClassType.Type1:
-                        instance = new TestClass.ListTest1();
-                        break;
-
-                    case TestClass.TestClassType.Type2:
-                        instance = new TestClass.ListTest2();
-                        break;
-
-                    case TestClass.TestClassType.Type3:
-                        instance = new TestClass.ListTest3();
-                        break;
-
-                    case TestClass.TestClassType.Type4:
-                        instance = new TestClass.ListTest4();
-                        break;
-
-                    case TestClass.TestClassType.Type5:
-                        instance = new TestClass.ListTest5();
-                        break;
-
-                    case TestClass.TestClassType.Type6:
-                        instance = new TestClass.ListTest6();
-                        break;
-
-                    case TestClass.TestClassType.Type7:
-                        instance = new TestClass.ListTest7();
-                        break;
-
-                    case TestClass.TestClassType.Type8:
-                        instance = new TestClass.ListTest8();
-                        break;
-
-                    default:
-                        Assert.Fail();
-                        break;
-                }
+                instance = new TestClass.TestTwoDimClass(
+                    new TestClass.CapacityInfo(maxCapacity, minCapacity, maxItemCapacity, minItemCapacity),
+                    target => new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem>(target),
+                    makeDefaultValueItem);
             }
             catch (Exception ex)
             {
@@ -99,11 +139,16 @@ namespace WodiLib.Test.Sys
             // 初期行数・列数が最小行数・列数と一致すること（Releaseビルドかつ異常設定の場合この条件を満たさない可能性あり）
             if (!isErrorState)
             {
-                Assert.AreEqual(instance.RowCount, instance.GetMinRowCapacity());
-                Assert.AreEqual(instance.ColumnCount, instance.GetMinColumnCapacity());
+                Assert.AreEqual(instance.Count, instance.GetMinCapacity());
+
+                // Count が 0 の場合は ItemCount は最大・最小設定によらず0
+                Assert.AreEqual(instance.ItemCount,
+                    instance.Count != 0
+                        ? instance.GetMinItemCapacity()
+                        : 0);
 
                 // すべての要素が意図した値で初期化されていること
-                instance.ForEach((row, rowIdx) =>
+                instance.ForEach<IEnumerable<TestClass.TwoDimItem>>((row, rowIdx) =>
                 {
                     row.ForEach((item, colIdx) =>
                         Assert.IsTrue(item.Equals(TestClass.MakeDefaultValueItem(rowIdx, colIdx))));
@@ -111,59 +156,41 @@ namespace WodiLib.Test.Sys
             }
         }
 
-        [TestCase(TestClass.TestClassType.Type1, nameof(TestClass.ListType.Normal), 0, 0, false)]
-        [TestCase(TestClass.TestClassType.Type1, nameof(TestClass.ListType.Normal), 5, 10, false)]
-        [TestCase(TestClass.TestClassType.Type1, nameof(TestClass.ListType.Normal), 5, 11, true)]
-        [TestCase(TestClass.TestClassType.Type1, nameof(TestClass.ListType.Normal), 6, 10, true)]
-        [TestCase(TestClass.TestClassType.Type1, nameof(TestClass.ListType.Normal), 6, 11, true)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 4, 9, true)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 4, 10, true)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 4, 20, true)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 4, 21, true)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 5, 9, true)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 5, 10, false)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 5, 20, false)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 5, 21, true)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 10, 9, true)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 10, 10, false)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 10, 20, false)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 10, 21, true)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 11, 9, true)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 11, 10, true)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 11, 20, true)]
-        [TestCase(TestClass.TestClassType.Type2, nameof(TestClass.ListType.Normal), 11, 21, true)]
-        // 行数 == 0 かつ 列数 != 0 の二重リストは作れない
-        //        [TestCase(TestClass.TestClassType.Type1, 0, 10, false)]
-        // 行数 != 0 かつ 列数 == 0 の二重リストは作れる。
-        [TestCase(TestClass.TestClassType.Type1, nameof(TestClass.ListType.Normal), 5, 0, false)]
-        [TestCase(TestClass.TestClassType.Type1, nameof(TestClass.ListType.Normal), 6, 0, true)]
-        [TestCase(TestClass.TestClassType.Type1, nameof(TestClass.ListType.SelfNull), 5, 10, true)]
-        [TestCase(TestClass.TestClassType.Type1, nameof(TestClass.ListType.RowHasNull), 5, 10, true)]
-        [TestCase(TestClass.TestClassType.Type1, nameof(TestClass.ListType.ColumnHasNull), 5, 10, true)]
-        [TestCase(TestClass.TestClassType.Type1, nameof(TestClass.ListType.ColumnSizeDifference), 5, 10, true)]
-        public static void ConstructorTest2(TestClass.TestClassType testType,
-            string initItemTypeId, int initRowLength, int initColumnLength,
+        private static readonly object[] ConstructorTest2CaseSource =
+        {
+            new object[] {TestClass.ListType.Normal, InitMinCapacity - 1, InitMinItemCapacity, true},
+            new object[] {TestClass.ListType.Normal, InitMinCapacity - 1, InitMaxItemCapacity, true},
+            new object[] {TestClass.ListType.Normal, InitMinCapacity, InitMinItemCapacity - 1, true},
+            new object[] {TestClass.ListType.Normal, InitMinCapacity, InitMinItemCapacity, false},
+            new object[] {TestClass.ListType.Normal, InitMinCapacity, InitMaxItemCapacity, false},
+            new object[] {TestClass.ListType.Normal, InitMinCapacity, InitMaxItemCapacity + 1, true},
+            new object[] {TestClass.ListType.Normal, InitMaxCapacity, InitMinItemCapacity - 1, true},
+            new object[] {TestClass.ListType.Normal, InitMaxCapacity, InitMinItemCapacity, false},
+            new object[] {TestClass.ListType.Normal, InitMaxCapacity, InitMaxItemCapacity, false},
+            new object[] {TestClass.ListType.Normal, InitMaxCapacity, InitMaxItemCapacity + 1, true},
+            new object[] {TestClass.ListType.Normal, InitMaxCapacity + 1, InitMaxItemCapacity, true},
+            new object[] {TestClass.ListType.Normal, InitMaxCapacity + 1, InitMinItemCapacity, true},
+            new object[] {TestClass.ListType.SelfNull, InitMinCapacity, InitMinItemCapacity, true},
+            new object[] {TestClass.ListType.RowHasNull, InitMinCapacity, InitMaxItemCapacity, true},
+            new object[] {TestClass.ListType.ColumnHasNull, InitMaxCapacity, InitMinItemCapacity, true},
+            new object[] {TestClass.ListType.ColumnSizeDifference, InitMaxCapacity, InitMaxItemCapacity, true},
+        };
+
+        [TestCaseSource(nameof(ConstructorTest2CaseSource))]
+        public static void ConstructorTest2(
+            TestClass.ListType initItemType, int initRowLength, int initColumnLength,
             bool isError)
         {
             var errorOccured = false;
-            var initList = TestClass.ListType.FromId(initItemTypeId)
-                .GetMultiLine(initRowLength, initColumnLength);
-            TestClass.IListTest instance = null;
+            var initList = initItemType.GetMultiLine(initRowLength, initColumnLength);
+            TestClass.TestTwoDimClass instance = null;
+            Func<int, int, TestClass.TwoDimItem> funcMakeDefaultValueItem = TestClass.MakeDefaultValueItem;
 
             try
             {
-                switch (testType)
-                {
-                    case TestClass.TestClassType.Type1:
-                        instance = new TestClass.ListTest1(initList);
-                        break;
-                    case TestClass.TestClassType.Type2:
-                        instance = new TestClass.ListTest2(initList);
-                        break;
-                    default:
-                        Assert.Fail();
-                        break;
-                }
+                instance = new TestClass.TestTwoDimClass(InitCapacityInfo,
+                    initList, self => new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem>(self),
+                    funcMakeDefaultValueItem);
             }
             catch (Exception ex)
             {
@@ -177,70 +204,86 @@ namespace WodiLib.Test.Sys
             if (errorOccured) return;
 
             // 行数・列数がセットした行数・列数と一致すること
-            Assert.AreEqual(instance.RowCount, initRowLength);
-            Assert.AreEqual(instance.ColumnCount, initColumnLength);
-
-            // すべての要素がコンストラクタで与えた値で初期化されていること
-            instance.ForEach((row, rowIdx) =>
-            {
-                row.ForEach((item, colIdx) =>
-                    Assert.IsTrue(item.Equals(initList[rowIdx][colIdx])));
-            });
+            Assert.AreEqual(instance.Count, initRowLength);
+            Assert.AreEqual(instance.ItemCount, initColumnLength);
         }
 
-        /* RowCount, ColumnCount プロパティのテストは
+        [Test]
+        public static void ConstructorTest3()
+        {
+            var errorOccured = false;
+            TestClass.TestTwoDimClass instance = null;
+            Func<int, int, TestClass.TwoDimItem> funcMakeDefaultValueItem = TestClass.MakeDefaultValueItem;
+
+            try
+            {
+                instance = new TestClass.TestTwoDimClass(InitCapacityInfo,
+                    self => new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem>(self),
+                    funcMakeDefaultValueItem);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーが発生しないこと
+            Assert.IsFalse(errorOccured);
+
+            // 容量情報が引数で与えた情報と一致すること
+            Assert.AreEqual(InitMaxCapacity, instance.GetMaxCapacity());
+            Assert.AreEqual(InitMinCapacity, instance.GetMinCapacity());
+            Assert.AreEqual(InitMaxItemCapacity, instance.GetMaxItemCapacity());
+            Assert.AreEqual(InitMinItemCapacity, instance.GetMinItemCapacity());
+
+            // 行数・列数が最小容量と一致すること
+            Assert.AreEqual(instance.Count, InitMinCapacity);
+            Assert.AreEqual(instance.ItemCount, InitMinItemCapacity);
+        }
+
+        /* Count, ColumnCount プロパティのテストは
          * ConstructorTest1, ConstructorTest2 参照
          */
 
         [TestCase(0, 0, true)]
-        [TestCase(3, 0, false)]
-        // 行数のみが0の状態は存在しない。
-        //        [TestCase(0, 5, true)]
-        [TestCase(3, 5, false)]
+        [TestCase(InitMaxCapacity, 0, false)]
+        [TestCase(InitMaxCapacity, InitMaxItemCapacity, false)]
+        // 行数 == 0 かつ 列数 != 0 状態は存在し得ない
         public static void IsEmptyTest(int initRowLength, int initColumnLength, bool answer)
         {
-            var initList = TestClass.MakeStringList(initRowLength, initColumnLength);
-            var instance = new TestClass.ListTest1(initList);
+            var instance = TestClass.MakeTestInstance(
+                InitEmptyCapacityInfo,
+                initRowLength, initColumnLength);
 
-            // RowCount, ColumnCount が一致すること
-            Assert.AreEqual(instance.RowCount, initRowLength);
-            Assert.AreEqual(instance.ColumnCount, initColumnLength);
+            // Count, ColumnCount が一致すること
+            Assert.AreEqual(instance.Count, initRowLength);
+            Assert.AreEqual(instance.ItemCount, initColumnLength);
 
             // IsEmpty プロパティが意図した値であること
             Assert.AreEqual(instance.IsEmpty, answer);
         }
 
-        [TestCase(0, 0, 0, 0, true)]
-        [TestCase(3, 0, 0, 0, true)]
-        [TestCase(3, 0, 2, 0, true)]
-        [TestCase(3, 5, -1, -1, true)]
-        [TestCase(3, 5, -1, 0, true)]
-        [TestCase(3, 5, -1, 4, true)]
-        [TestCase(3, 5, -1, 5, true)]
-        [TestCase(3, 5, 0, -1, true)]
-        [TestCase(3, 5, 0, 0, false)]
-        [TestCase(3, 5, 0, 4, false)]
-        [TestCase(3, 5, 0, 5, true)]
-        [TestCase(3, 5, 2, -1, true)]
-        [TestCase(3, 5, 2, 0, false)]
-        [TestCase(3, 5, 2, 4, false)]
-        [TestCase(3, 5, 2, 5, true)]
-        [TestCase(3, 5, 3, -1, true)]
-        [TestCase(3, 5, 3, 0, true)]
-        [TestCase(3, 5, 3, 4, true)]
-        [TestCase(3, 5, 3, 5, true)]
-        public static void IndexerGetTest(int initRowLength, int initColumnLength,
-            int row, int column, bool isError)
+        [TestCase(-1, 0, true)]
+        [TestCase(-1, InitItemCapacity - 1, true)]
+        [TestCase(0, -1, true)]
+        [TestCase(0, 0, false)]
+        [TestCase(0, InitItemCapacity - 1, false)]
+        [TestCase(0, InitItemCapacity, true)]
+        [TestCase(InitCapacity - 1, -1, true)]
+        [TestCase(InitCapacity - 1, 0, false)]
+        [TestCase(InitCapacity - 1, InitItemCapacity - 1, false)]
+        [TestCase(InitCapacity - 1, InitItemCapacity, true)]
+        [TestCase(InitCapacity, 0, true)]
+        [TestCase(InitCapacity, InitItemCapacity - 1, true)]
+        public static void IndexerGetTest(int row, int column, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowLength, initColumnLength,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo,
+                InitCapacity, InitItemCapacity);
             var errorOccured = false;
-            string result = null;
 
             try
             {
-                result = instance[row, column];
+                _ = instance[row, column];
             }
             catch (Exception ex)
             {
@@ -250,71 +293,26 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            // 各イベントが一度も呼ばれていないこと
-            var assertCollectionChangeEventArgsList =
-                new Action<Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>>(
-                    dic =>
-                    {
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Replace)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Add)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Move)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Remove)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Reset)].Count, 0);
-                    });
-            assertCollectionChangeEventArgsList(changingEventArgsList);
-            assertCollectionChangeEventArgsList(changedEventArgsList);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.RowCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.ColumnCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
-
-            if (errorOccured) return;
-
-            // 意図した値が取得されること
-            Assert.IsTrue(result.Equals(TestClass.MakeDefaultValueItemForList(row, column)));
         }
 
-        [TestCase(0, 0, 0, 0, "abc", true)]
-        [TestCase(3, 0, 0, 0, "abc", true)]
-        [TestCase(3, 0, 2, 0, "abc", true)]
-        [TestCase(3, 5, -1, -1, null, true)]
-        [TestCase(3, 5, -1, -1, "abc", true)]
-        [TestCase(3, 5, -1, 0, null, true)]
-        [TestCase(3, 5, -1, 0, "abc", true)]
-        [TestCase(3, 5, -1, 4, null, true)]
-        [TestCase(3, 5, -1, 4, "abc", true)]
-        [TestCase(3, 5, -1, 5, null, true)]
-        [TestCase(3, 5, -1, 5, "abc", true)]
-        [TestCase(3, 5, 0, -1, null, true)]
-        [TestCase(3, 5, 0, -1, "abc", true)]
-        [TestCase(3, 5, 0, 0, null, true)]
-        [TestCase(3, 5, 0, 0, "abc", false)]
-        [TestCase(3, 5, 0, 4, null, true)]
-        [TestCase(3, 5, 0, 4, "abc", false)]
-        [TestCase(3, 5, 0, 5, null, true)]
-        [TestCase(3, 5, 0, 5, "abc", true)]
-        [TestCase(3, 5, 2, -1, null, true)]
-        [TestCase(3, 5, 2, -1, "abc", true)]
-        [TestCase(3, 5, 2, 0, null, true)]
-        [TestCase(3, 5, 2, 0, "abc", false)]
-        [TestCase(3, 5, 2, 4, null, true)]
-        [TestCase(3, 5, 2, 4, "abc", false)]
-        [TestCase(3, 5, 2, 5, null, true)]
-        [TestCase(3, 5, 2, 5, "abc", true)]
-        [TestCase(3, 5, 3, -1, null, true)]
-        [TestCase(3, 5, 3, -1, "abc", true)]
-        [TestCase(3, 5, 3, 0, null, true)]
-        [TestCase(3, 5, 3, 0, "abc", true)]
-        [TestCase(3, 5, 3, 4, null, true)]
-        [TestCase(3, 5, 3, 4, "abc", true)]
-        [TestCase(3, 5, 3, 5, null, true)]
-        [TestCase(3, 5, 3, 5, "abc", true)]
-        public static void IndexerSetTest(int initRowLength, int initColumnLength,
-            int row, int column, string setItem, bool isError)
+        [TestCase(-1, 0, "abc", true)]
+        [TestCase(-1, InitItemCapacity - 1, "abc", true)]
+        [TestCase(0, -1, "abc", true)]
+        [TestCase(0, 0, "abc", false)]
+        [TestCase(0, 0, null, true)]
+        [TestCase(0, InitItemCapacity - 1, "abc", false)]
+        [TestCase(0, InitItemCapacity, "abc", true)]
+        [TestCase(InitCapacity - 1, -1, "abc", true)]
+        [TestCase(InitCapacity - 1, 0, "abc", false)]
+        [TestCase(InitCapacity - 1, InitItemCapacity, "abc", true)]
+        [TestCase(InitCapacity - 1, InitItemCapacity - 1, null, true)]
+        [TestCase(InitCapacity - 1, InitItemCapacity - 1, "abc", false)]
+        [TestCase(InitCapacity, 0, "abc", true)]
+        [TestCase(InitCapacity, InitItemCapacity - 1, "abc", true)]
+        public static void IndexerSetTest(int row, int column, string setItem, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowLength, initColumnLength,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo,
+                InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
@@ -329,92 +327,21 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            // 各イベントが意図した回数呼ばれていること
-            var assertCollectionChangeEventArgsList =
-                new Action<Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>>(
-                    dic =>
-                    {
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Replace)].Count,
-                            isError ? 0 : 1);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Add)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Move)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Remove)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Reset)].Count, 0);
-                    });
-            assertCollectionChangeEventArgsList(changingEventArgsList);
-            assertCollectionChangeEventArgsList(changedEventArgsList);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.RowCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.ColumnCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
-
-            if (errorOccured) return;
-
-            // 発生した Change イベントのパラメータが正しいこと
-            var assertCollectionChangeEventArgsProperty = new Action<TwoDimensionalCollectionChangeEventArgs<string>>(
-                args =>
-                {
-                    Assert.IsTrue(args.Direction == Direction.None);
-                    Assert.IsTrue(args.OldStartRow == row);
-                    Assert.IsTrue(args.OldStartColumn == column);
-                    {
-                        var oldItems = args.OldItems!
-                            .ToTwoDimensionalArray();
-                        Assert.IsTrue(oldItems.Length == 1);
-                        Assert.IsTrue(oldItems[0].Length == 1);
-                        Assert.IsTrue(oldItems[0][0].Equals(TestClass.MakeDefaultValueItemForList(row, column)));
-                    }
-                    Assert.IsTrue(args.NewStartRow == row);
-                    Assert.IsTrue(args.NewStartColumn == column);
-                    {
-                        var newItems = args.NewItems!
-                            .ToTwoDimensionalArray();
-                        Assert.IsTrue(newItems.Length == 1);
-                        Assert.IsTrue(newItems[0].Length == 1);
-                        Assert.IsTrue(newItems[0][0].Equals(setItem));
-                    }
-                });
-            assertCollectionChangeEventArgsProperty(
-                changingEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Replace)][0]);
-            assertCollectionChangeEventArgsProperty(
-                changedEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Replace)][0]);
-
-            // 意図した要素が編集されること
-            instance.ForEach((rowItems, rowIdx) =>
-                rowItems.ForEach((item, colIdx) =>
-                {
-                    if (rowIdx == row && colIdx == column)
-                    {
-                        Assert.IsTrue(item.Equals(setItem));
-                    }
-                    else
-                    {
-                        Assert.IsTrue(item.Equals(TestClass.MakeDefaultValueItemForList(rowIdx, colIdx)));
-                    }
-                }));
         }
 
-        [TestCase(0, 0, 0, true)]
-        [TestCase(3, 0, -1, true)]
-        [TestCase(3, 0, 0, false)]
-        [TestCase(3, 0, 2, false)]
-        [TestCase(3, 0, 3, true)]
-        [TestCase(3, 5, -1, true)]
-        [TestCase(3, 5, 0, false)]
-        [TestCase(3, 5, 2, false)]
-        [TestCase(3, 5, 3, true)]
-        public static void GetRowTest(int initRowLength, int initColumnLength,
-            int row, bool isError)
+        [TestCase(-1, true)]
+        [TestCase(0, false)]
+        [TestCase(InitCapacity - 1, false)]
+        [TestCase(InitCapacity, true)]
+        public static void GetRowTest(int row, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowLength, initColumnLength,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo,
+                InitCapacity, InitItemCapacity);
             var errorOccured = false;
-            IEnumerable<string> result = null;
 
             try
             {
-                result = instance.GetRow(row);
+                _ = instance[row];
             }
             catch (Exception ex)
             {
@@ -424,56 +351,21 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            // 各イベントが一度も呼ばれていないこと
-            var assertCollectionChangeEventArgsList =
-                new Action<Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>>(
-                    dic =>
-                    {
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Replace)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Add)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Move)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Remove)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Reset)].Count, 0);
-                    });
-            assertCollectionChangeEventArgsList(changingEventArgsList);
-            assertCollectionChangeEventArgsList(changedEventArgsList);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.RowCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.ColumnCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
-
-            if (errorOccured) return;
-
-            // 意図した行数・列数が取得されること
-            var resultArray = result.ToArray();
-            Assert.AreEqual(resultArray.Length, initColumnLength);
-
-            // 意図した値が取得されること
-            resultArray.ForEach((items, colIdx) =>
-                Assert.IsTrue(
-                    items.Equals(TestClass.MakeDefaultValueItemForList(row, colIdx))));
         }
 
-        [TestCase(0, 0, 0, true)]
-        [TestCase(3, 0, -1, true)]
-        [TestCase(3, 0, 0, true)]
-        [TestCase(3, 0, 1, true)]
-        [TestCase(3, 5, -1, true)]
-        [TestCase(3, 5, 0, false)]
-        [TestCase(3, 5, 4, false)]
-        [TestCase(3, 5, 5, true)]
-        public static void GetColumnTest(int initRowLength, int initColumnLength,
-            int column, bool isError)
+        [TestCase(-1, true)]
+        [TestCase(0, false)]
+        [TestCase(InitItemCapacity - 1, false)]
+        [TestCase(InitItemCapacity, true)]
+        public static void GetItemTest(int column, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowLength, initColumnLength,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo,
+                InitCapacity, InitItemCapacity);
             var errorOccured = false;
-            IEnumerable<string> result = null;
 
             try
             {
-                result = instance.GetColumn(column);
+                _ = instance.GetItem(column);
             }
             catch (Exception ex)
             {
@@ -483,74 +375,85 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            // 各イベントが一度も呼ばれていないこと
-            var assertCollectionChangeEventArgsList =
-                new Action<Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>>(
-                    dic =>
-                    {
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Replace)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Add)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Move)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Remove)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Reset)].Count, 0);
-                    });
-            assertCollectionChangeEventArgsList(changingEventArgsList);
-            assertCollectionChangeEventArgsList(changedEventArgsList);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.RowCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.ColumnCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
-
-            if (errorOccured) return;
-
-            // 意図した行数・列数が取得されること
-            var resultArray = result.ToArray();
-            Assert.AreEqual(resultArray.Length, initRowLength);
-
-            // 意図した値が取得されること
-            resultArray.ForEach((items, rowIdx) =>
-                Assert.IsTrue(
-                    items.Equals(TestClass.MakeDefaultValueItemForList(rowIdx, column))));
         }
 
-        [TestCase(0, 0, 0, 0, 0, 0, true)]
-        [TestCase(3, 0, 0, 0, 0, 0, true)]
-        [TestCase(3, 0, 0, 3, 0, 0, true)]
-        [TestCase(3, 0, 2, 1, 0, 0, true)]
-        [TestCase(3, 0, 0, 0, 0, 1, true)]
-        [TestCase(3, 5, -1, -1, -1, -1, true)]
-        [TestCase(3, 5, -1, 0, 5, 1, true)]
-        [TestCase(3, 5, -1, 3, 4, 0, true)]
-        [TestCase(3, 5, -1, 4, 0, 5, true)]
-        [TestCase(3, 5, 0, -1, 0, 6, true)]
-        [TestCase(3, 5, 0, 0, 4, -1, true)]
-        [TestCase(3, 5, 0, 4, -1, 0, true)]
-        [TestCase(3, 5, 0, 4, 5, -1, true)]
-        [TestCase(3, 5, 2, -1, -1, -1, true)]
-        [TestCase(3, 5, 3, 0, 4, -1, true)]
-        [TestCase(3, 5, 2, 2, 4, 1, true)]
-        [TestCase(3, 5, 3, -1, 4, 0, true)]
-        [TestCase(3, 5, 3, -1, 5, 0, true)]
-        [TestCase(3, 5, 3, 0, -1, 5, true)]
-        [TestCase(3, 5, 3, 0, -1, 5, true)]
-        [TestCase(3, 5, 3, 0, 0, -1, true)]
-        [TestCase(3, 5, 0, 0, 0, 0, false)]
-        [TestCase(3, 5, 0, 3, 0, 5, false)]
-        [TestCase(3, 5, 0, 3, 4, 0, false)]
-        [TestCase(3, 5, 2, 0, 0, 5, false)]
-        [TestCase(3, 5, 2, 0, 4, 0, false)]
-        public static void GetRangeTest(int initRowLength, int initColumnLength,
-            int row, int rowCount, int column, int columnCount, bool isError)
+        private static readonly object[] GetRangeTestCaseSource =
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowLength, initColumnLength,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            new object[] {-1, -1, 0, 0, Direction.Row, true},
+            new object[] {-1, -1, InitItemCapacity - 1, 2, Direction.Row, true},
+            new object[] {-1, 1, 0, -1, Direction.Column, true},
+            new object[] {-1, 1, 0, InitItemCapacity, Direction.None, true},
+            new object[] {-1, 1, InitItemCapacity - 1, 1, Direction.None, true},
+            new object[] {0, -1, 0, 0, Direction.None, true},
+            new object[] {0, -1, 0, 0, null, true},
+            new object[] {0, -1, 0, InitItemCapacity + 1, Direction.Column, true},
+            new object[] {0, -1, InitItemCapacity, 1, Direction.Column, true},
+            new object[] {0, 0, -1, -1, Direction.Row, true},
+            new object[] {0, 0, 0, -1, Direction.Row, true},
+            new object[] {0, 0, 0, 0, null, true},
+            new object[] {0, 0, 0, InitItemCapacity, Direction.Column, false},
+            new object[] {0, 0, InitItemCapacity - 1, 1, Direction.None, false},
+            new object[] {0, 0, InitItemCapacity, 1, Direction.Row, true},
+            new object[] {0, InitCapacity, -1, -1, Direction.Column, true},
+            new object[] {0, InitCapacity, 0, 0, Direction.Row, false},
+            new object[] {0, InitCapacity, 0, InitItemCapacity + 1, Direction.Row, true},
+            new object[] {0, InitCapacity, 0, InitItemCapacity, Direction.None, false},
+            new object[] {0, InitCapacity, 0, InitItemCapacity, null, true},
+            new object[] {0, InitCapacity, InitItemCapacity - 1, -1, Direction.None, true},
+            new object[] {0, InitCapacity, InitItemCapacity - 1, 1, Direction.Column, false},
+            new object[] {0, InitCapacity, InitItemCapacity - 1, 2, Direction.Column, true},
+            new object[] {0, InitCapacity, InitItemCapacity, 1, Direction.Row, true},
+            new object[] {0, InitCapacity + 1, 0, 0, Direction.Column, true},
+            new object[] {0, InitCapacity + 1, 0, InitItemCapacity, Direction.Row, true},
+            new object[] {0, InitCapacity + 1, InitItemCapacity - 1, -1, Direction.Row, true},
+            new object[] {0, InitCapacity + 1, InitItemCapacity - 1, 1, Direction.Row, true},
+            new object[] {0, InitCapacity + 1, InitItemCapacity - 1, 2, Direction.None, true},
+            new object[] {InitCapacity - 1, -1, -1, -1, Direction.Row, true},
+            new object[] {InitCapacity - 1, -1, 0, InitItemCapacity, Direction.Row, true},
+            new object[] {InitCapacity - 1, -1, InitItemCapacity - 1, -1, Direction.Column, true},
+            new object[] {InitCapacity - 1, -1, InitItemCapacity - 1, 1, Direction.Column, true},
+            new object[] {InitCapacity - 1, -1, InitItemCapacity - 1, 2, Direction.None, true},
+            new object[] {InitCapacity - 1, -1, InitItemCapacity, -1, Direction.None, true},
+            new object[] {InitCapacity - 1, 0, 0, 0, Direction.Column, false},
+            new object[] {InitCapacity - 1, 0, 0, InitItemCapacity + 1, Direction.None, true},
+            new object[] {InitCapacity - 1, 0, InitItemCapacity - 1, 2, Direction.Column, true},
+            new object[] {InitCapacity - 1, 0, InitItemCapacity - 1, 2, null, true},
+            new object[] {InitCapacity - 1, 1, -1, -1, Direction.Row, true},
+            new object[] {InitCapacity - 1, 1, 0, -1, Direction.None, true},
+            new object[] {InitCapacity - 1, 1, 0, 0, Direction.None, false},
+            new object[] {InitCapacity - 1, 1, 0, 0, null, true},
+            new object[] {InitCapacity - 1, 1, 0, InitItemCapacity, Direction.Row, false},
+            new object[] {InitCapacity - 1, 1, 0, InitItemCapacity + 1, Direction.Column, true},
+            new object[] {InitCapacity - 1, 1, InitItemCapacity - 1, 1, Direction.Column, false},
+            new object[] {InitCapacity - 1, 1, InitItemCapacity - 1, 2, Direction.Row, true},
+            new object[] {InitCapacity - 1, 1, InitItemCapacity, -1, Direction.Row, true},
+            new object[] {InitCapacity - 1, 2, -1, 1, Direction.None, true},
+            new object[] {InitCapacity - 1, 2, 0, -1, null, true},
+            new object[] {InitCapacity - 1, 2, 0, InitItemCapacity, Direction.Row, true},
+            new object[] {InitCapacity - 1, 2, 0, InitItemCapacity + 1, Direction.Column, true},
+            new object[] {InitCapacity - 1, 2, InitItemCapacity - 1, -1, Direction.Column, true},
+            new object[] {InitCapacity - 1, 2, InitItemCapacity - 1, 0, Direction.Column, true},
+            new object[] {InitCapacity - 1, 2, InitItemCapacity - 1, 1, Direction.Row, true},
+            new object[] {InitCapacity - 1, 2, InitItemCapacity - 1, 1, null, true},
+            new object[] {InitCapacity - 1, 2, InitItemCapacity - 1, 2, Direction.None, true},
+            new object[] {InitCapacity - 1, 2, InitItemCapacity, 1, Direction.None, true},
+            new object[] {InitCapacity, -1, 0, 0, Direction.Column, true},
+            new object[] {InitCapacity, -1, 0, InitItemCapacity, Direction.Column, true},
+            new object[] {InitCapacity, -1, InitItemCapacity - 1, 1, Direction.Row, true},
+            new object[] {InitCapacity, 1, InitItemCapacity - 1, -1, Direction.None, true},
+            new object[] {InitCapacity, 1, InitItemCapacity - 1, 2, Direction.Column, true},
+        };
+
+        [TestCaseSource(nameof(GetRangeTestCaseSource))]
+        public static void GetRangeTest(int row, int rowCount, int column,
+            int columnCount, Direction direction, bool isError)
+        {
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
-            IEnumerable<IEnumerable<string>> result = null;
 
             try
             {
-                result = instance.GetRange(row, rowCount, column, columnCount);
+                _ = instance.GetRange(row, rowCount, column, columnCount, direction);
             }
             catch (Exception ex)
             {
@@ -560,71 +463,28 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            // 各イベントが一度も呼ばれていないこと
-            var assertCollectionChangeEventArgsList =
-                new Action<Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>>(
-                    dic =>
-                    {
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Replace)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Add)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Move)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Remove)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Reset)].Count, 0);
-                    });
-            assertCollectionChangeEventArgsList(changingEventArgsList);
-            assertCollectionChangeEventArgsList(changedEventArgsList);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.RowCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.ColumnCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
-
-            if (errorOccured) return;
-
-            // 意図した行数・列数が取得されること
-            var resultArray = result.ToTwoDimensionalArray();
-            Assert.AreEqual(resultArray.Length, rowCount);
-            if (resultArray.Length > 0)
-            {
-                Assert.AreEqual(resultArray[0].Length, columnCount);
-            }
-
-            // 意図した値が取得されること
-            resultArray.ForEach((rowItems, rowIdx) =>
-                rowItems.ForEach((resultItem, colIdx) =>
-                    Assert.IsTrue(
-                        resultItem.Equals(TestClass.MakeDefaultValueItemForList(row + rowIdx, column + colIdx)))));
         }
 
-        [TestCase(0, 0, 0, 0, true)]
-        [TestCase(3, 0, 0, 0, false)]
-        [TestCase(3, 0, 2, 1, false)]
-        [TestCase(3, 5, -1, -1, true)]
-        [TestCase(3, 5, -1, 0, true)]
-        [TestCase(3, 5, -1, 3, true)]
-        [TestCase(3, 5, -1, 4, true)]
-        [TestCase(3, 5, 0, -1, true)]
-        [TestCase(3, 5, 0, 0, false)]
-        [TestCase(3, 5, 0, 3, false)]
-        [TestCase(3, 5, 0, 4, true)]
-        [TestCase(3, 5, 2, -1, true)]
-        [TestCase(3, 5, 2, 0, false)]
-        [TestCase(3, 5, 2, 1, false)]
-        [TestCase(3, 5, 2, 2, true)]
-        [TestCase(3, 5, 3, -1, true)]
-        [TestCase(3, 5, 3, 0, true)]
-        [TestCase(3, 5, 3, 1, true)]
-        public static void GetRowRangeTest(int initRowLength, int initColumnLength,
-            int row, int count, bool isError)
+        [TestCase(-1, -1, true)]
+        [TestCase(-1, 1, true)]
+        [TestCase(0, -1, true)]
+        [TestCase(0, 0, false)]
+        [TestCase(0, InitCapacity, false)]
+        [TestCase(0, InitCapacity + 1, true)]
+        [TestCase(InitCapacity - 1, -1, true)]
+        [TestCase(InitCapacity - 1, 0, false)]
+        [TestCase(InitCapacity - 1, 1, false)]
+        [TestCase(InitCapacity - 1, 2, true)]
+        [TestCase(InitCapacity, -1, true)]
+        [TestCase(InitCapacity, 1, true)]
+        public static void GetRowRangeTest(int row, int count, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowLength, initColumnLength,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
-            IEnumerable<IEnumerable<string>> result = null;
 
             try
             {
-                result = instance.GetRowRange(row, count);
+                _ = instance.GetRange(row, count);
             }
             catch (Exception ex)
             {
@@ -634,71 +494,28 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            // 各イベントが一度も呼ばれていないこと
-            var assertCollectionChangeEventArgsList =
-                new Action<Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>>(
-                    dic =>
-                    {
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Replace)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Add)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Move)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Remove)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Reset)].Count, 0);
-                    });
-            assertCollectionChangeEventArgsList(changingEventArgsList);
-            assertCollectionChangeEventArgsList(changedEventArgsList);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.RowCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.ColumnCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
-
-            if (errorOccured) return;
-
-            // 意図した行数・列数が取得されること
-            var resultArray = result.ToTwoDimensionalArray();
-            Assert.AreEqual(resultArray.Length, count);
-            if (resultArray.Length > 0)
-            {
-                Assert.AreEqual(resultArray[0].Length, instance.ColumnCount);
-            }
-
-            // 意図した値が取得されること
-            resultArray.ForEach((rowItems, rowIdx) =>
-                rowItems.ForEach((resultItem, colIdx) =>
-                    Assert.IsTrue(
-                        resultItem.Equals(TestClass.MakeDefaultValueItemForList(row + rowIdx, colIdx)))));
         }
 
-        [TestCase(0, 0, 0, 0, true)]
-        [TestCase(3, 0, 0, 0, true)]
-        [TestCase(3, 0, 0, 1, true)]
-        [TestCase(3, 5, -1, -1, true)]
-        [TestCase(3, 5, -1, 0, true)]
-        [TestCase(3, 5, -1, 5, true)]
-        [TestCase(3, 5, -1, 6, true)]
-        [TestCase(3, 5, 0, -1, true)]
-        [TestCase(3, 5, 0, 0, false)]
-        [TestCase(3, 5, 0, 5, false)]
-        [TestCase(3, 5, 0, 6, true)]
-        [TestCase(3, 5, 4, -1, true)]
-        [TestCase(3, 5, 4, 0, false)]
-        [TestCase(3, 5, 4, 1, false)]
-        [TestCase(3, 5, 4, 2, true)]
-        [TestCase(3, 5, 5, -1, true)]
-        [TestCase(3, 5, 5, 0, true)]
-        [TestCase(3, 5, 5, 1, true)]
-        public static void GetColumnRangeTest(int initRowLength, int initColumnLength,
-            int column, int count, bool isError)
+        [TestCase(-1, -1, true)]
+        [TestCase(-1, 1, true)]
+        [TestCase(0, -1, true)]
+        [TestCase(0, 0, false)]
+        [TestCase(0, InitItemCapacity, false)]
+        [TestCase(0, InitItemCapacity + 1, true)]
+        [TestCase(InitItemCapacity - 1, -1, true)]
+        [TestCase(InitItemCapacity - 1, 0, false)]
+        [TestCase(InitItemCapacity - 1, 1, false)]
+        [TestCase(InitItemCapacity - 1, 2, true)]
+        [TestCase(InitItemCapacity, -1, true)]
+        [TestCase(InitItemCapacity, 1, true)]
+        public static void GetItemRangeTest(int column, int count, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowLength, initColumnLength,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
-            IEnumerable<IEnumerable<string>> result = null;
 
             try
             {
-                result = instance.GetColumnRange(column, count);
+                _ = instance.GetItemRange(column, count);
             }
             catch (Exception ex)
             {
@@ -708,69 +525,29 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            // 各イベントが一度も呼ばれていないこと
-            var assertCollectionChangeEventArgsList =
-                new Action<Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>>(
-                    dic =>
-                    {
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Replace)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Add)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Move)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Remove)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Reset)].Count, 0);
-                    });
-            assertCollectionChangeEventArgsList(changingEventArgsList);
-            assertCollectionChangeEventArgsList(changedEventArgsList);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.RowCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.ColumnCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
-
-            if (errorOccured) return;
-
-            // 意図した行数・列数が取得されること
-            var resultArray = result.ToTwoDimensionalArray();
-            Assert.AreEqual(resultArray.Length, count);
-            if (resultArray.Length > 0)
-            {
-                Assert.AreEqual(resultArray[0].Length, instance.RowCount);
-            }
-
-            // 意図した値が取得されること
-            resultArray.ForEach((colItems, colIdx) =>
-                colItems.ForEach((resultItem, rowIdx) =>
-                    Assert.IsTrue(
-                        resultItem.Equals(TestClass.MakeDefaultValueItemForList(rowIdx, column + colIdx)))));
         }
 
-        [TestCase(0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 1, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 10, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 11, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 10, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(0, 0, 10, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 5, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 6, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 5, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(3, 5, 5, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(5, 5, 5, nameof(TestClass.ListType.Normal), true)]
-        public static void AddRowTest(int initRowCount, int initColumnCount,
-            int addLineItemLength, string addTypeId, bool isError)
+        private static readonly object[] AddTestCaseSource =
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            var addItem = TestClass.ListType.FromId(addTypeId)
-                .GetLine(addLineItemLength);
+            new object[] {InitCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true},
+            new object[] {InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false},
+            new object[] {InitCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true},
+            new object[] {InitCapacity, InitItemCapacity, TestClass.ListType.SelfNull, true},
+            new object[] {InitCapacity, InitItemCapacity, TestClass.ListType.ColumnHasNull, true},
+            new object[] {InitMaxCapacity - 1, InitItemCapacity, TestClass.ListType.Normal, false},
+            new object[] {InitMaxCapacity, InitItemCapacity, TestClass.ListType.Normal, true},
+        };
+
+        [TestCaseSource(nameof(AddTestCaseSource))]
+        public static void AddTest(int initLength, int addLineItemLength, TestClass.ListType addType, bool isError)
+        {
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, initLength, InitItemCapacity);
+            var addItem = addType.GetLine(addLineItemLength);
             var errorOccured = false;
 
             try
             {
-                instance.AddRow(addItem);
+                instance.Add(addItem);
             }
             catch (Exception ex)
             {
@@ -780,40 +557,31 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdd(instance, Direction.Row, initRowCount, initColumnCount,
-                new[] {addItem}, initRowCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 5, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 5, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(0, 0, 5, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 0, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 3, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(3, 0, 3, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 5, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 3, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(3, 5, 3, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 10, 3, nameof(TestClass.ListType.Normal), true)]
-        public static void AddColumnTest(int initRowCount, int initColumnCount,
-            int addLineItemLength, string addTypeId, bool isError)
+
+        private static readonly object[] AddItemTestCaseSource =
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            var addItem = TestClass.ListType.FromId(addTypeId)
-                .GetLine(addLineItemLength);
+            new object[] {InitItemCapacity, InitCapacity - 1, TestClass.ListType.Normal, true},
+            new object[] {InitItemCapacity, InitCapacity, TestClass.ListType.Normal, false},
+            new object[] {InitItemCapacity, InitCapacity + 1, TestClass.ListType.Normal, true},
+            new object[] {InitItemCapacity, InitCapacity, TestClass.ListType.SelfNull, true},
+            new object[] {InitItemCapacity, InitCapacity, TestClass.ListType.ColumnHasNull, true},
+            new object[] {InitMaxItemCapacity - 1, InitCapacity, TestClass.ListType.Normal, false},
+            new object[] {InitMaxItemCapacity, InitCapacity, TestClass.ListType.Normal, true},
+        };
+
+        [TestCaseSource(nameof(AddItemTestCaseSource))]
+        public static void AddItemTest(int initColumnLength, int addLineItemLength, TestClass.ListType addType,
+            bool isError)
+        {
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, initColumnLength);
+            var addItem = addType.GetLine(addLineItemLength);
             var errorOccured = false;
 
             try
             {
-                instance.AddColumn(addItem);
+                instance.AddItem(addItem);
             }
             catch (Exception ex)
             {
@@ -823,53 +591,47 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdd(instance, Direction.Column, initRowCount, initColumnCount,
-                new[] {addItem}, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 5, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 5, 10, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 5, 11, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 6, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 6, 10, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 6, 11, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 5, 10, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(0, 0, 5, 10, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(0, 0, 5, 10, nameof(TestClass.ListType.ColumnHasNull), true)]
-        [TestCase(0, 0, 5, 10, nameof(TestClass.ListType.ColumnSizeDifference), true)]
-        [TestCase(3, 0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 2, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 2, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 3, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(5, 5, 2, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 2, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 2, 5, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 2, 6, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 3, 5, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 2, 5, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(3, 5, 2, 5, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 5, 2, 5, nameof(TestClass.ListType.ColumnHasNull), true)]
-        [TestCase(3, 5, 2, 5, nameof(TestClass.ListType.ColumnSizeDifference), true)]
-        [TestCase(5, 5, 1, 5, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(5, 0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(5, 0, 1, 0, nameof(TestClass.ListType.Normal), true)]
-        public static void AddRowRangeTest(int initRowCount, int initColumnCount,
-            int addRowLength, int addLineItemLength, string addTypeId, bool isError)
+        private static readonly object[] AddRangeTestCaseSource =
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            var addItem = TestClass.ListType.FromId(addTypeId)
-                .GetMultiLine(addRowLength, addLineItemLength);
+            new object[] {InitCapacity, 0, InitItemCapacity, TestClass.ListType.Normal, false},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.SelfNull, true},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.RowHasNull, true},
+            new object[]
+            {
+                InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.ColumnHasNull, true
+            },
+            new object[]
+            {
+                InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.ColumnSizeDifference,
+                true
+            },
+            new object[] {InitMaxCapacity, 0, InitItemCapacity, TestClass.ListType.Normal, false},
+            new object[] {InitMaxCapacity, 1, InitItemCapacity, TestClass.ListType.Normal, true},
+        };
+
+        [TestCaseSource(nameof(AddRangeTestCaseSource))]
+        public static void AddRangeTest(int initRowLength, int addRowLength, int addLineItemLength,
+            TestClass.ListType addType, bool isError)
+        {
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, initRowLength, InitItemCapacity);
+            var addItem = addType.GetMultiLine(addRowLength, addLineItemLength);
             var errorOccured = false;
 
             try
             {
-                instance.AddRowRange(addItem);
+                instance.AddRange(addItem);
             }
             catch (Exception ex)
             {
@@ -879,56 +641,67 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdd(instance, Direction.Row, initRowCount, initColumnCount,
-                addItem, initRowCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, 0, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 1, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 1, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 1, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 1, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 1, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 10, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 10, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 10, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 10, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 11, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 11, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 11, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 11, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 10, 3, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(3, 0, 10, 3, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 0, 10, 3, nameof(TestClass.ListType.ColumnHasNull), true)]
-        [TestCase(3, 0, 10, 3, nameof(TestClass.ListType.ColumnSizeDifference), true)]
-        [TestCase(3, 5, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 5, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 5, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 5, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 5, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 6, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 5, 3, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(3, 5, 5, 3, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 5, 5, 3, nameof(TestClass.ListType.ColumnHasNull), true)]
-        [TestCase(3, 5, 5, 3, nameof(TestClass.ListType.ColumnSizeDifference), true)]
-        [TestCase(3, 10, 0, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 10, 1, 3, nameof(TestClass.ListType.Normal), true)]
-        public static void AddColumnRangeTest(int initRowCount, int initColumnCount,
-            int addColumnLength, int addLineItemLength, string addTypeId, bool isError)
+
+        private static readonly object[] AddItemRangeTestCaseSource =
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            var addItem = TestClass.ListType.FromId(addTypeId)
-                .GetMultiLine(addColumnLength, addLineItemLength);
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity - 1,
+                TestClass.ListType.Normal, true
+            },
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity, TestClass.ListType.Normal,
+                false
+            },
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity + 1,
+                TestClass.ListType.Normal, true
+            },
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity + 1, InitCapacity,
+                TestClass.ListType.Normal, true
+            },
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity, TestClass.ListType.SelfNull,
+                true
+            },
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity,
+                TestClass.ListType.RowHasNull, true
+            },
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity,
+                TestClass.ListType.ColumnHasNull, true
+            },
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity,
+                TestClass.ListType.ColumnSizeDifference, true
+            },
+            new object[] {InitMaxItemCapacity, 0, 0, TestClass.ListType.Normal, false},
+            new object[] {InitMaxItemCapacity, 1, InitCapacity, TestClass.ListType.Normal, true},
+        };
+
+        [TestCaseSource(nameof(AddItemRangeTestCaseSource))]
+        public static void AddColumnRangeTest(int initColumnLength, int addColumnLength, int addLineItemLength,
+            TestClass.ListType addType,
+            bool isError)
+        {
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, initColumnLength);
+            var addItem = addType.GetMultiLine(addColumnLength, addLineItemLength);
             var errorOccured = false;
 
             try
             {
-                instance.AddColumnRange(addItem);
+                instance.AddItemRange(addItem);
             }
             catch (Exception ex)
             {
@@ -938,45 +711,33 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdd(instance, Direction.Column, initRowCount, initColumnCount,
-                addItem, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 0, 1, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 0, 10, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 0, 11, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 10, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(0, 0, 0, 10, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 0, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, -1, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 3, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 4, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 5, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 0, 6, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, -1, 5, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 3, 5, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 4, 5, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 5, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(3, 5, 0, 5, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(5, 5, 0, 5, nameof(TestClass.ListType.Normal), true)]
-        public static void InsertRowTest(int initRowCount, int initColumnCount,
-            int insertRow, int addLineItemLength, string addTypeId, bool isError)
+        private static readonly object[] InsertTestCaseSource =
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            var addItem = TestClass.ListType.FromId(addTypeId)
-                .GetLine(addLineItemLength);
+            new object[] {InitCapacity, -1, InitItemCapacity, TestClass.ListType.Normal, true},
+            new object[] {InitCapacity, 0, InitItemCapacity - 1, TestClass.ListType.Normal, true},
+            new object[] {InitCapacity, 0, InitItemCapacity, TestClass.ListType.Normal, false},
+            new object[] {InitCapacity, 0, InitItemCapacity + 1, TestClass.ListType.Normal, true},
+            new object[] {InitCapacity, 0, InitItemCapacity, TestClass.ListType.SelfNull, true},
+            new object[] {InitCapacity, 0, InitItemCapacity, TestClass.ListType.ColumnHasNull, true},
+            new object[] {InitCapacity, InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false},
+            new object[] {InitCapacity, InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true},
+            new object[] {InitMaxCapacity - 1, 0, InitItemCapacity, TestClass.ListType.Normal, false},
+            new object[] {InitMaxCapacity, 0, InitItemCapacity, TestClass.ListType.Normal, true},
+        };
+
+        [TestCaseSource(nameof(InsertTestCaseSource))]
+        public static void InsertTest(int initLength, int index, int addLineItemLength, TestClass.ListType addType,
+            bool isError)
+        {
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, initLength, InitItemCapacity);
+            var addItem = addType.GetLine(addLineItemLength);
             var errorOccured = false;
 
             try
             {
-                instance.InsertRow(insertRow, addItem);
+                instance.Insert(index, addItem);
             }
             catch (Exception ex)
             {
@@ -986,39 +747,33 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdd(instance, Direction.Row, initRowCount, initColumnCount,
-                new[] {addItem}, insertRow, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, 0, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 1, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 0, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, -1, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 5, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 6, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 3, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(3, 5, 0, 3, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 10, 0, 3, nameof(TestClass.ListType.Normal), true)]
-        public static void InsertColumnTest(int initRowCount, int initColumnCount,
-            int insertColumn, int addLineItemLength, string addTypeId, bool isError)
+        private static readonly object[] InsertItemTestCaseSource =
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            var addItem = TestClass.ListType.FromId(addTypeId)
-                .GetLine(addLineItemLength);
+            new object[] {InitItemCapacity, -1, InitCapacity, TestClass.ListType.Normal, true},
+            new object[] {InitItemCapacity, 0, InitCapacity - 1, TestClass.ListType.Normal, true},
+            new object[] {InitItemCapacity, 0, InitCapacity, TestClass.ListType.Normal, false},
+            new object[] {InitItemCapacity, 0, InitCapacity + 1, TestClass.ListType.Normal, true},
+            new object[] {InitItemCapacity, 0, InitCapacity, TestClass.ListType.SelfNull, true},
+            new object[] {InitItemCapacity, 0, InitCapacity, TestClass.ListType.ColumnHasNull, true},
+            new object[] {InitItemCapacity, InitItemCapacity, InitCapacity, TestClass.ListType.Normal, false},
+            new object[] {InitItemCapacity, InitItemCapacity + 1, InitCapacity, TestClass.ListType.Normal, true},
+            new object[] {InitMaxItemCapacity - 1, 0, InitCapacity, TestClass.ListType.Normal, false},
+            new object[] {InitMaxItemCapacity, 0, InitCapacity, TestClass.ListType.Normal, true},
+        };
+
+        [TestCaseSource(nameof(InsertItemTestCaseSource))]
+        public static void InsertItemTest(int initItemLength, int insertColumn, int addLineItemLength,
+            TestClass.ListType addType, bool isError)
+        {
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, initItemLength);
+            var addItem = addType.GetLine(addLineItemLength);
             var errorOccured = false;
 
             try
             {
-                instance.InsertColumn(insertColumn, addItem);
+                instance.InsertItem(insertColumn, addItem);
             }
             catch (Exception ex)
             {
@@ -1028,62 +783,52 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdd(instance, Direction.Column, initRowCount, initColumnCount,
-                new[] {addItem}, insertColumn, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, 0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 0, 1, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 0, 1, 10, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 0, 1, 11, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, -1, 5, 10, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 5, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 0, 5, 10, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 0, 5, 11, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 1, 5, 10, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 6, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 6, 10, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 6, 11, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 2, 5, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(0, 0, 0, 2, 5, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(0, 0, 0, 2, 5, nameof(TestClass.ListType.ColumnHasNull), true)]
-        [TestCase(0, 0, 0, 2, 5, nameof(TestClass.ListType.ColumnSizeDifference), true)]
-        [TestCase(3, 0, 0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 0, 1, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 0, 1, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 2, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 0, 2, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 3, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 3, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 2, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 2, 5, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 0, 2, 6, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 0, 5, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 0, 3, 5, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, -1, 2, 5, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 3, 2, 5, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 4, 2, 5, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 2, 5, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(3, 5, 0, 2, 5, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 5, 0, 2, 5, nameof(TestClass.ListType.ColumnHasNull), true)]
-        [TestCase(3, 5, 0, 2, 5, nameof(TestClass.ListType.ColumnSizeDifference), true)]
-        [TestCase(5, 5, 0, 0, 5, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(5, 5, 0, 1, 5, nameof(TestClass.ListType.Normal), true)]
-        public static void InsertRowRangeTest(int initRowCount, int initColumnCount,
-            int insertRow, int addRowLength, int addLineItemLength, string addTypeId, bool isError)
+        private static readonly object[] InsertRangeTestCaseSource =
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            var addItem = TestClass.ListType.FromId(addTypeId)
-                .GetMultiLine(addRowLength, addLineItemLength);
+            new object[] {-1, 1, InitItemCapacity, TestClass.ListType.Normal, true},
+            new object[] {0, 0, 0, TestClass.ListType.Normal, false},
+            new object[] {0, InitMaxCapacity - InitCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true},
+            new object[] {0, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false},
+            new object[] {0, InitMaxCapacity - InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true},
+            new object[] {InitCapacity, 0, 0, TestClass.ListType.Normal, false},
+            new object[] {InitCapacity, 1, InitItemCapacity - 1, TestClass.ListType.Normal, true},
+            new object[] {InitCapacity, 1, InitItemCapacity, TestClass.ListType.Normal, false},
+            new object[] {InitCapacity, 1, InitItemCapacity + 1, TestClass.ListType.Normal, true},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true},
+            new object[] {InitCapacity + 1, 1, InitItemCapacity, TestClass.ListType.Normal, true},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.SelfNull, true},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.RowHasNull, true},
+            new object[]
+            {
+                InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.ColumnHasNull, true
+            },
+            new object[]
+            {
+                InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.ColumnSizeDifference,
+                true
+            },
+        };
+
+        [TestCaseSource(nameof(InsertRangeTestCaseSource))]
+        public static void InsertRangeTest(int index, int addRowLength, int addLineItemLength,
+            TestClass.ListType addType, bool isError)
+        {
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
+            var addItem = addType.GetMultiLine(addRowLength, addLineItemLength);
             var errorOccured = false;
 
             try
             {
-                instance.InsertRowRange(insertRow, addItem);
+                instance.InsertRange(index, addItem);
             }
             catch (Exception ex)
             {
@@ -1093,58 +838,55 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdd(instance, Direction.Row, initRowCount, initColumnCount,
-                addItem, insertRow, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, 0, 0, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 1, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 0, 1, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 1, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 0, 1, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, -1, 10, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 10, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 10, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 0, 10, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 1, 10, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 11, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 11, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 11, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 10, 3, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(3, 0, 0, 10, 3, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 0, 0, 10, 3, nameof(TestClass.ListType.ColumnHasNull), true)]
-        [TestCase(3, 0, 0, 10, 3, nameof(TestClass.ListType.ColumnSizeDifference), true)]
-        [TestCase(3, 5, 0, 5, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 5, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 0, 5, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 6, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 0, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, -1, 5, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 5, 5, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 6, 5, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 5, 3, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(3, 5, 0, 5, 3, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 5, 0, 5, 3, nameof(TestClass.ListType.ColumnHasNull), true)]
-        [TestCase(3, 5, 0, 5, 3, nameof(TestClass.ListType.ColumnSizeDifference), true)]
-        [TestCase(3, 10, 0, 0, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 10, 0, 1, 3, nameof(TestClass.ListType.Normal), true)]
-        public static void InsertColumnRangeTest(int initRowCount, int initColumnCount,
-            int insertColumn, int addColumnLength, int addLineItemLength,
-            string addTypeId, bool isError)
+        private static readonly object[] InsertItemRangeTestCaseSource =
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            var addItem = TestClass.ListType.FromId(addTypeId)
-                .GetMultiLine(addColumnLength, addLineItemLength);
+            new object[] {-1, 1, InitCapacity, TestClass.ListType.Normal, true},
+            new object[] {0, 0, 0, TestClass.ListType.Normal, false},
+            new object[] {0, InitMaxItemCapacity - InitItemCapacity, InitCapacity - 1, TestClass.ListType.Normal, true},
+            new object[] {0, InitMaxItemCapacity - InitItemCapacity, InitCapacity, TestClass.ListType.Normal, false},
+            new object[] {0, InitMaxItemCapacity - InitItemCapacity + 1, InitCapacity, TestClass.ListType.Normal, true},
+            new object[] {InitItemCapacity, 0, 0, TestClass.ListType.Normal, false},
+            new object[] {InitItemCapacity, 1, InitCapacity - 1, TestClass.ListType.Normal, true},
+            new object[] {InitItemCapacity, 1, InitCapacity, TestClass.ListType.Normal, false},
+            new object[] {InitItemCapacity, 1, InitCapacity + 1, TestClass.ListType.Normal, true},
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity, TestClass.ListType.Normal, false
+            },
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity + 1, TestClass.ListType.Normal,
+                true
+            },
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity + 1, InitCapacity, TestClass.ListType.Normal,
+                true
+            },
+            new object[] {InitItemCapacity + 1, 1, InitCapacity, TestClass.ListType.Normal, true},
+            new object[] {0, InitMaxItemCapacity - InitCapacity, InitCapacity, TestClass.ListType.SelfNull, true},
+            new object[] {0, InitMaxItemCapacity - InitCapacity, InitCapacity, TestClass.ListType.RowHasNull, true},
+            new object[]
+                {0, InitMaxItemCapacity - InitCapacity, InitCapacity, TestClass.ListType.ColumnHasNull, true},
+            new object[]
+            {
+                0, InitMaxItemCapacity - InitCapacity, InitCapacity, TestClass.ListType.ColumnSizeDifference, true
+            },
+        };
+
+        [TestCaseSource(nameof(InsertItemRangeTestCaseSource))]
+        public static void InsertItemRangeTest(int index, int addColumnLength, int addLineItemLength,
+            TestClass.ListType addType, bool isError)
+        {
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
+            var addItem = addType.GetMultiLine(addColumnLength, addLineItemLength);
             var errorOccured = false;
 
             try
             {
-                instance.InsertColumnRange(insertColumn, addItem);
+                instance.InsertItemRange(index, addItem);
             }
             catch (Exception ex)
             {
@@ -1154,177 +896,43 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdd(instance, Direction.Column, initRowCount, initColumnCount,
-                addItem, insertColumn, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        private static void CommonAssertionAdd(TestClass.ListTest1 instance, Direction direction, int initRowCount,
-            int initColCount, string[][] addItems, int insertIndex,
-            bool isError,
-            Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>> changingEventArgsList,
-            Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>> changedEventArgsList,
-            Dictionary<string, int> propertyChangedEventCalledCount)
+        private static readonly object[] OverwriteTestCaseSource =
         {
-            // 意図したイベントが発生すること
-            var assertCollectionChangeEventArgsList =
-                new Action<Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>>(
-                    dic =>
-                    {
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Replace)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Add)].Count,
-                            isError ? 0 : 1);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Move)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Remove)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Reset)].Count, 0);
-                    });
-            assertCollectionChangeEventArgsList(changingEventArgsList);
-            assertCollectionChangeEventArgsList(changedEventArgsList);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.RowCount)],
-                isError
-                    ? 0
-                    : direction == Direction.Row
-                        ? 1
-                        : initRowCount == 0
-                            ? 1
-                            : 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.ColumnCount)],
-                isError
-                    ? 0
-                    : direction == Direction.Column
-                        ? 1
-                        : initRowCount == 0 && addItems.Length != 0
-                            ? 1
-                            : 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
+            new object[] {-1, 1, InitItemCapacity, TestClass.ListType.Normal, true},
+            new object[] {0, 0, 0, TestClass.ListType.Normal, false},
+            new object[] {0, InitMaxCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true},
+            new object[] {0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.Normal, false},
+            new object[] {0, InitMaxCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true},
+            new object[] {0, InitMaxCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true},
+            new object[] {InitCapacity, 0, 0, TestClass.ListType.Normal, false},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true},
+            new object[]
+                {InitCapacity, InitMaxCapacity - InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true},
+            new object[] {InitCapacity + 1, 1, InitItemCapacity, TestClass.ListType.Normal, true},
+            new object[] {0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.SelfNull, true},
+            new object[] {0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.RowHasNull, true},
+            new object[] {0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.ColumnHasNull, true},
+            new object[] {0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.ColumnSizeDifference, true},
+        };
 
-            if (isError) return;
-
-            // 発生した Change イベントのパラメータが正しいこと
-            var assertCollectionChangeEventArgsProperty =
-                new Action<TwoDimensionalCollectionChangeEventArgs<string>>(
-                    args =>
-                    {
-                        Assert.IsTrue(args.Direction == direction);
-                        Assert.IsTrue(args.OldStartRow == -1);
-                        Assert.IsTrue(args.OldStartColumn == -1);
-                        Assert.IsTrue(args.OldItems == null);
-                        Assert.IsTrue(args.NewStartRow == (direction == Direction.Row ? insertIndex : 0));
-                        Assert.IsTrue(args.NewStartColumn == (direction == Direction.Column ? insertIndex : 0));
-                        {
-                            var newItems = args.NewItems!
-                                .ToTwoDimensionalArray();
-                            CommonAssertion.ArraySizeEqual(newItems, addItems);
-
-                            Assert.IsTrue(newItems.Equals<string>(addItems));
-                        }
-                    });
-            assertCollectionChangeEventArgsProperty(
-                changingEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Add)][0]);
-            assertCollectionChangeEventArgsProperty(
-                changedEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Add)][0]);
-
-            // 行数・列数が意図した値であること
-            CommonAssertion.SizeEqual(instance,
-                direction == Direction.Row
-                    ? initRowCount + addItems.Length
-                    : initRowCount != 0
-                        ? initRowCount
-                        : addItems.GetInnerArrayLength(),
-                direction == Direction.Column
-                    ? initColCount + addItems.Length
-                    : initColCount != 0
-                        ? initColCount
-                        : addItems.GetInnerArrayLength());
-
-            // 各要素が意図した値であること
-            var isInsertElement = new Func<int, int, bool>((row, col) => direction == Direction.Row
-                ? insertIndex <= row && row < insertIndex + addItems.Length
-                : insertIndex <= col && col < insertIndex + addItems.Length);
-            var getForAddItems = new Func<int, int, string>((row, col) => direction == Direction.Row
-                ? addItems[row - insertIndex][col]
-                : addItems[col - insertIndex][row]);
-            var getInitItem = new Func<int, int, string>((row, col) => direction == Direction.Row
-                ? TestClass.MakeDefaultValueItemForList(
-                    row - (row < insertIndex ? 0 : addItems.Length), col)
-                : TestClass.MakeDefaultValueItemForList(
-                    row, col - (col < insertIndex ? 0 : addItems.Length)));
-            instance.ForEach((line, i) =>
-                line.ForEach((item, j) =>
-                {
-                    Assert.IsTrue(instance[i, j].Equals(
-                            isInsertElement(i, j)
-                                ? getForAddItems(i, j) // 追加要素
-                                : getInitItem(i, j) // 既存要素
-                        )
-                    );
-                }));
-        }
-
-        [TestCase(0, 0, -1, 5, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 0, 1, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 0, 1, 10, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 0, 1, 11, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 5, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 0, 5, 10, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(0, 0, 0, 5, 11, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 6, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 6, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 6, 10, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 6, 11, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 5, 10, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(0, 0, 0, 5, 10, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(0, 0, 0, 5, 10, nameof(TestClass.ListType.ColumnHasNull), true)]
-        [TestCase(0, 0, 0, 5, 10, nameof(TestClass.ListType.ColumnSizeDifference), true)]
-        [TestCase(3, 0, 0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 0, 5, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 0, 5, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 6, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 6, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 3, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 3, 2, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 3, 2, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 3, 3, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 3, 3, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 4, 0, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 4, 1, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, -1, 1, 5, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 0, 5, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 5, 5, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 0, 5, 6, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 6, 5, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 3, 2, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 3, 2, 5, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 3, 2, 6, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 3, 3, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 3, 3, 5, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 3, 3, 6, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 4, 1, 5, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 5, 5, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(3, 5, 0, 5, 5, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 5, 0, 5, 5, nameof(TestClass.ListType.ColumnHasNull), true)]
-        [TestCase(3, 5, 0, 5, 5, nameof(TestClass.ListType.ColumnSizeDifference), true)]
-        [TestCase(5, 5, 0, 5, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(5, 5, 0, 5, 5, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(5, 5, 0, 5, 6, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(5, 5, 0, 6, 5, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(5, 5, 1, 5, 5, nameof(TestClass.ListType.Normal), true)]
-        public static void OverwriteRowTest(int initRowCount, int initColumnCount,
-            int row, int itemRowLength, int addLineItemLength, string addTypeId, bool isError)
+        [TestCaseSource(nameof(OverwriteTestCaseSource))]
+        public static void OverwriteTest(int row, int itemRowLength, int addLineItemLength, TestClass.ListType addType,
+            bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            var items = TestClass.ListType.FromId(addTypeId)
-                .GetMultiLine(itemRowLength, addLineItemLength);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
+            var items = addType.GetMultiLine(itemRowLength, addLineItemLength);
             var errorOccured = false;
 
             try
             {
-                instance.OverwriteRow(row, items);
+                instance.Overwrite(row, items);
             }
             catch (Exception ex)
             {
@@ -1334,71 +942,54 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionOverwrite(instance, Direction.Row, initRowCount, initColumnCount,
-                items, row, isError, changingEventArgsList, changedEventArgsList,
-                propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, 0, 0, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 1, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 1, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 1, 5, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(0, 0, 0, 1, 6, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, -1, 5, 1, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 0, 1, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 1, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 1, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 0, 1, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 10, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 10, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 10, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 0, 0, 10, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 11, 0, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 11, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 11, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 11, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 0, 0, 10, 3, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(3, 0, 0, 10, 3, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 0, 0, 10, 3, nameof(TestClass.ListType.ColumnHasNull), true)]
-        [TestCase(3, 0, 0, 10, 3, nameof(TestClass.ListType.ColumnSizeDifference), true)]
-        [TestCase(3, 5, -1, 1, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 0, 0, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 0, 5, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 5, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 0, 5, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 11, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 5, 5, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 5, 5, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 5, 5, 5, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 5, 6, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 5, 6, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 5, 6, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 6, 1, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 5, 0, 5, 3, nameof(TestClass.ListType.SelfNull), true)]
-        [TestCase(3, 5, 0, 5, 3, nameof(TestClass.ListType.RowHasNull), true)]
-        [TestCase(3, 5, 0, 5, 3, nameof(TestClass.ListType.ColumnHasNull), true)]
-        [TestCase(3, 5, 0, 5, 3, nameof(TestClass.ListType.ColumnSizeDifference), true)]
-        [TestCase(3, 10, 0, 10, 2, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 10, 0, 10, 3, nameof(TestClass.ListType.Normal), false)]
-        [TestCase(3, 10, 0, 10, 4, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 10, 0, 11, 3, nameof(TestClass.ListType.Normal), true)]
-        [TestCase(3, 10, 1, 10, 3, nameof(TestClass.ListType.Normal), true)]
-        public static void OverwriteColumnTest(int initRowCount, int initColumnCount,
-            int column, int itemColumnLength, int addLineItemLength,
-            string addTypeId, bool isError)
+        private static readonly object[] OverwriteItemTestCaseSource =
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            var items = TestClass.ListType.FromId(addTypeId)
-                .GetMultiLine(itemColumnLength, addLineItemLength);
+            new object[] {-1, 1, InitCapacity, TestClass.ListType.Normal, true},
+            new object[] {0, 0, 0, TestClass.ListType.Normal, false},
+            new object[] {0, InitMaxItemCapacity, InitCapacity - 1, TestClass.ListType.Normal, true},
+            new object[] {0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.Normal, false},
+            new object[] {0, InitMaxItemCapacity, InitCapacity + 1, TestClass.ListType.Normal, true},
+            new object[] {0, InitMaxItemCapacity + 1, InitCapacity, TestClass.ListType.Normal, true},
+            new object[] {InitItemCapacity, 0, 0, TestClass.ListType.Normal, false},
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity - 1, TestClass.ListType.Normal,
+                true
+            },
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity, TestClass.ListType.Normal, false
+            },
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity + 1, TestClass.ListType.Normal,
+                true
+            },
+            new object[]
+            {
+                InitItemCapacity, InitMaxItemCapacity - InitItemCapacity + 1, InitCapacity, TestClass.ListType.Normal,
+                true
+            },
+            new object[] {InitItemCapacity + 1, 1, InitCapacity, TestClass.ListType.Normal, true},
+            new object[] {0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.SelfNull, true},
+            new object[] {0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.RowHasNull, true},
+            new object[] {0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.ColumnHasNull, true},
+            new object[] {0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.ColumnSizeDifference, true},
+        };
+
+        [TestCaseSource(nameof(OverwriteItemTestCaseSource))]
+        public static void OverwriteItemTest(int column, int itemColumnLength, int addLineItemLength,
+            TestClass.ListType addType, bool isError)
+        {
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
+            var items = addType.GetMultiLine(itemColumnLength, addLineItemLength);
             var errorOccured = false;
 
             try
             {
-                instance.OverwriteColumn(column, items);
+                instance.OverwriteItem(column, items);
             }
             catch (Exception ex)
             {
@@ -1408,234 +999,22 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionOverwrite(instance, Direction.Column, initRowCount, initColumnCount,
-                items, column, isError, changingEventArgsList, changedEventArgsList,
-                propertyChangedEventCalledCount);
         }
 
-        private static void CommonAssertionOverwrite(TestClass.ListTest1 instance, Direction direction,
-            int initRowCount,
-            int initColCount, string[][] overwriteItems, int index,
-            bool isError,
-            Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>> changingEventArgsList,
-            Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>> changedEventArgsList,
-            Dictionary<string, int> propertyChangedEventCalledCount)
+        [TestCase(InitCapacity, -1, true)]
+        [TestCase(InitCapacity, 0, false)]
+        [TestCase(InitCapacity, InitCapacity - 1, false)]
+        [TestCase(InitCapacity, InitCapacity, true)]
+        [TestCase(InitMinCapacity, 0, true)]
+        [TestCase(InitMinCapacity + 1, 0, false)]
+        public static void RemoveTest(int initLength, int index, bool isError)
         {
-            var isOverwriteItemSizeZero =
-                overwriteItems == null || overwriteItems.Length == 0;
-            var replaceLength = isOverwriteItemSizeZero
-                ? 0
-                : Math.Min(
-                    (direction == Direction.Row
-                        ? initRowCount
-                        : initColCount
-                    ) - index,
-                    overwriteItems.Length);
-            var addLength = isOverwriteItemSizeZero
-                ? 0
-                : overwriteItems.Length - replaceLength;
-            var isReplaced = !isError
-                             && replaceLength > 0;
-            var isAdded = !isError
-                          && addLength > 0;
-
-            // 意図したイベントが発生すること
-            var assertCollectionChangeEventArgsList =
-                new Action<Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>>(
-                    dic =>
-                    {
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Replace)].Count,
-                            isReplaced ? 1 : 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Add)].Count,
-                            isAdded ? 1 : 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Move)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Remove)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Reset)].Count, 0);
-                    });
-            assertCollectionChangeEventArgsList(changingEventArgsList);
-            assertCollectionChangeEventArgsList(changedEventArgsList);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.RowCount)],
-                !isError && direction == Direction.Row ? 1 : 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.ColumnCount)],
-                !isError && direction == Direction.Column ? 1 : 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
-
-            if (isError) return;
-            Assert.NotNull(overwriteItems);
-
-            // 発生した Change イベントのパラメータが正しいこと
-            if (isReplaced)
-            {
-                var assertCollectionReplaceEventArgsProperty =
-                    new Action<TwoDimensionalCollectionChangeEventArgs<string>>(
-                        args =>
-                        {
-                            Assert.IsTrue(args.Direction == Direction.None);
-                            Assert.IsTrue(args.OldStartRow == (direction == Direction.Row ? index : 0));
-                            Assert.IsTrue(args.OldStartColumn == (direction == Direction.Column ? index : 0));
-                            {
-                                var oldItems = args.OldItems!
-                                    .ToTwoDimensionalArray();
-                                CommonAssertion.ArraySizeEqual(oldItems, replaceLength,
-                                    direction == Direction.Row
-                                        ? initColCount
-                                        : initRowCount);
-
-                                oldItems.ForEach((line, i) =>
-                                    line.ForEach((item, j) =>
-                                        Assert.IsTrue(item.Equals(direction == Direction.Row
-                                            ? TestClass.MakeDefaultValueItemForList(index + i, j)
-                                            : TestClass.MakeDefaultValueItemForList(index + j, i)))));
-                            }
-                            Assert.IsTrue(args.NewStartRow == args.OldStartRow);
-                            Assert.IsTrue(args.NewStartColumn == args.OldStartColumn);
-                            {
-                                var newItems = args.NewItems!
-                                    .ToTwoDimensionalArray();
-                                Assert.IsTrue(newItems.Length == replaceLength);
-                                CommonAssertion.ArraySizeEqual(newItems, replaceLength,
-                                    direction == Direction.Row
-                                        ? initColCount
-                                        : initRowCount);
-
-                                newItems.ForEach((line, i) =>
-                                    line.ForEach((item, j) =>
-                                        Assert.IsTrue(item.Equals(direction == Direction.Row
-                                            ? overwriteItems[index + i][j]
-                                            : overwriteItems[i][index + j])))
-                                );
-                            }
-                        });
-                assertCollectionReplaceEventArgsProperty(
-                    changingEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Replace)][0]);
-                assertCollectionReplaceEventArgsProperty(
-                    changedEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Replace)][0]);
-            }
-
-            if (isAdded)
-            {
-                var addItems = overwriteItems.Skip(replaceLength).ToArray();
-
-                var assertCollectionChangeEventArgsProperty =
-                    new Action<TwoDimensionalCollectionChangeEventArgs<string>>(
-                        args =>
-                        {
-                            Assert.IsTrue(args.Direction == direction);
-                            Assert.IsTrue(args.OldStartRow == -1);
-                            Assert.IsTrue(args.OldStartColumn == -1);
-                            Assert.IsTrue(args.OldItems == null);
-                            Assert.IsTrue(args.NewStartRow
-                                          == (direction == Direction.Row
-                                              ? initRowCount
-                                              : 0));
-                            Assert.IsTrue(args.NewStartColumn
-                                          == (direction == Direction.Column
-                                              ? initColCount
-                                              : 0));
-                            {
-                                var newItems = args.NewItems!
-                                    .ToTwoDimensionalArray();
-                                CommonAssertion.ArraySizeEqual(newItems, addItems);
-
-                                Assert.IsTrue(newItems.Equals<string>(addItems));
-                            }
-                        });
-                assertCollectionChangeEventArgsProperty(
-                    changingEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Add)][0]);
-                assertCollectionChangeEventArgsProperty(
-                    changedEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Add)][0]);
-            }
-
-            // 行数・列数が意図した値であること
-            Assert.AreEqual(instance.RowCount,
-                direction == Direction.Row
-                    ? initRowCount != 0
-                        ? initRowCount + addLength
-                        : isOverwriteItemSizeZero
-                            ? 0
-                            : addLength
-                    : initRowCount != 0
-                        ? initRowCount
-                        : isOverwriteItemSizeZero
-                            ? 0
-                            : overwriteItems[0].Length);
-            Assert.AreEqual(instance.ColumnCount,
-                direction == Direction.Row
-                    ? initColCount != 0
-                        ? initColCount
-                        : isOverwriteItemSizeZero
-                            ? 0
-                            : overwriteItems[0].Length
-                    : initColCount != 0
-                        ? initColCount + addLength
-                        : isOverwriteItemSizeZero
-                            ? 0
-                            : addLength);
-
-            // 各要素が意図した値であること
-            var isOverwriteElement = new Func<int, int, bool>((row, col) => direction == Direction.Row
-                ? index <= row && row < index + overwriteItems.Length
-                : index <= col && col < index + overwriteItems.Length);
-            var getForOverwriteItems = new Func<int, int, string>((row, col) => direction == Direction.Row
-                ? overwriteItems[row - index][col]
-                : overwriteItems[col - index][row]);
-            instance.ForEach((line, i) =>
-                line.ForEach((item, j) =>
-                {
-                    Assert.IsTrue(item.Equals(
-                            isOverwriteElement(i, j)
-                                ? getForOverwriteItems(i, j) // 追加要素
-                                : TestClass.MakeDefaultValueItemForList(i, j) // 既存要素
-                        )
-                    );
-                }));
-        }
-
-        [TestCase(0, 0, 0, 0, true)]
-        [TestCase(3, 0, -1, -1, true)]
-        [TestCase(3, 0, -1, 0, true)]
-        [TestCase(3, 0, -1, 2, true)]
-        [TestCase(3, 0, -1, 3, true)]
-        [TestCase(3, 0, 0, -1, true)]
-        [TestCase(3, 0, 0, 0, false)]
-        [TestCase(3, 0, 0, 2, false)]
-        [TestCase(3, 0, 0, 3, true)]
-        [TestCase(3, 0, 2, -1, true)]
-        [TestCase(3, 0, 2, 0, false)]
-        [TestCase(3, 0, 2, 2, false)]
-        [TestCase(3, 0, 2, 3, true)]
-        [TestCase(3, 0, 3, -1, true)]
-        [TestCase(3, 0, 3, 0, true)]
-        [TestCase(3, 0, 3, 2, true)]
-        [TestCase(3, 0, 3, 3, true)]
-        [TestCase(3, 5, -1, -1, true)]
-        [TestCase(3, 5, -1, 0, true)]
-        [TestCase(3, 5, -1, 2, true)]
-        [TestCase(3, 5, -1, 3, true)]
-        [TestCase(3, 5, 0, -1, true)]
-        [TestCase(3, 5, 0, 0, false)]
-        [TestCase(3, 5, 0, 2, false)]
-        [TestCase(3, 5, 0, 3, true)]
-        [TestCase(3, 5, 2, -1, true)]
-        [TestCase(3, 5, 2, 0, false)]
-        [TestCase(3, 5, 2, 2, false)]
-        [TestCase(3, 5, 2, 3, true)]
-        [TestCase(3, 5, 3, -1, true)]
-        [TestCase(3, 5, 3, 0, true)]
-        [TestCase(3, 5, 3, 2, true)]
-        [TestCase(3, 5, 3, 3, true)]
-        public static void MoveRowTest(int initRowCount, int initColumnCount,
-            int oldRow, int newRow, bool isError)
-        {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, initLength, InitMinItemCapacity);
             var errorOccured = false;
 
             try
             {
-                instance.MoveRow(oldRow, newRow);
+                instance.RemoveAt(index);
             }
             catch (Exception ex)
             {
@@ -1645,55 +1024,22 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionMove(instance, Direction.Row, oldRow, newRow, 1, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, 0, 0, true)]
-        [TestCase(3, 0, -1, -1, true)]
-        [TestCase(3, 0, -1, 0, true)]
-        [TestCase(3, 0, -1, 4, true)]
-        [TestCase(3, 0, -1, 5, true)]
-        [TestCase(3, 0, 0, -1, true)]
-        [TestCase(3, 0, 0, 0, true)]
-        [TestCase(3, 0, 0, 4, true)]
-        [TestCase(3, 0, 0, 5, true)]
-        [TestCase(3, 0, 4, -1, true)]
-        [TestCase(3, 0, 4, 0, true)]
-        [TestCase(3, 0, 4, 4, true)]
-        [TestCase(3, 0, 4, 5, true)]
-        [TestCase(3, 0, 5, -1, true)]
-        [TestCase(3, 0, 5, 0, true)]
-        [TestCase(3, 0, 5, 4, true)]
-        [TestCase(3, 0, 5, 5, true)]
-        [TestCase(3, 5, -1, -1, true)]
-        [TestCase(3, 5, -1, 0, true)]
-        [TestCase(3, 5, -1, 4, true)]
-        [TestCase(3, 5, -1, 5, true)]
-        [TestCase(3, 5, 0, -1, true)]
-        [TestCase(3, 5, 0, 0, false)]
-        [TestCase(3, 5, 0, 4, false)]
-        [TestCase(3, 5, 0, 5, true)]
-        [TestCase(3, 5, 4, -1, true)]
-        [TestCase(3, 5, 4, 0, false)]
-        [TestCase(3, 5, 4, 4, false)]
-        [TestCase(3, 5, 4, 5, true)]
-        [TestCase(3, 5, 5, -1, true)]
-        [TestCase(3, 5, 5, 0, true)]
-        [TestCase(3, 5, 5, 4, true)]
-        [TestCase(3, 5, 5, 5, true)]
-        public static void MoveColumnTest(int initRowCount, int initColumnCount,
-            int oldColumn, int newColumn, bool isError)
+        [TestCase(InitItemCapacity, -1, true)]
+        [TestCase(InitItemCapacity, 0, false)]
+        [TestCase(InitItemCapacity, InitItemCapacity - 1, false)]
+        [TestCase(InitItemCapacity, InitItemCapacity, true)]
+        [TestCase(InitMinItemCapacity, 0, true)]
+        [TestCase(InitMinItemCapacity + 1, 0, false)]
+        public static void RemoveItemTest(int initItemLength, int column, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitMinCapacity, initItemLength);
             var errorOccured = false;
 
             try
             {
-                instance.MoveColumn(oldColumn, newColumn);
+                instance.RemoveItem(column);
             }
             catch (Exception ex)
             {
@@ -1703,64 +1049,26 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionMove(instance, Direction.Column, oldColumn, newColumn, 1, initRowCount, initColumnCount,
-                isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, 0, 0, 0, true)]
-        [TestCase(3, 0, -1, -1, 0, true)]
-        [TestCase(3, 0, -1, 0, 2, true)]
-        [TestCase(3, 0, -1, 2, 3, true)]
-        [TestCase(3, 0, -1, 3, -1, true)]
-        [TestCase(3, 0, 0, -1, -1, true)]
-        [TestCase(3, 0, 0, 0, 0, false)]
-        [TestCase(3, 0, 0, 0, 3, false)]
-        [TestCase(3, 0, 0, 0, 4, true)]
-        [TestCase(3, 0, 0, 1, 2, false)]
-        [TestCase(3, 0, 0, 1, 3, true)]
-        [TestCase(3, 0, 0, 2, 1, false)]
-        [TestCase(3, 0, 0, 3, 0, false)]
-        [TestCase(3, 0, 2, -1, 1, true)]
-        [TestCase(3, 0, 2, 0, -1, true)]
-        [TestCase(3, 0, 2, 2, 0, false)]
-        [TestCase(3, 0, 2, 3, 1, true)]
-        [TestCase(3, 0, 3, -1, 1, true)]
-        [TestCase(3, 0, 3, 0, 0, true)]
-        [TestCase(3, 0, 3, 2, -1, true)]
-        [TestCase(3, 0, 3, 3, 0, true)]
-        [TestCase(3, 5, -1, -1, 0, true)]
-        [TestCase(3, 5, -1, 0, 2, true)]
-        [TestCase(3, 5, -1, 2, 3, true)]
-        [TestCase(3, 5, -1, 3, -1, true)]
-        [TestCase(3, 5, 0, -1, -1, true)]
-        [TestCase(3, 5, 0, 0, 0, false)]
-        [TestCase(3, 5, 0, 0, 3, false)]
-        [TestCase(3, 5, 0, 0, 4, true)]
-        [TestCase(3, 5, 0, 1, 2, false)]
-        [TestCase(3, 5, 0, 1, 3, true)]
-        [TestCase(3, 5, 0, 2, 1, false)]
-        [TestCase(3, 5, 0, 3, 0, false)]
-        [TestCase(3, 5, 2, -1, 1, true)]
-        [TestCase(3, 5, 2, 0, -1, true)]
-        [TestCase(3, 5, 2, 2, 0, false)]
-        [TestCase(3, 5, 2, 3, 1, true)]
-        [TestCase(3, 5, 3, -1, 1, true)]
-        [TestCase(3, 5, 3, 0, 0, true)]
-        [TestCase(3, 5, 3, 2, -1, true)]
-        [TestCase(3, 5, 3, 3, 0, true)]
-        public static void MoveRowRangeTest(int initRowCount, int initColumnCount,
-            int oldRow, int newRow, int count, bool isError)
+        [TestCase(-1, 0, true)]
+        [TestCase(0, -1, true)]
+        [TestCase(0, 0, false)]
+        [TestCase(0, InitCapacity - InitMinCapacity, false)]
+        [TestCase(0, InitCapacity - InitMinCapacity + 1, true)]
+        [TestCase(InitCapacity - 1, -1, true)]
+        [TestCase(InitCapacity - 1, 0, false)]
+        [TestCase(InitCapacity - 1, 1, false)]
+        [TestCase(InitCapacity - 1, 2, true)]
+        [TestCase(InitCapacity, 0, true)]
+        public static void RemoveRowRangeTest(int index, int count, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
             {
-                instance.MoveRowRange(oldRow, newRow, count);
+                instance.RemoveRange(index, count);
             }
             catch (Exception ex)
             {
@@ -1770,63 +1078,26 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionMove(instance, Direction.Row, oldRow, newRow, count, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, 0, 0, 0, true)]
-        [TestCase(3, 0, -1, -1, 0, true)]
-        [TestCase(3, 0, -1, 0, 4, true)]
-        [TestCase(3, 0, -1, 4, 5, true)]
-        [TestCase(3, 0, -1, 5, -1, true)]
-        [TestCase(3, 0, 0, -1, -1, true)]
-        [TestCase(3, 0, 0, 0, 0, true)]
-        [TestCase(3, 0, 0, 0, 5, true)]
-        [TestCase(3, 0, 0, 0, 6, true)]
-        [TestCase(3, 0, 0, 1, 4, true)]
-        [TestCase(3, 0, 0, 1, 5, true)]
-        [TestCase(3, 0, 0, 4, 1, true)]
-        [TestCase(3, 0, 0, 5, 0, true)]
-        [TestCase(3, 0, 4, -1, 1, true)]
-        [TestCase(3, 0, 4, 0, -1, true)]
-        [TestCase(3, 0, 4, 4, 0, true)]
-        [TestCase(3, 0, 4, 5, 1, true)]
-        [TestCase(3, 0, 5, -1, 1, true)]
-        [TestCase(3, 0, 5, 0, 0, true)]
-        [TestCase(3, 0, 5, 4, -1, true)]
-        [TestCase(3, 0, 5, 5, 0, true)]
-        [TestCase(3, 5, -1, -1, 0, true)]
-        [TestCase(3, 5, -1, 0, 4, true)]
-        [TestCase(3, 5, -1, 4, 5, true)]
-        [TestCase(3, 5, -1, 5, -1, true)]
-        [TestCase(3, 5, 0, -1, -1, true)]
-        [TestCase(3, 5, 0, 0, 0, false)]
-        [TestCase(3, 5, 0, 0, 5, false)]
-        [TestCase(3, 5, 0, 0, 6, true)]
-        [TestCase(3, 5, 0, 1, 4, false)]
-        [TestCase(3, 5, 0, 1, 5, true)]
-        [TestCase(3, 5, 0, 4, 1, false)]
-        [TestCase(3, 5, 0, 5, 0, false)]
-        [TestCase(3, 5, 4, -1, 1, true)]
-        [TestCase(3, 5, 4, 0, -1, true)]
-        [TestCase(3, 5, 4, 4, 0, false)]
-        [TestCase(3, 5, 4, 5, 1, true)]
-        [TestCase(3, 5, 5, -1, 1, true)]
-        [TestCase(3, 5, 5, 0, 0, true)]
-        [TestCase(3, 5, 5, 4, -1, true)]
-        [TestCase(3, 5, 5, 5, 0, true)]
-        public static void MoveColumnRangeTest(int initRowCount, int initColumnCount,
-            int oldColumn, int newColumn, int count, bool isError)
+        [TestCase(-1, 0, true)]
+        [TestCase(0, -1, true)]
+        [TestCase(0, 0, false)]
+        [TestCase(0, InitItemCapacity - InitMinItemCapacity, false)]
+        [TestCase(0, InitItemCapacity - InitMinItemCapacity + 1, true)]
+        [TestCase(InitItemCapacity - 1, -1, true)]
+        [TestCase(InitItemCapacity - 1, 0, false)]
+        [TestCase(InitItemCapacity - 1, 1, false)]
+        [TestCase(InitItemCapacity - 1, 2, true)]
+        [TestCase(InitItemCapacity, 0, true)]
+        public static void RemoveItemRangeTest(int column, int count, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
             {
-                instance.MoveColumnRange(oldColumn, newColumn, count);
+                instance.RemoveItemRange(column, count);
             }
             catch (Exception ex)
             {
@@ -1836,515 +1107,28 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionMove(instance, Direction.Column, oldColumn, newColumn, count, initRowCount, initColumnCount,
-                isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        private static void CommonAssertionMove(TestClass.ListTest1 instance, Direction direction,
-            int oldIndex, int newIndex, int moveCount, int initRowLength, int initColumnLength, bool isError,
-            Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>> changingEventArgsList,
-            Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>> changedEventArgsList,
-            Dictionary<string, int> propertyChangedEventCalledCount)
+        private static readonly object[] AdjustLengthTestCaseSource =
         {
-            var isMoved = !isError;
+            new object[] {InitMinCapacity - 1, InitMinItemCapacity, true},
+            new object[] {InitMinCapacity - 1, InitMaxItemCapacity, true},
+            new object[] {InitMinCapacity, InitMinItemCapacity - 1, true},
+            new object[] {InitMinCapacity, InitMinItemCapacity, false},
+            new object[] {InitMinCapacity, InitMaxItemCapacity, false},
+            new object[] {InitMinCapacity, InitMaxItemCapacity + 1, true},
+            new object[] {InitMaxCapacity, InitMinItemCapacity - 1, true},
+            new object[] {InitMaxCapacity, InitMinItemCapacity, false},
+            new object[] {InitMaxCapacity, InitMaxItemCapacity, false},
+            new object[] {InitMaxCapacity, InitMaxItemCapacity + 1, true},
+            new object[] {InitMaxCapacity + 1, InitMinItemCapacity, true},
+            new object[] {InitMaxCapacity + 1, InitMaxItemCapacity, true},
+        };
 
-            // 意図したイベントが発生すること
-            var assertCollectionChangeEventArgsList =
-                new Action<Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>>(
-                    dic =>
-                    {
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Replace)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Add)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Move)].Count,
-                            isMoved ? 1 : 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Remove)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Reset)].Count, 0);
-                    });
-            assertCollectionChangeEventArgsList(changingEventArgsList);
-            assertCollectionChangeEventArgsList(changedEventArgsList);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.RowCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.ColumnCount)], 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
-
-            if (isError) return;
-
-            // 発生した Change イベントのパラメータが正しいこと
-            var assertCollectionChangeEventArgsProperty =
-                new Action<TwoDimensionalCollectionChangeEventArgs<string>>(
-                    args =>
-                    {
-                        Assert.IsTrue(args.Direction == direction);
-                        Assert.IsTrue(args.OldStartRow ==
-                                      (direction == Direction.Row
-                                          ? oldIndex
-                                          : 0));
-                        Assert.IsTrue(args.OldStartColumn ==
-                                      (direction == Direction.Column
-                                          ? oldIndex
-                                          : 0));
-                        {
-                            var oldItems = args.OldItems!.ToTwoDimensionalArray();
-
-                            CommonAssertion.ArraySizeEqual(oldItems, moveCount, direction == Direction.Row
-                                ? initColumnLength
-                                : initRowLength);
-
-                            oldItems.ForEach((line, i) =>
-                                line.ForEach((item, j) =>
-                                    Assert.IsTrue(item.Equals(
-                                        direction == Direction.Row
-                                            ? TestClass.MakeDefaultValueItemForList(oldIndex + i, j)
-                                            : TestClass.MakeDefaultValueItemForList(j, oldIndex + i))
-                                    )));
-                        }
-                        Assert.IsTrue(args.NewStartRow == (direction == Direction.Row ? newIndex : 0));
-                        Assert.IsTrue(args.NewStartColumn == (direction == Direction.Column ? newIndex : 0));
-                        {
-                            var newItems = args.NewItems!.ToTwoDimensionalArray();
-
-                            Assert.IsTrue(newItems.Length == moveCount);
-                            CommonAssertion.ArraySizeEqual(newItems, moveCount, direction == Direction.Row
-                                ? initColumnLength
-                                : initRowLength);
-
-                            newItems.ForEach((line, i) =>
-                                line.ForEach((item, j) =>
-                                    Assert.IsTrue(item.Equals(
-                                        direction == Direction.Row
-                                            ? TestClass.MakeDefaultValueItemForList(oldIndex + i, j)
-                                            : TestClass.MakeDefaultValueItemForList(j, oldIndex + i))
-                                    )));
-                        }
-                    });
-            assertCollectionChangeEventArgsProperty(
-                changingEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Move)][0]);
-            assertCollectionChangeEventArgsProperty(
-                changedEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Move)][0]);
-
-            // 移動後の行数・列数が正しいこと
-            CommonAssertion.SizeEqual(instance, initRowLength, initColumnLength);
-
-            // 移動前後の要素関係を取得 -> 取得されるべき文字列に変換
-            var outer = Enumerable.Range(0, initRowLength).ToList();
-            if (direction == Direction.Row)
-            {
-                var moveItems = outer.GetRange(oldIndex, moveCount);
-                outer.RemoveRange(oldIndex, moveCount);
-                outer.InsertRange(newIndex, moveItems);
-            }
-
-            var inner = Enumerable.Range(0, initColumnLength).ToList();
-            if (direction == Direction.Column)
-            {
-                var moveItems = inner.GetRange(oldIndex, moveCount);
-                inner.RemoveRange(oldIndex, moveCount);
-                inner.InsertRange(newIndex, moveItems);
-            }
-
-            var movedItems = outer.Select(i =>
-                    inner.Select(j => TestClass.MakeDefaultValueItemForList(i, j)).ToList())
-                .ToList();
-
-            // 移動後の各要素が正しいこと
-            Assert.IsTrue(instance.Equals(movedItems));
-        }
-
-        [TestCase(0, 0, 0, true)]
-        [TestCase(3, 0, -1, true)]
-        [TestCase(3, 0, 0, false)]
-        [TestCase(3, 0, 2, false)]
-        [TestCase(3, 0, 3, true)]
-        [TestCase(3, 5, -1, true)]
-        [TestCase(3, 5, 0, false)]
-        [TestCase(3, 5, 2, false)]
-        [TestCase(3, 5, 3, true)]
-        public static void RemoveRowTest(int initRowCount, int initColumnCount,
-            int row, bool isError)
+        [TestCaseSource(nameof(AdjustLengthTestCaseSource))]
+        public static void AdjustLengthTest(int rowLength, int columnLength, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            var errorOccured = false;
-
-            try
-            {
-                instance.RemoveRow(row);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionRemove(instance, Direction.Row, row, 1, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
-        }
-
-        [TestCase(0, 0, 0, true)]
-        [TestCase(3, 0, -1, true)]
-        [TestCase(3, 0, 0, true)]
-        [TestCase(3, 0, 4, true)]
-        [TestCase(3, 0, 5, true)]
-        [TestCase(3, 5, -1, true)]
-        [TestCase(3, 5, 0, false)]
-        [TestCase(3, 5, 4, false)]
-        [TestCase(3, 5, 5, true)]
-        public static void RemoveColumnTest(int initRowCount, int initColumnCount,
-            int column, bool isError)
-        {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            var errorOccured = false;
-
-            try
-            {
-                instance.RemoveColumn(column);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionRemove(instance, Direction.Column, column, 1, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
-        }
-
-        [TestCase(0, 0, 0, 0, true)]
-        [TestCase(3, 0, -1, 0, true)]
-        [TestCase(3, 0, -1, 2, true)]
-        [TestCase(3, 0, -1, 3, true)]
-        [TestCase(3, 0, 0, -1, true)]
-        [TestCase(3, 0, 0, 0, false)]
-        [TestCase(3, 0, 0, 3, false)]
-        [TestCase(3, 0, 0, 4, true)]
-        [TestCase(3, 0, 2, -1, true)]
-        [TestCase(3, 0, 2, 0, false)]
-        [TestCase(3, 0, 2, 1, false)]
-        [TestCase(3, 0, 2, 2, true)]
-        [TestCase(3, 0, 3, 0, true)]
-        [TestCase(3, 5, -1, 0, true)]
-        [TestCase(3, 5, -1, 2, true)]
-        [TestCase(3, 5, -1, 3, true)]
-        [TestCase(3, 5, 0, -1, true)]
-        [TestCase(3, 5, 0, 0, false)]
-        [TestCase(3, 5, 0, 3, false)]
-        [TestCase(3, 5, 0, 4, true)]
-        [TestCase(3, 5, 2, -1, true)]
-        [TestCase(3, 5, 2, 0, false)]
-        [TestCase(3, 5, 2, 1, false)]
-        [TestCase(3, 5, 2, 2, true)]
-        [TestCase(3, 5, 3, 0, true)]
-        public static void RemoveRowRangeTest(int initRowCount, int initColumnCount,
-            int row, int count, bool isError)
-        {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            var errorOccured = false;
-
-            try
-            {
-                instance.RemoveRowRange(row, count);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionRemove(instance, Direction.Row, row, count, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
-        }
-
-        [TestCase(0, 0, 0, 0, true)]
-        [TestCase(3, 0, -1, 0, true)]
-        [TestCase(3, 0, -1, 4, true)]
-        [TestCase(3, 0, -1, 5, true)]
-        [TestCase(3, 0, 0, -1, true)]
-        [TestCase(3, 0, 0, 0, true)]
-        [TestCase(3, 0, 0, 5, true)]
-        [TestCase(3, 0, 0, 6, true)]
-        [TestCase(3, 0, 4, -1, true)]
-        [TestCase(3, 0, 4, 0, true)]
-        [TestCase(3, 0, 4, 1, true)]
-        [TestCase(3, 0, 4, 2, true)]
-        [TestCase(3, 0, 5, 0, true)]
-        [TestCase(3, 5, -1, 0, true)]
-        [TestCase(3, 5, -1, 4, true)]
-        [TestCase(3, 5, -1, 5, true)]
-        [TestCase(3, 5, 0, -1, true)]
-        [TestCase(3, 5, 0, 0, false)]
-        [TestCase(3, 5, 0, 5, false)]
-        [TestCase(3, 5, 0, 6, true)]
-        [TestCase(3, 5, 4, -1, true)]
-        [TestCase(3, 5, 4, 0, false)]
-        [TestCase(3, 5, 4, 1, false)]
-        [TestCase(3, 5, 4, 2, true)]
-        [TestCase(3, 5, 5, 0, true)]
-        public static void RemoveColumnRangeTest(int initRowCount, int initColumnCount,
-            int column, int count, bool isError)
-        {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
-            var errorOccured = false;
-
-            try
-            {
-                instance.RemoveColumnRange(column, count);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionRemove(instance, Direction.Column, column, count, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
-        }
-
-        private static void CommonAssertionRemove(TestClass.IListTest instance, Direction direction,
-            int index, int count, int initRowLength, int initColumnLength, bool isError,
-            Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>> changingEventArgsList,
-            Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>> changedEventArgsList,
-            Dictionary<string, int> propertyChangedEventCalledCount)
-        {
-            var isRemoved = !isError;
-            var allRemoved = new Func<bool>(() =>
-            {
-                if (!isRemoved) return false;
-                if (direction == Direction.Row && initRowLength != count) return false;
-                if (direction == Direction.Column) return false;
-                return index == 0;
-            })();
-
-            // 意図したイベントが発生すること
-            var assertCollectionChangeEventArgsList =
-                new Action<Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>>(
-                    dic =>
-                    {
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Replace)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Add)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Move)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Remove)].Count,
-                            isRemoved ? 1 : 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Reset)].Count, 0);
-                    });
-            assertCollectionChangeEventArgsList(changingEventArgsList);
-            assertCollectionChangeEventArgsList(changedEventArgsList);
-            var isRowCountEventRaise = new Func<bool>(() =>
-            {
-                if (!isRemoved) return false;
-                if (direction == Direction.Row) return true;
-                return allRemoved;
-            })();
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.RowCount)],
-                isRowCountEventRaise ? 1 : 0);
-            var isColumnCountEventRaise = new Func<bool>(() =>
-            {
-                if (!isRemoved) return false;
-                if (direction == Direction.Column) return true;
-                return allRemoved;
-            })();
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.ColumnCount)],
-                isColumnCountEventRaise ? 1 : 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
-
-            if (isError) return;
-
-            // 発生した Change イベントのパラメータが正しいこと
-            var assertCollectionChangeEventArgsProperty =
-                new Action<TwoDimensionalCollectionChangeEventArgs<string>>(
-                    args =>
-                    {
-                        Assert.IsTrue(args.Direction == direction);
-                        Assert.IsTrue(args.OldStartRow ==
-                                      (direction == Direction.Row
-                                          ? index
-                                          : 0));
-                        Assert.IsTrue(args.OldStartColumn ==
-                                      (direction == Direction.Column
-                                          ? index
-                                          : 0));
-                        {
-                            var oldItems = args.OldItems!.ToTwoDimensionalArray();
-
-                            CommonAssertion.ArraySizeEqual(oldItems, count, direction == Direction.Row
-                                ? initColumnLength
-                                : initRowLength);
-
-                            oldItems.ForEach((line, i) =>
-                                line.ForEach((item, j) =>
-                                    Assert.IsTrue(item.Equals(
-                                        direction == Direction.Row
-                                            ? TestClass.MakeDefaultValueItemForList(index + i, j)
-                                            : TestClass.MakeDefaultValueItemForList(j, index + i))
-                                    )));
-                        }
-                        Assert.IsTrue(args.NewStartRow == -1);
-                        Assert.IsTrue(args.NewStartColumn == -1);
-                        Assert.IsTrue(args.NewItems == null);
-                    });
-            assertCollectionChangeEventArgsProperty(
-                changingEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Remove)][0]);
-            assertCollectionChangeEventArgsProperty(
-                changedEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Remove)][0]);
-
-            // 除去後の行数・列数が正しいこと
-            var removedRowCount = new Func<int>(() =>
-            {
-                if (allRemoved) return 0;
-                if (direction == Direction.Column) return initRowLength;
-                return initRowLength - count;
-            })();
-            var removedColumnCount = new Func<int>(() =>
-            {
-                if (allRemoved) return 0;
-                if (direction == Direction.Row) return initColumnLength;
-                return initColumnLength - count;
-            })();
-            CommonAssertion.SizeEqual(instance,
-                removedRowCount,
-                removedColumnCount);
-
-            // 除去前後の要素関係を取得 -> 取得されるべき文字列に変換
-            var outer = Enumerable.Range(0, initRowLength).ToList();
-            if (direction == Direction.Row)
-            {
-                outer.RemoveRange(index, count);
-            }
-
-            var inner = Enumerable.Range(0, initColumnLength).ToList();
-            if (direction == Direction.Column)
-            {
-                inner.RemoveRange(index, count);
-            }
-
-            var movedItems = outer.Select(i =>
-                    inner.Select(j => TestClass.MakeDefaultValueItemForList(i, j)).ToList())
-                .ToList();
-
-            // 除去後の各要素が正しいこと
-            Assert.IsTrue(instance.Equals(movedItems));
-        }
-
-        [TestCase(0, 0, -1, -1, true)]
-        [TestCase(0, 0, -1, 0, true)]
-        [TestCase(0, 0, -1, 1, true)]
-        [TestCase(0, 0, -1, 10, true)]
-        [TestCase(0, 0, -1, 11, true)]
-        [TestCase(0, 0, 0, -1, true)]
-        [TestCase(0, 0, 0, 0, false)]
-        [TestCase(0, 0, 0, 1, true)]
-        [TestCase(0, 0, 0, 10, true)]
-        [TestCase(0, 0, 0, 11, true)]
-        [TestCase(0, 0, 1, -1, true)]
-        [TestCase(0, 0, 1, 0, false)]
-        [TestCase(0, 0, 1, 1, false)]
-        [TestCase(0, 0, 1, 10, false)]
-        [TestCase(0, 0, 1, 11, true)]
-        [TestCase(0, 0, 3, -1, true)]
-        [TestCase(0, 0, 3, 0, false)]
-        [TestCase(0, 0, 3, 1, false)]
-        [TestCase(0, 0, 3, 10, false)]
-        [TestCase(0, 0, 3, 11, true)]
-        [TestCase(0, 0, 5, -1, true)]
-        [TestCase(0, 0, 5, 0, false)]
-        [TestCase(0, 0, 5, 1, false)]
-        [TestCase(0, 0, 5, 10, false)]
-        [TestCase(0, 0, 5, 11, true)]
-        [TestCase(0, 0, 6, -1, true)]
-        [TestCase(0, 0, 6, 0, true)]
-        [TestCase(0, 0, 6, 1, true)]
-        [TestCase(0, 0, 6, 10, true)]
-        [TestCase(0, 0, 6, 11, true)]
-        [TestCase(3, 0, -1, -1, true)]
-        [TestCase(3, 0, -1, 0, true)]
-        [TestCase(3, 0, -1, 1, true)]
-        [TestCase(3, 0, -1, 10, true)]
-        [TestCase(3, 0, -1, 11, true)]
-        [TestCase(3, 0, 0, -1, true)]
-        [TestCase(3, 0, 0, 0, false)]
-        [TestCase(3, 0, 0, 1, true)]
-        [TestCase(3, 0, 0, 10, true)]
-        [TestCase(3, 0, 0, 11, true)]
-        [TestCase(3, 0, 1, -1, true)]
-        [TestCase(3, 0, 1, 0, false)]
-        [TestCase(3, 0, 1, 1, false)]
-        [TestCase(3, 0, 1, 10, false)]
-        [TestCase(3, 0, 1, 11, true)]
-        [TestCase(3, 0, 3, -1, true)]
-        [TestCase(3, 0, 3, 0, false)]
-        [TestCase(3, 0, 3, 1, false)]
-        [TestCase(3, 0, 3, 10, false)]
-        [TestCase(3, 0, 3, 11, true)]
-        [TestCase(3, 0, 5, -1, true)]
-        [TestCase(3, 0, 5, 0, false)]
-        [TestCase(3, 0, 5, 1, false)]
-        [TestCase(3, 0, 5, 10, false)]
-        [TestCase(3, 0, 5, 11, true)]
-        [TestCase(3, 0, 6, -1, true)]
-        [TestCase(3, 0, 6, 0, true)]
-        [TestCase(3, 0, 6, 1, true)]
-        [TestCase(3, 0, 6, 10, true)]
-        [TestCase(3, 0, 6, 11, true)]
-        [TestCase(3, 5, -1, -1, true)]
-        [TestCase(3, 5, -1, 0, true)]
-        [TestCase(3, 5, -1, 5, true)]
-        [TestCase(3, 5, -1, 10, true)]
-        [TestCase(3, 5, -1, 11, true)]
-        [TestCase(3, 5, 0, -1, true)]
-        [TestCase(3, 5, 0, 0, false)]
-        [TestCase(3, 5, 0, 1, true)]
-        [TestCase(3, 5, 0, 5, true)]
-        [TestCase(3, 5, 0, 10, true)]
-        [TestCase(3, 5, 0, 11, true)]
-        [TestCase(3, 5, 1, -1, true)]
-        [TestCase(3, 5, 1, 0, false)]
-        [TestCase(3, 5, 1, 1, false)]
-        [TestCase(3, 5, 1, 5, false)]
-        [TestCase(3, 5, 1, 10, false)]
-        [TestCase(3, 5, 1, 11, true)]
-        [TestCase(3, 5, 3, -1, true)]
-        [TestCase(3, 5, 3, 0, false)]
-        [TestCase(3, 5, 3, 1, false)]
-        [TestCase(3, 5, 3, 5, false)]
-        [TestCase(3, 5, 3, 10, false)]
-        [TestCase(3, 5, 3, 11, true)]
-        [TestCase(3, 5, 5, -1, true)]
-        [TestCase(3, 5, 5, 0, false)]
-        [TestCase(3, 5, 5, 1, false)]
-        [TestCase(3, 5, 5, 5, false)]
-        [TestCase(3, 5, 5, 10, false)]
-        [TestCase(3, 5, 5, 11, true)]
-        [TestCase(3, 5, 6, -1, true)]
-        [TestCase(3, 5, 6, 0, true)]
-        [TestCase(3, 5, 6, 1, true)]
-        [TestCase(3, 5, 6, 5, true)]
-        [TestCase(3, 5, 6, 10, true)]
-        [TestCase(3, 5, 6, 11, true)]
-        public static void AdjustLengthTest(int initRowCount, int initColumnCount,
-            int rowLength, int columnLength, bool isError)
-        {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
@@ -2359,113 +1143,12 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdjustLengthBothDirection(instance, AdjustLengthType.None,
-                rowLength, columnLength, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, -1, -1, true)]
-        [TestCase(0, 0, -1, 0, true)]
-        [TestCase(0, 0, -1, 1, true)]
-        [TestCase(0, 0, -1, 10, true)]
-        [TestCase(0, 0, -1, 11, true)]
-        [TestCase(0, 0, 0, -1, true)]
-        [TestCase(0, 0, 0, 0, false)]
-        [TestCase(0, 0, 0, 1, true)]
-        [TestCase(0, 0, 0, 10, true)]
-        [TestCase(0, 0, 0, 11, true)]
-        [TestCase(0, 0, 1, -1, true)]
-        [TestCase(0, 0, 1, 0, false)]
-        [TestCase(0, 0, 1, 1, false)]
-        [TestCase(0, 0, 1, 10, false)]
-        [TestCase(0, 0, 1, 11, true)]
-        [TestCase(0, 0, 3, -1, true)]
-        [TestCase(0, 0, 3, 0, false)]
-        [TestCase(0, 0, 3, 1, false)]
-        [TestCase(0, 0, 3, 10, false)]
-        [TestCase(0, 0, 3, 11, true)]
-        [TestCase(0, 0, 5, -1, true)]
-        [TestCase(0, 0, 5, 0, false)]
-        [TestCase(0, 0, 5, 1, false)]
-        [TestCase(0, 0, 5, 10, false)]
-        [TestCase(0, 0, 5, 11, true)]
-        [TestCase(0, 0, 6, -1, true)]
-        [TestCase(0, 0, 6, 0, true)]
-        [TestCase(0, 0, 6, 1, true)]
-        [TestCase(0, 0, 6, 10, true)]
-        [TestCase(0, 0, 6, 11, true)]
-        [TestCase(3, 0, -1, -1, true)]
-        [TestCase(3, 0, -1, 0, true)]
-        [TestCase(3, 0, -1, 1, true)]
-        [TestCase(3, 0, -1, 10, true)]
-        [TestCase(3, 0, -1, 11, true)]
-        [TestCase(3, 0, 0, -1, true)]
-        [TestCase(3, 0, 0, 0, false)]
-        [TestCase(3, 0, 0, 1, true)]
-        [TestCase(3, 0, 0, 10, true)]
-        [TestCase(3, 0, 0, 11, true)]
-        [TestCase(3, 0, 1, -1, true)]
-        [TestCase(3, 0, 1, 0, false)]
-        [TestCase(3, 0, 1, 1, false)]
-        [TestCase(3, 0, 1, 10, false)]
-        [TestCase(3, 0, 1, 11, true)]
-        [TestCase(3, 0, 3, -1, true)]
-        [TestCase(3, 0, 3, 0, false)]
-        [TestCase(3, 0, 3, 1, false)]
-        [TestCase(3, 0, 3, 10, false)]
-        [TestCase(3, 0, 3, 11, true)]
-        [TestCase(3, 0, 5, -1, true)]
-        [TestCase(3, 0, 5, 0, false)]
-        [TestCase(3, 0, 5, 1, false)]
-        [TestCase(3, 0, 5, 10, false)]
-        [TestCase(3, 0, 5, 11, true)]
-        [TestCase(3, 0, 6, -1, true)]
-        [TestCase(3, 0, 6, 0, true)]
-        [TestCase(3, 0, 6, 1, true)]
-        [TestCase(3, 0, 6, 10, true)]
-        [TestCase(3, 0, 6, 11, true)]
-        [TestCase(3, 5, -1, -1, true)]
-        [TestCase(3, 5, -1, 0, true)]
-        [TestCase(3, 5, -1, 5, true)]
-        [TestCase(3, 5, -1, 10, true)]
-        [TestCase(3, 5, -1, 11, true)]
-        [TestCase(3, 5, 0, -1, true)]
-        [TestCase(3, 5, 0, 0, false)]
-        [TestCase(3, 5, 0, 1, true)]
-        [TestCase(3, 5, 0, 5, true)]
-        [TestCase(3, 5, 0, 10, true)]
-        [TestCase(3, 5, 0, 11, true)]
-        [TestCase(3, 5, 1, -1, true)]
-        [TestCase(3, 5, 1, 0, false)]
-        [TestCase(3, 5, 1, 1, false)]
-        [TestCase(3, 5, 1, 5, false)]
-        [TestCase(3, 5, 1, 10, false)]
-        [TestCase(3, 5, 1, 11, true)]
-        [TestCase(3, 5, 3, -1, true)]
-        [TestCase(3, 5, 3, 0, false)]
-        [TestCase(3, 5, 3, 1, false)]
-        [TestCase(3, 5, 3, 5, false)]
-        [TestCase(3, 5, 3, 10, false)]
-        [TestCase(3, 5, 3, 11, true)]
-        [TestCase(3, 5, 5, -1, true)]
-        [TestCase(3, 5, 5, 0, false)]
-        [TestCase(3, 5, 5, 1, false)]
-        [TestCase(3, 5, 5, 5, false)]
-        [TestCase(3, 5, 5, 10, false)]
-        [TestCase(3, 5, 5, 11, true)]
-        [TestCase(3, 5, 6, -1, true)]
-        [TestCase(3, 5, 6, 0, true)]
-        [TestCase(3, 5, 6, 1, true)]
-        [TestCase(3, 5, 6, 5, true)]
-        [TestCase(3, 5, 6, 10, true)]
-        [TestCase(3, 5, 6, 11, true)]
-        public static void AdjustLengthIfLongTest(int initRowCount, int initColumnCount,
-            int rowLength, int columnLength, bool isError)
+        [TestCaseSource(nameof(AdjustLengthTestCaseSource))]
+        public static void AdjustLengthIfLongTest(int rowLength, int columnLength, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
@@ -2480,113 +1163,12 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdjustLengthBothDirection(instance, AdjustLengthType.IfLong,
-                rowLength, columnLength, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, -1, -1, true)]
-        [TestCase(0, 0, -1, 0, true)]
-        [TestCase(0, 0, -1, 1, true)]
-        [TestCase(0, 0, -1, 10, true)]
-        [TestCase(0, 0, -1, 11, true)]
-        [TestCase(0, 0, 0, -1, true)]
-        [TestCase(0, 0, 0, 0, false)]
-        [TestCase(0, 0, 0, 1, true)]
-        [TestCase(0, 0, 0, 10, true)]
-        [TestCase(0, 0, 0, 11, true)]
-        [TestCase(0, 0, 1, -1, true)]
-        [TestCase(0, 0, 1, 0, false)]
-        [TestCase(0, 0, 1, 1, false)]
-        [TestCase(0, 0, 1, 10, false)]
-        [TestCase(0, 0, 1, 11, true)]
-        [TestCase(0, 0, 3, -1, true)]
-        [TestCase(0, 0, 3, 0, false)]
-        [TestCase(0, 0, 3, 1, false)]
-        [TestCase(0, 0, 3, 10, false)]
-        [TestCase(0, 0, 3, 11, true)]
-        [TestCase(0, 0, 5, -1, true)]
-        [TestCase(0, 0, 5, 0, false)]
-        [TestCase(0, 0, 5, 1, false)]
-        [TestCase(0, 0, 5, 10, false)]
-        [TestCase(0, 0, 5, 11, true)]
-        [TestCase(0, 0, 6, -1, true)]
-        [TestCase(0, 0, 6, 0, true)]
-        [TestCase(0, 0, 6, 1, true)]
-        [TestCase(0, 0, 6, 10, true)]
-        [TestCase(0, 0, 6, 11, true)]
-        [TestCase(3, 0, -1, -1, true)]
-        [TestCase(3, 0, -1, 0, true)]
-        [TestCase(3, 0, -1, 1, true)]
-        [TestCase(3, 0, -1, 10, true)]
-        [TestCase(3, 0, -1, 11, true)]
-        [TestCase(3, 0, 0, -1, true)]
-        [TestCase(3, 0, 0, 0, false)]
-        [TestCase(3, 0, 0, 1, true)]
-        [TestCase(3, 0, 0, 10, true)]
-        [TestCase(3, 0, 0, 11, true)]
-        [TestCase(3, 0, 1, -1, true)]
-        [TestCase(3, 0, 1, 0, false)]
-        [TestCase(3, 0, 1, 1, false)]
-        [TestCase(3, 0, 1, 10, false)]
-        [TestCase(3, 0, 1, 11, true)]
-        [TestCase(3, 0, 3, -1, true)]
-        [TestCase(3, 0, 3, 0, false)]
-        [TestCase(3, 0, 3, 1, false)]
-        [TestCase(3, 0, 3, 10, false)]
-        [TestCase(3, 0, 3, 11, true)]
-        [TestCase(3, 0, 5, -1, true)]
-        [TestCase(3, 0, 5, 0, false)]
-        [TestCase(3, 0, 5, 1, false)]
-        [TestCase(3, 0, 5, 10, false)]
-        [TestCase(3, 0, 5, 11, true)]
-        [TestCase(3, 0, 6, -1, true)]
-        [TestCase(3, 0, 6, 0, true)]
-        [TestCase(3, 0, 6, 1, true)]
-        [TestCase(3, 0, 6, 10, true)]
-        [TestCase(3, 0, 6, 11, true)]
-        [TestCase(3, 5, -1, -1, true)]
-        [TestCase(3, 5, -1, 0, true)]
-        [TestCase(3, 5, -1, 5, true)]
-        [TestCase(3, 5, -1, 10, true)]
-        [TestCase(3, 5, -1, 11, true)]
-        [TestCase(3, 5, 0, -1, true)]
-        [TestCase(3, 5, 0, 0, false)]
-        [TestCase(3, 5, 0, 1, true)]
-        [TestCase(3, 5, 0, 5, true)]
-        [TestCase(3, 5, 0, 10, true)]
-        [TestCase(3, 5, 0, 11, true)]
-        [TestCase(3, 5, 1, -1, true)]
-        [TestCase(3, 5, 1, 0, false)]
-        [TestCase(3, 5, 1, 1, false)]
-        [TestCase(3, 5, 1, 5, false)]
-        [TestCase(3, 5, 1, 10, false)]
-        [TestCase(3, 5, 1, 11, true)]
-        [TestCase(3, 5, 3, -1, true)]
-        [TestCase(3, 5, 3, 0, false)]
-        [TestCase(3, 5, 3, 1, false)]
-        [TestCase(3, 5, 3, 5, false)]
-        [TestCase(3, 5, 3, 10, false)]
-        [TestCase(3, 5, 3, 11, true)]
-        [TestCase(3, 5, 5, -1, true)]
-        [TestCase(3, 5, 5, 0, false)]
-        [TestCase(3, 5, 5, 1, false)]
-        [TestCase(3, 5, 5, 5, false)]
-        [TestCase(3, 5, 5, 10, false)]
-        [TestCase(3, 5, 5, 11, true)]
-        [TestCase(3, 5, 6, -1, true)]
-        [TestCase(3, 5, 6, 0, true)]
-        [TestCase(3, 5, 6, 1, true)]
-        [TestCase(3, 5, 6, 5, true)]
-        [TestCase(3, 5, 6, 10, true)]
-        [TestCase(3, 5, 6, 11, true)]
-        public static void AdjustLengthIfShortTest(int initRowCount, int initColumnCount,
-            int rowLength, int columnLength, bool isError)
+        [TestCaseSource(nameof(AdjustLengthTestCaseSource))]
+        public static void AdjustLengthIfShortTest(int rowLength, int columnLength, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
@@ -2601,363 +1183,25 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdjustLengthBothDirection(instance, AdjustLengthType.IfShort,
-                rowLength, columnLength, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        private static void CommonAssertionAdjustLengthBothDirection(TestClass.IListTest instance,
-            AdjustLengthType type, int rowCount, int columnCount,
-            int initRowLength, int initColumnLength, bool isError,
-            Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>> changingEventArgsList,
-            Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>> changedEventArgsList,
-            Dictionary<string, int> propertyChangedEventCalledCount)
+        private static readonly object[] AdjustRowLengthTestCaseSource =
         {
-            var isEmptyTo = rowCount == 0;
-            var isEmptyFrom = initRowLength == 0;
-            var isAddedRow = type switch
-            {
-                AdjustLengthType.None => isEmptyFrom & !isEmptyTo
-                                         || initRowLength < rowCount,
-                AdjustLengthType.IfShort => isEmptyFrom & !isEmptyTo
-                                            || initRowLength < rowCount,
-                AdjustLengthType.IfLong => false,
-                _ => throw new InvalidOperationException()
-            };
-            var isRemovedRow = type switch
-            {
-                AdjustLengthType.None => !isEmptyFrom & isEmptyTo
-                                         || initRowLength > rowCount,
-                AdjustLengthType.IfShort => false,
-                AdjustLengthType.IfLong => !isEmptyFrom & isEmptyTo
-                                           || initRowLength > rowCount,
-                _ => throw new InvalidOperationException()
-            };
-            var isAddedColumn = type switch
-            {
-                AdjustLengthType.None => isEmptyFrom & !isEmptyTo
-                                         || initColumnLength < columnCount,
-                AdjustLengthType.IfShort => isEmptyFrom & !isEmptyTo
-                                            || initColumnLength < columnCount,
-                AdjustLengthType.IfLong => false,
-                _ => throw new InvalidOperationException()
-            };
-            var isRemovedColumn = type switch
-            {
-                AdjustLengthType.None => !isEmptyFrom & isEmptyTo
-                                         || initColumnLength > columnCount,
-                AdjustLengthType.IfShort => false,
-                AdjustLengthType.IfLong => !isEmptyFrom & isEmptyTo
-                                           || initColumnLength > columnCount,
-                _ => throw new InvalidOperationException()
-            };
+            new object[] {InitMinCapacity - 1, true},
+            new object[] {InitMinCapacity, false},
+            new object[] {InitMaxCapacity, false},
+            new object[] {InitMaxCapacity + 1, true},
+        };
 
-            isAddedRow &= !isError;
-            isRemovedRow &= !isError;
-            isAddedColumn &= !isError;
-            isRemovedColumn &= !isError;
-
-            // 意図したイベントが発生すること
-            var addEventCount = (isError, isAddedRow, isAddedColumn, isEmptyFrom) switch
-            {
-                (true, _, _, _) => 0,
-                (_, true, true, false) => 2,
-                (_, false, false, _) => 0,
-                _ => 1
-            };
-            var removeEventCount = (isError, isRemovedRow, isRemovedColumn, isEmptyTo) switch
-            {
-                (true, _, _, _) => 0,
-                (_, true, true, false) => 2,
-                (_, false, false, _) => 0,
-                _ => 1
-            };
-
-            var assertCollectionChangeEventArgsList =
-                new Action<Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>>(
-                    dic =>
-                    {
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Replace)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Add)].Count,
-                            addEventCount);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Move)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Remove)].Count,
-                            removeEventCount);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Reset)].Count, 0);
-                    });
-            assertCollectionChangeEventArgsList(changingEventArgsList);
-            assertCollectionChangeEventArgsList(changedEventArgsList);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.RowCount)],
-                !isError ? 1 : 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.ColumnCount)],
-                !isError ? 1 : 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
-
-            if (isError) return;
-
-            // 発生した Add イベントのパラメータが正しいこと
-            if (isAddedRow || isAddedColumn)
-            {
-                Assert.IsFalse(isEmptyTo);
-                Assert.IsFalse(type == AdjustLengthType.IfLong);
-                var addRowRowLength = (type, isEmptyFrom) switch
-                {
-                    (_, true) => rowCount,
-                    (AdjustLengthType.None, _) => rowCount - initRowLength,
-                    (AdjustLengthType.IfShort, _) => rowCount - initRowLength,
-                    _ => throw new InvalidOperationException()
-                };
-                var addRowColumnLength = (type, isEmptyFrom) switch
-                {
-                    (_, true) => columnCount,
-                    (AdjustLengthType.None, _) => Math.Min(columnCount, initColumnLength),
-                    (AdjustLengthType.IfShort, _) => initColumnLength,
-                    _ => throw new InvalidOperationException()
-                };
-                var addColumnRowLength = (type, isEmptyFrom) switch
-                {
-                    (_, true) => -1, // -1: 使用しない値だがエラーではない
-                    (AdjustLengthType.None, _) => rowCount,
-                    (AdjustLengthType.IfShort, _) => Math.Max(rowCount, initRowLength),
-                    _ => throw new InvalidOperationException()
-                };
-                var addColumnColumnLength = (type, isEmptyFrom) switch
-                {
-                    (_, true) => -1,
-                    (AdjustLengthType.None, _) => columnCount - initColumnLength,
-                    (AdjustLengthType.IfShort, _) => columnCount - initColumnLength,
-                    _ => throw new InvalidOperationException()
-                };
-                var assertCollectionChangeEventArgsProperty =
-                    new Action<TwoDimensionalCollectionChangeEventArgs<string>>(
-                        args =>
-                        {
-                            var newItems = args.NewItems!.ToTwoDimensionalArray();
-
-                            {
-                                // 通知によらず共通
-                                Assert.IsTrue(args.OldStartRow == -1);
-                                Assert.IsTrue(args.OldStartColumn == -1);
-                                Assert.IsTrue(args.OldItems == null);
-                            }
-
-                            if (args.Direction == Direction.Row)
-                            {
-                                // 行追加通知
-                                Assert.IsTrue(args.NewStartColumn == 0);
-                                CommonAssertion.ArraySizeEqual(newItems, addRowRowLength, addRowColumnLength);
-
-                                var addItems = Enumerable.Range(0, addRowRowLength).Select(i =>
-                                    Enumerable.Range(0, addRowColumnLength).Select(j =>
-                                    {
-                                        var row = initRowLength + i;
-                                        var column = j;
-                                        return TestClass.MakeDefaultValueItem(row, column);
-                                    }).ToArray()).ToArray();
-                                Assert.IsTrue(newItems.Equals<string>(addItems));
-                            }
-                            else if (args.Direction == Direction.Column)
-                            {
-                                // 列追加通知
-                                Assert.IsTrue(args.NewStartRow == 0);
-                                CommonAssertion.ArraySizeEqual(newItems, addColumnColumnLength, addColumnRowLength);
-
-                                var addItems = Enumerable.Range(0, addColumnColumnLength).Select(i =>
-                                    Enumerable.Range(0, addColumnRowLength).Select(j =>
-                                    {
-                                        var row = j;
-                                        var column = initColumnLength + i;
-                                        return TestClass.MakeDefaultValueItem(row, column);
-                                    }).ToArray()).ToArray();
-                                Assert.IsTrue(newItems.Equals<string>(addItems));
-                            }
-                            else
-                            {
-                                Assert.Fail();
-                            }
-                        });
-                changingEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Add)]
-                    .ForEach(assertCollectionChangeEventArgsProperty);
-                changedEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Add)]
-                    .ForEach(assertCollectionChangeEventArgsProperty);
-            }
-
-            // 発生した Remove イベントのパラメータが正しいこと
-            if (isRemovedRow || isRemovedColumn)
-            {
-                var removeRowRowLength = (type, isEmptyTo) switch
-                {
-                    (_, true) => initRowLength,
-                    (AdjustLengthType.None, _) => initRowLength - rowCount,
-                    (AdjustLengthType.IfLong, _) => initRowLength - rowCount,
-                    _ => throw new InvalidOperationException()
-                };
-                var removeRowColumnLength = (type, isEmptyTo) switch
-                {
-                    (_, true) => initColumnLength,
-                    (AdjustLengthType.None, _) => initColumnLength,
-                    (AdjustLengthType.IfLong, _) => initColumnLength,
-                    _ => throw new InvalidOperationException()
-                };
-                var removeColumnRowLength = (type, isEmptyTo) switch
-                {
-                    (_, true) => -1,
-                    (AdjustLengthType.None, _) => initRowLength - Math.Max(removeRowRowLength, 0),
-                    (AdjustLengthType.IfLong, _) => initRowLength - Math.Max(removeRowRowLength, 0),
-                    _ => throw new InvalidOperationException()
-                };
-                var removeColumnColumnLength = (type, isEmptyTo) switch
-                {
-                    (_, true) => -1,
-                    (AdjustLengthType.None, _) => initColumnLength - columnCount,
-                    (AdjustLengthType.IfLong, _) => initColumnLength - columnCount,
-                    _ => throw new InvalidOperationException()
-                };
-
-                var assertCollectionChangeEventArgsProperty =
-                    new Action<TwoDimensionalCollectionChangeEventArgs<string>>(
-                        args =>
-                        {
-                            var oldItems = args.OldItems!.ToTwoDimensionalArray();
-
-                            {
-                                // 通知によらず共通
-                                Assert.IsTrue(args.NewStartRow == -1);
-                                Assert.IsTrue(args.NewStartColumn == -1);
-                                Assert.IsTrue(args.NewItems == null);
-                            }
-
-                            if (args.Direction == Direction.Row)
-                            {
-                                // 行除去通知
-                                Assert.IsTrue(args.OldStartRow == rowCount);
-                                Assert.IsTrue(args.OldStartColumn == 0);
-                                CommonAssertion.ArraySizeEqual(oldItems, removeRowRowLength, removeRowColumnLength);
-
-                                var addItems = Enumerable.Range(0, removeRowRowLength).Select(i =>
-                                    Enumerable.Range(0, removeRowColumnLength).Select(j =>
-                                    {
-                                        var row = rowCount + i;
-                                        var column = j;
-                                        return TestClass.MakeDefaultValueItemForList(row, column);
-                                    }).ToArray()).ToArray();
-                                Assert.IsTrue(oldItems.Equals<string>(addItems));
-                            }
-                            else if (args.Direction == Direction.Column)
-                            {
-                                // 列除去通知
-                                Assert.IsTrue(args.OldStartRow == 0);
-                                Assert.IsTrue(args.OldStartColumn == columnCount);
-                                CommonAssertion.ArraySizeEqual(oldItems, removeColumnColumnLength,
-                                    removeColumnRowLength);
-
-                                var addItems = Enumerable.Range(0, removeColumnColumnLength).Select(i =>
-                                    Enumerable.Range(0, removeColumnRowLength).Select(j =>
-                                    {
-                                        var row = j;
-                                        var column = columnCount + i;
-                                        return TestClass.MakeDefaultValueItemForList(row, column);
-                                    }).ToArray()).ToArray();
-                                Assert.IsTrue(oldItems.Equals<string>(addItems));
-                            }
-                            else
-                            {
-                                Assert.Fail();
-                            }
-                        });
-                changingEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Remove)]
-                    .ForEach(assertCollectionChangeEventArgsProperty);
-                changedEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Remove)]
-                    .ForEach(assertCollectionChangeEventArgsProperty);
-            }
-
-            var afterRowLength = type switch
-            {
-                AdjustLengthType.None => rowCount,
-                AdjustLengthType.IfShort => Math.Max(initRowLength, rowCount),
-                AdjustLengthType.IfLong => Math.Min(initRowLength, rowCount),
-                _ => throw new InvalidOperationException()
-            };
-            var afterColumnLength = type switch
-            {
-                AdjustLengthType.None => columnCount,
-                AdjustLengthType.IfShort => Math.Max(initColumnLength, columnCount),
-                AdjustLengthType.IfLong => Math.Min(initColumnLength, columnCount),
-                _ => throw new InvalidOperationException()
-            };
-
-            if (afterRowLength == 0)
-            {
-                afterRowLength = afterColumnLength = 0;
-            }
-
-            // 除去後の行数・列数が正しいこと
-            CommonAssertion.SizeEqual(instance, afterRowLength, afterColumnLength);
-
-            // 除去前後の要素関係を取得 -> 取得されるべき文字列に変換
-            var outer = Enumerable.Range(0, initRowLength).ToList();
-            if (isAddedRow)
-            {
-                outer.AddRange(Enumerable.Range(initRowLength, rowCount - initRowLength));
-            }
-
-            if (isRemovedRow)
-            {
-                outer.RemoveRange(rowCount, initRowLength - rowCount);
-            }
-
-            var inner = Enumerable.Range(0, initColumnLength).ToList();
-            if (isAddedColumn)
-            {
-                inner.AddRange(Enumerable.Range(initColumnLength, columnCount - initColumnLength));
-            }
-
-            if (isRemovedColumn)
-            {
-                inner.RemoveRange(columnCount, initColumnLength - columnCount);
-            }
-
-            var makeCompareText = new Func<int, int, string>((r, c) =>
-            {
-                if (r < initRowLength && c < initColumnLength) return TestClass.MakeDefaultValueItemForList(r, c);
-                return TestClass.MakeDefaultValueItem(r, c);
-            });
-
-            var movedItems = outer.Select(i =>
-                inner.Select(j => makeCompareText(i, j)).ToArray()).ToArray();
-
-            // 処理後の各要素が正しいこと
-            Assert.IsTrue(instance.Equals(movedItems));
-        }
-
-        [TestCase(0, 0, -1, true)]
-        [TestCase(0, 0, 0, false)]
-        [TestCase(0, 0, 5, false)]
-        [TestCase(0, 0, 6, true)]
-        [TestCase(3, 0, -1, true)]
-        [TestCase(3, 0, 0, false)]
-        [TestCase(3, 0, 3, false)]
-        [TestCase(3, 0, 5, false)]
-        [TestCase(3, 0, 6, true)]
-        [TestCase(3, 5, -1, true)]
-        [TestCase(3, 5, 0, false)]
-        [TestCase(3, 5, 3, false)]
-        [TestCase(3, 5, 5, false)]
-        [TestCase(3, 5, 6, true)]
-        [TestCase(5, 10, 0, false)]
-        [TestCase(5, 10, 5, false)]
-        public static void AdjustRowLengthTest(int initRowCount, int initColumnCount,
-            int rowLength, bool isError)
+        [TestCaseSource(nameof(AdjustRowLengthTestCaseSource))]
+        public static void AdjustRowLengthTest(int rowLength, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
             {
-                instance.AdjustRowLength(rowLength);
+                instance.AdjustLength(rowLength);
             }
             catch (Exception ex)
             {
@@ -2967,39 +1211,17 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdjustLengthOneDirection(instance, Direction.Row, AdjustLengthType.None,
-                rowLength, initColumnCount, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, -1, true)]
-        [TestCase(0, 0, 0, false)]
-        [TestCase(0, 0, 5, false)]
-        [TestCase(0, 0, 6, true)]
-        [TestCase(3, 0, -1, true)]
-        [TestCase(3, 0, 0, false)]
-        [TestCase(3, 0, 3, false)]
-        [TestCase(3, 0, 5, false)]
-        [TestCase(3, 0, 6, true)]
-        [TestCase(3, 5, -1, true)]
-        [TestCase(3, 5, 0, false)]
-        [TestCase(3, 5, 3, false)]
-        [TestCase(3, 5, 5, false)]
-        [TestCase(3, 5, 6, true)]
-        [TestCase(5, 10, 0, false)]
-        [TestCase(5, 10, 5, false)]
-        public static void AdjustRowLengthIfLongTest(int initRowCount, int initColumnCount,
-            int rowLength, bool isError)
+        [TestCaseSource(nameof(AdjustRowLengthTestCaseSource))]
+        public static void AdjustRowLengthIfLongTest(int rowLength, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
             {
-                instance.AdjustRowLengthIfLong(rowLength);
+                instance.AdjustLengthIfLong(rowLength);
             }
             catch (Exception ex)
             {
@@ -3009,39 +1231,17 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdjustLengthOneDirection(instance, Direction.Row, AdjustLengthType.IfLong,
-                rowLength, initColumnCount, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, -1, true)]
-        [TestCase(0, 0, 0, false)]
-        [TestCase(0, 0, 5, false)]
-        [TestCase(0, 0, 6, true)]
-        [TestCase(3, 0, -1, true)]
-        [TestCase(3, 0, 0, false)]
-        [TestCase(3, 0, 3, false)]
-        [TestCase(3, 0, 5, false)]
-        [TestCase(3, 0, 6, true)]
-        [TestCase(3, 5, -1, true)]
-        [TestCase(3, 5, 0, false)]
-        [TestCase(3, 5, 3, false)]
-        [TestCase(3, 5, 5, false)]
-        [TestCase(3, 5, 6, true)]
-        [TestCase(5, 10, 0, false)]
-        [TestCase(5, 10, 5, false)]
-        public static void AdjustRowLengthIfShortTest(int initRowCount, int initColumnCount,
-            int rowLength, bool isError)
+        [TestCaseSource(nameof(AdjustRowLengthTestCaseSource))]
+        public static void AdjustRowLengthIfShortTest(int rowLength, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
             {
-                instance.AdjustRowLengthIfShort(rowLength);
+                instance.AdjustLengthIfShort(rowLength);
             }
             catch (Exception ex)
             {
@@ -3051,38 +1251,25 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdjustLengthOneDirection(instance, Direction.Row, AdjustLengthType.IfShort,
-                rowLength, initColumnCount, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, -1, true)]
-        [TestCase(0, 0, 0, true)]
-        [TestCase(0, 0, 10, true)]
-        [TestCase(0, 0, 11, true)]
-        [TestCase(3, 0, -1, true)]
-        [TestCase(3, 0, 0, false)]
-        [TestCase(3, 0, 10, false)]
-        [TestCase(3, 0, 11, true)]
-        [TestCase(3, 5, -1, true)]
-        [TestCase(3, 5, 0, false)]
-        [TestCase(3, 5, 5, false)]
-        [TestCase(3, 5, 10, false)]
-        [TestCase(3, 5, 11, true)]
-        [TestCase(3, 10, 0, false)]
-        [TestCase(3, 10, 10, false)]
-        public static void AdjustColumnLengthTest(int initRowCount, int initColumnCount,
-            int columnLength, bool isError)
+        private static readonly object[] AdjustItemLengthTestCaseSource =
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            new object[] {InitMinItemCapacity - 1, true},
+            new object[] {InitMinItemCapacity, false},
+            new object[] {InitMaxItemCapacity, false},
+            new object[] {InitMaxItemCapacity + 1, true},
+        };
+
+        [TestCaseSource(nameof(AdjustItemLengthTestCaseSource))]
+        public static void AdjustItemLengthTest(int columnLength, bool isError)
+        {
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
             {
-                instance.AdjustColumnLength(columnLength);
+                instance.AdjustItemLength(columnLength);
             }
             catch (Exception ex)
             {
@@ -3092,38 +1279,17 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdjustLengthOneDirection(instance, Direction.Column, AdjustLengthType.None,
-                initRowCount, columnLength, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, -1, true)]
-        [TestCase(0, 0, 0, true)]
-        [TestCase(0, 0, 10, true)]
-        [TestCase(0, 0, 11, true)]
-        [TestCase(3, 0, -1, true)]
-        [TestCase(3, 0, 0, false)]
-        [TestCase(3, 0, 10, false)]
-        [TestCase(3, 0, 11, true)]
-        [TestCase(3, 5, -1, true)]
-        [TestCase(3, 5, 0, false)]
-        [TestCase(3, 5, 5, false)]
-        [TestCase(3, 5, 10, false)]
-        [TestCase(3, 5, 11, true)]
-        [TestCase(3, 10, 0, false)]
-        [TestCase(3, 10, 10, false)]
-        public static void AdjustColumnLengthIfLongTest(int initRowCount, int initColumnCount,
-            int columnLength, bool isError)
+        [TestCaseSource(nameof(AdjustItemLengthTestCaseSource))]
+        public static void AdjustItemLengthIfLongTest(int columnLength, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
             {
-                instance.AdjustColumnLengthIfLong(columnLength);
+                instance.AdjustItemLengthIfLong(columnLength);
             }
             catch (Exception ex)
             {
@@ -3133,38 +1299,17 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdjustLengthOneDirection(instance, Direction.Column, AdjustLengthType.IfLong,
-                initRowCount, columnLength, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        [TestCase(0, 0, -1, true)]
-        [TestCase(0, 0, 0, true)]
-        [TestCase(0, 0, 10, true)]
-        [TestCase(0, 0, 11, true)]
-        [TestCase(3, 0, -1, true)]
-        [TestCase(3, 0, 0, false)]
-        [TestCase(3, 0, 10, false)]
-        [TestCase(3, 0, 11, true)]
-        [TestCase(3, 5, -1, true)]
-        [TestCase(3, 5, 0, false)]
-        [TestCase(3, 5, 5, false)]
-        [TestCase(3, 5, 10, false)]
-        [TestCase(3, 5, 11, true)]
-        [TestCase(3, 10, 0, false)]
-        [TestCase(3, 10, 10, false)]
-        public static void AdjustColumnLengthIfShortTest(int initRowCount, int initColumnCount,
-            int columnLength, bool isError)
+        [TestCaseSource(nameof(AdjustItemLengthTestCaseSource))]
+        public static void AdjustItemLengthIfShortTest(int columnLength, bool isError)
         {
-            var instance = TestClass.MakeListFoeMethodTest(initRowCount, initColumnCount,
-                out var changingEventArgsList, out var changedEventArgsList,
-                out var propertyChangedEventCalledCount);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
             {
-                instance.AdjustColumnLengthIfShort(columnLength);
+                instance.AdjustItemLengthIfShort(columnLength);
             }
             catch (Exception ex)
             {
@@ -3174,268 +1319,21 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            CommonAssertionAdjustLengthOneDirection(instance, Direction.Column, AdjustLengthType.IfShort,
-                initRowCount, columnLength, initRowCount, initColumnCount, isError,
-                changingEventArgsList, changedEventArgsList, propertyChangedEventCalledCount);
         }
 
-        private static void CommonAssertionAdjustLengthOneDirection(TestClass.IListTest instance, Direction direction,
-            AdjustLengthType type, int rowCount, int columnCount,
-            int initRowLength, int initColumnLength, bool isError,
-            Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>> changingEventArgsList,
-            Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>> changedEventArgsList,
-            Dictionary<string, int> propertyChangedEventCalledCount)
+        [Test]
+        public static void ClearTest()
         {
-            var isEmptyTo = rowCount == 0;
-            var isEmptyFrom = initRowLength == 0;
-            var isAdded = type switch
-            {
-                AdjustLengthType.None => (isEmptyFrom && !isEmptyTo)
-                                         || (direction == Direction.Column
-                                             ? initColumnLength < columnCount
-                                             : initRowLength < rowCount),
-                AdjustLengthType.IfShort => direction == Direction.Column
-                    ? initColumnLength < columnCount
-                    : initRowLength < rowCount,
-                AdjustLengthType.IfLong => false,
-                _ => throw new InvalidOperationException()
-            };
-            var isRemoved = type switch
-            {
-                AdjustLengthType.None => (!isEmptyFrom && isEmptyTo)
-                                         || (direction == Direction.Column
-                                             ? initColumnLength > columnCount
-                                             : initRowLength > rowCount),
-                AdjustLengthType.IfShort => false,
-                AdjustLengthType.IfLong => direction == Direction.Column
-                    ? initColumnLength > columnCount
-                    : initRowLength > rowCount,
-                _ => throw new InvalidOperationException()
-            };
-            var isNotifiedRowCount = new Func<bool>(() =>
-            {
-                if (direction != Direction.Column) return true;
-                return isEmptyFrom || isEmptyTo;
-            })();
-            var isNotifiedColumnCount = new Func<bool>(() =>
-            {
-                if (direction != Direction.Row) return true;
-                return isEmptyFrom || isEmptyTo;
-            })();
-
-            isAdded &= !isError;
-            isRemoved &= !isError;
-            isNotifiedRowCount &= !isError;
-            isNotifiedColumnCount &= !isError;
-
-            // 意図したイベントが発生すること
-            var assertCollectionChangeEventArgsList =
-                new Action<Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>>(
-                    dic =>
-                    {
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Replace)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Add)].Count,
-                            isAdded ? 1 : 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Move)].Count, 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Remove)].Count,
-                            isRemoved ? 1 : 0);
-                        Assert.AreEqual(dic[nameof(TwoDimensionalCollectionChangeAction.Reset)].Count, 0);
-                    });
-            assertCollectionChangeEventArgsList(changingEventArgsList);
-            assertCollectionChangeEventArgsList(changedEventArgsList);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.RowCount)],
-                isNotifiedRowCount ? 1 : 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.ColumnCount)],
-                isNotifiedColumnCount ? 1 : 0);
-            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], isError ? 0 : 1);
-
-            if (isError) return;
-
-            // 発生した Add イベントのパラメータが正しいこと
-            if (isAdded)
-            {
-                var addLength = direction == Direction.Column
-                    ? columnCount - initColumnLength
-                    : rowCount - initRowLength;
-                var addItemCount = direction == Direction.Column
-                    ? initRowLength
-                    : initColumnLength;
-                var assertCollectionChangeEventArgsProperty =
-                    new Action<TwoDimensionalCollectionChangeEventArgs<string>>(
-                        args =>
-                        {
-                            Assert.IsTrue(args.Direction == direction);
-                            Assert.IsTrue(args.OldStartRow == -1);
-                            Assert.IsTrue(args.OldStartColumn == -1);
-                            Assert.IsTrue(args.OldItems == null);
-                            Assert.IsTrue(args.NewStartRow == (direction == Direction.Column ? 0 : initRowLength));
-                            Assert.IsTrue(args.NewStartColumn ==
-                                          (direction == Direction.Column ? initColumnLength : 0));
-                            {
-                                var newItems = args.NewItems!.ToTwoDimensionalArray();
-                                CommonAssertion.ArraySizeEqual(newItems, addLength, addItemCount);
-
-                                var addItems = Enumerable.Range(0, addLength).Select(i =>
-                                    Enumerable.Range(0, addItemCount).Select(j =>
-                                    {
-                                        var row = direction == Direction.Column
-                                            ? j
-                                            : initRowLength + i;
-                                        var column = direction == Direction.Column
-                                            ? initColumnLength + i
-                                            : j;
-                                        return TestClass.MakeDefaultValueItem(row, column);
-                                    }).ToArray()).ToArray();
-
-                                Assert.IsTrue(newItems.Equals<string>(addItems));
-                            }
-                        });
-                assertCollectionChangeEventArgsProperty(
-                    changingEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Add)][0]);
-                assertCollectionChangeEventArgsProperty(
-                    changedEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Add)][0]);
-            }
-
-            // 発生した Remove イベントのパラメータが正しいこと
-            if (isRemoved)
-            {
-                var removeLength = direction == Direction.Column
-                    ? initColumnLength - columnCount
-                    : initRowLength - rowCount;
-                var removeItemCount = direction == Direction.Column
-                    ? initRowLength
-                    : initColumnLength;
-
-                var assertCollectionChangeEventArgsProperty =
-                    new Action<TwoDimensionalCollectionChangeEventArgs<string>>(
-                        args =>
-                        {
-                            Assert.IsTrue(args.Direction == direction);
-                            Assert.IsTrue(args.OldStartRow ==
-                                          (direction == Direction.Column
-                                              ? 0
-                                              : rowCount));
-                            Assert.IsTrue(args.OldStartColumn ==
-                                          (direction == Direction.Column
-                                              ? columnCount
-                                              : 0));
-                            {
-                                var oldItems = args.OldItems!.ToTwoDimensionalArray();
-
-                                CommonAssertion.ArraySizeEqual(oldItems, removeLength, removeItemCount);
-
-                                var removeItems = Enumerable.Range(0, removeLength).Select(i =>
-                                    Enumerable.Range(0, removeItemCount).Select(j =>
-                                    {
-                                        var row = direction == Direction.Column
-                                            ? initRowLength - rowCount + j
-                                            : rowCount + i;
-                                        var column = direction == Direction.Column
-                                            ? columnCount + i
-                                            : initColumnLength - columnCount + j;
-                                        return TestClass.MakeDefaultValueItemForList(row, column);
-                                    }).ToArray()).ToArray();
-
-                                Assert.IsTrue(oldItems.Equals<string>(removeItems));
-                            }
-                            Assert.IsTrue(args.NewStartRow == -1);
-                            Assert.IsTrue(args.NewStartColumn == -1);
-                            Assert.IsTrue(args.NewItems == null);
-                        });
-                assertCollectionChangeEventArgsProperty(
-                    changingEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Remove)][0]);
-                assertCollectionChangeEventArgsProperty(
-                    changedEventArgsList[nameof(TwoDimensionalCollectionChangeAction.Remove)][0]);
-            }
-
-            var afterRowLength = direction == Direction.Row
-                ? type switch
-                {
-                    AdjustLengthType.None => rowCount,
-                    AdjustLengthType.IfShort => Math.Max(initRowLength, rowCount),
-                    AdjustLengthType.IfLong => Math.Min(initRowLength, rowCount),
-                    _ => throw new InvalidOperationException()
-                }
-                : initRowLength;
-            var afterColumnLength = direction == Direction.Column
-                ? type switch
-                {
-                    AdjustLengthType.None => columnCount,
-                    AdjustLengthType.IfShort => Math.Max(initColumnLength, columnCount),
-                    AdjustLengthType.IfLong => Math.Min(initColumnLength, columnCount),
-                    _ => throw new InvalidOperationException()
-                }
-                : initColumnLength;
-
-            if (afterRowLength == 0)
-            {
-                afterRowLength = afterColumnLength = 0;
-            }
-
-            // 除去後の行数・列数が正しいこと
-            CommonAssertion.SizeEqual(instance, afterRowLength, afterColumnLength);
-
-            // 除去前後の要素関係を取得 -> 取得されるべき文字列に変換
-            var outer = Enumerable.Range(0, initRowLength).ToList();
-            if (direction != Direction.Column && isRemoved)
-            {
-                outer.RemoveRange(rowCount, initRowLength - rowCount);
-            }
-
-            var inner = Enumerable.Range(0, initColumnLength).ToList();
-            if (direction == Direction.Column && isRemoved)
-            {
-                inner.RemoveRange(columnCount, initColumnLength - columnCount);
-            }
-
-            var movedItems = afterRowLength != 0
-                ? outer.Select(i =>
-                        inner.Select(j => TestClass.MakeDefaultValueItemForList(i, j))
-                            .Concat(!isAdded || direction != Direction.Column
-                                ? new string[] { }
-                                : Enumerable.Range(initColumnLength, columnCount - initColumnLength)
-                                    .Select(newJ => TestClass.MakeDefaultValueItem(i, newJ))).ToList())
-                    .Concat(!isAdded || direction == Direction.Column
-                        ? new List<List<string>>()
-                        : Enumerable.Range(initRowLength, rowCount - initRowLength)
-                            .Select(newI => inner.Select(j =>
-                                    TestClass.MakeDefaultValueItem(newI, j))
-                                .ToList()).ToList())
-                    .ToList()
-                : new List<List<string>>();
-
-            // 処理後の各要素が正しいこと
-            Assert.IsTrue(instance.Equals(movedItems));
-        }
-
-        private enum AdjustLengthType
-        {
-            None,
-            IfLong,
-            IfShort,
-        }
-
-        [TestCase(TestClass.TestClassType.Type1)]
-        [TestCase(TestClass.TestClassType.Type3)]
-        public static void ClearTest(TestClass.TestClassType type)
-        {
-            string[][] initItems = TestClass.MakeStringList(2, 5);
-            TestClass.IListTest instance = type switch
-            {
-                TestClass.TestClassType.Type1 => new TestClass.ListTest1(initItems),
-                TestClass.TestClassType.Type3 => new TestClass.ListTest3(initItems),
-                _ => throw new InvalidOperationException()
-            };
-
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
+
             try
             {
                 instance.Clear();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                logger.Exception(e);
+                logger.Exception(ex);
                 errorOccured = true;
             }
 
@@ -3443,39 +1341,26 @@ namespace WodiLib.Test.Sys
             Assert.IsFalse(errorOccured);
 
             // 行数・列数が最小であること
-            Assert.IsTrue(instance.RowCount == instance.GetMinRowCapacity());
-            Assert.IsTrue(instance.ColumnCount == instance.GetMinColumnCapacity());
-
-            // 各要素が意図した値で初期化されていること
-            if (instance.GetMinRowCapacity() != 0 && instance.GetMinColumnCapacity() != 0)
-            {
-                var answer = Enumerable.Range(0, instance.RowCount).Select(i =>
-                    Enumerable.Range(0, instance.ColumnCount).Select(j
-                        => TestClass.MakeDefaultValueItem(i, j)));
-                Assert.IsTrue(instance.Equals(answer));
-            }
+            Assert.IsTrue(instance.Count == instance.GetMinCapacity());
+            Assert.IsTrue(instance.ItemCount == instance.GetMinItemCapacity());
         }
 
-        [TestCase(4, 9, true)]
-        [TestCase(4, 10, true)]
-        [TestCase(4, 20, true)]
-        [TestCase(4, 21, true)]
-        [TestCase(5, 9, true)]
-        [TestCase(5, 10, false)]
-        [TestCase(5, 20, false)]
-        [TestCase(5, 21, true)]
-        [TestCase(10, 9, true)]
-        [TestCase(10, 10, false)]
-        [TestCase(10, 20, false)]
-        [TestCase(10, 21, true)]
-        [TestCase(11, 9, true)]
-        [TestCase(11, 10, true)]
-        [TestCase(11, 20, true)]
-        [TestCase(11, 21, true)]
+        [TestCase(InitMinCapacity - 1, InitMinItemCapacity, true)]
+        [TestCase(InitMinCapacity - 1, InitMaxItemCapacity, true)]
+        [TestCase(InitMinCapacity, InitMinItemCapacity - 1, true)]
+        [TestCase(InitMinCapacity, InitMinItemCapacity, false)]
+        [TestCase(InitMinCapacity, InitMaxItemCapacity, false)]
+        [TestCase(InitMinCapacity, InitMaxItemCapacity + 1, true)]
+        [TestCase(InitMaxCapacity, InitMinItemCapacity - 1, true)]
+        [TestCase(InitMaxCapacity, InitMinItemCapacity, false)]
+        [TestCase(InitMaxCapacity, InitMaxItemCapacity, false)]
+        [TestCase(InitMaxCapacity, InitMaxItemCapacity + 1, true)]
+        [TestCase(InitMaxCapacity + 1, InitMinItemCapacity, true)]
+        [TestCase(InitMaxCapacity + 1, InitMaxItemCapacity, true)]
         public static void ResetTest(int rowCount, int columnCount, bool isError)
         {
             var resetItems = TestClass.MakeStringList(rowCount, columnCount);
-            var instance = new TestClass.ListTest2();
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
 
             var errorOccured = false;
             try
@@ -3490,135 +1375,19 @@ namespace WodiLib.Test.Sys
 
             // エラーフラグが一致すること
             Assert.AreEqual(errorOccured, isError);
-
-            if (errorOccured) return;
-
-            // 行数・列数が初期化要素と一致すること
-            Assert.IsTrue(instance.RowCount == rowCount);
-            Assert.IsTrue(instance.ColumnCount == columnCount);
-
-            // 各要素が意図した値で初期化されていること
-            Assert.IsTrue(instance.Equals(resetItems));
-        }
-
-        [TestCase]
-        public static void EqualsTest_IRestrictedCapacityTwoDimensionalList()
-        {
-            /*
-             * IRestrictedCapacityTwoDimensionalList<string> 同士の比較
-             */
-
-            var initItems = TestClass.MakeStringList(3, 5);
-            var target = new TestClass.ListTest1(initItems);
-
-            // 同一インスタンスの比較：一致すること
-            {
-                var other = target;
-                Assert.IsTrue(target.Equals(other));
-            }
-
-            // null との比較：一致しないこと
-            {
-                // nullを引数に取ると Equals(IRestrictedCapacityTwoDimensionalList<T>?) メソッドが実行されるためキャスト不要
-                Assert.IsFalse(target.Equals(null));
-            }
-
-            // 同一要素別インスタンスとの比較：一致すること
-            {
-                var other = new TestClass.ListTest1(initItems);
-                Assert.IsTrue(target.Equals(other));
-            }
-
-            // 一要素が異なるインスタンスとの比較：一致しないこと
-            {
-                var other = new TestClass.ListTest1(TestClass.MakeStringList(3, 5))
-                {
-                    [1, 2] = "modify"
-                };
-                Assert.IsFalse(target.Equals(other));
-            }
-
-            // 行数が異なるインスタンスとの比較：一致しないこと
-            {
-                var other = new TestClass.ListTest1(TestClass.MakeStringList(2, 5));
-                Assert.IsFalse(target.Equals(other));
-            }
-
-            // 列数が異なるインスタンスとの比較：一致しないこと
-            {
-                var other = new TestClass.ListTest1(TestClass.MakeStringList(3, 4));
-                Assert.IsFalse(target.Equals(other));
-            }
-        }
-
-        [TestCase]
-        public static void EqualsTest_IEnumerable()
-        {
-            /*
-             * IEnumerable<IEnumerable<string>> 同士の比較
-             */
-
-            var initItems = TestClass.MakeStringList(3, 5);
-            var target = new TestClass.ListTest1(initItems);
-
-            // null との比較：一致しないこと
-            {
-                // nullを引数に取ると Equals(IRestrictedCapacityTwoDimensionalList<T>?) メソッドが実行されるためキャスト不要
-                Assert.IsFalse(target.Equals(null));
-            }
-
-            // 同一要素インスタンスとの比較：一致すること
-            {
-                var other = Enumerable.Range(0, 3).Select(i =>
-                    Enumerable.Range(0, 5).Select(j =>
-                        TestClass.MakeDefaultValueItemForList(i, j)
-                    ));
-                Assert.IsTrue(target.Equals(other));
-            }
-
-            // 一要素が異なるインスタンスとの比較：一致しないこと
-            {
-                var other = Enumerable.Range(0, 3).Select(i =>
-                    Enumerable.Range(0, 5).Select(j =>
-                    {
-                        if (i == 1 && j == 2)
-                        {
-                            return "modify";
-                        }
-
-                        return TestClass.MakeDefaultValueItemForList(i, j);
-                    }));
-                Assert.IsFalse(target.Equals(other));
-            }
-
-            // 行数が異なるインスタンスとの比較：一致しないこと
-            {
-                var other = Enumerable.Range(0, 2).Select(i =>
-                    Enumerable.Range(0, 5).Select(j =>
-                        TestClass.MakeDefaultValueItemForList(i, j)
-                    ));
-                Assert.IsFalse(target.Equals(other));
-            }
-
-            // 列数が異なるインスタンスとの比較：一致しないこと
-            {
-                var other = Enumerable.Range(0, 3).Select(i =>
-                    Enumerable.Range(0, 4).Select(j =>
-                        TestClass.MakeDefaultValueItemForList(i, j)
-                    ));
-                Assert.IsFalse(target.Equals(other));
-            }
         }
 
         public static class TestClass
         {
-            public static string MakeDefaultValueItem(int row, int column)
+            #region MakeTestInstance
+
+            internal static TwoDimItem MakeDefaultValueItem(int row, int column)
                 => $"({row}, {column})";
 
-            public static string MakeDefaultValueItemForList(int row, int column)
+            private static TwoDimItem MakeDefaultValueItemForList(int row, int column)
                 => $"{MakeDefaultValueItem(row, column)} for List";
 
-            public static string[][] MakeStringList(int rowCount, int columnCount)
+            internal static TwoDimItem[][] MakeStringList(int rowCount, int columnCount)
             {
                 return Enumerable.Range(0, rowCount).Select(rowIdx =>
                         Enumerable.Range(0, columnCount)
@@ -3627,372 +1396,96 @@ namespace WodiLib.Test.Sys
                     .ToArray();
             }
 
-            private static string MakeDefaultValueItemForAddItem(int row, int column)
+            private static TwoDimItem MakeDefaultValueItemForAddItem(int row, int column)
                 => $"({row}, {column}) for AddItem";
 
-
-            public enum TestClassType
-            {
-                /// <summary>正常設定リストその１（要素最小数=0 + Changeイベント）</summary>
-                Type1,
-
-                /// <summary>正常設定リストその２（要素最小数!=0）</summary>
-                Type2,
-
-                /// <summary>正常設定リストその３（要素最小数=要素最大数）</summary>
-                Type3,
-
-                /// <summary>異常設定リストその１（最小行数 &lt; 0）</summary>
-                Type4,
-
-                /// <summary>異常設定リストその２（最小列数 &lt; 0）</summary>
-                Type5,
-
-                /// <summary>異常設定リストその３（最大行数 &lt; 最小行数）</summary>
-                Type6,
-
-                /// <summary>異常設定リストその４（最大列数 &lt; 最小列数）</summary>
-                Type7,
-
-                /// <summary>異常設定リストその５（defaultValue == null）</summary>
-                Type8
-            }
-
-            public interface IListTest : IRestrictedCapacityTwoDimensionalList<string>
-            {
-            }
-
-            #region 正常系
-
-            /// <summary>
-            /// 正常設定リストその１（要素最小数=0 + Changeイベント）
-            /// </summary>
-            /// <remarks>
-            /// 行範囲：0 ~ 5<br/>
-            /// 列範囲：0 ~ 10<br/>
-            /// </remarks>
-            public class ListTest1 : RestrictedCapacityTwoDimensionalList<string>, IListTest
-            {
-                public static int RowMaxCapacity => 5;
-                public static int RowMinCapacity => 0;
-                public static int ColumnMaxCapacity => 10;
-                public static int ColumnMinCapacity => 0;
-
-                public static bool IsEventThrowException { get; set; }
-
-                public override int GetMaxRowCapacity() => RowMaxCapacity;
-
-                public override int GetMinRowCapacity() => RowMinCapacity;
-
-                public override int GetMaxColumnCapacity() => ColumnMaxCapacity;
-
-                public override int GetMinColumnCapacity() => ColumnMinCapacity;
-
-                protected override string MakeDefaultItem(int row, int column)
-                    => MakeDefaultValueItem(row, column);
-
-                public ListTest1()
-                {
-                    TwoDimensionListChanging += OnTwoDimensionListChanging;
-                }
-
-                public ListTest1(IEnumerable<IEnumerable<string>> list) : base(list)
-                {
-                }
-
-                private void OnTwoDimensionListChanging(object sender,
-                    TwoDimensionalCollectionChangeEventArgs<string> e)
-                {
-                    if (IsEventThrowException) throw new Exception();
-                }
-            }
-
-            /// <summary>
-            /// 正常設定リストその２（要素最小数!=0）
-            /// </summary>
-            /// <remarks>
-            /// 行範囲：5 ~ 10<br/>
-            /// 列範囲：10 ~ 20<br/>
-            /// </remarks>
-            public class ListTest2 : RestrictedCapacityTwoDimensionalList<string>, IListTest
-            {
-                public static int RowMaxCapacity => 10;
-                public static int RowMinCapacity => 5;
-                public static int ColumnMaxCapacity => 20;
-                public static int ColumnMinCapacity => 10;
-
-                public override int GetMaxRowCapacity() => RowMaxCapacity;
-
-                public override int GetMinRowCapacity() => RowMinCapacity;
-
-                public override int GetMaxColumnCapacity() => ColumnMaxCapacity;
-
-                public override int GetMinColumnCapacity() => ColumnMinCapacity;
-
-                protected override string MakeDefaultItem(int row, int column)
-                    => MakeDefaultValueItem(row, column);
-
-                public ListTest2()
-                {
-                }
-
-                public ListTest2(IEnumerable<IEnumerable<string>> list) : base(list)
-                {
-                }
-            }
-
-            /// <summary>
-            /// 正常設定リストその３（要素最小数＝要素最大数）
-            /// </summary>
-            /// <remarks>
-            /// 行範囲：2<br/>
-            /// 列範囲：5<br/>
-            /// </remarks>
-            public class ListTest3 : RestrictedCapacityTwoDimensionalList<string>, IListTest
-            {
-                public static int RowMaxCapacity => 2;
-                public static int RowMinCapacity => 2;
-                public static int ColumnMaxCapacity => 5;
-                public static int ColumnMinCapacity => 5;
-
-                public override int GetMaxRowCapacity() => RowMaxCapacity;
-
-                public override int GetMinRowCapacity() => RowMinCapacity;
-
-                public override int GetMaxColumnCapacity() => ColumnMaxCapacity;
-
-                public override int GetMinColumnCapacity() => ColumnMinCapacity;
-
-                protected override string MakeDefaultItem(int row, int column)
-                    => MakeDefaultValueItem(row, column);
-
-                public ListTest3()
-                {
-                }
-
-                public ListTest3(IEnumerable<IEnumerable<string>> list) : base(list)
-                {
-                }
-            }
-
             #endregion
 
-            #region 異常系
-
-            /// <summary>
-            /// 異常設定リストその１（最小行数 &lt; 0）
-            /// </summary>
-            /// <remarks>
-            /// 行範囲：-3 ~ 5<br/>
-            /// 列範囲：5 ~ 10<br/>
-            /// </remarks>
-            public class ListTest4 : RestrictedCapacityTwoDimensionalList<string>, IListTest
+            internal record CapacityInfo
             {
-                private static int RowMaxCapacity => 5;
-                private static int RowMinCapacity => -3;
-                private static int ColumnMaxCapacity => 10;
-                private static int ColumnMinCapacity => 5;
+                public int MaxCapacity { get; }
+                public int MinCapacity { get; }
+                public int MaxItemCapacity { get; }
+                public int MinItemCapacity { get; }
 
-                public override int GetMaxRowCapacity() => RowMaxCapacity;
-
-                public override int GetMinRowCapacity() => RowMinCapacity;
-
-                public override int GetMaxColumnCapacity() => ColumnMaxCapacity;
-
-                public override int GetMinColumnCapacity() => ColumnMinCapacity;
-
-                protected override string MakeDefaultItem(int row, int column)
-                    => MakeDefaultValueItem(row, column);
+                public CapacityInfo(int maxCapacity, int minCapacity, int maxItemCapacity, int minItemCapacity)
+                {
+                    MaxCapacity = maxCapacity;
+                    MinCapacity = minCapacity;
+                    MaxItemCapacity = maxItemCapacity;
+                    MinItemCapacity = minItemCapacity;
+                }
             }
 
-            /// <summary>
-            /// 異常設定リストその２（最小列数 &lt; 0）
-            /// </summary>
-            /// <remarks>
-            /// 行範囲：0 ~ 5<br/>
-            /// 列範囲：-1 ~ 10<br/>
-            /// </remarks>
-            public class ListTest5 : RestrictedCapacityTwoDimensionalList<string>, IListTest
+            internal class TwoDimItem : IEqualityComparable<TwoDimItem>
             {
-                private static int RowMaxCapacity => 5;
-                private static int RowMinCapacity => 0;
-                private static int ColumnMaxCapacity => 10;
-                private static int ColumnMinCapacity => -1;
+                private string Value { get; }
 
-                public override int GetMaxRowCapacity() => RowMaxCapacity;
+                private TwoDimItem(string value)
+                {
+                    Value = value;
+                }
 
-                public override int GetMinRowCapacity() => RowMinCapacity;
+                public bool ItemEquals(TwoDimItem other)
+                {
+                    return Value.Equals(other.Value);
+                }
 
-                public override int GetMaxColumnCapacity() => ColumnMaxCapacity;
+                public bool ItemEquals(object other)
+                {
+                    if (other is TwoDimItem casted) return ItemEquals(casted);
+                    return false;
+                }
 
-                public override int GetMinColumnCapacity() => ColumnMinCapacity;
-
-                protected override string MakeDefaultItem(int row, int column)
-                    => MakeDefaultValueItem(row, column);
+                public static implicit operator TwoDimItem(string src)
+                {
+                    return src is null ? null : new TwoDimItem(src);
+                }
             }
 
-            /// <summary>
-            /// 異常設定リストその３（最大行数 &lt; 最小行数）
-            /// </summary>
-            /// <remarks>
-            /// 行範囲：7 ~ 6<br/>
-            /// 列範囲：5 ~ 10<br/>
-            /// </remarks>
-            public class ListTest6 : RestrictedCapacityTwoDimensionalList<string>, IListTest
+            internal class TestTwoDimClass : RestrictedCapacityTwoDimensionalList<TwoDimItem>
             {
-                private static int RowMaxCapacity => 6;
-                private static int RowMinCapacity => 7;
-                private static int ColumnMaxCapacity => 10;
-                private static int ColumnMinCapacity => 5;
+                public TestTwoDimClass(CapacityInfo capacityInfo,
+                    IEnumerable<IEnumerable<TwoDimItem>> values, InjectValidator injection,
+                    Func<int, int, TwoDimItem> funcMakeDefaultItem)
+                    : base(capacityInfo.MinCapacity, capacityInfo.MaxCapacity,
+                        capacityInfo.MinItemCapacity, capacityInfo.MaxItemCapacity, values, injection,
+                        funcMakeDefaultItem)
+                {
+                }
 
-                public override int GetMaxRowCapacity() => RowMaxCapacity;
+                public TestTwoDimClass(CapacityInfo capacityInfo,
+                    int rowLength, int columnLength, InjectValidator injection,
+                    Func<int, int, TwoDimItem> funcMakeDefaultItem) : base(capacityInfo.MinCapacity,
+                    capacityInfo.MaxCapacity,
+                    capacityInfo.MinItemCapacity, capacityInfo.MaxItemCapacity, rowLength, columnLength, injection,
+                    funcMakeDefaultItem)
+                {
+                }
 
-                public override int GetMinRowCapacity() => RowMinCapacity;
-
-                public override int GetMaxColumnCapacity() => ColumnMaxCapacity;
-
-                public override int GetMinColumnCapacity() => ColumnMinCapacity;
-
-                protected override string MakeDefaultItem(int row, int column)
-                    => MakeDefaultValueItem(row, column);
+                public TestTwoDimClass(CapacityInfo capacityInfo,
+                    InjectValidator injection, Func<int, int, TwoDimItem> funcMakeDefaultItem)
+                    : base(capacityInfo.MinCapacity, capacityInfo.MaxCapacity,
+                        capacityInfo.MinItemCapacity, capacityInfo.MaxItemCapacity, injection, funcMakeDefaultItem)
+                {
+                }
             }
 
-            /// <summary>
-            /// 異常設定リストその４（最大列数 &lt; 最小列数）
-            /// </summary>
-            /// <remarks>
-            /// 行範囲：0 ~ 1<br/>
-            /// 列範囲：10 ~ 9<br/>
-            /// </remarks>
-            public class ListTest7 : RestrictedCapacityTwoDimensionalList<string>, IListTest
-            {
-                private static int RowMaxCapacity => 0;
-                private static int RowMinCapacity => 1;
-                private static int ColumnMaxCapacity => 9;
-                private static int ColumnMinCapacity => 10;
-
-                public override int GetMaxRowCapacity() => RowMaxCapacity;
-
-                public override int GetMinRowCapacity() => RowMinCapacity;
-
-                public override int GetMaxColumnCapacity() => ColumnMaxCapacity;
-
-                public override int GetMinColumnCapacity() => ColumnMinCapacity;
-
-                protected override string MakeDefaultItem(int row, int column)
-                    => MakeDefaultValueItem(row, column);
-            }
-
-            /// <summary>
-            /// 異常設定リストその５（defaultValue == null）
-            /// </summary>
-            /// <remarks>
-            /// 行範囲：0 ~ 5<br/>
-            /// 列範囲：0 ~ 10<br/>
-            /// </remarks>
-            public class ListTest8 : RestrictedCapacityTwoDimensionalList<string>, IListTest
-            {
-                private static int RowMaxCapacity => 0;
-                private static int RowMinCapacity => 1;
-                private static int ColumnMaxCapacity => 9;
-                private static int ColumnMinCapacity => 10;
-
-                public override int GetMaxRowCapacity() => RowMaxCapacity;
-
-                public override int GetMinRowCapacity() => RowMinCapacity;
-
-                public override int GetMaxColumnCapacity() => ColumnMaxCapacity;
-
-                public override int GetMinColumnCapacity() => ColumnMinCapacity;
-
-                protected override string MakeDefaultItem(int row, int column) => null;
-            }
-
-            #endregion
-
-            public static ListTest1 MakeListFoeMethodTest(int initRowLength, int initColumnLength,
-                out Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>
-                    twoDimensionListChangingEventArgsList,
-                out Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>
-                    twoDimensionListChangedEventArgsList,
-                out Dictionary<string, int> propertyChangedEventCalledCount)
+            internal static TestTwoDimClass MakeTestInstance(
+                CapacityInfo capacityInfo,
+                int initRowLength, int initColumnLength)
             {
                 if (initRowLength == 0 && initColumnLength != 0) Assert.Ignore();
 
-                var initList = MakeStringList(initRowLength, initColumnLength);
-                var result = new ListTest1(initList);
-
-                twoDimensionListChangingEventArgsList = MakeTwoDimensionalListChangeEventArgsDic();
-                result.TwoDimensionListChanging +=
-                    MakeTwoDimensionalListChangeEventArgs(true, twoDimensionListChangingEventArgsList);
-
-                twoDimensionListChangedEventArgsList = MakeTwoDimensionalListChangeEventArgsDic();
-                result.TwoDimensionListChanged +=
-                    MakeTwoDimensionalListChangeEventArgs(false, twoDimensionListChangedEventArgsList);
-
-                propertyChangedEventCalledCount = MakePropertyChangedArgsDic();
-                result.PropertyChanged += MakePropertyChangedEventHandler(propertyChangedEventCalledCount);
+                var result = new TestTwoDimClass(capacityInfo, initRowLength, initColumnLength,
+                    target => new RestrictedCapacityTwoDimensionalListValidator<TwoDimItem>(target),
+                    MakeDefaultValueItemForList);
 
                 return result;
             }
 
-            #region for Event
-
-            private static Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>
-                MakeTwoDimensionalListChangeEventArgsDic()
-                => new Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>>
-                {
-                    {
-                        nameof(TwoDimensionalCollectionChangeAction.Add),
-                        new List<TwoDimensionalCollectionChangeEventArgs<string>>()
-                    },
-                    {
-                        nameof(TwoDimensionalCollectionChangeAction.Replace),
-                        new List<TwoDimensionalCollectionChangeEventArgs<string>>()
-                    },
-                    {
-                        nameof(TwoDimensionalCollectionChangeAction.Move),
-                        new List<TwoDimensionalCollectionChangeEventArgs<string>>()
-                    },
-                    {
-                        nameof(TwoDimensionalCollectionChangeAction.Remove),
-                        new List<TwoDimensionalCollectionChangeEventArgs<string>>()
-                    },
-                    {
-                        nameof(TwoDimensionalCollectionChangeAction.Reset),
-                        new List<TwoDimensionalCollectionChangeEventArgs<string>>()
-                    },
-                };
-
-            private static EventHandler<TwoDimensionalCollectionChangeEventArgs<string>>
-                MakeTwoDimensionalListChangeEventArgs(bool isBefore,
-                    Dictionary<string, List<TwoDimensionalCollectionChangeEventArgs<string>>> resultDic)
-                => (sender, args) =>
-                {
-                    resultDic[args.Action.ToString()].Add(args);
-                    logger.Debug($"TwoDimensionalList{(isBefore ? "Changing" : "Changed")} Event Raise. ");
-                    logger.DebugObjectToJson(args);
-                };
-
-            private static Dictionary<string, int> MakePropertyChangedArgsDic() => new Dictionary<string, int>
-            {
-                {nameof(ITwoDimensionalList<string>.RowCount), 0},
-                {nameof(ITwoDimensionalList<string>.ColumnCount), 0},
-                {ListConstant.IndexerName, 0},
-            };
-
-            private static PropertyChangedEventHandler MakePropertyChangedEventHandler(
-                Dictionary<string, int> resultDic) =>
-                (sender, args) =>
-                {
-                    resultDic[args.PropertyName] += 1;
-                    logger.DebugObjectToJson(args, nameof(args));
-                };
-
-            #endregion
-
             /// <summary>
-            /// 引数で与えるリストのnull種別
+            ///     引数で与えるリストのnull種別
             /// </summary>
             public class ListType : Commons.TypeSafeEnum<ListType>
             {
@@ -4029,12 +1522,12 @@ namespace WodiLib.Test.Sys
                     return AllItems.First(x => x.Id.Equals(id));
                 }
 
-                public string[] GetLine(int itemCount)
+                internal TwoDimItem[] GetLine(int itemCount)
                 {
                     if (this == SelfNull) return null;
 
-                    var funcMakeItem = (Func<int, string>) (i =>
-                        this == RowHasNull && i % 2 == 0
+                    var funcMakeItem = (Func<int, TwoDimItem>) (i =>
+                        this == ColumnHasNull && i % 2 == 0
                             ? (string) null
                             : MakeDefaultValueItemForAddItem(0, i));
 
@@ -4043,15 +1536,15 @@ namespace WodiLib.Test.Sys
                         .ToArray();
                 }
 
-                public string[][] GetMultiLine(int rowCount, int columnCount)
+                internal TwoDimItem[][] GetMultiLine(int rowCount, int columnCount)
                 {
                     if (this == SelfNull) return null;
 
-                    var funcMakeItem = (Func<int, int, string>) ((i, j) =>
+                    var funcMakeItem = (Func<int, int, TwoDimItem>) ((i, j) =>
                         this == ColumnHasNull && j % 2 == 1
-                            ? (string) null
+                            ? null
                             : MakeDefaultValueItemForAddItem(i, j));
-                    var funcMakeRow = (Func<int, int, string[]>) ((i, colCount) =>
+                    var funcMakeRow = (Func<int, int, TwoDimItem[]>) ((i, colCount) =>
                         this == RowHasNull && i % 2 == 1
                             ? null
                             : Enumerable.Range(0, this == ColumnSizeDifference && i == 1
@@ -4064,57 +1557,11 @@ namespace WodiLib.Test.Sys
                         .Select(i => funcMakeRow(i, columnCount))
                         .ToArray();
                 }
-            }
-        }
 
-        /// <summary>
-        /// 共通検証処理
-        /// </summary>
-        private static class CommonAssertion
-        {
-            /// <summary>
-            /// 二次元配列の行数および列数が正しいことを検証する。
-            /// </summary>
-            /// <param name="target">検証対象</param>
-            /// <param name="rowCount">意図する行数</param>
-            /// <param name="columnCount">意図する列数</param>
-            public static void ArraySizeEqual(string[][] target, int rowCount, int columnCount)
-            {
-                Assert.AreEqual(target.Length, rowCount);
-
-                if (rowCount == 0) return;
-
-                target.ForEach(line =>
-                    Assert.AreEqual(line.Length, columnCount));
-            }
-
-            /// <summary>
-            /// 二次元配列の行数および列数が正しいことを検証する。
-            /// </summary>
-            /// <param name="target">検証対象</param>
-            /// <param name="src">比較対象二次元配列</param>
-            public static void ArraySizeEqual(string[][] target, string[][] src)
-            {
-                Assert.AreEqual(target.Length, src.Length);
-
-                if (target.Length == 0) return;
-
-                var columnCount = src[0].Length;
-
-                target.ForEach(line =>
-                    Assert.AreEqual(line.Length, columnCount));
-            }
-
-            /// <summary>
-            /// 二次元リストの行数及び列数が正しいことを検証する。
-            /// </summary>
-            /// <param name="target">検証対象</param>
-            /// <param name="rowCount">意図する行数</param>
-            /// <param name="columnCount">意図する列数</param>
-            public static void SizeEqual(TestClass.IListTest target, int rowCount, int columnCount)
-            {
-                Assert.AreEqual(target.RowCount, rowCount);
-                Assert.AreEqual(target.ColumnCount, columnCount);
+                public override string ToString()
+                {
+                    return Id;
+                }
             }
         }
     }

@@ -112,6 +112,47 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
+        ///     3つのシーケンスの要素を組み合わせた一つのValueTupleシーケンスを生成する。
+        /// </summary>
+        /// <param name="first">組み合わせ元1</param>
+        /// <param name="second">組み合わせ元2</param>
+        /// <param name="third">組み合わせ元3</param>
+        /// <typeparam name="TFirst"><paramref name="first"/> の要素型</typeparam>
+        /// <typeparam name="TSecond"><paramref name="second"/> の要素型</typeparam>
+        /// <typeparam name="TThird"><paramref name="third"/> の要素型</typeparam>
+        /// <returns>ValueTupleシーケンス</returns>
+        public static IEnumerable<(TFirst, TSecond, TThird)> Zip<TFirst, TSecond, TThird>(
+            this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
+        {
+            return first.Zip(second).Zip(third)
+                .Select(zip => (zip.Item1.Item1, zip.Item1.Item2, zip.Item2));
+        }
+
+        /// <summary>
+        ///     3つの要素を含むシーケンスを3つの異なるシーケンスに分割する。
+        /// </summary>
+        /// <param name="src">対象シーケンス</param>
+        /// <typeparam name="TFirst">要素1</typeparam>
+        /// <typeparam name="TSecond">要素2</typeparam>
+        /// <typeparam name="TThird">要素3</typeparam>
+        /// <returns>分割シーケンス</returns>
+        public static (IEnumerable<TFirst>, IEnumerable<TSecond>, IEnumerable<TThird>)
+            SelectMulti<TFirst, TSecond, TThird>(this IEnumerable<(TFirst, TSecond, TThird)> src)
+        {
+            return src.Aggregate((new List<TFirst>(), new List<TSecond>(), new List<TThird>()),
+                (lists, item) =>
+                {
+                    var (firsts, seconds, thirds) = lists;
+                    var (first, second, third) = item;
+                    firsts.Add(first);
+                    seconds.Add(second);
+                    thirds.Add(third);
+
+                    return lists;
+                });
+        }
+
+        /// <summary>
         ///     シーケンスの指定した範囲を切り出す。
         /// </summary>
         /// <param name="src">対象シーケンス</param>

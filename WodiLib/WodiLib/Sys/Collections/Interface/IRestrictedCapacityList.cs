@@ -29,8 +29,7 @@ namespace WodiLib.Sys.Collections
     ///     この弊害として、WPFのUIにバインドした状態で範囲操作するメソッドを実行すると例外が発生するため注意。
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    public interface IRestrictedCapacityList<T> : IModelBase<IRestrictedCapacityList<T>>,
-        IReadOnlyRestrictedCapacityList<T>, IDeepCloneableRestrictedCapacityList<IRestrictedCapacityList<T>, T>
+    public interface IRestrictedCapacityList<T> : IReadOnlyRestrictedCapacityList<T>
     {
         /// <inheritdoc cref="IList{T}.this"/>
         public new T this[int index] { get; set; }
@@ -267,8 +266,7 @@ namespace WodiLib.Sys.Collections
     ///     【読み取り専用】容量制限のあるListインタフェース
     /// </summary>
     /// <typeparam name="T">要素の型</typeparam>
-    public interface IReadOnlyRestrictedCapacityList<T> : IModelBase<IReadOnlyRestrictedCapacityList<T>>,
-        IReadOnlyExtendedList<T>, IDeepCloneableRestrictedCapacityList<IReadOnlyRestrictedCapacityList<T>, T>
+    public interface IReadOnlyRestrictedCapacityList<T> : IReadOnlyExtendedList<T>
     {
         /// <summary>
         ///     容量最大値を返す。
@@ -284,11 +282,11 @@ namespace WodiLib.Sys.Collections
     }
 
     /// <summary>
-    /// <see cref="IRestrictedCapacityList{T}"/> ディープクローンインタフェース
+    /// <see cref="IReadOnlyRestrictedCapacityList{T}"/> ディープクローンインタフェース
     /// </summary>
     /// <typeparam name="T">クローン返却型</typeparam>
-    /// <typeparam name="TIn"><see cref="IFixedLengthList{T}"/>内包型</typeparam>
-    public interface IDeepCloneableRestrictedCapacityList<out T, TIn>
+    /// <typeparam name="TIn"><see cref="IReadOnlyRestrictedCapacityList{T}"/>内包型</typeparam>
+    public interface IDeepCloneableRestrictedCapacityList<out T, TIn> : IDeepCloneable<T>
         where T : IReadOnlyRestrictedCapacityList<TIn>
     {
         /// <summary>
@@ -312,8 +310,8 @@ namespace WodiLib.Sys.Collections
         ///     </para>
         /// </remarks>
         /// <param name="length">
-        /// [Range(<typeparamref name="T"/> の <see cref="IRestrictedCapacityList{T}.GetMinCapacity"/>,
-        /// <typeparamref name="T"/> の <see cref="IRestrictedCapacityList{T}.GetMaxCapacity"/>)]
+        /// [Range(<typeparamref name="T"/> の <see cref="IReadOnlyRestrictedCapacityList{T}.GetMinCapacity"/>,
+        /// <typeparamref name="T"/> の <see cref="IReadOnlyRestrictedCapacityList{T}.GetMaxCapacity"/>)]
         /// ディープコピー後の要素数
         /// </param>
         /// <param name="values">ディープコピー時の上書きインデックスと値のペア列挙子</param>

@@ -159,46 +159,6 @@ namespace WodiLib.Map
             return Equals(casted);
         }
 
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool ItemEquals(IReadOnlyFixedLengthList<MapChip>? other)
-        {
-            if (ReferenceEquals(this, other)) return true;
-            if (ReferenceEquals(null, other)) return false;
-            return this.SequenceEqual(other);
-        }
-
-        /// <inheritdoc />
-        public bool ItemEquals(IFixedLengthList<MapChip>? other)
-            => ItemEquals((IEnumerable<MapChip>?) other);
-
-        /// <inheritdoc />
-        IReadOnlyFixedLengthList<MapChip> IDeepCloneable<IReadOnlyFixedLengthList<MapChip>>.DeepClone()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        IFixedLengthList<MapChip> IDeepCloneable<IFixedLengthList<MapChip>>.DeepClone()
-        {
-            throw new NotImplementedException();
-        }
-
-        IReadOnlyFixedLengthList<MapChip> IDeepCloneableFixedLengthList<IReadOnlyFixedLengthList<MapChip>, MapChip>.
-            DeepCloneWith(IReadOnlyDictionary<int, MapChip>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        IFixedLengthList<MapChip> IDeepCloneableFixedLengthList<IFixedLengthList<MapChip>, MapChip>.DeepCloneWith(
-            IReadOnlyDictionary<int, MapChip>? values)
-        {
-            throw new NotImplementedException();
-        }
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Override Protected Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

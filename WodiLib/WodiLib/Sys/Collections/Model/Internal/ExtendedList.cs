@@ -75,8 +75,8 @@ namespace WodiLib.Sys.Collections
         /// <inheritdoc cref="IExtendedList{T}.this"/>
         public T this[int index]
         {
-            get => Items[index];
-            set => Items[index] = value;
+            get => Get_Impl(index, 1).First();
+            set => Set_Impl(index, value);
         }
 
         T IReadOnlyList<T>.this[int index] => Get_Impl(index, 1).First();
@@ -95,7 +95,11 @@ namespace WodiLib.Sys.Collections
         ///     第二引数：必要要素数<br/>
         ///     呼び出し元で設定必須。
         /// </remarks>
-        public Func<int, int, IEnumerable<T>> FuncMakeItems { get; set; } = default!;
+        public Func<int, int, IEnumerable<T>> FuncMakeItems
+        {
+            get => Items.FuncMakeItems;
+            set => Items.FuncMakeItems = value;
+        }
 
         /// <inheritdoc cref="INotifyCollectionChange.NotifyCollectionChangingEventType"/>
         public NotifyCollectionChangeEventType NotifyCollectionChangingEventType { get; set; }
@@ -130,7 +134,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// ディープコピーコンストラクタ
+        ///     ディープコピーコンストラクタ
         /// </summary>
         /// <param name="src">コピー元</param>
         /// <param name="length">コピー後の要素数</param>
@@ -139,8 +143,36 @@ namespace WodiLib.Sys.Collections
         internal ExtendedList(IEnumerable<T> src, int? length, IReadOnlyDictionary<int, T>? values,
             Func<int, T> funcMakeDefaultItem)
         {
-            Items = new SimpleList<T>(src);
+            Items = new SimpleList<T>(src, true);
             FuncMakeItems = (index, count) => Enumerable.Range(index, count).Select(funcMakeDefaultItem);
+
+            if (length is not null)
+            {
+                AdjustLength(length.Value);
+            }
+
+            values?.ForEach(pair =>
+            {
+                var key = pair.Key;
+                if (0 <= key && key < Count)
+                {
+                    this[key] = pair.Value;
+                }
+            });
+        }
+
+        /// <summary>
+        ///     ディープコピーコンストラクタ
+        /// </summary>
+        /// <param name="src">コピー元</param>
+        /// <param name="length">コピー後の要素数</param>
+        /// <param name="values">コピー時上書き要素</param>
+        /// <param name="funcMakeItem">デフォルト要素生成関数</param>
+        internal ExtendedList(IEnumerable<T> src, int? length, IReadOnlyDictionary<int, T>? values,
+            Func<int, int, IEnumerable<T>> funcMakeItem)
+        {
+            Items = new SimpleList<T>(src, true);
+            FuncMakeItems = funcMakeItem;
 
             if (length is not null)
             {
@@ -255,15 +287,15 @@ namespace WodiLib.Sys.Collections
             => ItemEquals((IEnumerable<T>?) other);
 
         /// <inheritdoc/>
-        public bool ItemEquals(IExtendedList<T>? other)
-            => ItemEquals((IEnumerable<T>?) other);
-
-        /// <inheritdoc/>
         public bool ItemEquals(IReadOnlyExtendedList<T>? other)
             => ItemEquals((IEnumerable<T>?) other);
 
         /// <inheritdoc/>
         public bool ItemEquals(IEnumerable<T>? other)
+            => ItemEquals(other, null);
+
+        /// <inheritdoc/>
+        public bool ItemEquals(IEnumerable<T>? other, IEqualityComparer<T>? itemComparer)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -276,6 +308,11 @@ namespace WodiLib.Sys.Collections
             return this.Zip(otherList).All(zip =>
             {
                 var (x, y) = zip;
+                if (itemComparer is not null)
+                {
+                    return itemComparer.Equals(x, y);
+                }
+
                 if (x is IEqualityComparable comparable)
                 {
                     return comparable.ItemEquals(y);
@@ -289,19 +326,11 @@ namespace WodiLib.Sys.Collections
 
         #region Clone
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override ExtendedList<T> DeepClone()
         {
-            return new(this);
+            return new(this, null, null, FuncMakeItems);
         }
-
-        /// <inheritdoc />
-        IExtendedList<T> IDeepCloneable<IExtendedList<T>>.DeepClone()
-            => DeepClone();
-
-        /// <inheritdoc />
-        IReadOnlyExtendedList<T> IDeepCloneable<IReadOnlyExtendedList<T>>.DeepClone()
-            => DeepClone();
 
         /// <inheritdoc cref="IDeepCloneableExtendedList{T,TIn}.DeepCloneWith"/>
         public ExtendedList<T> DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
@@ -312,30 +341,10 @@ namespace WodiLib.Sys.Collections
                 ThrowHelper.ValidateArgumentNotNull(pair.Value is null, $"{nameof(values)} の要素 (Key: {pair.Key})");
             });
 
-            var result = DeepClone();
+            var clone = Items.DeepCloneWith(length, values);
 
-            if (length is not null)
-            {
-                result.AdjustLength(length.Value);
-            }
-
-            valueList?.ForEach(pair =>
-            {
-                if (result.Count < pair.Key) result[pair.Key] = pair.Value;
-            });
-
-            return result;
+            return new ExtendedList<T>(clone);
         }
-
-        /// <inheritdoc />
-        IReadOnlyExtendedList<T> IDeepCloneableExtendedList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length,
-            IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
-
-        /// <inheritdoc />
-        IExtendedList<T> IDeepCloneableExtendedList<IExtendedList<T>, T>.DeepCloneWith(int? length,
-            IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
 
         #endregion
 
@@ -427,8 +436,7 @@ namespace WodiLib.Sys.Collections
             // 処理本体
             notifyManager.NotifyBeforeEvent();
 
-            Items.Set(index, param.ReplaceNewItems);
-            Items.Insert(param.InsertStartIndex, param.InsertItems);
+            Items.Overwrite(index, param);
 
             notifyManager.NotifyAfterEvent();
         }
@@ -578,7 +586,7 @@ namespace WodiLib.Sys.Collections
 
             notifyManager.NotifyBeforeEvent();
 
-            Items.Insert(startIndex, items);
+            Items.AdjustIfShort(length);
 
             notifyManager.NotifyAfterEvent();
         }
@@ -603,7 +611,7 @@ namespace WodiLib.Sys.Collections
 
             notifyManager.NotifyBeforeEvent();
 
-            Items.Remove(index, count);
+            Items.AdjustIfLong(length);
 
             notifyManager.NotifyAfterEvent();
         }

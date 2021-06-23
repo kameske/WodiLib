@@ -24,7 +24,7 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="T">リスト内包型</typeparam>
     /// <typeparam name="TImpl">リスト実装型</typeparam>
     public abstract class RestrictedCapacityList<T, TImpl> : ModelBase<TImpl>,
-        IRestrictedCapacityList<T>
+        IRestrictedCapacityList<T>, IDeepCloneableRestrictedCapacityList<TImpl, T>
         where TImpl : RestrictedCapacityList<T, TImpl>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -334,36 +334,16 @@ namespace WodiLib.Sys.Collections
             => ItemEquals((IEnumerable<T>?) other);
 
         /// <inheritdoc/>
-        public bool ItemEquals(IRestrictedCapacityList<T>? other)
-            => ItemEquals((IEnumerable<T>?) other);
-
-        /// <inheritdoc/>
-        public bool ItemEquals(IReadOnlyRestrictedCapacityList<T>? other)
-            => ItemEquals((IEnumerable<T>?) other);
-
-        /// <inheritdoc/>
         public bool ItemEquals(IReadOnlyExtendedList<T>? other)
             => ItemEquals((IEnumerable<T>?) other);
 
         /// <inheritdoc/>
         public bool ItemEquals(IEnumerable<T>? other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-
-            return Items.ItemEquals(other);
-        }
+            => ItemEquals(other, null);
 
         /// <inheritdoc/>
-        IRestrictedCapacityList<T> IDeepCloneable<IRestrictedCapacityList<T>>.DeepClone()
-            => DeepClone();
-
-        IReadOnlyRestrictedCapacityList<T> IDeepCloneable<IReadOnlyRestrictedCapacityList<T>>.DeepClone()
-            => DeepClone();
-
-        /// <inheritdoc/>
-        IReadOnlyExtendedList<T> IDeepCloneable<IReadOnlyExtendedList<T>>.DeepClone()
-            => DeepClone();
+        public bool ItemEquals(IEnumerable<T>? other, IEqualityComparer<T>? itemComparer)
+            => Items.ItemEquals(other, itemComparer);
 
         /// <inheritdoc cref="IDeepCloneableRestrictedCapacityList{T,TIn}.DeepCloneWith"/>
         public TImpl DeepCloneWith(int? length = null,
@@ -396,20 +376,6 @@ namespace WodiLib.Sys.Collections
             return result;
         }
 
-        /// <inheritdoc/>
-        IRestrictedCapacityList<T> IDeepCloneableRestrictedCapacityList<IRestrictedCapacityList<T>, T>.DeepCloneWith(
-            int? length, IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
-
-        IReadOnlyRestrictedCapacityList<T> IDeepCloneableRestrictedCapacityList<IReadOnlyRestrictedCapacityList<T>, T>.
-            DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
-
-        /// <inheritdoc/>
-        IReadOnlyExtendedList<T> IDeepCloneableExtendedList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length,
-            IReadOnlyDictionary<int, T>? values)
-            => new ExtendedList<T>(this, length, values, MakeDefaultItem);
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -430,7 +396,7 @@ namespace WodiLib.Sys.Collections
         ///     自身の検証処理を実行する <see cref="IWodiLibListValidator{T}"/> インスタンスを生成する。
         /// </summary>
         /// <returns>検証処理実行クラスのインスタンス。検証処理を行わない場合 <see langward="null"/></returns>
-        protected virtual IWodiLibListValidator<T>? MakeValidator()
+        protected virtual IWodiLibListValidator<T> MakeValidator()
         {
             return new RestrictedCapacityListValidator<T>(this);
         }

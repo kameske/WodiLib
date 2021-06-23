@@ -27,7 +27,7 @@ namespace WodiLib.Sys.Collections
         /// </exception>
         public static void SelectIndex(int index, int listCount, string itemName = "index")
         {
-            var max = listCount - 1;
+            var max = Math.Max(listCount - 1, 0);
             const int min = 0;
             ThrowHelper.ValidateArgumentValueRange(index < min || max < index,
                 itemName, index, min, max);
@@ -109,6 +109,20 @@ namespace WodiLib.Sys.Collections
         public static void ItemCountNotZero(int listCount)
         {
             ThrowHelper.ValidateListItemCountNotZero(listCount == 0, "リスト");
+        }
+
+        /// <summary>
+        ///     コピー先の領域が不足していないことを検証する。
+        /// </summary>
+        /// <param name="arrayLength">コピー先配列の長さ</param>
+        /// <param name="index">コピー開始インデックス</param>
+        /// <param name="listCount">コピー元要素数</param>
+        public static void CopyTo(int arrayLength, int index, int listCount)
+        {
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(index < 0, nameof(index), 0, index);
+            var indexLowerLimit = arrayLength - listCount;
+            ThrowHelper.ValidateArgumentNotExecute(index > indexLowerLimit,
+                ErrorMessage.ReasonInsufficientSpaceCopyDest);
         }
     }
 }

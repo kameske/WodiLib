@@ -19,19 +19,6 @@ namespace WodiLib.Sys.Collections
         ///     <see cref="NotifyManager"/> インスタンスを生成する。
         /// </summary>
         /// <remarks>
-        ///     プロパティ変更通知のみ行う可能性がある。コレクション変更通知は行わない。
-        /// </remarks>
-        /// <param name="notifyProperties">変更通知プロパティ名</param>
-        /// <returns><see cref="NotifyManager"/> インスタンス</returns>
-        private NotifyManager MakeNotifyManager(params string[] notifyProperties)
-            => new(NotifyPropertyChanging,
-                NotifyPropertyChanged,
-                notifyProperties);
-
-        /// <summary>
-        ///     <see cref="NotifyManager"/> インスタンスを生成する。
-        /// </summary>
-        /// <remarks>
         ///     プロパティ変更通知およびコレクション変更通知を行う可能性がある。
         /// </remarks>
         /// <param name="collectionChangingEventArgs">コレクション変更前通知イベント引数</param>
@@ -99,19 +86,6 @@ namespace WodiLib.Sys.Collections
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Constructor
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-            public NotifyManager(
-                Action<string> propertyChangingAction,
-                Action<string> propertyChangedAction,
-                params string[] notifyProperties)
-                : this(
-                    propertyChangingAction,
-                    propertyChangedAction,
-                    null, null, null, null,
-                    notifyProperties
-                )
-            {
-            }
 
             public NotifyManager(
                 Action<string> propertyChangingAction,

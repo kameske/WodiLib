@@ -13,17 +13,17 @@ using System.Collections.Specialized;
 namespace WodiLib.Sys.Collections
 {
     /// <summary>
-    /// <see cref="NotifyCollectionChangedEventArgs"/> カスタマイズクラス
+    ///     <see cref="NotifyCollectionChangedEventArgs"/> カスタマイズクラス
     /// </summary>
     /// <remarks>
-    /// <see cref="NotifyCollectionChangedEventArgs"/> と比較して以下のような違いがある。
-    /// <ul>
-    /// <li><see cref="NewItems"/>, <see cref="OldItems"/> の要素型が指定されている。</li>
-    /// <li>
-    ///     <see cref="Action"/> が <see cref="NotifyCollectionChangedAction.Reset"/> の場合に
-    ///     <see cref="NewItems"/>, <see cref="OldItems"/> いずれも指定されている。
-    /// </li>
-    /// </ul>
+    ///     <see cref="NotifyCollectionChangedEventArgs"/> と比較して以下のような違いがある。
+    ///     <ul>
+    ///         <li><see cref="NewItems"/>, <see cref="OldItems"/> の要素型が指定されている。</li>
+    ///         <li>
+    ///             <see cref="Action"/> が <see cref="NotifyCollectionChangedAction.Reset"/> の場合に
+    ///             <see cref="NewItems"/>, <see cref="OldItems"/> いずれも指定されている。
+    ///         </li>
+    ///     </ul>
     /// </remarks>
     public class NotifyCollectionChangedEventArgsEx<T> : NotifyCollectionChangedEventArgs
     {
@@ -32,7 +32,7 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// Set イベントの引数を生成する。
+        ///     Set イベントの引数を生成する。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="oldItem">置換前要素</param>
@@ -42,7 +42,7 @@ namespace WodiLib.Sys.Collections
             => new(oldItem, newItem, index);
 
         /// <summary>
-        /// SetRange イベントの引数を生成する。
+        ///     SetRange イベントの引数を生成する。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="oldItems">置換前要素</param>
@@ -53,7 +53,7 @@ namespace WodiLib.Sys.Collections
             => new(oldItems, newItems, index);
 
         /// <summary>
-        /// Add, Insert イベントの引数を生成する。
+        ///     Add, Insert イベントの引数を生成する。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="item">追加要素</param>
@@ -62,7 +62,7 @@ namespace WodiLib.Sys.Collections
             => new(NotifyCollectionChangedAction.Add, item, index);
 
         /// <summary>
-        /// AddRange, InsertRange イベントの引数を生成する。
+        ///     AddRange, InsertRange イベントの引数を生成する。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="items">追加要素</param>
@@ -71,7 +71,7 @@ namespace WodiLib.Sys.Collections
             => new(NotifyCollectionChangedAction.Add, items, index);
 
         /// <summary>
-        /// Move イベントの引数を生成する。
+        ///     Move イベントの引数を生成する。
         /// </summary>
         /// <param name="oldIndex">移動前インデックス</param>
         /// <param name="newIndex">移動後インデックス</param>
@@ -81,7 +81,7 @@ namespace WodiLib.Sys.Collections
             => new(item, newIndex, oldIndex);
 
         /// <summary>
-        /// MoveRange イベントの引数を生成する。
+        ///     MoveRange イベントの引数を生成する。
         /// </summary>
         /// <param name="oldIndex">移動前インデックス</param>
         /// <param name="newIndex">移動後インデックス</param>
@@ -92,7 +92,7 @@ namespace WodiLib.Sys.Collections
             => new(items, newIndex, oldIndex);
 
         /// <summary>
-        /// Remove イベントの引数を生成する。
+        ///     Remove イベントの引数を生成する。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="item">除去要素</param>
@@ -101,7 +101,7 @@ namespace WodiLib.Sys.Collections
             => new(NotifyCollectionChangedAction.Remove, item, index);
 
         /// <summary>
-        /// RemoveRange イベントの引数を生成する。
+        ///     RemoveRange イベントの引数を生成する。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="items">除去要素</param>
@@ -110,14 +110,14 @@ namespace WodiLib.Sys.Collections
             => new(NotifyCollectionChangedAction.Remove, items, index);
 
         /// <summary>
-        /// Reset, Clear イベントの引数を生成する。
+        ///     Reset, Clear イベントの引数を生成する。
         /// </summary>
         /// <param name="index">初期化開始インデックス</param>
         /// <param name="oldItems">初期化前要素</param>
         /// <param name="newItems">初期化後要素</param>
         /// <returns>イベント引数インスタンス</returns>
-        public static NotifyCollectionChangedEventArgsEx<T> CreateResetArgs(int index, IReadOnlyList<T> oldItems,
-            IReadOnlyList<T> newItems)
+        public static NotifyCollectionChangedEventArgsEx<T> CreateResetArgs(int index, IEnumerable<T> oldItems,
+            IEnumerable<T> newItems)
             => new(index, oldItems, newItems);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -141,7 +141,7 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// Replace 用コンストラクタ（単一要素）
+        ///     Replace 用コンストラクタ（単一要素）
         /// </summary>
         /// <param name="oldItem">置換前要素</param>
         /// <param name="newItem">置換後要素</param>
@@ -156,7 +156,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// Replace 用コンストラクタ（複数要素）
+        ///     Replace 用コンストラクタ（複数要素）
         /// </summary>
         /// <param name="oldItems">置換前要素</param>
         /// <param name="newItems">置換後要素</param>
@@ -172,7 +172,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// Add, Remove 用 コンストラクタ（単一要素）。
+        ///     Add, Remove 用 コンストラクタ（単一要素）。
         /// </summary>
         /// <param name="action">アクション</param>
         /// <param name="item">操作要素</param>
@@ -199,7 +199,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// Add, Remove 用 コンストラクタ（複数要素）。
+        ///     Add, Remove 用 コンストラクタ（複数要素）。
         /// </summary>
         /// <param name="action">アクション</param>
         /// <param name="items">操作要素</param>
@@ -226,7 +226,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// Move 用コンストラクタ（単一要素）。
+        ///     Move 用コンストラクタ（単一要素）。
         /// </summary>
         /// <param name="item">操作要素</param>
         /// <param name="newIndex">移動後インデックス</param>
@@ -241,7 +241,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// Move 用コンストラクタ（複数要素）。
+        ///     Move 用コンストラクタ（複数要素）。
         /// </summary>
         /// <param name="items">操作要素</param>
         /// <param name="newIndex">移動後インデックス</param>
@@ -256,12 +256,12 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// Reset 用コンストラクタ
+        ///     Reset 用コンストラクタ
         /// </summary>
         /// <param name="index">リセット開始インデックス</param>
         /// <param name="oldItems">リセット前要素</param>
         /// <param name="newItems">リセット後要素</param>
-        private NotifyCollectionChangedEventArgsEx(int index, IReadOnlyList<T> oldItems, IReadOnlyList<T> newItems) :
+        private NotifyCollectionChangedEventArgsEx(int index, IEnumerable<T> oldItems, IEnumerable<T> newItems) :
             base(
                 NotifyCollectionChangedAction.Reset)
         {

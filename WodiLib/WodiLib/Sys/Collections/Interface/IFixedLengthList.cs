@@ -29,8 +29,7 @@ namespace WodiLib.Sys.Collections
     ///     この弊害として、WPFのUIにバインドした状態で範囲操作するメソッドを実行すると例外が発生するため注意。
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    public interface IFixedLengthList<T> : IModelBase<IFixedLengthList<T>>,
-        IReadOnlyFixedLengthList<T>, IDeepCloneableFixedLengthList<IFixedLengthList<T>, T>
+    public interface IFixedLengthList<T> : IReadOnlyFixedLengthList<T>
     {
         /// <summary>
         ///     インデクサによるアクセス
@@ -113,8 +112,7 @@ namespace WodiLib.Sys.Collections
     ///     【読み取り専用】長さが固定されたListインタフェース
     /// </summary>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    public interface IReadOnlyFixedLengthList<T> : IModelBase<IReadOnlyFixedLengthList<T>>,
-        IReadOnlyExtendedList<T>, IDeepCloneableFixedLengthList<IReadOnlyFixedLengthList<T>, T>
+    public interface IReadOnlyFixedLengthList<T> : IReadOnlyExtendedList<T>
     {
         /// <summary>
         ///     容量を返す。
@@ -124,11 +122,11 @@ namespace WodiLib.Sys.Collections
     }
 
     /// <summary>
-    /// <see cref="IFixedLengthList{TIn}"/> ディープクローンインタフェース
+    /// <see cref="IReadOnlyFixedLengthList{T}"/> ディープクローンインタフェース
     /// </summary>
     /// <typeparam name="T">クローン返却型</typeparam>
-    /// <typeparam name="TIn"><see cref="IFixedLengthList{T}"/>内包型</typeparam>
-    public interface IDeepCloneableFixedLengthList<out T, TIn>
+    /// <typeparam name="TIn"><see cref="IReadOnlyFixedLengthList{T}"/>内包型</typeparam>
+    public interface IDeepCloneableFixedLengthList<out T, TIn> : IDeepCloneable<T>
         where T : IReadOnlyFixedLengthList<TIn>
     {
         /// <summary>

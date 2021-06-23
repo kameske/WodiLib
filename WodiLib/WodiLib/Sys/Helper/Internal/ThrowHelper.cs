@@ -7,7 +7,9 @@
 // ========================================
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace WodiLib.Sys
@@ -165,6 +167,24 @@ namespace WodiLib.Sys
 
             throw new ArgumentException(
                 ErrorMessage.NotEqual(itemName, otherName));
+        }
+
+        /// <summary>
+        ///     同値検証時の例外処理。
+        /// </summary>
+        /// <param name="isThrow">検証結果</param>
+        /// <param name="itemName">検証項目名</param>
+        /// <param name="items">比較項目一覧</param>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
+        /// </exception>
+        public static void ValidateArgumentNotMatch([DoesNotReturnIf(true)] bool isThrow,
+            string itemName, IEnumerable<IntOrStr> items)
+        {
+            if (!isThrow) return;
+
+            throw new ArgumentException(
+                ErrorMessage.NotMatch(itemName, items));
         }
 
         /// <summary>
@@ -419,6 +439,28 @@ namespace WodiLib.Sys
             if (!isThrow) return;
 
             throw new NullReferenceException();
+        }
+
+        #endregion
+
+        #region NotSupport
+
+        /// <summary>
+        ///     サポートしていないメソッドの場合に例外を発生させる。
+        /// </summary>
+        /// <param name="isThrow">検証結果</param>
+        /// <param name="caller">呼び出し元</param>
+        /// <param name="targetName">対象メソッド名</param>
+        /// <exception cref="NotSupportedException">
+        ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
+        /// </exception>
+        /// <typeparam name="T">エラーなし時の偽装戻り値</typeparam>
+        public static T ObsoleteMethod<T>([DoesNotReturnIf(true)] bool isThrow,
+            Type caller, [CallerMemberName] string targetName = "")
+        {
+            if (!isThrow) return default!;
+
+            throw new NotSupportedException(ReflectionHelper.GetObsoleteMsg(caller, targetName));
         }
 
         #endregion

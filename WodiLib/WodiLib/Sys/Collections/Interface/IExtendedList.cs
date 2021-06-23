@@ -22,8 +22,7 @@ namespace WodiLib.Sys.Collections
     ///     それ以外にもいくつかメソッドを追加している。
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    public interface IExtendedList<T> : IModelBase<IExtendedList<T>>, IList<T>,
-        IReadOnlyExtendedList<T>, IDeepCloneableExtendedList<IExtendedList<T>, T>
+    public interface IExtendedList<T> : IList<T>, IReadOnlyExtendedList<T>
     {
         /*
          * IList<T> と IReadOnlyList<T>、
@@ -191,11 +190,12 @@ namespace WodiLib.Sys.Collections
     }
 
     /// <summary>
-    ///     WodiLib 独自リ読み取り専用ストインタフェース
+    ///     WodiLib 独自リ読み取り専用リストインタフェース
     /// </summary>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    public interface IReadOnlyExtendedList<T> : IModelBase<IReadOnlyExtendedList<T>>,
-        IReadOnlyList<T>, INotifyCollectionChange, IDeepCloneableExtendedList<IReadOnlyExtendedList<T>, T>
+    public interface IReadOnlyExtendedList<T> : IReadOnlyList<T>,
+        INotifyPropertyChange, INotifyCollectionChange,
+        IEqualityComparable<IReadOnlyExtendedList<T>>
     {
         /// <summary>
         ///     指定範囲の要素を簡易コピーしたリストを取得する。
@@ -237,17 +237,32 @@ namespace WodiLib.Sys.Collections
         /// <exception cref="ArgumentException">コピー先の領域が不足する場合</exception>
         public void CopyTo(T[] array, int index);
 
-        /// <inheritdoc cref="IEqualityComparable.ItemEquals"/>
+        /// <summary>
+        ///     現在のオブジェクトが、別のオブジェクトと同値であるかどうかを示す。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>
+        ///     同値 または 同一 である場合 <see langword="true"/>。
+        /// </returns>
         public bool ItemEquals(IEnumerable<T>? other);
+
+        /// <summary>
+        ///     現在のオブジェクトが、別のオブジェクトと同値であるかどうかを示す。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <param name="itemComparer">子要素比較処理</param>
+        /// <returns>
+        ///     同値 または 同一 である場合 <see langword="true"/>。
+        /// </returns>
+        public bool ItemEquals(IEnumerable<T>? other, IEqualityComparer<T>? itemComparer);
     }
 
     /// <summary>
-    /// <see cref="IReadOnlyExtendedList{TIn}"/> ディープクローンインタフェース
+    ///     <see cref="IReadOnlyExtendedList{T}"/> ディープクローンインタフェース
     /// </summary>
     /// <typeparam name="T">クローン返却型</typeparam>
     /// <typeparam name="TIn"><see cref="IReadOnlyExtendedList{T}"/>内包型</typeparam>
     public interface IDeepCloneableExtendedList<out T, TIn> : IDeepCloneable<T>
-        where T : IReadOnlyExtendedList<TIn>
     {
         /// <summary>
         ///     自身の要素をコピーした新たなインスタンスを返却する。
@@ -273,7 +288,7 @@ namespace WodiLib.Sys.Collections
         /// <param name="values">ディープコピー時の上書きインデックスと値のペア列挙子</param>
         /// <returns>自身をディープコピーしたインスタンス</returns>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// 	<paramref name="length"/> が 0 未満の場合。
+        ///     <paramref name="length"/> が 0 未満の場合。
         /// </exception>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="values"/> に <see langword="null"/> 要素が含まれる場合。

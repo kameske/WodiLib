@@ -265,16 +265,7 @@ namespace WodiLib.Test.Sys
 
             for (var i = 0; i < initLength; i++)
             {
-                if (i != index)
-                {
-                    // 初期値が変化していないこと
-                    Assert.AreEqual(instance[i], i.ToString());
-                }
-                else
-                {
-                    // セットした値が反映されていること
-                    Assert.AreEqual(instance[i], setItem);
-                }
+                Assert.AreEqual(instance[i], i != index ? i.ToString() : setItem);
             }
         }
 
@@ -2070,7 +2061,10 @@ namespace WodiLib.Test.Sys
                         Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
                         Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
                         Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
-                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 1);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count,
+                            initLength != 0
+                                ? 1
+                                : 0);
                     });
             assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
             assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
@@ -2439,7 +2433,7 @@ namespace WodiLib.Test.Sys
                 // nullとの比較
                 var left = new ListTest1(MakeStringList(10));
 
-                Assert.IsFalse(left.ItemEquals((IFixedLengthList<string>) null));
+                Assert.IsFalse(left.ItemEquals(null));
             }
         }
 
@@ -2966,11 +2960,11 @@ namespace WodiLib.Test.Sys
         }
 
         /// <summary>
-        /// CollectionChangedEventArgs を格納するための Dictionary インスタンスを生成する
+        ///     CollectionChangedEventArgs を格納するための Dictionary インスタンスを生成する
         /// </summary>
         /// <returns>生成したインスタンス</returns>
         private static Dictionary<string, List<NotifyCollectionChangedEventArgs>> MakeCollectionChangeEventArgsDic()
-            => new Dictionary<string, List<NotifyCollectionChangedEventArgs>>
+            => new()
             {
                 {nameof(NotifyCollectionChangedAction.Add), new List<NotifyCollectionChangedEventArgs>()},
                 {nameof(NotifyCollectionChangedAction.Replace), new List<NotifyCollectionChangedEventArgs>()},
@@ -2980,7 +2974,7 @@ namespace WodiLib.Test.Sys
             };
 
         /// <summary>
-        /// CollectionChanging, CollectionChanged に登録するイベントハンドラを生成する
+        ///     CollectionChanging, CollectionChanged に登録するイベントハンドラを生成する
         /// </summary>
         /// <param name="isBefore">CollectionChanging にセットする場合true, CollectionChanged にセットする場合false</param>
         /// <param name="resultDic">発生したイベント引数を格納するDirectory</param>
@@ -3001,17 +2995,17 @@ namespace WodiLib.Test.Sys
             };
 
         /// <summary>
-        /// PropertyChanged が発火したプロパティ名/回数を格納するための Dictionary インスタンスを生成する。
+        ///     PropertyChanged が発火したプロパティ名/回数を格納するための Dictionary インスタンスを生成する。
         /// </summary>
         /// <returns>生成したインスタンス</returns>
-        private static Dictionary<string, int> MakePropertyChangedArgsDic() => new Dictionary<string, int>
+        private static Dictionary<string, int> MakePropertyChangedArgsDic() => new()
         {
             {"Count", 0},
             {ListConstant.IndexerName, 0},
         };
 
         /// <summary>
-        /// PropertyChanging に登録するイベントハンドラを生成する
+        ///     PropertyChanging に登録するイベントハンドラを生成する
         /// </summary>
         /// <param name="resultDic">プロパティごとに通知された回数を格納するためのDictionary</param>
         /// <returns>生成したインスタンス</returns>
@@ -3026,7 +3020,7 @@ namespace WodiLib.Test.Sys
             };
 
         /// <summary>
-        /// PropertyChanged に登録するイベントハンドラを生成する
+        ///     PropertyChanged に登録するイベントハンドラを生成する
         /// </summary>
         /// <param name="resultDic">プロパティごとに通知された回数を格納するためのDictionary</param>
         /// <returns>生成したインスタンス</returns>
@@ -3071,10 +3065,10 @@ namespace WodiLib.Test.Sys
              * 正常設定
              */
 
-            public static int MaxCapacity => 10;
+            private static int MaxCapacity => 10;
 
             public static int MinCapacity => 0;
-            public static string Default => "test";
+            private static string Default => "test";
 
             public override int GetMaxCapacity() => MaxCapacity;
 
@@ -3103,10 +3097,10 @@ namespace WodiLib.Test.Sys
              * 初期要素数非0
              */
 
-            public static int MaxCapacity => 10;
+            private static int MaxCapacity => 10;
 
             public static int MinCapacity => 5;
-            public static string Default => "test";
+            private static string Default => "test";
 
             public override int GetMaxCapacity() => MaxCapacity;
 
@@ -3136,10 +3130,10 @@ namespace WodiLib.Test.Sys
              * MinCapacity = MaxCapacity
              */
 
-            public static int MaxCapacity => 10;
+            private static int MaxCapacity => 10;
 
             public static int MinCapacity => 10;
-            public static string Default => "test";
+            private static string Default => "test";
 
             public override int GetMaxCapacity() => MaxCapacity;
 
@@ -3167,9 +3161,9 @@ namespace WodiLib.Test.Sys
              * 異常設定（MinCapacity < 0）
              */
 
-            public static int MaxCapacity => 10;
+            private static int MaxCapacity => 10;
             public static int MinCapacity => -2;
-            public static string Default => "test";
+            private static string Default => "test";
 
             public override int GetMaxCapacity() => MaxCapacity;
 
@@ -3197,10 +3191,10 @@ namespace WodiLib.Test.Sys
              * 異常設定（MinCapacity > MaxCapacity）
              */
 
-            public static int MaxCapacity => 10;
+            private static int MaxCapacity => 10;
 
             public static int MinCapacity => 11;
-            public static string Default => "test";
+            private static string Default => "test";
 
             public override int GetMaxCapacity() => MaxCapacity;
 
@@ -3227,10 +3221,10 @@ namespace WodiLib.Test.Sys
             /**
              * 異常設定（DefaultValue＝null）
              */
-            public static int MaxCapacity => 10;
+            private static int MaxCapacity => 10;
 
             public static int MinCapacity => 0;
-            public static string Default => null;
+            private static string Default => null;
 
             public override int GetMaxCapacity() => MaxCapacity;
 
@@ -3326,7 +3320,7 @@ namespace WodiLib.Test.Sys
             public bool ItemEquals(object other)
                 => ItemEquals(other as TestClass);
 
-            public TestClass DeepClone() => new TestClass
+            public TestClass DeepClone() => new()
             {
                 Guid = Guid
             };

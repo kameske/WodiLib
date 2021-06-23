@@ -32,7 +32,24 @@ namespace WodiLib.Sys
         public static readonly NotifyPropertyChangeEventType Disabled;
 
         /// <summary>
-        /// 通知フラグ
+        ///     IDからプロパティ変更通知種別を取得する。
+        /// </summary>
+        /// <param name="id">対象ID</param>
+        /// <returns>IDから取得したインスタンス</returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="id"/> が <see langword="null"/> の場合。
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     指定した <paramref name="id"/> に該当するプロパティ変更通知種別が存在しない場合。
+        /// </exception>
+        public static NotifyPropertyChangeEventType FromId(string id)
+        {
+            ThrowHelper.ValidateArgumentNotNull(id is null, nameof(id));
+            return _FindFirst(x => x.Id.Equals(id));
+        }
+
+        /// <summary>
+        ///     通知フラグ
         /// </summary>
         public bool IsNotify { get; }
 

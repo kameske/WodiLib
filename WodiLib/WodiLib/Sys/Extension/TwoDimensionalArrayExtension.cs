@@ -7,6 +7,9 @@
 // ========================================
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using WodiLib.Sys.Collections;
 
 namespace WodiLib.Sys
 {
@@ -19,27 +22,46 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="src">対象</param>
         /// <returns>src の転置行列</returns>
-        public static T[][] ToTransposedArray<T>(this T[][] src)
+        public static T[][] ToTransposedArray<T>(this IEnumerable<IEnumerable<T>> src)
         {
             /*
              * もとの配列の 行数 != 0 かつ 列数 == 0 の場合、
              * 行数==0 かつ 列数!=0 の配列を作成できないため行列数ともに0のインスタンスを返す。
              *     => 行数または列数が 0 の場合 空配列が返却される
              */
-            if (src.Length == 0 || src[0].Length == 0) return Array.Empty<T[]>();
+            var outer = src.ToArray();
+            var twoArray = outer.Select(line => line.ToArray()).ToArray();
+            if (outer.Length == 0 || twoArray[0].Length == 0) return Array.Empty<T[]>();
 
-            var newRowLength = src[0].Length;
-            var newColumnLength = src.Length;
+            var newRowLength = twoArray[0].Length;
+            var newColumnLength = twoArray.Length;
             var result = new T[newRowLength][];
             for (var i = 0; i < newRowLength; i++)
             {
                 result[i] = new T[newColumnLength];
             }
 
-            src.ForEach((line, i) => { line.ForEach((item, j) => { result[j][i] = item; }); });
+            twoArray.ForEach((line, i) => { line.ForEach((item, j) => { result[j][i] = item; }); });
 
             return result;
         }
+
+        /// <summary>
+        ///     必要に応じて行列を入れ替えた二次元配列を返す。<br/>
+        ///     【事前条件】<br/>
+        ///     すべての行について要素数が一致すること
+        /// </summary>
+        /// <remarks>
+        ///     <paramref name="isTranspose"/> が <see langword="true"/> の場合、
+        ///     <paramref name="src"/> を転置した行列を返す。
+        ///     <paramref name="isTranspose"/> が <see langword="false"/> の場合、
+        ///     <paramref name="src"/> をそのまま返す。
+        /// </remarks>
+        /// <param name="src">対象</param>
+        /// <param name="isTranspose">転置実施フラグ</param>
+        /// <returns>処理後の二次元配列</returns>
+        public static T[][] ToTransposedArrayIf<T>(this T[][] src, bool isTranspose)
+            => isTranspose ? src.ToTransposedArray() : src;
 
         /// <summary>
         ///     内側配列の長さを取得する。<br/>
@@ -52,6 +74,28 @@ namespace WodiLib.Sys
         {
             if (src.Length == 0) return 0;
             return src[0].Length;
+        }
+
+        /// <summary>
+        ///     二重シーケンスを二次元配列に変換する。
+        /// </summary>
+        /// <param name="src">対象</param>
+        /// <typeparam name="T">対象シーケンスの内包型</typeparam>
+        /// <returns>二次元配列</returns>
+        internal static T[][] ToTwoDimensionalArray<T>(this IEnumerable<IEnumerable<T>> src)
+        {
+            return src.Select(line => line.ToArray()).ToArray();
+        }
+
+        /// <summary>
+        ///     二重シーケンスを二次元リストに変換する。
+        /// </summary>
+        /// <param name="src">対象</param>
+        /// <typeparam name="T">対象シーケンスの内包型</typeparam>
+        /// <returns>二次元リスト</returns>
+        internal static IReadOnlyList<IReadOnlyList<T>> ToTwoDimensionalList<T>(this IEnumerable<IEnumerable<T>> src)
+        {
+            return new ExtendedList<IExtendedList<T>>(src.Select(line => new ExtendedList<T>(line)));
         }
     }
 }

@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -32,6 +33,8 @@ namespace WodiLib.Sys.Collections
         /// <inheritdoc cref="IList{T}.Count"/>
         public int Count => Items.Count;
 
+        public Func<int, int, IEnumerable<T>> FuncMakeItems { get; set; } = default!;
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Private Properties
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -42,11 +45,36 @@ namespace WodiLib.Sys.Collections
         //      Constructors
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        public SimpleList(IEnumerable<T>? initValues = null)
+        // ______________________ Require ______________________
+
+        internal SimpleList(IEnumerable<T>? initValues = null, bool isDeepClone = false)
         {
-            Items = initValues is null
-                ? new List<T>()
-                : new List<T>(initValues);
+            Items = CreateImpl(initValues, isDeepClone);
+        }
+
+        // ______________________ Public ______________________
+
+        public SimpleList(IEnumerable<T>? initValues = null) : this(initValues, false)
+        {
+        }
+
+        // ______________________ InitializeMethods ______________________
+
+        private static List<T> CreateImpl(IEnumerable<T>? initValues, bool isDeepClone)
+        {
+            if (initValues is null) return new List<T>();
+
+            if (!isDeepClone) return new List<T>(initValues);
+
+            var initValueArray = initValues.ToArray();
+            if (initValueArray.Length == 0) return new List<T>();
+
+            var isDeepCloneable = initValueArray[0] is IDeepCloneable<T>;
+            if (!isDeepCloneable) return new List<T>(initValueArray);
+
+            var deepCloneArray = initValueArray.Cast<IDeepCloneable<T>>()
+                .Select(item => item.DeepClone());
+            return new List<T>(deepCloneArray);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -108,6 +136,19 @@ namespace WodiLib.Sys.Collections
         public void Insert(int index, params T[] items)
             => Items.InsertRange(index, items);
 
+        // ______________________ Insert ______________________
+
+        /// <summary>
+        ///     Overwrite メソッドの処理本体
+        /// </summary>
+        /// <param name="index">上書き開始インデックス</param>
+        /// <param name="param">上書き情報</param>
+        public void Overwrite(int index, OverwriteParam<T> param)
+        {
+            Set(index, param.ReplaceNewItems);
+            Insert(param.InsertStartIndex, param.InsertItems);
+        }
+
         // ______________________ Move ______________________
 
         /// <summary>
@@ -133,10 +174,50 @@ namespace WodiLib.Sys.Collections
         public void Remove(int index, int count)
             => Items.RemoveRange(index, count);
 
+        // ______________________ Adjust ______________________
+
+        /// <summary>
+        ///     AdjustLength メソッドの処理本体
+        /// </summary>
+        /// <param name="length">要素数</param>
+        public void Adjust(int length)
+        {
+            if (Count == length) return;
+            if (Count > length)
+            {
+                AdjustIfLong(length);
+            }
+
+            // Count < length
+            AdjustIfShort(length);
+        }
+
+        /// <summary>
+        ///     AdjustLengthIfLong メソッドの処理本体
+        /// </summary>
+        /// <param name="length">要素数</param>
+        public void AdjustIfLong(int length)
+        {
+            if (Count <= length) return;
+            Remove(length, Count - length);
+        }
+
+        /// <summary>
+        ///     AdjustLengthIfShort メソッドの処理本体
+        /// </summary>
+        /// <param name="length">要素数</param>
+        public void AdjustIfShort(int length)
+        {
+            if (Count >= length) return;
+
+            var addItems = FuncMakeItems(Count, length - Count);
+            Add(addItems.ToArray());
+        }
+
         // ______________________ Reset ______________________
 
         /// <summary>
-        /// Reset, Clear メソッドの処理本体
+        ///     Reset, Clear メソッドの処理本体
         /// </summary>
         /// <param name="items">初期化要素</param>
         public void Reset(params T[] items)
@@ -159,7 +240,25 @@ namespace WodiLib.Sys.Collections
         // ______________________ DeepClone ______________________
 
         /// <inheritdoc/>
-        public override SimpleList<T> DeepClone() => new(this);
+        public override SimpleList<T> DeepClone() => new(this, true);
+
+        /// <inheritdoc cref="IDeepCloneableExtendedList{T,TIn}.DeepCloneWith"/>
+        public SimpleList<T> DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
+        {
+            var result = DeepClone();
+
+            if (length is not null)
+            {
+                result.Adjust(length.Value);
+            }
+
+            values?.ForEach(pair =>
+            {
+                if (result.Count < pair.Key) result[pair.Key] = pair.Value;
+            });
+
+            return result;
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Interface Implementation

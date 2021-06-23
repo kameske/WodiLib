@@ -678,7 +678,7 @@ namespace WodiLib.Test.Common
                     ? null
                     : new List<CommonEventSpecialArgCase>
                     {
-                        new CommonEventSpecialArgCase(0, "case0"),
+                        new(0, "case0"),
                     };
                 instance.AddRangeSpecialCase(argCases);
             }
@@ -1273,6 +1273,13 @@ namespace WodiLib.Test.Common
         {
             var instance = new CommonEventSpecialNumberArgDesc();
             instance.ChangeArgType(type, null);
+
+            // Resetイベントを起こさせるために要素を一つ追加
+            if (type == CommonEventArgType.Manual)
+            {
+                instance.AddSpecialCase(new CommonEventSpecialArgCase(0, "Test Case."));
+            }
+
             var changedDescPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedDescPropertyList.Add(args.PropertyName); };
             var changedSpecialArgCaseListPropertyList = new List<string>();

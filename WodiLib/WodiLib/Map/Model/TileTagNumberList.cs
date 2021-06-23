@@ -95,45 +95,6 @@ namespace WodiLib.Map
             return ItemEquals(other);
         }
 
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool ItemEquals(IReadOnlyFixedLengthList<TileTagNumber>? other)
-        {
-            if (ReferenceEquals(this, other)) return true;
-            if (ReferenceEquals(null, other)) return false;
-            return this.SequenceEqual(other);
-        }
-
-        /// <inheritdoc />
-        public bool ItemEquals(IFixedLengthList<TileTagNumber>? other)
-            => Equals((IEnumerable<TileTagNumber>?) other);
-
-        IReadOnlyFixedLengthList<TileTagNumber> IDeepCloneable<IReadOnlyFixedLengthList<TileTagNumber>>.DeepClone()
-        {
-            throw new NotImplementedException();
-        }
-
-        IFixedLengthList<TileTagNumber> IDeepCloneable<IFixedLengthList<TileTagNumber>>.DeepClone()
-        {
-            throw new NotImplementedException();
-        }
-
-        IReadOnlyFixedLengthList<TileTagNumber>
-            IDeepCloneableFixedLengthList<IReadOnlyFixedLengthList<TileTagNumber>, TileTagNumber>.DeepCloneWith(
-                IReadOnlyDictionary<int, TileTagNumber>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        IFixedLengthList<TileTagNumber> IDeepCloneableFixedLengthList<IFixedLengthList<TileTagNumber>, TileTagNumber>.
-            DeepCloneWith(IReadOnlyDictionary<int, TileTagNumber>? values)
-        {
-            throw new NotImplementedException();
-        }
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

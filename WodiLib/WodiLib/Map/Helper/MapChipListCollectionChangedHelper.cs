@@ -28,7 +28,7 @@ namespace WodiLib.Map
             switch (args.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    // args.NewStartingIndex == 0 であることが確定
+                    // internalArgs.NewStartingIndex == 0 であることが確定
                     items[0].PropertyChanged += eventHandler;
                     break;
 
@@ -48,7 +48,7 @@ namespace WodiLib.Map
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    // args.OldStartingIndex == 0 であることが確定
+                    // internalArgs.OldStartingIndex == 0 であることが確定
                     items[0].PropertyChanged -= eventHandler;
                     break;
 

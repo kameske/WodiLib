@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using WodiLib.Sys;
 using WodiLib.Sys.Collections;
 
@@ -82,60 +81,6 @@ namespace WodiLib.Map
         /// </summary>
         /// <returns>容量</returns>
         public int GetCapacity() => Count;
-
-        /// <inheritdoc />
-        IReadOnlyFixedLengthList<TilePathSetting> IDeepCloneable<IReadOnlyFixedLengthList<TilePathSetting>>.DeepClone()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        IFixedLengthList<TilePathSetting> IDeepCloneable<IFixedLengthList<TilePathSetting>>.DeepClone()
-        {
-            throw new NotImplementedException();
-        }
-
-        IReadOnlyFixedLengthList<TilePathSetting>
-            IDeepCloneableFixedLengthList<IReadOnlyFixedLengthList<TilePathSetting>, TilePathSetting>.DeepCloneWith(
-                IReadOnlyDictionary<int, TilePathSetting>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        IFixedLengthList<TilePathSetting>
-            IDeepCloneableFixedLengthList<IFixedLengthList<TilePathSetting>, TilePathSetting>.DeepCloneWith(
-                IReadOnlyDictionary<int, TilePathSetting>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool Equals(TilePathSettingList? other)
-        {
-            if (ReferenceEquals(this, other)) return true;
-            if (ReferenceEquals(null, other)) return false;
-            return ItemEquals(other);
-        }
-
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool ItemEquals(IReadOnlyFixedLengthList<TilePathSetting>? other)
-        {
-            if (ReferenceEquals(this, other)) return true;
-            if (ReferenceEquals(null, other)) return false;
-            return this.SequenceEqual(other);
-        }
-
-        /// <inheritdoc />
-        public bool ItemEquals(IFixedLengthList<TilePathSetting>? other)
-            => Equals((IEnumerable<TilePathSetting>?) other);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common

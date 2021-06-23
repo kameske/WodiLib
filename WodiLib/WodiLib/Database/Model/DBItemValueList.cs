@@ -420,10 +420,6 @@ namespace WodiLib.Database
             return this.SequenceEqual(other);
         }
 
-        /// <inheritdoc />
-        public bool ItemEquals(IFixedLengthList<DBItemValue>? other)
-            => Equals((IEnumerable<DBItemValue>?) other);
-
         /// <summary>
         /// 自身と同じ型情報を持ち、すべての項目がデフォルト値で初期化された新規インスタンスを生成する。
         /// </summary>
@@ -578,29 +574,6 @@ namespace WodiLib.Database
                 .ForEach(x => result.AddRange(x.ToBinary()));
 
             return result.ToArray();
-        }
-
-        IReadOnlyFixedLengthList<DBItemValue>
-            IDeepCloneableFixedLengthList<IReadOnlyFixedLengthList<DBItemValue>, DBItemValue>.DeepCloneWith(
-                IReadOnlyDictionary<int, DBItemValue>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        IFixedLengthList<DBItemValue> IDeepCloneableFixedLengthList<IFixedLengthList<DBItemValue>, DBItemValue>.
-            DeepCloneWith(IReadOnlyDictionary<int, DBItemValue>? values)
-        {
-            throw new NotImplementedException();
-        }
-
-        IReadOnlyFixedLengthList<DBItemValue> IDeepCloneable<IReadOnlyFixedLengthList<DBItemValue>>.DeepClone()
-        {
-            throw new NotImplementedException();
-        }
-
-        IFixedLengthList<DBItemValue> IDeepCloneable<IFixedLengthList<DBItemValue>>.DeepClone()
-        {
-            throw new NotImplementedException();
         }
     }
 }

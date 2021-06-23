@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace WodiLib.Sys
@@ -65,6 +66,17 @@ namespace WodiLib.Sys
         public static string NotEqual(string itemLeft, string itemRight)
         {
             return $"{itemLeft}と{itemRight}が異なるため、処理できません。";
+        }
+
+        /// <summary>
+        ///     NotMatchエラーメッセージ
+        /// </summary>
+        /// <param name="itemName">項目名</param>
+        /// <param name="items">一致するべき値候補</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string NotMatch(string itemName, IEnumerable<IntOrStr> items)
+        {
+            return $"{itemName}は [{string.Join(", ", items)}] のいずれかと一致する必要があります。";
         }
 
         /// <summary>
@@ -255,6 +267,15 @@ namespace WodiLib.Sys
         public static string OverDataSize(int maxByte)
         {
             return $"{maxByte}byte を超えるため、処理できません。";
+        }
+
+        /// <summary>
+        ///     コピー先の領域不足によるエラーの場合のエラー理由メッセージ
+        /// </summary>
+        /// <returns>エラーメッセージ</returns>
+        public static string ReasonInsufficientSpaceCopyDest()
+        {
+            return "コピー先の領域が不足するため";
         }
     }
 }

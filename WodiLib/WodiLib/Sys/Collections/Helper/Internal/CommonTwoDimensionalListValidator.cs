@@ -6,6 +6,9 @@
 // see LICENSE file
 // ========================================
 
+using System.Collections.Generic;
+using System.Linq;
+
 namespace WodiLib.Sys.Collections
 {
     /// <summary>
@@ -14,214 +17,196 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="T">リスト内包型</typeparam>
     internal class CommonTwoDimensionalListValidator<T> : WodiLibTwoDimensionalListValidator<T>
     {
+        private static Direction[] OneSideDirections { get; }
+            =
+            {
+                Direction.Row,
+                Direction.Column,
+            };
+
+        private static IEnumerable<IntOrStr> OneSideDirectionsStrings { get; }
+            = OneSideDirections.Select(x => new IntOrStr(x.Id));
+
         protected override ITwoDimensionalListValidator<T>? BaseValidator => null;
 
-        private new IReadOnlyTwoDimensionalList<T> Target { get; }
+        private string RowIndexName { get; }
+        private string ColumnIndexName { get; }
 
-        public CommonTwoDimensionalListValidator(IReadOnlyTwoDimensionalList<T> target) : base(target)
+        public CommonTwoDimensionalListValidator(IReadOnlyTwoDimensionalList<T> target,
+            string rowName = "行", string rowIndexName = "row",
+            string columnName = "列", string columnIndexName = "column") : base(target, rowName, columnName)
         {
-            Target = target;
+            RowIndexName = rowIndexName;
+            ColumnIndexName = columnIndexName;
         }
 
         public override void Constructor(T[][] initItems)
         {
+            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
+
             TwoDimensionalListValidationHelper.ItemNotNull(initItems);
             TwoDimensionalListValidationHelper.InnerItemLength(initItems);
         }
 
-        public override void Get(int row, int rowCount, int column, int columnCount)
+        public override void CopyTo(IEnumerable<T>[] array, int index)
         {
-            ListValidationHelper.SelectIndex(row, Target.RowCount, nameof(row));
-            ListValidationHelper.Count(rowCount, Target.RowCount, nameof(rowCount));
-            ListValidationHelper.Range(row, rowCount, Target.RowCount, nameof(row), nameof(rowCount));
-            ListValidationHelper.SelectIndex(column, Target.ColumnCount, nameof(column));
-            ListValidationHelper.Count(columnCount, Target.ColumnCount, nameof(columnCount));
-            ListValidationHelper.Range(column, columnCount, Target.ColumnCount, nameof(column), nameof(columnCount));
+            ThrowHelper.ValidateArgumentNotNull(array is null, nameof(array));
+
+            ListValidationHelper.CopyTo(array.Length, index, Target.Count);
         }
 
-        public override void GetRow(int row, int count)
+        public override void CopyTo(T[] array, int index, Direction direction)
         {
-            ListValidationHelper.SelectIndex(row, Target.RowCount, nameof(row));
-            ListValidationHelper.Count(count, Target.RowCount);
-            ListValidationHelper.Range(row, count, Target.RowCount, nameof(row));
+            ThrowHelper.ValidateArgumentNotNull(array is null, nameof(array));
+            ThrowHelper.ValidateArgumentNotNull(direction is null, nameof(direction));
+
+            ThrowHelper.ValidateArgumentNotMatch(!OneSideDirections.Contains(direction),
+                nameof(direction), OneSideDirectionsStrings);
+            ListValidationHelper.CopyTo(array.Length, index, Target.AllCount);
         }
 
-        public override void GetColumn(int column, int count)
+        public override void CopyTo(T[,] array, int row, int column)
         {
-            ValidateTargetIsEmpty();
-            ListValidationHelper.SelectIndex(column, Target.ColumnCount, nameof(column));
-            ListValidationHelper.Count(count, Target.ColumnCount);
-            ListValidationHelper.Range(column, count, Target.ColumnCount, nameof(column));
+            ThrowHelper.ValidateArgumentNotNull(array is null, nameof(array));
+
+            ListValidationHelper.CopyTo(array.GetLength(0), row, Target.Count);
+            ListValidationHelper.CopyTo(array.GetLength(1), column, Target.ItemCount);
         }
 
-        public override void Set(int row, int column, T[][] items)
+        public override void CopyTo(T[][] array, int row, int column)
         {
-            ListValidationHelper.SelectIndex(row, Target.RowCount, nameof(row));
-            ListValidationHelper.SelectIndex(column, Target.ColumnCount, nameof(column));
-            TwoDimensionalListValidationHelper.ItemNotNull(items, nameof(items));
-            TwoDimensionalListValidationHelper.InnerItemLength(items);
-            ListValidationHelper.Range(row, items.Length, Target.RowCount);
-            if (items.Length > 0)
+            ThrowHelper.ValidateArgumentNotNull(array is null, nameof(array));
+
+            ListValidationHelper.CopyTo(array.Length, row, Target.Count);
+            var targetItemCount = Target.ItemCount;
+            foreach (var arr in array)
             {
-                ListValidationHelper.Range(column, items[0].Length, Target.ColumnCount);
+                ListValidationHelper.CopyTo(arr.Length, column, targetItemCount);
             }
         }
 
-        public override void InsertRow(int row, T[][] items)
+        public override void Get(int row, int rowCount, int column, int columnCount, Direction direction)
         {
-            ListValidationHelper.InsertIndex(row, Target.RowCount, nameof(row));
+            ThrowHelper.ValidateArgumentNotNull(direction is null, nameof(direction));
+            ListValidationHelper.SelectIndex(row, Target.Count, nameof(row));
+            ListValidationHelper.Count(rowCount, Target.Count, nameof(rowCount));
+            ListValidationHelper.Range(row, rowCount, Target.Count, nameof(row), nameof(rowCount));
+            ListValidationHelper.SelectIndex(column, Target.ItemCount, nameof(column));
+            ListValidationHelper.Count(columnCount, Target.ItemCount, nameof(columnCount));
+            ListValidationHelper.Range(column, columnCount, Target.ItemCount, nameof(column), nameof(columnCount));
+        }
+
+        public override void Set(int row, int column, T[][] items, Direction direction, bool needFitItemsInnerSize)
+        {
+            ListValidationHelper.SelectIndex(row, Target.Count, nameof(row));
+
+            ListValidationHelper.SelectIndex(column, Target.ItemCount, nameof(column));
+
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+            TwoDimensionalListValidationHelper.ItemNotNull(items, nameof(items));
+            TwoDimensionalListValidationHelper.InnerItemLength(items);
+
+            ThrowHelper.ValidateArgumentNotNull(direction is null, nameof(direction));
+
+            var outerLength = items.Length;
+            var innerLength = items.GetInnerArrayLength();
+            if (outerLength > 1 || innerLength > 1)
+            {
+                ThrowHelper.ValidateArgumentNotMatch(!OneSideDirections.Contains(direction),
+                    nameof(direction), OneSideDirectionsStrings);
+            }
+
+            if (direction == Direction.Row || direction == Direction.None)
+            {
+                ListValidationHelper.Range(row, items.Length, Target.Count);
+            }
+            else
+            {
+                // direction == Column
+                ListValidationHelper.Range(column, items.Length, Target.ItemCount);
+            }
+
+            if (needFitItemsInnerSize)
+            {
+                var itemsInnerLength = items.GetInnerArrayLength();
+                TwoDimensionalListValidationHelper.SizeEqual(itemsInnerLength,
+                    DetermineSecondCount(direction), countName: DetermineSecondIndexName(direction));
+            }
+        }
+
+        public override void Insert(int index, T[][] items, Direction direction)
+        {
+            ThrowHelper.ValidateArgumentNotNull(direction is null, nameof(direction));
+            ThrowHelper.ValidateArgumentNotMatch(!OneSideDirections.Contains(direction),
+                nameof(direction), OneSideDirectionsStrings);
+
+            var firstCount = DetermineFirstCount(direction);
+            ListValidationHelper.InsertIndex(index, firstCount,
+                DetermineFirstIndexName(direction));
+
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
             TwoDimensionalListValidationHelper.InnerItemLength(items);
             TwoDimensionalListValidationHelper.ItemNotNull(items, nameof(items));
             if (!Target.IsEmpty && items.Length > 0)
             {
-                TwoDimensionalListValidationHelper.SizeEqual(items[0].Length, Target.ColumnCount,
-                    countName: nameof(Target.ColumnCount));
+                TwoDimensionalListValidationHelper.SizeEqual(items[0].Length,
+                    direction == Direction.Row ? Target.ItemCount : Target.Count,
+                    countName: DetermineFirstIndexName(direction));
             }
         }
 
-        public override void InsertColumn(int column, T[][] items)
+        public override void Overwrite(int index, T[][] items, Direction direction)
         {
-            ValidateTargetIsEmpty();
-            ListValidationHelper.InsertIndex(column, Target.ColumnCount, nameof(column));
-            TwoDimensionalListValidationHelper.InnerItemLength(items);
-            TwoDimensionalListValidationHelper.ItemNotNull(items, nameof(items));
-            if (items.Length > 0)
-            {
-                TwoDimensionalListValidationHelper.SizeEqual(items[0].Length, Target.RowCount,
-                    countName: nameof(Target.RowCount));
-            }
-        }
+            ThrowHelper.ValidateArgumentNotNull(direction is null, nameof(direction));
+            ThrowHelper.ValidateArgumentNotMatch(!OneSideDirections.Contains(direction),
+                nameof(direction), OneSideDirectionsStrings);
 
-        public override void OverwriteRow(int row, T[][] items)
-        {
-            ListValidationHelper.InsertIndex(row, Target.RowCount, nameof(row));
+            ListValidationHelper.InsertIndex(index, DetermineFirstCount(direction),
+                DetermineFirstIndexName(direction));
+
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
             TwoDimensionalListValidationHelper.InnerItemLength(items);
             TwoDimensionalListValidationHelper.ItemNotNull(items, nameof(items));
             if (!Target.IsEmpty && items.Length > 0)
             {
-                TwoDimensionalListValidationHelper.SizeEqual(items[0].Length, Target.ColumnCount,
-                    countName: nameof(Target.ColumnCount));
+                TwoDimensionalListValidationHelper.SizeEqual(items[0].Length,
+                    direction == Direction.Row ? Target.ItemCount : Target.Count,
+                    countName: DetermineFirstIndexName(direction));
             }
         }
 
-        public override void OverwriteColumn(int column, T[][] items)
+        public override void Move(int oldIndex, int newIndex, int count, Direction direction)
         {
-            ValidateTargetIsEmpty();
-            ListValidationHelper.InsertIndex(column, Target.ColumnCount, nameof(column));
-            TwoDimensionalListValidationHelper.InnerItemLength(items);
-            TwoDimensionalListValidationHelper.ItemNotNull(items, nameof(items));
-            if (!Target.IsEmpty && items.Length > 0)
-            {
-                TwoDimensionalListValidationHelper.SizeEqual(items[0].Length, Target.RowCount,
-                    countName: nameof(Target.RowCount));
-            }
+            ThrowHelper.ValidateArgumentNotNull(direction is null, nameof(direction));
+
+            var firstCount = DetermineFirstCount(direction);
+
+            TwoDimensionalListValidationHelper.LengthNotZero(firstCount, direction);
+            ListValidationHelper.SelectIndex(oldIndex, firstCount,
+                $"old{DetermineFirstIndexName(direction, true)}");
+            ListValidationHelper.InsertIndex(newIndex, firstCount,
+                $"new{DetermineFirstIndexName(direction, true)}");
+            ListValidationHelper.Count(count, firstCount);
+            ListValidationHelper.Range(oldIndex, count, firstCount,
+                $"old{DetermineFirstIndexName(direction, true)}");
+            ListValidationHelper.Range(count, newIndex, firstCount,
+                nameof(count), $"new{DetermineFirstIndexName(direction, true)}");
         }
 
-        public override void MoveRow(int oldRow, int newRow, int count)
+        public override void Remove(int index, int count, Direction direction)
         {
-            ValidateTargetIsEmpty();
-            TwoDimensionalListValidationHelper.LengthNotZero(Target.RowCount, Direction.Row);
-            ListValidationHelper.SelectIndex(oldRow, Target.RowCount, nameof(oldRow));
-            ListValidationHelper.InsertIndex(newRow, Target.RowCount, nameof(newRow));
-            ListValidationHelper.Count(count, Target.RowCount);
-            ListValidationHelper.Range(oldRow, count, Target.RowCount, nameof(oldRow));
-            ListValidationHelper.Range(count, newRow, Target.RowCount, nameof(count), nameof(newRow));
-        }
+            ThrowHelper.ValidateArgumentNotNull(direction is null, nameof(direction));
 
-        public override void MoveColumn(int oldColumn, int newColumn, int count)
-        {
-            ValidateTargetIsEmpty();
-            TwoDimensionalListValidationHelper.LengthNotZero(Target.ColumnCount, Direction.Column);
-            ListValidationHelper.SelectIndex(oldColumn, Target.ColumnCount, nameof(oldColumn));
-            ListValidationHelper.InsertIndex(newColumn, Target.ColumnCount, nameof(newColumn));
-            ListValidationHelper.Count(count, Target.ColumnCount);
-            ListValidationHelper.Range(oldColumn, count, Target.ColumnCount, nameof(oldColumn));
-            ListValidationHelper.Range(count, newColumn, Target.ColumnCount, nameof(count), nameof(newColumn));
-        }
+            var firstCount = DetermineFirstCount(direction);
+            var indexName = DetermineFirstIndexName(direction);
 
-        public override void RemoveRow(int row, int count)
-        {
             ValidateTargetIsEmpty();
-            ListValidationHelper.SelectIndex(row, Target.RowCount, nameof(row));
-            ListValidationHelper.Count(count, Target.RowCount);
-            ListValidationHelper.Range(row, count, Target.RowCount, nameof(row));
-        }
-
-        public override void RemoveColumn(int column, int count)
-        {
-            ValidateTargetIsEmpty();
-            ListValidationHelper.SelectIndex(column, Target.ColumnCount, nameof(column));
-            ListValidationHelper.Count(count, Target.ColumnCount);
-            ListValidationHelper.Range(column, count, Target.ColumnCount, nameof(column));
+            ListValidationHelper.SelectIndex(index, firstCount, indexName);
+            ListValidationHelper.Count(count, firstCount);
+            ListValidationHelper.Range(index, count, firstCount, indexName);
         }
 
         public override void AdjustLength(int rowLength, int columnLength)
-        {
-            ValidateSquareSize(rowLength, columnLength);
-        }
-
-        public override void AdjustLengthIfShort(int rowLength, int columnLength)
-        {
-            ValidateSquareSize(rowLength, columnLength);
-        }
-
-        public override void AdjustLengthIfLong(int rowLength, int columnLength)
-        {
-            ValidateSquareSize(rowLength, columnLength);
-        }
-
-        public override void AdjustRowLength(int length)
-        {
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
-                nameof(length), 0, length);
-        }
-
-        public override void AdjustColumnLength(int length)
-        {
-            ValidateTargetIsEmpty();
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
-                nameof(length), 0, length);
-        }
-
-        public override void AdjustRowLengthIfShort(int length)
-        {
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
-                nameof(length), 0, length);
-        }
-
-        public override void AdjustColumnLengthIfShort(int length)
-        {
-            ValidateTargetIsEmpty();
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
-                nameof(length), 0, length);
-        }
-
-        public override void AdjustRowLengthIfLong(int length)
-        {
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
-                nameof(length), 0, length);
-        }
-
-        public override void AdjustColumnLengthIfLong(int length)
-        {
-            ValidateTargetIsEmpty();
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(length < 0,
-                nameof(length), 0, length);
-        }
-
-        public override void Reset(T[][] items)
-        {
-            TwoDimensionalListValidationHelper.ItemNotNull(items);
-            TwoDimensionalListValidationHelper.InnerItemLength(items);
-        }
-
-        private void ValidateTargetIsEmpty()
-        {
-            ThrowHelper.InvalidOperationIf(Target.IsEmpty,
-                () => ErrorMessage.NotExecute("空リストのため"));
-        }
-
-        private static void ValidateSquareSize(int rowLength, int columnLength)
         {
             ThrowHelper.ValidateArgumentValueGreaterOrEqual(rowLength < 0,
                 nameof(rowLength), 0, rowLength);
@@ -235,7 +220,75 @@ namespace WodiLib.Sys.Collections
 
             // rowLength == 0 && columnLength != 0 は不正な指定
             ThrowHelper.ValidateArgumentUnsuitable(true,
-                "行数および列数の指定", "行数 == 0 かつ 列数 != 0 の指定はできません");
+                $"{RowName}数および{ColumnName}数の指定", $"{RowName}数 == 0 かつ {ColumnName}数 != 0 の指定はできません");
+        }
+
+        public override void Reset(T[][] items)
+        {
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+
+            TwoDimensionalListValidationHelper.ItemNotNull(items);
+            TwoDimensionalListValidationHelper.InnerItemLength(items);
+        }
+
+        public override ITwoDimensionalListValidator<T> CreateAnotherFor(
+            IReadOnlyTwoDimensionalList<T> target)
+            => new CommonTwoDimensionalListValidator<T>(target, RowName, RowIndexName, ColumnName, ColumnIndexName);
+
+        private int DetermineFirstCount(Direction direction)
+        {
+            return direction == Direction.Row
+                ? Target.Count
+                : Target.ItemCount;
+        }
+
+        private int DetermineSecondCount(Direction direction)
+        {
+            return direction == Direction.Row
+                ? Target.ItemCount
+                : Target.Count;
+        }
+
+        private string DetermineFirstIndexName(Direction direction, bool isUpperFirstChar = false)
+        {
+            var result = direction == Direction.Row
+                ? RowIndexName
+                : ColumnIndexName;
+
+            if (!isUpperFirstChar) return result;
+            return result.Length switch
+            {
+                0 => result,
+                1 => result.ToUpper(),
+                _ => result.Substring(0, 1).ToUpper() + result.Substring(1)
+            };
+        }
+
+        private string DetermineSecondIndexName(Direction direction, bool isUpperFirstChar = false)
+        {
+            var result = direction == Direction.Row
+                ? RowIndexName
+                : ColumnIndexName;
+
+            if (!isUpperFirstChar) return result;
+            return result.Length switch
+            {
+                0 => result,
+                1 => result.ToUpper(),
+                _ => result.Substring(0, 1).ToUpper() + result.Substring(1)
+            };
+        }
+
+        private void ValidateTargetIsEmpty()
+        {
+            ThrowHelper.InvalidOperationIf(Target.IsEmpty,
+                () => ErrorMessage.NotExecute("空リストのため"));
+        }
+
+        private static void ValidateItemsIsEmpty(IReadOnlyCollection<T[]> items, string itemsName)
+        {
+            ThrowHelper.InvalidOperationIf(items.Count == 0,
+                () => ErrorMessage.NotExecute($"{itemsName} の要素数が 0 のため"));
         }
     }
 }

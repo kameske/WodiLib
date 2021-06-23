@@ -43,11 +43,21 @@ namespace WodiLib.Sys.Collections
 
         public static CollectionChangeEventArgsFactory<T> CreateAdjustLengthIfShort(
             INotifyCollectionChange target, int index, IReadOnlyList<T> items)
-            => new(target, true, index, items);
+            => new(target, true, index, items, null);
 
         public static CollectionChangeEventArgsFactory<T> CreateAdjustLengthIfLong(
             INotifyCollectionChange target, int index, IReadOnlyList<T> items)
-            => new(target, false, index, items);
+            => new(target, false, index, items, null);
+
+        public static CollectionChangeEventArgsFactory<T> CreateAdjustLengthIfShort(
+            INotifyCollectionChange target, (IReadOnlyList<T>, IReadOnlyList<T>)? replaceItems,
+            int addIndex, IReadOnlyList<T> addItems)
+            => new(target, true, addIndex, addItems, replaceItems);
+
+        public static CollectionChangeEventArgsFactory<T> CreateAdjustLengthIfLong(
+            INotifyCollectionChange target, (IReadOnlyList<T>, IReadOnlyList<T>)? replaceItems,
+            int removeIndex, IReadOnlyList<T> removeItems)
+            => new(target, false, removeIndex, removeItems, replaceItems);
 
         public static CollectionChangeEventArgsFactory<T> CreateReset(
             INotifyCollectionChange target, IReadOnlyList<T> oldItems,
@@ -66,7 +76,7 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// Set, SetRange 用コンストラクタ
+        ///     Set, SetRange 用コンストラクタ
         /// </summary>
         private CollectionChangeEventArgsFactory(
             INotifyCollectionChange target, int index,
@@ -83,7 +93,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// Insert, InsertRange, Remove, RemoveRange 用コンストラクタ
+        ///     Insert, InsertRange, Remove, RemoveRange 用コンストラクタ
         /// </summary>
         private CollectionChangeEventArgsFactory(INotifyCollectionChange target,
             NotifyCollectionChangedAction action,
@@ -117,7 +127,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// Overwrite 用コンストラクタ
+        ///     Overwrite 用コンストラクタ
         /// </summary>
         private CollectionChangeEventArgsFactory(INotifyCollectionChange target,
             int index, IReadOnlyList<T> replaceOldItems, IReadOnlyList<T> replaceNewItems,
@@ -133,7 +143,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// Move, MoveRange 用コンストラクタ
+        ///     Move, MoveRange 用コンストラクタ
         /// </summary>
         private CollectionChangeEventArgsFactory(INotifyCollectionChange target,
             int oldIndex, int newIndex, IReadOnlyList<T> items)
@@ -147,33 +157,37 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// AdjustLength, AdjustLengthIfShort, AdjustLengthIfLong 用コンストラクタ
+        ///     AdjustLength, AdjustLengthIfShort, AdjustLengthIfLong 用コンストラクタ
         /// </summary>
         private CollectionChangeEventArgsFactory(INotifyCollectionChange target, bool adjustIfShort,
-            int index, IReadOnlyList<T> items)
+            int index, IReadOnlyList<T> items, (IReadOnlyList<T>, IReadOnlyList<T>)? replaceItems)
         {
             if (adjustIfShort)
             {
                 CollectionChangingEventArgs =
-                    CreateAdjustLengthIfShort(target.NotifyCollectionChangingEventType, index, items);
+                    CreateAdjustLengthIfShort(target.NotifyCollectionChangingEventType,
+                        index, items, replaceItems);
                 CollectionChangedEventArgs =
                     target.NotifyCollectionChangingEventType == target.NotifyCollectionChangedEventType
                         ? CollectionChangingEventArgs
-                        : CreateAdjustLengthIfShort(target.NotifyCollectionChangedEventType, index, items);
+                        : CreateAdjustLengthIfShort(target.NotifyCollectionChangedEventType,
+                            index, items, replaceItems);
             }
             else
             {
                 CollectionChangingEventArgs =
-                    CreateAdjustLengthIfLong(target.NotifyCollectionChangingEventType, index, items);
+                    CreateAdjustLengthIfLong(target.NotifyCollectionChangingEventType,
+                        index, items, replaceItems);
                 CollectionChangedEventArgs =
                     target.NotifyCollectionChangingEventType == target.NotifyCollectionChangedEventType
                         ? CollectionChangingEventArgs
-                        : CreateAdjustLengthIfLong(target.NotifyCollectionChangedEventType, index, items);
+                        : CreateAdjustLengthIfLong(target.NotifyCollectionChangedEventType,
+                            index, items, replaceItems);
             }
         }
 
         /// <summary>
-        /// Reset, Clear 用コンストラクタ
+        ///     Reset, Clear 用コンストラクタ
         /// </summary>
         private CollectionChangeEventArgsFactory(INotifyCollectionChange target,
             IReadOnlyList<T> oldItems, IReadOnlyList<T> newItems)
@@ -194,6 +208,11 @@ namespace WodiLib.Sys.Collections
         {
             if (!type.IsNotify) return Array.Empty<NotifyCollectionChangedEventArgsEx<T>>();
 
+            if (oldItems.Count == 0)
+            {
+                return Array.Empty<NotifyCollectionChangedEventArgsEx<T>>();
+            }
+
             if (!type.IsMultipart)
             {
                 return new[]
@@ -210,6 +229,11 @@ namespace WodiLib.Sys.Collections
             NotifyCollectionChangeEventType type, int index, IReadOnlyList<T> items)
         {
             if (!type.IsNotify) return Array.Empty<NotifyCollectionChangedEventArgsEx<T>>();
+
+            if (items.Count == 0)
+            {
+                return Array.Empty<NotifyCollectionChangedEventArgsEx<T>>();
+            }
 
             if (!type.IsMultipart)
             {
@@ -228,6 +252,11 @@ namespace WodiLib.Sys.Collections
             IReadOnlyList<T> replaceNewItems, IReadOnlyList<T> addNewItems)
         {
             if (!type.IsNotify) return Array.Empty<NotifyCollectionChangedEventArgsEx<T>>();
+
+            if (replaceOldItems.Count == 0 && addNewItems.Count == 0)
+            {
+                return Array.Empty<NotifyCollectionChangedEventArgsEx<T>>();
+            }
 
             {
                 var replaceLength = replaceOldItems.Count;
@@ -283,6 +312,11 @@ namespace WodiLib.Sys.Collections
         {
             if (!type.IsNotify) return Array.Empty<NotifyCollectionChangedEventArgsEx<T>>();
 
+            if (items.Count == 0)
+            {
+                return Array.Empty<NotifyCollectionChangedEventArgsEx<T>>();
+            }
+
             if (!type.IsMultipart)
             {
                 return new[]
@@ -298,7 +332,15 @@ namespace WodiLib.Sys.Collections
         private static IEnumerable<NotifyCollectionChangedEventArgsEx<T>> CreateRemove(
             NotifyCollectionChangeEventType type, int index, IReadOnlyList<T> items)
         {
-            if (!type.IsNotify) return Array.Empty<NotifyCollectionChangedEventArgsEx<T>>();
+            if (!type.IsNotify)
+            {
+                return Array.Empty<NotifyCollectionChangedEventArgsEx<T>>();
+            }
+
+            if (items.Count == 0)
+            {
+                return Array.Empty<NotifyCollectionChangedEventArgsEx<T>>();
+            }
 
             if (!type.IsMultipart)
             {
@@ -313,18 +355,47 @@ namespace WodiLib.Sys.Collections
         }
 
         private static IEnumerable<NotifyCollectionChangedEventArgsEx<T>> CreateAdjustLengthIfShort(
-            NotifyCollectionChangeEventType type, int index, IReadOnlyList<T> items)
-            => CreateInsert(type, index, items);
+            NotifyCollectionChangeEventType type, int index,
+            IReadOnlyList<T> items, (IReadOnlyList<T>, IReadOnlyList<T>)? replaceItems)
+        {
+            var insertArgs = CreateInsert(type, index, items);
+            if (!replaceItems.HasValue)
+            {
+                return insertArgs;
+            }
+
+            var (replaceOldItems, replaceNewItems) = replaceItems.Value;
+            var replaceArgs = CreateSet(type, 0, replaceOldItems, replaceNewItems);
+
+            return replaceArgs.Concat(insertArgs);
+        }
 
         private static IEnumerable<NotifyCollectionChangedEventArgsEx<T>> CreateAdjustLengthIfLong(
-            NotifyCollectionChangeEventType type, int index, IReadOnlyList<T> items)
-            => CreateRemove(type, index, items);
+            NotifyCollectionChangeEventType type, int index,
+            IReadOnlyList<T> items, (IReadOnlyList<T>, IReadOnlyList<T>)? replaceItems)
+        {
+            var removeArgs = CreateRemove(type, index, items);
+            if (!replaceItems.HasValue)
+            {
+                return removeArgs;
+            }
+
+            var (replaceOldItems, replaceNewItems) = replaceItems.Value;
+            var replaceArgs = CreateSet(type, 0, replaceOldItems, replaceNewItems);
+
+            return replaceArgs.Concat(removeArgs);
+        }
 
         private static IEnumerable<NotifyCollectionChangedEventArgsEx<T>> CreateReset(
             NotifyCollectionChangeEventType type, IReadOnlyList<T> oldItems,
             IReadOnlyList<T> newItems)
         {
             if (!type.IsNotify) return Array.Empty<NotifyCollectionChangedEventArgsEx<T>>();
+
+            if (oldItems.Count == 0 && newItems.Count == 0)
+            {
+                return Array.Empty<NotifyCollectionChangedEventArgsEx<T>>();
+            }
 
             return new[]
             {

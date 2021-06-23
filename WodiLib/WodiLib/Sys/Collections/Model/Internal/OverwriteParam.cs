@@ -13,7 +13,7 @@ using System.Linq;
 namespace WodiLib.Sys.Collections
 {
     /// <summary>
-    /// <see cref="ExtendedList{T}.Overwrite_Impl"/> の実行パラメータ
+    ///     <see cref="ExtendedList{T}.Overwrite_Impl"/> の実行パラメータ
     /// </summary>
     internal record OverwriteParam<T>
     {
@@ -36,19 +36,21 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// <see cref="ExtendedList{T}.Overwrite_Impl"/> の実行パラメータFactoryクラス
+        ///     <see cref="ExtendedList{T}.Overwrite_Impl"/> の実行パラメータFactoryクラス
         /// </summary>
         public static class Factory
         {
-            public static OverwriteParam<T> Create(IReadOnlyExtendedList<T> target, int index, params T[] items)
+            public static OverwriteParam<T> Create(IEnumerable<T> target, int index, params T[] items)
             {
-                var updateCnt = index + items.Length > target.Count
-                    ? target.Count - index
+                var targetItems = target.ToList();
+
+                var updateCnt = index + items.Length > targetItems.Count
+                    ? targetItems.Count - index
                     : items.Length;
 
                 // 上書き要素
                 var replaceItems = items.Take(updateCnt).ToArray();
-                var replaceOldItems = target.GetRange(index, updateCnt).ToArray();
+                var replaceOldItems = targetItems.GetRange(index, updateCnt).ToArray();
 
                 // 追加要素
                 var insertStartIndex = index + updateCnt;
