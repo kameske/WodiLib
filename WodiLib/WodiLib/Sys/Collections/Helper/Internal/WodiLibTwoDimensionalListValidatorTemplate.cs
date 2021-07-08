@@ -80,6 +80,6 @@ namespace WodiLib.Sys.Collections
             => BaseValidator?.Reset(items);
 
         public abstract ITwoDimensionalListValidator<T> CreateAnotherFor(
-            IReadOnlyTwoDimensionalList<T> target);
+            ITwoDimensionalList<T> target);
     }
 }

@@ -25,12 +25,11 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="T">リスト内包型</typeparam>
     /// <typeparam name="TImpl">リスト実装型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class FixedLengthList<T, TImpl> : ModelBase<TImpl>, IFixedLengthList<T>,
-        IDeepCloneableFixedLengthList<TImpl, T>
+    public abstract class FixedLengthList<T, TImpl> : ModelBase<TImpl>, IFixedLengthList<T>
         where TImpl : FixedLengthList<T, TImpl>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Event
+        //      Events
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc/>
@@ -48,11 +47,8 @@ namespace WodiLib.Sys.Collections
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Property
+        //      Public Properties
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <inheritdoc/>
-        public int Count => Items.Count;
 
         /// <inheritdoc cref="IFixedLengthList{T}.this"/>
         public T this[int index]
@@ -68,6 +64,9 @@ namespace WodiLib.Sys.Collections
                 Items[index] = value;
             }
         }
+
+        /// <inheritdoc/>
+        public int Count => Items.Count;
 
         /// <inheritdoc/>
         public NotifyCollectionChangeEventType NotifyCollectionChangingEventType
@@ -92,7 +91,7 @@ namespace WodiLib.Sys.Collections
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Property
+        //      Private Properties
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>引数検証処理</summary>
@@ -102,15 +101,17 @@ namespace WodiLib.Sys.Collections
         private ExtendedList<T> Items { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Constructor
+        //      Constructors
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         ///     コンストラクタ
         /// </summary>
-        protected FixedLengthList()
+        /// <param name="length">要素数</param>
+        protected FixedLengthList(int length)
         {
-            var items = MakeClearItems();
+            var items = MakeItems(0, length)
+                .ToArray();
 
             Validator = MakeValidator();
             Validator?.Constructor(items);
@@ -166,15 +167,23 @@ namespace WodiLib.Sys.Collections
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Abstract Method
+        //      Public Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc/>
-        public abstract int GetCapacity();
+        public bool Contains([AllowNull] T item)
+            => Contains(item, null);
 
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        /// <inheritdoc/>
+        public bool Contains([AllowNull] T item, IEqualityComparer<T>? itemComparer)
+        {
+            if (item is null) return false;
+            return Items.Contains(item, itemComparer);
+        }
+
+        /// <inheritdoc/>
+        public IEnumerator<T> GetEnumerator()
+            => Items.AsEnumerable().GetEnumerator();
 
         /// <inheritdoc/>
         public IEnumerable<T> GetRange(int index, int count)
@@ -182,6 +191,21 @@ namespace WodiLib.Sys.Collections
             Validator?.Get(index, count);
             return Items.GetRange(index, count);
         }
+
+        /// <inheritdoc/>
+        public int IndexOf([AllowNull] T item)
+            => IndexOf(item, null);
+
+        /// <inheritdoc/>
+        public int IndexOf([AllowNull] T item, IEqualityComparer<T>? itemComparer)
+        {
+            if (item is null) return -1;
+            return Items.IndexOf(item, itemComparer);
+        }
+
+        /// <inheritdoc/>
+        public void CopyTo(T[] array, int index)
+            => Items.CopyTo(array, index);
 
         /// <inheritdoc/>
         public void SetRange(int index, IEnumerable<T> items)
@@ -211,11 +235,8 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <inheritdoc/>
-        public void Clear()
-        {
-            var initItems = MakeClearItems();
-            Items.Reset(initItems);
-        }
+        public void Reset()
+            => Items.Reset();
 
         /// <inheritdoc/>
         public void Reset(IEnumerable<T> initItems)
@@ -231,35 +252,10 @@ namespace WodiLib.Sys.Collections
             Items.Reset(itemList);
         }
 
-        /// <inheritdoc/>
-        public bool Contains([AllowNull] T item)
-        {
-            if (item is null) return false;
-            return Items.Contains(item);
-        }
-
-        /// <inheritdoc/>
-        public int IndexOf([AllowNull] T item)
-        {
-            if (item is null) return -1;
-            return Items.IndexOf(item);
-        }
-
-        /// <inheritdoc/>
-        public void CopyTo(T[] array, int index)
-            => Items.CopyTo(array, index);
-
-        /// <inheritdoc/>
-        public IEnumerator<T> GetEnumerator()
-            => Items.AsEnumerable().GetEnumerator();
 
         /// <inheritdoc/>
         public override bool ItemEquals(TImpl? other)
-            => ItemEquals((IEnumerable<T>?) other);
-
-        /// <inheritdoc/>
-        public bool ItemEquals(IReadOnlyExtendedList<T>? other)
-            => ItemEquals((IEnumerable<T>?) other);
+            => ItemEquals(other, null);
 
         /// <inheritdoc/>
         public bool ItemEquals(IEnumerable<T>? other)
@@ -269,54 +265,82 @@ namespace WodiLib.Sys.Collections
         public bool ItemEquals(IEnumerable<T>? other, IEqualityComparer<T>? itemComparer)
             => Items.ItemEquals(other, itemComparer);
 
-        /// <inheritdoc cref="IDeepCloneableFixedLengthList{T,TIn}.DeepCloneWith"/>
-        public TImpl DeepCloneWith(IReadOnlyDictionary<int, T>? values = null)
+
+        /// <inheritdoc/>
+        public IReadOnlyExtendedList<T> AsReadableList()
+            => this;
+
+        /// <inheritdoc/>
+        public override TImpl DeepClone()
+            => DeepCloneWith();
+
+        /// <inheritdoc cref="IDeepCloneableList{T,TIn}.DeepCloneWith"/>
+        public TImpl DeepCloneWith(int? length = null, IReadOnlyDictionary<int, T>? values = null)
         {
-            var valueDic = values?.ToArray() ?? Array.Empty<KeyValuePair<int, T>>();
-
-            ThrowHelper.ValidateArgumentItemsHasNotNull(valueDic.HasNullItem(), nameof(values));
-
-            var result = DeepClone();
-
-            valueDic.ForEach(pair =>
+            values?.ForEach(pair =>
             {
-                if (-1 < pair.Key && pair.Key < result.Count) result[pair.Key] = pair.Value;
+                ThrowHelper.ValidateArgumentNotNull(pair.Value is null, $"{nameof(values)} の要素 (Key: {pair.Key})");
             });
 
-            return result;
+            ExtendedList<T> newItems = new(this)
+            {
+                FuncMakeItems = MakeItems
+            };
+
+            if (length is not null)
+            {
+                newItems.AdjustLength(length.Value);
+            }
+
+            values?.ForEach(pair =>
+            {
+                if (-1 < pair.Key && pair.Key < newItems.Count) newItems[pair.Key] = pair.Value;
+            });
+
+            return MakeInstance(newItems);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Implements Method
+        //      Interface Implementation
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        #region GetEnumerator
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Protected Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        #endregion
 
-        /// <summary>
-        ///     初期化された <typeparamref name="T"/> のインスタンスを生成する。
-        /// </summary>
-        /// <remarks>
-        ///     このメソッドは <see langward="null"/> を返却してはならない。
-        ///     <see langward="null"/> が返却された場合、呼び出し元で <see cref="NullReferenceException"/> が発生する。
-        /// </remarks>
-        /// <param name="index">インデックス</param>
-        /// <returns>要素のデフォルト値</returns>
-        [return: NotNull]
-        protected abstract T MakeDefaultItem(int index);
+        #region DeepClone
 
-        /// <summary>
-        ///     自身の検証処理を実行する <see cref="IWodiLibListValidator{T}"/> インスタンスを生成する。
-        /// </summary>
-        /// <returns>検証処理実行クラスのインスタンス。検証処理を行わない場合 <see langward="null"/></returns>
-        [return: MaybeNull]
-        protected virtual IWodiLibListValidator<T> MakeValidator()
-        {
-            return new FixedLengthListValidator<T>(this);
-        }
+        IFixedLengthList<T> IFixedLengthList<T>.DeepClone()
+            => DeepClone();
+
+        IFixedLengthList<T> IDeepCloneable<IFixedLengthList<T>>.DeepClone()
+            => DeepClone();
+
+        IReadOnlyExtendedList<T> IDeepCloneable<IReadOnlyExtendedList<T>>.DeepClone()
+            => DeepClone();
+
+        #endregion
+
+        #region DeepCloneWith
+
+        IFixedLengthList<T> IDeepCloneableList<IFixedLengthList<T>, T>.DeepCloneWith(int? length,
+            IReadOnlyDictionary<int, T>? values)
+            => DeepCloneWith(length, values);
+
+        IFixedLengthList<T> IFixedLengthList<T>.DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
+            => DeepCloneWith(length, values);
+
+        IReadOnlyExtendedList<T> IDeepCloneableList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length,
+            IReadOnlyDictionary<int, T>? values)
+            => DeepCloneWith(length, values);
+
+        #endregion
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Protected Methods
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
         ///     自身の内部リストが通知する IndexerName プロパティ変更通知のプロパティ名を変換する。
@@ -332,20 +356,36 @@ namespace WodiLib.Sys.Collections
             GetNotifyPropertyIndexerName()
             => ListConstant.IndexerName;
 
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        /// <summary>
+        ///     初期化された <typeparamref name="T"/> のインスタンスを生成する。
+        /// </summary>
+        /// <remarks>
+        ///     このメソッドは <see langward="null"/> を返却してはならない。
+        ///     <see langward="null"/> が返却された場合、呼び出し元で <see cref="NullReferenceException"/> が発生する。
+        /// </remarks>
+        /// <param name="index">インデックス</param>
+        /// <returns>要素のデフォルト値</returns>
+        [return: NotNull]
+        protected abstract T MakeDefaultItem(int index);
 
         /// <summary>
-        ///     引数なしコンストラクタによる要素初期化、
-        ///     および <see cref="Clear"/> メソッドで初期化し直す際の要素を生成する。
+        ///     新規インスタンスを作成する。
         /// </summary>
-        /// <returns>初期化用要素</returns>
-        /// <exception cref="NullReferenceException">
-        ///     <see cref="MakeDefaultItem"/> が <see langword="null"/> を返却した場合。
-        /// </exception>
-        private List<T> MakeClearItems()
-            => MakeItems(0, GetCapacity()).ToList();
+        /// <param name="items">新規インスタンスの要素</param>
+        /// <returns>新規作成したインスタンス</returns>
+        // TODO: 一時的に virtual 宣言
+        protected virtual TImpl MakeInstance(IEnumerable<T> items)
+            => throw new NotImplementedException();
+
+        /// <summary>
+        ///     自身の検証処理を実行する <see cref="IWodiLibListValidator{T}"/> インスタンスを生成する。
+        /// </summary>
+        /// <returns>検証処理実行クラスのインスタンス。検証処理を行わない場合 <see langward="null"/></returns>
+        [return: MaybeNull]
+        protected virtual IWodiLibListValidator<T> MakeValidator()
+        {
+            return new FixedLengthListValidator<T>(this);
+        }
 
         /// <summary>
         ///     自身に設定するための要素を生成する。
@@ -371,5 +411,27 @@ namespace WodiLib.Sys.Collections
                     return result;
                 });
         }
+
+        // ＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠
+        // TODO: 削除する。容量は決め打ちにせずコンストラクタの引数から決定。一旦継承先クラスでエラーが出ないようにする。
+
+        [Obsolete]
+        protected FixedLengthList()
+        {
+            var items = MakeItems(0, GetCapacity())
+                .ToArray();
+
+            Validator = MakeValidator();
+            Validator?.Constructor(items);
+
+            Items = new ExtendedList<T>(items)
+            {
+                FuncMakeItems = MakeItems
+            };
+            PropagatePropertyChangeEvent();
+        }
+
+        [Obsolete]
+        public virtual int GetCapacity() => Count;
     }
 }

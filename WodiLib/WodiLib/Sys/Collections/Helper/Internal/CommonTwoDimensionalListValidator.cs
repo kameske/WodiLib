@@ -52,7 +52,7 @@ namespace WodiLib.Sys.Collections
         {
             ThrowHelper.ValidateArgumentNotNull(array is null, nameof(array));
 
-            ListValidationHelper.CopyTo(array.Length, index, Target.Count);
+            ListValidationHelper.CopyTo(array.Length, index, Target.RowCount);
         }
 
         public override void CopyTo(T[] array, int index, Direction direction)
@@ -69,16 +69,16 @@ namespace WodiLib.Sys.Collections
         {
             ThrowHelper.ValidateArgumentNotNull(array is null, nameof(array));
 
-            ListValidationHelper.CopyTo(array.GetLength(0), row, Target.Count);
-            ListValidationHelper.CopyTo(array.GetLength(1), column, Target.ItemCount);
+            ListValidationHelper.CopyTo(array.GetLength(0), row, Target.RowCount);
+            ListValidationHelper.CopyTo(array.GetLength(1), column, Target.ColumnCount);
         }
 
         public override void CopyTo(T[][] array, int row, int column)
         {
             ThrowHelper.ValidateArgumentNotNull(array is null, nameof(array));
 
-            ListValidationHelper.CopyTo(array.Length, row, Target.Count);
-            var targetItemCount = Target.ItemCount;
+            ListValidationHelper.CopyTo(array.Length, row, Target.RowCount);
+            var targetItemCount = Target.ColumnCount;
             foreach (var arr in array)
             {
                 ListValidationHelper.CopyTo(arr.Length, column, targetItemCount);
@@ -88,19 +88,19 @@ namespace WodiLib.Sys.Collections
         public override void Get(int row, int rowCount, int column, int columnCount, Direction direction)
         {
             ThrowHelper.ValidateArgumentNotNull(direction is null, nameof(direction));
-            ListValidationHelper.SelectIndex(row, Target.Count, nameof(row));
-            ListValidationHelper.Count(rowCount, Target.Count, nameof(rowCount));
-            ListValidationHelper.Range(row, rowCount, Target.Count, nameof(row), nameof(rowCount));
-            ListValidationHelper.SelectIndex(column, Target.ItemCount, nameof(column));
-            ListValidationHelper.Count(columnCount, Target.ItemCount, nameof(columnCount));
-            ListValidationHelper.Range(column, columnCount, Target.ItemCount, nameof(column), nameof(columnCount));
+            ListValidationHelper.SelectIndex(row, Target.RowCount, nameof(row));
+            ListValidationHelper.Count(rowCount, Target.RowCount, nameof(rowCount));
+            ListValidationHelper.Range(row, rowCount, Target.RowCount, nameof(row), nameof(rowCount));
+            ListValidationHelper.SelectIndex(column, Target.ColumnCount, nameof(column));
+            ListValidationHelper.Count(columnCount, Target.ColumnCount, nameof(columnCount));
+            ListValidationHelper.Range(column, columnCount, Target.ColumnCount, nameof(column), nameof(columnCount));
         }
 
         public override void Set(int row, int column, T[][] items, Direction direction, bool needFitItemsInnerSize)
         {
-            ListValidationHelper.SelectIndex(row, Target.Count, nameof(row));
+            ListValidationHelper.SelectIndex(row, Target.RowCount, nameof(row));
 
-            ListValidationHelper.SelectIndex(column, Target.ItemCount, nameof(column));
+            ListValidationHelper.SelectIndex(column, Target.ColumnCount, nameof(column));
 
             ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
             TwoDimensionalListValidationHelper.ItemNotNull(items, nameof(items));
@@ -118,12 +118,12 @@ namespace WodiLib.Sys.Collections
 
             if (direction == Direction.Row || direction == Direction.None)
             {
-                ListValidationHelper.Range(row, items.Length, Target.Count);
+                ListValidationHelper.Range(row, items.Length, Target.RowCount);
             }
             else
             {
                 // direction == Column
-                ListValidationHelper.Range(column, items.Length, Target.ItemCount);
+                ListValidationHelper.Range(column, items.Length, Target.ColumnCount);
             }
 
             if (needFitItemsInnerSize)
@@ -150,7 +150,7 @@ namespace WodiLib.Sys.Collections
             if (!Target.IsEmpty && items.Length > 0)
             {
                 TwoDimensionalListValidationHelper.SizeEqual(items[0].Length,
-                    direction == Direction.Row ? Target.ItemCount : Target.Count,
+                    direction == Direction.Row ? Target.ColumnCount : Target.RowCount,
                     countName: DetermineFirstIndexName(direction));
             }
         }
@@ -170,7 +170,7 @@ namespace WodiLib.Sys.Collections
             if (!Target.IsEmpty && items.Length > 0)
             {
                 TwoDimensionalListValidationHelper.SizeEqual(items[0].Length,
-                    direction == Direction.Row ? Target.ItemCount : Target.Count,
+                    direction == Direction.Row ? Target.ColumnCount : Target.RowCount,
                     countName: DetermineFirstIndexName(direction));
             }
         }
@@ -232,21 +232,21 @@ namespace WodiLib.Sys.Collections
         }
 
         public override ITwoDimensionalListValidator<T> CreateAnotherFor(
-            IReadOnlyTwoDimensionalList<T> target)
+            ITwoDimensionalList<T> target)
             => new CommonTwoDimensionalListValidator<T>(target, RowName, RowIndexName, ColumnName, ColumnIndexName);
 
         private int DetermineFirstCount(Direction direction)
         {
             return direction == Direction.Row
-                ? Target.Count
-                : Target.ItemCount;
+                ? Target.RowCount
+                : Target.ColumnCount;
         }
 
         private int DetermineSecondCount(Direction direction)
         {
             return direction == Direction.Row
-                ? Target.ItemCount
-                : Target.Count;
+                ? Target.ColumnCount
+                : Target.RowCount;
         }
 
         private string DetermineFirstIndexName(Direction direction, bool isUpperFirstChar = false)
@@ -283,12 +283,6 @@ namespace WodiLib.Sys.Collections
         {
             ThrowHelper.InvalidOperationIf(Target.IsEmpty,
                 () => ErrorMessage.NotExecute("空リストのため"));
-        }
-
-        private static void ValidateItemsIsEmpty(IReadOnlyCollection<T[]> items, string itemsName)
-        {
-            ThrowHelper.InvalidOperationIf(items.Count == 0,
-                () => ErrorMessage.NotExecute($"{itemsName} の要素数が 0 のため"));
         }
     }
 }

@@ -293,7 +293,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
                 rowIdx, colIdx, Direction.Row,
-                (instance, setItems) => instance.SetRange(rowIdx, setItems));
+                (instance, setItems) => instance.SetRowRange(rowIdx, setItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -314,7 +314,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnOne,
                 rowIdx, colIdx, Direction.Column,
-                (instance, setItems) => instance.SetItem(colIdx, setItems[0]));
+                (instance, setItems) => instance.SetColumn(colIdx, setItems[0]));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -335,7 +335,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
                 rowIdx, colIdx, Direction.Column,
-                (instance, setItems) => instance.SetItemRange(colIdx, setItems));
+                (instance, setItems) => instance.SetColumnRange(colIdx, setItems));
         }
 
         private static void SetTestCore(
@@ -358,11 +358,11 @@ namespace WodiLib.Test.Sys
                 out var collectionChangingEventArgsDic, out var collectionChangedEventArgsDic,
                 out var twoDimensionalListChangingEventArgsDic, out var twoDimensionalListChangedEventArgsDic);
 
-            var setItems = MakeSetItem(type, execDirection);
+            var setItems = MakeSetColumn(type, execDirection);
             var needTranspose = NeedTranspose(execDirection, Direction.Row);
             var rowLength = needTranspose ? setItems.GetInnerArrayLength() : setItems.Length;
             var colLength = needTranspose ? setItems.Length : setItems.GetInnerArrayLength();
-            var fixedOldItems = instance.GetRange(rowIdx, rowLength, colIdx, colLength, Direction.Row)
+            var fixedOldItems = instance.GetRowRange(rowIdx, rowLength, colIdx, colLength)
                 .ToTwoDimensionalArray();
             var oldItems = fixedOldItems.ToTransposedArrayIf(needTranspose);
 
@@ -485,7 +485,7 @@ namespace WodiLib.Test.Sys
                 false,
                 TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnBasic,
                 TestTools.InitRowLength, Direction.Row,
-                (instance, addItems) => instance.Add(addItems[0]));
+                (instance, addItems) => instance.AddRow(addItems[0]));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -503,7 +503,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 false, TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
                 TestTools.InitRowLength, Direction.Row,
-                (instance, addItems) => instance.AddRange(addItems));
+                (instance, addItems) => instance.AddRowRange(addItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -521,7 +521,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 false, TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnOne,
                 TestTools.InitColumnLength, Direction.Column,
-                (instance, addItems) => instance.AddItem(addItems[0]));
+                (instance, addItems) => instance.AddColumn(addItems[0]));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -539,7 +539,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 false, TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
                 TestTools.InitColumnLength, Direction.Column,
-                (instance, addItems) => instance.AddItemRange(addItems));
+                (instance, addItems) => instance.AddColumnRange(addItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -559,7 +559,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 false, TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnBasic,
                 insertIndex, Direction.Row,
-                (instance, insertItems) => instance.Insert(insertIndex, insertItems[0]));
+                (instance, insertItems) => instance.InsertRow(insertIndex, insertItems[0]));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -579,7 +579,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 false, TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
                 insertIndex, Direction.Row,
-                (instance, insertItems) => instance.InsertRange(insertIndex, insertItems));
+                (instance, insertItems) => instance.InsertRowRange(insertIndex, insertItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -599,7 +599,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 false, TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnOne,
                 insertIndex, Direction.Column,
-                (instance, insertItems) => instance.InsertItem(insertIndex, insertItems[0]));
+                (instance, insertItems) => instance.InsertColumn(insertIndex, insertItems[0]));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -619,7 +619,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 false, TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
                 insertIndex, Direction.Column,
-                (instance, insertItems) => instance.InsertItemRange(insertIndex, insertItems));
+                (instance, insertItems) => instance.InsertColumnRange(insertIndex, insertItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -636,7 +636,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 true, TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnBasic, 0, Direction.Row,
-                (instance, addItems) => instance.Add(addItems[0]));
+                (instance, addItems) => instance.AddRow(addItems[0]));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -653,7 +653,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 true, TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic, 0, Direction.Row,
-                (instance, addItems) => instance.AddRange(addItems));
+                (instance, addItems) => instance.AddRowRange(addItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -670,7 +670,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 true, TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnOne, 0, Direction.Column,
-                (instance, addItems) => instance.AddItem(addItems[0]));
+                (instance, addItems) => instance.AddColumn(addItems[0]));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -687,7 +687,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 true, TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic, 0, Direction.Column,
-                (instance, addItems) => instance.AddItemRange(addItems));
+                (instance, addItems) => instance.AddColumnRange(addItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -705,7 +705,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 true, TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnBasic,
                 0, Direction.Row,
-                (instance, insertItems) => instance.Insert(0, insertItems[0]));
+                (instance, insertItems) => instance.InsertRow(0, insertItems[0]));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -723,7 +723,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 true, TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
                 0, Direction.Row,
-                (instance, insertItems) => instance.InsertRange(0, insertItems));
+                (instance, insertItems) => instance.InsertRowRange(0, insertItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -741,7 +741,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 true, TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnOne,
                 0, Direction.Column,
-                (instance, insertItems) => instance.InsertItem(0, insertItems[0]));
+                (instance, insertItems) => instance.InsertColumn(0, insertItems[0]));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -759,7 +759,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 true, TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
                 0, Direction.Column,
-                (instance, insertItems) => instance.InsertItemRange(0, insertItems));
+                (instance, insertItems) => instance.InsertColumnRange(0, insertItems));
         }
 
         private static void InsertTestCore(
@@ -782,7 +782,7 @@ namespace WodiLib.Test.Sys
                 out var collectionChangingEventArgsDic, out var collectionChangedEventArgsDic,
                 out var twoDimensionalListChangingEventArgsDic, out var twoDimensionalListChangedEventArgsDic);
 
-            var insertItems = MakeSetItem(type, execDirection);
+            var insertItems = MakeSetColumn(type, execDirection);
             var insertColumnLength = execDirection == Direction.Column
                 ? insertItems.Length
                 : insertItems.GetInnerArrayLength();
@@ -828,8 +828,8 @@ namespace WodiLib.Test.Sys
                             {
                                 Assert.IsTrue(dic.Keys.Count == 5);
                                 Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                                Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.Count)] == 1);
-                                Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ItemCount)] == 1);
+                                Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.RowCount)] == 1);
+                                Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ColumnCount)] == 1);
                                 Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                                 Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.IsEmpty)] == 1);
                             }
@@ -838,7 +838,7 @@ namespace WodiLib.Test.Sys
                                 // 列数 == 0 の場合、行数のみ変化
                                 Assert.IsTrue(dic.Keys.Count == 4);
                                 Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                                Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.Count)] == 1);
+                                Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.RowCount)] == 1);
                                 Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                                 Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.IsEmpty)] == 1);
                             }
@@ -848,7 +848,7 @@ namespace WodiLib.Test.Sys
                             // 元々空リストではない場合
                             Assert.IsTrue(dic.Keys.Count == 3);
                             Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.Count)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.RowCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                         }
                     }
@@ -859,8 +859,8 @@ namespace WodiLib.Test.Sys
                             // 空リストに追加した場合
                             Assert.IsTrue(dic.Keys.Count == 5);
                             Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.Count)] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ItemCount)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.RowCount)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ColumnCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.IsEmpty)] == 1);
                         }
@@ -869,7 +869,7 @@ namespace WodiLib.Test.Sys
                             // 元々空リストではない場合
                             Assert.IsTrue(dic.Keys.Count == 3);
                             Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ItemCount)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ColumnCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                         }
                     }
@@ -1023,7 +1023,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 oldIndex, newIndex, count, Direction.Row,
-                (instance, _) => instance.Move(oldIndex, newIndex));
+                (instance, _) => instance.MoveRow(oldIndex, newIndex));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -1044,7 +1044,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 oldIndex, newIndex, count, Direction.Row,
-                (instance, _) => instance.MoveRange(oldIndex, newIndex, count));
+                (instance, _) => instance.MoveRowRange(oldIndex, newIndex, count));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -1065,7 +1065,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 oldIndex, newIndex, count, Direction.Column,
-                (instance, _) => instance.MoveItem(oldIndex, newIndex));
+                (instance, _) => instance.MoveColumn(oldIndex, newIndex));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -1086,7 +1086,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 oldIndex, newIndex, count, Direction.Column,
-                (instance, _) => instance.MoveItemRange(oldIndex, newIndex, count));
+                (instance, _) => instance.MoveColumnRange(oldIndex, newIndex, count));
         }
 
         private static void MoveTestCore(
@@ -1110,8 +1110,8 @@ namespace WodiLib.Test.Sys
 
             var oldItems = instance.ToTwoDimensionalArray();
             var moveItems = (execDirection == Direction.Row
-                ? instance.GetRange(oldIndex, count)
-                : instance.GetItemRange(oldIndex, count)).ToTwoDimensionalArray();
+                ? instance.GetRowRange(oldIndex, count)
+                : instance.GetColumnRange(oldIndex, count)).ToTwoDimensionalArray();
 
             actionCore(instance, null);
 
@@ -1250,7 +1250,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 removeIndex, count, Direction.Row,
-                (instance, _) => instance.RemoveAt(removeIndex));
+                (instance, _) => instance.RemoveRow(removeIndex));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -1270,7 +1270,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 removeIndex, count, Direction.Row,
-                (instance, _) => instance.RemoveRange(removeIndex, count));
+                (instance, _) => instance.RemoveRowRange(removeIndex, count));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -1290,7 +1290,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 removeIndex, count, Direction.Column,
-                (instance, _) => instance.RemoveItem(removeIndex));
+                (instance, _) => instance.RemoveColumn(removeIndex));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -1310,7 +1310,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 removeIndex, count, Direction.Column,
-                (instance, _) => instance.RemoveItemRange(removeIndex, count));
+                (instance, _) => instance.RemoveColumnRange(removeIndex, count));
         }
 
         private static void RemoveTestCore(
@@ -1335,8 +1335,8 @@ namespace WodiLib.Test.Sys
             var target = instance.ToTwoDimensionalArray();
             var fixedOldItems = target.ToTransposedArrayIf(NeedTranspose(execDirection, Direction.Row));
             var removeItems = (execDirection == Direction.Row
-                    ? instance.GetRange(removeIndex, count)
-                    : instance.GetItemRange(removeIndex, count)
+                    ? instance.GetRowRange(removeIndex, count)
+                    : instance.GetColumnRange(removeIndex, count)
                 ).ToTwoDimensionalArray();
 
             actionCore(instance, null);
@@ -1379,7 +1379,7 @@ namespace WodiLib.Test.Sys
                         {
                             Assert.IsTrue(dic.Keys.Count == 4);
                             Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.Count)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.RowCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.IsEmpty)] == 1);
                         }
@@ -1387,7 +1387,7 @@ namespace WodiLib.Test.Sys
                         {
                             Assert.IsTrue(dic.Keys.Count == 3);
                             Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.Count)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.RowCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                         }
                     }
@@ -1397,7 +1397,7 @@ namespace WodiLib.Test.Sys
                         {
                             Assert.IsTrue(dic.Keys.Count == 4);
                             Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ItemCount)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ColumnCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.IsEmpty)] == 1);
                         }
@@ -1405,7 +1405,7 @@ namespace WodiLib.Test.Sys
                         {
                             Assert.IsTrue(dic.Keys.Count == 3);
                             Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ItemCount)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ColumnCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                         }
                     }
@@ -1530,7 +1530,7 @@ namespace WodiLib.Test.Sys
             NotifyTwoDimensionalListChangeEventType notifyTwoDimensionalListChangingEventType,
             NotifyTwoDimensionalListChangeEventType notifyTwoDimensionalListChangedEventType)
         {
-            var resetItems = MakeSetItem(TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnOne, Direction.Row);
+            var resetItems = MakeSetColumn(TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnOne, Direction.Row);
 
             ResetTestCore(
                 notifyPropertyChangingEventType, notifyPropertyChangedEventType,
@@ -1589,8 +1589,8 @@ namespace WodiLib.Test.Sys
                     // 通知が行われていること
                     Assert.IsTrue(dic.Keys.Count == 4);
                     Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                    Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.Count)] == 1);
-                    Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ItemCount)] == 1);
+                    Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.RowCount)] == 1);
+                    Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ColumnCount)] == 1);
                     Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                 }
                 else if (eventType == NotifyPropertyChangeEventType.Disabled)
@@ -1690,7 +1690,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnBasic,
                 startIndex, Direction.Row,
-                (instance, items) => instance.Overwrite(startIndex, items));
+                (instance, items) => instance.OverwriteRow(startIndex, items));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -1710,7 +1710,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
                 startIndex, Direction.Row,
-                (instance, items) => instance.Overwrite(startIndex, items));
+                (instance, items) => instance.OverwriteRow(startIndex, items));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -1730,7 +1730,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
                 startIndex, Direction.Row,
-                (instance, items) => instance.Overwrite(startIndex, items));
+                (instance, items) => instance.OverwriteRow(startIndex, items));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -1750,7 +1750,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnOne,
                 startIndex, Direction.Column,
-                (instance, items) => instance.OverwriteItem(startIndex, items));
+                (instance, items) => instance.OverwriteColumn(startIndex, items));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -1770,7 +1770,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
                 startIndex, Direction.Column,
-                (instance, items) => instance.OverwriteItem(startIndex, items));
+                (instance, items) => instance.OverwriteColumn(startIndex, items));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -1790,7 +1790,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
                 startIndex, Direction.Column,
-                (instance, items) => instance.OverwriteItem(startIndex, items));
+                (instance, items) => instance.OverwriteColumn(startIndex, items));
         }
 
         private static void OverwriteTestCore(
@@ -1812,7 +1812,7 @@ namespace WodiLib.Test.Sys
                 out var collectionChangingEventArgsDic, out var collectionChangedEventArgsDic,
                 out var twoDimensionalListChangingEventArgsDic, out var twoDimensionalListChangedEventArgsDic);
 
-            var overwriteItems = MakeSetItem(type, execDirection);
+            var overwriteItems = MakeSetColumn(type, execDirection);
             var overwriteOuterLength = overwriteItems.Length;
             var overwriteInnerLength = overwriteItems.GetInnerArrayLength();
             var overwriteRowLength = execDirection != Direction.Column ? overwriteOuterLength : overwriteInnerLength;
@@ -1862,13 +1862,13 @@ namespace WodiLib.Test.Sys
                     if (isChangeRowLength)
                     {
                         count += 1;
-                        Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.Count)] == 1);
+                        Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.RowCount)] == 1);
                     }
 
                     if (isChangeColumnLength)
                     {
                         count += 1;
-                        Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ItemCount)] == 1);
+                        Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ColumnCount)] == 1);
                     }
 
                     if (isChangeRowLength || isChangeColumnLength)
@@ -2296,7 +2296,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 length, TestTools.InitColumnLength, Direction.Row,
-                (instance, _) => instance.AdjustLength(length));
+                (instance, _) => instance.AdjustRowLength(length));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -2324,7 +2324,7 @@ namespace WodiLib.Test.Sys
                     collectionChangingEventType, collectionChangedEventType,
                     notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                     resultLength, TestTools.InitColumnLength, Direction.Row,
-                    (instance, _) => instance.AdjustLengthIfLong(length));
+                    (instance, _) => instance.AdjustRowLengthIfLong(length));
             });
         }
 
@@ -2353,7 +2353,7 @@ namespace WodiLib.Test.Sys
                     collectionChangingEventType, collectionChangedEventType,
                     notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                     resultLength, TestTools.InitColumnLength, Direction.Row,
-                    (instance, _) => instance.AdjustLengthIfShort(length));
+                    (instance, _) => instance.AdjustRowLengthIfShort(length));
             });
         }
 
@@ -2373,7 +2373,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 TestTools.InitRowLength, length, Direction.Column,
-                (instance, _) => instance.AdjustItemLength(length));
+                (instance, _) => instance.AdjustColumnLength(length));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -2401,7 +2401,7 @@ namespace WodiLib.Test.Sys
                     collectionChangingEventType, collectionChangedEventType,
                     notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                     TestTools.InitRowLength, resultLength, Direction.Column,
-                    (instance, _) => instance.AdjustItemLengthIfLong(length));
+                    (instance, _) => instance.AdjustColumnLengthIfLong(length));
             });
         }
 
@@ -2430,7 +2430,7 @@ namespace WodiLib.Test.Sys
                     collectionChangingEventType, collectionChangedEventType,
                     notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                     TestTools.InitRowLength, resultLength, Direction.Column,
-                    (instance, _) => instance.AdjustItemLengthIfShort(length));
+                    (instance, _) => instance.AdjustColumnLengthIfShort(length));
             });
         }
 
@@ -2499,35 +2499,35 @@ namespace WodiLib.Test.Sys
                         case (true, true, true):
                             Assert.IsTrue(dic.Keys.Count == 5);
                             Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.Count)] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ItemCount)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.RowCount)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ColumnCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.IsEmpty)] == 1);
                             break;
                         case (true, false, true):
                             Assert.IsTrue(dic.Keys.Count == 4);
                             Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.Count)] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ItemCount)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.RowCount)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ColumnCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                             break;
                         case (true, true, false):
                             Assert.IsTrue(dic.Keys.Count == 4);
                             Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.Count)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.RowCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.IsEmpty)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                             break;
                         case (true, false, false):
                             Assert.IsTrue(dic.Keys.Count == 3);
                             Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.Count)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.RowCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                             break;
                         case (false, _, true):
                             Assert.IsTrue(dic.Keys.Count == 3);
                             Assert.IsTrue(dic[ListConstant.IndexerName] == 1);
-                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ItemCount)] == 1);
+                            Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.ColumnCount)] == 1);
                             Assert.IsTrue(dic[nameof(TwoDimensionalList<TestRecord>.AllCount)] == 1);
                             break;
                         case (false, _, false):
@@ -3137,7 +3137,7 @@ namespace WodiLib.Test.Sys
 
         #region TestTools
 
-        private static TestRecord[][] MakeSetItem(TestDoubleEnumerableInstanceType type, Direction execDirection)
+        private static TestRecord[][] MakeSetColumn(TestDoubleEnumerableInstanceType type, Direction execDirection)
         {
             return TestTools.MakeTestRecordList(type, execDirection == Direction.Column, TestTools.MakeInsertItem)
                 ?.ToTwoDimensionalArray();

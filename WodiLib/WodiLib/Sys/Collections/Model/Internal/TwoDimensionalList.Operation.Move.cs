@@ -81,7 +81,7 @@ namespace WodiLib.Sys.Collections
                 }
 
                 protected override T[][] MoveItems(TwoDimensionalList<T> target, int oldIndex, int count)
-                    => target.Get_Impl(0, target.Count, oldIndex, count, Direction.Column);
+                    => target.Get_Impl(0, target.RowCount, oldIndex, count, Direction.Column);
             }
         }
     }

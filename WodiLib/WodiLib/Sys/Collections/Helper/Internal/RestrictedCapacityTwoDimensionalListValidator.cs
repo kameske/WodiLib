@@ -6,18 +6,17 @@
 // see LICENSE file
 // ========================================
 
-using System;
 using System.Collections.Generic;
 
 namespace WodiLib.Sys.Collections
 {
     internal class RestrictedCapacityTwoDimensionalListValidator<T> : ITwoDimensionalListValidator<T>
     {
-        private IReadOnlyRestrictedCapacityTwoDimensionalList<T> Target { get; }
+        private ITwoDimensionalList<T> Target { get; }
 
         private CommonTwoDimensionalListValidator<T> PreConditionValidator { get; }
 
-        public RestrictedCapacityTwoDimensionalListValidator(IReadOnlyRestrictedCapacityTwoDimensionalList<T> target)
+        public RestrictedCapacityTwoDimensionalListValidator(ITwoDimensionalList<T> target)
         {
             Target = target;
             PreConditionValidator = new CommonTwoDimensionalListValidator<T>(target);
@@ -26,13 +25,13 @@ namespace WodiLib.Sys.Collections
         public void Constructor(T[][] initItems)
         {
 #if DEBUG
-            RestrictedCapacityTwoDimensionalListValidationHelper.CapacityConfig(Target.GetMinCapacity(),
-                Target.GetMaxCapacity(), Target.GetMinItemCapacity(), Target.GetMaxItemCapacity());
+            RestrictedCapacityTwoDimensionalListValidationHelper.CapacityConfig(Target.GetMinRowCapacity(),
+                Target.GetMaxRowCapacity(), Target.GetMinColumnCapacity(), Target.GetMaxColumnCapacity());
 #endif
             PreConditionValidator.Constructor(initItems);
             RestrictedCapacityTwoDimensionalListValidationHelper.RowAndColCount(initItems,
-                Target.GetMinCapacity(), Target.GetMaxCapacity(), Target.GetMinItemCapacity(),
-                Target.GetMaxItemCapacity());
+                Target.GetMinRowCapacity(), Target.GetMaxRowCapacity(), Target.GetMinColumnCapacity(),
+                Target.GetMaxColumnCapacity());
         }
 
         public void CopyTo(IReadOnlyList<T>[] array, int index)
@@ -77,11 +76,11 @@ namespace WodiLib.Sys.Collections
             if (items.Length <= 0) return;
 
             var max = direction != Direction.Column
-                ? Target.GetMaxCapacity()
-                : Target.GetMaxItemCapacity();
+                ? Target.GetMaxRowCapacity()
+                : Target.GetMaxColumnCapacity();
             var nowLength = direction != Direction.Column
-                ? Target.Count
-                : Target.ItemCount;
+                ? Target.RowCount
+                : Target.ColumnCount;
             RestrictedCapacityTwoDimensionalListValidationHelper.ItemMaxCount(
                 nowLength + items.Length, max, direction);
         }
@@ -89,29 +88,29 @@ namespace WodiLib.Sys.Collections
         public void Overwrite(int row, T[][] items, Direction direction)
         {
             PreConditionValidator.Overwrite(row, items, direction);
-            if (Target.ItemCount == 0 && items.Length > 0)
+            if (Target.ColumnCount == 0 && items.Length > 0)
             {
                 RestrictedCapacityTwoDimensionalListValidationHelper.ItemMaxCount(
                     items[0].Length,
-                    Target.GetMaxItemCapacity(), Direction.Column);
+                    Target.GetMaxColumnCapacity(), Direction.Column);
             }
 
             if (direction != Direction.Column)
             {
-                if (row + items.Length > Target.Count)
+                if (row + items.Length > Target.RowCount)
                 {
                     RestrictedCapacityTwoDimensionalListValidationHelper.ItemMaxCount(
                         row + items.Length,
-                        Target.GetMaxCapacity(), Direction.Row);
+                        Target.GetMaxRowCapacity(), Direction.Row);
                 }
             }
             else
             {
-                if (row + items.Length > Target.ItemCount)
+                if (row + items.Length > Target.ColumnCount)
                 {
                     RestrictedCapacityTwoDimensionalListValidationHelper.ItemMaxCount(
                         row + items.Length,
-                        Target.GetMaxItemCapacity(), Direction.Column);
+                        Target.GetMaxColumnCapacity(), Direction.Column);
                 }
             }
         }
@@ -126,11 +125,11 @@ namespace WodiLib.Sys.Collections
             PreConditionValidator.Remove(row, count, direction);
 
             var checkLength = (direction != Direction.Column
-                ? Target.Count
-                : Target.ItemCount) - count;
+                ? Target.RowCount
+                : Target.ColumnCount) - count;
             var min = direction != Direction.Column
-                ? Target.GetMinCapacity()
-                : Target.GetMinItemCapacity();
+                ? Target.GetMinRowCapacity()
+                : Target.GetMinColumnCapacity();
             RestrictedCapacityTwoDimensionalListValidationHelper.ItemMinCount(
                 checkLength, min, direction);
         }
@@ -139,28 +138,22 @@ namespace WodiLib.Sys.Collections
         {
             PreConditionValidator.AdjustLength(rowLength, columnLength);
             RestrictedCapacityTwoDimensionalListValidationHelper.ItemCount(rowLength,
-                Target.GetMinCapacity(), Target.GetMaxCapacity(), Direction.Row);
+                Target.GetMinRowCapacity(), Target.GetMaxRowCapacity(), Direction.Row);
             RestrictedCapacityTwoDimensionalListValidationHelper.ItemCount(columnLength,
-                Target.GetMinItemCapacity(), Target.GetMaxItemCapacity(), Direction.Column);
+                Target.GetMinColumnCapacity(), Target.GetMaxColumnCapacity(), Direction.Column);
         }
 
         public void Reset(T[][] items)
         {
             PreConditionValidator.Reset(items);
-            RestrictedCapacityTwoDimensionalListValidationHelper.RowAndColCount(items, Target.GetMinCapacity(),
-                Target.GetMaxCapacity(), Target.GetMinItemCapacity(), Target.GetMaxItemCapacity(),
+            RestrictedCapacityTwoDimensionalListValidationHelper.RowAndColCount(items, Target.GetMinRowCapacity(),
+                Target.GetMaxRowCapacity(), Target.GetMinColumnCapacity(), Target.GetMaxColumnCapacity(),
                 nameof(items));
         }
 
-        public ITwoDimensionalListValidator<T> CreateAnotherFor(IReadOnlyTwoDimensionalList<T> target)
+        public ITwoDimensionalListValidator<T> CreateAnotherFor(ITwoDimensionalList<T> target)
         {
-            if (target is IReadOnlyRestrictedCapacityTwoDimensionalList<T> casted)
-            {
-                return new RestrictedCapacityTwoDimensionalListValidator<T>(casted);
-            }
-
-            throw new ArgumentException(ErrorMessage.InvalidAnyCast(nameof(target),
-                nameof(RestrictedCapacityTwoDimensionalListValidator<T>)));
+            return new RestrictedCapacityTwoDimensionalListValidator<T>(target);
         }
     }
 }

@@ -3248,11 +3248,18 @@ namespace WodiLib.Test.Sys
 
         private class CollectionTest7 : FixedLengthList<string, CollectionTest7>
         {
-            public override int GetCapacity() => 10;
+            public CollectionTest7() : base(Enumerable.Range(0, 10).Select(_ => ""))
+            {
+            }
 
             protected override string MakeDefaultItem(int index) => index.ToString();
 
             public override CollectionTest7 DeepClone()
+            {
+                throw new Exception();
+            }
+
+            protected override CollectionTest7 MakeInstance(IEnumerable<string> items)
             {
                 throw new Exception();
             }
@@ -3307,7 +3314,7 @@ namespace WodiLib.Test.Sys
 
         public class TestClass : IEqualityComparable<TestClass>
         {
-            public string Guid { get; private set; } = System.Guid.NewGuid().ToString();
+            public string Guid { get; private init; } = System.Guid.NewGuid().ToString();
 
             public bool ItemEquals(TestClass other)
             {

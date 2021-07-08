@@ -20,7 +20,7 @@ namespace WodiLib.Sys.Collections
     ///     処理拡張を行う。
     /// </remarks>
     /// <typeparam name="T">リスト内包型</typeparam>
-    internal abstract class WodiLibListValidatorTemplate<T> : IWodiLibListValidator<T>
+    public abstract class WodiLibListValidatorTemplate<T> : IWodiLibListValidator<T>
     {
         /// <summary>
         ///     カスタマイズ元の検証処理。

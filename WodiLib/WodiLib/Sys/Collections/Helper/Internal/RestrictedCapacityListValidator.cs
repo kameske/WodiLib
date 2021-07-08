@@ -17,11 +17,11 @@ namespace WodiLib.Sys.Collections
     /// </summary>
     internal class RestrictedCapacityListValidator<T> : WodiLibListValidatorTemplate<T>
     {
-        private new IReadOnlyRestrictedCapacityList<T> Target { get; }
+        private new IRestrictedCapacityList<T> Target { get; }
 
         protected override IWodiLibListValidator<T>? BaseValidator { get; }
 
-        public RestrictedCapacityListValidator(IReadOnlyRestrictedCapacityList<T> target) : base(target)
+        public RestrictedCapacityListValidator(IRestrictedCapacityList<T> target) : base(target)
         {
             Target = target;
             BaseValidator = new CommonListValidator<T>(target);

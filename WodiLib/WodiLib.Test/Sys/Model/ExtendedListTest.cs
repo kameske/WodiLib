@@ -909,6 +909,201 @@ namespace WodiLib.Test.Sys
 
         #endregion
 
+        #region NotNotifyMethods
+
+        [TestCase("", false)]
+        [TestCase("0", true)]
+        [TestCase("10", false)]
+        [TestCase(null, false)]
+        public static void ContainsTest_1(string searchValue, bool answer)
+        {
+            var instance = MakeTestList(10);
+
+            var result = instance.Contains(searchValue);
+
+            Assert.AreEqual(answer, result);
+        }
+
+        [TestCase("0", true, true)]
+        [TestCase("5", true, false)]
+        [TestCase("10", true, false)]
+        [TestCase(null, true, false)]
+        [TestCase("0", false, true)]
+        [TestCase("5", false, false)]
+        [TestCase("10", false, true)]
+        [TestCase(null, false, false)]
+        public static void ContainsTest_2(string searchValue, bool itemComparerIsNull, bool answer)
+        {
+            var instance = MakeTestList(5);
+
+            var itemComparer = itemComparerIsNull
+                ? null
+                : new TestStringComparer();
+
+            var result = instance.Contains(searchValue, itemComparer);
+
+            Assert.AreEqual(answer, result);
+        }
+
+        [Test]
+        public static void GetMaxCapacityTest()
+        {
+            var instance = MakeTestList(10);
+            Assert.AreEqual(int.MaxValue, instance.GetMaxCapacity());
+        }
+
+        [Test]
+        public static void GetMinCapacityTest()
+        {
+            var instance = MakeTestList(10);
+            Assert.AreEqual(0, instance.GetMinCapacity());
+        }
+
+        [Test]
+        public static void ItemEqualsTest_ExtendedList()
+        {
+            var instance = MakeTestList(10);
+
+            {
+                // null
+                Assert.AreEqual(false, instance.ItemEquals(null));
+            }
+
+            {
+                // 同じインスタンス
+                Assert.AreEqual(true, instance.ItemEquals(instance));
+            }
+
+            {
+                // 同じ要素のインスタンス
+                var other = MakeTestList(10);
+                Assert.AreEqual(true, instance.ItemEquals(other));
+            }
+
+            {
+                // 一つだけ要素が異なるインスタンス
+                var other = MakeTestList(10);
+                other[2] = "replaced";
+                Assert.AreEqual(false, instance.ItemEquals(other));
+            }
+
+            {
+                // 要素が多いインスタンス
+                var other = MakeTestList(11);
+                Assert.AreEqual(false, instance.ItemEquals(other));
+            }
+
+            {
+                // 要素が不足しているインスタンス
+                var other = MakeTestList(10);
+                other.RemoveAt(4);
+                Assert.AreEqual(false, instance.ItemEquals(other));
+            }
+        }
+
+        [Test]
+        public static void ItemEqualsTest_ItemComparerIsNull()
+        {
+            var instance = MakeTestList(10);
+
+            {
+                // null
+                Assert.AreEqual(false, instance.ItemEquals(null, null));
+            }
+
+            {
+                // 同じインスタンス
+                Assert.AreEqual(true, instance.ItemEquals(instance, null));
+            }
+
+            {
+                // 同じ要素のインスタンス
+                var other = MakeTestList(10);
+                Assert.AreEqual(true, instance.ItemEquals(other, null));
+            }
+
+            {
+                // 一つだけ要素が異なるインスタンス
+                var other = MakeTestList(10);
+                other[2] = "replaced";
+                Assert.AreEqual(false, instance.ItemEquals(other, null));
+            }
+
+            {
+                // 要素が多いインスタンス
+                var other = MakeTestList(11);
+                Assert.AreEqual(false, instance.ItemEquals(other, null));
+            }
+
+            {
+                // 要素が不足しているインスタンス
+                var other = MakeTestList(10);
+                other.RemoveAt(4);
+                Assert.AreEqual(false, instance.ItemEquals(other, null));
+            }
+        }
+
+        [Test]
+        public static void ItemEqualsTest_ItemComparerIsNotNull()
+        {
+            var instance = MakeTestList(10);
+            var itemComparer = new TestStringComparer();
+
+            {
+                // null
+                Assert.AreEqual(false, instance.ItemEquals(null, itemComparer));
+            }
+
+            {
+                // 同じインスタンス
+                Assert.AreEqual(true, instance.ItemEquals(instance, itemComparer));
+            }
+
+            {
+                // 同じ要素のインスタンス
+                var other = MakeTestList(10);
+                Assert.AreEqual(true, instance.ItemEquals(other, itemComparer));
+            }
+
+            {
+                // 一つだけ要素が異なるインスタンス
+                var other = MakeTestList(10);
+                other[2] = "replaced";
+                Assert.AreEqual(false, instance.ItemEquals(other, itemComparer));
+            }
+
+            {
+                // 要素が多いインスタンス
+                var other = MakeTestList(11);
+                Assert.AreEqual(false, instance.ItemEquals(other, itemComparer));
+            }
+
+            {
+                // 要素が不足しているインスタンス
+                var other = MakeTestList(10);
+                other.RemoveAt(4);
+                Assert.AreEqual(false, instance.ItemEquals(other, itemComparer));
+            }
+        }
+
+        [Test]
+        public static void AsWritableListTest()
+        {
+            var instance = MakeTestList(1);
+            var writable = instance.AsWritableList();
+            Assert.IsTrue(instance.ItemEquals(writable));
+        }
+
+        [Test]
+        public static void AsReadableListTest()
+        {
+            var instance = MakeTestList(1);
+            var readable = instance.AsReadableList();
+            Assert.IsTrue(instance.ItemEquals(readable));
+        }
+
+        #endregion
+
         private static TestList MakeTestList(int initLength,
             NotifyCollectionChangeEventType notifyCollectionChangingEventType,
             NotifyCollectionChangeEventType notifyCollectionChangedEventType,
@@ -917,14 +1112,22 @@ namespace WodiLib.Test.Sys
         {
             var initStringList = MakeStringList(initLength);
             var result = initStringList == null
-                ? new TestList()
-                : new TestList(initStringList);
+                ? new TestList
+                {
+                    // Observerに購読させないよう、イベントObserver登録より前に通知フラグ設定
+                    NotifyCollectionChangingEventType = notifyCollectionChangingEventType,
+                    NotifyCollectionChangedEventType = notifyCollectionChangedEventType,
 
-            // Observerに購読させないよう、イベントObserver登録より前に通知フラグ設定
-            result.NotifyCollectionChangingEventType = notifyCollectionChangingEventType;
-            result.NotifyCollectionChangedEventType = notifyCollectionChangedEventType;
+                    FuncMakeItems = MakeTestListMakeItemsItem,
+                }
+                : new TestList(initStringList)
+                {
+                    // Observerに購読させないよう、イベントObserver登録より前に通知フラグ設定
+                    NotifyCollectionChangingEventType = notifyCollectionChangingEventType,
+                    NotifyCollectionChangedEventType = notifyCollectionChangedEventType,
 
-            result.FuncMakeItems = MakeTestListMakeItemsItem;
+                    FuncMakeItems = MakeTestListMakeItemsItem,
+                };
 
             collectionChangingEventArgsList = new NotifyCollectionChangedEventArgsDic();
             result.CollectionChanging += MakeCollectionChangeEventHandler(true, collectionChangingEventArgsList);
@@ -934,6 +1137,10 @@ namespace WodiLib.Test.Sys
 
             return result;
         }
+
+        private static TestList MakeTestList(int initLength)
+            => MakeTestList(initLength, NotifyCollectionChangeEventType.None, NotifyCollectionChangeEventType.None,
+                out _, out _);
 
         #region MakeTestItems
 
@@ -953,13 +1160,13 @@ namespace WodiLib.Test.Sys
             => index.ToString();
 
         /// <summary>
-        /// <see cref="TestList"/> の <see cref="IExtendedList{T}.AdjustLengthIfShort"/> で不足要素を補う。
+        ///     <see cref="TestList"/> の <see cref="IExtendedList{T}.AdjustLengthIfShort"/> で不足要素を補う。
         /// </summary>
         private static IEnumerable<string> MakeTestListMakeItemsItem(int index, int count)
             => Enumerable.Range(index, count).Select(i => $"Adjusted {i} item.");
 
         /// <summary>
-        /// CollectionChanging, CollectionChanged に登録するイベントハンドラを生成する
+        ///     CollectionChanging, CollectionChanged に登録するイベントハンドラを生成する
         /// </summary>
         /// <param name="isBefore">CollectionChanging にセットする場合true, CollectionChanged にセットする場合false</param>
         /// <param name="resultDic">発生したイベント引数を格納するDirectory</param>
@@ -1020,7 +1227,7 @@ namespace WodiLib.Test.Sys
             #region 判定用
 
             /// <summary>
-            /// いずれのイベント引数も格納されていない場合 true
+            ///     いずれのイベント引数も格納されていない場合 true
             /// </summary>
             public bool IsEmpty => Impl.All(x => x.Value.Count == 0);
 
@@ -1247,6 +1454,24 @@ namespace WodiLib.Test.Sys
                 Impl.Add(nameof(NotifyCollectionChangedAction.Move),
                     new List<NotifyCollectionChangedEventArgsEx<string>>());
             }
+        }
+
+        /// <summary>
+        ///     Contains, IndexOf テスト用の IEqualityComparer。
+        ///     文字列を数値に変換して、1の位のみ比較する。
+        /// </summary>
+        private class TestStringComparer : IEqualityComparer<string>
+        {
+            public bool Equals(string x, string y)
+            {
+                int.TryParse(x, out var xResult);
+                int.TryParse(y, out var yResult);
+
+                return xResult % 10 == yResult % 10;
+            }
+
+            public int GetHashCode(string obj)
+                => obj.GetHashCode();
         }
     }
 }

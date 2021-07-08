@@ -31,10 +31,10 @@ namespace WodiLib.Sys.Collections
                     base(target, coreAction)
                 {
                     {
-                        var replaceLength = Math.Min(target.Count, rowLength);
+                        var replaceLength = Math.Min(target.RowCount, rowLength);
                         var replaceItems = MakeReplaceItems(target, replaceLength, columnLength, addColumnItems);
                         CollectionChangeEventArgsFactory
-                            = target.Count < rowLength
+                            = target.RowCount < rowLength
                                 ? CreateCollectionChangeEventArgsFactoryIfShort(target,
                                     replaceItems, addRowItems)
                                 : CreateCollectionChangeEventArgsFactoryIfLong(target,
@@ -64,7 +64,7 @@ namespace WodiLib.Sys.Collections
                         return (oldItems, newItems);
                     }
 
-                    var removeLength = target.ItemCount - columnLength;
+                    var removeLength = target.ColumnCount - columnLength;
                     if (removeLength > 0)
                     {
                         // remove
@@ -85,14 +85,14 @@ namespace WodiLib.Sys.Collections
                         IReadOnlyList<T[]> addRowItems)
                 {
                     return CollectionChangeEventArgsFactory<IReadOnlyList<T>>
-                        .CreateAdjustLengthIfShort(target, replaceItems, target.Count, addRowItems);
+                        .CreateAdjustLengthIfShort(target, replaceItems, target.RowCount, addRowItems);
                 }
 
                 private static CollectionChangeEventArgsFactory<IReadOnlyList<T>>
                     CreateCollectionChangeEventArgsFactoryIfLong(TwoDimensionalList<T> target,
                         int rowLength, (IReadOnlyList<T[]>, IReadOnlyList<T[]>)? replaceItems)
                 {
-                    var removeLength = target.Count - rowLength;
+                    var removeLength = target.RowCount - rowLength;
                     var removeItems = removeLength == 0
                         ? Array.Empty<T[]>()
                         : target.Get_Impl(rowLength, removeLength)
@@ -148,10 +148,10 @@ namespace WodiLib.Sys.Collections
                 private static string[] CreateNotifyPropertyList(IReadOnlyTwoDimensionalList<T> target,
                     int rowLength, int columnLength)
                 {
-                    var isChangeRowLength = target.Count != rowLength;
-                    var isChangeColLength = target.ItemCount != columnLength;
+                    var isChangeRowLength = target.RowCount != rowLength;
+                    var isChangeColLength = target.ColumnCount != columnLength;
                     var isAllCountChange = target.AllCount != rowLength * columnLength;
-                    var isEmptyFrom = target.Count == 0;
+                    var isEmptyFrom = target.RowCount == 0;
                     var isEmptyTo = rowLength == 0;
 
                     List<string> notifyProps = new();
@@ -163,12 +163,12 @@ namespace WodiLib.Sys.Collections
 
                     if (isChangeRowLength)
                     {
-                        notifyProps.Add(nameof(target.Count));
+                        notifyProps.Add(nameof(target.RowCount));
                     }
 
                     if (isChangeColLength)
                     {
-                        notifyProps.Add(nameof(target.ItemCount));
+                        notifyProps.Add(nameof(target.ColumnCount));
                     }
 
                     if (isAllCountChange)

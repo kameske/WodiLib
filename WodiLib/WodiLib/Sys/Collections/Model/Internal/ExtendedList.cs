@@ -24,7 +24,7 @@ namespace WodiLib.Sys.Collections
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
     internal partial class ExtendedList<T> : ModelBase<ExtendedList<T>>, IExtendedList<T>,
-        IDeepCloneableExtendedList<ExtendedList<T>, T>
+        IDeepCloneableList<ExtendedList<T>, T>
     {
         /*
          * WodiLib 内部で使用する独自汎用リスト。
@@ -33,9 +33,16 @@ namespace WodiLib.Sys.Collections
          *
          * 引数の検証も当クラスでは行わない。
          */
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Constants
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private const int MaxCapacity = int.MaxValue;
+
+        private const int MinCapacity = 0;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Event
+        //      Events
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
@@ -69,7 +76,7 @@ namespace WodiLib.Sys.Collections
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Property
+        //      Public Properties
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc cref="IExtendedList{T}.this"/>
@@ -98,26 +105,26 @@ namespace WodiLib.Sys.Collections
         public Func<int, int, IEnumerable<T>> FuncMakeItems
         {
             get => Items.FuncMakeItems;
-            set => Items.FuncMakeItems = value;
+            init => Items.FuncMakeItems = value;
         }
 
-        /// <inheritdoc cref="INotifyCollectionChange.NotifyCollectionChangingEventType"/>
+        /// <inheritdoc cref="INotifiableCollectionChange.NotifyCollectionChangingEventType"/>
         public NotifyCollectionChangeEventType NotifyCollectionChangingEventType { get; set; }
             = WodiLibConfig.GetDefaultNotifyBeforeCollectionChangeEventType();
 
-        /// <inheritdoc cref="INotifyCollectionChange.NotifyCollectionChangedEventType"/>
+        /// <inheritdoc cref="INotifiableCollectionChange.NotifyCollectionChangedEventType"/>
         public NotifyCollectionChangeEventType NotifyCollectionChangedEventType { get; set; }
             = WodiLibConfig.GetDefaultNotifyAfterCollectionChangeEventType();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Property
+        //      Private Properties
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>リスト本体</summary>
         private SimpleList<T> Items { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Constructor
+        //      Constructors
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
@@ -139,36 +146,8 @@ namespace WodiLib.Sys.Collections
         /// <param name="src">コピー元</param>
         /// <param name="length">コピー後の要素数</param>
         /// <param name="values">コピー時上書き要素</param>
-        /// <param name="funcMakeDefaultItem">デフォルト要素生成関数</param>
-        internal ExtendedList(IEnumerable<T> src, int? length, IReadOnlyDictionary<int, T>? values,
-            Func<int, T> funcMakeDefaultItem)
-        {
-            Items = new SimpleList<T>(src, true);
-            FuncMakeItems = (index, count) => Enumerable.Range(index, count).Select(funcMakeDefaultItem);
-
-            if (length is not null)
-            {
-                AdjustLength(length.Value);
-            }
-
-            values?.ForEach(pair =>
-            {
-                var key = pair.Key;
-                if (0 <= key && key < Count)
-                {
-                    this[key] = pair.Value;
-                }
-            });
-        }
-
-        /// <summary>
-        ///     ディープコピーコンストラクタ
-        /// </summary>
-        /// <param name="src">コピー元</param>
-        /// <param name="length">コピー後の要素数</param>
-        /// <param name="values">コピー時上書き要素</param>
         /// <param name="funcMakeItem">デフォルト要素生成関数</param>
-        internal ExtendedList(IEnumerable<T> src, int? length, IReadOnlyDictionary<int, T>? values,
+        private ExtendedList(IEnumerable<T> src, int? length, IReadOnlyDictionary<int, T>? values,
             Func<int, int, IEnumerable<T>> funcMakeItem)
         {
             Items = new SimpleList<T>(src, true);
@@ -190,33 +169,60 @@ namespace WodiLib.Sys.Collections
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Method
+        //      Public Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.Contains(TItem)"/>
+        public bool Contains([AllowNull] T item)
+            => Items.Contains(item);
+
+        /// <inheritdoc cref="IReadableList{TItem,TImpl}.IndexOf(TItem, IEqualityComparer{TItem}?)"/>
+        public bool Contains([AllowNull] T item, IEqualityComparer<T>? itemComparer)
+            => IndexOf(item, itemComparer) > -1;
+
+        /// <inheritdoc/>
+        public int GetMaxCapacity() => MaxCapacity;
+
+        /// <inheritdoc/>
+        public int GetMinCapacity() => MinCapacity;
 
         /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator() => Items.GetEnumerator();
 
         /// <inheritdoc/>
-        IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
+        public IEnumerable<T> GetRange(int index, int count)
+            => Get_Impl(index, count);
 
-        /// <inheritdoc cref="IExtendedList{T}.IndexOf"/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.IndexOf(TItem)"/>
         public int IndexOf([AllowNull] T item)
             => Items.IndexOf(item);
 
-        /// <inheritdoc cref="IExtendedList{T}.Contains"/>
-        public bool Contains([AllowNull] T item)
-            => Items.Contains(item);
+        /// <inheritdoc cref="IReadableList{TItem,TImpl}.IndexOf(TItem, IEqualityComparer{TItem}?)"/>
+        public int IndexOf([AllowNull] T item, IEqualityComparer<T>? itemComparer)
+        {
+            if (itemComparer is null)
+            {
+                return IndexOf(item);
+            }
 
-        /// <inheritdoc/>
-        public IEnumerable<T> GetRange(int index, int count)
-            => Get_Impl(index, count);
+            if (item is null)
+            {
+                return -1;
+            }
+
+            return Items.FindIndex(obj => itemComparer.Equals(obj, item));
+        }
+
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.CopyTo"/>
+        public void CopyTo(T[] array, int arrayIndex)
+            => Items.CopyTo(array, arrayIndex);
 
         /// <inheritdoc/>
         public void SetRange(int index, IEnumerable<T> items)
             => Set_Impl(index, items.ToArray());
 
-        /// <inheritdoc/>
+
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.Add"/>
         public void Add(T item)
             => Insert_Impl(Count, item);
 
@@ -224,7 +230,7 @@ namespace WodiLib.Sys.Collections
         public void AddRange(IEnumerable<T> items)
             => Insert_Impl(Count, items.ToArray());
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.Insert"/>
         public void Insert(int index, T item)
             => Insert_Impl(index, item);
 
@@ -244,11 +250,11 @@ namespace WodiLib.Sys.Collections
         public void MoveRange(int oldIndex, int newIndex, int count)
             => Move_Impl(oldIndex, newIndex, count);
 
-        /// <inheritdoc/>
-        public bool Remove(T item)
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.Remove"/>
+        public bool Remove([AllowNull] T item)
             => Remove_Impl(item);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.RemoveAt"/>
         public void RemoveAt(int index)
             => Remove_Impl(index, 1);
 
@@ -269,6 +275,10 @@ namespace WodiLib.Sys.Collections
             => AdjustLengthIfLong_Impl(length);
 
         /// <inheritdoc/>
+        public void Reset()
+            => Reset_Impl(FuncMakeItems(0, Count).ToArray());
+
+        /// <inheritdoc/>
         public void Reset(IEnumerable<T> initItems)
             => Reset_Impl(initItems.ToArray());
 
@@ -276,19 +286,9 @@ namespace WodiLib.Sys.Collections
         public void Clear()
             => Clear_Impl();
 
-        /// <inheritdoc cref="IExtendedList{T}.IndexOf"/>
-        public void CopyTo(T[] array, int arrayIndex)
-            => Items.CopyTo(array, arrayIndex);
-
-        #region Equals
-
         /// <inheritdoc/>
         public override bool ItemEquals(ExtendedList<T>? other)
-            => ItemEquals((IEnumerable<T>?) other);
-
-        /// <inheritdoc/>
-        public bool ItemEquals(IReadOnlyExtendedList<T>? other)
-            => ItemEquals((IEnumerable<T>?) other);
+            => ItemEquals(other);
 
         /// <inheritdoc/>
         public bool ItemEquals(IEnumerable<T>? other)
@@ -322,9 +322,11 @@ namespace WodiLib.Sys.Collections
             });
         }
 
-        #endregion
+        /// <inheritdoc/>
+        public IFixedLengthList<T> AsWritableList() => this;
 
-        #region Clone
+        /// <inheritdoc/>
+        public IReadOnlyExtendedList<T> AsReadableList() => this;
 
         /// <inheritdoc/>
         public override ExtendedList<T> DeepClone()
@@ -332,7 +334,7 @@ namespace WodiLib.Sys.Collections
             return new(this, null, null, FuncMakeItems);
         }
 
-        /// <inheritdoc cref="IDeepCloneableExtendedList{T,TIn}.DeepCloneWith"/>
+        /// <inheritdoc cref="IDeepCloneableList{T,TIn}.DeepCloneWith"/>
         public ExtendedList<T> DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
         {
             var valueList = values?.ToList();
@@ -346,13 +348,76 @@ namespace WodiLib.Sys.Collections
             return new ExtendedList<T>(clone);
         }
 
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Interface Implementation
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        #region GetEnumerator
+
+        /// <inheritdoc/>
+        IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
+
+        #endregion
+
+        #region DeepClone
+
+        IReadOnlyExtendedList<T> IDeepCloneable<IReadOnlyExtendedList<T>>.DeepClone()
+            => DeepClone();
+
+        IExtendedList<T> IExtendedList<T>.DeepClone()
+            => DeepClone();
+
+        IExtendedList<T> IDeepCloneable<IExtendedList<T>>.DeepClone()
+            => DeepClone();
+
+        IFixedLengthList<T> IFixedLengthList<T>.DeepClone()
+            => DeepClone();
+
+        IFixedLengthList<T> IDeepCloneable<IFixedLengthList<T>>.DeepClone()
+            => DeepClone();
+
+        #endregion
+
+        #region DeepCloneWith
+
+        IExtendedList<T> IExtendedList<T>.DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
+            => DeepCloneWith(length, values);
+
+        IExtendedList<T> IDeepCloneableList<IExtendedList<T>, T>.DeepCloneWith(int? length,
+            IReadOnlyDictionary<int, T>? values)
+            => DeepCloneWith(length, values);
+
+        IReadOnlyExtendedList<T> IDeepCloneableList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length,
+            IReadOnlyDictionary<int, T>? values)
+            => DeepCloneWith(length, values);
+
+        IFixedLengthList<T> IFixedLengthList<T>.DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
+            => DeepCloneWith(length, values);
+
+        IFixedLengthList<T> IDeepCloneableList<IFixedLengthList<T>, T>.DeepCloneWith(int? length,
+            IReadOnlyDictionary<int, T>? values)
+            => DeepCloneWith(length, values);
+
         #endregion
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Method
+        //      Private Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        #region Action Implements
+        /// <summary>
+        ///     PreCollectionChanged イベントを発火する。
+        /// </summary>
+        /// <param name="args">イベント引数</param>
+        private void CallCollectionChanging(NotifyCollectionChangedEventArgs args)
+            => _collectionChanging?.Invoke(this, args);
+
+        /// <summary>
+        ///     CollectionChanged イベントを発火する。
+        /// </summary>
+        /// <param name="args">イベント引数</param>
+        private void CallCollectionChanged(NotifyCollectionChangedEventArgs args)
+            => _collectionChanged?.Invoke(this, args);
 
         /// <summary>
         ///     インデクサによる要素取得、GetRange メソッドの実装処理
@@ -617,14 +682,6 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        ///     Clear メソッドの実装処理
-        /// </summary>
-        private void Clear_Impl()
-        {
-            Reset_Impl(Array.Empty<T>());
-        }
-
-        /// <summary>
         ///     Reset メソッドの実装処理
         /// </summary>
         /// <param name="items">初期化要素</param>
@@ -645,20 +702,12 @@ namespace WodiLib.Sys.Collections
             notifyManager.NotifyAfterEvent();
         }
 
-        #endregion
-
         /// <summary>
-        ///     PreCollectionChanged イベントを発火する。
+        ///     Clear メソッドの実装処理
         /// </summary>
-        /// <param name="args">イベント引数</param>
-        private void CallCollectionChanging(NotifyCollectionChangedEventArgs args)
-            => _collectionChanging?.Invoke(this, args);
-
-        /// <summary>
-        ///     CollectionChanged イベントを発火する。
-        /// </summary>
-        /// <param name="args">イベント引数</param>
-        private void CallCollectionChanged(NotifyCollectionChangedEventArgs args)
-            => _collectionChanged?.Invoke(this, args);
+        private void Clear_Impl()
+        {
+            Reset_Impl(Array.Empty<T>());
+        }
     }
 }

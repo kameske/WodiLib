@@ -20,47 +20,47 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         public static CollectionChangeEventArgsFactory<T> CreateSet(
-            INotifyCollectionChange target, int index, IReadOnlyList<T> oldItems, IReadOnlyList<T> newItems)
+            INotifiableCollectionChange target, int index, IReadOnlyList<T> oldItems, IReadOnlyList<T> newItems)
             => new(target, index, oldItems, newItems);
 
         public static CollectionChangeEventArgsFactory<T> CreateInsert(
-            INotifyCollectionChange target, int index, IReadOnlyList<T> items)
+            INotifiableCollectionChange target, int index, IReadOnlyList<T> items)
             => new(target, NotifyCollectionChangedAction.Add, index, items);
 
         public static CollectionChangeEventArgsFactory<T> CreateOverwrite(
-            INotifyCollectionChange target, int index, IReadOnlyList<T> replaceOldItems,
+            INotifiableCollectionChange target, int index, IReadOnlyList<T> replaceOldItems,
             IReadOnlyList<T> replaceNewItems, IReadOnlyList<T> addNewItems)
             => new(target, index, replaceOldItems, replaceNewItems, addNewItems);
 
         public static CollectionChangeEventArgsFactory<T> CreateMove(
-            INotifyCollectionChange target, int oldIndex, int newIndex,
+            INotifiableCollectionChange target, int oldIndex, int newIndex,
             IReadOnlyList<T> items)
             => new(target, oldIndex, newIndex, items);
 
         public static CollectionChangeEventArgsFactory<T> CreateRemove(
-            INotifyCollectionChange target, int index, IReadOnlyList<T> items)
+            INotifiableCollectionChange target, int index, IReadOnlyList<T> items)
             => new(target, NotifyCollectionChangedAction.Remove, index, items);
 
         public static CollectionChangeEventArgsFactory<T> CreateAdjustLengthIfShort(
-            INotifyCollectionChange target, int index, IReadOnlyList<T> items)
+            INotifiableCollectionChange target, int index, IReadOnlyList<T> items)
             => new(target, true, index, items, null);
 
         public static CollectionChangeEventArgsFactory<T> CreateAdjustLengthIfLong(
-            INotifyCollectionChange target, int index, IReadOnlyList<T> items)
+            INotifiableCollectionChange target, int index, IReadOnlyList<T> items)
             => new(target, false, index, items, null);
 
         public static CollectionChangeEventArgsFactory<T> CreateAdjustLengthIfShort(
-            INotifyCollectionChange target, (IReadOnlyList<T>, IReadOnlyList<T>)? replaceItems,
+            INotifiableCollectionChange target, (IReadOnlyList<T>, IReadOnlyList<T>)? replaceItems,
             int addIndex, IReadOnlyList<T> addItems)
             => new(target, true, addIndex, addItems, replaceItems);
 
         public static CollectionChangeEventArgsFactory<T> CreateAdjustLengthIfLong(
-            INotifyCollectionChange target, (IReadOnlyList<T>, IReadOnlyList<T>)? replaceItems,
+            INotifiableCollectionChange target, (IReadOnlyList<T>, IReadOnlyList<T>)? replaceItems,
             int removeIndex, IReadOnlyList<T> removeItems)
             => new(target, false, removeIndex, removeItems, replaceItems);
 
         public static CollectionChangeEventArgsFactory<T> CreateReset(
-            INotifyCollectionChange target, IReadOnlyList<T> oldItems,
+            INotifiableCollectionChange target, IReadOnlyList<T> oldItems,
             IReadOnlyList<T> newItems)
             => new(target, oldItems, newItems);
 
@@ -79,7 +79,7 @@ namespace WodiLib.Sys.Collections
         ///     Set, SetRange 用コンストラクタ
         /// </summary>
         private CollectionChangeEventArgsFactory(
-            INotifyCollectionChange target, int index,
+            INotifiableCollectionChange target, int index,
             IReadOnlyList<T> oldItems, IReadOnlyList<T> newItems)
         {
             CollectionChangingEventArgs = CreateSet(target.NotifyCollectionChangingEventType,
@@ -95,7 +95,7 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     Insert, InsertRange, Remove, RemoveRange 用コンストラクタ
         /// </summary>
-        private CollectionChangeEventArgsFactory(INotifyCollectionChange target,
+        private CollectionChangeEventArgsFactory(INotifiableCollectionChange target,
             NotifyCollectionChangedAction action,
             int index, IReadOnlyList<T> items)
         {
@@ -129,7 +129,7 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     Overwrite 用コンストラクタ
         /// </summary>
-        private CollectionChangeEventArgsFactory(INotifyCollectionChange target,
+        private CollectionChangeEventArgsFactory(INotifiableCollectionChange target,
             int index, IReadOnlyList<T> replaceOldItems, IReadOnlyList<T> replaceNewItems,
             IReadOnlyList<T> addNewItems)
         {
@@ -145,7 +145,7 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     Move, MoveRange 用コンストラクタ
         /// </summary>
-        private CollectionChangeEventArgsFactory(INotifyCollectionChange target,
+        private CollectionChangeEventArgsFactory(INotifiableCollectionChange target,
             int oldIndex, int newIndex, IReadOnlyList<T> items)
         {
             CollectionChangingEventArgs =
@@ -159,7 +159,7 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     AdjustLength, AdjustLengthIfShort, AdjustLengthIfLong 用コンストラクタ
         /// </summary>
-        private CollectionChangeEventArgsFactory(INotifyCollectionChange target, bool adjustIfShort,
+        private CollectionChangeEventArgsFactory(INotifiableCollectionChange target, bool adjustIfShort,
             int index, IReadOnlyList<T> items, (IReadOnlyList<T>, IReadOnlyList<T>)? replaceItems)
         {
             if (adjustIfShort)
@@ -189,7 +189,7 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     Reset, Clear 用コンストラクタ
         /// </summary>
-        private CollectionChangeEventArgsFactory(INotifyCollectionChange target,
+        private CollectionChangeEventArgsFactory(INotifiableCollectionChange target,
             IReadOnlyList<T> oldItems, IReadOnlyList<T> newItems)
         {
             CollectionChangingEventArgs = CreateReset(target.NotifyCollectionChangingEventType, oldItems, newItems);

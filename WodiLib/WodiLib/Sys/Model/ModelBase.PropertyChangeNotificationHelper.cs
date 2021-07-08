@@ -33,7 +33,7 @@ namespace WodiLib.Sys
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
             /// <summary>
-            ///     <see cref="INotifyPropertyChange"/> が通知したプロパティ名を
+            ///     <see cref="INotifiablePropertyChange"/> が通知したプロパティ名を
             ///     自身が通知するかを決定する。
             /// </summary>
             /// <remarks>
@@ -45,7 +45,7 @@ namespace WodiLib.Sys
             public delegate bool FilterNotifyPropertyName(object sender, string propertyName);
 
             /// <summary>
-            ///     <see cref="INotifyPropertyChange"/> が通知したプロパティ名を
+            ///     <see cref="INotifiablePropertyChange"/> が通知したプロパティ名を
             ///     自身がどのように通知するかを決定する。
             /// </summary>
             /// <remarks>

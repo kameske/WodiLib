@@ -23,40 +23,21 @@ namespace WodiLib.Test.Sys
             logger = Logger.GetInstance();
         }
 
-        [TestCase(TestClassType.Type1, false)]
-        [TestCase(TestClassType.Type2, true)]
-#if DEBUG
-        [TestCase(TestClassType.Type3, true)]
-#elif RELEASE
-        [TestCase(TestClassType.Type3, false)]
-#endif
-        public static void ConstructorTest1(TestClassType testType, bool isError)
+        [TestCase(-1, true)]
+        [TestCase(0, false)]
+        [TestCase(10, false)]
+        public static void ConstructorTest1(int initLength, bool isError)
         {
-            var initLength = 0;
+            var initItems = initLength == -1
+                ? null
+                : MakeStringList(initLength);
 
             var errorOccured = false;
 
             IFixedLengthList<string> instance = null;
             try
             {
-                switch (testType)
-                {
-                    case TestClassType.Type1:
-                        initLength = CollectionTest1.Capacity;
-                        instance = new CollectionTest1();
-                        break;
-                    case TestClassType.Type2:
-                        initLength = CollectionTest2.Capacity;
-                        instance = new CollectionTest2();
-                        break;
-                    case TestClassType.Type3:
-                        initLength = CollectionTest3.Capacity;
-                        instance = new CollectionTest3();
-                        break;
-                    default:
-                        Assert.Fail();
-                        break;
-                }
+                instance = new CollectionTest1(initItems);
             }
             catch (Exception ex)
             {
@@ -69,58 +50,7 @@ namespace WodiLib.Test.Sys
 
             if (errorOccured) return;
 
-            // 初期要素が容量最小数と一致すること
-            Assert.AreEqual(instance.Count, initLength);
-        }
-
-        [TestCase(TestClassType.Type1, -1, true)]
-        [TestCase(TestClassType.Type1, 0, true)]
-        [TestCase(TestClassType.Type1, 10, false)]
-        [TestCase(TestClassType.Type1, 11, true)]
-        [TestCase(TestClassType.Type2, -1, true)]
-        [TestCase(TestClassType.Type2, 0, true)]
-        [TestCase(TestClassType.Type2, 10, true)]
-        [TestCase(TestClassType.Type2, 11, true)]
-        [TestCase(TestClassType.Type3, -1, true)]
-        [TestCase(TestClassType.Type3, 0, true)]
-        [TestCase(TestClassType.Type3, 10, false)] // Ver2.4 ～ MakeDefaultItems の戻り値チェックはコンストラクタで実施しない
-        public static void ConstructorTest2(TestClassType testType, int initLength, bool isError)
-        {
-            var errorOccured = false;
-
-            var initList = MakeStringList(initLength);
-
-            IFixedLengthList<string> instance = null;
-            try
-            {
-                switch (testType)
-                {
-                    case TestClassType.Type1:
-                        instance = new CollectionTest1(initList);
-                        break;
-                    case TestClassType.Type2:
-                        instance = new CollectionTest2(initList);
-                        break;
-                    case TestClassType.Type3:
-                        instance = new CollectionTest3(initList);
-                        break;
-                    default:
-                        Assert.Fail();
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            if (errorOccured) return;
-
-            // 要素数がセットした要素数と一致すること
+            // 初期要素が容量数と一致すること
             Assert.AreEqual(instance.Count, initLength);
         }
 
@@ -608,21 +538,25 @@ namespace WodiLib.Test.Sys
             }
         }
 
-        [TestCase(10)]
-        public static void ClearTest(int initLength)
+        public static void ResetTest()
         {
+            var initLength = 10;
             var instance = MakeCollectionForMethodTest(initLength,
                 out var collectionChangingEventArgsList,
                 out var collectionChangedEventArgsList,
                 out var propertyChangingEventCalledCount,
                 out var propertyChangedEventCalledCount);
 
-            var capacity = instance.GetCapacity();
+            // 各要素をデフォルト値以外に書き換える
+            for (var i = 0; i < instance.Count; i++)
+            {
+                instance[i] = $"{instance[i]}_editValue";
+            }
 
             var errorOccured = false;
             try
             {
-                instance.Clear();
+                instance.Reset();
             }
             catch (Exception ex)
             {
@@ -647,13 +581,13 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], 1);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
 
-            // 要素数が容量と一致すること
-            Assert.AreEqual(instance.Count, capacity);
+            // 要素数が変化していないこと
+            Assert.AreEqual(instance.Count, initLength);
 
             // すべての要素がデフォルト要素と一致すること
             foreach (var t in instance)
             {
-                Assert.AreEqual(t, "test");
+                Assert.AreEqual(t, CollectionTest1.Default);
             }
         }
 
@@ -905,7 +839,7 @@ namespace WodiLib.Test.Sys
         {
             const int initCount = 10;
             var instance = MakeCollection5(initCount);
-            CollectionTest5 clone = null;
+            CollectionTest4 clone = null;
 
             var guidList = instance.Select(x => x.Guid).ToList();
 
@@ -961,7 +895,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                clone = instance.DeepCloneWith(new Dictionary<int, TestClass>());
+                clone = instance.DeepCloneWith(values: new Dictionary<int, TestClass>());
             }
             catch (Exception ex)
             {
@@ -1027,7 +961,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                clone = instance.DeepCloneWith(valueList);
+                clone = instance.DeepCloneWith(values: valueList);
             }
             catch (Exception ex)
             {
@@ -1118,7 +1052,7 @@ namespace WodiLib.Test.Sys
         {
             var initStringList = MakeStringList(initLength);
             var result = initStringList == null
-                ? new CollectionTest1()
+                ? new CollectionTest1(Array.Empty<string>())
                 : new CollectionTest1(initStringList);
 
             // Observerに購読させないよう、イベントObserver登録より前に通知フラグ設定
@@ -1142,13 +1076,13 @@ namespace WodiLib.Test.Sys
             return result;
         }
 
-        private static CollectionTest4 MakeCollection4ForOrdinalEventTest(
+        private static CollectionTest3 MakeCollection4ForOrdinalEventTest(
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList,
             out Dictionary<string, int> propertyChangingEventCalledCount,
             out Dictionary<string, int> propertyChangedEventCalledCount)
         {
-            var result = new CollectionTest4
+            var result = new CollectionTest3(MakeStringList(10))
             {
                 // Observerに購読させないよう、イベントObserver登録より前に通知フラグ設定
                 NotifyPropertyChangingEventType = NotifyPropertyChangeEventType.Enabled,
@@ -1172,7 +1106,7 @@ namespace WodiLib.Test.Sys
             return result;
         }
 
-        public static CollectionTest5 MakeCollection5(int length)
+        private static CollectionTest4 MakeCollection5(int length)
         {
             return new(Enumerable.Repeat("", length).Select(_ => new TestClass()));
         }
@@ -1252,112 +1186,33 @@ namespace WodiLib.Test.Sys
         //      テスト用クラス
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        public enum TestClassType
-        {
-            Type1,
-            Type2,
-            Type3
-        }
-
         private abstract class AbsCollectionTest<T> : FixedLengthList<string, T>
             where T : AbsCollectionTest<T>
         {
-            public AbsCollectionTest()
-            {
-            }
-
-            public AbsCollectionTest(IEnumerable<string> list) : base(list)
+            protected AbsCollectionTest(IEnumerable<string> list) : base(list)
             {
             }
         }
 
         private class CollectionTest1 : AbsCollectionTest<CollectionTest1>
         {
-            /**
-             * 正常設定
-             */
-
-            public static int Capacity => 10;
-
             public static string Default => "test";
 
-            public override int GetCapacity() => Capacity;
-
             protected override string MakeDefaultItem(int index) => Default;
-
-            public CollectionTest1()
-            {
-            }
 
             public CollectionTest1(IEnumerable<string> list) : base(list)
             {
             }
 
-            public override CollectionTest1 DeepClone()
-                => new(this);
-        }
-
-        private class CollectionTest2 : AbsCollectionTest<CollectionTest2>
-        {
-            /*
-             * 異常設定（Capacity < 0）
-             */
-
-            public static int Capacity => -2;
-            public static string Default => "test";
-
-            public override int GetCapacity() => Capacity;
-
-            protected override string MakeDefaultItem(int index) => Default;
-
-            public CollectionTest2()
-            {
-            }
-
-            public CollectionTest2(IReadOnlyCollection<string> list) : base(list)
-            {
-            }
-
-            public override CollectionTest2 DeepClone()
-            {
-                throw new NotImplementedException();
-            }
+            protected override CollectionTest1 MakeInstance(IEnumerable<string> items)
+                => new(items);
         }
 
         private class CollectionTest3 : AbsCollectionTest<CollectionTest3>
         {
-            /**
-             * 異常設定（DefaultValue＝null）
-             */
-            public static int Capacity => 10;
-
-            public static string Default => null;
-
-            public override int GetCapacity() => Capacity;
-
-            protected override string MakeDefaultItem(int index) => Default;
-
-            public CollectionTest3()
-            {
-            }
-
-            public CollectionTest3(IReadOnlyCollection<string> list) : base(list)
-            {
-            }
-
-            public override CollectionTest3 DeepClone()
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        private class CollectionTest4 : AbsCollectionTest<CollectionTest4>
-        {
-            public override int GetCapacity() => 10;
-
             protected override string MakeDefaultItem(int index) => "";
 
-            public CollectionTest4()
+            public CollectionTest3(IEnumerable<string> list) : base(list)
             {
                 CollectionChanging += OnCollectionChanging;
             }
@@ -1367,34 +1222,26 @@ namespace WodiLib.Test.Sys
                 throw new Exception();
             }
 
-            public override CollectionTest4 DeepClone()
-            {
-                throw new NotImplementedException();
-            }
+            protected override CollectionTest3 MakeInstance(IEnumerable<string> items)
+                => new(items);
         }
 
-        public class CollectionTest5 : FixedLengthList<TestClass, CollectionTest5>
+        public class CollectionTest4 : FixedLengthList<TestClass, CollectionTest4>
         {
-            public override int GetCapacity() => 10;
-
-            public CollectionTest5()
+            public CollectionTest4(IEnumerable<TestClass> values) : base(values.Select(x => x.DeepClone()))
             {
             }
-
-            public CollectionTest5(IEnumerable<TestClass> values) : base(values.Select(x => x.DeepClone()))
-            {
-            }
-
-            public override CollectionTest5 DeepClone()
-                => new(this);
 
             protected override TestClass MakeDefaultItem(int index)
                 => new();
+
+            protected override CollectionTest4 MakeInstance(IEnumerable<TestClass> items)
+                => new(items);
         }
 
         public class TestClass : IEqualityComparable<TestClass>
         {
-            public string Guid { get; private set; } = System.Guid.NewGuid().ToString();
+            public string Guid { get; private init; } = System.Guid.NewGuid().ToString();
 
             public bool ItemEquals(TestClass other)
             {

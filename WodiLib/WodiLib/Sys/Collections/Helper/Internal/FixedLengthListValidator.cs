@@ -19,9 +19,9 @@ namespace WodiLib.Sys.Collections
     {
         protected override IWodiLibListValidator<T>? BaseValidator { get; }
 
-        private new IReadOnlyFixedLengthList<T> Target { get; }
+        private new IFixedLengthList<T> Target { get; }
 
-        public FixedLengthListValidator(IReadOnlyFixedLengthList<T> target) : base(target)
+        public FixedLengthListValidator(IFixedLengthList<T> target) : base(target)
         {
             Target = target;
             BaseValidator = new CommonListValidator<T>(target);
@@ -29,24 +29,13 @@ namespace WodiLib.Sys.Collections
 
         public override void Constructor(IReadOnlyList<T> initItems)
         {
-#if DEBUG
-            try
-            {
-                FixedLengthListValidationHelper.CapacityConfig(Target.GetCapacity());
-            }
-            catch (Exception ex)
-            {
-                throw new TypeInitializationException(Target.GetType().Name, ex);
-            }
-#endif
             BaseValidator?.Constructor(initItems);
-            FixedLengthListValidationHelper.ItemCount(initItems.Count, Target.GetCapacity());
         }
 
         public override void Reset(IReadOnlyList<T> items)
         {
             BaseValidator?.Reset(items);
-            FixedLengthListValidationHelper.ItemCount(items.Count, Target.GetCapacity());
+            FixedLengthListValidationHelper.ItemCount(items.Count, Target.Count);
         }
 
         public override void Insert(int index, T item)

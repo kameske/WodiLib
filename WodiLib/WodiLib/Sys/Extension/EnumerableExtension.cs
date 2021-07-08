@@ -48,6 +48,20 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
+        ///     指定した要素のインデックスを取得する。
+        /// </summary>
+        /// <typeparam name="T">対象リスト内の型</typeparam>
+        /// <param name="src">対象</param>
+        /// <param name="searchItem">探索要素</param>
+        /// <param name="comparer">比較処理実装</param>
+        /// <returns>
+        ///     一致する要素が存在する場合、最初の要素のインデックス。
+        ///     存在しない場合、-1。
+        /// </returns>
+        public static int FindIndex<T>(this IEnumerable<T> src, T searchItem, IEqualityComparer<T>? comparer)
+            => src.FindIndex(elem => comparer?.Equals(elem, searchItem) ?? elem?.Equals(searchItem) ?? false);
+
+        /// <summary>
         /// インデックス番号をキーとした<see cref="IReadOnlyDictionary{TKey,TValue}"/>に変換する。
         /// </summary>
         /// <param name="src">変換対象</param>

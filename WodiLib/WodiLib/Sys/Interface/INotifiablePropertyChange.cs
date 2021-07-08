@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib
-// File Name    : INotifyPropertyChange.cs
+// File Name    : INotifiablePropertyChange.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -19,13 +19,13 @@ namespace WodiLib.Sys
     ///     <see cref="NotifyPropertyChangedEventType"/> の設定値によって
     ///     通知イベントの有無を決定できる。
     /// </remarks>
-    public interface INotifyPropertyChange : INotifyPropertyChanging, INotifyPropertyChanged
+    public interface INotifiablePropertyChange : INotifyPropertyChanging, INotifyPropertyChanged
     {
         /// <summary>
         ///     <see cref="INotifyPropertyChanging.PropertyChanging"/> の通知種別
         /// </summary>
         /// <exception cref="PropertyNullException">
-        ///<paramref name="value"/> が <see langword="null"/> の場合。
+        ///     <paramref name="value"/> が <see langword="null"/> の場合。
         /// </exception>
         public NotifyPropertyChangeEventType NotifyPropertyChangingEventType { get; set; }
 
@@ -33,7 +33,7 @@ namespace WodiLib.Sys
         ///     <see cref="INotifyPropertyChanged.PropertyChanged"/> の通知種別
         /// </summary>
         /// <exception cref="PropertyNullException">
-        ///<paramref name="value"/> が <see langword="null"/> の場合。
+        ///     <paramref name="value"/> が <see langword="null"/> の場合。
         /// </exception>
         public NotifyPropertyChangeEventType NotifyPropertyChangedEventType { get; set; }
     }

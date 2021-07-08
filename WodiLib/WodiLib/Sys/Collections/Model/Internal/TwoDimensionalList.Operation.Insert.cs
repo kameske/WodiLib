@@ -45,22 +45,22 @@ namespace WodiLib.Sys.Collections
                     CollectionChangeEventArgsFactory
                         = CollectionChangeEventArgsFactory<IReadOnlyList<T>>.CreateInsert(Target, index, items);
 
-                    var isFromEmpty = target.Count == 0;
+                    var isFromEmpty = target.RowCount == 0;
                     var columnLengthIsZero = items.GetInnerArrayLength() == 0;
                     NotifyProperties =
                         isFromEmpty
                             ? columnLengthIsZero
                                 ? new[]
                                 {
-                                    ListConstant.IndexerName, nameof(Target.IsEmpty), nameof(Target.Count),
+                                    ListConstant.IndexerName, nameof(Target.IsEmpty), nameof(Target.RowCount),
                                     nameof(Target.AllCount)
                                 }
                                 : new[]
                                 {
-                                    ListConstant.IndexerName, nameof(Target.IsEmpty), nameof(Target.Count),
-                                    nameof(Target.ItemCount), nameof(Target.AllCount)
+                                    ListConstant.IndexerName, nameof(Target.IsEmpty), nameof(Target.RowCount),
+                                    nameof(Target.ColumnCount), nameof(Target.AllCount)
                                 }
-                            : new[] {ListConstant.IndexerName, nameof(Target.Count), nameof(Target.AllCount)};
+                            : new[] {ListConstant.IndexerName, nameof(Target.RowCount), nameof(Target.AllCount)};
                 }
             }
 
@@ -74,7 +74,7 @@ namespace WodiLib.Sys.Collections
                 public InsertColumn(TwoDimensionalList<T> target, int index, T[][] items, Action coreAction) : base(
                     target, index, items, Direction.Column, coreAction)
                 {
-                    var isFromEmpty = target.Count == 0;
+                    var isFromEmpty = target.RowCount == 0;
 
                     (CollectionChangeEventArgsFactory, NotifyProperties) =
                         isFromEmpty
@@ -90,8 +90,8 @@ namespace WodiLib.Sys.Collections
                         = CollectionChangeEventArgsFactory<IReadOnlyList<T>>.CreateInsert(Target, 0, transposedItems);
                     var result2 = new[]
                     {
-                        ListConstant.IndexerName, nameof(Target.IsEmpty), nameof(Target.Count),
-                        nameof(Target.ItemCount), nameof(Target.AllCount)
+                        ListConstant.IndexerName, nameof(Target.IsEmpty), nameof(Target.RowCount),
+                        nameof(Target.ColumnCount), nameof(Target.AllCount)
                     };
 
                     return (result1, result2);
@@ -114,7 +114,7 @@ namespace WodiLib.Sys.Collections
 
                     var result1
                         = CollectionChangeEventArgsFactory<IReadOnlyList<T>>.CreateSet(Target, 0, oldItems, newItems);
-                    var result2 = new[] {ListConstant.IndexerName, nameof(Target.ItemCount), nameof(Target.AllCount)};
+                    var result2 = new[] {ListConstant.IndexerName, nameof(Target.ColumnCount), nameof(Target.AllCount)};
 
                     return (result1, result2);
                 }

@@ -57,7 +57,7 @@ namespace WodiLib.Sys.Collections
             private Action<string> PropertyChangedAction { get; }
 
             /// <summary>
-            ///     <see cref="INotifyCollectionChange.CollectionChanging"/> 通知アクション
+            ///     <see cref="INotifiableCollectionChange.CollectionChanging"/> 通知アクション
             /// </summary>
             private Action<NotifyCollectionChangedEventArgs>? CollectionChangingAction { get; }
 
@@ -69,7 +69,7 @@ namespace WodiLib.Sys.Collections
             private string[] NotifyProperties { get; }
 
             /// <summary>
-            ///     <see cref="INotifyCollectionChange.CollectionChanging"/>
+            ///     <see cref="INotifiableCollectionChange.CollectionChanging"/>
             ///     通知引数
             /// </summary>
             /// <summary>
@@ -78,7 +78,7 @@ namespace WodiLib.Sys.Collections
             private IEnumerable<NotifyCollectionChangedEventArgsEx<T>>? CollectionChangingEventArgs { get; }
 
             /// <summary>
-            ///     <see cref="INotifyCollectionChange.CollectionChanged"/>
+            ///     <see cref="INotifiableCollectionChange.CollectionChanged"/>
             ///     通知引数
             /// </summary>
             private IEnumerable<NotifyCollectionChangedEventArgsEx<T>>? CollectionChangedEventArgs { get; }

@@ -24,11 +24,11 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="T">リスト内包型</typeparam>
     /// <typeparam name="TImpl">リスト実装型</typeparam>
     public abstract class RestrictedCapacityList<T, TImpl> : ModelBase<TImpl>,
-        IRestrictedCapacityList<T>, IDeepCloneableRestrictedCapacityList<TImpl, T>
+        IRestrictedCapacityList<T>
         where TImpl : RestrictedCapacityList<T, TImpl>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Public Event
+        //      Events
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc/>
@@ -46,11 +46,8 @@ namespace WodiLib.Sys.Collections
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Public Property
+        //      Public Properties
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <inheritdoc cref="IRestrictedCapacityList{T}.Count"/>
-        public int Count => Items.Count;
 
         /// <inheritdoc cref="IRestrictedCapacityList{T}.this"/>
         public T this[int index]
@@ -67,7 +64,10 @@ namespace WodiLib.Sys.Collections
             }
         }
 
-        /// <inheritdoc cref="INotifyCollectionChange.NotifyCollectionChangingEventType"/>
+        /// <inheritdoc cref="IRestrictedCapacityList{T}.Count"/>
+        public int Count => Items.Count;
+
+        /// <inheritdoc cref="INotifiableCollectionChange.NotifyCollectionChangingEventType"/>
         public NotifyCollectionChangeEventType NotifyCollectionChangingEventType
         {
             get => Items.NotifyCollectionChangingEventType;
@@ -81,8 +81,11 @@ namespace WodiLib.Sys.Collections
             set => Items.NotifyCollectionChangedEventType = value;
         }
 
+        /// <inheritdoc/>
+        public bool IsReadOnly => false;
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Private Property
+        //      Private Properties
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>引数検証処理</summary>
@@ -92,7 +95,7 @@ namespace WodiLib.Sys.Collections
         private ExtendedList<T> Items { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Constructor
+        //      Constructors
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
@@ -100,7 +103,7 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         protected RestrictedCapacityList()
         {
-            // MakeClearItems() 内で自身にアクセスする可能性を考慮して Items を空リストで初期化
+            // Validator からアクセスされても問題ないよう Items を空リストで初期化
             Items = new ExtendedList<T>();
 
             var items = MakeClearItems();
@@ -153,8 +156,19 @@ namespace WodiLib.Sys.Collections
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Public Abstract Method
+        //      Public Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.Contains(TItem)"/>
+        public bool Contains([AllowNull] T item)
+            => Contains(item, null);
+
+        /// <inheritdoc/>
+        public bool Contains([AllowNull] T item, IEqualityComparer<T>? itemComparer)
+        {
+            if (item is null) return false;
+            return Items.Contains(item, itemComparer);
+        }
 
         /// <inheritdoc/>
         public abstract int GetMaxCapacity();
@@ -162,9 +176,9 @@ namespace WodiLib.Sys.Collections
         /// <inheritdoc/>
         public abstract int GetMinCapacity();
 
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Public Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        /// <inheritdoc/>
+        public IEnumerator<T> GetEnumerator()
+            => Items.GetEnumerator();
 
         /// <inheritdoc/>
         public IEnumerable<T> GetRange(int index, int count)
@@ -172,6 +186,21 @@ namespace WodiLib.Sys.Collections
             Validator?.Get(index, count);
             return Items.GetRange(index, count);
         }
+
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.IndexOf(TItem)"/>
+        public int IndexOf([AllowNull] T item)
+            => IndexOf(item, null);
+
+        /// <inheritdoc/>
+        public int IndexOf([AllowNull] T item, IEqualityComparer<T>? itemComparer)
+        {
+            if (item is null) return -1;
+            return Items.IndexOf(item, itemComparer);
+        }
+
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.CopyTo"/>
+        public void CopyTo(T[] array, int index)
+            => Items.CopyTo(array, index);
 
         /// <inheritdoc/>
         public void SetRange(int index, IEnumerable<T> items)
@@ -183,7 +212,7 @@ namespace WodiLib.Sys.Collections
             Items.SetRange(index, itemList);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.Add"/>
         public void Add(T item)
         {
             Validator?.Insert(Count, item);
@@ -200,7 +229,7 @@ namespace WodiLib.Sys.Collections
             Items.AddRange(itemList);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.Insert"/>
         public void Insert(int index, T item)
         {
             Validator?.Insert(index, item);
@@ -241,7 +270,7 @@ namespace WodiLib.Sys.Collections
             Items.MoveRange(oldIndex, newIndex, count);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.Remove"/>
         public bool Remove([AllowNull] T item)
         {
             Validator?.Remove(item);
@@ -251,7 +280,7 @@ namespace WodiLib.Sys.Collections
             return Items.Remove(item);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.RemoveAt"/>
         public void RemoveAt(int index)
         {
             Validator?.Remove(index, 1);
@@ -287,11 +316,8 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <inheritdoc/>
-        public void Clear()
-        {
-            var initItems = MakeClearItems();
-            Items.Reset(initItems);
-        }
+        public void Reset()
+            => Items.Reset();
 
         /// <inheritdoc/>
         public void Reset(IEnumerable<T> initItems)
@@ -305,37 +331,15 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <inheritdoc/>
-        public bool Contains([AllowNull] T item)
+        public void Clear()
         {
-            if (item is null) return false;
-            return Items.Contains(item);
+            var initItems = MakeClearItems();
+            Items.Reset(initItems);
         }
-
-        /// <inheritdoc/>
-        public int IndexOf([AllowNull] T item)
-        {
-            if (item is null) return -1;
-            return Items.IndexOf(item);
-        }
-
-        /// <inheritdoc/>
-        public void CopyTo(T[] array, int index)
-            => Items.CopyTo(array, index);
-
-        /// <inheritdoc/>
-        public IEnumerator<T> GetEnumerator()
-            => Items.GetEnumerator();
-
-        /// <inheritdoc/>
-        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable) Items).GetEnumerator();
 
         /// <inheritdoc/>
         public override bool ItemEquals(TImpl? other)
-            => ItemEquals((IEnumerable<T>?) other);
-
-        /// <inheritdoc/>
-        public bool ItemEquals(IReadOnlyExtendedList<T>? other)
-            => ItemEquals((IEnumerable<T>?) other);
+            => ItemEquals(other, null);
 
         /// <inheritdoc/>
         public bool ItemEquals(IEnumerable<T>? other)
@@ -345,7 +349,13 @@ namespace WodiLib.Sys.Collections
         public bool ItemEquals(IEnumerable<T>? other, IEqualityComparer<T>? itemComparer)
             => Items.ItemEquals(other, itemComparer);
 
-        /// <inheritdoc cref="IDeepCloneableRestrictedCapacityList{T,TIn}.DeepCloneWith"/>
+        /// <inheritdoc/>
+        public IFixedLengthList<T> AsWritableList() => this;
+
+        /// <inheritdoc/>
+        public IReadOnlyExtendedList<T> AsReadableList() => this;
+
+        /// <inheritdoc cref="IDeepCloneableList{T,TIn}.DeepCloneWith"/>
         public TImpl DeepCloneWith(int? length = null,
             IReadOnlyDictionary<int, T>? values = null)
         {
@@ -377,7 +387,59 @@ namespace WodiLib.Sys.Collections
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Protected Method
+        //      Interface Implementation
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        #region GetEnumerator
+
+        IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable) Items).GetEnumerator();
+
+        #endregion
+
+        #region DeepClone
+
+        IRestrictedCapacityList<T> IRestrictedCapacityList<T>.DeepClone()
+            => DeepClone();
+
+        IRestrictedCapacityList<T> IDeepCloneable<IRestrictedCapacityList<T>>.DeepClone()
+            => DeepClone();
+
+        IFixedLengthList<T> IFixedLengthList<T>.DeepClone()
+            => DeepClone();
+
+        IFixedLengthList<T> IDeepCloneable<IFixedLengthList<T>>.DeepClone()
+            => DeepClone();
+
+        IReadOnlyExtendedList<T> IDeepCloneable<IReadOnlyExtendedList<T>>.DeepClone()
+            => DeepClone();
+
+        #endregion
+
+        #region DeepCloneWith
+
+        IRestrictedCapacityList<T> IDeepCloneableList<IRestrictedCapacityList<T>, T>.DeepCloneWith(int? length,
+            IReadOnlyDictionary<int, T>? values)
+            => DeepCloneWith(length, values);
+
+        IFixedLengthList<T> IFixedLengthList<T>.DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
+            => DeepCloneWith(length, values);
+
+        IReadOnlyExtendedList<T> IDeepCloneableList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length,
+            IReadOnlyDictionary<int, T>? values)
+            => DeepCloneWith(length, values);
+
+        IFixedLengthList<T> IDeepCloneableList<IFixedLengthList<T>, T>.DeepCloneWith(int? length,
+            IReadOnlyDictionary<int, T>? values)
+            => DeepCloneWith(length, values);
+
+        IRestrictedCapacityList<T> IRestrictedCapacityList<T>.DeepCloneWith(int? length,
+            IReadOnlyDictionary<int, T>? values)
+            => DeepCloneWith(length, values);
+
+        #endregion
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Protected Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
@@ -417,7 +479,7 @@ namespace WodiLib.Sys.Collections
             => null;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Method
+        //      Private Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>

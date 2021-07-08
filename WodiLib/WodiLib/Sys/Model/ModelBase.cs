@@ -96,7 +96,7 @@ namespace WodiLib.Sys
         /// <summary>
         ///     プロパティ変更通知伝播元リスト
         /// </summary>
-        private List<INotifyPropertyChange> Propagators { get; }
+        private List<INotifiablePropertyChange> Propagators { get; }
             = new();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -166,7 +166,7 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        ///     <see cref="INotifyPropertyChange"/> を実装するインスタンスが通知した
+        ///     <see cref="INotifiablePropertyChange"/> を実装するインスタンスが通知した
         ///     <see cref="INotifyPropertyChanging.PropertyChanging"/> イベントおよびを
         ///     <see cref="INotifyPropertyChanged.PropertyChanged"/> イベントを
         ///     自身のイベントとして通知する。<br/>
@@ -175,12 +175,12 @@ namespace WodiLib.Sys
         /// <remarks>
         ///     <see langword="public"/> ではないフィールド（処理転送先など）に対して設定することを前提としている。<br/>
         ///     また、このメソッドで登録したインスタンスは自身と同じライフタイムであることを前提としている。<br/>
-        ///     ただし、<paramref name="target"/> が通知した <see cref="INotifyPropertyChange"/> の
+        ///     ただし、<paramref name="target"/> が通知した <see cref="INotifiablePropertyChange"/> の
         ///     プロパティ変更通知に関するフラグが変更された際の通知は通知されない。<br/>
         ///     このメソッドで登録された <paramref name="target"/> の通知は無条件に通知される。
         /// </remarks>
         /// <param name="target">イベント伝播元</param>
-        protected void PropagatePropertyChangeEvent(INotifyPropertyChange target)
+        protected void PropagatePropertyChangeEvent(INotifiablePropertyChange target)
         {
             target.PropertyChanging += (_, args) => { _propertyChanging?.Invoke(this, args); };
 
@@ -190,20 +190,20 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        ///     <see cref="INotifyPropertyChange"/> を実装するインスタンスが通知した
+        ///     <see cref="INotifiablePropertyChange"/> を実装するインスタンスが通知した
         ///     <see cref="INotifyPropertyChanging.PropertyChanging"/> イベントおよびを
         ///     <see cref="INotifyPropertyChanged.PropertyChanged"/> イベントを
         ///     自身のイベントとして通知する。<br/>
         ///     反対に自分自身に設定された通知フラグを対象インスタンスに反映する。
         /// </summary>
         /// <remarks>
-        ///     注意点は <see cref="PropagatePropertyChangeEvent(INotifyPropertyChange)"/> 参照。<br/>
+        ///     注意点は <see cref="PropagatePropertyChangeEvent(INotifiablePropertyChange)"/> 参照。<br/>
         ///     このメソッドで登録された <paramref name="target"/> の通知は
         ///     <paramref name="allowNotifyPropertyList"/> に含まれるプロパティ名のみ通知される。
         /// </remarks>
         /// <param name="target">イベント伝播元</param>
         /// <param name="allowNotifyPropertyList">プロパティ通知許可リスト</param>
-        protected void PropagatePropertyChangeEvent(INotifyPropertyChange target,
+        protected void PropagatePropertyChangeEvent(INotifiablePropertyChange target,
             IEnumerable<string> allowNotifyPropertyList)
         {
             target.PropertyChanging += (sender, args) =>
@@ -230,21 +230,21 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        ///     <see cref="INotifyPropertyChange"/> を実装するインスタンスが通知した
+        ///     <see cref="INotifiablePropertyChange"/> を実装するインスタンスが通知した
         ///     <see cref="INotifyPropertyChanging.PropertyChanging"/> イベントおよびを
         ///     <see cref="INotifyPropertyChanged.PropertyChanged"/> イベントを
         ///     自身のイベントとして通知する。<br/>
         ///     反対に自分自身に設定された通知フラグを対象インスタンスに反映する。
         /// </summary>
         /// <remarks>
-        ///     注意点は <see cref="PropagatePropertyChangeEvent(INotifyPropertyChange)"/> 参照。<br/>
+        ///     注意点は <see cref="PropagatePropertyChangeEvent(INotifiablePropertyChange)"/> 参照。<br/>
         ///     このメソッドで登録された <paramref name="target"/> の通知は
         ///     <paramref name="filterNotifyPropertyName"/> を通して返却されたプロパティ名で通知される。
         ///     <paramref name="filterNotifyPropertyName"/> で <see langword="null"/> が返却された場合は通知しない。
         /// </remarks>
         /// <param name="target">イベント伝播元</param>
         /// <param name="filterNotifyPropertyName">プロパティ通知フィルタデリゲート</param>
-        protected void PropagatePropertyChangeEvent(INotifyPropertyChange target,
+        protected void PropagatePropertyChangeEvent(INotifiablePropertyChange target,
             PropertyChangeNotificationHelper.FilterNotifyPropertyName? filterNotifyPropertyName)
         {
             target.PropertyChanging += (sender, args) =>
@@ -271,14 +271,14 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
-        ///     <see cref="INotifyPropertyChange"/> を実装するインスタンスが通知した
+        ///     <see cref="INotifiablePropertyChange"/> を実装するインスタンスが通知した
         ///     <see cref="INotifyPropertyChanging.PropertyChanging"/> イベントおよびを
         ///     <see cref="INotifyPropertyChanged.PropertyChanged"/> イベントを
         ///     自身のイベントとして通知する。<br/>
         ///     反対に自分自身に設定された通知フラグを対象インスタンスに反映する。
         /// </summary>
         /// <remarks>
-        ///     注意点は <see cref="PropagatePropertyChangeEvent(INotifyPropertyChange)"/> 参照。<br/>
+        ///     注意点は <see cref="PropagatePropertyChangeEvent(INotifiablePropertyChange)"/> 参照。<br/>
         ///     このメソッドで登録された <paramref name="target"/> の通知は
         ///     <paramref name="mapNotifyPropertyName"/> を通して返却されたプロパティ名で通知される。
         ///     複数のプロパティ名で通知させることも可能。
@@ -286,7 +286,7 @@ namespace WodiLib.Sys
         /// </remarks>
         /// <param name="target">イベント伝播元</param>
         /// <param name="mapNotifyPropertyName">伝播プロパティ名 Mapper</param>
-        protected void PropagatePropertyChangeEvent(INotifyPropertyChange target,
+        protected void PropagatePropertyChangeEvent(INotifiablePropertyChange target,
             PropertyChangeNotificationHelper.MapNotifyPropertyName? mapNotifyPropertyName)
         {
             if (mapNotifyPropertyName is null)

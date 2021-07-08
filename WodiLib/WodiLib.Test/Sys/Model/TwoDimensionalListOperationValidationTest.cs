@@ -1,8 +1,6 @@
 using System;
-using System.Linq;
 using Commons;
 using NUnit.Framework;
-using WodiLib.Sys;
 using WodiLib.Sys.Collections;
 using WodiLib.Test.Tools;
 using TestTools = WodiLib.Test.Sys.TwoDimensionalListTest_Tools;
@@ -290,28 +288,18 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] CopyToTest_ToArrayWithDirectionTestCaseSource =
         {
-            new object[] {-1, true, Direction.Column, true},
-            new object[] {-1, true, Direction.None, true},
-            new object[] {-1, true, null, true},
-            new object[] {-1, false, Direction.Row, true},
-            new object[] {0, true, null, true},
-            new object[] {0, true, Direction.Column, true},
-            new object[] {0, true, Direction.None, true},
-            new object[] {0, false, Direction.Row, false},
-            new object[] {TestTools.OneArrayBuffer, true, null, true},
-            new object[] {TestTools.OneArrayBuffer, true, Direction.Column, true},
-            new object[] {TestTools.OneArrayBuffer, false, Direction.None, true},
-            new object[] {TestTools.OneArrayBuffer, false, Direction.Row, false},
-            new object[] {TestTools.OneArrayBuffer, false, Direction.Column, false},
-            new object[] {TestTools.OneArrayBuffer + 1, true, Direction.Row, true},
-            new object[] {TestTools.OneArrayBuffer + 1, false, null, true},
-            new object[] {TestTools.OneArrayBuffer + 1, false, Direction.Column, true},
-            new object[] {TestTools.OneArrayBuffer + 1, false, Direction.None, true},
+            new object[] {-1, true, true},
+            new object[] {-1, false, true},
+            new object[] {0, true, true},
+            new object[] {0, false, false},
+            new object[] {TestTools.OneArrayBuffer, true, true},
+            new object[] {TestTools.OneArrayBuffer, false, false},
+            new object[] {TestTools.OneArrayBuffer + 1, true, true},
+            new object[] {TestTools.OneArrayBuffer + 1, false, true},
         };
 
         [TestCaseSource(nameof(CopyToTest_ToArrayWithDirectionTestCaseSource))]
-        public static void CopyToTest_ToArrayWithDirection(int index, bool dstArrayIsNull, Direction direction,
-            bool isError)
+        public static void CopyToTest_ToArrayWithDirection(int index, bool dstArrayIsNull, bool isError)
         {
             var array = TestTools.MakeSingleArray(dstArrayIsNull);
 
@@ -322,7 +310,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.CopyTo(array, index, direction);
+                instance.CopyTo(array, index);
             }
             catch (Exception ex)
             {
@@ -429,7 +417,7 @@ namespace WodiLib.Test.Sys
         [TestCase(TestTools.InitRowLength, -1, true)]
         [TestCase(TestTools.InitRowLength, 0, true)]
         [TestCase(TestTools.InitRowLength, 1, true)]
-        public static void GetRange_Row_Test(int index, int count, bool isError)
+        public static void GetRowRange_Test(int index, int count, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
@@ -438,7 +426,77 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                _ = instance.GetRange(index, count);
+                _ = instance.GetRowRange(index, count);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(isError, errorOccured);
+        }
+
+        [TestCase(-1, 0, 0, TestTools.InitColumnLength, true)]
+        [TestCase(-1, 1, TestTools.InitColumnLength - 1, 1, true)]
+        [TestCase(-1, 2, TestTools.InitColumnLength - 1, 0, true)]
+        [TestCase(-1, TestTools.InitRowLength, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(0, -1, 0, 0, true)]
+        [TestCase(0, -1, TestTools.InitColumnLength - 1, 1, true)]
+        [TestCase(0, 0, 0, 0, false)]
+        [TestCase(0, 0, 0, TestTools.InitColumnLength, false)]
+        [TestCase(0, 0, 0, TestTools.InitColumnLength + 1, true)]
+        [TestCase(0, 0, TestTools.InitColumnLength - 1, -1, true)]
+        [TestCase(0, 0, TestTools.InitColumnLength - 1, 1, false)]
+        [TestCase(0, 0, TestTools.InitColumnLength, 2, true)]
+        [TestCase(0, TestTools.InitRowLength, -1, 0, true)]
+        [TestCase(0, TestTools.InitRowLength, 0, 0, false)]
+        [TestCase(0, TestTools.InitRowLength, 0, TestTools.InitColumnLength, false)]
+        [TestCase(0, TestTools.InitRowLength, 0, TestTools.InitColumnLength + 1, true)]
+        [TestCase(0, TestTools.InitRowLength, TestTools.InitColumnLength - 1, -1, true)]
+        [TestCase(0, TestTools.InitRowLength, TestTools.InitColumnLength - 1, 1, false)]
+        [TestCase(0, TestTools.InitRowLength, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(0, TestTools.InitRowLength, TestTools.InitColumnLength, 1, true)]
+        [TestCase(0, TestTools.InitRowLength + 1, 0, TestTools.InitColumnLength, true)]
+        [TestCase(0, TestTools.InitRowLength + 1, TestTools.InitColumnLength - 1, 0, true)]
+        [TestCase(0, TestTools.InitRowLength + 1, TestTools.InitColumnLength - 1, 1, true)]
+        [TestCase(0, TestTools.InitRowLength + 1, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(TestTools.InitRowLength - 1, -1, 0, TestTools.InitColumnLength, true)]
+        [TestCase(TestTools.InitRowLength - 1, -1, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(TestTools.InitRowLength - 1, 0, -1, TestTools.InitColumnLength, true)]
+        [TestCase(TestTools.InitRowLength - 1, 0, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(TestTools.InitRowLength - 1, 1, -1, 2, true)]
+        [TestCase(TestTools.InitRowLength - 1, 1, 0, -1, true)]
+        [TestCase(TestTools.InitRowLength - 1, 1, 0, 0, false)]
+        [TestCase(TestTools.InitRowLength - 1, 1, 0, TestTools.InitColumnLength + 1, true)]
+        [TestCase(TestTools.InitRowLength - 1, 1, 0, TestTools.InitColumnLength, false)]
+        [TestCase(TestTools.InitRowLength - 1, 1, TestTools.InitColumnLength - 1, 1, false)]
+        [TestCase(TestTools.InitRowLength - 1, 1, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(TestTools.InitRowLength - 1, 1, TestTools.InitColumnLength, 0, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, -1, 1, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, 0, -1, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, 0, TestTools.InitColumnLength + 1, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, 0, TestTools.InitColumnLength, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, TestTools.InitColumnLength - 1, 0, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, TestTools.InitColumnLength - 1, 1, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, TestTools.InitColumnLength, 2, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, TestTools.InitColumnLength, TestTools.InitColumnLength, true)]
+        [TestCase(TestTools.InitRowLength, 0, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(TestTools.InitRowLength, 1, TestTools.InitColumnLength - 1, 1, true)]
+        [TestCase(TestTools.InitRowLength, 2, 0, TestTools.InitColumnLength, true)]
+        [TestCase(TestTools.InitRowLength, TestTools.InitRowLength, TestTools.InitColumnLength - 1, 0, true)]
+        public static void GetRowRange2_Test(int row, int rowCount, int column, int columnCount, bool isError)
+        {
+            var instance = TestTools.MakeTwoDimensionalList(
+                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
+                TestTools.MakeInitItem);
+
+            var errorOccured = false;
+            try
+            {
+                _ = instance.GetRowRange(row, rowCount, column, columnCount);
             }
             catch (Exception ex)
             {
@@ -454,7 +512,7 @@ namespace WodiLib.Test.Sys
         [TestCase(0, false)]
         [TestCase(TestTools.InitColumnLength - 1, false)]
         [TestCase(TestTools.InitColumnLength, true)]
-        public static void GetItem_Test(int index, bool isError)
+        public static void GetColumn_Test(int index, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
@@ -463,7 +521,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                _ = instance.GetItem(index);
+                _ = instance.GetColumn(index);
             }
             catch (Exception ex)
             {
@@ -489,7 +547,7 @@ namespace WodiLib.Test.Sys
         [TestCase(TestTools.InitColumnLength, -1, true)]
         [TestCase(TestTools.InitColumnLength, 0, true)]
         [TestCase(TestTools.InitColumnLength, 1, true)]
-        public static void GetItemRange_Test(int index, int count, bool isError)
+        public static void GetColumnRange_Test(int index, int count, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
@@ -498,7 +556,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                _ = instance.GetItemRange(index, count);
+                _ = instance.GetColumnRange(index, count);
             }
             catch (Exception ex)
             {
@@ -510,38 +568,56 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(isError, errorOccured);
         }
 
-        private static readonly object[] GetRange_Direction_TestCaseSource =
-        {
-            new object[] {-1, -1, 0, TestTools.InitRowLength, Direction.Row, true},
-            new object[] {0, -1, 0, TestTools.InitRowLength, Direction.Row, true},
-            new object[] {0, 0, 0, 0, null, true},
-            new object[] {0, 0, 0, 0, Direction.Row, false},
-            new object[] {0, 0, 0, 0, Direction.Column, false},
-            new object[] {0, 0, 0, TestTools.InitRowLength, Direction.Column, false},
-            new object[] {0, 0, TestTools.InitRowLength - 1, 1, Direction.Row, false},
-            new object[] {0, TestTools.InitRowLength - 1, 0, TestTools.InitColumnLength + 1, Direction.Column, true},
-            new object[] {0, TestTools.InitRowLength, -1, -1, Direction.Row, true},
-            new object[] {0, TestTools.InitRowLength, 0, -1, Direction.Row, true},
-            new object[] {0, TestTools.InitRowLength, 0, 0, Direction.Row, false},
-            new object[] {0, TestTools.InitRowLength, 0, TestTools.InitColumnLength, Direction.Column, false},
-            new object[] {0, TestTools.InitRowLength, 0, TestTools.InitColumnLength + 1, Direction.Column, true},
-            new object[] {0, TestTools.InitRowLength, TestTools.InitColumnLength - 1, -1, Direction.Row, true},
-            new object[] {0, TestTools.InitRowLength, TestTools.InitColumnLength - 1, 0, Direction.Column, false},
-            new object[] {0, TestTools.InitRowLength, TestTools.InitColumnLength - 1, 1, Direction.Column, false},
-            new object[] {0, TestTools.InitRowLength, TestTools.InitColumnLength - 1, 2, Direction.Row, true},
-            new object[] {0, TestTools.InitRowLength, TestTools.InitColumnLength, -1, Direction.Row, true},
-            new object[] {0, TestTools.InitRowLength, TestTools.InitColumnLength, 0, Direction.Row, true},
-            new object[] {TestTools.InitRowLength - 1, -1, 0, TestTools.InitColumnLength, Direction.Row, true},
-            new object[] {TestTools.InitRowLength - 1, 0, 0, 0, Direction.Column, false},
-            new object[] {TestTools.InitRowLength - 1, 1, 0, 0, Direction.Column, false},
-            new object[] {TestTools.InitRowLength - 1, 2, 0, TestTools.InitColumnLength, Direction.Column, true},
-            new object[] {TestTools.InitRowLength, -1, 0, TestTools.InitColumnLength, Direction.Row, true},
-            new object[] {TestTools.InitRowLength, 0, 0, TestTools.InitColumnLength, Direction.Row, true},
-        };
-
-        [TestCaseSource(nameof(GetRange_Direction_TestCaseSource))]
-        public static void GetRange_Direction_Test(int row, int count, int column,
-            int itemCount, Direction direction, bool isError)
+        [TestCase(-1, 0, 0, TestTools.InitColumnLength, true)]
+        [TestCase(-1, 1, TestTools.InitColumnLength - 1, 1, true)]
+        [TestCase(-1, 2, TestTools.InitColumnLength - 1, 0, true)]
+        [TestCase(-1, TestTools.InitRowLength, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(0, -1, 0, 0, true)]
+        [TestCase(0, -1, TestTools.InitColumnLength - 1, 1, true)]
+        [TestCase(0, 0, 0, 0, false)]
+        [TestCase(0, 0, 0, TestTools.InitColumnLength, false)]
+        [TestCase(0, 0, 0, TestTools.InitColumnLength + 1, true)]
+        [TestCase(0, 0, TestTools.InitColumnLength - 1, -1, true)]
+        [TestCase(0, 0, TestTools.InitColumnLength - 1, 1, false)]
+        [TestCase(0, 0, TestTools.InitColumnLength, 2, true)]
+        [TestCase(0, TestTools.InitRowLength, -1, 0, true)]
+        [TestCase(0, TestTools.InitRowLength, 0, 0, false)]
+        [TestCase(0, TestTools.InitRowLength, 0, TestTools.InitColumnLength, false)]
+        [TestCase(0, TestTools.InitRowLength, 0, TestTools.InitColumnLength + 1, true)]
+        [TestCase(0, TestTools.InitRowLength, TestTools.InitColumnLength - 1, -1, true)]
+        [TestCase(0, TestTools.InitRowLength, TestTools.InitColumnLength - 1, 1, false)]
+        [TestCase(0, TestTools.InitRowLength, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(0, TestTools.InitRowLength, TestTools.InitColumnLength, 1, true)]
+        [TestCase(0, TestTools.InitRowLength + 1, 0, TestTools.InitColumnLength, true)]
+        [TestCase(0, TestTools.InitRowLength + 1, TestTools.InitColumnLength - 1, 0, true)]
+        [TestCase(0, TestTools.InitRowLength + 1, TestTools.InitColumnLength - 1, 1, true)]
+        [TestCase(0, TestTools.InitRowLength + 1, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(TestTools.InitRowLength - 1, -1, 0, TestTools.InitColumnLength, true)]
+        [TestCase(TestTools.InitRowLength - 1, -1, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(TestTools.InitRowLength - 1, 0, -1, TestTools.InitColumnLength, true)]
+        [TestCase(TestTools.InitRowLength - 1, 0, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(TestTools.InitRowLength - 1, 1, -1, 2, true)]
+        [TestCase(TestTools.InitRowLength - 1, 1, 0, -1, true)]
+        [TestCase(TestTools.InitRowLength - 1, 1, 0, 0, false)]
+        [TestCase(TestTools.InitRowLength - 1, 1, 0, TestTools.InitColumnLength + 1, true)]
+        [TestCase(TestTools.InitRowLength - 1, 1, 0, TestTools.InitColumnLength, false)]
+        [TestCase(TestTools.InitRowLength - 1, 1, TestTools.InitColumnLength - 1, 1, false)]
+        [TestCase(TestTools.InitRowLength - 1, 1, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(TestTools.InitRowLength - 1, 1, TestTools.InitColumnLength, 0, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, -1, 1, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, 0, -1, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, 0, TestTools.InitColumnLength + 1, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, 0, TestTools.InitColumnLength, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, TestTools.InitColumnLength - 1, 0, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, TestTools.InitColumnLength - 1, 1, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, TestTools.InitColumnLength, 2, true)]
+        [TestCase(TestTools.InitRowLength - 1, 2, TestTools.InitColumnLength, TestTools.InitColumnLength, true)]
+        [TestCase(TestTools.InitRowLength, 0, TestTools.InitColumnLength - 1, 2, true)]
+        [TestCase(TestTools.InitRowLength, 1, TestTools.InitColumnLength - 1, 1, true)]
+        [TestCase(TestTools.InitRowLength, 2, 0, TestTools.InitColumnLength, true)]
+        [TestCase(TestTools.InitRowLength, TestTools.InitRowLength, TestTools.InitColumnLength - 1, 0, true)]
+        public static void GetColumnRange2_Test(int row, int rowCount, int column, int columnCount, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
@@ -550,7 +626,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                _ = instance.GetRange(row, count, column, itemCount, direction);
+                _ = instance.GetColumnRange(column, columnCount, row, rowCount);
             }
             catch (Exception ex)
             {
@@ -586,7 +662,7 @@ namespace WodiLib.Test.Sys
         [TestCase(TestTools.InitRowLength - 1, nameof(TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic),
             true)]
         [TestCase(TestTools.InitRowLength, nameof(TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnBasic), true)]
-        public static void SetRangeTest(int row, string setItemType, bool isError)
+        public static void SetRowRangeTest(int row, string setItemType, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
@@ -596,7 +672,49 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.SetRange(row, setItems);
+                instance.SetRowRange(row, setItems);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(isError, errorOccured);
+        }
+
+        [TestCase(-1, nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic), true)]
+        [TestCase(0, nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic), false)]
+        [TestCase(0, nameof(TestDoubleEnumerableInstanceType.NotNull_RowLong_ColumnBasic), true)]
+        [TestCase(0, nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnShort), true)]
+        [TestCase(0, nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnLong), true)]
+        [TestCase(0, nameof(TestDoubleEnumerableInstanceType.Empty), true)]
+        [TestCase(0, nameof(TestDoubleEnumerableInstanceType.EmptyRows), true)]
+        [TestCase(0, nameof(TestDoubleEnumerableInstanceType.HasNullRow), true)]
+        [TestCase(0, nameof(TestDoubleEnumerableInstanceType.HasNullColumn), true)]
+        [TestCase(0, nameof(TestDoubleEnumerableInstanceType.Jagged), true)]
+        [TestCase(0, nameof(TestDoubleEnumerableInstanceType.Null), true)]
+        [TestCase(TestTools.InitRowLength - 1, nameof(TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnBasic),
+            false)]
+        [TestCase(TestTools.InitRowLength - 1, nameof(TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnShort),
+            true)]
+        [TestCase(TestTools.InitRowLength - 1, nameof(TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnLong),
+            true)]
+        [TestCase(TestTools.InitRowLength - 1, nameof(TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic),
+            true)]
+        [TestCase(TestTools.InitRowLength, nameof(TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnBasic), true)]
+        public static void SetRowRange2Test(int row, string setItemType, bool isError)
+        {
+            var instance = TestTools.MakeTwoDimensionalList(
+                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
+                TestTools.MakeInitItem);
+
+            var setItems = TestTools.MakeTestRecordList(setItemType, false, TestTools.MakeInsertItem);
+            var errorOccured = false;
+            try
+            {
+                instance.SetRowRange(row, setItems);
             }
             catch (Exception ex)
             {
@@ -622,7 +740,7 @@ namespace WodiLib.Test.Sys
         [TestCase(TestTools.InitColumnLength - 1, nameof(TestSingleEnumerableInstanceType.HasNullItem), true)]
         [TestCase(TestTools.InitColumnLength - 1, nameof(TestSingleEnumerableInstanceType.Null), true)]
         [TestCase(TestTools.InitColumnLength, nameof(TestSingleEnumerableInstanceType.NotNull_Basic), true)]
-        public static void SetItemTest(int index, string setItemType, bool isError)
+        public static void SetColumnTest(int index, string setItemType, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
@@ -632,7 +750,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.SetItem(index, setItems);
+                instance.SetColumn(index, setItems);
             }
             catch (Exception ex)
             {
@@ -665,7 +783,7 @@ namespace WodiLib.Test.Sys
             true)]
         [TestCase(TestTools.InitColumnLength, nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnOne),
             true)]
-        public static void SetItemRangeTest(int index, string setItemType, bool isError)
+        public static void SetColumnRangeTest(int index, string setItemType, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
@@ -675,82 +793,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.SetItemRange(index, setItems);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(isError, errorOccured);
-        }
-
-        [TestCase(-1, 0, nameof(TestDoubleEnumerableInstanceType.Empty), nameof(Direction.Row), true)]
-        [TestCase(0, -1, nameof(TestDoubleEnumerableInstanceType.Empty), nameof(Direction.Row), true)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic), nameof(Direction.Row),
-            false)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic), nameof(Direction.None),
-            true)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic), null, true)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.NotNull_RowLong_ColumnBasic), nameof(Direction.Row),
-            true)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnLong), nameof(Direction.Row),
-            true)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnLong), nameof(Direction.None),
-            true)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.Empty), nameof(Direction.Row), false)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.Empty), nameof(Direction.Column), false)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.Empty), null, true)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.EmptyRows), nameof(Direction.Row), false)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.EmptyRows), nameof(Direction.Column), false)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.EmptyRows), null, true)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.HasNullRow), nameof(Direction.Row), true)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.HasNullColumn), nameof(Direction.Row), true)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.Jagged), nameof(Direction.Row), true)]
-        [TestCase(0, 0, nameof(TestDoubleEnumerableInstanceType.Null), nameof(Direction.Row), true)]
-        [TestCase(0, TestTools.InitColumnLength - 1,
-            nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnOne), nameof(Direction.Row), false)]
-        [TestCase(0, TestTools.InitColumnLength - 1, nameof(TestDoubleEnumerableInstanceType.Empty),
-            nameof(Direction.Row), false)]
-        [TestCase(0, TestTools.InitColumnLength - 1, nameof(TestDoubleEnumerableInstanceType.EmptyRows),
-            nameof(Direction.Row), false)]
-        [TestCase(0, TestTools.InitColumnLength, nameof(TestDoubleEnumerableInstanceType.Empty), nameof(Direction.Row),
-            true)]
-        [TestCase(TestTools.InitRowLength - 1, 0, nameof(TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnBasic),
-            nameof(Direction.Row), false)]
-        [TestCase(TestTools.InitRowLength - 1, 0, nameof(TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic),
-            nameof(Direction.None), true)]
-        [TestCase(TestTools.InitRowLength - 1, 0, nameof(TestDoubleEnumerableInstanceType.Empty), nameof(Direction.Row),
-            false)]
-        [TestCase(TestTools.InitRowLength - 1, TestTools.InitColumnLength - 2,
-            nameof(TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnTwo), nameof(Direction.Row), false)]
-        [TestCase(TestTools.InitRowLength - 1, TestTools.InitColumnLength - 2,
-            nameof(TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnTwo), nameof(Direction.Column), true)]
-        [TestCase(TestTools.InitRowLength - 1, TestTools.InitColumnLength - 2,
-            nameof(TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnOne), nameof(Direction.Row), true)]
-        [TestCase(TestTools.InitRowLength - 1, TestTools.InitColumnLength - 2,
-            nameof(TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnOne), nameof(Direction.Column), false)]
-        [TestCase(TestTools.InitRowLength - 1, TestTools.InitColumnLength - 1,
-            nameof(TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnOne), nameof(Direction.Row), false)]
-        [TestCase(TestTools.InitRowLength - 1, TestTools.InitColumnLength - 1,
-            nameof(TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnOne), nameof(Direction.Column), false)]
-        [TestCase(TestTools.InitRowLength, 0, nameof(TestDoubleEnumerableInstanceType.Empty), nameof(Direction.Row),
-            true)]
-        public static void SetRange_Wide_Test(int row, int column,
-            string setItemType, string directionType, bool isError)
-        {
-            var direction = TestTools.TestDirectionFrom(directionType);
-            var instance = TestTools.MakeTwoDimensionalList(
-                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
-                TestTools.MakeInitItem);
-
-            var setItems = TestTools.MakeTestRecordList(setItemType, false, TestTools.MakeInsertItem);
-            var errorOccured = false;
-            try
-            {
-                instance.SetRange(row, column, setItems, direction);
+                instance.SetColumnRange(index, setItems);
             }
             catch (Exception ex)
             {
@@ -778,7 +821,7 @@ namespace WodiLib.Test.Sys
         [TestCase(false, nameof(TestSingleEnumerableInstanceType.Empty), true)]
         [TestCase(false, nameof(TestSingleEnumerableInstanceType.HasNullItem), true)]
         [TestCase(false, nameof(TestSingleEnumerableInstanceType.Null), true)]
-        public static void AddTest(bool targetIsEmpty, string addItemType, bool isError)
+        public static void AddRowTest(bool targetIsEmpty, string addItemType, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -790,7 +833,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.Add(addItems);
+                instance.AddRow(addItems);
             }
             catch (Exception ex)
             {
@@ -820,7 +863,7 @@ namespace WodiLib.Test.Sys
         [TestCase(false, nameof(TestDoubleEnumerableInstanceType.HasNullColumn), true)]
         [TestCase(false, nameof(TestDoubleEnumerableInstanceType.Jagged), true)]
         [TestCase(false, nameof(TestDoubleEnumerableInstanceType.Null), true)]
-        public static void AddRangeTest(bool targetIsEmpty, string addItemType, bool isError)
+        public static void AddRowRangeTest(bool targetIsEmpty, string addItemType, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -832,7 +875,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.AddRange(addItems);
+                instance.AddRowRange(addItems);
             }
             catch (Exception ex)
             {
@@ -856,7 +899,7 @@ namespace WodiLib.Test.Sys
         [TestCase(false, nameof(TestSingleEnumerableInstanceType.Empty), true)]
         [TestCase(false, nameof(TestSingleEnumerableInstanceType.HasNullItem), true)]
         [TestCase(false, nameof(TestSingleEnumerableInstanceType.Null), true)]
-        public static void AddItemTest(bool targetIsEmpty, string addItemType, bool isError)
+        public static void AddColumnTest(bool targetIsEmpty, string addItemType, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -868,7 +911,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.AddItem(addItems);
+                instance.AddColumn(addItems);
             }
             catch (Exception ex)
             {
@@ -900,7 +943,7 @@ namespace WodiLib.Test.Sys
         [TestCase(false, nameof(TestDoubleEnumerableInstanceType.HasNullColumn), true)]
         [TestCase(false, nameof(TestDoubleEnumerableInstanceType.Jagged), true)]
         [TestCase(false, nameof(TestDoubleEnumerableInstanceType.Null), true)]
-        public static void AddItemRangeTest(bool targetIsEmpty, string addItemType, bool isError)
+        public static void AddColumnRangeTest(bool targetIsEmpty, string addItemType, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -912,7 +955,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.AddItemRange(addItems);
+                instance.AddColumnRange(addItems);
             }
             catch (Exception ex)
             {
@@ -954,7 +997,7 @@ namespace WodiLib.Test.Sys
         [TestCase(false, TestTools.InitRowLength, nameof(TestSingleEnumerableInstanceType.HasNullItem), true)]
         [TestCase(false, TestTools.InitRowLength, nameof(TestSingleEnumerableInstanceType.Null), true)]
         [TestCase(false, TestTools.InitRowLength + 1, nameof(TestSingleEnumerableInstanceType.NotNull_Basic), true)]
-        public static void InsertTest(bool targetIsEmpty, int index, string insertItemType, bool isError)
+        public static void InsertRowTest(bool targetIsEmpty, int index, string insertItemType, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -966,7 +1009,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.Insert(index, insertItems);
+                instance.InsertRow(index, insertItems);
             }
             catch (Exception ex)
             {
@@ -1020,7 +1063,7 @@ namespace WodiLib.Test.Sys
             nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic), true)]
         [TestCase(false, TestTools.InitRowLength + 1,
             nameof(TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnBasic), true)]
-        public static void InsertRangeTest(bool targetIsEmpty, int index, string insertItemType, bool isError)
+        public static void InsertRowRangeTest(bool targetIsEmpty, int index, string insertItemType, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -1032,7 +1075,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.InsertRange(index, insertItems);
+                instance.InsertRowRange(index, insertItems);
             }
             catch (Exception ex)
             {
@@ -1070,7 +1113,7 @@ namespace WodiLib.Test.Sys
         [TestCase(false, TestTools.InitColumnLength, nameof(TestSingleEnumerableInstanceType.HasNullItem), true)]
         [TestCase(false, TestTools.InitColumnLength, nameof(TestSingleEnumerableInstanceType.Null), true)]
         [TestCase(false, TestTools.InitColumnLength + 1, nameof(TestSingleEnumerableInstanceType.NotNull_Basic), true)]
-        public static void InsertItemTest(bool targetIsEmpty, int index, string insertItemType, bool isError)
+        public static void InsertColumnTest(bool targetIsEmpty, int index, string insertItemType, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -1082,7 +1125,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.InsertItem(index, insertItems);
+                instance.InsertColumn(index, insertItems);
             }
             catch (Exception ex)
             {
@@ -1136,7 +1179,7 @@ namespace WodiLib.Test.Sys
             nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic), true)]
         [TestCase(false, TestTools.InitColumnLength + 1,
             nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnOne), true)]
-        public static void InsertItemRangeTest(bool targetIsEmpty, int index, string insertItemType, bool isError)
+        public static void InsertColumnRangeTest(bool targetIsEmpty, int index, string insertItemType, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -1148,7 +1191,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.InsertItemRange(index, insertItems);
+                instance.InsertColumnRange(index, insertItems);
             }
             catch (Exception ex)
             {
@@ -1205,7 +1248,7 @@ namespace WodiLib.Test.Sys
             nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic), true)]
         [TestCase(false, TestTools.InitRowLength + 1,
             nameof(TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnBasic), true)]
-        public static void OverwriteTest(bool targetIsEmpty, int index, string overwriteItemType, bool isError)
+        public static void OverwriteRowTest(bool targetIsEmpty, int index, string overwriteItemType, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -1217,7 +1260,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.Overwrite(index, overwriteItems);
+                instance.OverwriteRow(index, overwriteItems);
             }
             catch (Exception ex)
             {
@@ -1270,7 +1313,7 @@ namespace WodiLib.Test.Sys
             nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic), true)]
         [TestCase(false, TestTools.InitColumnLength + 1,
             nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnOne), true)]
-        public static void OverwriteItemTest(bool targetIsEmpty, int index, string overwriteItemType, bool isError)
+        public static void OverwriteColumnTest(bool targetIsEmpty, int index, string overwriteItemType, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -1282,7 +1325,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.OverwriteItem(index, overwriteItems);
+                instance.OverwriteColumn(index, overwriteItems);
             }
             catch (Exception ex)
             {
@@ -1318,7 +1361,7 @@ namespace WodiLib.Test.Sys
         [TestCase(false, TestTools.InitRowLength, 0, true)]
         [TestCase(false, TestTools.InitRowLength, TestTools.InitRowLength - 1, true)]
         [TestCase(false, TestTools.InitRowLength, TestTools.InitRowLength, true)]
-        public static void MoveTest(bool targetIsEmpty, int oldIndex, int newIndex, bool isError)
+        public static void MoveRowTest(bool targetIsEmpty, int oldIndex, int newIndex, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -1329,7 +1372,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.Move(oldIndex, newIndex);
+                instance.MoveRow(oldIndex, newIndex);
             }
             catch (Exception ex)
             {
@@ -1367,7 +1410,7 @@ namespace WodiLib.Test.Sys
         [TestCase(false, TestTools.InitRowLength, 0, 0, true)]
         [TestCase(false, TestTools.InitRowLength, TestTools.InitRowLength - 1, 0, true)]
         [TestCase(false, TestTools.InitRowLength, TestTools.InitRowLength, 0, true)]
-        public static void MoveRangeTest(bool targetIsEmpty, int oldIndex, int newIndex,
+        public static void MoveRowRangeTest(bool targetIsEmpty, int oldIndex, int newIndex,
             int count, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
@@ -1378,7 +1421,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.MoveRange(oldIndex, newIndex, count);
+                instance.MoveRowRange(oldIndex, newIndex, count);
             }
             catch (Exception ex)
             {
@@ -1410,7 +1453,7 @@ namespace WodiLib.Test.Sys
         [TestCase(false, TestTools.InitColumnLength, 0, true)]
         [TestCase(false, TestTools.InitColumnLength, TestTools.InitColumnLength - 1, true)]
         [TestCase(false, TestTools.InitColumnLength, TestTools.InitColumnLength, true)]
-        public static void MoveItemTest(bool targetIsEmpty, int oldIndex, int newIndex, bool isError)
+        public static void MoveColumnTest(bool targetIsEmpty, int oldIndex, int newIndex, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -1421,7 +1464,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.MoveItem(oldIndex, newIndex);
+                instance.MoveColumn(oldIndex, newIndex);
             }
             catch (Exception ex)
             {
@@ -1460,7 +1503,7 @@ namespace WodiLib.Test.Sys
         [TestCase(false, TestTools.InitColumnLength, 0, 0, true)]
         [TestCase(false, TestTools.InitColumnLength, TestTools.InitColumnLength - 1, 0, true)]
         [TestCase(false, TestTools.InitColumnLength, TestTools.InitColumnLength, 0, true)]
-        public static void MoveItemRangeTest(bool targetIsEmpty, int oldIndex, int newIndex, int count, bool isError)
+        public static void MoveColumnRangeTest(bool targetIsEmpty, int oldIndex, int newIndex, int count, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -1470,7 +1513,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.MoveItemRange(oldIndex, newIndex, count);
+                instance.MoveColumnRange(oldIndex, newIndex, count);
             }
             catch (Exception ex)
             {
@@ -1486,43 +1529,13 @@ namespace WodiLib.Test.Sys
 
         #region Remove
 
-        [TestCase(-1, -1, false)]
-        [TestCase(1, TestTools.InitColumnLength - 2, false)]
-        [TestCase(2, TestTools.InitColumnLength, true)]
-        public static void RemoveTest(int itemRow, int itemColumnLength, bool isRemoved)
-        {
-            Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
-
-            var instance = TestTools.MakeTwoDimensionalList(
-                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
-                funcMakeDefaultItem);
-            var removeItems = itemRow >= 0
-                ? Enumerable.Range(0, itemColumnLength).Select(c => funcMakeDefaultItem(itemRow, c))
-                : null;
-            var comparer = EqualityComparerFactory.Create<TestRecord>();
-
-            var result = false;
-            try
-            {
-                result = instance.Remove(removeItems, comparer);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                Assert.Fail();
-            }
-
-            // 結果が意図した値であること
-            Assert.AreEqual(isRemoved, result);
-        }
-
         [TestCase(true, -1, true)]
         [TestCase(true, 0, true)]
         [TestCase(false, -1, true)]
         [TestCase(false, 0, false)]
         [TestCase(false, TestTools.InitRowLength - 1, false)]
         [TestCase(false, TestTools.InitRowLength, true)]
-        public static void RemoveAtTest(bool targetIsEmpty, int index, bool isError)
+        public static void RemoveRowTest(bool targetIsEmpty, int index, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -1532,7 +1545,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.RemoveAt(index);
+                instance.RemoveRow(index);
             }
             catch (Exception ex)
             {
@@ -1560,7 +1573,7 @@ namespace WodiLib.Test.Sys
         [TestCase(false, TestTools.InitRowLength - 1, 2, true)]
         [TestCase(false, TestTools.InitRowLength, 0, true)]
         [TestCase(false, TestTools.InitRowLength, TestTools.InitRowLength, true)]
-        public static void RemoveRangeTest(bool targetIsEmpty, int index, int count, bool isError)
+        public static void RemoveRowRangeTest(bool targetIsEmpty, int index, int count, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -1570,7 +1583,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.RemoveRange(index, count);
+                instance.RemoveRowRange(index, count);
             }
             catch (Exception ex)
             {
@@ -1588,7 +1601,7 @@ namespace WodiLib.Test.Sys
         [TestCase(false, 0, false)]
         [TestCase(false, TestTools.InitColumnLength - 1, false)]
         [TestCase(false, TestTools.InitColumnLength, true)]
-        public static void RemoveItemTest(bool targetIsEmpty, int index, bool isError)
+        public static void RemoveColumnTest(bool targetIsEmpty, int index, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -1598,7 +1611,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.RemoveItem(index);
+                instance.RemoveColumn(index);
             }
             catch (Exception ex)
             {
@@ -1626,7 +1639,7 @@ namespace WodiLib.Test.Sys
         [TestCase(false, TestTools.InitColumnLength - 1, 2, true)]
         [TestCase(false, TestTools.InitColumnLength, 0, true)]
         [TestCase(false, TestTools.InitColumnLength, TestTools.InitColumnLength, true)]
-        public static void RemoveItemRangeTest(bool targetIsEmpty, int index, int count, bool isError)
+        public static void RemoveColumnRangeTest(bool targetIsEmpty, int index, int count, bool isError)
         {
             var instance = TestTools.MakeTwoDimensionalList(
                 targetIsEmpty
@@ -1636,7 +1649,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.RemoveItemRange(index, count);
+                instance.RemoveColumnRange(index, count);
             }
             catch (Exception ex)
             {
@@ -1752,7 +1765,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.AdjustLength(rowLength);
+                instance.AdjustRowLength(rowLength);
             }
             catch (Exception ex)
             {
@@ -1780,7 +1793,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.AdjustLengthIfShort(rowLength);
+                instance.AdjustRowLengthIfShort(rowLength);
             }
             catch (Exception ex)
             {
@@ -1808,7 +1821,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.AdjustLengthIfLong(rowLength);
+                instance.AdjustRowLengthIfLong(rowLength);
             }
             catch (Exception ex)
             {
@@ -1831,7 +1844,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.AdjustItemLength(columnLength);
+                instance.AdjustColumnLength(columnLength);
             }
             catch (Exception ex)
             {
@@ -1854,7 +1867,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.AdjustItemLengthIfShort(columnLength);
+                instance.AdjustColumnLengthIfShort(columnLength);
             }
             catch (Exception ex)
             {
@@ -1877,7 +1890,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                instance.AdjustItemLengthIfLong(columnLength);
+                instance.AdjustColumnLengthIfLong(columnLength);
             }
             catch (Exception ex)
             {

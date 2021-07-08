@@ -46,10 +46,13 @@ namespace WodiLib.Sys.Collections
                             target, target.ToTwoDimensionalArray(), index,
                             replaceOldItems, replaceNewItems, insertItems, Direction.Row);
 
-                    var notifyPropertyList = new List<string>(overwriteParams.NotifyProperties);
+                    var notifyPropertyList = new List<string>
+                    {
+                        ListConstant.IndexerName,
+                    };
                     if (insertItems.Length > 0)
                     {
-                        notifyPropertyList.Add(nameof(AllCount));
+                        notifyPropertyList.AddRange(new[] {nameof(target.RowCount), nameof(Target.AllCount)});
                     }
 
                     NotifyProperties = notifyPropertyList.ToArray();
@@ -90,7 +93,7 @@ namespace WodiLib.Sys.Collections
                     }
 
                     {
-                        var targetItemCount = target.ItemCount;
+                        var targetItemCount = target.ColumnCount;
                         var itemLength = items.Count;
                         var replaceLength = Math.Min(targetItemCount - index, itemLength);
                         var replaceOldItems = target.ToTwoDimensionalArray().ToTransposedArray()
@@ -107,7 +110,7 @@ namespace WodiLib.Sys.Collections
 
                         if (addItems.Length > 0)
                         {
-                            notifyProps.AddRange(new[] {nameof(target.ItemCount), nameof(Target.AllCount)});
+                            notifyProps.AddRange(new[] {nameof(target.ColumnCount), nameof(Target.AllCount)});
                         }
                     }
 

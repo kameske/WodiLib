@@ -134,6 +134,6 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="target">検証対象</param>
         /// <returns>新規検証処理インスタンス</returns>
-        public ITwoDimensionalListValidator<T> CreateAnotherFor(IReadOnlyTwoDimensionalList<T> target);
+        public ITwoDimensionalListValidator<T> CreateAnotherFor(ITwoDimensionalList<T> target);
     }
 }

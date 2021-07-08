@@ -17,7 +17,8 @@ namespace WodiLib.Common
     /// コモンイベントセルフ変数名リスト
     /// </summary>
     [Serializable]
-    public class CommonEventSelfVariableNameList : FixedLengthList<CommonEventSelfVariableName, CommonEventSelfVariableNameList>,
+    public class CommonEventSelfVariableNameList :
+        FixedLengthList<CommonEventSelfVariableName, CommonEventSelfVariableNameList>,
         IReadOnlyCommonEventSelfVariableNameList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -73,6 +74,10 @@ namespace WodiLib.Common
         protected override CommonEventSelfVariableName MakeDefaultItem(int index) =>
             new CommonEventSelfVariableName("");
 
+        /// <inheritdoc/>
+        protected override IWodiLibListValidator<CommonEventSelfVariableName> MakeValidator()
+            => new Validator(this);
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -91,6 +96,35 @@ namespace WodiLib.Common
             }
 
             return result.ToArray();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Classes
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// このクラス専用のValidator
+        /// </summary>
+        protected class Validator : WodiLibListValidatorTemplate<CommonEventSelfVariableName>
+        {
+            /// <inheritdoc/>
+            protected override IWodiLibListValidator<CommonEventSelfVariableName>? BaseValidator { get; }
+
+            /// <summary>
+            /// コンストラクタ
+            /// </summary>
+            /// <param name="target">対象</param>
+            public Validator(CommonEventSelfVariableNameList target) : base(target)
+            {
+                BaseValidator = new FixedLengthListValidator<CommonEventSelfVariableName>(target);
+            }
+
+            /// <inheritdoc/>
+            public override void Constructor(IReadOnlyList<CommonEventSelfVariableName> initItems)
+            {
+                BaseValidator?.Constructor(initItems);
+                FixedLengthListValidationHelper.ItemCount(initItems.Count, Capacity);
+            }
         }
     }
 }

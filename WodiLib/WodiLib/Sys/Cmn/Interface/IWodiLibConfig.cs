@@ -110,7 +110,7 @@ namespace WodiLib.Sys.Cmn
 
         /// <summary>
         ///     新規作成した 二次元リスト の
-        ///     <see cref="INotifyTwoDimensionalListChange{T}.NotifyTwoDimensionalListChangingEventType"/> 初期化値
+        ///     <see cref="INotifiableTwoDimensionalListChangeiableTwoDimensionalListChange{T,TArgs}.NotifyTwoDimensionalListChangingEventType"/> 初期化値
         /// </summary>
         /// <remarks>
         ///     <para>
@@ -128,7 +128,7 @@ namespace WodiLib.Sys.Cmn
 
         /// <summary>
         ///     新規作成した 二次元リスト の
-        ///     <see cref="INotifyTwoDimensionalListChange{T}.NotifyTwoDimensionalListChangedEventType"/> 初期化値
+        ///     <see cref="INotifiableTwoDimensionalListChangeiableTwoDimensionalListChange{T,TArgs}.NotifyTwoDimensionalListChangedEventType"/> 初期化値
         /// </summary>
         /// <remarks>
         ///     <para>

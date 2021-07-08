@@ -20,9 +20,9 @@ namespace WodiLib.Map
         {
             protected override IWodiLibListValidator<MapEvent>? BaseValidator { get; }
 
-            private new IReadOnlyRestrictedCapacityList<MapEvent> Target { get; }
+            private new IRestrictedCapacityList<MapEvent> Target { get; }
 
-            public CustomValidator(IReadOnlyRestrictedCapacityList<MapEvent> target) : base(target)
+            public CustomValidator(IRestrictedCapacityList<MapEvent> target) : base(target)
             {
                 Target = target;
                 BaseValidator = new RestrictedCapacityListValidator<MapEvent>(target);

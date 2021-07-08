@@ -38,10 +38,10 @@ namespace WodiLib.Sys.Collections
                             target, target.ToTwoDimensionalArray(), newItems,
                             direction);
 
-                    var isRowLengthChange = target.Count != newItems.Length;
-                    var isColumnLengthChange = target.ItemCount != newItems.GetInnerArrayLength();
+                    var isRowLengthChange = target.RowCount != newItems.Length;
+                    var isColumnLengthChange = target.ColumnCount != newItems.GetInnerArrayLength();
                     var isAllCountChange = target.AllCount != newItems.Length * newItems.GetInnerArrayLength();
-                    var isEmptyFrom = target.Count == 0;
+                    var isEmptyFrom = target.RowCount == 0;
                     var isEmptyTo = newItems.Length == 0;
 
                     var notifyPropertyList = new List<string>
@@ -51,12 +51,12 @@ namespace WodiLib.Sys.Collections
 
                     if (isRowLengthChange)
                     {
-                        notifyPropertyList.Add(nameof(target.Count));
+                        notifyPropertyList.Add(nameof(target.RowCount));
                     }
 
                     if (isColumnLengthChange)
                     {
-                        notifyPropertyList.Add(nameof(target.ItemCount));
+                        notifyPropertyList.Add(nameof(target.ColumnCount));
                     }
 
                     if (isAllCountChange)

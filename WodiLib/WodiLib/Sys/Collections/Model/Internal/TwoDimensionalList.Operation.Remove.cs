@@ -52,15 +52,15 @@ namespace WodiLib.Sys.Collections
                     CollectionChangeEventArgsFactory =
                         CollectionChangeEventArgsFactory<IReadOnlyList<T>>.CreateRemove(target, index, removeItems);
 
-                    var isToEmpty = count == target.Count;
+                    var isToEmpty = count == target.RowCount;
                     NotifyProperties =
                         isToEmpty
                             ? new[]
                             {
-                                ListConstant.IndexerName, nameof(target.Count), nameof(target.ItemCount),
+                                ListConstant.IndexerName, nameof(target.RowCount), nameof(target.ColumnCount),
                                 nameof(target.AllCount), nameof(target.IsEmpty)
                             }
-                            : new[] {ListConstant.IndexerName, nameof(target.Count), nameof(target.AllCount)};
+                            : new[] {ListConstant.IndexerName, nameof(target.RowCount), nameof(target.AllCount)};
                 }
 
                 protected override T[][] RemoveItems(TwoDimensionalList<T> target, int index, int count)
@@ -90,11 +90,11 @@ namespace WodiLib.Sys.Collections
                             Target, 0, oldItems, newItems);
 
                     NotifyProperties = new[]
-                        {ListConstant.IndexerName, nameof(Target.ItemCount), nameof(Target.AllCount)};
+                        {ListConstant.IndexerName, nameof(Target.ColumnCount), nameof(Target.AllCount)};
                 }
 
                 protected override T[][] RemoveItems(TwoDimensionalList<T> target, int index, int count)
-                    => target.Get_Impl(0, target.Count, index, count, Direction.Column);
+                    => target.Get_Impl(0, target.RowCount, index, count, Direction.Column);
             }
         }
     }

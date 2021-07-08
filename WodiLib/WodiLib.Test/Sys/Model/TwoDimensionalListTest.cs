@@ -9,7 +9,6 @@ using WodiLib.Test.Tools;
 using TestTools = WodiLib.Test.Sys.TwoDimensionalListTest_Tools;
 using TestRecord = WodiLib.Test.Sys.TwoDimensionalListTest_Tools.TestRecord;
 using ContainsItemType = WodiLib.Test.Sys.TwoDimensionalListTest_Tools.ContainsItemType;
-using TestSingleEnumerableInstanceType = WodiLib.Test.Sys.TwoDimensionalListTest_Tools.TestSingleEnumerableInstanceType;
 using TestDoubleEnumerableInstanceType = WodiLib.Test.Sys.TwoDimensionalListTest_Tools.TestDoubleEnumerableInstanceType;
 
 namespace WodiLib.Test.Sys
@@ -56,7 +55,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                result = instance.Count;
+                result = instance.RowCount;
             }
             catch (Exception ex)
             {
@@ -82,7 +81,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                result = instance.ItemCount;
+                result = instance.ColumnCount;
             }
             catch (Exception ex)
             {
@@ -164,46 +163,31 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(answer, result);
         }
 
-        [TestCase(nameof(ContainsItemType.Included))]
-        [TestCase(nameof(ContainsItemType.NotIncluded))]
-        [TestCase(nameof(ContainsItemType.Null))]
-        public static void ContainsTest_IReadOnlyList(string testType)
+        [Test]
+        public static void ContainsTest_SingleItem_ScanDirection()
         {
-            Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
+            var searchItem = new TestRecord((1 * 3).ToString());
             var instance = TestTools.MakeTwoDimensionalList(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
-                funcMakeDefaultItem);
-            ValueTuple<IReadOnlyList<TestRecord>, bool> valueTuple = testType switch
-            {
-                nameof(ContainsItemType.Included) => (instance[0].ToList(), true),
-                nameof(ContainsItemType.NotIncluded) => (
-                    Enumerable.Range(0, TestTools.InitColumnLength)
-                        .Select(c => funcMakeDefaultItem(TestTools.InitRowLength + 1, c)).ToList(), false),
-                nameof(ContainsItemType.Null) => (null, false),
-                _ => throw new ArgumentException()
-            };
-            var (item, answer) = valueTuple;
+                (r, c) => new TestRecord((r * c).ToString()));
 
-            var result = false;
-
-            try
             {
-                result = instance.Contains(item);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                Assert.Fail();
+                // shouldScanRowDirection = false
+                var containsResult = instance.Contains(searchItem);
+                Assert.IsTrue(containsResult);
             }
 
-            // 取得結果が正しいこと
-            Assert.AreEqual(answer, result);
+            {
+                // shouldScanRowDirection = true
+                var containsResult = instance.Contains(searchItem, null, true);
+                Assert.IsTrue(containsResult);
+            }
         }
 
         [TestCase(nameof(ContainsItemType.Included))]
         [TestCase(nameof(ContainsItemType.NotIncluded))]
         [TestCase(nameof(ContainsItemType.Null))]
-        public static void ContainsTest_IEnumerable(string testType)
+        public static void ContainsRowTest(string testType)
         {
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
             var instance = TestTools.MakeTwoDimensionalList(
@@ -223,7 +207,42 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                result = instance.Contains(item);
+                result = instance.ContainsRow(item);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                Assert.Fail();
+            }
+
+            // 取得結果が正しいこと
+            Assert.AreEqual(answer, result);
+        }
+
+        [TestCase(nameof(ContainsItemType.Included))]
+        [TestCase(nameof(ContainsItemType.NotIncluded))]
+        [TestCase(nameof(ContainsItemType.Null))]
+        public static void ContainsColumnTest(string testType)
+        {
+            Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
+            var instance = TestTools.MakeTwoDimensionalList(
+                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
+                funcMakeDefaultItem);
+            var (item, answer) = testType switch
+            {
+                nameof(ContainsItemType.Included) => (instance.ToTransposedArray()[0], true),
+                nameof(ContainsItemType.NotIncluded) => (
+                    Enumerable.Range(0, TestTools.InitColumnLength)
+                        .Select(c => funcMakeDefaultItem(TestTools.InitRowLength + 1, c)), false),
+                nameof(ContainsItemType.Null) => (null, false),
+                _ => throw new ArgumentException()
+            };
+
+            var result = false;
+
+            try
+            {
+                result = instance.ContainsColumn(item);
             }
             catch (Exception ex)
             {
@@ -274,7 +293,7 @@ namespace WodiLib.Test.Sys
         [TestCase(nameof(ContainsItemType.Included), true)]
         [TestCase(nameof(ContainsItemType.NotIncluded), false)]
         [TestCase(nameof(ContainsItemType.Null), false)]
-        public static void ContainsTest_IEnumerable_WithComparer(string testType,
+        public static void ContainsRowTest_WithComparer(string testType,
             bool answer)
         {
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
@@ -295,7 +314,43 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                result = instance.Contains(item, comparer);
+                result = instance.ContainsRow(item, comparer);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                Assert.Fail();
+            }
+
+            // 取得結果が正しいこと
+            Assert.AreEqual(answer, result);
+        }
+
+        [TestCase(nameof(ContainsItemType.Included), true)]
+        [TestCase(nameof(ContainsItemType.NotIncluded), false)]
+        [TestCase(nameof(ContainsItemType.Null), false)]
+        public static void ContainsColumnTest_WithComparer(string testType,
+            bool answer)
+        {
+            Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
+            var instance = TestTools.MakeTwoDimensionalList(
+                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
+                funcMakeDefaultItem);
+            var item = testType switch
+            {
+                nameof(ContainsItemType.Included) => instance.ToTransposedArray()[0],
+                nameof(ContainsItemType.NotIncluded) => Enumerable.Range(0, TestTools.InitColumnLength)
+                    .Select(c => funcMakeDefaultItem(TestTools.InitRowLength + 1, c + TestTools.InitColumnLength * 10)),
+                nameof(ContainsItemType.Null) => null,
+                _ => throw new ArgumentException()
+            };
+            var comparer = EqualityComparerFactory.Create<TestRecord>();
+
+            var result = false;
+
+            try
+            {
+                result = instance.ContainsColumn(item, comparer);
             }
             catch (Exception ex)
             {
@@ -310,25 +365,24 @@ namespace WodiLib.Test.Sys
         [TestCase(nameof(ContainsItemType.Included))]
         [TestCase(nameof(ContainsItemType.NotIncluded))]
         [TestCase(nameof(ContainsItemType.Null))]
-        public static void IndexOfTest_IReadOnlyList(string testType)
+        public static void IndexOfTest_Single(string testType)
         {
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
             var instance = TestTools.MakeTwoDimensionalList(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
                 funcMakeDefaultItem);
-            ValueTuple<IReadOnlyList<TestRecord>, int> valueTuple = testType switch
+            ValueTuple<TestRecord, (int row, int column)> valueTuple = testType switch
             {
-                nameof(ContainsItemType.Included) => (instance[0].ToList(), 0),
+                nameof(ContainsItemType.Included) => (instance[0, 2], (0, 2)),
                 nameof(ContainsItemType.NotIncluded) => (
-                    Enumerable.Range(0, TestTools.InitColumnLength)
-                        .Select(c => funcMakeDefaultItem(TestTools.InitRowLength + 1, c)).ToList(), -1),
-                nameof(ContainsItemType.Null) => (null, -1),
+                    new TestRecord("not found"), (-1, -1)),
+                nameof(ContainsItemType.Null) => (null, (-1, -1)),
                 _ => throw new ArgumentException()
             };
             var (item, answer) = valueTuple;
             var comparer = EqualityComparerFactory.Create<TestRecord>();
 
-            var result = -1;
+            var result = (-1, -1);
 
             try
             {
@@ -341,13 +395,41 @@ namespace WodiLib.Test.Sys
             }
 
             // 取得結果が正しいこと
-            Assert.AreEqual(answer, result);
+            Assert.AreEqual(answer.row, result.Item1);
+            Assert.AreEqual(answer.column, result.Item2);
+        }
+
+        [Test]
+        public static void IndexOfTest_Single_ScanDirection()
+        {
+            var searchItem = new TestRecord((1 * 3).ToString());
+            var instance = TestTools.MakeTwoDimensionalList(
+                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
+                (r, c) => new TestRecord((r * c).ToString()));
+            var comparer = EqualityComparerFactory.Create<TestRecord>();
+
+            {
+                // shouldScanRowDirection = false
+                var result = instance.IndexOf(searchItem, comparer);
+
+                // 列優先探索され、 (1, 3) が取得されること
+                Assert.AreEqual(1, result.Item1);
+                Assert.AreEqual(3, result.Item2);
+            }
+            {
+                // shouldScanRowDirection = true
+                var result = instance.IndexOf(searchItem, comparer, true);
+
+                // 行優先探索され、 (3, 1) が取得されること
+                Assert.AreEqual(3, result.Item1);
+                Assert.AreEqual(1, result.Item2);
+            }
         }
 
         [TestCase(nameof(ContainsItemType.Included))]
         [TestCase(nameof(ContainsItemType.NotIncluded))]
         [TestCase(nameof(ContainsItemType.Null))]
-        public static void IndexOfTest_IEnumerable(string testType)
+        public static void RowIndexOfTest(string testType)
         {
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
             var instance = TestTools.MakeTwoDimensionalList(
@@ -368,7 +450,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                result = instance.IndexOf(item, comparer);
+                result = instance.RowIndexOf(item, comparer);
             }
             catch (Exception ex)
             {
@@ -383,7 +465,7 @@ namespace WodiLib.Test.Sys
         [TestCase(nameof(ContainsItemType.Included))]
         [TestCase(nameof(ContainsItemType.NotIncluded))]
         [TestCase(nameof(ContainsItemType.Null))]
-        public static void IndexOfTest_SingleItem(string testType)
+        public static void ColumnIndexOfTest(string testType)
         {
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
             var instance = TestTools.MakeTwoDimensionalList(
@@ -391,18 +473,20 @@ namespace WodiLib.Test.Sys
                 funcMakeDefaultItem);
             var (item, answer) = testType switch
             {
-                nameof(ContainsItemType.Included) => (funcMakeDefaultItem(0, 1), (0, 1)),
+                nameof(ContainsItemType.Included) => (instance.ToTransposedArray()[1], 1),
                 nameof(ContainsItemType.NotIncluded) => (
-                    funcMakeDefaultItem(TestTools.InitRowLength + 1, TestTools.InitColumnLength + 1), (-1, -1)),
-                nameof(ContainsItemType.Null) => (null, (-1, -1)),
+                    Enumerable.Range(0, TestTools.InitColumnLength)
+                        .Select(c => funcMakeDefaultItem(TestTools.InitRowLength + 1, c)), -1),
+                nameof(ContainsItemType.Null) => (null, -1),
                 _ => throw new ArgumentException()
             };
+            var comparer = EqualityComparerFactory.Create<TestRecord>();
 
-            var result = (-1, -1);
+            var result = -1;
 
             try
             {
-                result = instance.IndexOf(item);
+                result = instance.ColumnIndexOf(item, comparer);
             }
             catch (Exception ex)
             {
@@ -411,8 +495,7 @@ namespace WodiLib.Test.Sys
             }
 
             // 取得結果が正しいこと
-            Assert.AreEqual(answer.Item1, result.Item1);
-            Assert.AreEqual(answer.Item2, result.Item2);
+            Assert.AreEqual(answer, result);
         }
 
         #endregion
@@ -500,8 +583,8 @@ namespace WodiLib.Test.Sys
             var instance = TestTools.MakeTwoDimensionalList(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
                 funcMakeDefaultItem);
-            var originalCount = instance.Count;
-            var originalItemCount = instance.ItemCount;
+            var originalCount = instance.RowCount;
+            var originalItemCount = instance.ColumnCount;
 
             TestRecord[][] result = null;
 
@@ -539,8 +622,8 @@ namespace WodiLib.Test.Sys
             var instance = TestTools.MakeTwoDimensionalList(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
                 funcMakeDefaultItem);
-            var originalCount = instance.Count;
-            var originalItemCount = instance.ItemCount;
+            var originalCount = instance.RowCount;
+            var originalItemCount = instance.ColumnCount;
 
             TwoDimensionalList<TestRecord> result = null;
 
@@ -555,8 +638,8 @@ namespace WodiLib.Test.Sys
             }
 
             // 取得結果が正しいこと
-            Assert.AreEqual(originalCount, result.Count);
-            Assert.AreEqual(originalItemCount, result.ItemCount);
+            Assert.AreEqual(originalCount, result.RowCount);
+            Assert.AreEqual(originalItemCount, result.ColumnCount);
             Assert.False(ReferenceEquals(instance, result));
             for (var r = 0; r < originalCount; r++)
             for (var c = 0; c < originalItemCount; c++)
@@ -631,8 +714,8 @@ namespace WodiLib.Test.Sys
             var instance = TestTools.MakeTwoDimensionalList(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
                 funcMakeDefaultItem);
-            var originalCount = instance.Count;
-            var originalItemCount = instance.ItemCount;
+            var originalCount = instance.RowCount;
+            var originalItemCount = instance.ColumnCount;
 
             TwoDimensionalList<TestRecord> result = null;
 
@@ -650,8 +733,8 @@ namespace WodiLib.Test.Sys
             }
 
             // 取得結果が正しいこと
-            Assert.AreEqual(assumedRowLength, result.Count);
-            Assert.AreEqual(assumedColumnLength, result.ItemCount);
+            Assert.AreEqual(assumedRowLength, result.RowCount);
+            Assert.AreEqual(assumedColumnLength, result.ColumnCount);
             Assert.False(ReferenceEquals(instance, result));
             for (var r = 0; r < Math.Min(rowLength ?? int.MaxValue, originalCount); r++)
             for (var c = 0; c < Math.Min(colLength ?? int.MaxValue, originalItemCount); c++)
@@ -668,93 +751,6 @@ namespace WodiLib.Test.Sys
                     Assert.IsTrue(instance[r, c].ItemEquals(result[r, c]));
                     Assert.False(ReferenceEquals(instance[r, c], result[r, c]));
                 }
-            }
-        }
-
-        #endregion
-
-        #region Obsolete
-
-        [Test]
-        public static void ObsoleteTest_IndexOf_IReadOnlyList()
-        {
-            Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
-            var instance = TestTools.MakeTwoDimensionalList(
-                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
-                funcMakeDefaultItem);
-
-            IReadOnlyList<TestRecord> searchItems = instance[0].ToList();
-
-            try
-            {
-#pragma warning disable 618
-                var result = instance.IndexOf(searchItems);
-#pragma warning restore 618
-
-                Assert.AreEqual(-1, result);
-            }
-            catch (NotSupportedException ex)
-            {
-                logger.Exception(ex);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                Assert.Fail();
-            }
-        }
-
-        [Test]
-        public static void ObsoleteTest_IndexOf_IEnumerable()
-        {
-            Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
-            var instance = TestTools.MakeTwoDimensionalList(
-                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
-                funcMakeDefaultItem);
-
-            var searchItems = instance[0];
-
-            try
-            {
-#pragma warning disable 618
-                var result = instance.IndexOf(searchItems);
-#pragma warning restore 618
-
-                Assert.AreEqual(-1, result);
-            }
-            catch (NotSupportedException ex)
-            {
-                logger.Exception(ex);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                Assert.Fail();
-            }
-        }
-
-        [Test]
-        public static void ObsoleteTest_Remove()
-        {
-            Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
-            var instance = TestTools.MakeTwoDimensionalList(
-                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
-                funcMakeDefaultItem);
-
-            var item = TestTools.MakeTestRecords(TestSingleEnumerableInstanceType.NotNull_Basic,
-                false, funcMakeDefaultItem);
-
-            try
-            {
-#pragma warning disable 618
-                instance.Remove(item);
-#pragma warning restore 618
-                // Assert.Fail(); 実行しても例外はスローされない
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                Assert.Fail();
             }
         }
 
