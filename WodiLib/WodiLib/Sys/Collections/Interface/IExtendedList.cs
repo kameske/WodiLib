@@ -29,23 +29,7 @@ namespace WodiLib.Sys.Collections
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
     public interface
-        IExtendedList<T> : IFixedLengthList<T>,
-            ISizeChangeableList<T, IExtendedList<T>, IFixedLengthList<T>, IReadOnlyExtendedList<T>>,
-            IDeepCloneableList<IExtendedList<T>, T>
-    {
-        /// <inheritdoc cref="IDeepCloneableList{T,TIn}.DeepClone"/>
-        public new IExtendedList<T> DeepClone();
-
-        /// <inheritdoc cref="IDeepCloneableList{T,TIn}.DeepCloneWith"/>
-        public new IExtendedList<T> DeepCloneWith(int? length = null, IReadOnlyDictionary<int, T>? values = null);
-    }
-
-    /// <summary>
-    ///     WodiLib 独自の読み取り専用リストインタフェース
-    /// </summary>
-    /// <typeparam name="T">リスト内包クラス</typeparam>
-    public interface IReadOnlyExtendedList<T> : IReadableList<T, IReadOnlyExtendedList<T>>,
-        IDeepCloneableList<IReadOnlyExtendedList<T>, T>
+        IExtendedList<T> : ISizeChangeableList<T, IExtendedList<T>, IFixedLengthList<T>, IReadOnlyExtendedList<T>>
     {
     }
 }

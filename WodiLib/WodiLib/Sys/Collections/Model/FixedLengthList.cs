@@ -25,7 +25,8 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="T">リスト内包型</typeparam>
     /// <typeparam name="TImpl">リスト実装型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class FixedLengthList<T, TImpl> : ModelBase<TImpl>, IFixedLengthList<T>
+    public abstract class FixedLengthList<T, TImpl> : ModelBase<TImpl>,
+        IFixedLengthList<T>, IReadOnlyExtendedList<T>
         where TImpl : FixedLengthList<T, TImpl>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -131,9 +132,6 @@ namespace WodiLib.Sys.Collections
         ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
         ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
         /// </exception>
-        /// <exception cref="ArgumentException">
-        ///     <paramref name="initItems"/> の要素数が <see cref="GetCapacity"/> と異なる場合。
-        /// </exception>
         protected FixedLengthList(IEnumerable<T> initItems)
         {
             if (initItems is null)
@@ -170,11 +168,11 @@ namespace WodiLib.Sys.Collections
         //      Public Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IWritableList{TItem,TImpl,TReadable}.Contains(TItem)"/>
         public bool Contains([AllowNull] T item)
             => Contains(item, null);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IWritableList{TItem,TImpl,TReadable}.Contains(TItem, IEqualityComparer{TItem}?)"/>
         public bool Contains([AllowNull] T item, IEqualityComparer<T>? itemComparer)
         {
             if (item is null) return false;
@@ -185,25 +183,25 @@ namespace WodiLib.Sys.Collections
         public IEnumerator<T> GetEnumerator()
             => Items.AsEnumerable().GetEnumerator();
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IWritableList{TItem,TImpl,TReadable}.GetRange"/>
         public IEnumerable<T> GetRange(int index, int count)
         {
             Validator?.Get(index, count);
             return Items.GetRange(index, count);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IWritableList{TItem,TImpl,TReadable}.IndexOf(TItem)"/>
         public int IndexOf([AllowNull] T item)
             => IndexOf(item, null);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IWritableList{TItem,TImpl,TReadable}.IndexOf(TItem, IEqualityComparer{TItem}?)"/>
         public int IndexOf([AllowNull] T item, IEqualityComparer<T>? itemComparer)
         {
             if (item is null) return -1;
             return Items.IndexOf(item, itemComparer);
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IWritableList{TItem,TImpl,TReadable}.CopyTo"/>
         public void CopyTo(T[] array, int index)
             => Items.CopyTo(array, index);
 
@@ -257,11 +255,11 @@ namespace WodiLib.Sys.Collections
         public override bool ItemEquals(TImpl? other)
             => ItemEquals(other, null);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IWritableList{TItem,TImpl,TReadable}.ItemEquals(IEnumerable{TItem}?)"/>
         public bool ItemEquals(IEnumerable<T>? other)
             => ItemEquals(other, null);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IWritableList{TItem,TImpl,TReadable}.ItemEquals(IEnumerable{TItem}?, IEqualityComparer{TItem}?)"/>
         public bool ItemEquals(IEnumerable<T>? other, IEqualityComparer<T>? itemComparer)
             => Items.ItemEquals(other, itemComparer);
 
@@ -310,10 +308,17 @@ namespace WodiLib.Sys.Collections
 
         #endregion
 
-        #region DeepClone
+        #region ItemEquals
 
-        IFixedLengthList<T> IFixedLengthList<T>.DeepClone()
-            => DeepClone();
+        bool IEqualityComparable<IFixedLengthList<T>>.ItemEquals(IFixedLengthList<T>? other)
+            => ItemEquals(other, null);
+
+        bool IEqualityComparable<IReadOnlyExtendedList<T>>.ItemEquals(IReadOnlyExtendedList<T>? other)
+            => ItemEquals(other, null);
+
+        #endregion
+
+        #region DeepClone
 
         IFixedLengthList<T> IDeepCloneable<IFixedLengthList<T>>.DeepClone()
             => DeepClone();
@@ -327,9 +332,6 @@ namespace WodiLib.Sys.Collections
 
         IFixedLengthList<T> IDeepCloneableList<IFixedLengthList<T>, T>.DeepCloneWith(int? length,
             IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
-
-        IFixedLengthList<T> IFixedLengthList<T>.DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
             => DeepCloneWith(length, values);
 
         IReadOnlyExtendedList<T> IDeepCloneableList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length,
@@ -368,14 +370,13 @@ namespace WodiLib.Sys.Collections
         [return: NotNull]
         protected abstract T MakeDefaultItem(int index);
 
+        /* 一時的に virtual 宣言 */
         /// <summary>
         ///     新規インスタンスを作成する。
         /// </summary>
         /// <param name="items">新規インスタンスの要素</param>
         /// <returns>新規作成したインスタンス</returns>
-        // TODO: 一時的に virtual 宣言
-        protected virtual TImpl MakeInstance(IEnumerable<T> items)
-            => throw new NotImplementedException();
+        protected virtual TImpl MakeInstance(IEnumerable<T> items) => default!;
 
         /// <summary>
         ///     自身の検証処理を実行する <see cref="IWodiLibListValidator{T}"/> インスタンスを生成する。
@@ -412,26 +413,22 @@ namespace WodiLib.Sys.Collections
                 });
         }
 
-        // ＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠＠
-        // TODO: 削除する。容量は決め打ちにせずコンストラクタの引数から決定。一旦継承先クラスでエラーが出ないようにする。
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Obsolete
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /*
+         * 一時的に定義。
+         * Ver 3.0 正式公開時には削除する。
+         */
+
+        [Obsolete]
+        public virtual int GetCapacity() => 0;
 
         [Obsolete]
         protected FixedLengthList()
         {
-            var items = MakeItems(0, GetCapacity())
-                .ToArray();
-
-            Validator = MakeValidator();
-            Validator?.Constructor(items);
-
-            Items = new ExtendedList<T>(items)
-            {
-                FuncMakeItems = MakeItems
-            };
-            PropagatePropertyChangeEvent();
+            Items = new ExtendedList<T>(MakeItems(0, GetCapacity()));
         }
-
-        [Obsolete]
-        public virtual int GetCapacity() => Count;
     }
 }

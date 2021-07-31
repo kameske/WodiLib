@@ -14,7 +14,7 @@ namespace WodiLib.Database
     /// <summary>
     /// 読み取り専用DB選択肢情報リスト
     /// </summary>
-    public interface IReadOnlyDatabaseValueCaseList : IReadOnlyRestrictedCapacityList<DatabaseValueCase>
+    public interface IReadOnlyDatabaseValueCaseList : IReadOnlyExtendedList<DatabaseValueCase>
     {
     }
 }

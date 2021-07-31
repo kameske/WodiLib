@@ -10,7 +10,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using WodiLib.Sys.Cmn;
 
@@ -34,9 +33,9 @@ namespace WodiLib.Sys.Collections
     ///         行数 > 0 かつ 列数 == 0 の状況にはなりうるが、行数 == 0 かつ 列数 > 0 の状況にはなりえない。
     ///     </para>
     /// </remarks>
-    internal partial class TwoDimensionalList<T> : ModelBase<TwoDimensionalList<T>>,
-        ITwoDimensionalList<T>, IDeepCloneableTwoDimensionalListInternal<TwoDimensionalList<T>, T>
-        where T : IEqualityComparable<T>
+    internal partial class TwoDimensionalList<T> :
+        ModelBase<TwoDimensionalList<T>>,
+        ITwoDimensionalList<T>, IReadableTwoDimensionalList<T, TwoDimensionalList<T>>
     {
         /*
          * このクラスの実装観点は ExtendedList<T> と同じ。
@@ -51,7 +50,8 @@ namespace WodiLib.Sys.Collections
         ///     各操作の検証処理実施クラスを注入する。
         /// </summary>
         /// <param name="self">自分自身</param>
-        public delegate ITwoDimensionalListValidator<T>? InjectValidator(TwoDimensionalList<T> self);
+        public delegate ITwoDimensionalListValidator<T>? InjectValidator(
+            TwoDimensionalList<T> self);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Events
@@ -105,21 +105,24 @@ namespace WodiLib.Sys.Collections
         //      Public Properties
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        public IEnumerable<T> this[int index]
+        public T this[int rowIndex, int columnIndex]
         {
-            get => GetRange(index, 1, 0, ColumnCount, Direction.Row).First();
-            set => SetRange(index, 0, new[] {value}, Direction.Row, true);
-        }
-
-        public T this[int row, int column]
-        {
-            get => GetRange(row, 1, column, 1, Direction.Row).First().First();
-            set => SetRange(row, column, new[] {new[] {value}}, Direction.None, false);
+            get
+            {
+                Validator?.GetItem(rowIndex, columnIndex);
+                return Items[rowIndex][columnIndex];
+            }
+            set
+            {
+                ThrowHelper.ValidatePropertyNotNull(value is null, typeof(TwoDimensionalList<>).Name);
+                Validator?.SetItem(rowIndex, columnIndex, value);
+                Set_Impl(rowIndex, columnIndex, new[] {new[] {value}}, Direction.None);
+            }
         }
 
         public bool IsEmpty => RowCount == 0;
         public int RowCount => Items.Count;
-        public int ColumnCount => RowCount > 0 ? Get_Impl(0, 1)[0].Count : 0;
+        public int ColumnCount => RowCount > 0 ? Items[0].Count : 0;
         public int AllCount => RowCount * ColumnCount;
 
         public NotifyCollectionChangeEventType NotifyCollectionChangingEventType
@@ -166,18 +169,16 @@ namespace WodiLib.Sys.Collections
         //      Private Properties
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private SimpleList<Inner> Items { get; }
-
-        private Inner.Factory InnerItemFactory { get; }
+        private SimpleList<SimpleList<T>> Items { get; }
 
         private Func<int, int, T> FuncMakeDefaultItem { get; }
 
         private ITwoDimensionalListValidator<T>? Validator { get; }
 
-        private int MaxRowCapacity { get; }
-        private int MinRowCapacity { get; }
-        private int MaxColumnCapacity { get; }
-        private int MinColumnCapacity { get; }
+        private int MaxRowCapacity => config.MaxRowCapacity;
+        private int MinRowCapacity => config.MinRowCapacity;
+        private int MaxColumnCapacity => config.MaxColumnCapacity;
+        private int MinColumnCapacity => config.MinColumnCapacity;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Fields
@@ -196,33 +197,25 @@ namespace WodiLib.Sys.Collections
         private NotifyTwoDimensionalListChangeEventType notifyTwoDimensionalListChangingEventType;
         private NotifyTwoDimensionalListChangeEventType notifyTwoDimensionalListChangedEventType;
 
+        private readonly Config config;
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Constructors
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         internal TwoDimensionalList(IEnumerable<IEnumerable<T>> values,
-            InjectValidator? injection, Func<int, int, T> funcMakeDefaultItem,
-            int minRowCapacity = 0, int maxRowCapacity = int.MaxValue,
-            int minColumnCapacity = 0, int maxColumnCapacity = int.MaxValue)
+            Config config)
         {
-            ThrowHelper.ValidateArgumentNotNull(values is null, nameof(values));
-            ThrowHelper.ValidateArgumentNotNull(funcMakeDefaultItem is null, nameof(funcMakeDefaultItem));
-
-            FuncMakeDefaultItem = funcMakeDefaultItem;
-            InnerItemFactory = new Inner.Factory(MakeInnerDefaultItem);
-            MaxRowCapacity = maxRowCapacity;
-            MinRowCapacity = minRowCapacity;
-            MaxColumnCapacity = maxColumnCapacity;
-            MinColumnCapacity = minColumnCapacity;
+            this.config = config;
+            FuncMakeDefaultItem = config.ItemFactory;
+            Validator = config.ValidatorFactory(this);
 
             var valuesArray = values.ToTwoDimensionalArray();
 
-            Validator = injection?.Invoke(this);
-
             Validator?.Constructor(valuesArray);
 
-            var initItems = valuesArray.Select(line => InnerItemFactory.Create(line));
-            Items = new SimpleList<Inner>(initItems);
+            var initItems = valuesArray.Select(ConvertInnerList);
+            Items = new SimpleList<SimpleList<T>>(initItems);
 
             notifyCollectionChangingEventType = WodiLibConfig.GetDefaultNotifyBeforeCollectionChangeEventType();
             notifyCollectionChangedEventType = WodiLibConfig.GetDefaultNotifyAfterCollectionChangeEventType();
@@ -233,67 +226,32 @@ namespace WodiLib.Sys.Collections
         }
 
         internal TwoDimensionalList(int rowLength, int columnLength,
-            InjectValidator? injection,
-            Func<int, int, T> funcMakeDefaultItem,
-            int minRowCapacity = 0, int maxRowCapacity = int.MaxValue,
-            int minColumnCapacity = 0, int maxColumnCapacity = int.MaxValue) : this(
+            Config config) : this(
             ((Func<IEnumerable<IEnumerable<T>>>) (() =>
                 Enumerable.Range(0, rowLength).Select(rowIdx
                     => Enumerable.Range(0, columnLength).Select(colIdx
-                        => funcMakeDefaultItem(rowIdx, colIdx)))))(),
-            injection, funcMakeDefaultItem,
-            minRowCapacity, maxRowCapacity,
-            minColumnCapacity, maxColumnCapacity)
+                        => config.ItemFactory(rowIdx, colIdx)))))(),
+            config)
         {
         }
 
-        internal TwoDimensionalList(InjectValidator? injection,
-            Func<int, int, T> funcMakeDefaultItem,
-            int minRowCapacity = 0, int maxRowCapacity = int.MaxValue,
-            int minColumnCapacity = 0, int maxColumnCapacity = int.MaxValue) : this(
-            Enumerable.Range(0, minRowCapacity).Select(row =>
-                Enumerable.Range(0, minColumnCapacity).Select(col => funcMakeDefaultItem(row, col))),
-            injection, funcMakeDefaultItem, minRowCapacity, maxRowCapacity, minColumnCapacity, maxColumnCapacity)
+        internal TwoDimensionalList(Config config) : this(
+            Enumerable.Range(0, config.MinRowCapacity).Select(row =>
+                Enumerable.Range(0, config.MinColumnCapacity).Select(col => config.ItemFactory(row, col))),
+            config)
         {
         }
 
-        private TwoDimensionalList(TwoDimensionalList<T> src) : this(src.Items.Select(line => line.DeepClone()),
-            self => src.Validator?.CreateAnotherFor(self), src.FuncMakeDefaultItem,
-            src.GetMinRowCapacity(), src.GetMaxRowCapacity(), src.GetMinColumnCapacity(), src.GetMaxColumnCapacity())
+        private TwoDimensionalList(
+            TwoDimensionalList<T> src) : this(
+            src.Items.Select(line => line.DeepClone()),
+            src.config)
         {
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Public Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        public bool Contains([AllowNull] T item, IEqualityComparer<T>? comparer = null,
-            bool shouldScanRowDirection = false)
-        {
-            if (item is null) return false;
-
-            return shouldScanRowDirection
-                ? Items.ToTransposedArray().Any(line => line.Contains(item, comparer))
-                : Items.Any(line => line.Contains(item, comparer));
-        }
-
-        public bool ContainsRow(IEnumerable<T>? item, IEqualityComparer<T>? comparer = null)
-        {
-            if (item is null) return false;
-
-            return Items.Any(items => items.SequenceEqual(item, comparer));
-        }
-
-        public bool ContainsColumn(IEnumerable<T>? item, IEqualityComparer<T>? comparer = null)
-        {
-            if (item is null) return false;
-
-            return Items.ToTransposedArray()
-                .Any(items => items.SequenceEqual(item, comparer));
-        }
-
-        public IEnumerator<IEnumerable<T>> GetEnumerator()
-            => Items.GetEnumerator();
 
         public int GetMaxRowCapacity() => MaxRowCapacity;
 
@@ -303,204 +261,117 @@ namespace WodiLib.Sys.Collections
 
         public int GetMinColumnCapacity() => MinColumnCapacity;
 
-        public IEnumerable<IEnumerable<T>> GetRowRange(int row, int count)
-            => GetRange(row, count, 0, ColumnCount, Direction.Row);
+        public IEnumerator<IEnumerable<T>> GetEnumerator()
+            => Items.GetEnumerator();
 
-        public IEnumerable<IEnumerable<T>> GetRowRange(int row, int rowCount, int column, int columnCount)
-            => GetRange(row, rowCount, column, columnCount, Direction.Row);
-
-        public IEnumerable<T> GetColumn(int column)
-            => GetColumnRange(column, 1).First();
-
-        public IEnumerable<IEnumerable<T>> GetColumnRange(int column, int count)
-            => GetRange(0, RowCount, column, count, Direction.Column);
-
-        public IEnumerable<IEnumerable<T>> GetColumnRange(int column, int columnCount, int row, int rowCount)
-            => GetRange(row, rowCount, column, columnCount, Direction.Column);
-
-        public (int row, int column) IndexOf([AllowNull] T item, IEqualityComparer<T>? comparer = null,
-            bool shouldScanRowDirection = false)
+        public IEnumerable<IEnumerable<T>> GetRow(int rowIndex, int rowCount)
         {
-            if (item is null)
-            {
-                return (-1, -1);
-            }
-
-            var transposedIfNeed =
-                shouldScanRowDirection
-                    ? (IEnumerable<IEnumerable<T>>) Items.ToTransposedArray()
-                    : Items;
-            var search = transposedIfNeed.Select((inner, row) => (row, inner.FindIndex(item, comparer)))
-                .Where(cell => cell.Item2 >= 0)
-                .ToArray();
-
-            if (search.Length == 0)
-            {
-                return (-1, -1);
-            }
-
-            var (first, second) = search[0];
-            return shouldScanRowDirection
-                ? (second, first)
-                : (first, second);
+            Validator?.GetRow(rowIndex, rowCount);
+            return GetRow_Impl(rowIndex, rowCount);
         }
 
-        public int RowIndexOf(IEnumerable<T>? item, IEqualityComparer<T>? comparer = null)
+        public IEnumerable<IEnumerable<T>> GetColumn(int columnIndex, int columnCount)
         {
-            if (item is null)
-            {
-                return -1;
-            }
-
-            return Items.FindIndex(row => row.ItemEquals(item, comparer));
+            Validator?.GetColumn(columnIndex, columnCount);
+            return Get_Impl(0, RowCount, columnIndex, columnCount, Direction.Column);
         }
 
-        public int ColumnIndexOf(IEnumerable<T>? item, IEqualityComparer<T>? comparer = null)
+        public IEnumerable<IEnumerable<T>> GetItem(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
-            if (item is null)
-            {
-                return -1;
-            }
-
-            return Items.ToTransposedArray()
-                .FindIndex(column => column.SequenceEqual(item, comparer));
+            Validator?.GetItem(rowIndex, rowCount, columnIndex, columnCount);
+            return Get_Impl(rowIndex, rowCount, columnIndex, columnCount, Direction.Row);
         }
 
-        public void CopyTo(T[] array, int index, bool shouldTakeRowDirection = false)
+        public void SetRow(int rowIndex, params IEnumerable<T>[] rows)
         {
-            var direction = shouldTakeRowDirection ? Direction.Row : Direction.Column;
-
-            Validator?.CopyTo(array, index, direction);
-
-            (shouldTakeRowDirection
-                    ? Items.ToTransposedArray().SelectMany(inner => inner).ToArray()
-                    : Items.SelectMany(inner => inner).ToArray()
-                ).ForEach((item, idx) => array[index + idx] = item);
+            Validator?.SetRow(rowIndex, rows);
+            Set_Impl(rowIndex, 0, rows.ToTwoDimensionalArray(), Direction.Row);
         }
 
-        public void CopyTo(T[,] array, int row, int column)
+        public void SetColumn(int columnIndex, params IEnumerable<T>[] items)
         {
-            Validator?.CopyTo(array, row, column);
-            Items.Select((inner, i) => (inner, i))
-                .ForEach(line => line.inner.ForEach((item, j)
-                    => array[row + line.i, column + j] = item));
+            Validator?.SetColumn(columnIndex, items);
+            Set_Impl(0, columnIndex, items.ToTwoDimensionalArray(), Direction.Column);
         }
 
-        public void CopyTo(T[][] array, int row, int column)
+        public void AddRow(params IEnumerable<T>[] items)
+            => InsertRow(RowCount, items);
+
+        public void AddColumn(params IEnumerable<T>[] items)
+            => InsertColumn(ColumnCount, items);
+
+        public void InsertRow(int rowIndex, params IEnumerable<T>[] items)
         {
-            Validator?.CopyTo(array, row, column);
-            Items.ForEach((inner, i) => inner.CopyTo(array[i + row], column));
+            Validator?.InsertRow(rowIndex, items);
+            Insert_Impl(rowIndex, items.ToTwoDimensionalArray(), Direction.Row);
         }
 
-        public void SetRowRange(int row, IEnumerable<IEnumerable<T>> items)
-            => SetRange(row, 0, items, Direction.Row, true);
-
-        public void SetColumn(int column, IEnumerable<T> items)
-            => SetRange(0, column, new[] {items}, Direction.Column, true);
-
-        public void SetColumnRange(int column, IEnumerable<IEnumerable<T>> items)
-            => SetRange(0, column, items, Direction.Column, true);
-
-        public void AddRow(IEnumerable<T> item)
-            => AddRowRange(new[] {item});
-
-        public void AddRowRange(IEnumerable<IEnumerable<T>> items)
+        public void InsertColumn(int columnIndex, params IEnumerable<T>[] items)
         {
-            ThrowHelper.ValidateNotNull(items is null);
-            var itemArray = items.ToTwoDimensionalArray();
-
-            Validator?.Insert(RowCount, itemArray, Direction.Row);
-            Insert_Impl(RowCount, itemArray, Direction.Row);
+            Validator?.InsertColumn(columnIndex, items);
+            Insert_Impl(columnIndex, items.ToTwoDimensionalArray(), Direction.Column);
         }
 
-        public void AddColumn(IEnumerable<T> columnItems)
-            => AddColumnRange(new[] {columnItems});
-
-        public void AddColumnRange(IEnumerable<IEnumerable<T>> items)
+        public void OverwriteRow(int rowIndex, params IEnumerable<T>[] items)
         {
-            ThrowHelper.ValidateNotNull(items is null);
-            var itemArray = items.ToTwoDimensionalArray();
-
-            Validator?.Insert(ColumnCount, itemArray, Direction.Column);
-            Insert_Impl(ColumnCount, itemArray, Direction.Column);
+            Validator?.OverwriteRow(rowIndex, items);
+            Overwrite_Impl(rowIndex, items.ToTwoDimensionalArray(), Direction.Row);
         }
 
-        public void InsertRow(int row, IEnumerable<T> items)
-            => InsertRowRange(row, new[] {items});
-
-        public void InsertRowRange(int row, IEnumerable<IEnumerable<T>> items)
+        public void OverwriteColumn(int columnIndex, params IEnumerable<T>[] items)
         {
-            ThrowHelper.ValidateNotNull(items is null);
-            var itemArray = items.ToTwoDimensionalArray();
-
-            Validator?.Insert(row, itemArray, Direction.Row);
-            Insert_Impl(row, itemArray, Direction.Row);
+            Validator?.OverwriteColumn(columnIndex, items);
+            Overwrite_Impl(columnIndex, items.ToTwoDimensionalArray(), Direction.Column);
         }
 
-        public void InsertColumn(int column, IEnumerable<T> columnItems)
-            => InsertColumnRange(column, new[] {columnItems});
-
-        public void InsertColumnRange(int column, IEnumerable<IEnumerable<T>> items)
+        public void MoveRow(int oldRowIndex, int newRowIndex, int count = 1)
         {
-            ThrowHelper.ValidateNotNull(items is null);
-            var itemArray = items.ToTwoDimensionalArray();
-
-            Validator?.Insert(column, itemArray, Direction.Column);
-            Insert_Impl(column, itemArray, Direction.Column);
+            Validator?.MoveRow(oldRowIndex, newRowIndex, count);
+            Move_Impl(oldRowIndex, newRowIndex, count, Direction.Row);
         }
 
-        public void OverwriteRow(int row, IEnumerable<IEnumerable<T>> items)
+        public void MoveColumn(int oldColumnIndex, int newColumnIndex, int count = 1)
         {
-            ThrowHelper.ValidateNotNull(items is null);
-            var itemArray = items.ToTwoDimensionalArray();
-
-            Validator?.Overwrite(row, itemArray, Direction.Row);
-            Overwrite_Impl(row, itemArray, Direction.Row);
+            Validator?.MoveColumn(oldColumnIndex, newColumnIndex, count);
+            Move_Impl(oldColumnIndex, newColumnIndex, count, Direction.Column);
         }
 
-        public void OverwriteColumn(int column, IEnumerable<IEnumerable<T>> items)
+        public void RemoveRow(int rowIndex, int count = 1)
         {
-            ThrowHelper.ValidateNotNull(items is null);
-            var itemArray = items.ToTwoDimensionalArray();
-
-            Validator?.Overwrite(column, itemArray, Direction.Column);
-            Overwrite_Impl(column, itemArray, Direction.Column);
+            Validator?.RemoveRow(rowIndex, count);
+            Remove_Impl(rowIndex, count, Direction.Row);
         }
 
-        public void MoveRow(int oldRow, int newRow)
-            => MoveRowRange(oldRow, newRow, 1);
-
-        public void MoveRowRange(int oldRow, int newRow, int count)
+        public void RemoveColumn(int columnIndex, int count = 1)
         {
-            Validator?.Move(oldRow, newRow, count, Direction.Row);
-            Move_Impl(oldRow, newRow, count, Direction.Row);
+            Validator?.RemoveColumn(columnIndex, count);
+            Remove_Impl(columnIndex, count, Direction.Column);
         }
 
-        public void MoveColumn(int oldColumn, int newColumn)
-            => MoveColumnRange(oldColumn, newColumn, 1);
-
-        public void MoveColumnRange(int oldColumn, int newColumn, int count)
+        public void AdjustLength(int rowLength, int columnLength)
         {
-            Validator?.Move(oldColumn, newColumn, count, Direction.Column);
-            Move_Impl(oldColumn, newColumn, count, Direction.Column);
+            Validator?.AdjustLength(rowLength, columnLength);
+            AdjustLength_Impl(rowLength, columnLength);
         }
 
-        public void RemoveRow(int index)
-            => RemoveRowRange(index, 1);
-
-        public void RemoveRowRange(int index, int count)
+        public void AdjustLengthIfShort(int rowLength, int columnLength)
         {
-            Validator?.Remove(index, count, Direction.Row);
-            Remove_Impl(index, count, Direction.Row);
+            Validator?.AdjustLength(rowLength, columnLength);
+
+            var fixedRowLength = Math.Max(rowLength, RowCount);
+            var fixedColumnLength = Math.Max(columnLength, ColumnCount);
+
+            AdjustLength_Impl(fixedRowLength, fixedColumnLength);
         }
 
-        public void RemoveColumn(int column)
-            => RemoveColumnRange(column, 1);
-
-        public void RemoveColumnRange(int column, int count)
+        public void AdjustLengthIfLong(int rowLength, int columnLength)
         {
-            Validator?.Remove(column, count, Direction.Column);
-            Remove_Impl(column, count, Direction.Column);
+            Validator?.AdjustLength(rowLength, columnLength);
+
+            var fixedRowLength = Math.Min(rowLength, RowCount);
+            var fixedColumnLength = Math.Min(columnLength, ColumnCount);
+
+            AdjustLength_Impl(fixedRowLength, fixedColumnLength);
         }
 
         public void AdjustRowLength(int length)
@@ -549,32 +420,6 @@ namespace WodiLib.Sys.Collections
             AdjustLength_Impl(rowLength, fixedColumnLength);
         }
 
-        public void AdjustLength(int rowLength, int columnLength)
-        {
-            Validator?.AdjustLength(rowLength, columnLength);
-            AdjustLength_Impl(rowLength, columnLength);
-        }
-
-        public void AdjustLengthIfShort(int rowLength, int columnLength)
-        {
-            Validator?.AdjustLength(rowLength, columnLength);
-
-            var fixedRowLength = Math.Max(rowLength, RowCount);
-            var fixedColumnLength = Math.Max(columnLength, ColumnCount);
-
-            AdjustLength_Impl(fixedRowLength, fixedColumnLength);
-        }
-
-        public void AdjustLengthIfLong(int rowLength, int columnLength)
-        {
-            Validator?.AdjustLength(rowLength, columnLength);
-
-            var fixedRowLength = Math.Min(rowLength, RowCount);
-            var fixedColumnLength = Math.Min(columnLength, ColumnCount);
-
-            AdjustLength_Impl(fixedRowLength, fixedColumnLength);
-        }
-
         public void Reset()
         {
             var resetItems = MakeDefaultItem(GetMinRowCapacity(), GetMinColumnCapacity())
@@ -585,10 +430,10 @@ namespace WodiLib.Sys.Collections
         public void Reset(IEnumerable<IEnumerable<T>> initItems)
         {
             ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
-            var itemArray = initItems.ToTwoDimensionalArray();
+            var initItemArray = initItems.ToTwoDimensionalArray();
 
-            Validator?.Reset(itemArray);
-            Reset_Impl(itemArray);
+            Validator?.Reset(initItemArray);
+            Reset_Impl(initItemArray);
         }
 
         public void Clear()
@@ -598,14 +443,15 @@ namespace WodiLib.Sys.Collections
             Reset_Impl(resetItems);
         }
 
-        public override bool ItemEquals(TwoDimensionalList<T>? other)
-            => ItemEquals(other);
+        public override bool ItemEquals(
+            TwoDimensionalList<T>? other)
+            => ItemEquals(other, null);
 
-        public bool ItemEquals(IEnumerable<IEnumerable<T>>? other)
+        public bool ItemEquals(ITwoDimensionalList<T>? other)
             => ItemEquals(other, null);
 
         public bool ItemEquals(IEnumerable<IEnumerable<T>>? other,
-            IEqualityComparer<T>? itemComparer)
+            IEqualityComparer<T>? itemComparer = null)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -619,27 +465,40 @@ namespace WodiLib.Sys.Collections
             if (RowCount == 0) return true;
             if (ColumnCount != otherArrays[0].Length) return false;
 
-            var innerItemComparer = itemComparer is null
-                ? EqualityComparerFactory.Create<T>()
-                : null;
             return this.Zip(otherArray)
-                .All(zip => zip.Item1.SequenceEqual(zip.Item2, innerItemComparer));
+                .All(zip => zip.Item1.SequenceEqual(zip.Item2, itemComparer));
         }
+
+        public ITwoDimensionalList<T>
+            AsRowSizeChangeableList()
+            => this;
+
+        public ITwoDimensionalList<T>
+            AsColumnSizeChangeableList()
+            => this;
+
+        public ITwoDimensionalList<T>
+            AsWritableList()
+            => this;
+
+        public ITwoDimensionalList<T>
+            AsReadableList()
+            => this;
 
         public T[][] ToTwoDimensionalArray(bool isTranspose = false)
             => isTranspose
                 ? Items.ToTransposedArray()
                 : Items.ToTwoDimensionalArray();
 
-        public IReadOnlyTwoDimensionalList<T> AsReadableList()
-            => this;
+        public override TwoDimensionalList<T>
+            DeepClone() => new(this);
 
-        public override TwoDimensionalList<T> DeepClone() => new(this);
-
-        public TwoDimensionalList<T> DeepCloneWith(int? rowLength = null, int? colLength = null,
+        public TwoDimensionalList<T> DeepCloneWith(
+            int? rowLength = null, int? colLength = null,
             IReadOnlyDictionary<(int row, int col), T>? values = null)
         {
-            var result = new TwoDimensionalList<T>(this);
+            var result =
+                new TwoDimensionalList<T>(this);
 
             switch (rowLength, colLength)
             {
@@ -686,37 +545,17 @@ namespace WodiLib.Sys.Collections
 
         #endregion
 
-        #region AsWritableList
-
-        IFixedLengthTwoDimensionalList<T>
-            ISizeChangeableTwoDimensionalList<T, ITwoDimensionalList<T>, IFixedLengthTwoDimensionalList<T>,
-                IReadOnlyTwoDimensionalList<T>>.AsWritableList()
-            => this;
-
-        IFixedLengthTwoDimensionalList<T>
-            IColumnSizeChangeableTwoDimensionalList<T, ITwoDimensionalList<T>, IFixedLengthTwoDimensionalList<T>,
-                IReadOnlyTwoDimensionalList<T>>.AsWritableList()
-            => this;
-
-        IFixedLengthTwoDimensionalList<T>
-            IRowSizeChangeableTwoDimensionalList<T, ITwoDimensionalList<T>, IFixedLengthTwoDimensionalList<T>,
-                IReadOnlyTwoDimensionalList<T>>.AsWritableList()
-            => this;
-
-        #endregion
-
         #region DeepClone
 
-        IReadOnlyTwoDimensionalList<T> IDeepCloneable<IReadOnlyTwoDimensionalList<T>>.DeepClone()
+        ITwoDimensionalList<T> IDeepCloneable<ITwoDimensionalList<T>>.DeepClone()
             => DeepClone();
 
         #endregion
 
         #region DeepCloneWith
 
-        IReadOnlyTwoDimensionalList<T> IDeepCloneableTwoDimensionalListInternal<IReadOnlyTwoDimensionalList<T>, T>.
-            DeepCloneWith(int? rowLength, int? colLength,
-                IReadOnlyDictionary<(int row, int col), T>? values)
+        ITwoDimensionalList<T> IDeepCloneableTwoDimensionalListInternal<ITwoDimensionalList<T>, T>.DeepCloneWith(
+            int? rowLength, int? colLength, IReadOnlyDictionary<(int row, int col), T>? values)
             => DeepCloneWith(rowLength, colLength, values);
 
         #endregion
@@ -731,23 +570,15 @@ namespace WodiLib.Sys.Collections
         private void RaiseCollectionChanged(NotifyCollectionChangedEventArgs args)
             => collectionChanged?.Invoke(this, args);
 
-        private void RaiseTowDimensionalListChanging(TwoDimensionalCollectionChangeEventInternalArgs<T> internalArgs)
+        private void RaiseTowDimensionalListChanging(
+            TwoDimensionalCollectionChangeEventInternalArgs<T> internalArgs)
             => twoDimensionalListChanging?.Invoke(this, internalArgs);
 
         private void RaiseTowDimensionalListChanged(TwoDimensionalCollectionChangeEventInternalArgs<T> internalArgs)
             => twoDimensionalListChanged?.Invoke(this, internalArgs);
 
-        private IEnumerable<IEnumerable<T>> GetRange(int row, int count,
-            int column, int itemCount, Direction direction)
-        {
-            Validator?.Get(row, count, column, itemCount, direction);
-            return Get_Impl(row, count, column, itemCount, direction);
-        }
-
-        private IFixedLengthList<T>[] Get_Impl(int row, int rowCount)
-        {
-            return Items.Range(row, rowCount).Cast<IFixedLengthList<T>>().ToArray();
-        }
+        private T[][] GetRow_Impl(int row, int count)
+            => Get_Impl(row, count, 0, ColumnCount, Direction.Row);
 
         private T[][] Get_Impl(int row, int rowCount, int column, int columnCount, Direction direction)
         {
@@ -755,16 +586,6 @@ namespace WodiLib.Sys.Collections
             return direction != Direction.Column
                 ? items.ToTwoDimensionalArray()
                 : items.ToTransposedArray();
-        }
-
-        private void SetRange(int row, int column, IEnumerable<IEnumerable<T>> items,
-            Direction direction, bool needFitItemsInnerSize)
-        {
-            ThrowHelper.ValidateNotNull(items is null);
-            var itemArray = items.ToTwoDimensionalArray();
-
-            Validator?.Set(row, column, itemArray, direction, needFitItemsInnerSize);
-            Set_Impl(row, column, itemArray, direction);
         }
 
         private void Set_Impl(int row, int column, T[][] items, Direction direction)
@@ -778,7 +599,7 @@ namespace WodiLib.Sys.Collections
 
         private void Set_Core(int row, int column, T[][] items, Direction direction)
             => items.ToTransposedArrayIf(direction == Direction.Column)
-                .ForEach((line, rowIdx) => Items[row + rowIdx].SetRange(column, line));
+                .ForEach((line, rowIdx) => Items[row + rowIdx].Set(column, line));
 
         private void Insert_Impl(int index, T[][] items, Direction direction)
         {
@@ -800,10 +621,10 @@ namespace WodiLib.Sys.Collections
 
         private void Insert_Core_Column(int index, IEnumerable<T[]> items)
         {
-            var actionInsertLine = new Action<(Inner, T[])>(zip =>
+            var actionInsertLine = new Action<(SimpleList<T>, T[])>(zip =>
             {
                 var (inner, insertItems) = zip;
-                inner.InsertRange(index, insertItems);
+                inner.Insert(index, insertItems);
             });
 
             var transposed = items.ToTransposedArray();
@@ -883,7 +704,7 @@ namespace WodiLib.Sys.Collections
             => Items.Move(oldIndex, newIndex, count);
 
         private void Move_Core_Column(int oldIndex, int newIndex, int count)
-            => Items.ForEach(line => line.MoveRange(oldIndex, newIndex, count));
+            => Items.ForEach(line => line.Move(oldIndex, newIndex, count));
 
         private void Remove_Impl(int index, int count, Direction direction)
         {
@@ -907,7 +728,7 @@ namespace WodiLib.Sys.Collections
         {
             foreach (var line in Items)
             {
-                line.RemoveRange(index, count);
+                line.Remove(index, count);
             }
         }
 
@@ -980,7 +801,7 @@ namespace WodiLib.Sys.Collections
 
         private void AdjustLength_Core_AddRow(IEnumerable<IEnumerable<T>> items)
         {
-            var addItems = items.Select(line => InnerItemFactory.Create(line))
+            var addItems = items.Select(ConvertInnerList)
                 .ToArray();
             Items.Add(addItems);
         }
@@ -988,7 +809,7 @@ namespace WodiLib.Sys.Collections
         private void AdjustLength_Core_AddColumn(IEnumerable<T[]> items)
         {
             Items.Zip(items).ForEach(zip
-                => zip.Item1.AddRange(zip.Item2));
+                => zip.Item1.Add(zip.Item2));
         }
 
         private void AdjustLength_Core_RemoveRow(int length)
@@ -1000,7 +821,7 @@ namespace WodiLib.Sys.Collections
         private void AdjustLength_Core_RemoveColumn(int length)
         {
             var removeLength = ColumnCount - length;
-            Items.ForEach(line => line.RemoveRange(length, removeLength));
+            Items.ForEach(line => line.Remove(length, removeLength));
         }
 
         private void Reset_Impl(T[][] newItems)
@@ -1012,24 +833,18 @@ namespace WodiLib.Sys.Collections
 
         private void Reset_Core(IEnumerable<T[]> items)
         {
-            var resetItems = items.Select(line => InnerItemFactory.Create(line))
+            var resetItems = items.Select(ConvertInnerList)
                 .ToArray();
             Items.Reset(resetItems);
         }
 
-        private Inner ConvertInnerList(IEnumerable<T> src) => InnerItemFactory.Create(src);
+        private SimpleList<T> ConvertInnerList(IEnumerable<T> src) => new(src);
 
         private IEnumerable<IEnumerable<T>> MakeDefaultItem(int rowCount, int columnCount)
         {
             return Enumerable.Range(0, rowCount)
                 .Select(row => Enumerable.Range(0, columnCount)
                     .Select(column => FuncMakeDefaultItem(row, column)));
-        }
-
-        private IEnumerable<T> MakeInnerDefaultItem(Inner inner, int column, int count)
-        {
-            var row = Items.FindIndex(item => ReferenceEquals(item, inner));
-            return Enumerable.Range(column, count).Select(col => FuncMakeDefaultItem(row, col));
         }
     }
 }

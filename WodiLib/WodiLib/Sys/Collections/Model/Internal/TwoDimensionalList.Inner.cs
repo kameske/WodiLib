@@ -13,9 +13,9 @@ namespace WodiLib.Sys.Collections
     internal partial class TwoDimensionalList<T>
     {
         /// <summary>
-        ///     <see cref="TwoDimensionalList{t}"/> の内側要素実装クラス
+        ///     <see cref="TwoDimensionalList{T}"/> の内側要素実装クラス
         /// </summary>
-        private class Inner : ExtendedList<T>, IFixedLengthList<T>
+        private class Inner : ExtendedList<T>
         {
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //      Public Delegate

@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WodiLib.Sys.Collections;
 
 namespace WodiLib.Sys
 {
@@ -64,6 +63,23 @@ namespace WodiLib.Sys
             => isTranspose ? src.ToTransposedArray() : src;
 
         /// <summary>
+        ///     行列を入れ替えた二次元配列を返す。<br/>
+        ///     【事前条件】<br/>
+        ///     すべての行について要素数が一致すること
+        /// </summary>
+        /// <remarks>
+        ///     <paramref name="isTranspose"/> が <see langword="true"/> の場合、
+        ///     <paramref name="src"/> を転置した行列を返す。
+        ///     <paramref name="isTranspose"/> が <see langword="false"/> の場合、
+        ///     <paramref name="src"/> をそのまま返す。
+        /// </remarks>
+        /// <param name="src">対象</param>
+        /// <param name="isTranspose">転置実施フラグ</param>
+        /// <returns>処理後の二次元配列</returns>
+        public static T[][] ToTransposedArrayIf<T>(this IEnumerable<IEnumerable<T>> src, bool isTranspose)
+            => src.ToTwoDimensionalArray().ToTransposedArrayIf(isTranspose);
+
+        /// <summary>
         ///     内側配列の長さを取得する。<br/>
         ///     外側配列の要素数が0の場合、0を返却する。
         /// </summary>
@@ -85,17 +101,6 @@ namespace WodiLib.Sys
         internal static T[][] ToTwoDimensionalArray<T>(this IEnumerable<IEnumerable<T>> src)
         {
             return src.Select(line => line.ToArray()).ToArray();
-        }
-
-        /// <summary>
-        ///     二重シーケンスを二次元リストに変換する。
-        /// </summary>
-        /// <param name="src">対象</param>
-        /// <typeparam name="T">対象シーケンスの内包型</typeparam>
-        /// <returns>二次元リスト</returns>
-        internal static IReadOnlyList<IReadOnlyList<T>> ToTwoDimensionalList<T>(this IEnumerable<IEnumerable<T>> src)
-        {
-            return new ExtendedList<IExtendedList<T>>(src.Select(line => new ExtendedList<T>(line)));
         }
     }
 }

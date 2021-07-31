@@ -49,14 +49,13 @@ namespace WodiLib.Sys.Collections
                 }
 
                 private static (IReadOnlyList<T[]>, IReadOnlyList<T[]>)? MakeReplaceItems(
-                    IReadOnlyTwoDimensionalList<T> target, int rowLength, int columnLength,
+                    TwoDimensionalList<T> target, int rowLength, int columnLength,
                     IReadOnlyCollection<T[]> addColumnItems)
                 {
                     if (addColumnItems.Count > 0)
                     {
                         // add
-                        var oldItems = target.ToTwoDimensionalArray().Range(0, rowLength)
-                            .ToTwoDimensionalArray();
+                        var oldItems = target.GetRow_Impl(0, rowLength);
                         var newItems = oldItems.Zip(addColumnItems)
                             .Select(zip => zip.Item1.Concat(zip.Item2))
                             .ToTwoDimensionalArray();
@@ -68,8 +67,7 @@ namespace WodiLib.Sys.Collections
                     if (removeLength > 0)
                     {
                         // remove
-                        var oldItems = target.ToTwoDimensionalArray().Range(0, rowLength)
-                            .ToTwoDimensionalArray();
+                        var oldItems = target.GetRow_Impl(0, rowLength);
                         var newItems = oldItems.Select(line => line.Range(0, columnLength))
                             .ToTwoDimensionalArray();
                         return (oldItems, newItems);
@@ -95,8 +93,7 @@ namespace WodiLib.Sys.Collections
                     var removeLength = target.RowCount - rowLength;
                     var removeItems = removeLength == 0
                         ? Array.Empty<T[]>()
-                        : target.Get_Impl(rowLength, removeLength)
-                            .ToTwoDimensionalArray();
+                        : target.GetRow_Impl(rowLength, removeLength);
 
                     return CollectionChangeEventArgsFactory<IReadOnlyList<T>>
                         .CreateAdjustLengthIfLong(target, replaceItems, rowLength, removeItems);
@@ -104,7 +101,7 @@ namespace WodiLib.Sys.Collections
 
                 private static TwoDimensionalCollectionChangeEventArgsFactory<T>
                     CreateTwoDimensionalCollectionChangeEventArgsFactory(
-                        IReadOnlyTwoDimensionalList<T> target, IEnumerable<T[]> addRowItems,
+                        ITwoDimensionalList<T> target, IEnumerable<T[]> addRowItems,
                         IReadOnlyList<T[]> addColumnItems, int rowLength, int columnLength, Direction direction)
                 {
                     var oldItems = target.ToTwoDimensionalArray();
@@ -145,7 +142,7 @@ namespace WodiLib.Sys.Collections
                     return newItems;
                 }
 
-                private static string[] CreateNotifyPropertyList(IReadOnlyTwoDimensionalList<T> target,
+                private static string[] CreateNotifyPropertyList(ITwoDimensionalList<T> target,
                     int rowLength, int columnLength)
                 {
                     var isChangeRowLength = target.RowCount != rowLength;

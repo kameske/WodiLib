@@ -8,6 +8,7 @@ using NUnit.Framework;
 using WodiLib.Sys;
 using WodiLib.Sys.Collections;
 using WodiLib.Test.Tools;
+using LinqExtension = Commons.Linq.Extension.LinqExtension;
 
 namespace WodiLib.Test.Sys
 {
@@ -538,7 +539,8 @@ namespace WodiLib.Test.Sys
             }
         }
 
-        public static void ResetTest()
+        [Test]
+        public static void ResetEmptyTest()
         {
             var initLength = 10;
             var instance = MakeCollectionForMethodTest(initLength,
@@ -551,6 +553,21 @@ namespace WodiLib.Test.Sys
             for (var i = 0; i < instance.Count; i++)
             {
                 instance[i] = $"{instance[i]}_editValue";
+            }
+
+            // 要素書き換えで通知が起こるため通知情報クリア
+            var keys = propertyChangingEventCalledCount.Keys.ToList();
+            foreach (var key in keys)
+            {
+                propertyChangingEventCalledCount[key] = 0;
+                propertyChangedEventCalledCount[key] = 0;
+            }
+
+            keys = collectionChangingEventArgsList.Keys.ToList();
+            foreach (var key in keys)
+            {
+                collectionChangingEventArgsList[key].Clear();
+                collectionChangedEventArgsList[key].Clear();
             }
 
             var errorOccured = false;

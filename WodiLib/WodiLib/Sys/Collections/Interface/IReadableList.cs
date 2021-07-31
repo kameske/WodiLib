@@ -19,8 +19,10 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="TItem">リスト要素型</typeparam>
     /// <typeparam name="TImpl">実装型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public interface IReadableList<TItem, out TImpl> :
-        IReadOnlyList<TItem>, INotifiableCollectionChange
+    public interface IReadableList<TItem, TImpl> :
+        IReadOnlyList<TItem>, INotifiableCollectionChange,
+        IEqualityComparable<TImpl>,
+        IDeepCloneableList<TImpl, TItem>
         where TImpl : IReadableList<TItem, TImpl>
     {
         /// <summary>

@@ -21,10 +21,10 @@ namespace WodiLib.Sys.Collections
 
         protected override IWodiLibListValidator<T>? BaseValidator { get; }
 
-        public RestrictedCapacityListValidator(IRestrictedCapacityList<T> target) : base(target)
+        public RestrictedCapacityListValidator(IRestrictedCapacityList<T> target) : base(target.AsReadableList())
         {
             Target = target;
-            BaseValidator = new CommonListValidator<T>(target);
+            BaseValidator = new CommonListValidator<T>(target.AsReadableList());
         }
 
         public override void Constructor(IReadOnlyList<T> initItems)
@@ -67,6 +67,7 @@ namespace WodiLib.Sys.Collections
 
         public override void Remove([AllowNull] T item)
         {
+            if (item is null) return;
             var index = Target.IndexOf(item);
             if (index == -1) return;
 

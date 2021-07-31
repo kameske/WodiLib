@@ -46,8 +46,7 @@ namespace WodiLib.Sys.Collections
                 public RemoveRow(TwoDimensionalList<T> target, int index, int count, Action coreAction) : base(target,
                     index, count, Direction.Row, coreAction)
                 {
-                    var removeItems = target.Get_Impl(index, count)
-                        .ToTwoDimensionalArray();
+                    var removeItems = target.GetRow_Impl(index, count);
 
                     CollectionChangeEventArgsFactory =
                         CollectionChangeEventArgsFactory<IReadOnlyList<T>>.CreateRemove(target, index, removeItems);
@@ -64,7 +63,7 @@ namespace WodiLib.Sys.Collections
                 }
 
                 protected override T[][] RemoveItems(TwoDimensionalList<T> target, int index, int count)
-                    => target.Get_Impl(index, count).ToTwoDimensionalArray();
+                    => target.GetRow_Impl(index, count).ToTwoDimensionalArray();
             }
 
             private class RemoveColumn : Remove
@@ -77,7 +76,7 @@ namespace WodiLib.Sys.Collections
                 public RemoveColumn(TwoDimensionalList<T> target, int index, int count, Action coreAction) : base(
                     target, index, count, Direction.Column, coreAction)
                 {
-                    var oldItems = Target.Items.DeepClone().ToTwoDimensionalList();
+                    var oldItems = Target.DeepClone().ToTwoDimensionalArray();
                     var newItems = oldItems.Select(line =>
                     {
                         var result = new ExtendedList<T>(line);

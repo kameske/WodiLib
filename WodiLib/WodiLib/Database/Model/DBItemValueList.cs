@@ -402,7 +402,7 @@ namespace WodiLib.Database
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return Equals((IReadOnlyFixedLengthList<DBItemValue>) other);
+            return Equals((IReadOnlyExtendedList<DBItemValue>) other);
         }
 
         /// <summary>
@@ -411,7 +411,7 @@ namespace WodiLib.Database
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
 #pragma warning disable 618 // TODO Ver 2.6 まで
-        public bool ItemEquals(IReadOnlyFixedLengthList<DBItemValue>? other)
+        public bool ItemEquals(IReadOnlyExtendedList<DBItemValue>? other)
 #pragma warning restore 618
         {
             if (ReferenceEquals(null, other)) return false;

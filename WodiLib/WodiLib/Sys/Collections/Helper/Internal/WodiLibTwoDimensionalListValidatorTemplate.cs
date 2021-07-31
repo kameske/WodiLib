@@ -23,13 +23,13 @@ namespace WodiLib.Sys.Collections
     {
         protected abstract ITwoDimensionalListValidator<T>? BaseValidator { get; }
 
-        protected IReadOnlyTwoDimensionalList<T> Target { get; }
+        protected ITwoDimensionalList<T> Target { get; }
 
         protected string RowName { get; }
 
         protected string ColumnName { get; }
 
-        protected WodiLibTwoDimensionalListValidator(IReadOnlyTwoDimensionalList<T> target,
+        protected WodiLibTwoDimensionalListValidator(ITwoDimensionalList<T> target,
             string rowName, string columnName)
         {
             Target = target;
@@ -40,46 +40,57 @@ namespace WodiLib.Sys.Collections
         public virtual void Constructor(T[][] initItems)
             => BaseValidator?.Constructor(initItems);
 
-        public virtual void CopyTo(IReadOnlyList<T>[] array, int index)
-            => BaseValidator?.CopyTo(array, index);
+        public virtual void GetRow(int rowIndex, int rowCount)
+            => BaseValidator?.GetRow(rowIndex, rowCount);
 
-        public virtual void CopyTo(IEnumerable<T>[] array, int index)
-            => BaseValidator?.CopyTo(array, index);
+        public virtual void GetColumn(int columnIndex, int columnCount)
+            => BaseValidator?.GetColumn(columnIndex, columnCount);
 
-        public virtual void CopyTo(T[] array, int index, Direction direction)
-            => BaseValidator?.CopyTo(array, index, direction);
+        public virtual void GetItem(int rowIndex, int rowCount, int columnIndex, int columnCount)
+            => BaseValidator?.GetItem(columnIndex, columnCount, rowIndex, rowCount);
 
-        public virtual void CopyTo(T[,] array, int row, int column)
-            => BaseValidator?.CopyTo(array, row, column);
+        public virtual void GetItem(int rowIndex, int columnIndex)
+            => BaseValidator?.GetItem(rowIndex, columnIndex);
 
-        public virtual void CopyTo(T[][] array, int row, int column)
-            => BaseValidator?.CopyTo(array, row, column);
+        public virtual void SetRow(int rowIndex, params IEnumerable<T>[] rows)
+            => BaseValidator?.SetRow(rowIndex, rows);
 
-        public virtual void Get(int row, int rowCount, int column, int columnCount, Direction direction)
-            => BaseValidator?.Get(row, rowCount, column, columnCount, direction);
+        public virtual void SetColumn(int columnIndex, params IEnumerable<T>[] items)
+            => BaseValidator?.SetColumn(columnIndex, items);
 
-        public virtual void Set(int row, int column, T[][] items, Direction direction, bool needFitItemsInnerSize)
-            => BaseValidator?.Set(row, column, items, direction, needFitItemsInnerSize);
+        public virtual void SetItem(int rowIndex, int columnIndex, T item)
+            => BaseValidator?.SetItem(rowIndex, columnIndex, item);
 
-        public virtual void Insert(int index, T[][] items, Direction direction)
-            => BaseValidator?.Insert(index, items, direction);
+        public virtual void InsertRow(int rowIndex, params IEnumerable<T>[] items)
+            => BaseValidator?.InsertRow(rowIndex, items);
 
-        public virtual void Overwrite(int index, T[][] items, Direction direction)
-            => BaseValidator?.Overwrite(index, items, direction);
+        public virtual void InsertColumn(int columnIndex, params IEnumerable<T>[] items)
+            => BaseValidator?.InsertColumn(columnIndex, items);
 
-        public virtual void Move(int oldIndex, int newIndex, int count, Direction direction)
-            => BaseValidator?.Move(oldIndex, newIndex, count, direction);
+        public virtual void OverwriteRow(int rowIndex, params IEnumerable<T>[] items)
+            => BaseValidator?.OverwriteRow(rowIndex, items);
 
-        public virtual void Remove(int index, int count, Direction direction)
-            => BaseValidator?.Remove(index, count, direction);
+        public virtual void OverwriteColumn(int columnIndex, params IEnumerable<T>[] items)
+            => BaseValidator?.OverwriteColumn(columnIndex, items);
+
+        public virtual void MoveRow(int oldRowIndex, int newRowIndex, int count)
+            => BaseValidator?.MoveRow(oldRowIndex, newRowIndex, count);
+
+        public virtual void MoveColumn(int oldColumnIndex, int newColumnIndex, int count)
+            => BaseValidator?.MoveColumn(oldColumnIndex, newColumnIndex, count);
+
+        public virtual void RemoveRow(int rowIndex, int count)
+            => BaseValidator?.RemoveRow(rowIndex, count);
+
+        public virtual void RemoveColumn(int columnIndex, int count)
+            => BaseValidator?.RemoveColumn(columnIndex, count);
 
         public virtual void AdjustLength(int rowLength, int columnLength)
             => BaseValidator?.AdjustLength(rowLength, columnLength);
 
-        public virtual void Reset(T[][] items)
-            => BaseValidator?.Reset(items);
+        public virtual void Reset(IEnumerable<IEnumerable<T>> initItems)
+            => BaseValidator?.Reset(initItems);
 
-        public abstract ITwoDimensionalListValidator<T> CreateAnotherFor(
-            ITwoDimensionalList<T> target);
+        public abstract ITwoDimensionalListValidator<T> CreateAnotherFor(ITwoDimensionalList<T> target);
     }
 }

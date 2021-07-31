@@ -6,7 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using WodiLib.Sys;
 using WodiLib.Sys.Collections;
 
 namespace WodiLib.Database
@@ -14,7 +13,7 @@ namespace WodiLib.Database
     /// <summary>
     /// 【読み取り専用】DB項目設定リスト
     /// </summary>
-    public interface IReadOnlyDBItemSettingList : IReadOnlyRestrictedCapacityList<DBItemSetting>
+    public interface IReadOnlyDBItemSettingList : IReadOnlyExtendedList<DBItemSetting>
     {
     }
 }

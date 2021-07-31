@@ -24,6 +24,7 @@ namespace WodiLib.Sys.Collections
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
     internal partial class ExtendedList<T> : ModelBase<ExtendedList<T>>, IExtendedList<T>,
+        IFixedLengthList<T>, IReadOnlyExtendedList<T>,
         IDeepCloneableList<ExtendedList<T>, T>
     {
         /*
@@ -172,7 +173,7 @@ namespace WodiLib.Sys.Collections
         //      Public Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.Contains(TItem)"/>
+        /// <inheritdoc cref="ICollection{T}.Contains"/>
         public bool Contains([AllowNull] T item)
             => Items.Contains(item);
 
@@ -189,11 +190,11 @@ namespace WodiLib.Sys.Collections
         /// <inheritdoc/>
         public IEnumerator<T> GetEnumerator() => Items.GetEnumerator();
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.GetRange"/>
         public IEnumerable<T> GetRange(int index, int count)
             => Get_Impl(index, count);
 
-        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.IndexOf(TItem)"/>
+        /// <inheritdoc cref="IList{T}.IndexOf"/>
         public int IndexOf([AllowNull] T item)
             => Items.IndexOf(item);
 
@@ -217,7 +218,7 @@ namespace WodiLib.Sys.Collections
         public void CopyTo(T[] array, int arrayIndex)
             => Items.CopyTo(array, arrayIndex);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.SetRange"/>
         public void SetRange(int index, IEnumerable<T> items)
             => Set_Impl(index, items.ToArray());
 
@@ -242,11 +243,11 @@ namespace WodiLib.Sys.Collections
         public void Overwrite(int index, IEnumerable<T> items)
             => Overwrite_Impl(index, items.ToArray());
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.Move"/>
         public void Move(int oldIndex, int newIndex)
             => Move_Impl(oldIndex, newIndex, 1);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.MoveRange"/>
         public void MoveRange(int oldIndex, int newIndex, int count)
             => Move_Impl(oldIndex, newIndex, count);
 
@@ -274,11 +275,11 @@ namespace WodiLib.Sys.Collections
         public void AdjustLengthIfLong(int length)
             => AdjustLengthIfLong_Impl(length);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.Reset()"/>
         public void Reset()
             => Reset_Impl(FuncMakeItems(0, Count).ToArray());
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.Reset(IEnumerable{TItem})"/>
         public void Reset(IEnumerable<T> initItems)
             => Reset_Impl(initItems.ToArray());
 
@@ -288,13 +289,13 @@ namespace WodiLib.Sys.Collections
 
         /// <inheritdoc/>
         public override bool ItemEquals(ExtendedList<T>? other)
-            => ItemEquals(other);
+            => ItemEquals(other, null);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="IEqualityComparable.ItemEquals"/>
         public bool ItemEquals(IEnumerable<T>? other)
             => ItemEquals(other, null);
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.ItemEquals(IEnumerable{TItem}?, IEqualityComparer{TItem}?)"/>
         public bool ItemEquals(IEnumerable<T>? other, IEqualityComparer<T>? itemComparer)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -325,7 +326,7 @@ namespace WodiLib.Sys.Collections
         /// <inheritdoc/>
         public IFixedLengthList<T> AsWritableList() => this;
 
-        /// <inheritdoc/>
+        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.AsReadableList"/>
         public IReadOnlyExtendedList<T> AsReadableList() => this;
 
         /// <inheritdoc/>
@@ -360,18 +361,25 @@ namespace WodiLib.Sys.Collections
 
         #endregion
 
+        #region ItemEquals
+
+        bool IEqualityComparable<IExtendedList<T>>.ItemEquals(IExtendedList<T>? other)
+            => ItemEquals(other, null);
+
+        bool IEqualityComparable<IFixedLengthList<T>>.ItemEquals(IFixedLengthList<T>? other)
+            => ItemEquals(other, null);
+
+        bool IEqualityComparable<IReadOnlyExtendedList<T>>.ItemEquals(IReadOnlyExtendedList<T>? other)
+            => ItemEquals(other, null);
+
+        #endregion
+
         #region DeepClone
 
         IReadOnlyExtendedList<T> IDeepCloneable<IReadOnlyExtendedList<T>>.DeepClone()
             => DeepClone();
 
-        IExtendedList<T> IExtendedList<T>.DeepClone()
-            => DeepClone();
-
         IExtendedList<T> IDeepCloneable<IExtendedList<T>>.DeepClone()
-            => DeepClone();
-
-        IFixedLengthList<T> IFixedLengthList<T>.DeepClone()
             => DeepClone();
 
         IFixedLengthList<T> IDeepCloneable<IFixedLengthList<T>>.DeepClone()
@@ -381,18 +389,12 @@ namespace WodiLib.Sys.Collections
 
         #region DeepCloneWith
 
-        IExtendedList<T> IExtendedList<T>.DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
-
         IExtendedList<T> IDeepCloneableList<IExtendedList<T>, T>.DeepCloneWith(int? length,
             IReadOnlyDictionary<int, T>? values)
             => DeepCloneWith(length, values);
 
         IReadOnlyExtendedList<T> IDeepCloneableList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length,
             IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
-
-        IFixedLengthList<T> IFixedLengthList<T>.DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
             => DeepCloneWith(length, values);
 
         IFixedLengthList<T> IDeepCloneableList<IFixedLengthList<T>, T>.DeepCloneWith(int? length,

@@ -652,9 +652,7 @@ namespace WodiLib.Test.Sys
 
             // あえて行列を入れ替える場面はないはず
             var items = MakeTestRecordList(type, false, funcMakeItem);
-            var result = new TwoDimensionalList<TestRecord>(items,
-                target => new CommonTwoDimensionalListValidator<TestRecord>(target),
-                funcMakeItem)
+            var result = new TwoDimensionalList<TestRecord>(items, CreateCommonConfig(funcMakeItem))
             {
                 NotifyPropertyChangingEventType = NotifyPropertyChangeEventType.Disabled,
                 NotifyPropertyChangedEventType = NotifyPropertyChangeEventType.Disabled,
@@ -679,7 +677,7 @@ namespace WodiLib.Test.Sys
         {
             // あえて行列を入れ替える場面はないはず
             var items = MakeTestRecordList(type, false, funcMakeItem);
-            var result = new TwoDimensionalList<TestRecord>(items, _ => validator, funcMakeItem)
+            var result = new TwoDimensionalList<TestRecord>(items, CreateCommonConfig(funcMakeItem, validator))
             {
                 NotifyPropertyChangingEventType = NotifyPropertyChangeEventType.Disabled,
                 NotifyPropertyChangedEventType = NotifyPropertyChangeEventType.Disabled,
@@ -692,6 +690,18 @@ namespace WodiLib.Test.Sys
             return result;
         }
 
+        public static TwoDimensionalList<TestRecord>.Config CreateCommonConfig(Func<int, int, TestRecord> itemFactory,
+            ITwoDimensionalListValidator<TestRecord> validator = null)
+            => new()
+            {
+                MaxRowCapacity = int.MaxValue,
+                MinRowCapacity = 0,
+                MaxColumnCapacity = int.MaxValue,
+                MinColumnCapacity = 0,
+                ItemFactory = itemFactory,
+                ValidatorFactory = target => validator ?? new CommonTwoDimensionalListValidator<TestRecord>(target),
+            };
+
         #endregion
 
         #region TestTwoDimEnumerable
@@ -702,10 +712,11 @@ namespace WodiLib.Test.Sys
         /// <param name="type">種別</param>
         /// <param name="isTranspose">行列入れ替えフラグ</param>
         /// <param name="funcMakeItem">要素生成関数</param>
-        public static IEnumerable<IEnumerable<TestRecord>> MakeTestRecordList(
+        public static IEnumerable<TestRecord>[] MakeTestRecordList(
             string type, bool isTranspose,
             Func<int, int, TestRecord> funcMakeItem)
-            => MakeTestRecordList(TestDoubleEnumerableInstanceTypeFrom(type), isTranspose, funcMakeItem);
+            => MakeTestRecordList(TestDoubleEnumerableInstanceTypeFrom(type), isTranspose, funcMakeItem)?
+                .ToArray();
 
         /// <summary>
         ///     テスト用の二次元列挙作成
@@ -725,7 +736,7 @@ namespace WodiLib.Test.Sys
             var initColumnLength = InitColumnLengthFrom(type, isTranspose);
 
             var result = MakeTestRecordList(recordType, initRowLength, initColumnLength, funcMakeItem);
-            return ProcessingTestRecordList(result, type, isTranspose, funcMakeItem);
+            return ProcessingTestRecordList(result, type, funcMakeItem);
         }
 
         /// <summary>
@@ -752,21 +763,25 @@ namespace WodiLib.Test.Sys
         /// <summary>
         ///     必要に応じて <paramref name="target"/> を加工する。
         /// </summary>
-        private static IEnumerable<IEnumerable<TestRecord>> ProcessingTestRecordList(
+        private static IEnumerable<TestRecord>[] ProcessingTestRecordList(
             IEnumerable<IEnumerable<TestRecord>> target,
-            TestDoubleEnumerableInstanceType type, bool isTranspose,
+            TestDoubleEnumerableInstanceType type,
             Func<int, int, TestRecord> funcMakeItem)
         {
-            if (type != TestDoubleEnumerableInstanceType.NotNull_HasDifferenceItemComparedBasic) return target;
+            if (type != TestDoubleEnumerableInstanceType.NotNull_HasDifferenceItemComparedBasic)
+                return target.ToArray();
 
             {
                 // type == TestDoubleEnumerableInstanceType.NotNull_HasDifferenceItemComparedBasic
                 // 要素の一つをデフォルトとは異なる値に置き換える
                 var arr = target.ToTwoDimensionalArray();
                 arr[0][0] = new TestRecord(funcMakeItem(0, 0).Value + "_Processed");
-                return arr;
+                return arr.Cast<IEnumerable<TestRecord>>().ToArray();
             }
         }
+
+        public static IEnumerable<TestRecord>[] ConvertIEnumerableArray(IEnumerable<IEnumerable<TestRecord>> src)
+            => src.ToArray();
 
         /// <summary>
         ///     テスト用の二次元列挙種別
@@ -925,7 +940,7 @@ namespace WodiLib.Test.Sys
             var initLength = InitLengthFrom(type, directionIsRow);
 
             var result = MakeTestRecords(recordType, initLength, funcMakeItem);
-            return ProcessingTestRecords(result, type, directionIsRow, funcMakeItem);
+            return ProcessingTestRecords(result, type, funcMakeItem);
         }
 
         /// <summary>
@@ -945,7 +960,7 @@ namespace WodiLib.Test.Sys
         /// </summary>
         private static IEnumerable<TestRecord> ProcessingTestRecords(
             IEnumerable<TestRecord> target,
-            TestSingleEnumerableInstanceType type, bool directionIsRow,
+            TestSingleEnumerableInstanceType type,
             Func<int, int, TestRecord> funcMakeItem)
         {
             if (type != TestSingleEnumerableInstanceType.NotNull_HasDifferenceItemComparedBasic) return target;

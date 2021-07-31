@@ -13,7 +13,7 @@ namespace WodiLib.Common
     /// <summary>
     /// 読み取り専用コモンイベントリスト
     /// </summary>
-    public interface IReadOnlyCommonEventList : IReadOnlyRestrictedCapacityList<CommonEvent>
+    public interface IReadOnlyCommonEventList : IReadOnlyExtendedList<CommonEvent>
     {
     }
 }

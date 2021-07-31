@@ -58,21 +58,23 @@ namespace WodiLib.Sys.Collections
         /// <param name="rowMax">行数最大数</param>
         /// <param name="colMin">列数最小数</param>
         /// <param name="colMax">列数最大数</param>
+        /// <param name="rowName">行名</param>
+        /// <param name="columnName">列名</param>
         /// <param name="itemName">エラーメッセージ中の項目名</param>
         /// <typeparam name="T">リスト内包型</typeparam>
         /// <exception cref="InvalidOperationException">targetの行数または列数が不適切な場合</exception>
         public static void RowAndColCount<T>(T[][] target, int rowMin, int rowMax,
-            int colMin, int colMax, string itemName = "initItems")
+            int colMin, int colMax, string rowName, string columnName, string itemName = "initItems")
         {
             var rowCount = target.Length;
             ThrowHelper.ValidateArgumentValueRange(rowCount < rowMin || rowMax < rowCount,
-                $"{itemName}の行数", rowCount, rowMin, rowMax);
+                $"{itemName}の{rowName}数", rowCount, rowMin, rowMax);
 
             if (rowCount == 0) return;
 
             var colCount = target[0].Length;
             ThrowHelper.ValidateArgumentValueRange(colCount < colMin || colMax < colCount,
-                $"{itemName}の列数", colCount, colMin, colMax);
+                $"{itemName}の{columnName}数", colCount, colMin, colMax);
         }
 
         /// <summary>
@@ -80,14 +82,13 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="count">要素数</param>
         /// <param name="max">最大値</param>
-        /// <param name="direction">行 or 列</param>
+        /// <param name="lineName">行 or 列名</param>
         /// <exception cref="ArgumentException">
         ///     <paramref name="count"/> &gt; <paramref name="max"/> の場合。
         /// </exception>
-        public static void ItemMaxCount(int count, int max, Direction direction)
+        public static void ItemMaxCount(int count, int max, string lineName)
         {
-            ThrowHelper.ValidateListMaxItemCount(count > max,
-                direction == Direction.Row ? "行数" : "列数", max);
+            ThrowHelper.ValidateListMaxItemCount(count > max, $"{lineName}数", max);
         }
 
         /// <summary>
@@ -95,14 +96,13 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="count">要素数</param>
         /// <param name="min">最小値</param>
-        /// <param name="direction">行 or 列</param>
+        /// <param name="lineName">行 or 列名</param>
         /// <exception cref="ArgumentException">
         ///     <paramref name="count"/> &lt; <paramref name="min"/> の場合。
         /// </exception>
-        public static void ItemMinCount(int count, int min, Direction direction)
+        public static void ItemMinCount(int count, int min, string lineName)
         {
-            ThrowHelper.ValidateListMinItemCount(count < min,
-                direction == Direction.Row ? "行数" : "列数", min);
+            ThrowHelper.ValidateListMinItemCount(count < min, $"{lineName}数", min);
         }
     }
 }

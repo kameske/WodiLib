@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace WodiLib.Sys.Collections
 {
@@ -34,8 +33,7 @@ namespace WodiLib.Sys.Collections
                     var rowLen = fixedNewItems.Length;
                     var colLen = fixedNewItems.GetInnerArrayLength();
 
-                    var fixedOldItems = target.Items.Get(row, rowLen).Select(line => line.GetRange(column, colLen))
-                        .ToTwoDimensionalArray();
+                    var fixedOldItems = target.Get_Impl(row, rowLen, column, colLen, Direction.Row);
                     var oldItems = fixedOldItems.ToTransposedArrayIf(direction == Direction.Column);
 
                     CollectionChangeEventArgsFactory =

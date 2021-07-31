@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WodiLib.Sys;
 using WodiLib.Sys.Collections;
 
 namespace WodiLib.Map
@@ -22,7 +21,7 @@ namespace WodiLib.Map
 
             private new IRestrictedCapacityList<MapEvent> Target { get; }
 
-            public CustomValidator(IRestrictedCapacityList<MapEvent> target) : base(target)
+            public CustomValidator(IRestrictedCapacityList<MapEvent> target) : base(target.AsReadableList())
             {
                 Target = target;
                 BaseValidator = new RestrictedCapacityListValidator<MapEvent>(target);

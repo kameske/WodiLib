@@ -21,10 +21,10 @@ namespace WodiLib.Sys.Collections
 
         private new IFixedLengthList<T> Target { get; }
 
-        public FixedLengthListValidator(IFixedLengthList<T> target) : base(target)
+        public FixedLengthListValidator(IFixedLengthList<T> target) : base(target.AsReadableList())
         {
             Target = target;
-            BaseValidator = new CommonListValidator<T>(target);
+            BaseValidator = new CommonListValidator<T>(target.AsReadableList());
         }
 
         public override void Constructor(IReadOnlyList<T> initItems)

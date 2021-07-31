@@ -50,27 +50,26 @@ namespace WodiLib.Sys.Collections
             private Action<NotifyCollectionChangedEventArgs>? CollectionChangingAction { get; }
             private Action<NotifyCollectionChangedEventArgs>? CollectionChangedAction { get; }
 
-            private Action<TwoDimensionalCollectionChangeEventInternalArgs<T>>? TwoDimensionalListChangingAction { get; }
-            private Action<TwoDimensionalCollectionChangeEventInternalArgs<T>>? TwoDimensionalListChangedAction { get; }
+            private Action<TwoDimensionalCollectionChangeEventInternalArgs<T>>?
+                TwoDimensionalListChangingAction { get; }
+            private Action<TwoDimensionalCollectionChangeEventInternalArgs<T>>?
+                TwoDimensionalListChangedAction { get; }
 
             private string[] NotifyProperties { get; }
 
-            private IEnumerable<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>>? CollectionChangingEventArgs
-            {
-                get;
-            }
+            private IEnumerable<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>>?
+                CollectionChangingEventArgs { get; }
 
-            private IEnumerable<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>>? CollectionChangedEventArgs
-            {
-                get;
-            }
 
-            private IEnumerable<TwoDimensionalCollectionChangeEventInternalArgs<T>>? TwoDimensionalListChangingEventArgs
-            {
-                get;
-            }
+            private IEnumerable<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>>?
+                CollectionChangedEventArgs { get; }
 
-            private IEnumerable<TwoDimensionalCollectionChangeEventInternalArgs<T>>? TwoDimensionalListChangedEventArgs { get; }
+            private IEnumerable<TwoDimensionalCollectionChangeEventInternalArgs<T>>?
+                TwoDimensionalListChangingEventArgs { get; }
+
+
+            private IEnumerable<TwoDimensionalCollectionChangeEventInternalArgs<T>>?
+                TwoDimensionalListChangedEventArgs { get; }
 
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //      Constructors
@@ -85,7 +84,8 @@ namespace WodiLib.Sys.Collections
                 Action<TwoDimensionalCollectionChangeEventInternalArgs<T>>? twoDimensionalListChangedAction,
                 IEnumerable<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>>? collectionChangingEventArgs,
                 IEnumerable<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>>? collectionChangedEventArgs,
-                IEnumerable<TwoDimensionalCollectionChangeEventInternalArgs<T>>? twoDimensionalListChangingEventArgs,
+                IEnumerable<TwoDimensionalCollectionChangeEventInternalArgs<T>>?
+                    twoDimensionalListChangingEventArgs,
                 IEnumerable<TwoDimensionalCollectionChangeEventInternalArgs<T>>? twoDimensionalListChangedEventArgs,
                 params string[] notifyProperties)
             {

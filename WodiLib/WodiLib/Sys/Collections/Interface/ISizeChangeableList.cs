@@ -22,19 +22,20 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="TWritable"><see cref="IWritableList{TItem,TImpl,TReadable}"/>実装型</typeparam>
     /// <typeparam name="TReadable"><see cref="IReadableList{TItem,TImpl}"/>実装型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public interface ISizeChangeableList<TItem, out TImpl, out TWritable, out TReadable> :
-        IWritableList<TItem, TWritable, TReadable>, IList<TItem>
-        where TImpl : ISizeChangeableList<TItem, TImpl, TWritable, TReadable>,
-        IWritableList<TItem, TWritable, TReadable>,
-        IReadableList<TItem, TReadable>
-        where TWritable : IWritableList<TItem, TWritable, TReadable>
-        where TReadable : IReadableList<TItem, TReadable>
+    public interface ISizeChangeableList<TItem, TImpl, out TWritable, out TReadable> :
+        IList<TItem>, INotifiableCollectionChange,
+        IEqualityComparable<TImpl>,
+        IDeepCloneableList<TImpl, TItem>
+        where TImpl : ISizeChangeableList<TItem, TImpl, TWritable, TReadable>
     {
-        /// <inheritdoc cref="IList{T}.this"/>
+        /// <summary>
+        ///     インデクサによるアクセス
+        /// </summary>
+        /// <param name="index">[Range(0, <see cref="ICollection{T}.Count"/> - 1)] インデックス</param>
+        /// <returns>指定したインデックスの要素</returns>
+        /// <exception cref="ArgumentNullException"><see lanword="null"/> をセットしようとした場合。</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/>が指定範囲外の場合。</exception>
         public new TItem this[int index] { get; set; }
-
-        /// <inheritdoc cref="IList{T}.Count"/>
-        public new int Count { get; }
 
         /// <summary>
         ///     容量最大値を返す。
@@ -48,14 +49,48 @@ namespace WodiLib.Sys.Collections
         /// <returns>容量最小値</returns>
         public int GetMinCapacity();
 
-        /// <inheritdoc cref="IList{T}.Contains"/>
-        public new bool Contains([AllowNull] TItem item);
+        /// <summary>
+        ///     指定範囲の要素を簡易コピーしたリストを取得する。
+        /// </summary>
+        /// <param name="index">[Range(0, <see cref="ICollection{T}.Count"/> - 1)] インデックス</param>
+        /// <param name="count">[Range(0, <see cref="ICollection{T}.Count"/>)] 要素数</param>
+        /// <returns>指定範囲の要素簡易コピーリスト</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="index"/>, <paramref name="count"/>が指定範囲外の場合。
+        /// </exception>
+        /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合</exception>
+        public IEnumerable<TItem> GetRange(int index, int count);
 
-        /// <inheritdoc cref="IList{T}.IndexOf"/>
-        public new int IndexOf([AllowNull] TItem item);
+        /// <summary>
+        ///     指定の要素が含まれているか判断する。
+        /// </summary>
+        /// <param name="item">対象要素</param>
+        /// <param name="itemComparer">子要素比較処理</param>
+        /// <returns>指定の要素が含まれる場合は <see langword="true"/>、含まれない場合は <see langword="false"/>。</returns>
+        public bool Contains([AllowNull] TItem item, IEqualityComparer<TItem>? itemComparer);
 
-        /// <inheritdoc cref="IReadOnlyExtendedList{T}.CopyTo"/>
-        public new void CopyTo(TItem[] array, int index);
+        /// <summary>
+        ///     指定したオブジェクトを検索し、最初に出現する位置のインデックスを返す。
+        /// </summary>
+        /// <param name="item">対象要素</param>
+        /// <param name="itemComparer">子要素比較処理</param>
+        /// <returns>要素が含まれていない場合、-1</returns>
+        public int IndexOf([AllowNull] TItem item, IEqualityComparer<TItem>? itemComparer);
+
+        /// <summary>
+        ///     リストの連続した要素を更新する。
+        /// </summary>
+        /// <param name="index">[Range(0, <see cref="IReadableList{TItem, TImpl}.Count"/> - 1)] 更新開始インデックス</param>
+        /// <param name="items">更新要素</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="items"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/>が指定範囲外の場合。</exception>
+        /// <exception cref="ArgumentException">
+        ///     有効な範囲外の要素を編集しようとした場合。
+        /// </exception>
+        public void SetRange(int index, IEnumerable<TItem> items);
 
         /// <summary>
         ///     リストの末尾に要素を追加する。
@@ -85,7 +120,7 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     指定したインデックスの位置に要素を挿入する。
         /// </summary>
-        /// <param name="index">[Range(0, <see cref="Count"/>)] インデックス</param>
+        /// <param name="index">[Range(0, <see cref="ICollection{T}.Count"/>)] インデックス</param>
         /// <param name="item">追加する要素</param>
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="index"/> が指定範囲外の場合。
@@ -101,7 +136,7 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     指定したインデックスの位置に要素を挿入する。
         /// </summary>
-        /// <param name="index">[Range(0, <see cref="Count"/>)] インデックス</param>
+        /// <param name="index">[Range(0, <see cref="ICollection{T}.Count"/>)] インデックス</param>
         /// <param name="items">追加する要素</param>
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="index"/> が指定範囲外の場合。
@@ -118,7 +153,7 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     指定したインデックスを起点として、要素の上書き/追加を行う。
         /// </summary>
-        /// <param name="index">[Range(0, <see cref="Count"/>)] インデックス</param>
+        /// <param name="index">[Range(0, <see cref="ICollection{T}.Count"/>)] インデックス</param>
         /// <param name="items">上書き/追加リスト</param>
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="index"/> が指定範囲外の場合。
@@ -147,6 +182,43 @@ namespace WodiLib.Sys.Collections
         public void Overwrite(int index, IEnumerable<TItem> items);
 
         /// <summary>
+        ///     指定したインデックスにある項目をコレクション内の新しい場所へ移動する。
+        /// </summary>
+        /// <param name="oldIndex">[Range(0, <see cref="IReadableList{TItem, TImpl}.Count"/> - 1)] 移動する項目のインデックス</param>
+        /// <param name="newIndex">[Range(0, <see cref="IReadableList{TItem, TImpl}.Count"/> - 1)] 移動先のインデックス</param>
+        /// <exception cref="InvalidOperationException">
+        ///     自身の要素数が0の場合。
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="oldIndex"/>, <paramref name="newIndex"/> が指定範囲外の場合。
+        /// </exception>
+        public void Move(int oldIndex, int newIndex);
+
+        /// <summary>
+        ///     指定したインデックスから始まる連続した項目をコレクション内の新しい場所へ移動する。
+        /// </summary>
+        /// <param name="oldIndex">
+        ///     [Range(0, <see cref="IReadableList{TItem, TImpl}.Count"/> - 1)]
+        ///     移動する項目のインデックス開始位置
+        /// </param>
+        /// <param name="newIndex">
+        ///     [Range(0, <see cref="IReadableList{TItem, TImpl}.Count"/> - 1)]
+        ///     移動先のインデックス開始位置
+        /// </param>
+        /// <param name="count">
+        ///     [Range(0, <see cref="IReadableList{TItem, TImpl}.Count"/>)]
+        ///     移動させる要素数
+        /// </param>
+        /// <exception cref="InvalidOperationException">
+        ///     自身の要素数が0の場合。
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <paramref name="oldIndex"/>, <paramref name="newIndex"/>, <paramref name="count"/> が指定範囲外の場合。
+        /// </exception>
+        /// <exception cref="ArgumentException">有効な範囲外の要素を移動しようとした場合。</exception>
+        public void MoveRange(int oldIndex, int newIndex, int count);
+
+        /// <summary>
         ///     特定のオブジェクトで最初に出現したものを削除する。
         /// </summary>
         /// <param name="item">削除対象オブジェクト</param>
@@ -162,7 +234,7 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     指定したインデックスの要素を削除する。
         /// </summary>
-        /// <param name="index">[Range(0, <see cref="Count"/> - 1)] インデックス</param>
+        /// <param name="index">[Range(0, <see cref="ICollection{T}.Count"/> - 1)] インデックス</param>
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="index"/> が指定範囲外の場合。
         /// </exception>
@@ -174,8 +246,8 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     要素の範囲を削除する。
         /// </summary>
-        /// <param name="index">[Range(0, <see cref="Count"/> - 1)] インデックス</param>
-        /// <param name="count">[Range(0, <see cref="Count"/>)] 削除する要素数</param>
+        /// <param name="index">[Range(0, <see cref="ICollection{T}.Count"/> - 1)] インデックス</param>
+        /// <param name="count">[Range(0, <see cref="ICollection{T}.Count"/>)] 削除する要素数</param>
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="index"/>, <paramref name="count"/> が指定範囲外の場合。
         /// </exception>
@@ -222,9 +294,57 @@ namespace WodiLib.Sys.Collections
         public void AdjustLengthIfLong(int length);
 
         /// <summary>
+        ///     すべての要素を初期化する。
+        /// </summary>
+        /// <remarks>
+        ///     既存の要素はすべて除去され、<see cref="IReadableList{TItem, TImpl}.Count"/> 個の
+        ///     新たなデフォルト要素が編集される。
+        /// </remarks>
+        public void Reset();
+
+        /// <summary>
+        ///     要素を与えられた内容で一新する。
+        /// </summary>
+        /// <param name="initItems">リストに詰め直す要素</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="initItems"/> に <see langword="null"/> 要素が含まれる場合。
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="initItems"/> の要素数が
+        ///     <see cref="IReadableList{TItem, TImpl}.Count"/> と一致しない場合。
+        /// </exception>
+        public void Reset(IEnumerable<TItem> initItems);
+
+        /// <summary>
         ///     自身を書き込み可能型にキャストする。
         /// </summary>
         /// <returns><typeparamref name="TWritable"/> にキャストした自分自身</returns>
         public TWritable AsWritableList();
+
+        /// <summary>
+        ///     自身を読み取り可能型にキャストする。
+        /// </summary>
+        /// <returns><typeparamref name="TReadable"/> にキャストした自分自身</returns>
+        public TReadable AsReadableList();
+
+        /// <summary>
+        ///     現在のオブジェクトが、別のオブジェクトと同値であるかどうかを示す。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>
+        ///     同値 または 同一 である場合 <see langword="true"/>。
+        /// </returns>
+        public bool ItemEquals(IEnumerable<TItem>? other);
+
+        /// <summary>
+        ///     現在のオブジェクトが、別のオブジェクトと同値であるかどうかを示す。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <param name="itemComparer">子要素比較処理</param>
+        /// <returns>
+        ///     同値 または 同一 である場合 <see langword="true"/>。
+        /// </returns>
+        public bool ItemEquals(IEnumerable<TItem>? other, IEqualityComparer<TItem>? itemComparer);
     }
 }

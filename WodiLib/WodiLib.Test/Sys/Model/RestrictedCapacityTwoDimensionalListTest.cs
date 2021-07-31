@@ -121,7 +121,8 @@ namespace WodiLib.Test.Sys
             {
                 instance = new TestClass.TestTwoDimClass(
                     new TestClass.CapacityInfo(maxCapacity, minCapacity, maxItemCapacity, minItemCapacity),
-                    target => new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem>(target),
+                    target => new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem>(target, "行名",
+                        "列名"),
                     makeDefaultValueItem);
             }
             catch (Exception ex)
@@ -140,7 +141,7 @@ namespace WodiLib.Test.Sys
             {
                 Assert.AreEqual(instance.RowCount, instance.GetMinRowCapacity());
 
-                // Count が 0 の場合は ItemCount は最大・最小設定によらず0
+                // Count が 0 の場合は FieldCount は最大・最小設定によらず0
                 Assert.AreEqual(instance.ColumnCount,
                     instance.RowCount != 0
                         ? instance.GetMinColumnCapacity()
@@ -188,7 +189,8 @@ namespace WodiLib.Test.Sys
             try
             {
                 instance = new TestClass.TestTwoDimClass(InitCapacityInfo,
-                    initList, self => new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem>(self),
+                    initList,
+                    self => new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem>(self, "行名", "列名"),
                     funcMakeDefaultValueItem);
             }
             catch (Exception ex)
@@ -217,7 +219,7 @@ namespace WodiLib.Test.Sys
             try
             {
                 instance = new TestClass.TestTwoDimClass(InitCapacityInfo,
-                    self => new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem>(self),
+                    self => new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem>(self, "行名", "列名"),
                     funcMakeDefaultValueItem);
             }
             catch (Exception ex)
@@ -328,54 +330,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(-1, true)]
-        [TestCase(0, false)]
-        [TestCase(InitCapacity - 1, false)]
-        [TestCase(InitCapacity, true)]
-        public static void GetRowTest(int row, bool isError)
-        {
-            var instance = TestClass.MakeTestInstance(InitCapacityInfo,
-                InitCapacity, InitItemCapacity);
-            var errorOccured = false;
-
-            try
-            {
-                _ = instance[row];
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        [TestCase(-1, true)]
-        [TestCase(0, false)]
-        [TestCase(InitItemCapacity - 1, false)]
-        [TestCase(InitItemCapacity, true)]
-        public static void GetColumnTest(int column, bool isError)
-        {
-            var instance = TestClass.MakeTestInstance(InitCapacityInfo,
-                InitCapacity, InitItemCapacity);
-            var errorOccured = false;
-
-            try
-            {
-                _ = instance.GetColumn(column);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
         [TestCase(-1, -1, true)]
         [TestCase(-1, 1, true)]
         [TestCase(0, -1, true)]
@@ -388,14 +342,15 @@ namespace WodiLib.Test.Sys
         [TestCase(InitCapacity - 1, 2, true)]
         [TestCase(InitCapacity, -1, true)]
         [TestCase(InitCapacity, 1, true)]
-        public static void GetRowRangeTest(int row, int count, bool isError)
+        public static void GetRowTest(int row, int count, bool isError)
         {
-            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo,
+                InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
             {
-                _ = instance.GetRowRange(row, count);
+                _ = instance.GetRow(row, count);
             }
             catch (Exception ex)
             {
@@ -419,14 +374,15 @@ namespace WodiLib.Test.Sys
         [TestCase(InitItemCapacity - 1, 2, true)]
         [TestCase(InitItemCapacity, -1, true)]
         [TestCase(InitItemCapacity, 1, true)]
-        public static void GetColumnRangeTest(int column, int count, bool isError)
+        public static void GetColumnTest(int column, int count, bool isError)
         {
-            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
+            var instance = TestClass.MakeTestInstance(InitCapacityInfo,
+                InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
             {
-                _ = instance.GetColumnRange(column, count);
+                _ = instance.GetColumn(column, count);
             }
             catch (Exception ex)
             {
@@ -542,7 +498,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance.AddRowRange(addItem);
+                instance.AddRow(ConvertIEnumerableArray(addItem));
             }
             catch (Exception ex)
             {
@@ -612,7 +568,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance.AddColumnRange(addItem);
+                instance.AddColumn(ConvertIEnumerableArray(addItem));
             }
             catch (Exception ex)
             {
@@ -739,7 +695,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance.InsertRowRange(index, addItem);
+                instance.InsertRow(index, ConvertIEnumerableArray(addItem));
             }
             catch (Exception ex)
             {
@@ -797,7 +753,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance.InsertColumnRange(index, addItem);
+                instance.InsertColumn(index, ConvertIEnumerableArray(addItem));
             }
             catch (Exception ex)
             {
@@ -834,7 +790,8 @@ namespace WodiLib.Test.Sys
         };
 
         [TestCaseSource(nameof(OverwriteRowTestCaseSource))]
-        public static void OverwriteRowTest(int row, int itemRowLength, int addLineItemLength, TestClass.ListType addType,
+        public static void OverwriteRowTest(int row, int itemRowLength, int addLineItemLength,
+            TestClass.ListType addType,
             bool isError)
         {
             var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
@@ -843,7 +800,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance.OverwriteRow(row, items);
+                instance.OverwriteRow(row, ConvertIEnumerableArray(items));
             }
             catch (Exception ex)
             {
@@ -900,57 +857,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance.OverwriteColumn(column, items);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        [TestCase(InitCapacity, -1, true)]
-        [TestCase(InitCapacity, 0, false)]
-        [TestCase(InitCapacity, InitCapacity - 1, false)]
-        [TestCase(InitCapacity, InitCapacity, true)]
-        [TestCase(InitMinCapacity, 0, true)]
-        [TestCase(InitMinCapacity + 1, 0, false)]
-        public static void RemoveRowTest(int initLength, int index, bool isError)
-        {
-            var instance = TestClass.MakeTestInstance(InitCapacityInfo, initLength, InitMinItemCapacity);
-            var errorOccured = false;
-
-            try
-            {
-                instance.RemoveRow(index);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-        }
-
-        [TestCase(InitItemCapacity, -1, true)]
-        [TestCase(InitItemCapacity, 0, false)]
-        [TestCase(InitItemCapacity, InitItemCapacity - 1, false)]
-        [TestCase(InitItemCapacity, InitItemCapacity, true)]
-        [TestCase(InitMinItemCapacity, 0, true)]
-        [TestCase(InitMinItemCapacity + 1, 0, false)]
-        public static void RemoveColumnTest(int initItemLength, int column, bool isError)
-        {
-            var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitMinCapacity, initItemLength);
-            var errorOccured = false;
-
-            try
-            {
-                instance.RemoveColumn(column);
+                instance.OverwriteColumn(column, ConvertIEnumerableArray(items));
             }
             catch (Exception ex)
             {
@@ -972,14 +879,14 @@ namespace WodiLib.Test.Sys
         [TestCase(InitCapacity - 1, 1, false)]
         [TestCase(InitCapacity - 1, 2, true)]
         [TestCase(InitCapacity, 0, true)]
-        public static void RemoveRowRangeTest(int index, int count, bool isError)
+        public static void RemoveRowTest(int index, int count, bool isError)
         {
             var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
             {
-                instance.RemoveRowRange(index, count);
+                instance.RemoveRow(index, count);
             }
             catch (Exception ex)
             {
@@ -1001,14 +908,14 @@ namespace WodiLib.Test.Sys
         [TestCase(InitItemCapacity - 1, 1, false)]
         [TestCase(InitItemCapacity - 1, 2, true)]
         [TestCase(InitItemCapacity, 0, true)]
-        public static void RemoveColumnRangeTest(int column, int count, bool isError)
+        public static void RemoveColumnTest(int column, int count, bool isError)
         {
             var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
             var errorOccured = false;
 
             try
             {
-                instance.RemoveColumnRange(column, count);
+                instance.RemoveColumn(column, count);
             }
             catch (Exception ex)
             {
@@ -1288,6 +1195,9 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(errorOccured, isError);
         }
 
+        private static IEnumerable<TestClass.TwoDimItem>[] ConvertIEnumerableArray(TestClass.TwoDimItem[][] src)
+            => src.Cast<IEnumerable<TestClass.TwoDimItem>>().ToArray();
+
         public static class TestClass
         {
             #region MakeTestInstance
@@ -1359,24 +1269,43 @@ namespace WodiLib.Test.Sys
                 public TestTwoDimClass(CapacityInfo capacityInfo,
                     IEnumerable<IEnumerable<TwoDimItem>> values, InjectValidator injection,
                     Func<int, int, TwoDimItem> funcMakeDefaultItem)
-                    : base(values, injection,
-                        funcMakeDefaultItem, capacityInfo.MinCapacity, capacityInfo.MaxCapacity,
-                        capacityInfo.MinItemCapacity, capacityInfo.MaxItemCapacity)
+                    : base(values, new Config
+                    {
+                        ItemFactory = funcMakeDefaultItem,
+                        ValidatorFactory = instance => injection(instance),
+                        MaxRowCapacity = capacityInfo.MaxCapacity,
+                        MinRowCapacity = capacityInfo.MinCapacity,
+                        MaxColumnCapacity = capacityInfo.MaxItemCapacity,
+                        MinColumnCapacity = capacityInfo.MinItemCapacity
+                    })
                 {
                 }
 
                 public TestTwoDimClass(CapacityInfo capacityInfo,
                     int rowLength, int columnLength, InjectValidator injection,
-                    Func<int, int, TwoDimItem> funcMakeDefaultItem) : base(rowLength, columnLength, injection,
-                    funcMakeDefaultItem,capacityInfo.MinCapacity, capacityInfo.MaxCapacity,
-                    capacityInfo.MinItemCapacity, capacityInfo.MaxItemCapacity)
+                    Func<int, int, TwoDimItem> funcMakeDefaultItem) : base(rowLength, columnLength, new Config
+                {
+                    ItemFactory = funcMakeDefaultItem,
+                    ValidatorFactory = instance => injection(instance),
+                    MaxRowCapacity = capacityInfo.MaxCapacity,
+                    MinRowCapacity = capacityInfo.MinCapacity,
+                    MaxColumnCapacity = capacityInfo.MaxItemCapacity,
+                    MinColumnCapacity = capacityInfo.MinItemCapacity
+                })
                 {
                 }
 
                 public TestTwoDimClass(CapacityInfo capacityInfo,
                     InjectValidator injection, Func<int, int, TwoDimItem> funcMakeDefaultItem)
-                    : base(injection, funcMakeDefaultItem, capacityInfo.MinCapacity, capacityInfo.MaxCapacity,
-                        capacityInfo.MinItemCapacity, capacityInfo.MaxItemCapacity)
+                    : base(new Config
+                    {
+                        ItemFactory = funcMakeDefaultItem,
+                        ValidatorFactory = instance => injection(instance),
+                        MaxRowCapacity = capacityInfo.MaxCapacity,
+                        MinRowCapacity = capacityInfo.MinCapacity,
+                        MaxColumnCapacity = capacityInfo.MaxItemCapacity,
+                        MinColumnCapacity = capacityInfo.MinItemCapacity
+                    })
                 {
                 }
             }
@@ -1388,7 +1317,7 @@ namespace WodiLib.Test.Sys
                 if (initRowLength == 0 && initColumnLength != 0) Assert.Ignore();
 
                 var result = new TestTwoDimClass(capacityInfo, initRowLength, initColumnLength,
-                    target => new RestrictedCapacityTwoDimensionalListValidator<TwoDimItem>(target),
+                    target => new RestrictedCapacityTwoDimensionalListValidator<TwoDimItem>(target, "行名", "列名"),
                     MakeDefaultValueItemForList);
 
                 return result;

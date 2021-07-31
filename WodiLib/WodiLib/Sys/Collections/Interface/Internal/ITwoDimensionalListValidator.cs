@@ -18,115 +18,147 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     コンストラクタの検証処理
         /// </summary>
-        /// <param name="initItems">初期要素</param>
-        public void Constructor(T[][] initItems);
+        /// <param name="iniTs">初期要素</param>
+        public void Constructor(T[][] iniTs);
 
         /// <summary>
-        ///     CopyTo メソッドの検証処理
+        ///     <see cref="TwoDimensionalList{T}.GetRow"/> メソッドの検証処理。
         /// </summary>
-        /// <param name="array">コピー先の配列</param>
-        /// <param name="index">コピー開始インデックス</param>
-        public void CopyTo(IReadOnlyList<T>[] array, int index);
-
-        /// <summary>
-        ///     CopyTo メソッドの検証処理
-        /// </summary>
-        /// <param name="array">コピー先の配列</param>
-        /// <param name="index">コピー開始インデックス</param>
-        public void CopyTo(IEnumerable<T>[] array, int index);
-
-        /// <summary>
-        ///     CopyTo メソッドの検証処理
-        /// </summary>
-        /// <param name="array">コピー先の配列</param>
-        /// <param name="index">コピー開始インデックス</param>
-        /// <param name="direction">コピー方向</param>
-        public void CopyTo(T[] array, int index, Direction direction);
-
-        /// <summary>
-        ///     CopyTo メソッドの検証処理
-        /// </summary>
-        /// <param name="array">コピー先の配列</param>
-        /// <param name="row">コピー開始行番号</param>
-        /// <param name="column">コピー開始列番号</param>
-        public void CopyTo(T[,] array, int row, int column);
-
-        /// <summary>
-        ///     CopyTo メソッドの検証処理
-        /// </summary>
-        /// <param name="array">コピー先の配列</param>
-        /// <param name="row">コピー開始行番号</param>
-        /// <param name="column">コピー開始列番号</param>
-        public void CopyTo(T[][] array, int row, int column);
-
-        /// <summary>
-        ///     Get, GetRange, GetRow, GetRowRange, GetColumn, GetColumnRange メソッドの検証処理
-        /// </summary>
-        /// <param name="row">行番号</param>
+        /// <param name="rowIndex">行インデックス</param>
         /// <param name="rowCount">行数</param>
-        /// <param name="column">列番号</param>
+        public void GetRow(int rowIndex, int rowCount);
+
+        /// <summary>
+        ///     <see cref="TwoDimensionalList{T}.GetColumn"/> メソッドの検証処理。
+        /// </summary>
+        /// <param name="columnIndex">列インデックス</param>
         /// <param name="columnCount">列数</param>
-        /// <param name="direction">取得方向</param>
-        public void Get(int row, int rowCount, int column, int columnCount, Direction direction);
+        public void GetColumn(int columnIndex, int columnCount);
 
         /// <summary>
-        ///     Set, SetRange メソッドの検証処理
+        ///     <see cref="TwoDimensionalList{T}.GetItem"/> メソッドの検証処理。
         /// </summary>
-        /// <param name="row">更新開始行番号</param>
-        /// <param name="column">更新開始列番号</param>
+        /// <param name="rowIndex">行インデックス</param>
+        /// <param name="rowCount">行数</param>
+        /// <param name="columnIndex">列インデックス</param>
+        /// <param name="columnCount">列数</param>
+        public void GetItem(int rowIndex, int rowCount, int columnIndex, int columnCount);
+
+        /// <summary>
+        ///     <see cref="TwoDimensionalList{T}.this"/> メソッドの検証処理。
+        /// </summary>
+        /// <param name="rowIndex">行インデックス</param>
+        /// <param name="columnIndex">列インデックス</param>
+        public void GetItem(int rowIndex, int columnIndex);
+
+        /// <summary>
+        ///     <see cref="TwoDimensionalList{T}.SetRow"/> メソッドの検証処理。
+        /// </summary>
+        /// <param name="rowIndex">更新開始行インデックス</param>
+        /// <param name="rows">更新要素</param>
+        public void SetRow(int rowIndex, params IEnumerable<T>[] rows);
+
+        /// <summary>
+        ///     <see cref="TwoDimensionalList{T}.SetColumn"/> メソッドの検証処理。
+        /// </summary>
+        /// <param name="columnIndex">更新列インデックス</param>
         /// <param name="items">更新要素</param>
-        /// <param name="direction">更新方向</param>
-        /// <param name="needFitItemsInnerSize"><paramref name="items"/>の内部要素数が自身の列または行と一致する必要性</param>
-        public void Set(int row, int column, T[][] items, Direction direction, bool needFitItemsInnerSize);
+        public void SetColumn(int columnIndex, params IEnumerable<T>[] items);
 
         /// <summary>
-        ///     AddRow, AddRowRange, AddColumn, AddColumnRange,
-        ///     InsertRow, InsertRowRange, InsertColumn, InsertColumnRange メソッドの検証処理
+        ///     <see cref="TwoDimensionalList{T}.SetRow"/> メソッドの検証処理。
         /// </summary>
-        /// <param name="index">挿入インデックス</param>
-        /// <param name="items">挿入要素</param>
-        /// <param name="direction">挿入方向</param>
-        public void Insert(int index, T[][] items, Direction direction);
+        /// <param name="rowIndex">更新開始行インデックス</param>
+        /// <param name="columnIndex">更新列インデックス</param>
+        /// <param name="item">更新要素</param>
+        public void SetItem(int rowIndex, int columnIndex, T item);
 
         /// <summary>
-        ///     OverwriteRow, OverwriteColumn メソッドの検証処理
+        ///     <see cref="TwoDimensionalList{T}.InsertRow"/> メソッドの検証処理。
         /// </summary>
-        /// <param name="index">開始インデックス</param>
+        /// <param name="rowIndex">行インデックス</param>
+        /// <param name="items">挿入する要素</param>
+        public void InsertRow(int rowIndex, params IEnumerable<T>[] items);
+
+        /// <summary>
+        ///     <see cref="TwoDimensionalList{T}.InsertColumn"/> メソッドの検証処理。
+        /// </summary>
+        /// <param name="columnIndex">列インデックス</param>
+        /// <param name="items">挿入する要素</param>
+        public void InsertColumn(int columnIndex, params IEnumerable<T>[] items);
+
+        /// <summary>
+        ///     <see cref="TwoDimensionalList{T}.OverwriteRow"/> メソッドの検証処理。
+        /// </summary>
+        /// <param name="rowIndex">行インデックス</param>
         /// <param name="items">上書き/追加リスト</param>
-        /// <param name="direction">上書き/追加方向</param>
-        public void Overwrite(int index, T[][] items, Direction direction);
+        public void OverwriteRow(int rowIndex, params IEnumerable<T>[] items);
 
         /// <summary>
-        ///     MoveRow, MoveRowRange, MoveColumn, MoveColumnRange メソッドの検証処理
+        ///     <see cref="TwoDimensionalList{T}.OverwriteColumn"/> メソッドの検証処理。
         /// </summary>
-        /// <param name="oldIndex">移動前インデックス</param>
-        /// <param name="newIndex">移動後インデックス</param>
-        /// <param name="count">移動行数</param>
-        /// <param name="direction">移動方向</param>
-        public void Move(int oldIndex, int newIndex, int count, Direction direction);
+        /// <param name="columnIndex">列インデックス</param>
+        /// <param name="items">上書き/追加リスト</param>
+        public void OverwriteColumn(int columnIndex, params IEnumerable<T>[] items);
 
         /// <summary>
-        ///     RemoveRow, RemoveRowRange, RemoveColumn, RemoveColumnRange メソッドの検証処理
+        ///     <see cref="TwoDimensionalList{T}.MoveRow"/> メソッドの検証処理。
         /// </summary>
-        /// <param name="index">削除開始インデックス</param>
-        /// <param name="count">削除数</param>
-        /// <param name="direction">削除方向</param>
-        public void Remove(int index, int count, Direction direction);
+        /// <param name="oldRowIndex">
+        ///     移動する項目の行番号開始位置
+        /// </param>
+        /// <param name="newRowIndex">
+        ///     移動先の行番号開始位置
+        /// </param>
+        /// <param name="count">
+        ///     移動させる要素数
+        /// </param>
+        public void MoveRow(int oldRowIndex, int newRowIndex, int count);
 
         /// <summary>
-        ///     AdjustLength, AdjustLengthIfShort, AdjustLengthIfLong,
-        ///     AdjustRowLength, AdjustRowLengthIfShort, AdjustRowLengthIfLong,
-        ///     AdjustColumnLength, AdjustColumnLengthIfShort, AdjustColumnLengthIfLong メソッドの検証処理
+        ///     <see cref="TwoDimensionalList{T}.MoveColumn"/> メソッドの検証処理。
         /// </summary>
-        /// <param name="rowLength">調整行数</param>
-        /// <param name="columnLength">調整列数</param>
+        /// <param name="oldColumnIndex">
+        ///     移動する項目の列番号開始位置
+        /// </param>
+        /// <param name="newColumnIndex">
+        ///     移動先の列番号開始位置
+        /// </param>
+        /// <param name="count">
+        ///     移動させる要素数
+        /// </param>
+        public void MoveColumn(int oldColumnIndex, int newColumnIndex, int count);
+
+        /// <summary>
+        ///     <see cref="TwoDimensionalList{T}.RemoveRow"/> メソッドの検証処理。
+        /// </summary>
+        /// <param name="rowIndex">インデックス</param>
+        /// <param name="count">削除する要素数</param>
+        public void RemoveRow(int rowIndex, int count);
+
+        /// <summary>
+        ///     <see cref="TwoDimensionalList{T}.RemoveColumn"/> メソッドの検証処理。
+        /// </summary>
+        /// <param name="columnIndex">インデックス</param>
+        /// <param name="count">削除する要素数</param>
+        public void RemoveColumn(int columnIndex, int count);
+
+        /// <summary>
+        ///     <see cref="TwoDimensionalList{T}.AdjustLength"/> メソッドの検証処理。
+        /// </summary>
+        /// <param name="rowLength">
+        ///     調整する行数
+        /// </param>
+        /// <param name="columnLength">
+        ///     調整する列数
+        /// </param>
         public void AdjustLength(int rowLength, int columnLength);
 
         /// <summary>
-        ///     Reset, Clear メソッドの検証処理
+        ///     <see cref="TwoDimensionalList{T}.Reset(IEnumerable{IEnumerable{T}})"/> メソッドの検証処理。
         /// </summary>
-        /// <param name="items">初期化要素</param>
-        public void Reset(T[][] items);
+        /// <param name="initItems">リストに詰め直す要素</param>
+        public void Reset(IEnumerable<IEnumerable<T>> initItems);
 
         /// <summary>
         ///     自身と同じ検証能力を持つ <paramref name="target"/> 用の

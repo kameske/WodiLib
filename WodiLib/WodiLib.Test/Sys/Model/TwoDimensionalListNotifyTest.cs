@@ -194,9 +194,6 @@ namespace WodiLib.Test.Sys
             const int getColumn = 4;
 
             {
-                var _ = instance[getRow];
-            }
-            {
                 var _ = instance[getRow, getColumn];
             }
 
@@ -251,7 +248,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnOne,
                 rowIdx, colIdx, Direction.None,
-                (instance, setItems) => instance[rowIdx, colIdx] = setItems[0][0]);
+                (instance, setItems) => instance[rowIdx, colIdx] = setItems[0].First());
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -272,7 +269,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 TestDoubleEnumerableInstanceType.NotNull_RowOne_ColumnBasic,
                 rowIdx, colIdx, Direction.Row,
-                (instance, setItems) => instance[rowIdx] = setItems[0]);
+                (instance, setItems) => instance.SetRow(rowIdx, setItems[0]));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -293,7 +290,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
                 rowIdx, colIdx, Direction.Row,
-                (instance, setItems) => instance.SetRowRange(rowIdx, setItems));
+                (instance, setItems) => instance.SetRow(rowIdx, setItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -335,7 +332,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
                 rowIdx, colIdx, Direction.Column,
-                (instance, setItems) => instance.SetColumnRange(colIdx, setItems));
+                (instance, setItems) => instance.SetColumn(colIdx, setItems));
         }
 
         private static void SetTestCore(
@@ -362,11 +359,11 @@ namespace WodiLib.Test.Sys
             var needTranspose = NeedTranspose(execDirection, Direction.Row);
             var rowLength = needTranspose ? setItems.GetInnerArrayLength() : setItems.Length;
             var colLength = needTranspose ? setItems.Length : setItems.GetInnerArrayLength();
-            var fixedOldItems = instance.GetRowRange(rowIdx, rowLength, colIdx, colLength)
+            var fixedOldItems = instance.GetItem(rowIdx, rowLength, colIdx, colLength)
                 .ToTwoDimensionalArray();
             var oldItems = fixedOldItems.ToTransposedArrayIf(needTranspose);
 
-            actionCore(instance, setItems);
+            actionCore(instance, TestTools.ConvertIEnumerableArray(setItems));
 
             Set_CheckNotify_PropertyChangeTest(
                 notifyPropertyChangingEventType, notifyPropertyChangedEventType,
@@ -503,7 +500,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 false, TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
                 TestTools.InitRowLength, Direction.Row,
-                (instance, addItems) => instance.AddRowRange(addItems));
+                (instance, addItems) => instance.AddRow(addItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -539,7 +536,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 false, TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
                 TestTools.InitColumnLength, Direction.Column,
-                (instance, addItems) => instance.AddColumnRange(addItems));
+                (instance, addItems) => instance.AddColumn(addItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -579,7 +576,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 false, TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
                 insertIndex, Direction.Row,
-                (instance, insertItems) => instance.InsertRowRange(insertIndex, insertItems));
+                (instance, insertItems) => instance.InsertRow(insertIndex, insertItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -619,7 +616,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 false, TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
                 insertIndex, Direction.Column,
-                (instance, insertItems) => instance.InsertColumnRange(insertIndex, insertItems));
+                (instance, insertItems) => instance.InsertColumn(insertIndex, insertItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -653,7 +650,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 true, TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic, 0, Direction.Row,
-                (instance, addItems) => instance.AddRowRange(addItems));
+                (instance, addItems) => instance.AddRow(addItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -687,7 +684,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 true, TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic, 0, Direction.Column,
-                (instance, addItems) => instance.AddColumnRange(addItems));
+                (instance, addItems) => instance.AddColumn(addItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -723,7 +720,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 true, TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
                 0, Direction.Row,
-                (instance, insertItems) => instance.InsertRowRange(0, insertItems));
+                (instance, insertItems) => instance.InsertRow(0, insertItems));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -759,7 +756,7 @@ namespace WodiLib.Test.Sys
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 true, TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
                 0, Direction.Column,
-                (instance, insertItems) => instance.InsertColumnRange(0, insertItems));
+                (instance, insertItems) => instance.InsertColumn(0, insertItems));
         }
 
         private static void InsertTestCore(
@@ -789,7 +786,7 @@ namespace WodiLib.Test.Sys
             var oldItems = instance.ToTwoDimensionalArray();
             var fixedOldItems = oldItems.ToTransposedArrayIf(execDirection == Direction.Column);
 
-            actionCore(instance, insertItems);
+            actionCore(instance, TestTools.ConvertIEnumerableArray(insertItems));
 
             Insert_CheckNotify_PropertyChangeTest(
                 notifyPropertyChangingEventType, notifyPropertyChangedEventType,
@@ -1044,7 +1041,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 oldIndex, newIndex, count, Direction.Row,
-                (instance, _) => instance.MoveRowRange(oldIndex, newIndex, count));
+                (instance, _) => instance.MoveRow(oldIndex, newIndex, count));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -1086,7 +1083,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 oldIndex, newIndex, count, Direction.Column,
-                (instance, _) => instance.MoveColumnRange(oldIndex, newIndex, count));
+                (instance, _) => instance.MoveColumn(oldIndex, newIndex, count));
         }
 
         private static void MoveTestCore(
@@ -1110,8 +1107,8 @@ namespace WodiLib.Test.Sys
 
             var oldItems = instance.ToTwoDimensionalArray();
             var moveItems = (execDirection == Direction.Row
-                ? instance.GetRowRange(oldIndex, count)
-                : instance.GetColumnRange(oldIndex, count)).ToTwoDimensionalArray();
+                ? instance.GetRow(oldIndex, count)
+                : instance.GetColumn(oldIndex, count)).ToTwoDimensionalArray();
 
             actionCore(instance, null);
 
@@ -1270,7 +1267,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 removeIndex, count, Direction.Row,
-                (instance, _) => instance.RemoveRowRange(removeIndex, count));
+                (instance, _) => instance.RemoveRow(removeIndex, count));
         }
 
         [TestCaseSource(nameof(NotifyEventArgsTestCaseSource))]
@@ -1310,7 +1307,7 @@ namespace WodiLib.Test.Sys
                 collectionChangingEventType, collectionChangedEventType,
                 notifyTwoDimensionalListChangingEventType, notifyTwoDimensionalListChangedEventType,
                 removeIndex, count, Direction.Column,
-                (instance, _) => instance.RemoveColumnRange(removeIndex, count));
+                (instance, _) => instance.RemoveColumn(removeIndex, count));
         }
 
         private static void RemoveTestCore(
@@ -1335,8 +1332,8 @@ namespace WodiLib.Test.Sys
             var target = instance.ToTwoDimensionalArray();
             var fixedOldItems = target.ToTransposedArrayIf(NeedTranspose(execDirection, Direction.Row));
             var removeItems = (execDirection == Direction.Row
-                    ? instance.GetRowRange(removeIndex, count)
-                    : instance.GetColumnRange(removeIndex, count)
+                    ? instance.GetRow(removeIndex, count)
+                    : instance.GetColumn(removeIndex, count)
                 ).ToTwoDimensionalArray();
 
             actionCore(instance, null);
@@ -1822,7 +1819,7 @@ namespace WodiLib.Test.Sys
             var beforeTargetLength = target.Length;
             var isNotEmptyFromEmpty = beforeTargetLength == 0 && overwriteRowLength > 0;
 
-            actionCore(instance, overwriteItems);
+            actionCore(instance, TestTools.ConvertIEnumerableArray(overwriteItems));
 
             var isChangeRowLength = target.Length < overwriteRowLength
                 + (execDirection != Direction.Column ? startIndex : 0);
@@ -3281,7 +3278,8 @@ namespace WodiLib.Test.Sys
                 : ListManipulationType.Remove;
         }
 
-        private delegate void ActionCore(TwoDimensionalList<TestRecord> instance, TestRecord[][] operationItems);
+        private delegate void ActionCore(TwoDimensionalList<TestRecord> instance,
+            IEnumerable<TestRecord>[] operationItems);
 
         private class NotifyCollectionChangedEventArgsDic
         {

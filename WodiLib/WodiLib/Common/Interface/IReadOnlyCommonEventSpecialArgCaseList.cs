@@ -6,7 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using WodiLib.Sys;
 using WodiLib.Sys.Collections;
 
 namespace WodiLib.Common
@@ -15,7 +14,7 @@ namespace WodiLib.Common
     /// 読み取り専用選択肢情報リスト
     /// </summary>
     public interface IReadOnlyCommonEventSpecialArgCaseList
-        : IReadOnlyRestrictedCapacityList<CommonEventSpecialArgCase>
+        : IReadOnlyExtendedList<CommonEventSpecialArgCase>
     {
     }
 }

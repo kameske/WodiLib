@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WodiLib.Sys;
 using WodiLib.Sys.Collections;
 
@@ -88,7 +89,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public ChoiceCaseList()
+        public ChoiceCaseList() : base(Enumerable.Repeat("", 12))
         {
         }
 
@@ -98,6 +99,7 @@ namespace WodiLib.Event.EventCommand
         /// <param name="items">初期リスト</param>
         /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
         /// <exception cref="InvalidOperationException">itemsの要素数が12以外の場合</exception>
+        [Obsolete]
         public ChoiceCaseList(IEnumerable<string> items) : base(items)
         {
         }

@@ -55,7 +55,7 @@ namespace WodiLib.Sys.Collections
                 }
 
                 protected override T[][] MoveItems(TwoDimensionalList<T> target, int oldIndex, int count)
-                    => target.Get_Impl(oldIndex, count).ToTwoDimensionalArray();
+                    => target.GetRow_Impl(oldIndex, count);
             }
 
             private class MoveColumn : Move
@@ -67,7 +67,7 @@ namespace WodiLib.Sys.Collections
                     Action coreAction)
                     : base(target, oldIndex, newIndex, count, Direction.Column, coreAction)
                 {
-                    var oldItems = Target.Items.DeepClone().ToTwoDimensionalList();
+                    var oldItems = Target.ToTwoDimensionalArray();
                     var newItems = oldItems.Select(line =>
                     {
                         var result = new ExtendedList<T>(line);

@@ -31,7 +31,7 @@ namespace WodiLib.Sys.Collections
                 {
                     CollectionChangeEventArgsFactory
                         = CollectionChangeEventArgsFactory<IReadOnlyList<T>>.CreateReset(
-                            target, target.ToTwoDimensionalList(), newItems);
+                            target, target.ToTwoDimensionalArray(), newItems);
 
                     TwoDimensionalCollectionChangeEventArgsFactory
                         = TwoDimensionalCollectionChangeEventArgsFactory<T>.CreateReset(

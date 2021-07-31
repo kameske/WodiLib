@@ -68,14 +68,14 @@ namespace WodiLib.Sys.Collections
         ///     リストの要素数が0でないことを検証する。
         /// </summary>
         /// <param name="listCount">要素数</param>
-        /// <param name="direction">操作方向</param>
+        /// <param name="lineName">行または列の名前</param>
         /// <exception cref="InvalidOperationException">
         ///     要素数が0の場合
         /// </exception>
-        public static void LengthNotZero(int listCount, Direction direction)
+        public static void LengthNotZero(int listCount, string lineName)
         {
             ThrowHelper.InvalidOperationIf(listCount == 0,
-                () => ErrorMessage.NotExecute($"{(direction == Direction.Row ? "行" : "列")}数が0のため"));
+                () => ErrorMessage.NotExecute($"{lineName}数が0のため"));
         }
     }
 }

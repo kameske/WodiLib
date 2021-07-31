@@ -30,78 +30,99 @@ namespace WodiLib.Sys.Collections
         /// </remarks>
         protected abstract IWodiLibListValidator<T>? BaseValidator { get; }
 
+        /// <summary>
+        /// 各種メソッドの操作対象
+        /// </summary>
         protected IReadOnlyExtendedList<T> Target { get; }
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="target">各種メソッドの操作対象</param>
         protected WodiLibListValidatorTemplate(IReadOnlyExtendedList<T> target)
         {
             Target = target;
         }
 
+        /// <inheritdoc/>
         public virtual void Constructor(IReadOnlyList<T> initItems)
         {
             BaseValidator?.Constructor(initItems);
         }
 
+        /// <inheritdoc/>
         public virtual void Get(int index, int count)
         {
             BaseValidator?.Get(index, count);
         }
 
+        /// <inheritdoc/>
         public virtual void Set(int index, T item)
         {
             BaseValidator?.Set(index, item);
         }
 
+        /// <inheritdoc/>
         public virtual void Set(int index, IReadOnlyList<T> items)
         {
             BaseValidator?.Set(index, items);
         }
 
+        /// <inheritdoc/>
         public virtual void Insert(int index, T item)
         {
             BaseValidator?.Insert(index, item);
         }
 
+        /// <inheritdoc/>
         public virtual void Insert(int index, IReadOnlyList<T> items)
         {
             BaseValidator?.Insert(index, items);
         }
 
+        /// <inheritdoc/>
         public virtual void Overwrite(int index, IReadOnlyList<T> items)
         {
             BaseValidator?.Overwrite(index, items);
         }
 
+        /// <inheritdoc/>
         public virtual void Move(int oldIndex, int newIndex, int count)
         {
             BaseValidator?.Move(oldIndex, newIndex, count);
         }
 
+        /// <inheritdoc/>
         public virtual void Remove([AllowNull] T item)
         {
             BaseValidator?.Remove(item);
         }
 
+        /// <inheritdoc/>
         public virtual void Remove(int index, int count)
         {
             BaseValidator?.Remove(index, count);
         }
 
+        /// <inheritdoc/>
         public virtual void AdjustLength(int length)
         {
             BaseValidator?.AdjustLength(length);
         }
 
+        /// <inheritdoc/>
         public virtual void AdjustLengthIfShort(int length)
         {
             BaseValidator?.AdjustLengthIfShort(length);
         }
 
+        /// <inheritdoc/>
         public virtual void AdjustLengthIfLong(int length)
         {
             BaseValidator?.AdjustLengthIfLong(length);
         }
 
+        /// <inheritdoc/>
         public virtual void Reset(IReadOnlyList<T> items)
         {
             BaseValidator?.Reset(items);
