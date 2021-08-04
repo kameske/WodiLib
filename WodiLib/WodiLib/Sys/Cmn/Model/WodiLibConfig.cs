@@ -14,7 +14,7 @@ namespace WodiLib.Sys.Cmn
     /// <summary>
     ///     WodiLib 全体の設定クラス
     /// </summary>
-    public class WodiLibConfig : IWodiLibConfig
+    public class WodiLibConfig : IWodiLibConfig, IContainerCreatable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Constant
@@ -35,7 +35,7 @@ namespace WodiLib.Sys.Cmn
         /// <remarks>
         ///     キー名の変更は <see cref="ChangeTargetKey"/> メソッドで行う。
         /// </remarks>
-        public static string TargetKeyName { get; private set; } = default!;
+        public static WodiLibContainerKeyName TargetKeyName => WodiLibContainer.TargetKeyName;
 
         /// <summary>
         ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
@@ -50,7 +50,7 @@ namespace WodiLib.Sys.Cmn
         ///     <paramref name="type"/> が <see langword="null"/> の場合。
         /// </exception>
         public static void SetDefaultNotifyBeforePropertyChangeEventType(
-            NotifyPropertyChangeEventType type, string? keyName = null)
+            NotifyPropertyChangeEventType type, WodiLibContainerKeyName? keyName = null)
         {
             ThrowHelper.ValidateArgumentNotNull(type is null, nameof(type));
 
@@ -67,7 +67,7 @@ namespace WodiLib.Sys.Cmn
         ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
         /// </param>
         public static NotifyPropertyChangeEventType GetDefaultNotifyBeforePropertyChangeEventType(
-            string? keyName = null)
+            WodiLibContainerKeyName? keyName = null)
         {
             var config = GetConfig(keyName ?? TargetKeyName);
             return config.DefaultNotifyBeforePropertyChangeEventType;
@@ -86,7 +86,7 @@ namespace WodiLib.Sys.Cmn
         ///     <paramref name="type"/> が <see langword="null"/> の場合。
         /// </exception>
         public static void SetDefaultNotifyAfterPropertyChangeEventType(
-            NotifyPropertyChangeEventType type, string? keyName = null)
+            NotifyPropertyChangeEventType type, WodiLibContainerKeyName? keyName = null)
         {
             ThrowHelper.ValidateArgumentNotNull(type is null, nameof(type));
 
@@ -103,7 +103,7 @@ namespace WodiLib.Sys.Cmn
         ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
         /// </param>
         public static NotifyPropertyChangeEventType GetDefaultNotifyAfterPropertyChangeEventType(
-            string? keyName = null)
+            WodiLibContainerKeyName? keyName = null)
         {
             var config = GetConfig(keyName ?? TargetKeyName);
             return config.DefaultNotifyAfterPropertyChangeEventType;
@@ -122,7 +122,7 @@ namespace WodiLib.Sys.Cmn
         ///     <paramref name="type"/> が <see langword="null"/> の場合。
         /// </exception>
         public static void SetDefaultNotifyBeforeCollectionChangeFlag(
-            NotifyCollectionChangeEventType type, string? keyName = null)
+            NotifyCollectionChangeEventType type, WodiLibContainerKeyName? keyName = null)
         {
             ThrowHelper.ValidateArgumentNotNull(type is null, nameof(type));
 
@@ -139,7 +139,7 @@ namespace WodiLib.Sys.Cmn
         ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
         /// </param>
         public static NotifyCollectionChangeEventType GetDefaultNotifyBeforeCollectionChangeEventType(
-            string? keyName = null)
+            WodiLibContainerKeyName? keyName = null)
         {
             var config = GetConfig(keyName ?? TargetKeyName);
             return config.DefaultNotifyBeforeCollectionChangeEventType;
@@ -158,7 +158,7 @@ namespace WodiLib.Sys.Cmn
         ///     <paramref name="type"/> が <see langword="null"/> の場合。
         /// </exception>
         public static void SetDefaultNotifyAfterCollectionChangeEventType(
-            NotifyCollectionChangeEventType type, string? keyName = null)
+            NotifyCollectionChangeEventType type, WodiLibContainerKeyName? keyName = null)
         {
             var config = GetConfig(keyName ?? TargetKeyName);
             config.DefaultNotifyAfterCollectionChangeEventType = type;
@@ -173,7 +173,7 @@ namespace WodiLib.Sys.Cmn
         ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
         /// </param>
         public static NotifyCollectionChangeEventType GetDefaultNotifyAfterCollectionChangeEventType(
-            string? keyName = null)
+            WodiLibContainerKeyName? keyName = null)
         {
             var config = GetConfig(keyName ?? TargetKeyName);
             return config.DefaultNotifyAfterCollectionChangeEventType;
@@ -192,7 +192,7 @@ namespace WodiLib.Sys.Cmn
         ///     <paramref name="type"/> が <see langword="null"/> の場合。
         /// </exception>
         public static void SetDefaultNotifyBeforeCollectionChangeFlag(
-            NotifyTwoDimensionalListChangeEventType type, string? keyName = null)
+            NotifyTwoDimensionalListChangeEventType type, WodiLibContainerKeyName? keyName = null)
         {
             ThrowHelper.ValidateArgumentNotNull(type is null, nameof(type));
 
@@ -209,7 +209,7 @@ namespace WodiLib.Sys.Cmn
         ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
         /// </param>
         public static NotifyTwoDimensionalListChangeEventType GetDefaultNotifyBeforeTwoDimensionalListChangeEventType(
-            string? keyName = null)
+            WodiLibContainerKeyName? keyName = null)
         {
             var config = GetConfig(keyName ?? TargetKeyName);
             return config.DefaultNotifyBeforeTwoDimensionalListChangeEventType;
@@ -228,7 +228,7 @@ namespace WodiLib.Sys.Cmn
         ///     <paramref name="type"/> が <see langword="null"/> の場合。
         /// </exception>
         public static void SetDefaultNotifyAfterTwoDimensionalListChangeEventType(
-            NotifyTwoDimensionalListChangeEventType type, string? keyName = null)
+            NotifyTwoDimensionalListChangeEventType type, WodiLibContainerKeyName? keyName = null)
         {
             var config = GetConfig(keyName ?? TargetKeyName);
             config.DefaultNotifyAfterTwoDimensionalListChangeEventType = type;
@@ -243,20 +243,11 @@ namespace WodiLib.Sys.Cmn
         ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
         /// </param>
         public static NotifyTwoDimensionalListChangeEventType GetDefaultNotifyAfterTwoDimensionalListChangeEventType(
-            string? keyName = null)
+            WodiLibContainerKeyName? keyName = null)
         {
             var config = GetConfig(keyName ?? TargetKeyName);
             return config.DefaultNotifyAfterTwoDimensionalListChangeEventType;
         }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Static Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        ///     コンフィグコンテナ
-        /// </summary>
-        private static WodiLibContainer ConfigContainer { get; } = new();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Static Method
@@ -265,19 +256,39 @@ namespace WodiLib.Sys.Cmn
         /// <summary>
         ///     メインで使用する設定キーを変更する。
         /// </summary>
-        /// <param name="keyName">[NotEmpty] 設定キー名</param>
+        /// <param name="keyName">設定キー名</param>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="keyName"/> が <see langword="null"/> の場合。
         /// </exception>
-        /// <exception cref="ArgumentException"><paramref name="keyName"/> が空文字の場合。</exception>
-        public static void ChangeTargetKey(string keyName)
+        public static void ChangeTargetKey(WodiLibContainerKeyName keyName)
+            => WodiLibContainer.ChangeTargetKey(keyName);
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Private Static Method
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        ///     指定した設定キー名の設定インスタンスがコンテナに登録されていなければ登録する。
+        /// </summary>
+        /// <param name="keyName">設定キー名</param>
+        private static void RegisterConfigInstanceIfNeeded(WodiLibContainerKeyName keyName)
         {
-            ThrowHelper.ValidateArgumentNotNull(keyName is null, nameof(keyName));
-            ThrowHelper.ValidateArgumentNotEmpty(keyName.IsEmpty(), nameof(keyName));
+            if (!WodiLibContainer.HasCreateMethod<WodiLibConfig>(keyName))
+            {
+                WodiLibContainer.Register(() => new WodiLibConfig(keyName), WodiLibContainer.Lifetime.Container,
+                    keyName);
+            }
+        }
 
-            TargetKeyName = keyName;
-
+        /// <summary>
+        ///     設定キー名から設定インスタンスを取得する。
+        /// </summary>
+        /// <param name="keyName">設定キー名</param>
+        /// <returns>設定インスタンス</returns>
+        private static WodiLibConfig GetConfig(WodiLibContainerKeyName keyName)
+        {
             RegisterConfigInstanceIfNeeded(keyName);
+            return WodiLibContainer.Resolve<WodiLibConfig>(keyName);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -285,7 +296,7 @@ namespace WodiLib.Sys.Cmn
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc/>
-        public string KeyName { get; }
+        public WodiLibContainerKeyName KeyName { get; }
 
         /// <inheritdoc/>
         public NotifyPropertyChangeEventType DefaultNotifyBeforePropertyChangeEventType
@@ -380,43 +391,15 @@ namespace WodiLib.Sys.Cmn
         /// <summary>
         ///     コンストラクタ
         /// </summary>
-        private WodiLibConfig()
+        private WodiLibConfig(WodiLibContainerKeyName keyName)
         {
-            KeyName = "";
+            KeyName = keyName;
             defaultNotifyBeforePropertyChangeEventType = NotifyPropertyChangeEventType.Disabled;
             defaultNotifyAfterPropertyChangeEventType = NotifyPropertyChangeEventType.Enabled;
             defaultNotifyBeforeCollectionChangeEventType = NotifyCollectionChangeEventType.None;
             defaultNotifyAfterCollectionChangeEventType = NotifyCollectionChangeEventType.Single;
             defaultNotifyBeforeTwoDimensionalListChangeEventType = NotifyTwoDimensionalListChangeEventType.None;
             defaultNotifyAfterTwoDimensionalListChangeEventType = NotifyTwoDimensionalListChangeEventType.Single;
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Static Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        ///     指定した設定キー名の設定インスタンスがコンテナに登録されていなければ登録する。
-        /// </summary>
-        /// <param name="keyName">設定キー名</param>
-        private static void RegisterConfigInstanceIfNeeded(string keyName)
-        {
-            if (!ConfigContainer.HasCreateMethod<VersionConfig>(keyName))
-            {
-                ConfigContainer.Register(() => new WodiLibConfig(), WodiLibContainer.Lifetime.Container,
-                    keyName);
-            }
-        }
-
-        /// <summary>
-        ///     設定キー名から設定インスタンスを取得する。
-        /// </summary>
-        /// <param name="keyName">設定キー名</param>
-        /// <returns>設定インスタンス</returns>
-        private static WodiLibConfig GetConfig(string keyName)
-        {
-            RegisterConfigInstanceIfNeeded(keyName);
-            return ConfigContainer.Resolve<WodiLibConfig>(keyName);
         }
     }
 }

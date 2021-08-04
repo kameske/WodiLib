@@ -13,7 +13,7 @@ namespace WodiLib.Sys.Cmn
     /// <summary>
     ///     WodiLib内で使用するロガークラス
     /// </summary>
-    public class WodiLibLogger
+    public class WodiLibLogger : IContainerCreatable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -22,7 +22,7 @@ namespace WodiLib.Sys.Cmn
         /// <summary>
         ///     デフォルト設定キー名
         /// </summary>
-        private static string DefaultKeyName => "default";
+        private static WodiLibContainerKeyName DefaultKeyName => WodiLibContainer.DefaultKeyName;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Static Property
@@ -31,16 +31,7 @@ namespace WodiLib.Sys.Cmn
         /// <summary>
         ///     現在の設定キー名
         /// </summary>
-        public static string TargetKeyName { get; private set; } = "";
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Static Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        ///     コンフィグコンテナ
-        /// </summary>
-        private static WodiLibContainer ConfigContainer { get; } = new();
+        public static WodiLibContainerKeyName TargetKeyName => WodiLibContainer.TargetKeyName;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
@@ -65,15 +56,8 @@ namespace WodiLib.Sys.Cmn
         /// <exception cref="ArgumentException">
         ///     <paramref name="keyName"/> が空文字の場合。
         /// </exception>
-        public static void ChangeTargetKey(string keyName)
-        {
-            ThrowHelper.ValidateArgumentNotNull(keyName is null, nameof(keyName));
-            ThrowHelper.ValidateArgumentNotEmpty(keyName.IsEmpty(), nameof(keyName));
-
-            TargetKeyName = keyName;
-
-            RegisterInstanceIfNeeded(keyName);
-        }
+        public static void ChangeTargetKey(WodiLibContainerKeyName keyName)
+            => WodiLibContainer.ChangeTargetKey(keyName);
 
         /// <summary>
         ///     設定キー名からインスタンスを取得する。
@@ -83,11 +67,11 @@ namespace WodiLib.Sys.Cmn
         ///     <see langword="null"/> の場合、<see cref="TargetKeyName"/> を使用する。
         /// </param>
         /// <returns>設定インスタンス</returns>
-        public static WodiLibLogger GetInstance(string? keyName = null)
+        public static WodiLibLogger GetInstance(WodiLibContainerKeyName? keyName = null)
         {
             var innerKeyName = keyName ?? TargetKeyName;
             RegisterInstanceIfNeeded(innerKeyName);
-            return ConfigContainer.Resolve<WodiLibLogger>(innerKeyName);
+            return WodiLibContainer.Resolve<WodiLibLogger>(innerKeyName);
         }
 
         /// <summary>
@@ -101,7 +85,7 @@ namespace WodiLib.Sys.Cmn
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="logHandler"/> が <see langword="null"/> の場合。
         /// </exception>
-        public static void SetLogHandler(WodiLibLogHandler logHandler, string? keyName = null)
+        public static void SetLogHandler(WodiLibLogHandler logHandler, WodiLibContainerKeyName? keyName = null)
         {
             ThrowHelper.ValidateArgumentNotNull(logHandler is null, nameof(logHandler));
 
@@ -118,11 +102,11 @@ namespace WodiLib.Sys.Cmn
         ///     指定した設定キー名の設定インスタンスがコンテナに登録されていなければ登録する。
         /// </summary>
         /// <param name="keyName">設定キー名</param>
-        private static void RegisterInstanceIfNeeded(string keyName)
+        private static void RegisterInstanceIfNeeded(WodiLibContainerKeyName keyName)
         {
-            if (!ConfigContainer.HasCreateMethod<WodiLibLogger>(keyName))
+            if (!WodiLibContainer.HasCreateMethod<WodiLibLogger>(keyName))
             {
-                ConfigContainer.Register(() => new WodiLibLogger(WodiLibLogHandler.Default),
+                WodiLibContainer.Register(() => new WodiLibLogger(WodiLibLogHandler.Default),
                     WodiLibContainer.Lifetime.Container, keyName);
             }
         }

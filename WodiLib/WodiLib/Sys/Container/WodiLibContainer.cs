@@ -8,39 +8,107 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace WodiLib.Sys
 {
     /// <summary>
     ///     オブジェクト注入用クラス
     /// </summary>
-    internal class WodiLibContainer
+    internal static class WodiLibContainer
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Property
+        //      Constants
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        ///     デフォルト設定キー名
+        /// </summary>
+        public static WodiLibContainerKeyName DefaultKeyName => "default";
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Public Static Properties
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        ///     現在の設定キー名
+        /// </summary>
+        /// <remarks>
+        ///     キー名の変更は <see cref="ChangeTargetKey"/> メソッドで行う。
+        /// </remarks>
+        public static WodiLibContainerKeyName TargetKeyName { get; private set; } = DefaultKeyName;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Protected Static Properties
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private static DictForKey ContainerDic { get; } = new();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Public Static Methods
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        ///     指定したキー名のコンテナが作成済みかどうかを返す。
+        /// </summary>
+        /// <param name="key">キー名</param>
+        /// <returns>生成メソッドが登録されている場合 <see langword="true"/></returns>
+        public static bool HasContainer(WodiLibContainerKeyName key)
+        {
+            ThrowHelper.ValidateArgumentNotNull(key is null, nameof(key));
+
+            return ContainerDic.HasKey(key);
+        }
 
         /// <summary>
         ///     指定したキー名のコンテナ内に指定したクラスの生成メソッドが登録されているかどうかを返す。
         /// </summary>
-        /// <param name="key">キー名</param>
-        /// <typeparam name="T">チェック対象のクラス型</typeparam>
+        /// <param name="key">キー名(<see langword="null"/>の場合<see cref="TargetKeyName"/>が設定される)</param>
+        /// <typeparam name="TOut">登録型</typeparam>
         /// <returns>生成メソッドが登録されている場合 <see langword="true"/></returns>
-        /// <exception cref="ArgumentNullException"><paramref name="key"/> が <see langword="null"/> の場合</exception>
-        public bool HasCreateMethod<T>(string key = "default")
+        public static bool HasCreateMethod<TOut>(WodiLibContainerKeyName? key = null)
+            => ContainerDic.HasInfo(key ?? TargetKeyName, typeof(TOut), typeof(Void));
+
+        /// <summary>
+        ///     指定したキー名のコンテナ内に指定したクラスの生成メソッドが登録されているかどうかを返す。
+        /// </summary>
+        /// <param name="key">キー名(<see langword="null"/>の場合<see cref="TargetKeyName"/>が設定される)</param>
+        /// <typeparam name="TOut">登録型</typeparam>
+        /// <typeparam name="TParam"><typeparamref name="TOut"/>初期化パラメータ型</typeparam>
+        /// <returns>生成メソッドが登録されている場合 <see langword="true"/></returns>
+        public static bool HasCreateMethod<TOut, TParam>(WodiLibContainerKeyName? key = null)
+            => ContainerDic.HasInfo(key ?? TargetKeyName, typeof(TOut), typeof(TParam));
+
+        /// <summary>
+        ///     メインで使用する設定キーを変更する。
+        /// </summary>
+        /// <remarks>
+        ///     新規キー名を指定した場合、 "default" に設定されているすべてのインスタンス生成情報を引き継いだ状態で設定される。
+        /// </remarks>
+        /// <param name="keyName">設定キー名</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="keyName"/> が <see langword="null"/> の場合。
+        /// </exception>
+        public static void ChangeTargetKey(WodiLibContainerKeyName keyName)
         {
-            if (key is null)
-                throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(key)));
+            ThrowHelper.ValidateArgumentNotNull(keyName is null, nameof(keyName));
 
-            // キー名のコンテナ存在チェック
-            var containerKv = ContainerDic.FirstOrDefault(kv => kv.Key.Equals(key));
-            if (IsNull(containerKv)) return false;
+            ContainerDic.CreateNewContainerIfNotHas(keyName);
 
-            // コンテナ内の情報チェック
-            var container = containerKv.Value;
-            return container.ContainsKey(typeof(T));
+            TargetKeyName = keyName;
+        }
+
+        /// <summary>
+        ///     指定されたキー名のコンテナを新規作成する。作成済みの場合は何も行わない。
+        /// </summary>
+        /// <param name="key">作成コンテナキー名</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="key"/> が <see langword="null"/> の場合。
+        /// </exception>
+        public static void AddContainerIfNotHas(WodiLibContainerKeyName key)
+        {
+            ThrowHelper.ValidateArgumentNotNull(key is null, nameof(key));
+
+            ContainerDic.CreateNewContainerIfNotHas(key);
         }
 
         /// <summary>
@@ -48,71 +116,146 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="createMethod">インスタンス生成メソッド</param>
         /// <param name="lifetime">ライフタイム</param>
-        /// <param name="key">コンテナ名</param>
-        /// <typeparam name="T">登録型</typeparam>
-        public void Register<T>(Func<T> createMethod, Lifetime lifetime, string key = "default")
-        {
-            // 登録情報作成
-            var createObjMethod = new Func<object>(() => (object) createMethod()!);
-            var createInfo = new CreateInfo(createObjMethod, lifetime);
+        /// <param name="key">キー名(<see langword="null"/>の場合<see cref="TargetKeyName"/>が設定される)</param>
+        /// <typeparam name="TOut">登録型</typeparam>
+        public static void Register<TOut>(Func<TOut> createMethod, Lifetime lifetime,
+            WodiLibContainerKeyName? key = null)
+            where TOut : IContainerCreatable
+            => RegisterImpl<TOut, Void>(_ => createMethod(), lifetime, key ?? TargetKeyName, false);
 
-            // 登録先コンテナ取得
-            var containerKv = ContainerDic.FirstOrDefault(kv => kv.Key.Equals(key));
-            if (IsNull(containerKv))
-            {
-                // コンテナが存在しないので、先にコンテナを作ってから
-                var newContainer = new Dictionary<Type, CreateInfo>
-                {
-                    {typeof(T), createInfo}
-                };
-                ContainerDic.Add(key, newContainer);
-            }
-            else
-            {
-                // コンテナに登録
-                var container = containerKv.Value;
-                if (container.ContainsKey(typeof(T))) container.Remove(typeof(T));
-                container.Add(typeof(T), createInfo);
-            }
-        }
+        /// <summary>
+        ///     実装クラスを登録する。登録済みの型でも上書き可能。
+        /// </summary>
+        /// <param name="createMethod">インスタンス生成メソッド</param>
+        /// <param name="lifetime">ライフタイム</param>
+        /// <param name="key">キー名(<see langword="null"/>の場合<see cref="TargetKeyName"/>が設定される)</param>
+        /// <typeparam name="TOut">登録型</typeparam>
+        /// <typeparam name="TParam"><typeparamref name="TOut"/>初期化パラメータ型</typeparam>
+        public static void Register<TOut, TParam>(Func<TParam, TOut> createMethod, Lifetime lifetime,
+            WodiLibContainerKeyName? key = null)
+            where TOut : IContainerCreatable<TParam>
+            where TParam : IContainerCreatableParam
+            => RegisterImpl(createMethod, lifetime, key ?? TargetKeyName, false);
+
+        /// <summary>
+        ///     実装クラスを登録する。登録済みの型の場合上書きは行わない。
+        /// </summary>
+        /// <param name="createMethod">インスタンス生成メソッド</param>
+        /// <param name="lifetime">ライフタイム</param>
+        /// <param name="key">キー名(<see langword="null"/>の場合<see cref="TargetKeyName"/>が設定される)</param>
+        /// <typeparam name="TOut">登録型</typeparam>
+        public static void RegisterIfNotHas<TOut>(Func<TOut> createMethod, Lifetime lifetime,
+            WodiLibContainerKeyName? key = null)
+            where TOut : IContainerCreatable
+            => RegisterImpl<TOut, Void>(_ => createMethod(), lifetime, key ?? TargetKeyName, true);
+
+        /// <summary>
+        ///     実装クラスを登録する。登録済みの型の場合上書きは行わない。
+        /// </summary>
+        /// <param name="createMethod">インスタンス生成メソッド</param>
+        /// <param name="lifetime">ライフタイム</param>
+        /// <param name="key">キー名(<see langword="null"/>の場合<see cref="TargetKeyName"/>が設定される)</param>
+        /// <typeparam name="TOut">登録型</typeparam>
+        /// <typeparam name="TParam"><typeparamref name="TOut"/>初期化パラメータ型</typeparam>
+        public static void RegisterIfNotHas<TOut, TParam>(Func<TParam, TOut> createMethod, Lifetime lifetime,
+            WodiLibContainerKeyName? key = null)
+            where TOut : IContainerCreatable<TParam>
+            where TParam : IContainerCreatableParam
+            => RegisterImpl(createMethod, lifetime, key ?? TargetKeyName, true);
 
         /// <summary>
         ///     実装クラスからインスタンスを生成して返却する。
         /// </summary>
         /// <typeparam name="T">インスタンス型</typeparam>
+        /// <param name="key">キー名(<see langword="null"/>の場合<see cref="TargetKeyName"/>が設定される)</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException">登録されていない型を指定した場合</exception>
-        public T Resolve<T>(string key = "default")
+        public static T Resolve<T>(WodiLibContainerKeyName? key = null)
+            where T : IContainerCreatable
+            => ResolveImpl<T, Void>(new Void(), key ?? TargetKeyName);
+
+        /// <summary>
+        ///     実装クラスからインスタンスを生成して返却する。
+        /// </summary>
+        /// <typeparam name="TOut">インスタンス型</typeparam>
+        /// <typeparam name="TParam">初期化パラメータ型</typeparam>
+        /// <param name="param">パラメータ</param>
+        /// <param name="key">キー名(<see langword="null"/>の場合<see cref="TargetKeyName"/>が設定される)</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException">登録されていない型を指定した場合</exception>
+        public static TOut Resolve<TOut, TParam>(TParam param, WodiLibContainerKeyName? key = null)
+            where TOut : IContainerCreatable<TParam>
+            where TParam : IContainerCreatableParam
+            => ResolveImpl<TOut, TParam>(param, key ?? TargetKeyName);
+
+        /// <summary>
+        ///     指定されたキー名のコンテナを除去する。未登録の場合は何も行わない。
+        /// </summary>
+        /// <param name="key">除去コンテナキー名</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="key"/> が <see langword="null"/> の場合。
+        /// </exception>
+        public static void RemoveContainerIfHas(WodiLibContainerKeyName key)
         {
-            // コンテナ取得
-            if (!ContainerDic.ContainsKey(key)) throw new ContainerNotRegistrationException();
-            var container = ContainerDic.First(kv => kv.Key.Equals(key)).Value;
+            ThrowHelper.ValidateArgumentNotNull(key is null, nameof(key));
 
-            // インスタンス生成情報取得
-            if (!container.ContainsKey(typeof(T))) throw new ContainerNotRegistrationException();
-            var createInfo = container.First(kv => kv.Key == typeof(T)).Value;
-
-            return (T) createInfo.GetInstance();
+            ContainerDic.Remove(key);
         }
 
+        /// <summary>
+        ///     クラス生成情報を解除する。未登録、解除済みの場合は何もしない。
+        /// </summary>
+        /// <param name="key">キー名(<see langword="null"/>の場合<see cref="TargetKeyName"/>が設定される)</param>
+        /// <typeparam name="TOut">登録型</typeparam>
+        public static void Unregister<TOut>(WodiLibContainerKeyName? key = null)
+            where TOut : IContainerCreatable
+            => UnregisterImpl<TOut, Void>(key ?? TargetKeyName);
+
+        /// <summary>
+        ///     クラス生成情報を解除する。未登録、解除済みの場合は何もしない。
+        /// </summary>
+        /// <param name="key">キー名(<see langword="null"/>の場合<see cref="TargetKeyName"/>が設定される)</param>
+        /// <typeparam name="TOut">登録型</typeparam>
+        /// <typeparam name="TParam"><typeparamref name="TOut"/>初期化パラメータ型</typeparam>
+        public static void Unregister<TOut, TParam>(WodiLibContainerKeyName? key = null)
+            where TOut : IContainerCreatable<TParam>
+            where TParam : IContainerCreatableParam
+            => UnregisterImpl<TOut, Void>(key ?? TargetKeyName);
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Static Method
+        //      Private Static Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private static bool IsNull(KeyValuePair<string, Dictionary<Type, CreateInfo>> src)
+        private static void RegisterImpl<TOut, TParam>(Func<TParam, TOut> createMethod, Lifetime lifetime,
+            string key, bool isSkipIfAlreadyRegistered)
+            where TOut : notnull
+            where TParam : notnull
         {
-            return src.Equals(default(KeyValuePair<string, Dictionary<Type, CreateInfo>>));
+            // 上書きしない場合、登録済みなら処理しない
+            if (isSkipIfAlreadyRegistered && ContainerDic.HasInfo(key, typeof(TOut), typeof(TParam)))
+            {
+                return;
+            }
+
+            // 登録情報作成
+            var createObjMethod = new Func<TParam, object>(param => createMethod(param));
+            var createInfo = new CreateInfo<TParam>(createObjMethod, lifetime);
+
+            ContainerDic[key, typeof(TOut), typeof(TParam)] = createInfo;
         }
 
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Private Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        private static TOut ResolveImpl<TOut, TParam>(TParam param, string key)
+            where TParam : notnull
+        {
+            var createInfo = ContainerDic[key, typeof(TOut), typeof(TParam)];
+            return (TOut) createInfo.GetInstance(param);
+        }
 
-        private readonly Dictionary<string, Dictionary<Type, CreateInfo>> ContainerDic
-            = new();
+        private static void UnregisterImpl<TOut, TParam>(WodiLibContainerKeyName targetKeyName)
+            => ContainerDic.Unregister(targetKeyName, typeof(TOut), typeof(TParam));
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Inner Class
+        //     Classes
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
@@ -140,16 +283,31 @@ namespace WodiLib.Sys
         /// <summary>
         ///     インスタンス生成情報
         /// </summary>
+        /// <typeparam name="TParam">生成時パラメータ型</typeparam>
+        private class CreateInfo<TParam> : CreateInfo
+            where TParam : notnull
+        {
+            public CreateInfo(Func<TParam, object> createMethod, Lifetime lifetime)
+                : base(param => createMethod(param), lifetime, typeof(TParam))
+            {
+            }
+        }
+
+        /// <summary>
+        ///     インスタンス生成情報
+        /// </summary>
         private class CreateInfo
         {
             private Lifetime Lifetime { get; }
-            private Func<object> CreateMethod { get; }
+            private Func<dynamic, object> CreateMethod { get; }
+            private Type ParamType { get; }
             private object? instance;
 
-            public CreateInfo(Func<object> createMethod, Lifetime lifetime)
+            public CreateInfo(Func<dynamic, object> createMethod, Lifetime lifetime, Type paramType)
             {
                 Lifetime = lifetime;
                 CreateMethod = createMethod;
+                ParamType = paramType;
             }
 
             /// <summary>
@@ -157,22 +315,242 @@ namespace WodiLib.Sys
             /// </summary>
             /// <returns></returns>
             /// <exception cref="InvalidOperationException"></exception>
-            public object GetInstance()
+            public object GetInstance(dynamic param)
             {
                 if (Lifetime == Lifetime.Transient)
                 {
                     // 都度生成する
-                    return CreateMethod();
+                    return CreateMethod(param);
                 }
 
                 if (Lifetime == Lifetime.Container)
                 {
                     // コンテナ内で一意
-                    return instance ??= CreateMethod();
+                    return instance ??= CreateMethod(param);
                 }
 
                 throw new InvalidOperationException();
             }
+
+            /// <summary>
+            ///     新規コンテナ用に情報をコピーしたインスタンスを取得する。
+            /// </summary>
+            /// <remarks>
+            ///     インスタンス生成用の情報のみコピーし、自身が作成したインスタンス情報は引き継がない。
+            /// </remarks>
+            /// <returns>新規インスタンス</returns>
+            public CreateInfo CloneInfoForNewContainer()
+                => new(CreateMethod, Lifetime, ParamType);
+        }
+
+        /// <summary>
+        ///     キー名毎のディクショナリ
+        /// </summary>
+        private class DictForKey
+        {
+            public CreateInfo this[WodiLibContainerKeyName key, Type outputType, Type inputType]
+            {
+                get => Impl[key][outputType, inputType];
+                set
+                {
+                    CreateNewContainerIfNotHas(key);
+                    var inner = Impl[key];
+                    inner[outputType, inputType] = value;
+                }
+            }
+
+            public DictForKey()
+            {
+                Impl = new Dictionary<WodiLibContainerKeyName, DictForOutputType>
+                {
+                    [DefaultKeyName] = new()
+                };
+            }
+
+            /// <summary>
+            ///     生成情報を保持しているかどうかを返す。
+            /// </summary>
+            /// <param name="key">キー名</param>
+            /// <param name="outputType">出力型</param>
+            /// <param name="inputType">初期化パラメータ型</param>
+            /// <returns>生成情報を保持している場合<see langword="true"/></returns>
+            public bool HasInfo(WodiLibContainerKeyName key, Type outputType, Type inputType)
+                => Impl.ContainsKey(key) && Impl[key].HasInfo(outputType, inputType);
+
+            /// <summary>
+            ///     キー名の情報が格納されているかどうかを返す。
+            /// </summary>
+            /// <param name="key">キー名</param>
+            /// <returns>情報が格納されている場合<see langword="true"/></returns>
+            public bool HasKey(WodiLibContainerKeyName key)
+                => Impl.ContainsKey(key);
+
+            /// <summary>
+            ///     指定したキー名のコンテナを除去する。
+            /// </summary>
+            /// <remarks>
+            ///     コンテナが存在しない場合は何も行わない。
+            /// </remarks>
+            /// <param name="key"></param>
+            public void Remove(WodiLibContainerKeyName key)
+            {
+                if (!HasKey(key))
+                {
+                    return;
+                }
+
+                Impl.Remove(key);
+            }
+
+            /// <summary>
+            ///     生成情報が登録されていれば解除する。
+            /// </summary>
+            /// <param name="key">コンテナキー名</param>
+            /// <param name="outputType">出力型</param>
+            /// <param name="inputType">初期化パラメータ型</param>
+            public void Unregister(WodiLibContainerKeyName key, Type outputType, Type inputType)
+            {
+                if (!HasKey(key))
+                {
+                    return;
+                }
+
+                if (!HasInfo(key, outputType, inputType))
+                {
+                    return;
+                }
+
+                Impl[key].Unregister(outputType, inputType);
+            }
+
+            /// <summary>
+            ///     キー名の情報が格納されていなければ作成する。
+            /// </summary>
+            /// <remarks>
+            ///     新規作成する場合、実装生成情報はデフォルトコンテナに登録された内容を引き継ぐ。
+            /// </remarks>
+            /// <param name="keyName">キー名</param>
+            public void CreateNewContainerIfNotHas(string keyName)
+            {
+                if (HasKey(keyName))
+                {
+                    return;
+                }
+
+                // デフォルトコンテナに登録されている情報を新規キー名のコンテナにコピーする
+                var defaultInfo = Impl[DefaultKeyName];
+                Impl[keyName] = defaultInfo.CloneInfoForNewContainer();
+            }
+
+            private Dictionary<WodiLibContainerKeyName, DictForOutputType> Impl { get; }
+
+            /// <summary>
+            ///     出力型毎のディクショナリ
+            /// </summary>
+            private class DictForOutputType
+            {
+                public CreateInfo this[Type outputType, Type inputType]
+                {
+                    get => Impl[outputType][inputType];
+                    set
+                    {
+                        var inner = Impl.GetOrCreate(outputType, () => new DictForInputType());
+                        inner[inputType] = value;
+                    }
+                }
+
+                /// <summary>
+                ///     生成情報を保持しているかどうかを返す。
+                /// </summary>
+                /// <param name="outputType">出力型</param>
+                /// <param name="inputType">入力型</param>
+                /// <returns>生成情報を保持している場合<see langword="true"/></returns>
+                public bool HasInfo(Type outputType, Type inputType)
+                    => Impl.ContainsKey(outputType) && Impl[outputType].HasInfo(inputType);
+
+
+                /// <summary>
+                ///     生成情報を解除する。
+                /// </summary>
+                /// <param name="outputType">出力型</param>
+                /// <param name="inputType">入力型</param>
+                public void Unregister(Type outputType, Type inputType)
+                    => Impl[outputType].Remove(inputType);
+
+                /// <summary>
+                ///     新規コンテナ用に情報をコピーしたインスタンスを取得する。
+                /// </summary>
+                /// <remarks>
+                ///     インスタンス生成用の情報のみコピーし、自身が作成したインスタンス情報は引き継がない。
+                /// </remarks>
+                /// <returns>新規インスタンス</returns>
+                public DictForOutputType CloneInfoForNewContainer()
+                {
+                    var newInstance = new DictForOutputType();
+
+                    foreach (var key in Impl.Keys)
+                    {
+                        newInstance.Impl[key] = Impl[key].CloneInfoForNewContainer();
+                    }
+
+                    return newInstance;
+                }
+
+                private Dictionary<Type, DictForInputType> Impl { get; } = new();
+
+                /// <summary>
+                ///     入力型毎のディクショナリ
+                /// </summary>
+                private class DictForInputType
+                {
+                    public CreateInfo this[Type type]
+                    {
+                        get => Impl[type];
+                        set => Impl[type] = value;
+                    }
+
+                    private Dictionary<Type, CreateInfo> Impl { get; } = new();
+
+                    /// <summary>
+                    ///     生成情報を保持しているかどうかを返す。
+                    /// </summary>
+                    /// <param name="type">入力型</param>
+                    /// <returns>生成情報を保持している場合<see langword="true"/></returns>
+                    public bool HasInfo(Type type)
+                        => Impl.ContainsKey(type);
+
+                    /// <summary>
+                    ///     指定した入力型の生成情報を削除する。
+                    /// </summary>
+                    /// <param name="type">入力型</param>
+                    public void Remove(Type type)
+                        => Impl.Remove(type);
+
+                    /// <summary>
+                    ///     新規コンテナ用に情報をコピーしたインスタンスを取得する。
+                    /// </summary>
+                    /// <remarks>
+                    ///     インスタンス生成用の情報のみコピーし、自身が作成したインスタンス情報は引き継がない。
+                    /// </remarks>
+                    /// <returns>新規インスタンス</returns>
+                    public DictForInputType CloneInfoForNewContainer()
+                    {
+                        var newInstance = new DictForInputType();
+
+                        foreach (var key in Impl.Keys)
+                        {
+                            newInstance[key] = Impl[key].CloneInfoForNewContainer();
+                        }
+
+                        return newInstance;
+                    }
+                }
+            }
+        }
+
+        /// <summary>ダミークラス</summary>
+        private class Void
+        {
         }
     }
 }

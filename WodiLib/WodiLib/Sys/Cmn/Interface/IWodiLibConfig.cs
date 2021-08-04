@@ -22,7 +22,7 @@ namespace WodiLib.Sys.Cmn
         /// <summary>
         ///     設定キー名
         /// </summary>
-        public string KeyName { get; }
+        public WodiLibContainerKeyName KeyName { get; }
 
         /// <summary>
         ///     新規作成した <see cref="IReadOnlyModelBase{T}"/> の
@@ -38,7 +38,7 @@ namespace WodiLib.Sys.Cmn
         ///     </para>
         /// </remarks>
         /// <exception cref="PropertyNullException">
-        /// <see langword="null"/> を設定しようとした場合。
+        ///     <see langword="null"/> を設定しようとした場合。
         /// </exception>
         public NotifyPropertyChangeEventType DefaultNotifyBeforePropertyChangeEventType { get; set; }
 
@@ -56,19 +56,18 @@ namespace WodiLib.Sys.Cmn
         ///     </para>
         /// </remarks>
         /// <exception cref="PropertyNullException">
-        /// <see langword="null"/> を設定しようとした場合。
+        ///     <see langword="null"/> を設定しようとした場合。
         /// </exception>
         public NotifyPropertyChangeEventType DefaultNotifyAfterPropertyChangeEventType { get; set; }
 
         /// <summary>
         ///     新規作成した <see cref="IReadOnlyExtendedList{T}"/> の
-        ///     <see cref="P:IReadOnlyExtendedList{T}.NotifyCollectionChangingEventType"/>、
+        ///     <see cref="IReadOnlyExtendedList{T}.NotifyCollectionChangingEventType"/>、
         ///     および <see cref="IRestrictedCapacityList{T}"/> の
-        ///     <see cref="P:IRestrictedCapacityList{T}.NotifyCollectionChangingEventType"/>、
+        ///     <see cref="IRestrictedCapacityList{T}.NotifyCollectionChangingEventType"/>、
         ///     および <see cref="IFixedLengthList{T}"/> の
-        ///     <see cref="P:IFixedLengthList{T}.NotifyCollectionChangingEventType"/>、
-        ///     および <see cref="IReadOnlyTwoDimensionalList{T}"/> の
-        ///     <see cref="P:IReadOnlyTwoDimensionalList{T}.NotifyCollectionChangingEventType"/> 初期化値
+        ///     <see cref="IFixedLengthList{T}.NotifyCollectionChangingEventType"/>、
+        ///     および各二次元リストの NotifyCollectionChangingEventType 初期化値
         /// </summary>
         /// <remarks>
         ///     <para>
@@ -80,19 +79,18 @@ namespace WodiLib.Sys.Cmn
         ///     </para>
         /// </remarks>
         /// <exception cref="PropertyNullException">
-        /// <see langword="null"/> を設定しようとした場合。
+        ///     <see langword="null"/> を設定しようとした場合。
         /// </exception>
         public NotifyCollectionChangeEventType DefaultNotifyBeforeCollectionChangeEventType { get; set; }
 
         /// <summary>
         ///     新規作成した <see cref="IReadOnlyExtendedList{T}"/> の
-        ///     <see cref="P:IReadOnlyExtendedList{T}.NotifyCollectionChangedEventType"/>、
+        ///     <see cref="IReadOnlyExtendedList{T}.NotifyCollectionChangedEventType"/>、
         ///     および <see cref="IRestrictedCapacityList{T}"/> の
-        ///     <see cref="P:IRestrictedCapacityList{T}.NotifyCollectionChangedEventType"/>、
+        ///     <see cref="IRestrictedCapacityList{T}.NotifyCollectionChangedEventType"/>、
         ///     および <see cref="IFixedLengthList{T}"/> の
-        ///     <see cref="P:IFixedLengthList{T}.NotifyCollectionChangedEventType"/>、
-        ///     および <see cref="IReadOnlyTwoDimensionalList{T}"/> の
-        ///     <see cref="P:IReadOnlyTwoDimensionalList{T}.NotifyCollectionChangedEventType"/> 初期化値
+        ///     <see cref="IFixedLengthList{T}.NotifyCollectionChangedEventType"/>、
+        ///     および各二次元リストの NotifyCollectionChangedEventType 初期化値
         /// </summary>
         /// <remarks>
         ///     <para>
@@ -104,13 +102,13 @@ namespace WodiLib.Sys.Cmn
         ///     </para>
         /// </remarks>
         /// <exception cref="PropertyNullException">
-        /// <see langword="null"/> を設定しようとした場合。
+        ///     <see langword="null"/> を設定しようとした場合。
         /// </exception>
         public NotifyCollectionChangeEventType DefaultNotifyAfterCollectionChangeEventType { get; set; }
 
         /// <summary>
         ///     新規作成した 二次元リスト の
-        ///     <see cref="INotifiableTwoDimensionalListChangeiableTwoDimensionalListChange{T,TArgs}.NotifyTwoDimensionalListChangingEventType"/> 初期化値
+        ///     NotifyTwoDimensionalListChangingEventType 初期化値
         /// </summary>
         /// <remarks>
         ///     <para>
@@ -118,7 +116,7 @@ namespace WodiLib.Sys.Cmn
         ///     </para>
         /// </remarks>
         /// <exception cref="PropertyNullException">
-        /// <see langword="null"/> を設定しようとした場合。
+        ///     <see langword="null"/> を設定しようとした場合。
         /// </exception>
         public NotifyTwoDimensionalListChangeEventType DefaultNotifyBeforeTwoDimensionalListChangeEventType
         {
@@ -128,7 +126,7 @@ namespace WodiLib.Sys.Cmn
 
         /// <summary>
         ///     新規作成した 二次元リスト の
-        ///     <see cref="INotifiableTwoDimensionalListChangeiableTwoDimensionalListChange{T,TArgs}.NotifyTwoDimensionalListChangedEventType"/> 初期化値
+        ///     NotifyTwoDimensionalListChangedEventType 初期化値
         /// </summary>
         /// <remarks>
         ///     <para>
@@ -136,7 +134,7 @@ namespace WodiLib.Sys.Cmn
         ///     </para>
         /// </remarks>
         /// <exception cref="PropertyNullException">
-        /// <see langword="null"/> を設定しようとした場合。
+        ///     <see langword="null"/> を設定しようとした場合。
         /// </exception>
         public NotifyTwoDimensionalListChangeEventType DefaultNotifyAfterTwoDimensionalListChangeEventType { get; set; }
     }

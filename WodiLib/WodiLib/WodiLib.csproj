@@ -4,9 +4,9 @@
         <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
         <Nullable>enable</Nullable>
         <PackageId>WodiLib</PackageId>
-        <PackageVersion>2.3.65534.24</PackageVersion>
+        <PackageVersion>2.3.65534.25</PackageVersion>
         <Copyright>Copyright 2019 kameske</Copyright>
-        <Version>2.3.65534.24</Version>
+        <Version>2.3.65534.25</Version>
         <PackageProjectUrl>https://github.com/kameske/WodiLib</PackageProjectUrl>
         <PackageLicenseUrl />
         <RepositoryUrl>https://github.com/kameske/WodiLib.git</RepositoryUrl>
@@ -15,7 +15,7 @@
         <Authors>Kameske</Authors>
         <RootNamespace>WodiLib</RootNamespace>
         <Product>WodiLib</Product>
-        <AssemblyVersion>2.3.65534.24</AssemblyVersion>
+        <AssemblyVersion>2.3.65534.25</AssemblyVersion>
         <AssemblyName>WodiLib</AssemblyName>
         <LangVersion>9</LangVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -29,6 +29,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+        <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
         <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.CSharp" Condition="'$(TargetFramework)' == 'net461'" />
     </ItemGroup>
 </Project>
