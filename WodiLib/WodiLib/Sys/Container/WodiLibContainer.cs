@@ -220,7 +220,7 @@ namespace WodiLib.Sys
         public static void Unregister<TOut, TParam>(WodiLibContainerKeyName? key = null)
             where TOut : IContainerCreatable<TParam>
             where TParam : IContainerCreatableParam
-            => UnregisterImpl<TOut, Void>(key ?? TargetKeyName);
+            => UnregisterImpl<TOut, TParam>(key ?? TargetKeyName);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Private Static Methods
