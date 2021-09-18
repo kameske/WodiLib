@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     変数操作＋・取得項目
     /// </summary>
-    public record NumberPlusCharaInfoType : TypeSafeEnum<NumberPlusCharaInfoType>
+    public class NumberPlusCharaInfoType : TypeSafeEnum<NumberPlusCharaInfoType>
     {
         /// <summary>X座標（標準）</summary>
         public static readonly NumberPlusCharaInfoType XPositionStandard;
@@ -71,13 +71,6 @@ namespace WodiLib.Event.EventCommand
         /// <summary>移動中？</summary>
         public static readonly NumberPlusCharaInfoType IsMoving;
 
-        /// <summary>値</summary>
-        public int Code { get; }
-
-        /// <summary>イベントコマンド文字列</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
-
         static NumberPlusCharaInfoType()
         {
             XPositionStandard = new NumberPlusCharaInfoType(nameof(XPositionStandard), 0,
@@ -125,6 +118,13 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public int Code { get; }
+
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -134,9 +134,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

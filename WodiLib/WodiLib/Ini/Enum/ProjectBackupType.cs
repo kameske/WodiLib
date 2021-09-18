@@ -15,7 +15,7 @@ namespace WodiLib.Ini
     /// <summary>
     ///     バックアップ種別
     /// </summary>
-    public record ProjectBackupType : TypeSafeEnum<ProjectBackupType>
+    public class ProjectBackupType : TypeSafeEnum<ProjectBackupType>
     {
         /// <summary>バックアップしない</summary>
         public static readonly ProjectBackupType None;
@@ -101,9 +101,5 @@ namespace WodiLib.Ini
             if (code is null || code.Equals(string.Empty)) return ThreeTimes;
             return FromCode(code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

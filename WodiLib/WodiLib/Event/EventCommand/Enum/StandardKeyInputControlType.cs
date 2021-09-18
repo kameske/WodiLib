@@ -14,7 +14,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     基本キー入力制御タイプ
     /// </summary>
-    public record StandardKeyInputControlType : TypeSafeEnum<StandardKeyInputControlType>
+    public class StandardKeyInputControlType : TypeSafeEnum<StandardKeyInputControlType>
     {
         /// <summary>移動○ / キー入力○</summary>
         public static readonly StandardKeyInputControlType OkMoveOkInput;
@@ -24,12 +24,6 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>移動× / キー入力×</summary>
         public static readonly StandardKeyInputControlType NgMoveNgInput;
-
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文字列</summary>
-        internal string EventCommandSentence { get; }
 
         static StandardKeyInputControlType()
         {
@@ -48,6 +42,12 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文字列</summary>
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -57,9 +57,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == src);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

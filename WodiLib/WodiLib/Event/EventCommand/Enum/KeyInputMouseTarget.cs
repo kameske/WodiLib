@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     キー入力（マウス）取得対象
     /// </summary>
-    public record KeyInputMouseTarget : TypeSafeEnum<KeyInputMouseTarget>
+    public class KeyInputMouseTarget : TypeSafeEnum<KeyInputMouseTarget>
     {
         /// <summary>クリック状態</summary>
         public static readonly KeyInputMouseTarget ClickState;
@@ -28,13 +28,6 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>ホイール回転量</summary>
         public static readonly KeyInputMouseTarget WheelDelta;
-
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
 
         static KeyInputMouseTarget()
         {
@@ -55,6 +48,13 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -64,9 +64,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

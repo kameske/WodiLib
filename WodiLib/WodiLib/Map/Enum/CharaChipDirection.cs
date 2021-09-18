@@ -14,7 +14,7 @@ namespace WodiLib.Map
     /// <summary>
     ///     キャラチップ向き
     /// </summary>
-    public record CharaChipDirection : TypeSafeEnum<CharaChipDirection>
+    public class CharaChipDirection : TypeSafeEnum<CharaChipDirection>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -56,7 +56,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コード値からインスタンスを返す。
+        ///     コード値からインスタンスを返す。
         /// </summary>
         /// <param name="code">コード値</param>
         /// <returns>インスタンス</returns>
@@ -85,9 +85,5 @@ namespace WodiLib.Map
         {
             Code = code;
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

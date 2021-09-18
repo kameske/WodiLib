@@ -14,7 +14,7 @@ namespace WodiLib.Event
     /// <summary>
     ///     ピクチャ表示形式
     /// </summary>
-    public record PictureDrawType : TypeSafeEnum<PictureDrawType>
+    public class PictureDrawType : TypeSafeEnum<PictureDrawType>
     {
         /// <summary>通常</summary>
         public static readonly PictureDrawType Normal;
@@ -62,9 +62,5 @@ namespace WodiLib.Event
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

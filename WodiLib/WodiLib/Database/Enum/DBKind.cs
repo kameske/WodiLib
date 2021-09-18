@@ -16,7 +16,7 @@ namespace WodiLib.Database
     /// <summary>
     /// DB種別
     /// </summary>
-    public record DBKind : TypeSafeEnum<DBKind>
+    public class DBKind : TypeSafeEnum<DBKind>
     {
         /// <summary>可変DB</summary>
         public static readonly DBKind Changeable;

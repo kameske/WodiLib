@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     変数操作＋：取得画像情報種別
     /// </summary>
-    public record NumberPlusPictureInfoType : TypeSafeEnum<NumberPlusPictureInfoType>
+    public class NumberPlusPictureInfoType : TypeSafeEnum<NumberPlusPictureInfoType>
     {
         /// <summary>X座標</summary>
         public static readonly NumberPlusPictureInfoType PositionX;
@@ -80,13 +80,6 @@ namespace WodiLib.Event.EventCommand
         /// <summary>自由変形右下Y座標</summary>
         public static readonly NumberPlusPictureInfoType FreeModeRightDownY;
 
-        /// <summary>値</summary>
-        public int Code { get; }
-
-        /// <summary>イベントコマンド文字列</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
-
         static NumberPlusPictureInfoType()
         {
             PositionX = new NumberPlusPictureInfoType(nameof(PositionX), 0,
@@ -140,6 +133,13 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public int Code { get; }
+
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -149,9 +149,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

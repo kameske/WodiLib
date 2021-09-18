@@ -14,7 +14,7 @@ namespace WodiLib.Common
     /// <summary>
     ///     コモンイベント起動条件
     /// </summary>
-    public record CommonEventBootType : TypeSafeEnum<CommonEventBootType>
+    public class CommonEventBootType : TypeSafeEnum<CommonEventBootType>
     {
         /// <summary>呼び出しのみ</summary>
         public static readonly CommonEventBootType OnlyCall;
@@ -53,9 +53,5 @@ namespace WodiLib.Common
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

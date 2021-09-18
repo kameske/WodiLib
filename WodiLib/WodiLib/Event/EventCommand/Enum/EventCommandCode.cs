@@ -14,7 +14,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     イベントコマンドコード
     /// </summary>
-    public record EventCommandCode : TypeSafeEnum<EventCommandCode>
+    public class EventCommandCode : TypeSafeEnum<EventCommandCode>
     {
         ///<summary>空白行</summary>
         public static readonly EventCommandCode Blank;
@@ -217,9 +217,6 @@ namespace WodiLib.Event.EventCommand
         ///<summary>仕様外共通コード</summary>
         public static readonly EventCommandCode Unknown;
 
-        /// <summary>値</summary>
-        public int Code { get; }
-
         static EventCommandCode()
         {
             Blank = new EventCommandCode(nameof(Blank), 0);
@@ -296,6 +293,9 @@ namespace WodiLib.Event.EventCommand
             Code = code;
         }
 
+        /// <summary>値</summary>
+        public int Code { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -305,9 +305,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

@@ -16,7 +16,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     キャラエフェクト種別
     /// </summary>
-    public record CharaEffectType : TypeSafeEnum<CharaEffectType>
+    public class CharaEffectType : TypeSafeEnum<CharaEffectType>
     {
         /// <summary>フラッシュ</summary>
         public static readonly CharaEffectType Flush;
@@ -29,12 +29,6 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>点滅（自動フラッシュ）</summary>
         public static readonly CharaEffectType AutoFlush;
-
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンドフォーマット</summary>
-        private string EventCommandSentenceFormat { get; }
 
         static CharaEffectType()
         {
@@ -54,6 +48,12 @@ namespace WodiLib.Event.EventCommand
             Code = code;
             EventCommandSentenceFormat = eventCommandSentenceFormat;
         }
+
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンドフォーマット</summary>
+        private string EventCommandSentenceFormat { get; }
 
         /// <summary>
         ///     イベントコマンド文文字列を取得する。
@@ -93,9 +93,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == src);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

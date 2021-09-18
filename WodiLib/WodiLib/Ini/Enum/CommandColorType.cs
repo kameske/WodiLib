@@ -15,7 +15,7 @@ namespace WodiLib.Ini
     /// <summary>
     ///     イベントコマンド配色
     /// </summary>
-    public record CommandColorType : TypeSafeEnum<CommandColorType>
+    public class CommandColorType : TypeSafeEnum<CommandColorType>
     {
         /// <summary>旧カラーセット（Ver2.00より前）</summary>
         public static readonly CommandColorType Old;
@@ -81,9 +81,5 @@ namespace WodiLib.Ini
             if (code is null || code.Equals(string.Empty)) return Type1;
             return FromCode(code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

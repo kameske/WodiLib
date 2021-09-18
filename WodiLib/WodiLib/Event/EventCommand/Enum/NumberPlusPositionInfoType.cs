@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     変数操作＋（座標）・取得情報種別
     /// </summary>
-    public record NumberPlusPositionInfoType : TypeSafeEnum<NumberPlusPositionInfoType>
+    public class NumberPlusPositionInfoType : TypeSafeEnum<NumberPlusPositionInfoType>
     {
         /// <summary>イベントID</summary>
         public static readonly NumberPlusPositionInfoType EventId;
@@ -50,13 +50,6 @@ namespace WodiLib.Event.EventCommand
         /// <summary>レイヤー3のタグ番号</summary>
         public static readonly NumberPlusPositionInfoType Layer3TileTag;
 
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文字列</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
-
         static NumberPlusPositionInfoType()
         {
             EventId = new NumberPlusPositionInfoType(nameof(EventId), 0x01,
@@ -90,6 +83,13 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -99,9 +99,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

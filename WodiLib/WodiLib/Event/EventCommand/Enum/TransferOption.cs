@@ -14,7 +14,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     トランジションオプション
     /// </summary>
-    public record TransferOption : TypeSafeEnum<TransferOption>
+    public class TransferOption : TypeSafeEnum<TransferOption>
     {
         /// <summary>トランジションなし</summary>
         public static readonly TransferOption NoTransition;
@@ -24,12 +24,6 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>トランジションを行う（暗転あり）</summary>
         public static readonly TransferOption NoTransitionFade;
-
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文字列</summary>
-        internal string EventCommandSentence { get; }
 
         static TransferOption()
         {
@@ -48,6 +42,12 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文字列</summary>
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -57,9 +57,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

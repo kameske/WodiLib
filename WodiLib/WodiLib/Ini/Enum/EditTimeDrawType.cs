@@ -15,7 +15,7 @@ namespace WodiLib.Ini
     /// <summary>
     ///     編集時間表示種別
     /// </summary>
-    public record EditTimeDrawType : TypeSafeEnum<EditTimeDrawType>
+    public class EditTimeDrawType : TypeSafeEnum<EditTimeDrawType>
     {
         /// <summary>OFF</summary>
         public static readonly EditTimeDrawType Off;
@@ -77,9 +77,5 @@ namespace WodiLib.Ini
             if (code is null || code.Equals(string.Empty)) return On;
             return FromCode(code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

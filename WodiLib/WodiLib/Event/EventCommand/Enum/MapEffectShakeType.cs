@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     マップエフェクト・揺れ種別
     /// </summary>
-    public record MapEffectShakeType : TypeSafeEnum<MapEffectShakeType>
+    public class MapEffectShakeType : TypeSafeEnum<MapEffectShakeType>
     {
         /// <summary>縦揺れ</summary>
         public static readonly MapEffectShakeType Vertical;
@@ -25,13 +25,6 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>揺れ停止</summary>
         public static readonly MapEffectShakeType Stop;
-
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
 
         static MapEffectShakeType()
         {
@@ -50,6 +43,13 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -59,9 +59,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

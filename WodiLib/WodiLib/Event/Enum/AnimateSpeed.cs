@@ -14,7 +14,7 @@ namespace WodiLib.Event
     /// <summary>
     ///     アニメ頻度
     /// </summary>
-    public record AnimateSpeed : TypeSafeEnum<AnimateSpeed>
+    public class AnimateSpeed : TypeSafeEnum<AnimateSpeed>
     {
         /// <summary>0:毎フレーム</summary>
         public static readonly AnimateSpeed Frame;
@@ -69,9 +69,5 @@ namespace WodiLib.Event
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

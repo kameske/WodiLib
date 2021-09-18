@@ -14,7 +14,7 @@ namespace WodiLib.Event
     /// <summary>
     ///     移動速度
     /// </summary>
-    public record MoveSpeed : TypeSafeEnum<MoveSpeed>
+    public class MoveSpeed : TypeSafeEnum<MoveSpeed>
     {
         /// <summary>0:最遅</summary>
         public static readonly MoveSpeed Slowest;
@@ -69,9 +69,5 @@ namespace WodiLib.Event
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

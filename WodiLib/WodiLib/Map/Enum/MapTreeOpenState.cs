@@ -14,7 +14,7 @@ namespace WodiLib.Map
     /// <summary>
     ///     マップツリー開閉状態
     /// </summary>
-    public record MapTreeOpenState : TypeSafeEnum<MapTreeOpenState>
+    public class MapTreeOpenState : TypeSafeEnum<MapTreeOpenState>
     {
         /// <summary>開いている</summary>
         public static readonly MapTreeOpenState Open;
@@ -45,9 +45,5 @@ namespace WodiLib.Map
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

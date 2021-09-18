@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     計算演算子
     /// </summary>
-    public record CalculateOperator : TypeSafeEnum<CalculateOperator>
+    public class CalculateOperator : TypeSafeEnum<CalculateOperator>
     {
         /// <summary>+</summary>
         public static readonly CalculateOperator Addition;
@@ -85,9 +85,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

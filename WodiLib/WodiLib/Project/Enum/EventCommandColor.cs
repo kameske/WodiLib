@@ -14,7 +14,7 @@ namespace WodiLib.Project
     /// <summary>
     ///     イベントコマンド色
     /// </summary>
-    public record EventCommandColor : TypeSafeEnum<EventCommandColor>
+    public class EventCommandColor : TypeSafeEnum<EventCommandColor>
     {
         /// <summary>黒</summary>
         public static readonly EventCommandColor Black;
@@ -167,9 +167,5 @@ namespace WodiLib.Project
         {
             Color = color;
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

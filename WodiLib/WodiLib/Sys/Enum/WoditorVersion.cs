@@ -14,7 +14,7 @@ namespace WodiLib.Sys
     /// <summary>
     ///     ウディタバージョン列挙
     /// </summary>
-    public record WoditorVersion : TypeSafeEnum<WoditorVersion>
+    public class WoditorVersion : TypeSafeEnum<WoditorVersion>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -225,9 +225,5 @@ namespace WodiLib.Sys
             // 通常ここには来ない
             throw new InvalidOperationException();
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

@@ -14,7 +14,7 @@ namespace WodiLib.Common
     /// <summary>
     ///     コモンイベントラベル色
     /// </summary>
-    public record CommonEventLabelColor : TypeSafeEnum<CommonEventLabelColor>
+    public class CommonEventLabelColor : TypeSafeEnum<CommonEventLabelColor>
     {
         /// <summary>黒</summary>
         public static readonly CommonEventLabelColor Black;
@@ -65,9 +65,5 @@ namespace WodiLib.Common
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

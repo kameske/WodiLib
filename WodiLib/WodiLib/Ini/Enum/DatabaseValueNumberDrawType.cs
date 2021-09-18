@@ -15,7 +15,7 @@ namespace WodiLib.Ini
     /// <summary>
     ///     データの設定方法種別
     /// </summary>
-    public record DatabaseValueNumberDrawType : TypeSafeEnum<DatabaseValueNumberDrawType>
+    public class DatabaseValueNumberDrawType : TypeSafeEnum<DatabaseValueNumberDrawType>
     {
         /// <summary>手動で設定</summary>
         public static readonly DatabaseValueNumberDrawType Off;
@@ -77,9 +77,5 @@ namespace WodiLib.Ini
             if (code is null || code.Equals(string.Empty)) return Off;
             return FromCode(code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

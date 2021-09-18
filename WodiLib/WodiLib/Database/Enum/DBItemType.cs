@@ -15,7 +15,7 @@ namespace WodiLib.Database
     /// <summary>
     /// 項目の設定方法種別
     /// </summary>
-    public record DBItemType : TypeSafeEnum<DBItemType>
+    public class DBItemType : TypeSafeEnum<DBItemType>
     {
         /// <summary>数値</summary>
         public static readonly DBItemType Int;

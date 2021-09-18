@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     変数操作＋（その他）・取得情報種別
     /// </summary>
-    public record NumberPlusEtcInfoType : TypeSafeEnum<NumberPlusEtcInfoType>
+    public class NumberPlusEtcInfoType : TypeSafeEnum<NumberPlusEtcInfoType>
     {
         /// <summary>現在のマップID</summary>
         public static readonly NumberPlusEtcInfoType CurrentMapId;
@@ -83,19 +83,6 @@ namespace WodiLib.Event.EventCommand
         /// <summary>処理中のEv行数</summary>
         public static readonly NumberPlusEtcInfoType ActiveEventLine;
 
-        /// <summary>消費メモリ量[MB]</summary>
-        public static readonly NumberPlusEtcInfoType ConsumedMemory;
-
-        /// <summary>残り物理メモリ量[MB]</summary>
-        public static readonly NumberPlusEtcInfoType RemainingPhysicalMemory;
-
-        /// <summary>値</summary>
-        public int Code { get; }
-
-        /// <summary>イベントコマンド文字列</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
-
         static NumberPlusEtcInfoType()
         {
             CurrentMapId = new NumberPlusEtcInfoType(nameof(CurrentMapId), 0,
@@ -142,10 +129,6 @@ namespace WodiLib.Event.EventCommand
                 "処理中の自動/接触/決定ｷｰEv番号[ｺﾓﾝなら+500000]");
             ActiveEventLine = new NumberPlusEtcInfoType(nameof(ActiveEventLine), 19,
                 "処理中のEv行数 [自動/接触/決定キー起動Ev]");
-            ConsumedMemory = new NumberPlusEtcInfoType(nameof(ConsumedMemory), 22,
-                "消費メモリ[MB]");
-            RemainingPhysicalMemory = new NumberPlusEtcInfoType(nameof(RemainingPhysicalMemory), 23,
-                "残り物理メモリ[MB]");
         }
 
         private NumberPlusEtcInfoType(string id, int code,
@@ -154,6 +137,13 @@ namespace WodiLib.Event.EventCommand
             Code = code;
             EventCommandSentence = eventCommandSentence;
         }
+
+        /// <summary>値</summary>
+        public int Code { get; }
+
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
 
         /// <summary>
         ///     バイト値からインスタンスを取得する。
@@ -164,9 +154,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

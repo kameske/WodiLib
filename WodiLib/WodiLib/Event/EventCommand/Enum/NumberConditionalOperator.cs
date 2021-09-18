@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     条件（変数） 条件演算子
     /// </summary>
-    public record NumberConditionalOperator : TypeSafeEnum<NumberConditionalOperator>
+    public class NumberConditionalOperator : TypeSafeEnum<NumberConditionalOperator>
     {
         /// <summary>より大きい</summary>
         public static readonly NumberConditionalOperator Above;
@@ -37,13 +37,6 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>ビットを満たす</summary>
         public static readonly NumberConditionalOperator BitAnd;
-
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
 
         static NumberConditionalOperator()
         {
@@ -70,6 +63,13 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -79,9 +79,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == src);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

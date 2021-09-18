@@ -15,7 +15,7 @@ namespace WodiLib.Ini
     /// <summary>
     ///     マップ編集時の下レイヤーの暗さ種別
     /// </summary>
-    public record EventLayerOpacityType : TypeSafeEnum<EventLayerOpacityType>
+    public class EventLayerOpacityType : TypeSafeEnum<EventLayerOpacityType>
     {
         /// <summary>100%</summary>
         public static readonly EventLayerOpacityType Completely;
@@ -89,9 +89,5 @@ namespace WodiLib.Ini
             if (code is null || code.Equals(string.Empty)) return Quoter;
             return FromCode(code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

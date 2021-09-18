@@ -14,7 +14,7 @@ namespace WodiLib.Map
     /// <summary>
     ///     マップイベント起動条件
     /// </summary>
-    public record MapEventBootType : TypeSafeEnum<MapEventBootType>
+    public class MapEventBootType : TypeSafeEnum<MapEventBootType>
     {
         /// <summary>決定キー</summary>
         public static readonly MapEventBootType PushOKKey;
@@ -61,9 +61,5 @@ namespace WodiLib.Map
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

@@ -11,7 +11,7 @@ namespace WodiLib.Sys.Collections
     /// <summary>
     ///     方向
     /// </summary>
-    public record Direction : TypeSafeEnum<Direction>
+    public class Direction : TypeSafeEnum<Direction>
     {
         /// <summary>行</summary>
         public static Direction Row { get; }
@@ -32,9 +32,5 @@ namespace WodiLib.Sys.Collections
         private Direction(string id) : base(id)
         {
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

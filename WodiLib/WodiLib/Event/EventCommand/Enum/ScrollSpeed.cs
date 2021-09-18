@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     画面スクロールスピード
     /// </summary>
-    public record ScrollSpeed : TypeSafeEnum<ScrollSpeed>
+    public class ScrollSpeed : TypeSafeEnum<ScrollSpeed>
     {
         /// <summary>1/8倍速</summary>
         public static readonly ScrollSpeed Speed1of8;
@@ -50,13 +50,6 @@ namespace WodiLib.Event.EventCommand
         /// <summary>瞬間</summary>
         public static readonly ScrollSpeed Instant;
 
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文字列</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
-
         static ScrollSpeed()
         {
             Speed1of8 = new ScrollSpeed(nameof(Speed1of8), 0x00,
@@ -90,6 +83,13 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -99,9 +99,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

@@ -15,7 +15,7 @@ namespace WodiLib.Database
     /// <summary>
     /// DB項目特殊指定「DB参照」の参照先
     /// </summary>
-    public record DBReferType : TypeSafeEnum<DBReferType>
+    public class DBReferType : TypeSafeEnum<DBReferType>
     {
         /// <summary>可変DB</summary>
         public static readonly DBReferType Changeable;

@@ -14,7 +14,7 @@ namespace WodiLib.Event
     /// <summary>
     ///     移動タイプ
     /// </summary>
-    public record MoveType : TypeSafeEnum<MoveType>
+    public class MoveType : TypeSafeEnum<MoveType>
     {
         /// <summary>動かない</summary>
         public static readonly MoveType Not;
@@ -53,9 +53,5 @@ namespace WodiLib.Event
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

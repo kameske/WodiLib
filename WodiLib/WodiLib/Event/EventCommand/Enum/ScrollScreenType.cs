@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     画面スクロール種別
     /// </summary>
-    public record ScrollScreenType : TypeSafeEnum<ScrollScreenType>
+    public class ScrollScreenType : TypeSafeEnum<ScrollScreenType>
     {
         /// <summary>画面移動</summary>
         public static readonly ScrollScreenType MoveScreen;
@@ -28,19 +28,6 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>スクロールロック解除</summary>
         public static readonly ScrollScreenType UnlockScroll;
-
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
-
-        /// <summary>スクロール固定タイプフラグ</summary>
-        public bool IsLockType { get; }
-
-        /// <summary>スクロール移動タイプフラグ</summary>
-        public bool IsMoveType { get; }
 
         static ScrollScreenType()
         {
@@ -63,6 +50,19 @@ namespace WodiLib.Event.EventCommand
             IsMoveType = isMoveType;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
+        /// <summary>スクロール固定タイプフラグ</summary>
+        public bool IsLockType { get; }
+
+        /// <summary>スクロール移動タイプフラグ</summary>
+        public bool IsMoveType { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -72,9 +72,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

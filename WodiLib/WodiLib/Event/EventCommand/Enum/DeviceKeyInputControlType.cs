@@ -15,20 +15,13 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     キー入力コントロール
     /// </summary>
-    public record DeviceKeyInputControlType : TypeSafeEnum<DeviceKeyInputControlType>
+    public class DeviceKeyInputControlType : TypeSafeEnum<DeviceKeyInputControlType>
     {
         /// <summary>許可する</summary>
         public static readonly DeviceKeyInputControlType Allow;
 
         /// <summary>禁止する</summary>
         public static readonly DeviceKeyInputControlType Deny;
-
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
 
         static DeviceKeyInputControlType()
         {
@@ -45,6 +38,13 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -54,9 +54,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

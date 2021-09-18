@@ -14,7 +14,7 @@ namespace WodiLib.Map
     /// <summary>
     ///     オートタイルパーツ種別
     /// </summary>
-    public record AutoTilePartType : TypeSafeEnum<AutoTilePartType>
+    public class AutoTilePartType : TypeSafeEnum<AutoTilePartType>
     {
         /// <summary>中央への接続</summary>
         public static readonly AutoTilePartType ConnectionCentral;
@@ -57,9 +57,5 @@ namespace WodiLib.Map
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

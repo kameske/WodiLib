@@ -15,20 +15,13 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     DB文字列代入演算子
     /// </summary>
-    public record DBStringAssignmentOperator : TypeSafeEnum<DBStringAssignmentOperator>
+    public class DBStringAssignmentOperator : TypeSafeEnum<DBStringAssignmentOperator>
     {
         /// <summary>=</summary>
         public static readonly DBStringAssignmentOperator Assign;
 
         /// <summary>+=</summary>
         public static readonly DBStringAssignmentOperator Addition;
-
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文字列</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
 
         static DBStringAssignmentOperator()
         {
@@ -45,6 +38,13 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -54,9 +54,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

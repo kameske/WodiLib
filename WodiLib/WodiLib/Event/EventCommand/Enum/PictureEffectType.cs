@@ -16,7 +16,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     ピクチャエフェクト種別
     /// </summary>
-    public record PictureEffectType : TypeSafeEnum<PictureEffectType>
+    public class PictureEffectType : TypeSafeEnum<PictureEffectType>
     {
         /// <summary>フラッシュ</summary>
         public static readonly PictureEffectType Flush;
@@ -50,16 +50,6 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>パターン切り替え（往復）</summary>
         public static readonly PictureEffectType AutoPatternSwitchRoundTrip;
-
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文フォーマット</summary>
-        private string EventCommandSentenceFormat { get; }
-
-        /// <summary>イベントコマンド文処理時間名</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentenceProcessTimeName { get; }
 
         static PictureEffectType()
         {
@@ -96,6 +86,16 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentenceProcessTimeName = eventCommandSentenceProcessTimeName;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文フォーマット</summary>
+        private string EventCommandSentenceFormat { get; }
+
+        /// <summary>イベントコマンド文処理時間名</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentenceProcessTimeName { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -127,9 +127,5 @@ namespace WodiLib.Event.EventCommand
             return string.Format(EventCommandSentenceFormat,
                 value1Name, value2Name, value3Name);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

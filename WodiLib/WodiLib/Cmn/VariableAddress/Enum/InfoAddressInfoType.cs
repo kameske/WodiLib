@@ -15,9 +15,9 @@ using WodiLib.Sys;
 namespace WodiLib.Cmn
 {
     /// <summary>
-    /// 各情報アドレス情報種別
+    ///     各情報アドレス情報種別
     /// </summary>
-    public record InfoAddressInfoType : TypeSafeEnum<InfoAddressInfoType>
+    public class InfoAddressInfoType : TypeSafeEnum<InfoAddressInfoType>
     {
         /// <summary>X座標</summary>
         public static readonly InfoAddressInfoType PositionX;
@@ -82,7 +82,7 @@ namespace WodiLib.Cmn
         private string EventCommandStringFormat { get; }
 
         /// <summary>
-        /// イベントコマンド文用文字列を生成する。（マップイベント）
+        ///     イベントコマンド文用文字列を生成する。（マップイベント）
         /// </summary>
         /// <param name="mapEventId">マップイベントID</param>
         /// <returns>イベントコマンド文字列</returns>
@@ -93,7 +93,7 @@ namespace WodiLib.Cmn
         }
 
         /// <summary>
-        /// イベントコマンド文用文字列を生成する。（主人公情報）
+        ///     イベントコマンド文用文字列を生成する。（主人公情報）
         /// </summary>
         /// <returns>イベントコマンド文字列</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -103,7 +103,7 @@ namespace WodiLib.Cmn
         }
 
         /// <summary>
-        /// イベントコマンド文用文字列を生成する。（仲間情報）
+        ///     イベントコマンド文用文字列を生成する。（仲間情報）
         /// </summary>
         /// <param name="memberId">仲間ID</param>
         /// <returns>イベントコマンド文字列</returns>
@@ -114,7 +114,7 @@ namespace WodiLib.Cmn
         }
 
         /// <summary>
-        /// イベントコマンド文用文字列を生成する。（このマップイベント情報）
+        ///     イベントコマンド文用文字列を生成する。（このマップイベント情報）
         /// </summary>
         /// <returns>イベントコマンド文字列</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -123,13 +123,13 @@ namespace WodiLib.Cmn
             return string.Format(EventCommandStringFormat, "このEv");
         }
 
-        private static readonly List<int> EmptyCodeList = new List<int>
+        private static readonly List<int> EmptyCodeList = new()
         {
             7, 8
         };
 
         /// <summary>
-        /// コード値からインスタンスを取得する。
+        ///     コード値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">コード値</param>
         /// <returns>インスタンス</returns>
@@ -140,9 +140,5 @@ namespace WodiLib.Cmn
 
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

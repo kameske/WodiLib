@@ -14,7 +14,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     拡大率種別
     /// </summary>
-    public record ZoomRateType : TypeSafeEnum<ZoomRateType>
+    public class ZoomRateType : TypeSafeEnum<ZoomRateType>
     {
         /// <summary>通常</summary>
         public static readonly ZoomRateType Normal;
@@ -31,9 +31,6 @@ namespace WodiLib.Event.EventCommand
         /// <summary>同値</summary>
         public static readonly ZoomRateType Same;
 
-        /// <summary>値</summary>
-        public byte Code { get; }
-
         static ZoomRateType()
         {
             Normal = new ZoomRateType(nameof(Normal), 0x00);
@@ -48,6 +45,9 @@ namespace WodiLib.Event.EventCommand
             Code = code;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -57,9 +57,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

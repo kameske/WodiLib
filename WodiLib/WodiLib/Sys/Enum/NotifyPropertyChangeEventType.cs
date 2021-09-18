@@ -13,7 +13,7 @@ namespace WodiLib.Sys
     /// <summary>
     ///     プロパティ変更通知種別
     /// </summary>
-    public record NotifyPropertyChangeEventType : TypeSafeEnum<NotifyPropertyChangeEventType>
+    public class NotifyPropertyChangeEventType : TypeSafeEnum<NotifyPropertyChangeEventType>
     {
         /// <summary>
         ///     有効
@@ -63,9 +63,5 @@ namespace WodiLib.Sys
         {
             IsNotify = isNotify;
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

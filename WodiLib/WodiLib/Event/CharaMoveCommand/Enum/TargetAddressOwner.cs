@@ -16,7 +16,7 @@ namespace WodiLib.Event.CharaMoveCommand
     /// <summary>
     /// キャラ動作指定コマンド保有クラス種別
     /// </summary>
-    internal record TargetAddressOwner : TypeSafeEnum<TargetAddressOwner>
+    internal class TargetAddressOwner : TypeSafeEnum<TargetAddressOwner>
     {
         /// <summary>マップイベント</summary>
         internal static readonly TargetAddressOwner MapEvent;
@@ -66,9 +66,5 @@ namespace WodiLib.Event.CharaMoveCommand
         {
             return AllItems.First(x => x.Id.Equals(id));
         }
-
-        /// <inheritdoc />
-        public override string ToString()
-            => base.ToString();
     }
 }

@@ -14,7 +14,7 @@ namespace WodiLib.Map
     /// <summary>
     ///     タイル通行設定オプション
     /// </summary>
-    public record TilePathOption : TypeSafeEnum<TilePathOption>
+    public class TilePathOption : TypeSafeEnum<TilePathOption>
     {
         /// <summary>キャラより上</summary>
         public static readonly TilePathOption AboveCharacter;
@@ -56,9 +56,5 @@ namespace WodiLib.Map
 
             return AllItems.First(x => x.Code == 0);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

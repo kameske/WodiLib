@@ -9,9 +9,9 @@
 namespace WodiLib.Sys.Collections
 {
     /// <summary>
-    ///    二次元リスト変更通知時の要素グルーピング種別
+    ///     二次元リスト変更通知時の要素グルーピング種別
     /// </summary>
-    public record
+    public class
         NotifyTwoDimensionalListChangeEventGroupingType : TypeSafeEnum<NotifyTwoDimensionalListChangeEventGroupingType>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -67,11 +67,11 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 通知方向
+        ///     通知方向
         /// </summary>
         /// <remarks>
-        /// 通知方向が処理依存の場合 <see langword="null"/> が格納される。
-        /// 一つの通知引数に単一要素を格納する場合、 <see cref="WodiLib.Sys.Collections.Direction.None"/> が格納される。
+        ///     通知方向が処理依存の場合 <see langword="null"/> が格納される。
+        ///     一つの通知引数に単一要素を格納する場合、 <see cref="WodiLib.Sys.Collections.Direction.None"/> が格納される。
         /// </remarks>
         public Direction? Direction { get; }
 
@@ -83,15 +83,5 @@ namespace WodiLib.Sys.Collections
         {
             Direction = direction;
         }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Public Methods
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        // ______________________ To ______________________
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

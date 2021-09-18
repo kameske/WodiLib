@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     パーティ画像（特殊処理）種類
     /// </summary>
-    public record PartyGraphicSpecialType : TypeSafeEnum<PartyGraphicSpecialType>
+    public class PartyGraphicSpecialType : TypeSafeEnum<PartyGraphicSpecialType>
     {
         /// <summary>キャラクターを前に詰める</summary>
         public static readonly PartyGraphicSpecialType PushCharactersFront;
@@ -50,13 +50,6 @@ namespace WodiLib.Event.EventCommand
         /// <summary>パーティの隊列を解除する</summary>
         public static readonly PartyGraphicSpecialType TurnPartyFollowingOff;
 
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
-
         static PartyGraphicSpecialType()
         {
             PushCharactersFront = new PartyGraphicSpecialType(nameof(PushCharactersFront),
@@ -90,6 +83,13 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -99,9 +99,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

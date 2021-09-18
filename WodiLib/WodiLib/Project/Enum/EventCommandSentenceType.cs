@@ -15,7 +15,7 @@ namespace WodiLib.Project
     ///     イベントコマンド文種別
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public record EventCommandSentenceType : TypeSafeEnum<EventCommandSentenceType>
+    public class EventCommandSentenceType : TypeSafeEnum<EventCommandSentenceType>
     {
         /// <summary>マップイベント</summary>
         public static readonly EventCommandSentenceType Map;
@@ -32,9 +32,5 @@ namespace WodiLib.Project
         private EventCommandSentenceType(string id) : base(id)
         {
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

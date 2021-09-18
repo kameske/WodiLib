@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     ピクチャ表示位置
     /// </summary>
-    public record PictureAnchorPosition : TypeSafeEnum<PictureAnchorPosition>
+    public class PictureAnchorPosition : TypeSafeEnum<PictureAnchorPosition>
     {
         /// <summary>左上</summary>
         public static readonly PictureAnchorPosition LeftUp;
@@ -31,13 +31,6 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>右下</summary>
         public static readonly PictureAnchorPosition RightDown;
-
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文字列</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
 
         static PictureAnchorPosition()
         {
@@ -60,6 +53,13 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -69,9 +69,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

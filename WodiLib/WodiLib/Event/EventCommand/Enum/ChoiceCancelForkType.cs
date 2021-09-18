@@ -14,7 +14,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     選択肢キャンセル分岐先
     /// </summary>
-    public record ChoiceCancelForkType : TypeSafeEnum<ChoiceCancelForkType>
+    public class ChoiceCancelForkType : TypeSafeEnum<ChoiceCancelForkType>
     {
         /// <summary>選択肢1</summary>
         public static readonly ChoiceCancelForkType Case1;
@@ -68,13 +68,13 @@ namespace WodiLib.Event.EventCommand
             Cannot = new ChoiceCancelForkType(nameof(Cannot), 0x10);
         }
 
-        /// <summary>値</summary>
-        public byte Code { get; }
-
         private ChoiceCancelForkType(string id, byte code) : base(id)
         {
             Code = code;
         }
+
+        /// <summary>値</summary>
+        public byte Code { get; }
 
         /// <summary>
         ///     バイト値からインスタンスを取得する。
@@ -85,9 +85,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

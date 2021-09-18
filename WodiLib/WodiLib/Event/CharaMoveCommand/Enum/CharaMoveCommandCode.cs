@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Event.CharaMoveCommand
 {
     /// <summary>
-    /// 動作指定コマンドコード
+    ///     動作指定コマンドコード
     /// </summary>
-    public record CharaMoveCommandCode : TypeSafeEnum<CharaMoveCommandCode>
+    public class CharaMoveCommandCode : TypeSafeEnum<CharaMoveCommandCode>
     {
         /// <summary>下に移動 </summary>
         public static readonly CharaMoveCommandCode MoveDown;
@@ -257,7 +257,7 @@ namespace WodiLib.Event.CharaMoveCommand
         }
 
         /// <summary>
-        /// バイト値からインスタンスを取得する。
+        ///     バイト値からインスタンスを取得する。
         /// </summary>
         /// <param name="code">バイト値</param>
         /// <returns>インスタンス</returns>
@@ -265,9 +265,5 @@ namespace WodiLib.Event.CharaMoveCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc />
-        public override string ToString()
-            => base.ToString();
     }
 }

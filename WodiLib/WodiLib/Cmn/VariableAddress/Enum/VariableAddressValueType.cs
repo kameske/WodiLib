@@ -12,9 +12,9 @@ using WodiLib.Sys;
 namespace WodiLib.Cmn
 {
     /// <summary>
-    /// 各情報アドレス情報種別
+    ///     各情報アドレス情報種別
     /// </summary>
-    public record VariableAddressValueType : TypeSafeEnum<VariableAddressValueType>
+    public class VariableAddressValueType : TypeSafeEnum<VariableAddressValueType>
     {
         /// <summary>数値</summary>
         public static readonly VariableAddressValueType Numeric;
@@ -47,7 +47,7 @@ namespace WodiLib.Cmn
         public string EventCommandStringErrorFormat { get; }
 
         /// <summary>
-        /// エラー時のイベントコマンド文用文字列を生成する。
+        ///     エラー時のイベントコマンド文用文字列を生成する。
         /// </summary>
         /// <param name="value">値</param>
         /// <returns>イベントコマンド文字列</returns>
@@ -58,7 +58,7 @@ namespace WodiLib.Cmn
         }
 
         /// <summary>
-        /// 自身のタイプ種別に指定したタイプ種別が適合するか判定する。
+        ///     自身のタイプ種別に指定したタイプ種別が適合するか判定する。
         /// </summary>
         /// <param name="target">判定対象</param>
         /// <returns>targetがnullの場合false、適合する場合true。</returns>
@@ -72,9 +72,5 @@ namespace WodiLib.Cmn
             if (target is null) return false;
             return (TypeFlag & target.TypeFlag) != 0;
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

@@ -15,7 +15,7 @@ namespace WodiLib.Map
     /// <summary>
     ///     タイル通行許可
     /// </summary>
-    public record TilePathPermission : TypeSafeEnum<TilePathPermission>
+    public class TilePathPermission : TypeSafeEnum<TilePathPermission>
     {
         /// <summary>通行可</summary>
         public static readonly TilePathPermission Allow;
@@ -92,15 +92,11 @@ namespace WodiLib.Map
             return AllItems.First(x => x.Code == 0);
         }
 
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
-
         internal enum InnerFlagGroup
         {
             Impassible,
             CannotPassing,
-            Not,
+            Not
         }
     }
 }

@@ -14,7 +14,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     音声タイプ
     /// </summary>
-    public record AudioType : TypeSafeEnum<AudioType>
+    public class AudioType : TypeSafeEnum<AudioType>
     {
         /// <summary>BGM</summary>
         public static readonly AudioType Bgm;
@@ -66,9 +66,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

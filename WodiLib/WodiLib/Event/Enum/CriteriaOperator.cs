@@ -14,7 +14,7 @@ namespace WodiLib.Event
     /// <summary>
     ///     条件演算子
     /// </summary>
-    public record CriteriaOperator : TypeSafeEnum<CriteriaOperator>
+    public class CriteriaOperator : TypeSafeEnum<CriteriaOperator>
     {
         /// <summary>より大きい</summary>
         public static readonly CriteriaOperator Above;
@@ -69,9 +69,5 @@ namespace WodiLib.Event
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

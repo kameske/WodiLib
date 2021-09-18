@@ -14,16 +14,13 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     CSV読み書きモード
     /// </summary>
-    public record CsvIOMode : TypeSafeEnum<CsvIOMode>
+    public class CsvIOMode : TypeSafeEnum<CsvIOMode>
     {
         /// <summary>読み込み</summary>
         public static readonly CsvIOMode Input;
 
         /// <summary>書き出し</summary>
         public static readonly CsvIOMode Output;
-
-        /// <summary>値</summary>
-        public byte Code { get; }
 
         static CsvIOMode()
         {
@@ -36,6 +33,9 @@ namespace WodiLib.Event.EventCommand
             Code = code;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -45,9 +45,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

@@ -14,7 +14,7 @@ namespace WodiLib.Event
     /// <summary>
     ///     移動頻度
     /// </summary>
-    public record MoveFrequency : TypeSafeEnum<MoveFrequency>
+    public class MoveFrequency : TypeSafeEnum<MoveFrequency>
     {
         /// <summary>0:毎フレーム</summary>
         public static readonly MoveFrequency Frame;
@@ -65,9 +65,5 @@ namespace WodiLib.Event
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

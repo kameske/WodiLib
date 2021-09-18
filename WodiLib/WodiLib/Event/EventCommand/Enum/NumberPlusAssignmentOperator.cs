@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     変数操作＋ 代入演算子
     /// </summary>
-    public record NumberPlusAssignmentOperator : TypeSafeEnum<NumberPlusAssignmentOperator>
+    public class NumberPlusAssignmentOperator : TypeSafeEnum<NumberPlusAssignmentOperator>
     {
         /// <summary>=</summary>
         public static readonly NumberPlusAssignmentOperator Assign;
@@ -43,13 +43,6 @@ namespace WodiLib.Event.EventCommand
 
         /// <summary>絶対値</summary>
         public static readonly NumberPlusAssignmentOperator Absolute;
-
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文字列</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
 
         static NumberPlusAssignmentOperator()
         {
@@ -80,6 +73,13 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -89,9 +89,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

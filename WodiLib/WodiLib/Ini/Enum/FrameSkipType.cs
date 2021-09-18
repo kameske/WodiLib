@@ -15,7 +15,7 @@ namespace WodiLib.Ini
     /// <summary>
     ///     フレームスキップ種別
     /// </summary>
-    public record FrameSkipType : TypeSafeEnum<FrameSkipType>
+    public class FrameSkipType : TypeSafeEnum<FrameSkipType>
     {
         /// <summary>高スペック</summary>
         public static readonly FrameSkipType HighSpec;
@@ -69,9 +69,5 @@ namespace WodiLib.Ini
                 throw exception;
             }
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

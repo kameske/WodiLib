@@ -15,7 +15,7 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     ///     文字列操作演算子
     /// </summary>
-    public record StringAssignmentOperator : TypeSafeEnum<StringAssignmentOperator>
+    public class StringAssignmentOperator : TypeSafeEnum<StringAssignmentOperator>
     {
         /// <summary>=</summary>
         public static readonly StringAssignmentOperator Assign;
@@ -53,13 +53,6 @@ namespace WodiLib.Event.EventCommand
         /// <summary>指定文字以降切り出し</summary>
         public static readonly StringAssignmentOperator CutAfter;
 
-        /// <summary>値</summary>
-        public byte Code { get; }
-
-        /// <summary>イベントコマンド文字列</summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal string EventCommandSentence { get; }
-
         static StringAssignmentOperator()
         {
             Assign = new StringAssignmentOperator(nameof(Assign), 0x00,
@@ -95,6 +88,13 @@ namespace WodiLib.Event.EventCommand
             EventCommandSentence = eventCommandSentence;
         }
 
+        /// <summary>値</summary>
+        public byte Code { get; }
+
+        /// <summary>イベントコマンド文字列</summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        internal string EventCommandSentence { get; }
+
         /// <summary>
         ///     バイト値からインスタンスを取得する。
         /// </summary>
@@ -104,9 +104,5 @@ namespace WodiLib.Event.EventCommand
         {
             return AllItems.First(x => x.Code == code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }

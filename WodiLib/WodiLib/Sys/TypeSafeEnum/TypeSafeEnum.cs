@@ -19,7 +19,8 @@ namespace WodiLib.Sys
     /// </summary>
     /// <typeparam name="T">対象クラス</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract record TypeSafeEnum<T> where T : TypeSafeEnum<T>
+    public abstract class TypeSafeEnum<T>
+        : IEquatable<T>, IEquatable<TypeSafeEnum<T>> where T : TypeSafeEnum<T>
     {
         /// <summary>列挙子管理</summary>
         private static readonly EnumItemsManager EnumItems = new();
@@ -62,7 +63,56 @@ namespace WodiLib.Sys
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"{nameof(Id)}: {Id}";
+            return Id;
+        }
+
+        /// <inheritdoc/>
+        public bool Equals(T? other)
+            => Equals((TypeSafeEnum<T>?) other);
+
+        /// <inheritdoc/>
+        public bool Equals(TypeSafeEnum<T>? other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Id == other.Id;
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((TypeSafeEnum<T>) obj);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
+        /// <summary>
+        ///     ==
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺==右辺の場合true</returns>
+        public static bool operator ==(TypeSafeEnum<T>? left, TypeSafeEnum<T>? right)
+        {
+            return Equals(left, right);
+        }
+
+        /// <summary>
+        ///     !=
+        /// </summary>
+        /// <param name="left">左辺</param>
+        /// <param name="right">右辺</param>
+        /// <returns>左辺!=右辺の場合true</returns>
+        public static bool operator !=(TypeSafeEnum<T>? left, TypeSafeEnum<T>? right)
+        {
+            return !Equals(left, right);
         }
 
         /// <summary>

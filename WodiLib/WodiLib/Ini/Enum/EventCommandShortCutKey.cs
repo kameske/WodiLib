@@ -15,7 +15,7 @@ namespace WodiLib.Ini
     /// <summary>
     ///     ショートカットキー
     /// </summary>
-    public record EventCommandShortCutKey : TypeSafeEnum<EventCommandShortCutKey>
+    public class EventCommandShortCutKey : TypeSafeEnum<EventCommandShortCutKey>
     {
         /// <summary>0</summary>
         public static readonly EventCommandShortCutKey Zero;
@@ -216,9 +216,5 @@ namespace WodiLib.Ini
             if (code is null || code.Equals(string.Empty)) return None;
             return FromCode(code);
         }
-
-        /// <inheritdoc/>
-        public override string ToString()
-            => base.ToString();
     }
 }
