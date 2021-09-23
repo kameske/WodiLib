@@ -38,18 +38,6 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(3)]
-        [TestCase(99)]
-        public static void ToIntTest(byte value)
-        {
-            var instance = new TileTagNumber(value);
-
-            var intValue = instance.ToInt();
-
-            // セットした値と取得した値が一致すること
-            Assert.AreEqual(intValue, value);
-        }
-
         [TestCase(-1, true)]
         [TestCase(0, false)]
         [TestCase(99, false)]
@@ -59,7 +47,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                var _ = (TileTagNumber) value;
+                var _ = (TileTagNumber)value;
             }
             catch (Exception ex)
             {
@@ -99,31 +87,31 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {20, 20, true},
-            new object[] {20, 31, false},
+            new object[] { 20, 20, true },
+            new object[] { 20, 31, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (TileTagNumber) left;
-            var rightIndex = (TileTagNumber) right;
+            var leftIndex = (TileTagNumber)left;
+            var rightIndex = (TileTagNumber)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (TileTagNumber) left;
-            var rightIndex = (TileTagNumber) right;
+            var leftIndex = (TileTagNumber)left;
+            var rightIndex = (TileTagNumber)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (TileTagNumber) left;
-            var rightIndex = (TileTagNumber) right;
+            var leftIndex = (TileTagNumber)left;
+            var rightIndex = (TileTagNumber)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

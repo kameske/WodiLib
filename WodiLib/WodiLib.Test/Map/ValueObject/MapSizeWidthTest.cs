@@ -39,18 +39,6 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(20)]
-        [TestCase(9999)]
-        public static void ToIntTest(int value)
-        {
-            var instance = new MapSizeWidth(value);
-
-            var intValue = instance.ToInt();
-
-            // セットした値と取得した値が一致すること
-            Assert.AreEqual(intValue, value);
-        }
-
         [TestCase(19, true)]
         [TestCase(20, false)]
         [TestCase(9999, false)]
@@ -60,7 +48,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                var _ = (MapSizeWidth) value;
+                var _ = (MapSizeWidth)value;
             }
             catch (Exception ex)
             {
@@ -100,31 +88,31 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {20, 20, true},
-            new object[] {20, 31, false},
+            new object[] { 20, 20, true },
+            new object[] { 20, 31, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapSizeWidth) left;
-            var rightIndex = (MapSizeWidth) right;
+            var leftIndex = (MapSizeWidth)left;
+            var rightIndex = (MapSizeWidth)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapSizeWidth) left;
-            var rightIndex = (MapSizeWidth) right;
+            var leftIndex = (MapSizeWidth)left;
+            var rightIndex = (MapSizeWidth)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapSizeWidth) left;
-            var rightIndex = (MapSizeWidth) right;
+            var leftIndex = (MapSizeWidth)left;
+            var rightIndex = (MapSizeWidth)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

@@ -16,7 +16,7 @@ using WodiLib.Sys.Cmn;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// イベントコードをパースするクラス
+    ///     イベントコードをパースするクラス
     /// </summary>
     internal class EventCommandStringParser
     {
@@ -25,12 +25,12 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コマンドコードの正規表現
+        ///     コマンドコードの正規表現
         /// </summary>
         public readonly string regex = @"^\[(.*)\]\[(.*)\]<(.*)>\((.*)\)\((.*)\)(.*)$";
 
         /// <summary>
-        /// 項目分割文字
+        ///     項目分割文字
         /// </summary>
         public readonly char itemSplitter = ',';
 
@@ -39,7 +39,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 内部使用の分割文字列
+        ///     内部使用の分割文字列
         /// </summary>
         private const string splitter = "__";
 
@@ -48,31 +48,31 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// イベントコード
+        ///     イベントコード
         /// </summary>
         public string EventCodeString { get; }
 
         /// <summary>
-        /// インデント<br/>
-        /// <see cref="Parse"/>実行完了までは値が正しく取得できない。
+        ///     インデント<br/>
+        ///     <see cref="Parse"/>実行完了までは値が正しく取得できない。
         /// </summary>
-        public Indent Indent { get; private set; }
+        public Indent Indent { get; private set; } = 0;
 
         /// <summary>
-        /// 数値引数リスト<br/>
-        /// <see cref="Parse"/>実行完了までは空リストが返却される。
+        ///     数値引数リスト<br/>
+        ///     <see cref="Parse"/>実行完了までは空リストが返却される。
         /// </summary>
-        public List<int> NumberArgList { get; private set; } = new List<int>();
+        public List<int> NumberArgList { get; private set; } = new();
 
         /// <summary>
-        /// 文字列引数リスト<br/>
-        /// <see cref="Parse"/>実行完了までは空リストが返却される。
+        ///     文字列引数リスト<br/>
+        ///     <see cref="Parse"/>実行完了までは空リストが返却される。
         /// </summary>
-        public List<string> StrArgList { get; private set; } = new List<string>();
+        public List<string> StrArgList { get; private set; } = new();
 
         /// <summary>
-        /// 拡張文字列<br/>
-        /// <see cref="Parse"/>実行完了までは空文字が返却される。
+        ///     拡張文字列<br/>
+        ///     <see cref="Parse"/>実行完了までは空文字が返却される。
         /// </summary>
         public string ExpansionString { get; private set; } = "";
 
@@ -81,12 +81,12 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// パース済みフラグ
+        ///     パース済みフラグ
         /// </summary>
         private bool IsParsed { get; set; }
 
         /// <summary>
-        /// ロガー
+        ///     ロガー
         /// </summary>
         private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
@@ -95,7 +95,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="eventCodeString">[NotEmpty] コマンドコード文字列</param>
         /// <exception cref="ArgumentNullException">eventCodeString が null の場合</exception>
@@ -117,7 +117,6 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        ///
         /// </summary>
         /// <exception cref="InvalidOperationException">
         ///     すでにパース実行済みの場合、
@@ -169,7 +168,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// CommandCodeStringを正規表現に従い分割した配列を返す。
+        ///     CommandCodeStringを正規表現に従い分割した配列を返す。
         /// </summary>
         /// <returns>分割後の文字列配列</returns>
         /// <exception cref="InvalidOperationException">EventCodeString がコマンドコードとして不適切な場合</exception>
@@ -188,7 +187,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// コマンドコード値を文字列から数値に変換する。
+        ///     コマンドコード値を文字列から数値に変換する。
         /// </summary>
         /// <param name="codeStr">コマンドコード値文字列</param>
         /// <returns>コマンドコード数値</returns>
@@ -202,7 +201,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// 引数の数の組を文字列から数値に変換する。
+        ///     引数の数の組を文字列から数値に変換する。
         /// </summary>
         /// <param name="argStr">引数の数文字列</param>
         /// <returns>引数の数</returns>
@@ -237,7 +236,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// インデントを文字列から数値に変換する。
+        ///     インデントを文字列から数値に変換する。
         /// </summary>
         /// <param name="indentStr">インデント文字列</param>
         /// <returns>インデント値</returns>
@@ -252,7 +251,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// 数値引数文字列を数値引数リストに変換する。
+        ///     数値引数文字列を数値引数リストに変換する。
         /// </summary>
         /// <param name="numberArgsStr">数値引数文字列</param>
         /// <param name="hopeLength">希望する長さ</param>
@@ -282,7 +281,7 @@ namespace WodiLib.Event.EventCommand
         }
 
         /// <summary>
-        /// 数値引数文字列を数値引数リストに変換する。
+        ///     数値引数文字列を数値引数リストに変換する。
         /// </summary>
         /// <param name="stringArgsStr">文字列引数文字列</param>
         /// <param name="hopeLength">希望する長さ</param>
@@ -310,7 +309,7 @@ namespace WodiLib.Event.EventCommand
 
 
         /// <summary>
-        /// エラーメッセージを取得する。
+        ///     エラーメッセージを取得する。
         /// </summary>
         /// <param name="itemName">エラー項目</param>
         /// <returns>メッセージ</returns>

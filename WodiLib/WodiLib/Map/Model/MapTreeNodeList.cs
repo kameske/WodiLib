@@ -14,7 +14,7 @@ using WodiLib.Sys.Collections;
 namespace WodiLib.Map
 {
     /// <summary>
-    /// マップツリーノードリストクラス
+    ///     マップツリーノードリストクラス
     /// </summary>
     public class MapTreeNodeList : RestrictedCapacityList<MapTreeNode, MapTreeNodeList>
     {
@@ -33,14 +33,14 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         public MapTreeNodeList()
         {
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="items">初期リスト</param>
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
@@ -57,26 +57,26 @@ namespace WodiLib.Map
         //     Public Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override int GetMaxCapacity() => MaxCapacity;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override int GetMinCapacity() => MinCapacity;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override MapTreeNode MakeDefaultItem(int index)
-            => new MapTreeNode();
+            => new(0, -1);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// バイナリ変換する。
+        ///     バイナリ変換する。
         /// </summary>
         /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()

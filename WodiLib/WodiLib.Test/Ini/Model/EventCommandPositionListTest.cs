@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using WodiLib.Ini;
-using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Ini.Model
 {

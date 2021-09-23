@@ -191,7 +191,7 @@ namespace WodiLib.Test.Sys
                 Assert.IsTrue(
                     WodiLibContainer.HasCreateMethod<IContainerCreatableCustom>(WodiLibContainer.DefaultKeyName));
                 // 前提として、現在のターゲットキー名が切り替えたキー名と一致すること
-                Assert.IsTrue(((string) WodiLibContainer.TargetKeyName).Equals((string) TestContainerName_ChangeTestA));
+                Assert.IsTrue(((string)WodiLibContainer.TargetKeyName).Equals((string)TestContainerName_ChangeTestA));
 
                 // キー情報が存在すること
                 Assert.IsTrue(
@@ -230,7 +230,7 @@ namespace WodiLib.Test.Sys
                 Assert.IsTrue(
                     WodiLibContainer.HasCreateMethod<IContainerCreatableCustom>(WodiLibContainer.DefaultKeyName));
                 // 前提として、現在のターゲットキー名が切り替えたキー名と一致すること
-                Assert.IsTrue(((string) WodiLibContainer.TargetKeyName).Equals((string) TestContainerName_ChangeTestB));
+                Assert.IsTrue(((string)WodiLibContainer.TargetKeyName).Equals((string)TestContainerName_ChangeTestB));
 
                 // キー情報が存在すること
                 Assert.IsTrue(
@@ -512,6 +512,7 @@ namespace WodiLib.Test.Sys
             var testKey = TestContainerName_RegisterIfNotHasMethodTest;
 
             // 前提条件：未登録であること
+            WodiLibContainer.RemoveContainerIfHas(testKey);
             Assert.IsFalse(WodiLibContainer.HasCreateMethod<IContainerCreatableNoParam>(testKey));
 
             // 初回

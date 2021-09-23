@@ -1,77 +1,77 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
 
-        <IsPackable>false</IsPackable>
+    <IsPackable>false</IsPackable>
 
-        <RootNamespace>WodiLib.Test</RootNamespace>
+    <RootNamespace>WodiLib.Test</RootNamespace>
 
-        <Nullable>disable</Nullable>
+    <Nullable>disable</Nullable>
 
-        <AssemblyName>WodiLib.Test</AssemblyName>
+    <AssemblyName>WodiLib.Test</AssemblyName>
 
-        <LangVersion>9</LangVersion>
-    </PropertyGroup>
+    <LangVersion>9</LangVersion>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="nunit" Version="3.12.0" />
-        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.0" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="nunit" Version="3.12.0"/>
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.0"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\WodiLib\WodiLib.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WodiLib\WodiLib.csproj"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <!-- _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-            Remove Temporarily
-        _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ -->
-        <!-- Database -->
-        <Compile Remove="Database\**" />
-        <Compile Remove="IO\Database*.cs" />
-        <Compile Remove="IO\DB*.cs" />
-    </ItemGroup>
+  <ItemGroup>
+    <!-- _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        Remove Temporarily
+    _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/ -->
+    <!-- Database -->
+    <Compile Remove="Database\**"/>
+    <Compile Remove="IO\Database*.cs"/>
+    <Compile Remove="IO\DB*.cs"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <Compile Update="TestResources.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>TestResources.resx</DependentUpon>
-        </Compile>
-    </ItemGroup>
-    <ItemGroup>
-        <EmbeddedResource Update="TestResources.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>TestResources.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
-        <EmbeddedResource Remove="Database\**" />
-    </ItemGroup>
+  <ItemGroup>
+    <Compile Update="TestResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TestResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="TestResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TestResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Remove="Database\**"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <Reference Include="Commons.Convertible, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\lib\Commons.Convertible\Commons.Convertible.dll</HintPath>
-        </Reference>
-        <Reference Include="Commons.DIContainer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\lib\Commons.DIContainer\Commons.DIContainer.dll</HintPath>
-        </Reference>
-        <Reference Include="Commons.Linq.Extension, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\lib\Commons.Linq.Extension\Commons.Linq.Extension.dll</HintPath>
-        </Reference>
-        <Reference Include="Commons.Logger, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\lib\Commons.Logger\Commons.Logger.dll</HintPath>
-        </Reference>
-        <Reference Include="Commons.TypeSafeEnum, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-            <HintPath>..\lib\Commons.TypeSafeEnum\Commons.TypeSafeEnum.dll</HintPath>
-        </Reference>
-        <Reference Include="Commons.Validator">
-            <HintPath>..\lib\Commons.Validator\Commons.Validator.dll</HintPath>
-        </Reference>
-    </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Commons.Convertible, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\lib\Commons.Convertible\Commons.Convertible.dll</HintPath>
+    </Reference>
+    <Reference Include="Commons.DIContainer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\lib\Commons.DIContainer\Commons.DIContainer.dll</HintPath>
+    </Reference>
+    <Reference Include="Commons.Linq.Extension, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\lib\Commons.Linq.Extension\Commons.Linq.Extension.dll</HintPath>
+    </Reference>
+    <Reference Include="Commons.Logger, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\lib\Commons.Logger\Commons.Logger.dll</HintPath>
+    </Reference>
+    <Reference Include="Commons.TypeSafeEnum, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\lib\Commons.TypeSafeEnum\Commons.TypeSafeEnum.dll</HintPath>
+    </Reference>
+    <Reference Include="Commons.Validator">
+      <HintPath>..\lib\Commons.Validator\Commons.Validator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 
-    <ItemGroup>
-        <None Remove="Database\**" />
-    </ItemGroup>
+  <ItemGroup>
+    <None Remove="Database\**"/>
+  </ItemGroup>
 
 </Project>

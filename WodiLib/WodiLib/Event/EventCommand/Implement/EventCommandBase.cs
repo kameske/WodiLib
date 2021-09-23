@@ -17,7 +17,7 @@ using WodiLib.Sys.Cmn;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// イベントコマンドのすべて共通処理を定義する。
+    ///     イベントコマンドのすべて共通処理を定義する。
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Serializable]
@@ -56,27 +56,27 @@ namespace WodiLib.Event.EventCommand
         //     OverrideMethod
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>数値変数個数</summary>
         public abstract byte NumberVariableCount { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>数値変数最小個数</summary>
         public virtual byte NumberVariableCountMin => NumberVariableCount;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>イベントコマンドコード</summary>
         public abstract EventCommandCode EventCommandCode { get; }
 
         /// <summary>実際のイベントコマンドコード</summary>
         /// <remarks>
-        /// コマンドコード種別が「未定義」の場合、実際に指定された値が格納される。
+        ///     コマンドコード種別が「未定義」の場合、実際に指定された値が格納される。
         /// </remarks>
         public virtual int RawEventCommandCode => EventCommandCode.Code;
 
-        private Indent indent;
+        private Indent indent = 0;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>インデントの深さ</summary>
         public Indent Indent
         {
@@ -88,25 +88,25 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>文字列変数個数</summary>
         public abstract byte StringVariableCount { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>文字列変数最小個数</summary>
         public virtual byte StringVariableCountMin => StringVariableCount;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>動作指定ありフラグ</summary>
         public virtual bool HasActionEntry => false;
 
         /// <summary>拡張数値引数リスト</summary>
         public EventCommandExpansionNumberArgList ExpansionNumberArgList { get; }
-            = new EventCommandExpansionNumberArgList();
+            = new();
 
         /// <summary>拡張文字列引数リスト</summary>
         public EventCommandExpansionStringArgList ExpansionStringArgList { get; }
-            = new EventCommandExpansionStringArgList();
+            = new();
 
         /// <summary>すべての数値引数リスト</summary>
         public IReadOnlyList<int> AllNumberArgList
@@ -150,9 +150,11 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <inheritdoc />
-        /// <summary>キャラ動作指定
-        /// <para>動作指定を持たないコマンドの場合、null</para></summary>
+        /// <inheritdoc/>
+        /// <summary>
+        ///     キャラ動作指定
+        ///     <para>動作指定を持たないコマンドの場合、null</para>
+        /// </summary>
         public virtual ActionEntry? ActionEntry
         {
             get => null;
@@ -162,7 +164,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>イベントコマンドカラーセット</summary>
         protected abstract EventCommandColorSet EventCommandColorSet { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public virtual int GetNumberVariable(int index)
         {
             var max = AllNumberArgList.Count;
@@ -176,7 +178,7 @@ namespace WodiLib.Event.EventCommand
 
         private string expansionString = "";
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         /// <summary>拡張文字列</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -193,7 +195,7 @@ namespace WodiLib.Event.EventCommand
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void SetNumberVariable(int index, int value)
         {
             var max = AllNumberArgList.Count;
@@ -212,7 +214,7 @@ namespace WodiLib.Event.EventCommand
             ExpansionNumberArgList[expansionIndex] = value;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public string GetStringVariable(int index)
         {
             var max = AllStringArgList.Count;
@@ -224,7 +226,7 @@ namespace WodiLib.Event.EventCommand
             return ExpansionStringArgList[index - StringVariableCount];
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public virtual void SetStringVariable(int index, string value)
         {
             var max = AllStringArgList.Count;
@@ -243,19 +245,19 @@ namespace WodiLib.Event.EventCommand
             ExpansionStringArgList[expansionIndex] = value;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public abstract int GetSafetyNumberVariable(int index);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public abstract void SetSafetyNumberVariable(int index, int value);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public abstract string GetSafetyStringVariable(int index);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public abstract void SetSafetyStringVariable(int index, string value);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool Equals(IEventCommand? other)
         {
             if (ReferenceEquals(this, other)) return true;
@@ -270,15 +272,15 @@ namespace WodiLib.Event.EventCommand
                    && (ActionEntry is null || (ActionEntry.Equals(other.ActionEntry)));
         }
 
-        /// <inheritdoc />
-        public override bool ItemEquals(EventCommandBase other)
+        /// <inheritdoc/>
+        public override bool ItemEquals(EventCommandBase? other)
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
             return Equals(other);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public virtual string ToEventCodeString()
         {
             var numArgs = AllNumberArgList.Where((_, idx) => idx != 0)
@@ -297,7 +299,7 @@ namespace WodiLib.Event.EventCommand
                 ExpansionString);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public EventCommandSentenceInfo GetEventCommandSentenceInfo(EventCommandSentenceResolver resolver,
             EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
@@ -322,7 +324,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// ロガー
+        ///     ロガー
         /// </summary>
         protected WodiLibLogger WodiLibLogger => WodiLibLogger.GetInstance();
 
@@ -331,8 +333,8 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、
-        /// イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
+        ///     VersionConfigにセットされたバージョンとイベントコマンドの内容を確認し、
+        ///     イベントコマンドの内容が設定バージョンに対応していないものであれば警告ログを出力する。
         /// </summary>
         public virtual void OutputVersionWarningLogIfNeed()
         {
@@ -343,14 +345,14 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 指定した数値引数インデックスが通常使用の範囲であるか（拡張引数でないか）を返す。
+        ///     指定した数値引数インデックスが通常使用の範囲であるか（拡張引数でないか）を返す。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <returns>通常使用範囲の引数インデックスの場合true</returns>
         internal virtual bool IsNormalNumberArgIndex(int index) => index < NumberVariableCount;
 
         /// <summary>
-        /// 指定した文字列引数インデックスが通常使用の範囲であるか（拡張引数でないか）を返す。
+        ///     指定した文字列引数インデックスが通常使用の範囲であるか（拡張引数でないか）を返す。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <returns>通常使用範囲の引数インデックスの場合true</returns>
@@ -361,7 +363,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// イベントコマンド文字列のメイン部分（インデント以降の部分）を生成する。
+        ///     イベントコマンド文字列のメイン部分（インデント以降の部分）を生成する。
         /// </summary>
         /// <param name="resolver">名前解決クラスインスタンス</param>
         /// <param name="type">イベント種別</param>
@@ -378,7 +380,7 @@ namespace WodiLib.Event.EventCommand
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public virtual byte[] ToBinary()
         {
             OutputVersionWarningLogIfNeed();
@@ -403,7 +405,7 @@ namespace WodiLib.Event.EventCommand
 
             var resultSeed = new List<byte>();
 
-            var argsLengthByte = (byte) args.Count;
+            var argsLengthByte = (byte)args.Count;
             resultSeed.Add(argsLengthByte);
 
             return args.Select(x => x.ToWoditorIntBytes())
@@ -416,7 +418,7 @@ namespace WodiLib.Event.EventCommand
 
         private byte[] MakeIndentBytes()
         {
-            return new[] {Indent.ToSByte().ToByte()};
+            return new[] { Indent.ToSByte().ToByte() };
         }
 
         private byte[] MakeStringVariableBytes()
@@ -425,7 +427,7 @@ namespace WodiLib.Event.EventCommand
 
             var resultSeed = new List<byte>();
 
-            var argsLengthByte = (byte) args.Count;
+            var argsLengthByte = (byte)args.Count;
             resultSeed.Add(argsLengthByte);
 
             return args.Select(x => new WoditorString(x).StringByte)

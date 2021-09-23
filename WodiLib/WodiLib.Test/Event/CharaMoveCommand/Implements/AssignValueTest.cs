@@ -71,7 +71,7 @@ namespace WodiLib.Test.Event.CharaMoveCommand
 
             if (!errorOccured)
             {
-                var resultValue = (int) instance.TargetAddress;
+                var resultValue = (int)instance.TargetAddress;
 
                 // 取得した値が意図した値と一致すること
                 Assert.AreEqual(resultValue, answerValue);

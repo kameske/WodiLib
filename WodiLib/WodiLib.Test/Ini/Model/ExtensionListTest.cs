@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using WodiLib.Ini;
-using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Ini.Model
 {
@@ -32,8 +31,8 @@ namespace WodiLib.Test.Ini.Model
         [Test]
         public static void ToStringItems()
         {
-            var extStringList = new List<string> {".A", ".B", "CCC"};
-            var extList = extStringList.Select(x => (Extension) x).ToList();
+            var extStringList = new List<string> { ".A", ".B", "CCC" };
+            var extList = extStringList.Select(x => (Extension)x).ToList();
 
             var instance = new ExtensionList(extList);
 

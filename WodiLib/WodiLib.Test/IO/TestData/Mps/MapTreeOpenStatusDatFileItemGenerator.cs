@@ -9,10 +9,11 @@ namespace WodiLib.Test.IO
     {
         #region CreateMapTreeData
 
-        /** ========================================
-         *  マップツリーデータオブジェクト作成
-         *  ======================================== */
-
+        /**
+         * ========================================
+         * マップツリーデータオブジェクト作成
+         * ========================================
+         */
         public static MapTreeOpenStatusData GenerateData0()
         {
             return new MapTreeOpenStatusData
@@ -26,7 +27,7 @@ namespace WodiLib.Test.IO
                     MapTreeOpenState.Open,
                     MapTreeOpenState.Close,
                     MapTreeOpenState.Close,
-                    MapTreeOpenState.Close,
+                    MapTreeOpenState.Close
                 })
             };
         }
@@ -42,11 +43,11 @@ namespace WodiLib.Test.IO
         public static readonly IEnumerable<(string, byte[])> TestFiles = new List<(string, byte[])>
         {
             (@"Dir0\MapTreeOpenStatus.dat", TestResources.MapTreeOpenStatus0),
-            (@"Dir1\MapTreeOpenStatus.dat", TestResources.MapTreeOpenStatus1),
+            (@"Dir1\MapTreeOpenStatus.dat", TestResources.MapTreeOpenStatus1)
         };
 
         /// <summary>
-        /// テストデータファイルを tmp フォルダに出力する。
+        ///     テストデータファイルを tmp フォルダに出力する。
         /// </summary>
         public static void OutputFile()
         {
@@ -65,7 +66,7 @@ namespace WodiLib.Test.IO
         }
 
         /// <summary>
-        /// テストデータファイルを削除する。
+        ///     テストデータファイルを削除する。
         /// </summary>
         public static void DeleteFile()
         {

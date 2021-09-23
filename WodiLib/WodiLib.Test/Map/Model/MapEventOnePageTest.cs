@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Commons;
-using WodiLib.Map;
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
+using WodiLib.Map;
 using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
@@ -158,9 +158,9 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] EventCommandsSetTestCaseSource =
         {
-            new object[] {new List<IEventCommand>(), false},
-            new object[] {new List<IEventCommand> {new Blank()}, false},
-            new object[] {null, true},
+            new object[] { new List<IEventCommand>(), false },
+            new object[] { new List<IEventCommand> { new Blank() }, false },
+            new object[] { null, true }
         };
 
         [TestCaseSource(nameof(EventCommandsSetTestCaseSource))]

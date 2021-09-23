@@ -31,8 +31,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] TileSetSettingTestCaseSource =
         {
-            new object[] {new TileSetSetting(), false},
-            new object[] {null, true},
+            new object[] { new TileSetSetting(), false },
+            new object[] { null, true }
         };
 
         [TestCaseSource(nameof(TileSetSettingTestCaseSource))]
@@ -83,7 +83,7 @@ namespace WodiLib.Test.Map
                 $@"{TileSetFileDataTestItemGenerator.TestWorkRootDir}\000_設定名.tile",
                 TileSetFileDataTestItemGenerator.GenerateData0(),
                 10185
-            },
+            }
         };
 
         [TestCaseSource(nameof(ToBinaryTestCaseSource))]
@@ -93,7 +93,7 @@ namespace WodiLib.Test.Map
 
             using (var fs = new FileStream(testFilePath, FileMode.Open))
             {
-                var length = (int) fs.Length;
+                var length = (int)fs.Length;
                 // ファイルサイズが規定でない場合誤作動防止の為テスト失敗にする
                 Assert.AreEqual(length, fileSize);
 

@@ -37,10 +37,10 @@ namespace WodiLib.Test.Project.Model
 
         private static readonly object[] ConstructorTestCaseSource =
         {
-            new object[] {null, true},
-            new object[] {@"C:\NotFound", true},
-            new object[] {TestProjectDir, false},
-            new object[] {$@"{TestProjectDir}/", false},
+            new object[] { null, true },
+            new object[] { @"C:\NotFound", true },
+            new object[] { TestProjectDir, false },
+            new object[] { $@"{TestProjectDir}/", false }
         };
 
         [TestCaseSource(nameof(ConstructorTestCaseSource))]
@@ -617,10 +617,10 @@ namespace WodiLib.Test.Project.Model
 
         private static readonly object[] RemoveMpsFilesCacheTestCaseSource =
         {
-            new object[] {(MpsFilePath) "Data/MapData/TitleMap.mps", (MpsFilePath) "Data/MapData/TitleMap.mps", false},
+            new object[] { (MpsFilePath)"Data/MapData/TitleMap.mps", (MpsFilePath)"Data/MapData/TitleMap.mps", false },
             new object[]
-                {(MpsFilePath) "Data/MapData/TitleMap.mps", (MpsFilePath) "Data/MapData/SampleMapA.mps", false},
-            new object[] {(MpsFilePath) "Data/MapData/TitleMap.mps", null, true},
+                { (MpsFilePath)"Data/MapData/TitleMap.mps", (MpsFilePath)"Data/MapData/SampleMapA.mps", false },
+            new object[] { (MpsFilePath)"Data/MapData/TitleMap.mps", null, true }
         };
 
         [TestCaseSource(nameof(RemoveMpsFilesCacheTestCaseSource))]
@@ -689,7 +689,7 @@ namespace WodiLib.Test.Project.Model
 
         private static readonly object[] GetMapEventEventCommandSentenceInfoListTestCaseSource =
         {
-            new object[] {ProjectFileTestItemGenerator.TestInfoList[0]},
+            new object[] { ProjectFileTestItemGenerator.TestInfoList[0] }
         };
 
         [TestCaseSource(nameof(GetMapEventEventCommandSentenceInfoListTestCaseSource))]
@@ -757,10 +757,7 @@ namespace WodiLib.Test.Project.Model
             var resultList2 = instance.GetMapEventEventCommandSentenceInfoListSync(
                 testInfo.MapEventInfo.FilePath, testInfo.MapEventInfo.MapEventId,
                 testInfo.MapEventInfo.PageIndex, true);
-            resultList2.ForEach((result, i) =>
-            {
-                logger.Info($"{i}行目:{result.Sentence}");
-            });
+            resultList2.ForEach((result, i) => { logger.Info($"{i}行目:{result.Sentence}"); });
         }
 
         [TestCaseSource(nameof(GetMapEventEventCommandSentenceInfoListTestCaseSource))]
@@ -827,7 +824,7 @@ namespace WodiLib.Test.Project.Model
 
         private static readonly object[] GetCommonEventEventCommandSentenceInfoListTestCaseSource =
         {
-            new object[] {ProjectFileTestItemGenerator.TestInfoList[0]},
+            new object[] { ProjectFileTestItemGenerator.TestInfoList[0] }
         };
 
         [TestCaseSource(nameof(GetCommonEventEventCommandSentenceInfoListTestCaseSource))]
@@ -893,10 +890,7 @@ namespace WodiLib.Test.Project.Model
             // 省略しないイベントコマンド文字列を出力
             var resultList2 = instance.GetCommonEventEventCommandSentenceInfoListSync(
                 testInfo.CommonEventInfo.CommonEventId, testInfo.CommonEventInfo.MpsFilePath, true);
-            resultList2.ForEach((result, i) =>
-            {
-                logger.Info($"{i}行目:{result.Sentence}");
-            });
+            resultList2.ForEach((result, i) => { logger.Info($"{i}行目:{result.Sentence}"); });
         }
 
         [TestCaseSource(nameof(GetCommonEventEventCommandSentenceInfoListTestCaseSource))]

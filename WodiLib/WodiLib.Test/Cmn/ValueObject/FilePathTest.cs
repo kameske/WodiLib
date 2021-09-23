@@ -28,10 +28,10 @@ namespace WodiLib.Test.Cmn
         [TestCase(@"c:\Error<string>\file", true)]
         [TestCase(@"c:\＜Not＞Error\file", false)]
         [TestCase(
-            @"d:\Too\Long\Long\PathName\1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789",
+            @"d:\Too\Long\Long\PathName\123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234",
             false)]
         [TestCase(
-            @"d:\Too\Long\Long\PathName\12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890",
+            @"d:\Too\Long\Long\PathName\1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345",
             true)]
         [TestCase(@"c:\CON.test", true)]
         [TestCase(@"c:\COM0.test", false)]
@@ -79,7 +79,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                var _ = (string) instance;
+                var _ = (string)instance;
             }
             catch (Exception ex)
             {
@@ -91,7 +91,7 @@ namespace WodiLib.Test.Cmn
             Assert.IsFalse(errorOccured);
 
             // キャストした結果が一致すること
-            Assert.AreEqual((string) instance, value);
+            Assert.AreEqual((string)instance, value);
         }
 
         [TestCase(null, false)]
@@ -121,36 +121,36 @@ namespace WodiLib.Test.Cmn
             if (errorOccured) return;
 
             // キャストした結果が一致すること
-            Assert.AreEqual((string) instance, value);
+            Assert.AreEqual((string)instance, value);
         }
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {"a", "a", true},
-            new object[] {"a", "b", false},
+            new object[] { "a", "a", true },
+            new object[] { "a", "b", false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(string left, string right, bool isEqual)
         {
-            var leftIndex = (FilePath) left;
-            var rightIndex = (FilePath) right;
+            var leftIndex = (FilePath)left;
+            var rightIndex = (FilePath)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(string left, string right, bool isEqual)
         {
-            var leftIndex = (FilePath) left;
-            var rightIndex = (FilePath) right;
+            var leftIndex = (FilePath)left;
+            var rightIndex = (FilePath)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(string left, string right, bool isEqual)
         {
-            var leftIndex = (FilePath) left;
-            var rightIndex = (FilePath) right;
+            var leftIndex = (FilePath)left;
+            var rightIndex = (FilePath)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

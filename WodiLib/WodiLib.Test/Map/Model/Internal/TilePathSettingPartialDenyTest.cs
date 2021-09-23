@@ -39,8 +39,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] ConstructorTestCaseSource =
         {
-            new object[] {new TileImpassableFlags(), false},
-            new object[] {null, true},
+            new object[] { new TileImpassableFlags(), false },
+            new object[] { null, true }
         };
 
         [TestCaseSource(nameof(ConstructorTestCaseSource))]
@@ -145,8 +145,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] PathOptionTestCaseSource =
         {
-            new object[] {TilePathOption.Nothing, false},
-            new object[] {null, true},
+            new object[] { TilePathOption.Nothing, false },
+            new object[] { null, true }
         };
 
         [TestCaseSource(nameof(PathOptionTestCaseSource))]

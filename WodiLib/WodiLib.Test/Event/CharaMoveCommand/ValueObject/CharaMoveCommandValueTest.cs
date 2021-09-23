@@ -43,22 +43,6 @@ namespace WodiLib.Test.Event.CharaMoveCommand
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(-2000000000)]
-        [TestCase(-1)]
-        [TestCase(0)]
-        [TestCase(9999999)]
-        [TestCase(10000000)]
-        [TestCase(2000000000)]
-        public static void ToIntTest(int value)
-        {
-            var instance = new CharaMoveCommandValue(value);
-
-            var intValue = instance.ToInt();
-
-            // セットした値と取得した値が一致すること
-            Assert.AreEqual(intValue, value);
-        }
-
         [TestCase(-2000000001, true)]
         [TestCase(-2000000000, false)]
         [TestCase(-1, false)]
@@ -72,7 +56,7 @@ namespace WodiLib.Test.Event.CharaMoveCommand
             var errorOccured = false;
             try
             {
-                var _ = (CharaMoveCommandValue) value;
+                var _ = (CharaMoveCommandValue)value;
             }
             catch (Exception ex)
             {
@@ -116,31 +100,31 @@ namespace WodiLib.Test.Event.CharaMoveCommand
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {10, 10, true},
-            new object[] {10, 11, false},
+            new object[] { 10, 10, true },
+            new object[] { 10, 11, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (CharaMoveCommandValue) left;
-            var rightIndex = (CharaMoveCommandValue) right;
+            var leftIndex = (CharaMoveCommandValue)left;
+            var rightIndex = (CharaMoveCommandValue)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (CharaMoveCommandValue) left;
-            var rightIndex = (CharaMoveCommandValue) right;
+            var leftIndex = (CharaMoveCommandValue)left;
+            var rightIndex = (CharaMoveCommandValue)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (CharaMoveCommandValue) left;
-            var rightIndex = (CharaMoveCommandValue) right;
+            var leftIndex = (CharaMoveCommandValue)left;
+            var rightIndex = (CharaMoveCommandValue)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

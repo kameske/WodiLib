@@ -13,50 +13,50 @@ namespace WodiLib.Test.IO
             result.DataDescList.Overwrite(0, new List<DatabaseDataDesc>
             {
                 // データ1
-                new DatabaseDataDesc
+                new()
                 {
                     DataName = "7",
                     ItemValueList =
                     {
-                        (DBValueInt) 6,
-                        (DBValueString) "7",
-                        (DBValueString) "MapData/Map002.mps",
-                        (DBValueString) "",
-                        (DBValueInt) 0,
-                        (DBValueInt) (-3),
-                        (DBValueInt) 9,
+                        (DBValueInt)6,
+                        (DBValueString)"7",
+                        (DBValueString)"MapData/Map002.mps",
+                        (DBValueString)"",
+                        (DBValueInt)0,
+                        (DBValueInt)(-3),
+                        (DBValueInt)9
                     }
                 },
                 // データ2
-                new DatabaseDataDesc
+                new()
                 {
                     DataName = "うでぃた",
                     ItemValueList =
                     {
-                        (DBValueInt) 0,
-                        (DBValueString) "うでぃた",
-                        (DBValueString) "",
-                        (DBValueString) "",
-                        (DBValueInt) 0,
-                        (DBValueInt) 0,
-                        (DBValueInt) 9,
+                        (DBValueInt)0,
+                        (DBValueString)"うでぃた",
+                        (DBValueString)"",
+                        (DBValueString)"",
+                        (DBValueInt)0,
+                        (DBValueInt)0,
+                        (DBValueInt)9
                     }
                 },
                 // データ3
-                new DatabaseDataDesc
+                new()
                 {
                     DataName = "",
                     ItemValueList =
                     {
-                        (DBValueInt) 0,
-                        (DBValueString) "",
-                        (DBValueString) "まっぷでーた",
-                        (DBValueString) "Map007.mps",
-                        (DBValueInt) 0,
-                        (DBValueInt) (-1),
-                        (DBValueInt) 3,
+                        (DBValueInt)0,
+                        (DBValueString)"",
+                        (DBValueString)"まっぷでーた",
+                        (DBValueString)"Map007.mps",
+                        (DBValueInt)0,
+                        (DBValueInt)(-1),
+                        (DBValueInt)3
                     }
-                },
+                }
             });
             return result;
         }
@@ -67,31 +67,30 @@ namespace WodiLib.Test.IO
             result.DataDescList.Overwrite(0, new List<DatabaseDataDesc>
             {
                 // データ0
-                new DatabaseDataDesc
+                new()
                 {
                     DataName = "a",
                     ItemValueList =
                     {
-                        (DBValueString) "",
-                        (DBValueInt) 255,
-                        (DBValueString) "",
-                        (DBValueString) "CharaChip/[Animal]ChickenTX.png",
-                        (DBValueInt) 122,
-                        (DBValueInt) 8,
-                        (DBValueInt) 6,
-                        (DBValueInt) 1,
-                        (DBValueString) "234",
+                        (DBValueString)"",
+                        (DBValueInt)255,
+                        (DBValueString)"",
+                        (DBValueString)"CharaChip/[Animal]ChickenTX.png",
+                        (DBValueInt)122,
+                        (DBValueInt)8,
+                        (DBValueInt)6,
+                        (DBValueInt)1,
+                        (DBValueString)"234"
                     }
-                },
+                }
             });
             return result;
         }
 
 
-        /** ========================================
-         *  テスト用ファイル出力
-         *  ======================================== */
-
+        /// ========================================
+        /// テスト用ファイル出力
+        /// ========================================
         /// <summary>テストディレクトリルート</summary>
         public static string TestWorkRootDir => MapFileTestItemGenerator.TestWorkRootDir;
 
@@ -101,11 +100,11 @@ namespace WodiLib.Test.IO
             ("UDB0_データ_001to003_7.dbdata", TestResources.UDB0_1to3DBData),
             ("あいうえお_データ_000to000_a.dbdata", TestResources.CDB0_0to0DBData),
             ("┣ 主人公行動AI_データ_003to018_.dbdata", TestResources.CDB2_3to18DBData),
-            ("状態設定_データ_000to023_戦闘不能.dbdata", TestResources.UDB8_0to23DBData),
+            ("状態設定_データ_000to023_戦闘不能.dbdata", TestResources.UDB8_0to23DBData)
         };
 
         /// <summary>
-        /// ファイルを tmp フォルダに出力する。
+        ///     ファイルを tmp フォルダに出力する。
         /// </summary>
         public static void OutputFile()
         {
@@ -121,7 +120,7 @@ namespace WodiLib.Test.IO
         }
 
         /// <summary>
-        /// ファイルを削除する。
+        ///     ファイルを削除する。
         /// </summary>
         public static void DeleteFile()
         {

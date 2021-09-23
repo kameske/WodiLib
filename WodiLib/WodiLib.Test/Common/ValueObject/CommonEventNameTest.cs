@@ -110,43 +110,43 @@ namespace WodiLib.Test.Common
             if (errorOccured) return;
 
             // キャストした結果が一致すること
-            Assert.AreEqual((string) instance, value);
+            Assert.AreEqual((string)instance, value);
         }
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {"a", "a", true},
-            new object[] {"a", "b", false},
+            new object[] { "a", "a", true },
+            new object[] { "a", "b", false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(string left, string right, bool isEqual)
         {
-            var leftIndex = (CommonEventName) left;
-            var rightIndex = (CommonEventName) right;
+            var leftIndex = (CommonEventName)left;
+            var rightIndex = (CommonEventName)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTestA(string left, string right, bool isEqual)
         {
-            var leftIndex = (CommonEventName) left;
-            var rightIndex = (CommonEventName) right;
+            var leftIndex = (CommonEventName)left;
+            var rightIndex = (CommonEventName)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTestA(string left, string right, bool isEqual)
         {
-            var leftIndex = (CommonEventName) left;
-            var rightIndex = (CommonEventName) right;
+            var leftIndex = (CommonEventName)left;
+            var rightIndex = (CommonEventName)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTestB(string left, string right, bool isEqual)
         {
-            var leftIndex = (CommonEventName) left;
+            var leftIndex = (CommonEventName)left;
             Assert.AreEqual(leftIndex.Equals(right), isEqual);
         }
     }

@@ -8,7 +8,7 @@ using WodiLib.Test.Tools;
 namespace WodiLib.Test.Project
 {
     /// <summary>
-    /// WoditorProjectテスト時に読み込むためのデータをリソースから復元する。
+    ///     WoditorProjectテスト時に読み込むためのデータをリソースから復元する。
     /// </summary>
     public static class ProjectFileTestItemGenerator
     {
@@ -17,16 +17,16 @@ namespace WodiLib.Test.Project
 
         public static readonly IEnumerable<(string, byte[])> TestProjectZips = new[]
         {
-            ("TestProject_Ver224.zip", TestResources.TestProject_Ver224Zip),
+            ("TestProject_Ver224.zip", TestResources.TestProject_Ver224Zip)
         };
 
         public static readonly IEnumerable<(string, byte[])> EventCommandSentences = new[]
         {
             ("EventCommandSentence/Ver224_CommonEvent.txt", TestResources.EventCommandSentence_Ver224_CommonEvent),
-            ("EventCommandSentence/Ver224_MapEvent.txt", TestResources.EventCommandSentence_Ver224_MapEvent),
+            ("EventCommandSentence/Ver224_MapEvent.txt", TestResources.EventCommandSentence_Ver224_MapEvent)
         };
 
-        public static readonly List<EventCommandSentenceTestInfo> TestInfoList = new List<EventCommandSentenceTestInfo>
+        public static readonly List<EventCommandSentenceTestInfo> TestInfoList = new()
         {
             new EventCommandSentenceTestInfo
             {
@@ -35,7 +35,7 @@ namespace WodiLib.Test.Project
                 {
                     CommonEventId = 217,
                     MpsFilePath = "Data/MapData/TitleMap.mps",
-                    EventCommandSentenceAnswerFilePath = "EventCommandSentence/Ver224_CommonEvent.txt",
+                    EventCommandSentenceAnswerFilePath = "EventCommandSentence/Ver224_CommonEvent.txt"
                 },
                 MapEventInfo = new EventCommandSentenceTestInfo.MapEvent
                 {
@@ -48,9 +48,8 @@ namespace WodiLib.Test.Project
         };
 
         /// <summary>
-        /// プロジェクトディレクトリ、イベントコマンド比較用テキストファイルを出力する。
+        ///     プロジェクトディレクトリ、イベントコマンド比較用テキストファイルを出力する。
         /// </summary>
-
         public static void OutputProjectItem()
         {
             TestWorkRootDir.CreateDirectoryIfNeed();
@@ -90,7 +89,7 @@ namespace WodiLib.Test.Project
         }
 
         /// <summary>
-        /// プロジェクトディレクトリ、および復元元のZipファイルを削除する
+        ///     プロジェクトディレクトリ、および復元元のZipファイルを削除する
         /// </summary>
         public static void DeleteProjectItem()
         {
@@ -118,7 +117,7 @@ namespace WodiLib.Test.Project
                 }
             }
 
-            foreach (var (fileName, _) in  EventCommandSentences)
+            foreach (var (fileName, _) in EventCommandSentences)
             {
                 var fileFullPath = MakeFileFullPath(fileName);
                 if (!File.Exists(fileFullPath)) continue;
@@ -148,21 +147,25 @@ namespace WodiLib.Test.Project
             return $@"{TestWorkRootDir}\{dir}";
         }
 
-        private static void DeleteRecursive(string targetDirectoryPath){
-            if (!Directory.Exists (targetDirectoryPath)) {
+        private static void DeleteRecursive(string targetDirectoryPath)
+        {
+            if (!Directory.Exists(targetDirectoryPath))
+            {
                 return;
             }
 
             // ファイル
             var filePaths = Directory.GetFiles(targetDirectoryPath);
-            foreach (var filePath in filePaths){
+            foreach (var filePath in filePaths)
+            {
                 File.SetAttributes(filePath, FileAttributes.Normal);
                 File.Delete(filePath);
             }
 
             // ディレクトリ
             var directoryPaths = Directory.GetDirectories(targetDirectoryPath);
-            foreach (var directoryPath in directoryPaths){
+            foreach (var directoryPath in directoryPaths)
+            {
                 DeleteRecursive(directoryPath);
             }
 

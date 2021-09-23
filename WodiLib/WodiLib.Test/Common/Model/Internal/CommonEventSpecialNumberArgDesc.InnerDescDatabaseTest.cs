@@ -139,16 +139,16 @@ namespace WodiLib.Test.Common.Internal
 
         private static readonly object[] SetDatabaseReferTestCaseSource =
         {
-            new object[] {DBKind.Changeable, 0, false},
-            new object[] {DBKind.User, 99, false},
-            new object[] {DBKind.System, 30, false},
-            new object[] {null, 55, true},
+            new object[] { DBKind.Changeable, 0, false },
+            new object[] { DBKind.User, 99, false },
+            new object[] { DBKind.System, 30, false },
+            new object[] { null, 55, true }
         };
 
         [TestCaseSource(nameof(SetDatabaseReferTestCaseSource))]
         public static void SetDatabaseReferTest(DBKind dbKind, int dbTypeId, bool isError)
         {
-            var typeId = (TypeId) dbTypeId;
+            var typeId = (TypeId)dbTypeId;
 
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescDatabase();
             var changedPropertyList = new List<string>();
@@ -256,9 +256,9 @@ namespace WodiLib.Test.Common.Internal
 
         private static readonly object[] GetAllSpecialCaseNumberTestCaseSource =
         {
-            new object[] {DBKind.Changeable, 0, true, 3, 2, 1},
-            new object[] {DBKind.User, 10, false, 3, 1, 0},
-            new object[] {DBKind.System, 99, false, 3, 0, 0},
+            new object[] { DBKind.Changeable, 0, true, 3, 2, 1 },
+            new object[] { DBKind.User, 10, false, 3, 1, 0 },
+            new object[] { DBKind.System, 99, false, 3, 0, 0 }
         };
 
         [TestCaseSource(nameof(GetAllSpecialCaseNumberTestCaseSource))]
@@ -311,10 +311,10 @@ namespace WodiLib.Test.Common.Internal
 
         private static readonly object[] GetAllSpecialCaseDescriptionTestCaseSource =
         {
-            new object[] {true, "a", "b", "c", 3},
-            new object[] {true, "a", null, "c", 3},
-            new object[] {false, null, null, "c", 0},
-            new object[] {false, null, null, null, 0},
+            new object[] { true, "a", "b", "c", 3 },
+            new object[] { true, "a", null, "c", 3 },
+            new object[] { false, null, null, "c", 0 },
+            new object[] { false, null, null, null, 0 }
         };
 
         [TestCaseSource(nameof(GetAllSpecialCaseDescriptionTestCaseSource))]
@@ -445,7 +445,7 @@ namespace WodiLib.Test.Common.Internal
             {
                 var argCaseList = new List<CommonEventSpecialArgCase>
                 {
-                    new CommonEventSpecialArgCase(0, "")
+                    new(0, "")
                 };
                 instance.AddRangeSpecialCase(argCaseList);
             }
@@ -524,7 +524,7 @@ namespace WodiLib.Test.Common.Internal
             {
                 var argCaseList = new List<CommonEventSpecialArgCase>
                 {
-                    new CommonEventSpecialArgCase(0, "")
+                    new(0, "")
                 };
                 instance.InsertRangeSpecialCase(0, argCaseList);
             }
@@ -545,54 +545,54 @@ namespace WodiLib.Test.Common.Internal
 
         private static readonly object[] UpdateDatabaseSpecialCaseTestCaseSource =
         {
-            new object[] {true, -4, null, true},
-            new object[] {true, -4, "", true},
-            new object[] {true, -4, "abc", true},
-            new object[] {true, -4, "あいうえお", true},
-            new object[] {true, -4, "New\r\nLine\r\nCRLF", true},
-            new object[] {true, -4, "New\nLine\nLF", true},
-            new object[] {true, -3, null, true},
-            new object[] {true, -3, "", false},
-            new object[] {true, -3, "abc", false},
-            new object[] {true, -3, "あいうえお", false},
-            new object[] {true, -3, "New\r\nLine\r\nCRLF", true},
-            new object[] {true, -3, "New\nLine\nLF", true},
-            new object[] {true, -1, null, true},
-            new object[] {true, -1, "", false},
-            new object[] {true, -1, "abc", false},
-            new object[] {true, -1, "あいうえお", false},
-            new object[] {true, -1, "New\r\nLine\r\nCRLF", true},
-            new object[] {true, -1, "New\nLine\nLF", true},
-            new object[] {true, 0, null, true},
-            new object[] {true, 0, "", true},
-            new object[] {true, 0, "abc", true},
-            new object[] {true, 0, "あいうえお", true},
-            new object[] {true, 0, "New\r\nLine\r\nCRLF", true},
-            new object[] {true, 0, "New\nLine\nLF", true},
-            new object[] {false, -4, null, true},
-            new object[] {false, -4, "", true},
-            new object[] {false, -4, "abc", true},
-            new object[] {false, -4, "あいうえお", true},
-            new object[] {false, -4, "New\r\nLine\r\nCRLF", true},
-            new object[] {false, -4, "New\nLine\nLF", true},
-            new object[] {false, -3, null, true},
-            new object[] {false, -3, "", false},
-            new object[] {false, -3, "abc", false},
-            new object[] {false, -3, "あいうえお", false},
-            new object[] {false, -3, "New\r\nLine\r\nCRLF", true},
-            new object[] {false, -3, "New\nLine\nLF", true},
-            new object[] {false, -1, null, true},
-            new object[] {false, -1, "", false},
-            new object[] {false, -1, "abc", false},
-            new object[] {false, -1, "あいうえお", false},
-            new object[] {false, -1, "New\r\nLine\r\nCRLF", true},
-            new object[] {false, -1, "New\nLine\nLF", true},
-            new object[] {false, 0, null, true},
-            new object[] {false, 0, "", true},
-            new object[] {false, 0, "abc", true},
-            new object[] {false, 0, "あいうえお", true},
-            new object[] {false, 0, "New\r\nLine\r\nCRLF", true},
-            new object[] {false, 0, "New\nLine\nLF", true},
+            new object[] { true, -4, null, true },
+            new object[] { true, -4, "", true },
+            new object[] { true, -4, "abc", true },
+            new object[] { true, -4, "あいうえお", true },
+            new object[] { true, -4, "New\r\nLine\r\nCRLF", true },
+            new object[] { true, -4, "New\nLine\nLF", true },
+            new object[] { true, -3, null, true },
+            new object[] { true, -3, "", false },
+            new object[] { true, -3, "abc", false },
+            new object[] { true, -3, "あいうえお", false },
+            new object[] { true, -3, "New\r\nLine\r\nCRLF", true },
+            new object[] { true, -3, "New\nLine\nLF", true },
+            new object[] { true, -1, null, true },
+            new object[] { true, -1, "", false },
+            new object[] { true, -1, "abc", false },
+            new object[] { true, -1, "あいうえお", false },
+            new object[] { true, -1, "New\r\nLine\r\nCRLF", true },
+            new object[] { true, -1, "New\nLine\nLF", true },
+            new object[] { true, 0, null, true },
+            new object[] { true, 0, "", true },
+            new object[] { true, 0, "abc", true },
+            new object[] { true, 0, "あいうえお", true },
+            new object[] { true, 0, "New\r\nLine\r\nCRLF", true },
+            new object[] { true, 0, "New\nLine\nLF", true },
+            new object[] { false, -4, null, true },
+            new object[] { false, -4, "", true },
+            new object[] { false, -4, "abc", true },
+            new object[] { false, -4, "あいうえお", true },
+            new object[] { false, -4, "New\r\nLine\r\nCRLF", true },
+            new object[] { false, -4, "New\nLine\nLF", true },
+            new object[] { false, -3, null, true },
+            new object[] { false, -3, "", false },
+            new object[] { false, -3, "abc", false },
+            new object[] { false, -3, "あいうえお", false },
+            new object[] { false, -3, "New\r\nLine\r\nCRLF", true },
+            new object[] { false, -3, "New\nLine\nLF", true },
+            new object[] { false, -1, null, true },
+            new object[] { false, -1, "", false },
+            new object[] { false, -1, "abc", false },
+            new object[] { false, -1, "あいうえお", false },
+            new object[] { false, -1, "New\r\nLine\r\nCRLF", true },
+            new object[] { false, -1, "New\nLine\nLF", true },
+            new object[] { false, 0, null, true },
+            new object[] { false, 0, "", true },
+            new object[] { false, 0, "abc", true },
+            new object[] { false, 0, "あいうえお", true },
+            new object[] { false, 0, "New\r\nLine\r\nCRLF", true },
+            new object[] { false, 0, "New\nLine\nLF", true }
         };
 
         [TestCaseSource(nameof(UpdateDatabaseSpecialCaseTestCaseSource))]

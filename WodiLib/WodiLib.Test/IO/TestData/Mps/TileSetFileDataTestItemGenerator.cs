@@ -10,10 +10,11 @@ namespace WodiLib.Test.IO
     {
         #region CreateTileSetFileData
 
-        /** ========================================
-         *  タイルセットデータオブジェクト作成
-         *  ======================================== */
-
+        /**
+         * ========================================
+         * タイルセットデータオブジェクト作成
+         * ========================================
+         */
         public static TileSetFileData GenerateData0()
         {
             return new TileSetFileData
@@ -39,7 +40,7 @@ namespace WodiLib.Test.IO
             return new TileSetSetting(new TileTagNumberList(
                     new Func<List<TileTagNumber>>(() =>
                     {
-                        var result = new List<TileTagNumber> {1};
+                        var result = new List<TileTagNumber> { 1 };
                         for (byte i = 1; i <= 15; i++)
                         {
                             result.Add(i);
@@ -55,30 +56,30 @@ namespace WodiLib.Test.IO
                 {
                     var result = new List<TilePathSetting>
                     {
-                        new TilePathSetting(0x8f),
-                        new TilePathSetting(0x80),
-                        new TilePathSetting(0x98),
-                        new TilePathSetting(0x94),
-                        new TilePathSetting(0x01_81),
-                        new TilePathSetting(0x01_02),
-                        new TilePathSetting(0x02_0C),
-                        new TilePathSetting(0x02_03),
-                        new TilePathSetting(0x40),
-                        new TilePathSetting(0x40),
-                        new TilePathSetting(0x02_00),
-                        new TilePathSetting(0x0F),
-                        new TilePathSetting(0x02_10),
-                        new TilePathSetting(0x03_00),
-                        new TilePathSetting(0x02_00),
-                        new TilePathSetting(0x02_40),
-                        new TilePathSetting(0x28),
-                        new TilePathSetting(0x2A),
-                        new TilePathSetting(0x21),
-                        new TilePathSetting(0x26),
-                        new TilePathSetting(0x23),
-                        new TilePathSetting(0x00),
-                        new TilePathSetting(0x00),
-                        new TilePathSetting(0x80),
+                        new(0x8f),
+                        new(0x80),
+                        new(0x98),
+                        new(0x94),
+                        new(0x01_81),
+                        new(0x01_02),
+                        new(0x02_0C),
+                        new(0x02_03),
+                        new(0x40),
+                        new(0x40),
+                        new(0x02_00),
+                        new(0x0F),
+                        new(0x02_10),
+                        new(0x03_00),
+                        new(0x02_00),
+                        new(0x02_40),
+                        new(0x28),
+                        new(0x2A),
+                        new(0x21),
+                        new(0x26),
+                        new(0x23),
+                        new(0x00),
+                        new(0x00),
+                        new(0x80)
                     };
 
                     for (var i = 0; i < 2008 - 24; i++)
@@ -92,7 +93,7 @@ namespace WodiLib.Test.IO
                     var result = new List<AutoTileFileName>
                     {
                         "", "", "", "", "", "", "", "",
-                        "", "", "", "", "", "", "LastAutoTile",
+                        "", "", "", "", "", "", "LastAutoTile"
                     };
 
                     return result;
@@ -135,7 +136,7 @@ namespace WodiLib.Test.IO
                 var result = new List<AutoTileFileName>
                 {
                     "", "", "", "", "", "", "", "",
-                    "", "", "", "", "", "", "",
+                    "", "", "", "", "", "", ""
                 };
 
                 return result;
@@ -158,11 +159,11 @@ namespace WodiLib.Test.IO
         {
             (@"000_設定名.tile", TestResources.title000_設定名),
             (@"001_aaa.tile", TestResources.title001_aaa),
-            (@"000_街.tile", TestResources.title000_街),
+            (@"000_街.tile", TestResources.title000_街)
         };
 
         /// <summary>
-        /// テストデータファイルを tmp フォルダに出力する。
+        ///     テストデータファイルを tmp フォルダに出力する。
         /// </summary>
         public static void OutputFile()
         {
@@ -178,7 +179,7 @@ namespace WodiLib.Test.IO
         }
 
         /// <summary>
-        /// テストデータファイルを削除する。
+        ///     テストデータファイルを削除する。
         /// </summary>
         public static void DeleteFile()
         {

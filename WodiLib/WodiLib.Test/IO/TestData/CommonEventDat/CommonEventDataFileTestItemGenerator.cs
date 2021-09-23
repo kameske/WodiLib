@@ -6,14 +6,15 @@ using WodiLib.Test.Tools;
 namespace WodiLib.Test.IO
 {
     /// <summary>
-    /// CommonEventDataFileReader/Writerテスト時に比較するためのアイテムを生成する。
+    ///     CommonEventDataFileReader/Writerテスト時に比較するためのアイテムを生成する。
     /// </summary>
     public static partial class CommonEventDataFileTestItemGenerator
     {
-        /** ========================================
-         *  マップデータオブジェクト作成
-         *  ======================================== */
-
+        /**
+         * ========================================
+         * マップデータオブジェクト作成
+         * ========================================
+         */
         public static CommonEventData GenerateCommonEvent00Data()
         {
             var commonEventList = new List<CommonEvent>
@@ -25,7 +26,7 @@ namespace WodiLib.Test.IO
                 CommonEvent00Data.GenerateCommonEvent004(),
                 CommonEvent00Data.GenerateCommonEvent005(),
                 CommonEvent00Data.GenerateCommonEvent006(),
-                CommonEvent00Data.GenerateCommonEvent007(),
+                CommonEvent00Data.GenerateCommonEvent007()
             };
 
             var result = new CommonEventData();
@@ -35,21 +36,20 @@ namespace WodiLib.Test.IO
             return result;
         }
 
-        /** ========================================
-         *  テスト用ファイル出力
-         *  ======================================== */
-
+        /// ========================================
+        /// テスト用ファイル出力
+        /// ========================================
         /// <summary>テストディレクトリルート</summary>
         public static string TestWorkRootDir => MapFileTestItemGenerator.TestWorkRootDir;
 
         /// <summary>テストファイルデータ</summary>
         public static readonly IEnumerable<(string, byte[])> TestFiles = new List<(string, byte[])>
         {
-            ("CommonEvent_00.dat", TestResources.CommonEvent_00),
+            ("CommonEvent_00.dat", TestResources.CommonEvent_00)
         };
 
         /// <summary>
-        /// マップファイルを tmp フォルダに出力する。
+        ///     マップファイルを tmp フォルダに出力する。
         /// </summary>
         public static void OutputFile()
         {
@@ -65,7 +65,7 @@ namespace WodiLib.Test.IO
         }
 
         /// <summary>
-        /// マップファイルを削除する。
+        ///     マップファイルを削除する。
         /// </summary>
         public static void DeleteMapFile()
         {

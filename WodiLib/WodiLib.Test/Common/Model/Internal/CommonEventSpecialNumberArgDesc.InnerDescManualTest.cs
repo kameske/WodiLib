@@ -115,16 +115,16 @@ namespace WodiLib.Test.Common.Internal
 
         private static readonly object[] SetDatabaseReferTestCaseSource =
         {
-            new object[] {DBKind.Changeable, 0},
-            new object[] {DBKind.User, 99},
-            new object[] {DBKind.System, 32},
-            new object[] {null, 85},
+            new object[] { DBKind.Changeable, 0 },
+            new object[] { DBKind.User, 99 },
+            new object[] { DBKind.System, 32 },
+            new object[] { null, 85 }
         };
 
         [TestCaseSource(nameof(SetDatabaseReferTestCaseSource))]
         public static void SetDatabaseReferTest(DBKind dbKind, int dbTypeId)
         {
-            var typeId = (TypeId) dbTypeId;
+            var typeId = (TypeId)dbTypeId;
 
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescManual(null);
             var changedPropertyList = new List<string>();
@@ -213,8 +213,8 @@ namespace WodiLib.Test.Common.Internal
 
         private static readonly object[] GetSpecialCaseTestCaseSource =
         {
-            new object[] {0, 0},
-            new object[] {4, 4},
+            new object[] { 0, 0 },
+            new object[] { 4, 4 }
         };
 
         [TestCaseSource(nameof(GetSpecialCaseTestCaseSource))]
@@ -261,8 +261,8 @@ namespace WodiLib.Test.Common.Internal
 
         private static readonly object[] GetAllSpecialCaseNumberTestCaseSource =
         {
-            new object[] {0, 0},
-            new object[] {4, 4},
+            new object[] { 0, 0 },
+            new object[] { 4, 4 }
         };
 
         [TestCaseSource(nameof(GetAllSpecialCaseNumberTestCaseSource))]
@@ -309,8 +309,8 @@ namespace WodiLib.Test.Common.Internal
 
         private static readonly object[] GetAllSpecialCaseDescriptionTestCaseSource =
         {
-            new object[] {0, 0},
-            new object[] {4, 4},
+            new object[] { 0, 0 },
+            new object[] { 4, 4 }
         };
 
         [TestCaseSource(nameof(GetAllSpecialCaseDescriptionTestCaseSource))]

@@ -29,7 +29,7 @@ namespace WodiLib.Test.Map
         [TestCase(251, 251, false)]
         public static void ConstructorTest(byte width, byte height, bool isError)
         {
-            HitExtendRange instance = default(HitExtendRange);
+            var instance = default(HitExtendRange);
 
             var errorOccured = false;
             try
@@ -48,8 +48,8 @@ namespace WodiLib.Test.Map
             if (errorOccured) return;
 
             // セットした値と一致すること
-            Assert.AreEqual(instance.Width, width);
-            Assert.AreEqual(instance.Height, height);
+            Assert.AreEqual((int)instance.Width, width);
+            Assert.AreEqual((int)instance.Height, height);
         }
     }
 }

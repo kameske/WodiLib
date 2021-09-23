@@ -27,7 +27,7 @@ namespace WodiLib.Test.Map
         public static void NewInstanceTest(int id, bool isError)
         {
             var errorOccured = false;
-            MapChip instance = MapChip.Default;
+            var instance = MapChip.Default;
             try
             {
                 instance = new MapChip(id);
@@ -44,7 +44,7 @@ namespace WodiLib.Test.Map
             if (errorOccured) return;
 
             // インスタンスの値と設定値が一致すること
-            Assert.AreEqual((int) instance, id);
+            Assert.AreEqual((int)instance, id);
         }
 
         [TestCase(-1, true)]
@@ -56,7 +56,7 @@ namespace WodiLib.Test.Map
         public static void ImplicitFromIntTest(int id, bool isError)
         {
             var errorOccured = false;
-            MapChip instance = MapChip.Default;
+            var instance = MapChip.Default;
             try
             {
                 instance = id;
@@ -73,7 +73,7 @@ namespace WodiLib.Test.Map
             if (errorOccured) return;
 
             // インスタンスの値と設定値が一致すること
-            Assert.AreEqual((int) instance, id);
+            Assert.AreEqual((int)instance, id);
         }
 
         [TestCase(0, false)]
@@ -82,7 +82,7 @@ namespace WodiLib.Test.Map
         [TestCase(1604444, true)]
         public static void IsAutoTileNumberTest(int id, bool isAutoTileNumber)
         {
-            var instance = (MapChip) id;
+            var instance = (MapChip)id;
 
             // フラグが一致すること
             Assert.AreEqual(instance.IsAutoTile, isAutoTileNumber);
@@ -90,18 +90,18 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] LeftUpAutoTileGetTestCaseSource =
         {
-            new object[] {0, true, null},
-            new object[] {100123, false, AutoTilePartType.ConnectionCentral},
-            new object[] {101234, false, AutoTilePartType.ConnectionVertical},
-            new object[] {102340, false, AutoTilePartType.ConnectionHorizontal},
-            new object[] {103401, false, AutoTilePartType.ConnectionOutSide},
-            new object[] {104012, false, AutoTilePartType.SurroundingFilled},
+            new object[] { 0, true, null },
+            new object[] { 100123, false, AutoTilePartType.ConnectionCentral },
+            new object[] { 101234, false, AutoTilePartType.ConnectionVertical },
+            new object[] { 102340, false, AutoTilePartType.ConnectionHorizontal },
+            new object[] { 103401, false, AutoTilePartType.ConnectionOutSide },
+            new object[] { 104012, false, AutoTilePartType.SurroundingFilled }
         };
 
         [TestCaseSource(nameof(LeftUpAutoTileGetTestCaseSource))]
         public static void LeftUpAutoTileGetTest(int id, bool isError, AutoTilePartType type)
         {
-            var instance = (MapChip) id;
+            var instance = (MapChip)id;
 
             var errorOccured = false;
             AutoTilePartType result = null;
@@ -126,18 +126,18 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] RightUpAutoTileGetTestCaseSource =
         {
-            new object[] {0, true, null},
-            new object[] {104012, false, AutoTilePartType.ConnectionCentral},
-            new object[] {100123, false, AutoTilePartType.ConnectionVertical},
-            new object[] {101234, false, AutoTilePartType.ConnectionHorizontal},
-            new object[] {102345, false, AutoTilePartType.ConnectionOutSide},
-            new object[] {103401, false, AutoTilePartType.SurroundingFilled},
+            new object[] { 0, true, null },
+            new object[] { 104012, false, AutoTilePartType.ConnectionCentral },
+            new object[] { 100123, false, AutoTilePartType.ConnectionVertical },
+            new object[] { 101234, false, AutoTilePartType.ConnectionHorizontal },
+            new object[] { 102345, false, AutoTilePartType.ConnectionOutSide },
+            new object[] { 103401, false, AutoTilePartType.SurroundingFilled }
         };
 
         [TestCaseSource(nameof(RightUpAutoTileGetTestCaseSource))]
         public static void RightUpAutoTileGetTest(int id, bool isError, AutoTilePartType type)
         {
-            var instance = (MapChip) id;
+            var instance = (MapChip)id;
 
             var errorOccured = false;
             AutoTilePartType result = null;
@@ -162,18 +162,18 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] LeftDownAutoTileGetTestCaseSource =
         {
-            new object[] {0, true, null},
-            new object[] {103401, false, AutoTilePartType.ConnectionCentral},
-            new object[] {104012, false, AutoTilePartType.ConnectionVertical},
-            new object[] {100123, false, AutoTilePartType.ConnectionHorizontal},
-            new object[] {101234, false, AutoTilePartType.ConnectionOutSide},
-            new object[] {102340, false, AutoTilePartType.SurroundingFilled},
+            new object[] { 0, true, null },
+            new object[] { 103401, false, AutoTilePartType.ConnectionCentral },
+            new object[] { 104012, false, AutoTilePartType.ConnectionVertical },
+            new object[] { 100123, false, AutoTilePartType.ConnectionHorizontal },
+            new object[] { 101234, false, AutoTilePartType.ConnectionOutSide },
+            new object[] { 102340, false, AutoTilePartType.SurroundingFilled }
         };
 
         [TestCaseSource(nameof(LeftDownAutoTileGetTestCaseSource))]
         public static void LeftDownAutoTileGetTest(int id, bool isError, AutoTilePartType type)
         {
-            var instance = (MapChip) id;
+            var instance = (MapChip)id;
 
             var errorOccured = false;
             AutoTilePartType result = null;
@@ -198,18 +198,18 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] RightDownAutoTileGetTestCaseSource =
         {
-            new object[] {0, true, null},
-            new object[] {102340, false, AutoTilePartType.ConnectionCentral},
-            new object[] {103401, false, AutoTilePartType.ConnectionVertical},
-            new object[] {104012, false, AutoTilePartType.ConnectionHorizontal},
-            new object[] {100123, false, AutoTilePartType.ConnectionOutSide},
-            new object[] {101234, false, AutoTilePartType.SurroundingFilled},
+            new object[] { 0, true, null },
+            new object[] { 102340, false, AutoTilePartType.ConnectionCentral },
+            new object[] { 103401, false, AutoTilePartType.ConnectionVertical },
+            new object[] { 104012, false, AutoTilePartType.ConnectionHorizontal },
+            new object[] { 100123, false, AutoTilePartType.ConnectionOutSide },
+            new object[] { 101234, false, AutoTilePartType.SurroundingFilled }
         };
 
         [TestCaseSource(nameof(RightDownAutoTileGetTestCaseSource))]
         public static void RightDownAutoTileGetTest(int id, bool isError, AutoTilePartType type)
         {
-            var instance = (MapChip) id;
+            var instance = (MapChip)id;
 
             var errorOccured = false;
             AutoTilePartType result = null;
@@ -276,31 +276,31 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {0, 0, true},
-            new object[] {0, 31, false},
+            new object[] { 0, 0, true },
+            new object[] { 0, 31, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapChip) left;
-            var rightIndex = (MapChip) right;
+            var leftIndex = (MapChip)left;
+            var rightIndex = (MapChip)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapChip) left;
-            var rightIndex = (MapChip) right;
+            var leftIndex = (MapChip)left;
+            var rightIndex = (MapChip)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapChip) left;
-            var rightIndex = (MapChip) right;
+            var leftIndex = (MapChip)left;
+            var rightIndex = (MapChip)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

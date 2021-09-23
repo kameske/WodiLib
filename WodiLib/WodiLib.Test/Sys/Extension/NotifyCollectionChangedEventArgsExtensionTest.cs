@@ -11,9 +11,9 @@ namespace WodiLib.Test.Sys
     {
         private static readonly object[] ExecuteByActionTestCaseSource =
         {
-            new object[] {NotifyCollectionChangedEventArgsHelper.Insert(new[] {1, 2}, 5)},
-            new object[] {NotifyCollectionChangedEventArgsHelper.Move(new[] {1}, 2, 0)},
-            new object[] {NotifyCollectionChangedEventArgsHelper.Remove(new[] {1, 2}, 0)},
+            new object[] { NotifyCollectionChangedEventArgsHelper.Insert(new[] { 1, 2 }, 5) },
+            new object[] { NotifyCollectionChangedEventArgsHelper.Move(new[] { 1 }, 2, 0) },
+            new object[] { NotifyCollectionChangedEventArgsHelper.Remove(new[] { 1, 2 }, 0) }
         };
 
         [TestCaseSource(nameof(ExecuteByActionTestCaseSource))]
@@ -21,11 +21,11 @@ namespace WodiLib.Test.Sys
         {
             var actionCountDic = new Dictionary<string, int>
             {
-                {nameof(NotifyCollectionChangedAction.Replace), 0},
-                {nameof(NotifyCollectionChangedAction.Add), 0},
-                {nameof(NotifyCollectionChangedAction.Move), 0},
-                {nameof(NotifyCollectionChangedAction.Remove), 0},
-                {nameof(NotifyCollectionChangedAction.Reset), 0},
+                { nameof(NotifyCollectionChangedAction.Replace), 0 },
+                { nameof(NotifyCollectionChangedAction.Add), 0 },
+                { nameof(NotifyCollectionChangedAction.Move), 0 },
+                { nameof(NotifyCollectionChangedAction.Remove), 0 },
+                { nameof(NotifyCollectionChangedAction.Reset), 0 }
             };
             args.ExecuteByAction<int>(
                 (index, items, newItems) => actionCountDic[nameof(NotifyCollectionChangedAction.Replace)] += 1,

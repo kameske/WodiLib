@@ -51,7 +51,7 @@ namespace WodiLib.Test.Sys
                     0x00, 0x00, 0x00, 0x10
                 },
                 Endian.Little, 3, 16
-            },
+            }
         };
 
         [TestCaseSource(nameof(ToInt32TestCaseSource))]
@@ -76,14 +76,14 @@ namespace WodiLib.Test.Sys
             },
             new object[]
             {
-                new byte[] {0x03, 0x00, 0x00, 0x00},
+                new byte[] { 0x03, 0x00, 0x00, 0x00 },
                 Endian.Little, 4
             },
             new object[]
             {
-                new byte[] {0x03, 0x00, 0x00, 0x00},
+                new byte[] { 0x03, 0x00, 0x00, 0x00 },
                 Endian.Little, 5
-            },
+            }
         };
 
         [TestCaseSource(nameof(ToInt32ErrorTestCaseSource))]
@@ -119,18 +119,18 @@ namespace WodiLib.Test.Sys
             new object[]
             {
                 0, Endian.Little,
-                new byte[] {0x00, 0x00, 0x00, 0x00}
+                new byte[] { 0x00, 0x00, 0x00, 0x00 }
             },
             new object[]
             {
                 4, Endian.Little,
-                new byte[] {0x04, 0x00, 0x00, 0x00}
+                new byte[] { 0x04, 0x00, 0x00, 0x00 }
             },
             new object[]
             {
                 4, Endian.Big,
-                new byte[] {0x00, 0x00, 0x00, 0x04}
-            },
+                new byte[] { 0x00, 0x00, 0x00, 0x04 }
+            }
         };
 
         [TestCaseSource(nameof(ToBytesTestCaseSource))]

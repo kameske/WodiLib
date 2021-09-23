@@ -20,10 +20,10 @@ namespace WodiLib.Test.Project.ValueObject
 
         private static readonly object[] ConstructorTestCaseSource =
         {
-            new object[] {null, null, true},
-            new object[] {EventCommandColorSet.Black, null, true},
-            new object[] {null, new EventCommandSentence("Text"), true},
-            new object[] {EventCommandColorSet.Green, new EventCommandSentence("Text"), false},
+            new object[] { null, null, true },
+            new object[] { EventCommandColorSet.Black, null, true },
+            new object[] { null, new EventCommandSentence("Text"), true },
+            new object[] { EventCommandColorSet.Green, new EventCommandSentence("Text"), false }
         };
 
         [TestCaseSource(nameof(ConstructorTestCaseSource))]

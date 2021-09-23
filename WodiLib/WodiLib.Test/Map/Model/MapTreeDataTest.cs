@@ -21,8 +21,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] TreeNodeListTestCaseSource =
         {
-            new object[] {new MapTreeNodeList(), false},
-            new object[] {null, true},
+            new object[] { new MapTreeNodeList(), false },
+            new object[] { null, true }
         };
 
         [TestCaseSource(nameof(TreeNodeListTestCaseSource))]

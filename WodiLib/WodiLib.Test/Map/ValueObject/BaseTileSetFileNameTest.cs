@@ -67,7 +67,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                var _ = (string) instance;
+                var _ = (string)instance;
             }
             catch (Exception ex)
             {
@@ -79,7 +79,7 @@ namespace WodiLib.Test.Map
             Assert.IsFalse(errorOccured);
 
             // キャストした結果が一致すること
-            Assert.AreEqual((string) instance, value);
+            Assert.AreEqual((string)instance, value);
         }
 
         [TestCase(null, false)]
@@ -109,36 +109,36 @@ namespace WodiLib.Test.Map
             if (errorOccured) return;
 
             // キャストした結果が一致すること
-            Assert.AreEqual((string) instance, value);
+            Assert.AreEqual((string)instance, value);
         }
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {"a", "a", true},
-            new object[] {"a", "b", false},
+            new object[] { "a", "a", true },
+            new object[] { "a", "b", false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(string left, string right, bool isEqual)
         {
-            var leftIndex = (BaseTileSetFileName) left;
-            var rightIndex = (BaseTileSetFileName) right;
+            var leftIndex = (BaseTileSetFileName)left;
+            var rightIndex = (BaseTileSetFileName)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(string left, string right, bool isEqual)
         {
-            var leftIndex = (BaseTileSetFileName) left;
-            var rightIndex = (BaseTileSetFileName) right;
+            var leftIndex = (BaseTileSetFileName)left;
+            var rightIndex = (BaseTileSetFileName)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(string left, string right, bool isEqual)
         {
-            var leftIndex = (BaseTileSetFileName) left;
-            var rightIndex = (BaseTileSetFileName) right;
+            var leftIndex = (BaseTileSetFileName)left;
+            var rightIndex = (BaseTileSetFileName)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

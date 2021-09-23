@@ -22,8 +22,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] SetCriteriaOperatorTestCaseSource =
         {
-            new object[] {CriteriaOperator.Above, false},
-            new object[] {null, true},
+            new object[] { CriteriaOperator.Above, false },
+            new object[] { null, true }
         };
 
         [TestCaseSource(nameof(SetCriteriaOperatorTestCaseSource))]

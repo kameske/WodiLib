@@ -38,18 +38,6 @@ namespace WodiLib.Test.Ini.ValueObject
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(0)]
-        [TestCase(int.MaxValue)]
-        public static void ToIntTest(int value)
-        {
-            var instance = new DisplayNumber(value);
-
-            var intValue = instance.ToInt();
-
-            // セットした値と取得した値が一致すること
-            Assert.AreEqual(intValue, value);
-        }
-
         [TestCase(-1, true)]
         [TestCase(0, false)]
         [TestCase(int.MaxValue, false)]
@@ -58,7 +46,7 @@ namespace WodiLib.Test.Ini.ValueObject
             var errorOccured = false;
             try
             {
-                var _ = (DisplayNumber) value;
+                var _ = (DisplayNumber)value;
             }
             catch (Exception ex)
             {
@@ -81,7 +69,7 @@ namespace WodiLib.Test.Ini.ValueObject
             var errorOccured = false;
             try
             {
-                castValue =  instance;
+                castValue = instance;
             }
             catch (Exception ex)
             {
@@ -98,31 +86,31 @@ namespace WodiLib.Test.Ini.ValueObject
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {0, 0, true},
-            new object[] {0, int.MaxValue, false},
+            new object[] { 0, 0, true },
+            new object[] { 0, int.MaxValue, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (DisplayNumber) left;
-            var rightIndex = (DisplayNumber) right;
+            var leftIndex = (DisplayNumber)left;
+            var rightIndex = (DisplayNumber)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (DisplayNumber) left;
-            var rightIndex = (DisplayNumber) right;
+            var leftIndex = (DisplayNumber)left;
+            var rightIndex = (DisplayNumber)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (DisplayNumber) left;
-            var rightIndex = (DisplayNumber) right;
+            var leftIndex = (DisplayNumber)left;
+            var rightIndex = (DisplayNumber)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

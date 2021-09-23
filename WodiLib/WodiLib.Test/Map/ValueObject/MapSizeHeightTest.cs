@@ -39,19 +39,6 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(15)]
-        [TestCase(9999)]
-        public static void ToIntTest(int value)
-        {
-            var instance = new MapSizeHeight(value);
-
-            var intValue = instance.ToInt();
-
-            // セットした値と取得した値が一致すること
-            Assert.AreEqual(intValue, value);
-        }
-
-
         [TestCase(14, true)]
         [TestCase(15, false)]
         [TestCase(9999, false)]
@@ -61,7 +48,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                var _ = (MapSizeHeight) value;
+                var _ = (MapSizeHeight)value;
             }
             catch (Exception ex)
             {
@@ -101,31 +88,31 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {20, 20, true},
-            new object[] {20, 31, false},
+            new object[] { 20, 20, true },
+            new object[] { 20, 31, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapSizeHeight) left;
-            var rightIndex = (MapSizeHeight) right;
+            var leftIndex = (MapSizeHeight)left;
+            var rightIndex = (MapSizeHeight)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapSizeHeight) left;
-            var rightIndex = (MapSizeHeight) right;
+            var leftIndex = (MapSizeHeight)left;
+            var rightIndex = (MapSizeHeight)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapSizeHeight) left;
-            var rightIndex = (MapSizeHeight) right;
+            var leftIndex = (MapSizeHeight)left;
+            var rightIndex = (MapSizeHeight)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

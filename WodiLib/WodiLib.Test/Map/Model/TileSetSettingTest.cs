@@ -85,8 +85,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] NameTestCaseSource =
         {
-            new object[] {new TileSetName(""), false},
-            new object[] {null, true},
+            new object[] { new TileSetName(""), false },
+            new object[] { null, true }
         };
 
         [TestCaseSource(nameof(NameTestCaseSource))]
@@ -132,8 +132,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] BaseTileSetFileNameTestCaseSource =
         {
-            new object[] {new BaseTileSetFileName(""), false},
-            new object[] {null, true},
+            new object[] { new BaseTileSetFileName(""), false },
+            new object[] { null, true }
         };
 
         [TestCaseSource(nameof(BaseTileSetFileNameTestCaseSource))]
@@ -352,7 +352,7 @@ namespace WodiLib.Test.Map
 
             for (var i = 0; i < length; i++)
             {
-                list.Add(new TileTagNumber());
+                list.Add(new TileTagNumber(0));
             }
 
             return new TileTagNumberList(list);

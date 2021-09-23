@@ -3,9 +3,9 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <PackageId>WodiLib</PackageId>
-    <PackageVersion>2.3.65534.26</PackageVersion>
+    <PackageVersion>2.3.65534.27</PackageVersion>
     <Copyright>Copyright 2019 kameske</Copyright>
-    <Version>2.3.65534.26</Version>
+    <Version>2.3.65534.27</Version>
     <PackageProjectUrl>https://github.com/kameske/WodiLib</PackageProjectUrl>
     <PackageLicenseUrl/>
     <RepositoryUrl>https://github.com/kameske/WodiLib.git</RepositoryUrl>
@@ -14,11 +14,12 @@
     <Authors>Kameske</Authors>
     <RootNamespace>WodiLib</RootNamespace>
     <Product>WodiLib</Product>
-    <AssemblyVersion>2.3.65534.26</AssemblyVersion>
+    <AssemblyVersion>2.3.65534.27</AssemblyVersion>
     <AssemblyName>WodiLib</AssemblyName>
     <LangVersion>9</LangVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -32,5 +33,9 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0"/>
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0"/>
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.0"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WodiLib.SourceGenerator\WodiLib.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
   </ItemGroup>
 </Project>

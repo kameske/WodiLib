@@ -37,18 +37,6 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(0)]
-        [TestCase(255)]
-        public static void ToByteTest(byte value)
-        {
-            var instance = new ShadowGraphicId(value);
-
-            var intValue = instance.ToByte();
-
-            // セットした値と取得した値が一致すること
-            Assert.AreEqual(intValue, value);
-        }
-
         [TestCase(0, false)]
         [TestCase(255, false)]
         public static void CastFromByteTest(byte value, bool isError)
@@ -56,7 +44,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                var _ = (ShadowGraphicId) value;
+                var _ = (ShadowGraphicId)value;
             }
             catch (Exception ex)
             {
@@ -96,31 +84,31 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {0, 0, true},
-            new object[] {0, 31, false},
+            new object[] { 0, 0, true },
+            new object[] { 0, 31, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (ShadowGraphicId) left;
-            var rightIndex = (ShadowGraphicId) right;
+            var leftIndex = (ShadowGraphicId)left;
+            var rightIndex = (ShadowGraphicId)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (ShadowGraphicId) left;
-            var rightIndex = (ShadowGraphicId) right;
+            var leftIndex = (ShadowGraphicId)left;
+            var rightIndex = (ShadowGraphicId)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (ShadowGraphicId) left;
-            var rightIndex = (ShadowGraphicId) right;
+            var leftIndex = (ShadowGraphicId)left;
+            var rightIndex = (ShadowGraphicId)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

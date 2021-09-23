@@ -24,7 +24,7 @@ namespace WodiLib.Test.IO
                         {
                             ItemMemo = "",
                             InitValue = 0
-                        },
+                        }
                     },
                     // 項目1
                     new DatabaseItemDesc
@@ -33,8 +33,8 @@ namespace WodiLib.Test.IO
                         ItemType = DBItemType.String,
                         SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                         {
-                            ItemMemo = "",
-                        },
+                            ItemMemo = ""
+                        }
                     },
                     // 項目2
                     new DatabaseItemDesc
@@ -46,8 +46,8 @@ namespace WodiLib.Test.IO
                             {
                                 ItemMemo = "",
                                 FolderName = "MapChip",
-                                OmissionFolderNameFlag = false,
-                            },
+                                OmissionFolderNameFlag = false
+                            }
                     },
                     // 項目3
                     new DatabaseItemDesc
@@ -59,8 +59,8 @@ namespace WodiLib.Test.IO
                             {
                                 ItemMemo = "",
                                 FolderName = "MapData",
-                                OmissionFolderNameFlag = true,
-                            },
+                                OmissionFolderNameFlag = true
+                            }
                     },
                     // 項目4
                     new DatabaseItemDesc
@@ -75,7 +75,7 @@ namespace WodiLib.Test.IO
                                 DatabaseReferKind = DBReferType.User,
                                 DatabaseDbTypeId = 4,
                                 DatabaseUseAdditionalItemsFlag = false
-                            },
+                            }
                     },
                     // 項目5
                     new DatabaseItemDesc
@@ -86,9 +86,9 @@ namespace WodiLib.Test.IO
                             DBItemSpecialSettingType.ReferDatabase,
                             new List<DatabaseValueCase>
                             {
-                                new DatabaseValueCase(-1, "Minus1"),
-                                new DatabaseValueCase(-2, "Minus2"),
-                                new DatabaseValueCase(-3, "Minus3"),
+                                new(-1, "Minus1"),
+                                new(-2, "Minus2"),
+                                new(-3, "Minus3")
                             })
                         {
                             ItemMemo = "",
@@ -96,7 +96,7 @@ namespace WodiLib.Test.IO
                             DatabaseReferKind = DBReferType.Changeable,
                             DatabaseDbTypeId = 1,
                             DatabaseUseAdditionalItemsFlag = true
-                        },
+                        }
                     },
                     // 項目6
                     new DatabaseItemDesc
@@ -106,80 +106,80 @@ namespace WodiLib.Test.IO
                         SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Manual,
                             new List<DatabaseValueCase>
                             {
-                                new DatabaseValueCase(0, "Zero"),
-                                new DatabaseValueCase(3, "さん"),
-                                new DatabaseValueCase(10, "１０"),
-                                new DatabaseValueCase(9, "nine"),
+                                new(0, "Zero"),
+                                new(3, "さん"),
+                                new(10, "１０"),
+                                new(9, "nine")
                             })
                         {
                             ItemMemo = "",
-                            InitValue = 0,
+                            InitValue = 0
                         }
-                    },
-                },
+                    }
+                }
             };
             result.DataDescList.Overwrite(0, new List<DatabaseDataDesc>
             {
                 // データ0
-                new DatabaseDataDesc
+                new()
                 {
                     DataName = "文字列",
                     ItemValueList =
                     {
-                        (DBValueInt) (-255),
-                        (DBValueString) "文字列",
-                        (DBValueString) "MapChip/[A]World_Grass-Grass_pipo.png",
-                        (DBValueString) "Map002.mps",
-                        (DBValueInt) 0,
-                        (DBValueInt) (-2),
-                        (DBValueInt) 3,
+                        (DBValueInt)(-255),
+                        (DBValueString)"文字列",
+                        (DBValueString)"MapChip/[A]World_Grass-Grass_pipo.png",
+                        (DBValueString)"Map002.mps",
+                        (DBValueInt)0,
+                        (DBValueInt)(-2),
+                        (DBValueInt)3
                     }
                 },
                 // データ1
-                new DatabaseDataDesc
+                new()
                 {
                     DataName = "7",
                     ItemValueList =
                     {
-                        (DBValueInt) 6,
-                        (DBValueString) "7",
-                        (DBValueString) "MapData/Map002.mps",
-                        (DBValueString) "",
-                        (DBValueInt) 0,
-                        (DBValueInt) (-3),
-                        (DBValueInt) 9,
+                        (DBValueInt)6,
+                        (DBValueString)"7",
+                        (DBValueString)"MapData/Map002.mps",
+                        (DBValueString)"",
+                        (DBValueInt)0,
+                        (DBValueInt)(-3),
+                        (DBValueInt)9
                     }
                 },
                 // データ2
-                new DatabaseDataDesc
+                new()
                 {
                     DataName = "うでぃた",
                     ItemValueList =
                     {
-                        (DBValueInt) 0,
-                        (DBValueString) "うでぃた",
-                        (DBValueString) "",
-                        (DBValueString) "",
-                        (DBValueInt) 0,
-                        (DBValueInt) 0,
-                        (DBValueInt) 9,
+                        (DBValueInt)0,
+                        (DBValueString)"うでぃた",
+                        (DBValueString)"",
+                        (DBValueString)"",
+                        (DBValueInt)0,
+                        (DBValueInt)0,
+                        (DBValueInt)9
                     }
                 },
                 // データ3
-                new DatabaseDataDesc
+                new()
                 {
                     DataName = "",
                     ItemValueList =
                     {
-                        (DBValueInt) 0,
-                        (DBValueString) "",
-                        (DBValueString) "まっぷでーた",
-                        (DBValueString) "Map007.mps",
-                        (DBValueInt) 0,
-                        (DBValueInt) (-1),
-                        (DBValueInt) 3,
+                        (DBValueInt)0,
+                        (DBValueString)"",
+                        (DBValueString)"まっぷでーた",
+                        (DBValueString)"Map007.mps",
+                        (DBValueInt)0,
+                        (DBValueInt)(-1),
+                        (DBValueInt)3
                     }
-                },
+                }
             });
             result.SetDataSettingType(DBDataSettingType.FirstStringData);
             return result;
@@ -283,9 +283,9 @@ namespace WodiLib.Test.IO
                         SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Manual,
                             new List<DatabaseValueCase>
                             {
-                                new DatabaseValueCase(0, "選択肢1"),
-                                new DatabaseValueCase(1, "選択肢2"),
-                                new DatabaseValueCase(2, "選択肢3"),
+                                new(0, "選択肢1"),
+                                new(1, "選択肢2"),
+                                new(2, "選択肢3")
                             })
                         {
                             InitValue = 0,
@@ -301,72 +301,71 @@ namespace WodiLib.Test.IO
                         {
                             ItemMemo = ""
                         }
-                    },
-                },
+                    }
+                }
             };
             result.DataDescList.Overwrite(0, new List<DatabaseDataDesc>
             {
                 // データ0
-                new DatabaseDataDesc
+                new()
                 {
                     DataName = "a",
                     ItemValueList =
                     {
-                        (DBValueString) "",
-                        (DBValueInt) 255,
-                        (DBValueString) "",
-                        (DBValueString) "CharaChip/[Animal]ChickenTX.png",
-                        (DBValueInt) 122,
-                        (DBValueInt) 8,
-                        (DBValueInt) 6,
-                        (DBValueInt) 1,
-                        (DBValueString) "234",
-                    },
+                        (DBValueString)"",
+                        (DBValueInt)255,
+                        (DBValueString)"",
+                        (DBValueString)"CharaChip/[Animal]ChickenTX.png",
+                        (DBValueInt)122,
+                        (DBValueInt)8,
+                        (DBValueInt)6,
+                        (DBValueInt)1,
+                        (DBValueString)"234"
+                    }
                 },
                 // データ1
-                new DatabaseDataDesc
+                new()
                 {
                     DataName = "b",
                     ItemValueList =
                     {
-                        (DBValueString) "aaa",
-                        (DBValueInt) 255,
-                        (DBValueString) "aaa",
-                        (DBValueString) "",
-                        (DBValueInt) 0,
-                        (DBValueInt) 0,
-                        (DBValueInt) 0,
-                        (DBValueInt) 0,
-                        (DBValueString) "",
+                        (DBValueString)"aaa",
+                        (DBValueInt)255,
+                        (DBValueString)"aaa",
+                        (DBValueString)"",
+                        (DBValueInt)0,
+                        (DBValueInt)0,
+                        (DBValueInt)0,
+                        (DBValueInt)0,
+                        (DBValueString)""
                     }
                 },
                 // データ2
-                new DatabaseDataDesc
+                new()
                 {
                     DataName = "c",
                     ItemValueList =
                     {
-                        (DBValueString) "",
-                        (DBValueInt) 127,
-                        (DBValueString) "",
-                        (DBValueString) "",
-                        (DBValueInt) 4,
-                        (DBValueInt) 0,
-                        (DBValueInt) 127,
-                        (DBValueInt) 1,
-                        (DBValueString) "",
+                        (DBValueString)"",
+                        (DBValueInt)127,
+                        (DBValueString)"",
+                        (DBValueString)"",
+                        (DBValueInt)4,
+                        (DBValueInt)0,
+                        (DBValueInt)127,
+                        (DBValueInt)1,
+                        (DBValueString)""
                     }
-                },
+                }
             });
             result.SetDataSettingType(DBDataSettingType.Manual);
             return result;
         }
 
 
-        /** ========================================
-         *  テスト用ファイル出力
-         *  ======================================== */
-
+        /// ========================================
+        /// テスト用ファイル出力
+        /// ========================================
         /// <summary>テストディレクトリルート</summary>
         public static string TestWorkRootDir => MapFileTestItemGenerator.TestWorkRootDir;
 
@@ -376,11 +375,11 @@ namespace WodiLib.Test.IO
             ("タイプ(データ含む)_000_UDB0.dbtype", TestResources.UDB0DBType),
             ("タイプ(データ含む)_000_あいうえお.dbtype", TestResources.CDB0DBType),
             ("タイプ(データ含む)_002_┣ 主人公行動AI.dbtype", TestResources.CDB2DBType),
-            ("タイプ(データ含む)_008_状態設定.dbtype", TestResources.UDB8DBType),
+            ("タイプ(データ含む)_008_状態設定.dbtype", TestResources.UDB8DBType)
         };
 
         /// <summary>
-        /// ファイルを tmp フォルダに出力する。
+        ///     ファイルを tmp フォルダに出力する。
         /// </summary>
         public static void OutputFile()
         {
@@ -396,7 +395,7 @@ namespace WodiLib.Test.IO
         }
 
         /// <summary>
-        /// ファイルを削除する。
+        ///     ファイルを削除する。
         /// </summary>
         public static void DeleteFile()
         {

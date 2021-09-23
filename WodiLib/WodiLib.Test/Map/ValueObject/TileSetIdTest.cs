@@ -39,18 +39,6 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(0)]
-        [TestCase(10000)]
-        public static void ToIntTest(int value)
-        {
-            var instance = new TileSetId(value);
-
-            var intValue = instance.ToInt();
-
-            // セットした値と取得した値が一致すること
-            Assert.AreEqual(intValue, value);
-        }
-
         [TestCase(-1, true)]
         [TestCase(0, false)]
         [TestCase(10000, false)]
@@ -60,7 +48,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                var _ = (TileSetId) value;
+                var _ = (TileSetId)value;
             }
             catch (Exception ex)
             {
@@ -100,31 +88,31 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {0, 0, true},
-            new object[] {0, 31, false},
+            new object[] { 0, 0, true },
+            new object[] { 0, 31, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (TileSetId) left;
-            var rightIndex = (TileSetId) right;
+            var leftIndex = (TileSetId)left;
+            var rightIndex = (TileSetId)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (TileSetId) left;
-            var rightIndex = (TileSetId) right;
+            var leftIndex = (TileSetId)left;
+            var rightIndex = (TileSetId)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (TileSetId) left;
-            var rightIndex = (TileSetId) right;
+            var leftIndex = (TileSetId)left;
+            var rightIndex = (TileSetId)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

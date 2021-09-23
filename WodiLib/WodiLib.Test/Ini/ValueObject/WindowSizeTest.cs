@@ -58,7 +58,7 @@ namespace WodiLib.Test.Ini.ValueObject
             var errorOccured = false;
             try
             {
-                var _ = (WindowSize) (x, y);
+                var _ = (WindowSize)(x, y);
             }
             catch (Exception ex)
             {
@@ -81,7 +81,7 @@ namespace WodiLib.Test.Ini.ValueObject
             var errorOccured = false;
             try
             {
-                castValue =  instance;
+                castValue = instance;
             }
             catch (Exception ex)
             {
@@ -95,6 +95,7 @@ namespace WodiLib.Test.Ini.ValueObject
             // 元の値と一致すること
             Assert.AreEqual(castValue, (x, y));
         }
+
         [TestCase(-1, -1, true)]
         [TestCase(-1, 0, true)]
         [TestCase(-1, int.MaxValue, true)]
@@ -110,7 +111,7 @@ namespace WodiLib.Test.Ini.ValueObject
             var valueTuple = new ValueTuple<int, int>(x, y);
             try
             {
-                var _ = (WindowSize) valueTuple;
+                var _ = (WindowSize)valueTuple;
             }
             catch (Exception ex)
             {
@@ -133,7 +134,7 @@ namespace WodiLib.Test.Ini.ValueObject
             var errorOccured = false;
             try
             {
-                castValue =  instance;
+                castValue = instance;
             }
             catch (Exception ex)
             {
@@ -152,9 +153,9 @@ namespace WodiLib.Test.Ini.ValueObject
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {(WindowSize)(0, 0), (WindowSize)(0, 0), true},
-            new object[] {(WindowSize)(0, 0), (WindowSize)(0, int.MaxValue), false},
-            new object[] {(WindowSize)(0, 0), (WindowSize)(int.MaxValue, int.MaxValue), false},
+            new object[] { (WindowSize)(0, 0), (WindowSize)(0, 0), true },
+            new object[] { (WindowSize)(0, 0), (WindowSize)(0, int.MaxValue), false },
+            new object[] { (WindowSize)(0, 0), (WindowSize)(int.MaxValue, int.MaxValue), false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]

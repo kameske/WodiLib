@@ -39,18 +39,6 @@ namespace WodiLib.Test.Common
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(0)]
-        [TestCase(4)]
-        public static void ToIntTest(int value)
-        {
-            var instance = new CommonEventNumberArgIndex(value);
-
-            var intValue = instance.ToInt();
-
-            // セットした値と取得した値が一致すること
-            Assert.AreEqual(intValue, value);
-        }
-
         [TestCase(-1, true)]
         [TestCase(0, false)]
         [TestCase(4, false)]
@@ -75,7 +63,7 @@ namespace WodiLib.Test.Common
             if (errorOccured) return;
 
             // キャストした結果が一致すること
-            Assert.AreEqual((int) instance, value);
+            Assert.AreEqual((int)instance, value);
         }
 
         [TestCase(0)]
@@ -106,31 +94,31 @@ namespace WodiLib.Test.Common
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {0, 0, true},
-            new object[] {0, 3, false},
+            new object[] { 0, 0, true },
+            new object[] { 0, 3, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (CommonEventNumberArgIndex) left;
-            var rightIndex = (CommonEventNumberArgIndex) right;
+            var leftIndex = (CommonEventNumberArgIndex)left;
+            var rightIndex = (CommonEventNumberArgIndex)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (CommonEventNumberArgIndex) left;
-            var rightIndex = (CommonEventNumberArgIndex) right;
+            var leftIndex = (CommonEventNumberArgIndex)left;
+            var rightIndex = (CommonEventNumberArgIndex)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (CommonEventNumberArgIndex) left;
-            var rightIndex = (CommonEventNumberArgIndex) right;
+            var leftIndex = (CommonEventNumberArgIndex)left;
+            var rightIndex = (CommonEventNumberArgIndex)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

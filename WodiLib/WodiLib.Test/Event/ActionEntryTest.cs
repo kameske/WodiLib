@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Commons;
-using WodiLib.Event;
 using NUnit.Framework;
+using WodiLib.Event;
 using WodiLib.Event.CharaMoveCommand;
 using WodiLib.Test.Tools;
 
@@ -23,14 +23,14 @@ namespace WodiLib.Test.Event
 
         private static readonly object[] TestCaseSource =
         {
-            new object[] {MakeCommands(1), false, false, false},
-            new object[] {MakeCommands(2), false, false, true},
-            new object[] {MakeCommands(3), false, true, false},
-            new object[] {MakeCommands(4), true, false, false},
-            new object[] {MakeCommands(5), false, true, true},
-            new object[] {MakeCommands(0), true, true, false},
-            new object[] {MakeCommands(4), true, false, true},
-            new object[] {MakeCommands(1), true, true, true},
+            new object[] { MakeCommands(1), false, false, false },
+            new object[] { MakeCommands(2), false, false, true },
+            new object[] { MakeCommands(3), false, true, false },
+            new object[] { MakeCommands(4), true, false, false },
+            new object[] { MakeCommands(5), false, true, true },
+            new object[] { MakeCommands(0), true, true, false },
+            new object[] { MakeCommands(4), true, false, true },
+            new object[] { MakeCommands(1), true, true, true }
         };
 
         [TestCaseSource(nameof(TestCaseSource))]
@@ -153,7 +153,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// 動作指定コマンドリストを指定したコマンド数リストにして返す。
+        ///     動作指定コマンドリストを指定したコマンド数リストにして返す。
         /// </summary>
         /// <param name="value">コマンド数</param>
         /// <returns>動作指定コマンドリスト</returns>

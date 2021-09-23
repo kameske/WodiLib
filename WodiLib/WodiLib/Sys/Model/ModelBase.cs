@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using WodiLib.Sys.Cmn;
@@ -104,7 +103,7 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc/>
-        public abstract bool ItemEquals([AllowNull] TChild other);
+        public abstract bool ItemEquals(TChild? other);
 
         /// <inheritdoc/>
         public bool ItemEquals(ModelBase<TChild>? other)
@@ -112,7 +111,7 @@ namespace WodiLib.Sys
             if (ReferenceEquals(other, this)) return true;
             if (ReferenceEquals(other, null)) return false;
 
-            return ItemEquals((TChild) other);
+            return ItemEquals((TChild)other);
         }
 
         /// <inheritdoc/>
@@ -123,7 +122,7 @@ namespace WodiLib.Sys
             return Equals(other as ModelBase<TChild>);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public virtual TChild DeepClone()
         {
             // TODO: ビルドエラー回避のため一時的に virtual 宣言。あとで abstract 宣言する。
@@ -131,7 +130,7 @@ namespace WodiLib.Sys
         }
         // public abstract TChild DeepClone();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         object IDeepCloneable.DeepClone()
             => DeepClone();
 

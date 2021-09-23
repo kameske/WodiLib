@@ -30,7 +30,7 @@ namespace WodiLib.Test.IO
                         ItemName = "文字列項目",
                         SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                         {
-                            ItemMemo = "",
+                            ItemMemo = ""
                         },
                         ItemType = DBItemType.String
                     },
@@ -42,7 +42,7 @@ namespace WodiLib.Test.IO
                             {
                                 ItemMemo = "",
                                 FolderName = "MapChip",
-                                OmissionFolderNameFlag = false,
+                                OmissionFolderNameFlag = false
                             },
                         ItemType = DBItemType.String
                     },
@@ -54,7 +54,7 @@ namespace WodiLib.Test.IO
                             {
                                 ItemMemo = "",
                                 FolderName = "MapData",
-                                OmissionFolderNameFlag = true,
+                                OmissionFolderNameFlag = true
                             },
                         ItemType = DBItemType.String
                     },
@@ -79,9 +79,9 @@ namespace WodiLib.Test.IO
                             DBItemSpecialSettingType.ReferDatabase,
                             new List<DatabaseValueCase>
                             {
-                                new DatabaseValueCase(-1, "Minus1"),
-                                new DatabaseValueCase(-2, "Minus2"),
-                                new DatabaseValueCase(-3, "Minus3"),
+                                new(-1, "Minus1"),
+                                new(-2, "Minus2"),
+                                new(-3, "Minus3")
                             })
                         {
                             ItemMemo = "",
@@ -98,14 +98,14 @@ namespace WodiLib.Test.IO
                         SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Manual,
                             new List<DatabaseValueCase>
                             {
-                                new DatabaseValueCase(0, "Zero"),
-                                new DatabaseValueCase(3, "さん"),
-                                new DatabaseValueCase(10, "１０"),
-                                new DatabaseValueCase(9, "nine"),
+                                new(0, "Zero"),
+                                new(3, "さん"),
+                                new(10, "１０"),
+                                new(9, "nine")
                             })
                         {
                             ItemMemo = "",
-                            InitValue = 0,
+                            InitValue = 0
                         },
                         ItemType = DBItemType.Int
                     }
@@ -202,9 +202,9 @@ namespace WodiLib.Test.IO
                         SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Manual,
                             new List<DatabaseValueCase>
                             {
-                                new DatabaseValueCase(0, "選択肢1"),
-                                new DatabaseValueCase(1, "選択肢2"),
-                                new DatabaseValueCase(2, "選択肢3"),
+                                new(0, "選択肢1"),
+                                new(1, "選択肢2"),
+                                new(2, "選択肢3")
                             })
                         {
                             InitValue = 0,
@@ -220,15 +220,14 @@ namespace WodiLib.Test.IO
                             ItemMemo = ""
                         },
                         ItemType = DBItemType.String
-                    },
+                    }
                 }
             };
         }
 
-        /** ========================================
-         *  テスト用ファイル出力
-         *  ======================================== */
-
+        /// ========================================
+        /// テスト用ファイル出力
+        /// ========================================
         /// <summary>テストディレクトリルート</summary>
         public static string TestWorkRootDir => MapFileTestItemGenerator.TestWorkRootDir;
 
@@ -238,11 +237,11 @@ namespace WodiLib.Test.IO
             ("タイプ設定_000_UDB0.dbtypeset", TestResources.UDB0DBTypeSet),
             ("タイプ設定_000_あいうえお.dbtypeset", TestResources.CDB0DBTypeSet),
             ("タイプ設定_002_┣ 主人公行動AI.dbtypeset", TestResources.CDB2DBTypeSet),
-            ("タイプ設定_008_状態設定.dbtypeset", TestResources.UDB8DBTypeSet),
+            ("タイプ設定_008_状態設定.dbtypeset", TestResources.UDB8DBTypeSet)
         };
 
         /// <summary>
-        /// ファイルを tmp フォルダに出力する。
+        ///     ファイルを tmp フォルダに出力する。
         /// </summary>
         public static void OutputFile()
         {
@@ -258,7 +257,7 @@ namespace WodiLib.Test.IO
         }
 
         /// <summary>
-        /// ファイルを削除する。
+        ///     ファイルを削除する。
         /// </summary>
         public static void DeleteFile()
         {

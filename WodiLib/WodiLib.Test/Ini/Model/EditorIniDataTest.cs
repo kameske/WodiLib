@@ -21,7 +21,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] StartFlagTestCaseSource =
         {
-            new object[] {(StartFlag) 0},
+            new object[] { (StartFlag)0 }
         };
 
         [TestCaseSource(nameof(StartFlagTestCaseSource))]
@@ -57,9 +57,9 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] LastLoadFileTestCaseSource =
         {
-            new object[] {null, true},
-            new object[] {(LastLoadMapFilePath) "map0001.mps", false},
-            new object[] {(LastLoadMapFilePath) @".\MapData\map020.mps", false},
+            new object[] { null, true },
+            new object[] { (LastLoadMapFilePath)"map0001.mps", false },
+            new object[] { (LastLoadMapFilePath)@".\MapData\map020.mps", false }
         };
 
         [TestCaseSource(nameof(LastLoadFileTestCaseSource))]
@@ -105,7 +105,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MainWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition) (10, 100)},
+            new object[] { (WindowPosition)(10, 100) }
         };
 
         [TestCaseSource(nameof(MainWindowPositionTestCaseSource))]
@@ -141,7 +141,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MainWindowSizeTestCaseSource =
         {
-            new object[] {(WindowSize) (10, 100)},
+            new object[] { (WindowSize)(10, 100) }
         };
 
         [TestCaseSource(nameof(MainWindowSizeTestCaseSource))]
@@ -177,7 +177,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MapChipWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition) (10, 100)},
+            new object[] { (WindowPosition)(10, 100) }
         };
 
         [TestCaseSource(nameof(MapChipWindowPositionTestCaseSource))]
@@ -213,7 +213,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MapEventWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition) (10, 100)},
+            new object[] { (WindowPosition)(10, 100) }
         };
 
         [TestCaseSource(nameof(MapEventWindowPositionTestCaseSource))]
@@ -249,7 +249,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MapEventWindowSizeTestCaseSource =
         {
-            new object[] {(WindowSize) (10, 100)},
+            new object[] { (WindowSize)(10, 100) }
         };
 
         [TestCaseSource(nameof(MapEventWindowSizeTestCaseSource))]
@@ -285,7 +285,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MapEventInputWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition) (10, 100)},
+            new object[] { (WindowPosition)(10, 100) }
         };
 
         [TestCaseSource(nameof(MapEventInputWindowPositionTestCaseSource))]
@@ -321,7 +321,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] CommonEventWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition) (10, 100)},
+            new object[] { (WindowPosition)(10, 100) }
         };
 
         [TestCaseSource(nameof(CommonEventWindowPositionTestCaseSource))]
@@ -357,7 +357,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] CommonEventWindowSizeTestCaseSource =
         {
-            new object[] {(WindowSize) (10, 100)},
+            new object[] { (WindowSize)(10, 100) }
         };
 
         [TestCaseSource(nameof(CommonEventWindowSizeTestCaseSource))]
@@ -393,7 +393,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] CommonEventInputWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition) (10, 100)},
+            new object[] { (WindowPosition)(10, 100) }
         };
 
         [TestCaseSource(nameof(CommonEventInputWindowPositionTestCaseSource))]
@@ -429,7 +429,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] UserDbWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition) (10, 100)},
+            new object[] { (WindowPosition)(10, 100) }
         };
 
         [TestCaseSource(nameof(UserDbWindowPositionTestCaseSource))]
@@ -465,7 +465,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] ChangeableDbWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition) (10, 100)},
+            new object[] { (WindowPosition)(10, 100) }
         };
 
         [TestCaseSource(nameof(ChangeableDbWindowPositionTestCaseSource))]
@@ -501,7 +501,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] SystemDbWindowPositionTestCaseSource =
         {
-            new object[] {(WindowPosition) (10, 100)},
+            new object[] { (WindowPosition)(10, 100) }
         };
 
         [TestCaseSource(nameof(SystemDbWindowPositionTestCaseSource))]
@@ -537,8 +537,8 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] DatabaseValueNumberDrawTypeTestCaseSource =
         {
-            new object[] {null, true},
-            new object[] {DatabaseValueNumberDrawType.Off, false},
+            new object[] { null, true },
+            new object[] { DatabaseValueNumberDrawType.Off, false }
         };
 
         [TestCaseSource(nameof(DatabaseValueNumberDrawTypeTestCaseSource))]
@@ -584,8 +584,8 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] EditTimeDrawTypeTestCaseSource =
         {
-            new object[] {null, true},
-            new object[] {EditTimeDrawType.Off, false},
+            new object[] { null, true },
+            new object[] { EditTimeDrawType.Off, false }
         };
 
         [TestCaseSource(nameof(EditTimeDrawTypeTestCaseSource))]
@@ -631,7 +631,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] EditTimeTestCaseSource =
         {
-            new object[] {(WorkTime) 120},
+            new object[] { (WorkTime)120 }
         };
 
         [TestCaseSource(nameof(EditTimeTestCaseSource))]
@@ -667,7 +667,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] NotEditTimeTestCaseSource =
         {
-            new object[] {(WorkTime) 120},
+            new object[] { (WorkTime)120 }
         };
 
         [TestCaseSource(nameof(NotEditTimeTestCaseSource))]
@@ -734,8 +734,8 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] LayerTransparentTestCaseSource =
         {
-            new object[] {null, true},
-            new object[] {LaterTransparentType.FaintlyDarker, false},
+            new object[] { null, true },
+            new object[] { LaterTransparentType.FaintlyDarker, false }
         };
 
         [TestCaseSource(nameof(LayerTransparentTestCaseSource))]
@@ -781,8 +781,8 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] EventLayerOpacityTestCaseSource =
         {
-            new object[] {null, true},
-            new object[] {EventLayerOpacityType.Quoter, false},
+            new object[] { null, true },
+            new object[] { EventLayerOpacityType.Quoter, false }
         };
 
         [TestCaseSource(nameof(EventLayerOpacityTestCaseSource))]
@@ -828,8 +828,8 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] CommandColorTypeTestCaseSource =
         {
-            new object[] {null, true},
-            new object[] {CommandColorType.Type0, false},
+            new object[] { null, true },
+            new object[] { CommandColorType.Type0, false }
         };
 
         [TestCaseSource(nameof(CommandColorTypeTestCaseSource))]
@@ -906,8 +906,8 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] NotCopyExtListTestCaseSource =
         {
-            new object[] {null, true},
-            new object[] {new ExtensionList(new Extension[] {".txt", ".svg"}), false},
+            new object[] { null, true },
+            new object[] { new ExtensionList(new Extension[] { ".txt", ".svg" }), false }
         };
 
         [TestCaseSource(nameof(NotCopyExtListTestCaseSource))]
@@ -953,7 +953,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] CommandViewTypeTestCaseSource =
         {
-            new object[] {(CommandViewType) 0},
+            new object[] { (CommandViewType)0 }
         };
 
         [TestCaseSource(nameof(CommandViewTypeTestCaseSource))]
@@ -989,8 +989,8 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] BackupTypeTestCaseSource =
         {
-            new object[] {null, true},
-            new object[] {ProjectBackupType.None, false},
+            new object[] { null, true },
+            new object[] { ProjectBackupType.None, false }
         };
 
         [TestCaseSource(nameof(BackupTypeTestCaseSource))]

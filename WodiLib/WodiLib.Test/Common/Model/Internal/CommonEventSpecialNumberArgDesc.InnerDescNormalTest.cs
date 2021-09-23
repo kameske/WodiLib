@@ -151,16 +151,16 @@ namespace WodiLib.Test.Common.Internal
 
         private static readonly object[] SetDatabaseReferTestCaseSource =
         {
-            new object[] {DBKind.Changeable, 0},
-            new object[] {DBKind.User, 99},
-            new object[] {DBKind.System, 32},
-            new object[] {null, 85},
+            new object[] { DBKind.Changeable, 0 },
+            new object[] { DBKind.User, 99 },
+            new object[] { DBKind.System, 32 },
+            new object[] { null, 85 }
         };
 
         [TestCaseSource(nameof(SetDatabaseReferTestCaseSource))]
         public static void SetDatabaseReferTest(DBKind dbKind, int dbTypeId)
         {
-            var typeId = (TypeId) dbTypeId;
+            var typeId = (TypeId)dbTypeId;
 
             var instance = new CommonEventSpecialNumberArgDesc.InnerDescNormal();
             var changedPropertyList = new List<string>();
@@ -294,10 +294,10 @@ namespace WodiLib.Test.Common.Internal
 
         private static readonly object[] GetAllSpecialCaseDescriptionTestCaseSource =
         {
-            new object[] {true, "a", "b", "c"},
-            new object[] {true, "a", null, "c"},
-            new object[] {false, null, null, "c"},
-            new object[] {false, null, null, null},
+            new object[] { true, "a", "b", "c" },
+            new object[] { true, "a", null, "c" },
+            new object[] { false, null, null, "c" },
+            new object[] { false, null, null, null }
         };
 
         [TestCaseSource(nameof(GetAllSpecialCaseDescriptionTestCaseSource))]
@@ -402,7 +402,7 @@ namespace WodiLib.Test.Common.Internal
             {
                 var argCaseList = new List<CommonEventSpecialArgCase>
                 {
-                    new CommonEventSpecialArgCase(0, "")
+                    new(0, "")
                 };
                 instance.AddRangeSpecialCase(argCaseList);
             }
@@ -481,7 +481,7 @@ namespace WodiLib.Test.Common.Internal
             {
                 var argCaseList = new List<CommonEventSpecialArgCase>
                 {
-                    new CommonEventSpecialArgCase(0, "")
+                    new(0, "")
                 };
                 instance.InsertRangeSpecialCase(0, argCaseList);
             }

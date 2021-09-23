@@ -17,7 +17,7 @@ using WodiLib.Sys;
 namespace WodiLib.Map
 {
     /// <summary>
-    /// マップイベントページグラフィック情報クラス
+    ///     マップイベントページグラフィック情報クラス
     /// </summary>
     [Serializable]
     public class MapEventPageGraphicInfo : ModelBase<MapEventPageGraphicInfo>, ISerializable
@@ -29,7 +29,7 @@ namespace WodiLib.Map
         private bool isGraphicTileChip;
 
         /// <summary>
-        /// キャラ画像タイルセットフラグ
+        ///     キャラ画像タイルセットフラグ
         /// </summary>
         public bool IsGraphicTileChip
         {
@@ -41,7 +41,7 @@ namespace WodiLib.Map
             }
         }
 
-        private MapEventTileId graphicTileId;
+        private MapEventTileId graphicTileId = 0;
 
         /// <summary>[Range(0, 9999)] キャラ画像タイルセットID </summary>
         /// <summary>IsGraphicTileChip = false の場合、 -1 固定</summary>
@@ -87,7 +87,7 @@ namespace WodiLib.Map
         private CharaChipDirection initDirection = CharaChipDirection.Down;
 
         /// <summary>
-        /// キャラ画像初期向き
+        ///     キャラ画像初期向き
         /// </summary>
         /// <exception cref="PropertyNullException">nullセットした場合</exception>
         public CharaChipDirection InitDirection
@@ -145,7 +145,7 @@ namespace WodiLib.Map
         }
 
         /// <summary>
-        /// キャラ画像タイルIDをセットし、キャラ画像タイルセットフラグを更新する。
+        ///     キャラ画像タイルIDをセットし、キャラ画像タイルセットフラグを更新する。
         /// </summary>
         /// <param name="tileId">キャラ画像タイルセットID </param>
         public void SetGraphicTileId(MapEventTileId tileId)
@@ -165,8 +165,8 @@ namespace WodiLib.Map
         }
 
         /// <summary>
-        /// キャラ画像ファイル名をセットする。
-        /// （タイルID使用フラグをfalseに強制更新する）
+        ///     キャラ画像ファイル名をセットする。
+        ///     （タイルID使用フラグをfalseに強制更新する）
         /// </summary>
         /// <param name="filePath">画像ファイル名</param>
         /// <returns>キャラ画像ファイル名</returns>
@@ -185,7 +185,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         public MapEventPageGraphicInfo()
         {
@@ -196,7 +196,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 値を比較する。
+        ///     値を比較する。
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
@@ -214,7 +214,7 @@ namespace WodiLib.Map
         }
 
         /// <summary>
-        /// バイナリ変換する。
+        ///     バイナリ変換する。
         /// </summary>
         /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
@@ -224,7 +224,7 @@ namespace WodiLib.Map
             // キャラ画像タイルセットID
             result.AddRange(GraphicTileId.ToBytes(Endian.Woditor));
             // キャラチップ名
-            result.AddRange(CharaChipFilePath.ToWoditorStringBytes());
+            result.AddRange(((string)CharaChipFilePath).ToWoditorStringBytes());
             // 初期向き
             result.Add(InitDirection.Code);
             // 初期アニメーション番号
@@ -242,7 +242,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        ///     オブジェクトをシリアル化するために必要なデータを設定する。
         /// </summary>
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>
@@ -259,7 +259,7 @@ namespace WodiLib.Map
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>

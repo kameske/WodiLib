@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -15,24 +16,40 @@ namespace WodiLib.Map
     /// <summary>
     ///     [Range(0, 1604444)] マップチップ
     /// </summary>
-    [Serializable]
-    public readonly struct MapChip : IConvertibleInt, IEquatable<MapChip>
+    [CommonIntValueObject(MinValue = 0, MaxValue = 1604444)]
+    public partial class MapChip
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>タイル番号最小値</summary>
-        public static int StandardTileMin => 0;
+        public static int StandardTileMin => Const_StandardTileMin;
+
+        /// <summary>タイル番号最小値（定数）</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public const int Const_StandardTileMin = 0;
 
         /// <summary>タイル番号最大値</summary>
-        public static int StandardTileMax => 99999;
+        public static int StandardTileMax => Const_StandardTileMax;
+
+        /// <summary>タイル番号最大値（定数）</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public const int Const_StandardTileMax = 99999;
 
         /// <summary>オートタイル番号最小値</summary>
-        public static int AutoTileMin => 100000;
+        public static int AutoTileMin => Const_AutoTileMin;
+
+        /// <summary>オートタイル番号最小値（定数）</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public const int Const_AutoTileMin = 100000;
 
         /// <summary>オートタイル番号最大値</summary>
-        public static int AutoTileMax => 1604444;
+        public static int AutoTileMax => Const_AutoTileMax;
+
+        /// <summary>オートタイル番号最大値（定数）</summary>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public const int Const_AutoTileMax = 1604444;
 
         /// <summary>デフォルト値</summary>
         public static MapChip Default { get; }
@@ -90,10 +107,8 @@ namespace WodiLib.Map
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private int Value { get; }
-
         /// <summary>オートタイルフラグ</summary>
-        public bool IsAutoTile { get; }
+        public bool IsAutoTile { get; private set; }
 
         /// <summary>左上オートタイルパーツ種別</summary>
         /// <exception cref="PropertyAccessException">オートタイルではない場合</exception>
@@ -139,57 +154,29 @@ namespace WodiLib.Map
             }
         }
 
-        private int LeftUpAutoTileCode => Value % (LeftUpTileCoefficient * 10) / LeftUpTileCoefficient;
-        private int RightUpAutoTileCode => Value % (RightUpTileCoefficient * 10) / RightUpTileCoefficient;
-        private int LeftDownAutoTileCode => Value % (LeftDownTileCoefficient * 10) / LeftDownTileCoefficient;
-        private int RightDownAutoTileCode => Value % (RightDownTileCoefficient * 10) / RightDownTileCoefficient;
+        private int LeftUpAutoTileCode => RawValue % (LeftUpTileCoefficient * 10) / LeftUpTileCoefficient;
+        private int RightUpAutoTileCode => RawValue % (RightUpTileCoefficient * 10) / RightUpTileCoefficient;
+        private int LeftDownAutoTileCode => RawValue % (LeftDownTileCoefficient * 10) / LeftDownTileCoefficient;
+        private int RightDownAutoTileCode => RawValue % (RightDownTileCoefficient * 10) / RightDownTileCoefficient;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// staticインスタンス生成コンストラクタ
+        ///     staticインスタンス生成コンストラクタ
         /// </summary>
         static MapChip()
         {
             Default = new MapChip(DefaultValue);
         }
 
-        /// <summary>
-        /// コンストラクタ（マップチップ番号指定版）
-        /// </summary>
-        /// <param name="value">[Range(0, 1604444)] マップチップ番号</param>
-        /// <exception cref="ArgumentOutOfRangeException">0～1604444以外の値を設定した場合</exception>
-        public MapChip(int value)
+        partial void DoConstructorExpansion(int value)
         {
             if (!IsMapChipNumber(value))
                 throw new ArgumentOutOfRangeException(ErrorMessage.OutOfRange(nameof(value), StandardTileMin,
                     AutoTileMax, value));
-            Value = value;
             IsAutoTile = IsAutoTileNumber(value);
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Override Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return Value.ToString();
-        }
-
-        /// <inheritdoc />
-        public override bool Equals(object? obj)
-        {
-            return obj is MapChip other && Equals(other);
-        }
-
-        /// <inheritdoc />
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode();
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -197,83 +184,10 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// int に変換する。
-        /// </summary>
-        /// <returns>int値</returns>
-        public int ToInt() => this;
-
-        /// <summary>
-        /// int に変換する。
-        /// </summary>
-        /// <returns>int値</returns>
-        public int ToInt32() => this;
-
-        /// <summary>
-        /// byte配列に変換する。
+        ///     byte配列に変換する。
         /// </summary>
         /// <param name="endian">エンディアン</param>
         /// <returns>byte配列</returns>
-        public IEnumerable<byte> ToBytes(Endian endian) => Value.ToBytes(endian);
-
-        /// <summary>
-        /// 値を比較する。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <returns>一致する場合、true</returns>
-        public bool Equals(MapChip other)
-        {
-            return Value == other.Value;
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Implicit
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// int -> MapChip への暗黙的な型変換
-        /// </summary>
-        /// <param name="src">変換元</param>
-        /// <returns>変換したインスタンス</returns>
-        public static implicit operator MapChip(int src)
-        {
-            var result = new MapChip(src);
-            return result;
-        }
-
-        /// <summary>
-        /// MapChip -> int への暗黙的な型変換
-        /// </summary>
-        /// <param name="src">変換元</param>
-        /// <returns>変換したインスタンス</returns>
-        public static implicit operator int(MapChip src)
-        {
-            return src.Value;
-        }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Operator
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// ==
-        /// </summary>
-        /// <param name="left">左辺</param>
-        /// <param name="right">右辺</param>
-        /// <returns>左辺と右辺の</returns>
-        public static bool operator ==(MapChip left, MapChip right)
-        {
-            return left.Value == right.Value;
-        }
-
-        /// <summary>
-        /// !=
-        /// </summary>
-        /// <param name="left">左辺</param>
-        /// <param name="right">右辺</param>
-        /// <returns>左辺!=右辺の場合true</returns>
-        public static bool operator !=(MapChip left, MapChip right)
-        {
-            return !(left == right);
-        }
+        public IEnumerable<byte> ToBytes(Endian endian) => RawValue.ToBytes(endian);
     }
 }

@@ -16,7 +16,7 @@ namespace WodiLib.Test.IO
             {
                 MapTreeOpenStatusDataFileItemGenerator.GenerateData0(),
                 $@"{CommonFileTestItemGenerator.TestWorkRootDir}\Output0\MapTreeOpenStatus.dat"
-            },
+            }
         };
 
         [TestCaseSource(nameof(WriteSyncTestCaseSource))]

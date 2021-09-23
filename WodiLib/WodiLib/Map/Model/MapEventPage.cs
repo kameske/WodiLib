@@ -27,17 +27,17 @@ namespace WodiLib.Map
 
         /// <summary>ヘッダ</summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public static readonly byte[] Header = {0x79};
+        public static readonly byte[] Header = { 0x79 };
 
         /// <summary>フッタ</summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public static readonly byte[] Footer = {0x7A};
+        public static readonly byte[] Footer = { 0x7A };
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private MapEventPageGraphicInfo graphicInfo = new MapEventPageGraphicInfo();
+        private MapEventPageGraphicInfo graphicInfo = new();
 
         /// <summary>画像情報</summary>
         /// <exception cref="PropertyNullException">nullをセットしようとした場合</exception>
@@ -54,7 +54,7 @@ namespace WodiLib.Map
             }
         }
 
-        private MapEventPageBootInfo bootInfo = new MapEventPageBootInfo();
+        private MapEventPageBootInfo bootInfo = new();
 
         /// <summary>起動条件</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
@@ -71,7 +71,7 @@ namespace WodiLib.Map
             }
         }
 
-        private MapEventPageMoveRouteInfo moveRouteInfo = new MapEventPageMoveRouteInfo();
+        private MapEventPageMoveRouteInfo moveRouteInfo = new();
 
         /// <summary>移動ルート</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
@@ -88,7 +88,7 @@ namespace WodiLib.Map
             }
         }
 
-        private MapEventPageOption option = new MapEventPageOption();
+        private MapEventPageOption option = new();
 
         /// <summary>オプション</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
@@ -105,7 +105,7 @@ namespace WodiLib.Map
             }
         }
 
-        private HitExtendRange hitExtendRange;
+        private HitExtendRange hitExtendRange = new(0, 0);
 
         /// <summary>接触範囲拡張</summary>
         public HitExtendRange HitExtendRange
@@ -118,7 +118,7 @@ namespace WodiLib.Map
             }
         }
 
-        private ShadowGraphicId shadowGraphicId;
+        private ShadowGraphicId shadowGraphicId = 0;
 
         /// <summary>影グラフィック番号</summary>
         public ShadowGraphicId ShadowGraphicId
@@ -131,7 +131,7 @@ namespace WodiLib.Map
             }
         }
 
-        private EventCommandList eventCommands = new EventCommandList(new[] {new Blank()});
+        private EventCommandList eventCommands = new(new[] { new Blank() });
 
         /// <summary>イベントコマンド</summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
@@ -153,7 +153,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// イベントコマンド文字列情報リストを取得する。
+        ///     イベントコマンド文字列情報リストを取得する。
         /// </summary>
         /// <param name="resolver">名前解決クラスインスタンス</param>
         /// <param name="desc">付加情報</param>
@@ -172,7 +172,7 @@ namespace WodiLib.Map
         }
 
         /// <summary>
-        /// 値を比較する。
+        ///     値を比較する。
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
@@ -194,7 +194,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// バイナリ変換する。
+        ///     バイナリ変換する。
         /// </summary>
         /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()

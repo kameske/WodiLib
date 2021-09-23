@@ -248,7 +248,7 @@ namespace WodiLib.Sys
             where TParam : notnull
         {
             var createInfo = ContainerDic[key, typeof(TOut), typeof(TParam)];
-            return (TOut) createInfo.GetInstance(param);
+            return (TOut)createInfo.GetInstance(param);
         }
 
         private static void UnregisterImpl<TOut, TParam>(WodiLibContainerKeyName targetKeyName)
@@ -261,7 +261,7 @@ namespace WodiLib.Sys
         /// <summary>
         ///     インスタンスのライフタイム
         /// </summary>
-        public record Lifetime : TypeSafeEnum<Lifetime>
+        public class Lifetime : TypeSafeEnum<Lifetime>
         {
             /// <summary>コンテナで一意</summary>
             public static readonly Lifetime Container;

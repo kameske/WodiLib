@@ -39,19 +39,6 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(-1)]
-        [TestCase(9999)]
-        public static void ToIntTest(int value)
-        {
-            var instance = new MapEventTileId(value);
-
-            var intValue = instance.ToInt();
-
-            // セットした値と取得した値が一致すること
-            Assert.AreEqual(intValue, value);
-        }
-
-
         [TestCase(-2, true)]
         [TestCase(-1, false)]
         [TestCase(9999, false)]
@@ -61,7 +48,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                var _ = (MapEventTileId) value;
+                var _ = (MapEventTileId)value;
             }
             catch (Exception ex)
             {
@@ -101,31 +88,31 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {0, 0, true},
-            new object[] {0, 31, false},
+            new object[] { 0, 0, true },
+            new object[] { 0, 31, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapEventTileId) left;
-            var rightIndex = (MapEventTileId) right;
+            var leftIndex = (MapEventTileId)left;
+            var rightIndex = (MapEventTileId)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapEventTileId) left;
-            var rightIndex = (MapEventTileId) right;
+            var leftIndex = (MapEventTileId)left;
+            var rightIndex = (MapEventTileId)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapEventTileId) left;
-            var rightIndex = (MapEventTileId) right;
+            var leftIndex = (MapEventTileId)left;
+            var rightIndex = (MapEventTileId)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

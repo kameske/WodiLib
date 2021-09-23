@@ -44,7 +44,7 @@ namespace WodiLib.Test.Common
         [TestCase(2000000001, "Wolf\nRPG\nEditor!", true)]
         public static void ConstructorTest(int caseNumber, string description, bool isError)
         {
-            CommonEventSpecialArgCase instance = default(CommonEventSpecialArgCase);
+            var instance = default(CommonEventSpecialArgCase);
             var errorOccured = false;
             try
             {
@@ -62,8 +62,8 @@ namespace WodiLib.Test.Common
             if (errorOccured) return;
 
             // セットした値が正しく取得できること
-            Assert.AreEqual(instance.CaseNumber, caseNumber);
-            Assert.AreEqual(instance.Description, description);
+            Assert.AreEqual((int)instance.CaseNumber, caseNumber);
+            Assert.AreEqual((string)instance.Description, description);
         }
 
         [TestCase(0, "")]
@@ -121,8 +121,8 @@ namespace WodiLib.Test.Common
             if (errorOccured) return;
 
             // キャストした結果が一致すること
-            Assert.AreEqual(instance.CaseNumber, caseNumber);
-            Assert.AreEqual(instance.Description, description);
+            Assert.AreEqual((int)instance.CaseNumber, caseNumber);
+            Assert.AreEqual((string)instance.Description, description);
         }
 
         [TestCase(0, "")]
@@ -136,7 +136,7 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                castValue = ((int, string)) instance;
+                castValue = ((int, string))instance;
             }
             catch (Exception ex)
             {
@@ -180,24 +180,24 @@ namespace WodiLib.Test.Common
             if (errorOccured) return;
 
             // キャストした結果が一致すること
-            Assert.AreEqual(instance.CaseNumber, caseNumber);
-            Assert.AreEqual(instance.Description, description);
+            Assert.AreEqual((int)instance.CaseNumber, caseNumber);
+            Assert.AreEqual((string)instance.Description, description);
         }
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {1, "a", 1, "a", true},
-            new object[] {1, "a", 1, "b", false},
-            new object[] {1, "a", 5, "a", false},
-            new object[] {1, "a", 5, "b", false},
+            new object[] { 1, "a", 1, "a", true },
+            new object[] { 1, "a", 1, "b", false },
+            new object[] { 1, "a", 5, "a", false },
+            new object[] { 1, "a", 5, "b", false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int leftCaseNumber, string leftDescription,
             int rightCaseNumber, string rightDescription, bool isEqual)
         {
-            var leftInstance = (CommonEventSpecialArgCase) (leftCaseNumber, leftDescription);
-            var rightInstance = (CommonEventSpecialArgCase) (rightCaseNumber, rightDescription);
+            var leftInstance = (CommonEventSpecialArgCase)(leftCaseNumber, leftDescription);
+            var rightInstance = (CommonEventSpecialArgCase)(rightCaseNumber, rightDescription);
             Assert.AreEqual(leftInstance == rightInstance, isEqual);
         }
 
@@ -205,8 +205,8 @@ namespace WodiLib.Test.Common
         public static void OperatorNotEqualTest(int leftCaseNumber, string leftDescription,
             int rightCaseNumber, string rightDescription, bool isEqual)
         {
-            var leftInstance = (CommonEventSpecialArgCase) (leftCaseNumber, leftDescription);
-            var rightInstance = (CommonEventSpecialArgCase) (rightCaseNumber, rightDescription);
+            var leftInstance = (CommonEventSpecialArgCase)(leftCaseNumber, leftDescription);
+            var rightInstance = (CommonEventSpecialArgCase)(rightCaseNumber, rightDescription);
             Assert.AreEqual(leftInstance == rightInstance, isEqual);
         }
 
@@ -214,8 +214,8 @@ namespace WodiLib.Test.Common
         public static void OperatorEqualsTest(int leftCaseNumber, string leftDescription,
             int rightCaseNumber, string rightDescription, bool isEqual)
         {
-            var leftInstance = (CommonEventSpecialArgCase) (leftCaseNumber, leftDescription);
-            var rightInstance = (CommonEventSpecialArgCase) (rightCaseNumber, rightDescription);
+            var leftInstance = (CommonEventSpecialArgCase)(leftCaseNumber, leftDescription);
+            var rightInstance = (CommonEventSpecialArgCase)(rightCaseNumber, rightDescription);
             Assert.AreEqual(leftInstance.Equals(rightInstance), isEqual);
         }
     }

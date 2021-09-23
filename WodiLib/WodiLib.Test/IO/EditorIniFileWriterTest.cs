@@ -26,7 +26,7 @@ namespace WodiLib.Test.IO
             {
                 EditorIniDataTestItemGenerator.GenerateData0(),
                 $@"{DBTypeSetFileTestItemGenerator.TestWorkRootDir}\OutputDir0\Editor.ini"
-            },
+            }
         };
 
         [TestCaseSource(nameof(WriteSyncTestCaseSource))]
@@ -62,6 +62,7 @@ namespace WodiLib.Test.IO
             {
                 logger.Debug(outputTextLine);
             }
+
             logger.Debug("Outputファイル内容出力完了");
 
             Assert.True(true);

@@ -21,7 +21,7 @@ using WodiLib.Sys.Cmn;
 namespace WodiLib.Common
 {
     /// <summary>
-    /// コモンイベントクラス
+    ///     コモンイベントクラス
     /// </summary>
     [Serializable]
     public class CommonEvent : ModelBase<CommonEvent>, ISerializable
@@ -31,7 +31,7 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// ヘッダバイト
+        ///     ヘッダバイト
         /// </summary>
         internal static readonly byte[] HeaderBytes =
         {
@@ -39,7 +39,7 @@ namespace WodiLib.Common
         };
 
         /// <summary>
-        /// 引数初期値の後のチェックディジット
+        ///     引数初期値の後のチェックディジット
         /// </summary>
         internal static readonly byte[] AfterInitValueBytes =
         {
@@ -47,7 +47,7 @@ namespace WodiLib.Common
         };
 
         /// <summary>
-        /// セルフ変数名の後のチェックディジット
+        ///     セルフ変数名の後のチェックディジット
         /// </summary>
         internal static readonly byte[] AfterMemoBytesSelfVariableNamesBytes =
         {
@@ -55,7 +55,7 @@ namespace WodiLib.Common
         };
 
         /// <summary>
-        /// 返戻値の意味の前のチェックディジット
+        ///     返戻値の意味の前のチェックディジット
         /// </summary>
         internal static readonly byte[] BeforeReturnValueSummaryBytesBefore =
         {
@@ -63,7 +63,7 @@ namespace WodiLib.Common
         };
 
         /// <summary>
-        /// コモンイベント末尾のチェックディジット（Ver2.00以前）
+        ///     コモンイベント末尾のチェックディジット（Ver2.00以前）
         /// </summary>
         internal static readonly byte[] FooterBytesBeforeVer2_00 =
         {
@@ -71,7 +71,7 @@ namespace WodiLib.Common
         };
 
         /// <summary>
-        /// コモンイベント末尾のチェックディジット（Ver2.00以降）
+        ///     コモンイベント末尾のチェックディジット（Ver2.00以降）
         /// </summary>
         internal static readonly byte[] FooterBytesAfterVer2_00 =
         {
@@ -82,7 +82,7 @@ namespace WodiLib.Common
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private CommonEventId id;
+        private CommonEventId id = 0;
 
         /// <summary>コモンイベントID</summary>
         public CommonEventId Id
@@ -95,10 +95,10 @@ namespace WodiLib.Common
             }
         }
 
-        private CommonEventBootCondition condition = new CommonEventBootCondition();
+        private CommonEventBootCondition condition = new();
 
         /// <summary>
-        /// 起動条件
+        ///     起動条件
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CommonEventBootCondition BootCondition
@@ -117,7 +117,7 @@ namespace WodiLib.Common
         private int numberArgsLength;
 
         /// <summary>
-        /// [Range(0, 4)] 数値引数の数
+        ///     [Range(0, 4)] 数値引数の数
         /// </summary>
         /// <exception cref="PropertyOutOfRangeException">指定範囲以外の値をセットした場合</exception>
         public int NumberArgsLength
@@ -137,7 +137,7 @@ namespace WodiLib.Common
         private int strArgsLength;
 
         /// <summary>
-        /// [Range(0, 4)] 文字列引数の数
+        ///     [Range(0, 4)] 文字列引数の数
         /// </summary>
         /// <exception cref="PropertyOutOfRangeException">指定範囲以外の値をセットした場合</exception>
         public int StrArgsLength
@@ -157,7 +157,7 @@ namespace WodiLib.Common
         private CommonEventName name = "";
 
         /// <summary>
-        /// コモンイベント名
+        ///     コモンイベント名
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CommonEventName Name
@@ -173,13 +173,13 @@ namespace WodiLib.Common
             }
         }
 
-        private EventCommandList eventCommands = new EventCommandList(new[] {new Blank()})
+        private EventCommandList eventCommands = new(new[] { new Blank() })
         {
             Owner = TargetAddressOwner.CommonEvent
         };
 
         /// <summary>
-        /// イベントコマンド
+        ///     イベントコマンド
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public EventCommandList EventCommands
@@ -199,7 +199,7 @@ namespace WodiLib.Common
         private CommonEventDescription description = "";
 
         /// <summary>
-        /// 説明文
+        ///     説明文
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         public CommonEventDescription Description
@@ -218,7 +218,7 @@ namespace WodiLib.Common
         private CommonEventMemo memo = "";
 
         /// <summary>
-        /// メモ
+        ///     メモ
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -255,7 +255,7 @@ namespace WodiLib.Common
         private CommonEventFooterString footerString = "";
 
         /// <summary>
-        /// フッタ文字列
+        ///     フッタ文字列
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -273,10 +273,10 @@ namespace WodiLib.Common
         }
 
         /// <summary>返戻アドレス情報（Ver2.00～）</summary>
-        private readonly CommonEventReturnValue returnValueInfo = new CommonEventReturnValue();
+        private readonly CommonEventReturnValue returnValueInfo = new();
 
         /// <summary>
-        /// 返戻値の意味（Ver2.00～）
+        ///     返戻値の意味（Ver2.00～）
         /// </summary>
         /// <exception cref="PropertyNullException">nullを設定した場合</exception>
         public CommonEventResultDescription ReturnValueDescription
@@ -286,19 +286,19 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 値を返すフラグ（Ver2.00～）
+        ///     値を返すフラグ（Ver2.00～）
         /// </summary>
         public bool IsReturnValue => returnValueInfo.IsReturnValue;
 
         /// <summary>
-        /// セルフ変数インデックス（値を返さない場合-1）（Ver2.00～）
+        ///     セルフ変数インデックス（値を返さない場合-1）（Ver2.00～）
         /// </summary>
         public CommonEventReturnVariableIndex ReturnVariableIndex => returnValueInfo.ReturnVariableIndex;
 
-        private CommonEventSelfVariableNameList selfVariableNameList = new CommonEventSelfVariableNameList();
+        private CommonEventSelfVariableNameList selfVariableNameList = new();
 
         /// <summary>
-        /// 変数名リスト
+        ///     変数名リスト
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CommonEventSelfVariableNameList SelfVariableNameList
@@ -316,19 +316,19 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 引数特殊指定情報リスト
+        ///     引数特殊指定情報リスト
         /// </summary>
         private CommonEventSpecialArgDescList CommonEventSpecialArgDescList { get; } =
-            new CommonEventSpecialArgDescList();
+            new();
 
         /// <summary>
-        /// 数値引数特殊指定情報リスト
+        ///     数値引数特殊指定情報リスト
         /// </summary>
         public CommonEventSpecialNumberArgDescList NumberArgDescList
             => CommonEventSpecialArgDescList.NumberArgDescList;
 
         /// <summary>
-        /// 文字列引数特殊指定情報リスト
+        ///     文字列引数特殊指定情報リスト
         /// </summary>
         public CommonEventSpecialStringArgDescList StringArgDescList
             => CommonEventSpecialArgDescList.StringArgDescList;
@@ -338,7 +338,7 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コモンイベント返戻値プロパティ変更通知
+        ///     コモンイベント返戻値プロパティ変更通知
         /// </summary>
         /// <param name="sender">送信元</param>
         /// <param name="args">情報</param>
@@ -362,7 +362,7 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         public CommonEvent()
         {
@@ -374,7 +374,7 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 数値引数の情報を更新する。
+        ///     数値引数の情報を更新する。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="desc">情報</param>
@@ -391,7 +391,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 数値引数の情報を取得する。
+        ///     数値引数の情報を取得する。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <returns>情報インスタンス</returns>
@@ -402,7 +402,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 文字列引数の情報を更新する。
+        ///     文字列引数の情報を更新する。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <param name="desc">情報</param>
@@ -418,7 +418,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 文字列引数の情報を取得する。
+        ///     文字列引数の情報を取得する。
         /// </summary>
         /// <param name="index">インデックス</param>
         /// <returns>情報インスタンス</returns>
@@ -429,7 +429,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 返戻セルフ変数インデックスをセットする。
+        ///     返戻セルフ変数インデックスをセットする。
         /// </summary>
         /// <param name="commonVarAddress">[Range(-1, 99)] 返戻アドレス</param>
         /// <exception cref="ArgumentOutOfRangeException">commonVarAddressが指定範囲外の場合</exception>
@@ -446,7 +446,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 返戻フラグをOffにする。
+        ///     返戻フラグをOffにする。
         /// </summary>
         public void SetReturnValueNone()
         {
@@ -454,14 +454,14 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// イベントコードリストを取得する。
+        ///     イベントコードリストを取得する。
         /// </summary>
         /// <returns>イベントコードリスト</returns>
         public IReadOnlyList<string> GetEventCodeStringList()
             => EventCommands.GetEventCodeStringList();
 
         /// <summary>
-        /// イベントコマンド文字列情報リストを取得する。
+        ///     イベントコマンド文字列情報リストを取得する。
         /// </summary>
         /// <param name="resolver">名前解決クラスインスタンス</param>
         /// <param name="desc">付加情報</param>
@@ -482,7 +482,7 @@ namespace WodiLib.Common
 
 
         /// <summary>
-        /// 値を比較する。
+        ///     値を比較する。
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
@@ -510,7 +510,7 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// バイナリ変換する。
+        ///     バイナリ変換する。
         /// </summary>
         /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
@@ -527,10 +527,10 @@ namespace WodiLib.Common
             result.AddRange(BootCondition.ToBinary());
 
             // 数値引数の数
-            result.Add((byte) NumberArgsLength);
+            result.Add((byte)NumberArgsLength);
 
             // 文字列引数の数
-            result.Add((byte) StrArgsLength);
+            result.Add((byte)StrArgsLength);
 
             // コモンイベント名
             result.AddRange(Name.ToWoditorStringBytes());
@@ -593,7 +593,7 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        ///     オブジェクトをシリアル化するために必要なデータを設定する。
         /// </summary>
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>
@@ -616,7 +616,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>

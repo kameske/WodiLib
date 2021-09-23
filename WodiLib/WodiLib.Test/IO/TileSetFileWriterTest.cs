@@ -19,7 +19,7 @@ namespace WodiLib.Test.IO
             {
                 TileSetFileDataTestItemGenerator.GenerateData1(),
                 $@"{CommonFileTestItemGenerator.TestWorkRootDir}\Output_001_aaa.tile"
-            },
+            }
         };
 
         [TestCaseSource(nameof(WriteSyncTestCaseSource))]

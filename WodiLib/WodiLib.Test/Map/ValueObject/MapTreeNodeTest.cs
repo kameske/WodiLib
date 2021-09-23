@@ -22,12 +22,12 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] ConstructorTestCaseSource =
         {
-            new object[] {(MapId) (-1), (MapId) (-1), true},
-            new object[] {(MapId) (-1), (MapId) 0, true},
-            new object[] {(MapId) 5, (MapId) (-1), false},
-            new object[] {(MapId) 5, (MapId) 4, false},
-            new object[] {(MapId) 5, (MapId) 5, true},
-            new object[] {(MapId) 5, (MapId) 6, false},
+            new object[] { (MapId)(-1), (MapId)(-1), true },
+            new object[] { (MapId)(-1), (MapId)0, true },
+            new object[] { (MapId)5, (MapId)(-1), false },
+            new object[] { (MapId)5, (MapId)4, false },
+            new object[] { (MapId)5, (MapId)5, true },
+            new object[] { (MapId)5, (MapId)6, false }
         };
 
         [TestCaseSource(nameof(ConstructorTestCaseSource))]
@@ -52,20 +52,20 @@ namespace WodiLib.Test.Map
         {
             new object[]
             {
-                (MapId) 10, (MapId) 22, Endian.Little, new byte[]
+                (MapId)10, (MapId)22, Endian.Little, new byte[]
                 {
                     0x16, 0x00, 0x00, 0x00,
-                    0x0A, 0x00, 0x00, 0x00,
+                    0x0A, 0x00, 0x00, 0x00
                 }
             },
             new object[]
             {
-                (MapId) 2544, (MapId) (-1), Endian.Big, new byte[]
+                (MapId)2544, (MapId)(-1), Endian.Big, new byte[]
                 {
                     0xFF, 0xFF, 0xFF, 0xFF,
-                    0x00, 0x00, 0x09, 0xF0,
+                    0x00, 0x00, 0x09, 0xF0
                 }
-            },
+            }
         };
 
         [TestCaseSource(nameof(ToBytesTestCaseSource))]
@@ -95,11 +95,11 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {new MapTreeNode(20, 21), new MapTreeNode(20, 21), true},
-            new object[] {new MapTreeNode(20, 21), new MapTreeNode(30, 31), false},
-            new object[] {new MapTreeNode(20, 21), new MapTreeNode(20, 31), false},
-            new object[] {new MapTreeNode(20, 21), new MapTreeNode(30, 21), false},
-            new object[] {new MapTreeNode(20, 21), new MapTreeNode(21, 20), false},
+            new object[] { new MapTreeNode(20, 21), new MapTreeNode(20, 21), true },
+            new object[] { new MapTreeNode(20, 21), new MapTreeNode(30, 31), false },
+            new object[] { new MapTreeNode(20, 21), new MapTreeNode(20, 31), false },
+            new object[] { new MapTreeNode(20, 21), new MapTreeNode(30, 21), false },
+            new object[] { new MapTreeNode(20, 21), new MapTreeNode(21, 20), false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]

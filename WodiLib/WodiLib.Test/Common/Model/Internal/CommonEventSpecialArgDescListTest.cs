@@ -23,7 +23,7 @@ namespace WodiLib.Test.Common.Internal
         public static void UpdateSpecialNumberArgDescTest(bool isUpdateNull, bool isError)
         {
             var item = isUpdateNull ? null : new CommonEventSpecialNumberArgDesc();
-            var index = (CommonEventNumberArgIndex) 3;
+            var index = (CommonEventNumberArgIndex)3;
 
             var instance = new CommonEventSpecialArgDescList();
 
@@ -47,7 +47,7 @@ namespace WodiLib.Test.Common.Internal
         {
             var instance = new CommonEventSpecialArgDescList();
 
-            var index = (CommonEventNumberArgIndex) 0;
+            var index = (CommonEventNumberArgIndex)0;
 
             var errorOccured = false;
             try
@@ -69,7 +69,7 @@ namespace WodiLib.Test.Common.Internal
         public static void UpdateSpecialStringArgDescTest(bool isUpdateNull, bool isError)
         {
             var item = isUpdateNull ? null : new CommonEventSpecialStringArgDesc();
-            var index = (CommonEventStringArgIndex) 2;
+            var index = (CommonEventStringArgIndex)2;
 
             var instance = new CommonEventSpecialArgDescList();
 
@@ -93,7 +93,7 @@ namespace WodiLib.Test.Common.Internal
         {
             var instance = new CommonEventSpecialArgDescList();
 
-            var index = (CommonEventStringArgIndex) 1;
+            var index = (CommonEventStringArgIndex)1;
 
             var errorOccured = false;
             try

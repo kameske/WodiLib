@@ -39,18 +39,6 @@ namespace WodiLib.Test.Cmn
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(0)]
-        [TestCase(9)]
-        public static void ToIntTest(int value)
-        {
-            var instance = new SpareNumberVariableNumber(value);
-
-            var intValue = instance.ToInt();
-
-            // セットした値と取得した値が一致すること
-            Assert.AreEqual(intValue, value);
-        }
-
         [TestCase(-1, true)]
         [TestCase(0, false)]
         [TestCase(9, false)]
@@ -60,7 +48,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                var _ = (SpareNumberVariableNumber) value;
+                var _ = (SpareNumberVariableNumber)value;
             }
             catch (Exception ex)
             {
@@ -100,31 +88,31 @@ namespace WodiLib.Test.Cmn
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {0, 0, true},
-            new object[] {0, 9, false},
+            new object[] { 0, 0, true },
+            new object[] { 0, 9, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (SpareNumberVariableNumber) left;
-            var rightIndex = (SpareNumberVariableNumber) right;
+            var leftIndex = (SpareNumberVariableNumber)left;
+            var rightIndex = (SpareNumberVariableNumber)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (SpareNumberVariableNumber) left;
-            var rightIndex = (SpareNumberVariableNumber) right;
+            var leftIndex = (SpareNumberVariableNumber)left;
+            var rightIndex = (SpareNumberVariableNumber)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (SpareNumberVariableNumber) left;
-            var rightIndex = (SpareNumberVariableNumber) right;
+            var leftIndex = (SpareNumberVariableNumber)left;
+            var rightIndex = (SpareNumberVariableNumber)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

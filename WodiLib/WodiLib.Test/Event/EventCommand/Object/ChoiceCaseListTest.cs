@@ -30,7 +30,7 @@ namespace WodiLib.Test.Event.EventCommand
             var errorOccured = false;
             try
             {
-                var _ = new ChoiceCaseList {CaseValue = setValue};
+                var _ = new ChoiceCaseList { CaseValue = setValue };
             }
             catch (Exception ex)
             {
@@ -51,7 +51,7 @@ namespace WodiLib.Test.Event.EventCommand
         public static void GetAccessorTest(int index, int caseValue, bool isError)
         {
             var errorOccured = false;
-            var instance = new ChoiceCaseList {CaseValue = caseValue};
+            var instance = new ChoiceCaseList { CaseValue = caseValue };
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
@@ -81,7 +81,7 @@ namespace WodiLib.Test.Event.EventCommand
         public static void GetTest(int index, int caseValue, bool isError)
         {
             var errorOccured = false;
-            var instance = new ChoiceCaseList {CaseValue = caseValue};
+            var instance = new ChoiceCaseList { CaseValue = caseValue };
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
@@ -111,7 +111,7 @@ namespace WodiLib.Test.Event.EventCommand
         public static void SetAccessorTest(int index, int caseValue, bool isError)
         {
             var errorOccured = false;
-            var instance = new ChoiceCaseList {CaseValue = caseValue};
+            var instance = new ChoiceCaseList { CaseValue = caseValue };
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
@@ -149,7 +149,7 @@ namespace WodiLib.Test.Event.EventCommand
         public static void SetTest(int index, int caseValue, bool isError)
         {
             var errorOccured = false;
-            var instance = new ChoiceCaseList {CaseValue = caseValue};
+            var instance = new ChoiceCaseList { CaseValue = caseValue };
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
@@ -182,8 +182,8 @@ namespace WodiLib.Test.Event.EventCommand
         [TestCase(8, 9, "Test")]
         public static void AccessorTest(int index, int caseValue, string str)
         {
-            var initObj = new ChoiceCaseList {CaseValue = caseValue};
-            var instance = new ChoiceCaseList {CaseValue = caseValue};
+            var initObj = new ChoiceCaseList { CaseValue = caseValue };
+            var instance = new ChoiceCaseList { CaseValue = caseValue };
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 

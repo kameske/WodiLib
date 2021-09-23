@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using WodiLib.Map;
-using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
 {
@@ -10,9 +9,9 @@ namespace WodiLib.Test.Map
         [Test]
         public static void GetMaxCapacityTest()
         {
-            var instance = new MapEventPageList(new []
+            var instance = new MapEventPageList(new[]
             {
-                new MapEventPage(),
+                new MapEventPage()
             });
             var maxCapacity = instance.GetMaxCapacity();
 
@@ -23,9 +22,9 @@ namespace WodiLib.Test.Map
         [Test]
         public static void GetMinCapacityTest()
         {
-            var instance = new MapEventPageList(new []
+            var instance = new MapEventPageList(new[]
             {
-                new MapEventPage(),
+                new MapEventPage()
             });
             var maxCapacity = instance.GetMinCapacity();
 

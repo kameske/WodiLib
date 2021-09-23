@@ -12,7 +12,7 @@ namespace WodiLib.Test.IO
             return new DatabaseMergedData(
                 new DBTypeSettingList(new List<DBTypeSetting>
                 {
-                    new DBTypeSetting
+                    new()
                     {
                         TypeName = "UDB0",
                         Memo = "",
@@ -21,28 +21,28 @@ namespace WodiLib.Test.IO
                             "文字列",
                             "7",
                             "うでぃた",
-                            "",
+                            ""
                         }),
                         ItemSettingList = new DBItemSettingList(new List<DBItemSetting>
                         {
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "設定項目0",
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                 {
                                     ItemMemo = "",
                                     InitValue = 0
-                                },
+                                }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "文字列項目",
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                 {
-                                    ItemMemo = "",
-                                },
+                                    ItemMemo = ""
+                                }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "ファイル名設定1",
                                 SpecialSettingDesc =
@@ -50,10 +50,10 @@ namespace WodiLib.Test.IO
                                     {
                                         ItemMemo = "",
                                         FolderName = "MapChip",
-                                        OmissionFolderNameFlag = false,
-                                    },
+                                        OmissionFolderNameFlag = false
+                                    }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "ファイル名設定2",
                                 SpecialSettingDesc =
@@ -61,10 +61,10 @@ namespace WodiLib.Test.IO
                                     {
                                         ItemMemo = "",
                                         FolderName = "MapData",
-                                        OmissionFolderNameFlag = true,
-                                    },
+                                        OmissionFolderNameFlag = true
+                                    }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "DBから",
                                 SpecialSettingDesc =
@@ -75,18 +75,18 @@ namespace WodiLib.Test.IO
                                         DatabaseReferKind = DBReferType.User,
                                         DatabaseDbTypeId = 4,
                                         DatabaseUseAdditionalItemsFlag = false
-                                    },
+                                    }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "DBから　その2",
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(
                                     DBItemSpecialSettingType.ReferDatabase,
                                     new List<DatabaseValueCase>
                                     {
-                                        new DatabaseValueCase(-1, "Minus1"),
-                                        new DatabaseValueCase(-2, "Minus2"),
-                                        new DatabaseValueCase(-3, "Minus3"),
+                                        new(-1, "Minus1"),
+                                        new(-2, "Minus2"),
+                                        new(-3, "Minus3")
                                     })
                                 {
                                     ItemMemo = "",
@@ -94,207 +94,207 @@ namespace WodiLib.Test.IO
                                     DatabaseReferKind = DBReferType.Changeable,
                                     DatabaseDbTypeId = 1,
                                     DatabaseUseAdditionalItemsFlag = true
-                                },
+                                }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "手動生成",
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Manual,
                                     new List<DatabaseValueCase>
                                     {
-                                        new DatabaseValueCase(0, "Zero"),
-                                        new DatabaseValueCase(3, "さん"),
-                                        new DatabaseValueCase(10, "１０"),
-                                        new DatabaseValueCase(9, "nine"),
+                                        new(0, "Zero"),
+                                        new(3, "さん"),
+                                        new(10, "１０"),
+                                        new(9, "nine")
                                     })
                                 {
                                     ItemMemo = "",
-                                    InitValue = 0,
+                                    InitValue = 0
                                 }
                             }
                         })
                     },
-                    new DBTypeSetting
+                    new()
                     {
                         TypeName = "",
                         Memo = "",
                         DataNameList = new DataNameList(new List<DataName>
                         {
                             ""
-                        }),
+                        })
                     },
-                    new DBTypeSetting
+                    new()
                     {
                         TypeName = "ゆーでーびーつー",
                         Memo = "UDB2メモ欄\r\n改行",
                         DataNameList = new DataNameList(new List<DataName>
                         {
                             "", // ウディタ上で「×NoData」と表示される場合、空文字が格納されている
-                            "",
+                            ""
                         }),
                         ItemSettingList = new DBItemSettingList(new List<DBItemSetting>
                         {
-                            new DBItemSetting
+                            new()
                             {
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                 {
-                                    ItemMemo = "",
+                                    ItemMemo = ""
                                 },
-                                ItemName = "文字列項目",
+                                ItemName = "文字列項目"
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                 {
-                                    ItemMemo = "",
+                                    ItemMemo = ""
                                 },
                                 ItemName = "文字列項目2"
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                 {
-                                    ItemMemo = "",
+                                    ItemMemo = ""
                                 },
                                 ItemName = "文字列項目3"
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                 {
-                                    ItemMemo = "",
+                                    ItemMemo = ""
                                 },
                                 ItemName = "文字列項目4"
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                 {
-                                    ItemMemo = "",
+                                    ItemMemo = ""
                                 },
                                 ItemName = "文字列項目5"
-                            },
+                            }
                         })
                     },
-                    new DBTypeSetting
+                    new()
                     {
                         TypeName = "UDB3",
                         Memo = "",
                         DataNameList = new DataNameList(new List<DataName>
                         {
-                            "",
+                            ""
                         }),
                         ItemSettingList = new DBItemSettingList(new List<DBItemSetting>
                         {
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "",
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                 {
-                                    ItemMemo = "",
-                                },
+                                    ItemMemo = ""
+                                }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "",
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                 {
                                     InitValue = 0,
-                                    ItemMemo = "",
-                                },
+                                    ItemMemo = ""
+                                }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "項目",
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                 {
                                     InitValue = 0,
-                                    ItemMemo = "",
-                                },
-                            },
+                                    ItemMemo = ""
+                                }
+                            }
                         })
                     }
                 }),
                 new DBDataSettingList(new List<DBDataSetting>
                 {
-                    new DBDataSetting(DBDataSettingType.FirstStringData)
+                    new(DBDataSettingType.FirstStringData)
                     {
                         SettingValuesList = new DBItemValuesList(new List<List<DBItemValue>>
                         {
-                            new List<DBItemValue>
+                            new()
                             {
-                                (DBValueInt) (-255),
-                                (DBValueString) "文字列",
-                                (DBValueString) "MapChip/[A]World_Grass-Grass_pipo.png",
-                                (DBValueString) "Map002.mps",
-                                (DBValueInt) 0,
-                                (DBValueInt) (-2),
-                                (DBValueInt) 3,
+                                (DBValueInt)(-255),
+                                (DBValueString)"文字列",
+                                (DBValueString)"MapChip/[A]World_Grass-Grass_pipo.png",
+                                (DBValueString)"Map002.mps",
+                                (DBValueInt)0,
+                                (DBValueInt)(-2),
+                                (DBValueInt)3
                             },
-                            new List<DBItemValue>
+                            new()
                             {
-                                (DBValueInt) 6,
-                                (DBValueString) "7",
-                                (DBValueString) "MapData/Map002.mps",
-                                (DBValueString) "",
-                                (DBValueInt) 0,
-                                (DBValueInt) (-3),
-                                (DBValueInt) 9,
+                                (DBValueInt)6,
+                                (DBValueString)"7",
+                                (DBValueString)"MapData/Map002.mps",
+                                (DBValueString)"",
+                                (DBValueInt)0,
+                                (DBValueInt)(-3),
+                                (DBValueInt)9
                             },
-                            new List<DBItemValue>
+                            new()
                             {
-                                (DBValueInt) 0,
-                                (DBValueString) "うでぃた",
-                                (DBValueString) "",
-                                (DBValueString) "",
-                                (DBValueInt) 0,
-                                (DBValueInt) 0,
-                                (DBValueInt) 9,
+                                (DBValueInt)0,
+                                (DBValueString)"うでぃた",
+                                (DBValueString)"",
+                                (DBValueString)"",
+                                (DBValueInt)0,
+                                (DBValueInt)0,
+                                (DBValueInt)9
                             },
-                            new List<DBItemValue>
+                            new()
                             {
-                                (DBValueInt) 0,
-                                (DBValueString) "",
-                                (DBValueString) "まっぷでーた",
-                                (DBValueString) "Map007.mps",
-                                (DBValueInt) 0,
-                                (DBValueInt) (-1),
-                                (DBValueInt) 3,
+                                (DBValueInt)0,
+                                (DBValueString)"",
+                                (DBValueString)"まっぷでーた",
+                                (DBValueString)"Map007.mps",
+                                (DBValueInt)0,
+                                (DBValueInt)(-1),
+                                (DBValueInt)3
                             }
                         })
                     },
-                    new DBDataSetting(DBDataSettingType.Manual),
-                    new DBDataSetting(DBDataSettingType.DesignatedType, DBKind.User, 4)
+                    new(DBDataSettingType.Manual),
+                    new(DBDataSettingType.DesignatedType, DBKind.User, 4)
                     {
                         SettingValuesList = new DBItemValuesList(new List<IReadOnlyList<DBItemValue>>
                         {
                             new List<DBItemValue>
                             {
-                                (DBValueString) "",
-                                (DBValueString) "",
-                                (DBValueString) "",
-                                (DBValueString) "",
-                                (DBValueString) "",
+                                (DBValueString)"",
+                                (DBValueString)"",
+                                (DBValueString)"",
+                                (DBValueString)"",
+                                (DBValueString)""
                             },
                             new List<DBItemValue>
                             {
-                                (DBValueString) "",
-                                (DBValueString) "",
-                                (DBValueString) "",
-                                (DBValueString) "",
-                                (DBValueString) "",
-                            },
+                                (DBValueString)"",
+                                (DBValueString)"",
+                                (DBValueString)"",
+                                (DBValueString)"",
+                                (DBValueString)""
+                            }
                         })
                     },
-                    new DBDataSetting(DBDataSettingType.EqualBefore)
+                    new(DBDataSettingType.EqualBefore)
                     {
                         SettingValuesList = new DBItemValuesList(new List<IReadOnlyList<DBItemValue>>
                         {
                             new List<DBItemValue>
                             {
-                                (DBValueString) "ウルファール\r\nエディ\r\n夕一",
-                                (DBValueInt) 33,
-                                (DBValueInt) 20,
+                                (DBValueString)"ウルファール\r\nエディ\r\n夕一",
+                                (DBValueInt)33,
+                                (DBValueInt)20
                             }
                         })
                     }
@@ -306,7 +306,7 @@ namespace WodiLib.Test.IO
             return new DatabaseMergedData(new DBTypeSettingList(new List<DBTypeSetting>
             {
                 // CDB0
-                new DBTypeSetting
+                new()
                 {
                     TypeName = "あいうえお",
                     Memo = "メモ欄",
@@ -314,11 +314,11 @@ namespace WodiLib.Test.IO
                     {
                         "a",
                         "b",
-                        "c",
+                        "c"
                     }),
                     ItemSettingList = new DBItemSettingList(new List<DBItemSetting>
                     {
-                        new DBItemSetting
+                        new()
                         {
                             ItemName = "ItemName",
                             SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
@@ -327,7 +327,7 @@ namespace WodiLib.Test.IO
                                 ItemMemo = ""
                             }
                         },
-                        new DBItemSetting
+                        new()
                         {
                             ItemName = "Field2",
                             SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
@@ -336,7 +336,7 @@ namespace WodiLib.Test.IO
                                 ItemMemo = ""
                             }
                         },
-                        new DBItemSetting
+                        new()
                         {
                             ItemName = "",
                             SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
@@ -344,7 +344,7 @@ namespace WodiLib.Test.IO
                                 ItemMemo = ""
                             }
                         },
-                        new DBItemSetting
+                        new()
                         {
                             ItemName = "FilePath",
                             SpecialSettingDesc =
@@ -355,7 +355,7 @@ namespace WodiLib.Test.IO
                                     ItemMemo = ""
                                 }
                         },
-                        new DBItemSetting
+                        new()
                         {
                             ItemName = "",
                             SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
@@ -364,7 +364,7 @@ namespace WodiLib.Test.IO
                                 ItemMemo = ""
                             }
                         },
-                        new DBItemSetting
+                        new()
                         {
                             ItemName = "",
                             SpecialSettingDesc =
@@ -377,7 +377,7 @@ namespace WodiLib.Test.IO
                                     ItemMemo = ""
                                 }
                         },
-                        new DBItemSetting
+                        new()
                         {
                             ItemName = "",
                             SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
@@ -386,115 +386,114 @@ namespace WodiLib.Test.IO
                                 ItemMemo = ""
                             }
                         },
-                        new DBItemSetting
+                        new()
                         {
                             ItemName = "Case",
                             SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Manual,
                                 new List<DatabaseValueCase>
                                 {
-                                    new DatabaseValueCase(0, "選択肢1"),
-                                    new DatabaseValueCase(1, "選択肢2"),
-                                    new DatabaseValueCase(2, "選択肢3"),
+                                    new(0, "選択肢1"),
+                                    new(1, "選択肢2"),
+                                    new(2, "選択肢3")
                                 })
                             {
                                 InitValue = 0,
                                 ItemMemo = ""
                             }
                         },
-                        new DBItemSetting
+                        new()
                         {
                             ItemName = "NormalString",
                             SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                             {
                                 ItemMemo = ""
                             }
-                        },
+                        }
                     })
                 },
                 // CDB1
-                new DBTypeSetting
+                new()
                 {
                     TypeName = "",
                     Memo = "",
                     DataNameList = new DataNameList(new List<DataName>
                     {
-                        "",
+                        ""
                     }),
                     ItemSettingList = new DBItemSettingList(new List<DBItemSetting>
                     {
-                        new DBItemSetting
+                        new()
                         {
                             ItemName = "ItemField",
                             SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                             {
-                                ItemMemo = "",
+                                ItemMemo = ""
                             }
-                        },
+                        }
                     })
-                },
+                }
             }), new DBDataSettingList(new List<DBDataSetting>
             {
                 // CDB0
-                new DBDataSetting(DBDataSettingType.Manual)
+                new(DBDataSettingType.Manual)
                 {
                     SettingValuesList = new DBItemValuesList(new List<IReadOnlyList<DBItemValue>>
                     {
                         new List<DBItemValue>
                         {
-                            (DBValueString) "",
-                            (DBValueInt) 255,
-                            (DBValueString) "",
-                            (DBValueString) "CharaChip/[Animal]ChickenTX.png",
-                            (DBValueInt) 122,
-                            (DBValueInt) 8,
-                            (DBValueInt) 6,
-                            (DBValueInt) 1,
-                            (DBValueString) "234",
+                            (DBValueString)"",
+                            (DBValueInt)255,
+                            (DBValueString)"",
+                            (DBValueString)"CharaChip/[Animal]ChickenTX.png",
+                            (DBValueInt)122,
+                            (DBValueInt)8,
+                            (DBValueInt)6,
+                            (DBValueInt)1,
+                            (DBValueString)"234"
                         },
                         new List<DBItemValue>
                         {
-                            (DBValueString) "aaa",
-                            (DBValueInt) 255,
-                            (DBValueString) "aaa",
-                            (DBValueString) "",
-                            (DBValueInt) 0,
-                            (DBValueInt) 0,
-                            (DBValueInt) 0,
-                            (DBValueInt) 0,
-                            (DBValueString) "",
+                            (DBValueString)"aaa",
+                            (DBValueInt)255,
+                            (DBValueString)"aaa",
+                            (DBValueString)"",
+                            (DBValueInt)0,
+                            (DBValueInt)0,
+                            (DBValueInt)0,
+                            (DBValueInt)0,
+                            (DBValueString)""
                         },
                         new List<DBItemValue>
                         {
-                            (DBValueString) "",
-                            (DBValueInt) 127,
-                            (DBValueString) "",
-                            (DBValueString) "",
-                            (DBValueInt) 4,
-                            (DBValueInt) 0,
-                            (DBValueInt) 127,
-                            (DBValueInt) 1,
-                            (DBValueString) "",
-                        },
+                            (DBValueString)"",
+                            (DBValueInt)127,
+                            (DBValueString)"",
+                            (DBValueString)"",
+                            (DBValueInt)4,
+                            (DBValueInt)0,
+                            (DBValueInt)127,
+                            (DBValueInt)1,
+                            (DBValueString)""
+                        }
                     })
                 },
                 // CDB1
-                new DBDataSetting(DBDataSettingType.DesignatedType, DBKind.Changeable, 4)
+                new(DBDataSettingType.DesignatedType, DBKind.Changeable, 4)
                 {
                     SettingValuesList = new DBItemValuesList(new List<IReadOnlyList<DBItemValue>>
                     {
                         new List<DBItemValue>
                         {
-                            (DBValueString) "Wolf RPG Editor!",
-                        },
+                            (DBValueString)"Wolf RPG Editor!"
+                        }
                     })
-                },
+                }
             }));
         }
 
-        /** ========================================
-         *  テスト用ファイル出力
-         *  ======================================== */
-
+        /// ========================================
+        /// テスト用ファイル出力
+        /// ========================================
         /// <summary>テストディレクトリルート</summary>
         public static string TestWorkRootDir => MapFileTestItemGenerator.TestWorkRootDir;
 
@@ -504,11 +503,11 @@ namespace WodiLib.Test.IO
             ("Database.dat", TestResources.Database0Dat),
             ("CDatabase.dat", TestResources.CDatabase0Dat),
             ("Database.project", TestResources.Database0Project),
-            ("CDatabase.project", TestResources.CDatabase0Project),
+            ("CDatabase.project", TestResources.CDatabase0Project)
         };
 
         /// <summary>
-        /// ファイルを tmp フォルダに出力する。
+        ///     ファイルを tmp フォルダに出力する。
         /// </summary>
         public static void OutputFile()
         {
@@ -524,7 +523,7 @@ namespace WodiLib.Test.IO
         }
 
         /// <summary>
-        /// ファイルを削除する。
+        ///     ファイルを削除する。
         /// </summary>
         public static void DeleteFile()
         {

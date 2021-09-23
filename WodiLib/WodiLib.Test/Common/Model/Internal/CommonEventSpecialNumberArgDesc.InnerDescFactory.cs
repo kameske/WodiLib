@@ -21,14 +21,14 @@ namespace WodiLib.Test.Common.Internal
 
         private static readonly object[] CreateTestCaseSource =
         {
-            new object[] {CommonEventArgType.Normal, true, false},
-            new object[] {CommonEventArgType.Normal, false, false},
-            new object[] {CommonEventArgType.ReferDatabase, true, false},
-            new object[] {CommonEventArgType.ReferDatabase, false, false},
-            new object[] {CommonEventArgType.Manual, true, false},
-            new object[] {CommonEventArgType.Manual, false, false},
-            new object[] {null, true, true},
-            new object[] {null, false, true},
+            new object[] { CommonEventArgType.Normal, true, false },
+            new object[] { CommonEventArgType.Normal, false, false },
+            new object[] { CommonEventArgType.ReferDatabase, true, false },
+            new object[] { CommonEventArgType.ReferDatabase, false, false },
+            new object[] { CommonEventArgType.Manual, true, false },
+            new object[] { CommonEventArgType.Manual, false, false },
+            new object[] { null, true, true },
+            new object[] { null, false, true }
         };
 
         [TestCaseSource(nameof(CreateTestCaseSource))]
@@ -74,7 +74,7 @@ namespace WodiLib.Test.Common.Internal
             {
                 new Dictionary<int, string>
                 {
-                    {-1, "-1"}, {-2, "-2"}, {-3, "-3"}
+                    { -1, "-1" }, { -2, "-2" }, { -3, "-3" }
                 },
                 false
             },
@@ -82,7 +82,7 @@ namespace WodiLib.Test.Common.Internal
             {
                 new Dictionary<int, string>
                 {
-                    {-1, "-1"}, {-2, "-2"}
+                    { -1, "-1" }, { -2, "-2" }
                 },
                 false
             },
@@ -90,7 +90,7 @@ namespace WodiLib.Test.Common.Internal
             {
                 new Dictionary<int, string>
                 {
-                    {1, "-1"}, {2, "-2"}, {3, "-3"}
+                    { 1, "-1" }, { 2, "-2" }, { 3, "-3" }
                 },
                 false
             },
@@ -99,7 +99,7 @@ namespace WodiLib.Test.Common.Internal
                 new Dictionary<int, string>(),
                 false
             },
-            new object[] {null, false},
+            new object[] { null, false }
         };
 
         [TestCaseSource(nameof(CreateReferDatabaseTestCaseSource))]

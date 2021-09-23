@@ -14,7 +14,7 @@ using WodiLib.Sys;
 namespace WodiLib.Ini
 {
     /// <summary>
-    /// Game.iniデータクラス
+    ///     Game.iniデータクラス
     /// </summary>
     [Serializable]
     public class GameIniData : ModelBase<GameIniData>, ISerializable
@@ -36,7 +36,7 @@ namespace WodiLib.Ini
         private int startCode;
 
         /// <summary>
-        /// Game.exe起動済み種別コード
+        ///     Game.exe起動済み種別コード
         /// </summary>
         public int StartCode
         {
@@ -51,7 +51,7 @@ namespace WodiLib.Ini
         private bool isSoftGraphicMode;
 
         /// <summary>
-        /// ソフトウェア表示モードフラグ
+        ///     ソフトウェア表示モードフラグ
         /// </summary>
         public bool IsSoftGraphicMode
         {
@@ -66,7 +66,7 @@ namespace WodiLib.Ini
         private bool isWindowMode;
 
         /// <summary>
-        /// ウィンドウモードフラグ
+        ///     ウィンドウモードフラグ
         /// </summary>
         public bool IsWindowMode
         {
@@ -81,7 +81,7 @@ namespace WodiLib.Ini
         private bool isPlayBgm;
 
         /// <summary>
-        /// BGM再生フラグ
+        ///     BGM再生フラグ
         /// </summary>
         public bool IsPlayBgm
         {
@@ -96,7 +96,7 @@ namespace WodiLib.Ini
         private bool isPlaySe;
 
         /// <summary>
-        /// SE再生フラグ
+        ///     SE再生フラグ
         /// </summary>
         public bool IsPlaySe
         {
@@ -111,7 +111,7 @@ namespace WodiLib.Ini
         private FrameSkipType frameSkipType = FrameSkipType.HighSpec;
 
         /// <summary>
-        /// フレームスキップ種別
+        ///     フレームスキップ種別
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public FrameSkipType FrameSkipType
@@ -131,7 +131,7 @@ namespace WodiLib.Ini
         private ProxyAddress proxyAddress = "";
 
         /// <summary>
-        /// プロキシアドレス
+        ///     プロキシアドレス
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public ProxyAddress ProxyAddress
@@ -148,10 +148,10 @@ namespace WodiLib.Ini
             }
         }
 
-        private ProxyPort proxyPort;
+        private ProxyPort proxyPort = 0;
 
         /// <summary>
-        /// プロキシポート
+        ///     プロキシポート
         /// </summary>
         public ProxyPort ProxyPort
         {
@@ -166,7 +166,7 @@ namespace WodiLib.Ini
         private bool canTakeScreenShot;
 
         /// <summary>
-        /// スクリーンショット許可フラグ
+        ///     スクリーンショット許可フラグ
         /// </summary>
         public bool CanTakeScreenShot
         {
@@ -181,7 +181,7 @@ namespace WodiLib.Ini
         private bool canReset;
 
         /// <summary>
-        /// 【Ver2.20以降】F12リセット許可フラグ
+        ///     【Ver2.20以降】F12リセット許可フラグ
         /// </summary>
         public bool CanReset
         {
@@ -193,10 +193,10 @@ namespace WodiLib.Ini
             }
         }
 
-        private DisplayNumber displayNumber;
+        private DisplayNumber displayNumber = 0;
 
         /// <summary>
-        /// 【Ver2.20以降】起動ディスプレイ番号
+        ///     【Ver2.20以降】起動ディスプレイ番号
         /// </summary>
         public DisplayNumber DisplayNumber
         {
@@ -211,7 +211,7 @@ namespace WodiLib.Ini
         private bool isUseOldDirectX;
 
         /// <summary>
-        /// 【Ver2.22以降】旧DirectXバージョン利用フラグ
+        ///     【Ver2.22以降】旧DirectXバージョン利用フラグ
         /// </summary>
         public bool IsUseOldDirectX
         {
@@ -228,14 +228,14 @@ namespace WodiLib.Ini
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         public GameIniData()
         {
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="data">Iniデータ</param>
         internal GameIniData(GameIniRootData data)
@@ -259,7 +259,7 @@ namespace WodiLib.Ini
                 FrameSkipType = FrameSkipType.HighSpec;
             }
 
-            ProxyAddress = data.Proxy ?? "";
+            ProxyAddress = data.Proxy;
             ProxyPort = data.ProxyPort.TryToInt() ?? ProxyPort.Empty;
             CanTakeScreenShot = data.ScreenShotFlag.TryToInt() == 1;
             CanReset = data.F12_Reset.TryToInt() == 1;
@@ -272,7 +272,7 @@ namespace WodiLib.Ini
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 値を比較する。
+        ///     値を比較する。
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
@@ -299,7 +299,7 @@ namespace WodiLib.Ini
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 自身のプロパティ値をGameIniRootDataインスタンスに変換する。
+        ///     自身のプロパティ値をGameIniRootDataインスタンスに変換する。
         /// </summary>
         /// <returns>GameIniRootDataインスタンス</returns>
         internal GameIniRootData ToIniRootData()
@@ -317,7 +317,7 @@ namespace WodiLib.Ini
                 ScreenShotFlag = CanTakeScreenShot.ToIntString(),
                 F12_Reset = CanReset.ToIntString(),
                 Display_Number = DisplayNumber.ToString(),
-                Old_DirectX_Use = IsUseOldDirectX.ToIntString(),
+                Old_DirectX_Use = IsUseOldDirectX.ToIntString()
             };
         }
 
@@ -326,7 +326,7 @@ namespace WodiLib.Ini
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        ///     オブジェクトをシリアル化するために必要なデータを設定する。
         /// </summary>
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>
@@ -348,7 +348,7 @@ namespace WodiLib.Ini
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>

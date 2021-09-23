@@ -24,7 +24,7 @@ namespace WodiLib.Test.IO
             {
                 MapFileTestItemGenerator.GenerateMap025Data(),
                 $@"{MapFileTestItemGenerator.TestWorkRootDir}\OutputMap025.mps"
-            },
+            }
         };
 
         [TestCaseSource(nameof(WriteSyncTestCaseSource))]

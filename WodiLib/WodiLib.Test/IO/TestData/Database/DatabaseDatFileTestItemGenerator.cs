@@ -19,7 +19,7 @@ namespace WodiLib.Test.IO
                     GenerateData0Type00Setting(),
                     GenerateData0Type01Setting(),
                     GenerateData0Type02Setting(),
-                    GenerateData0Type03Setting(),
+                    GenerateData0Type03Setting()
                 })
             };
         }
@@ -30,45 +30,45 @@ namespace WodiLib.Test.IO
             {
                 SettingValuesList = new DBItemValuesList(new List<List<DBItemValue>>
                 {
-                    new List<DBItemValue>
+                    new()
                     {
-                        (DBValueInt) (-255),
-                        (DBValueString) "文字列",
-                        (DBValueString) "MapChip/[A]World_Grass-Grass_pipo.png",
-                        (DBValueString) "Map002.mps",
-                        (DBValueInt) 0,
-                        (DBValueInt) (-2),
-                        (DBValueInt) 3,
+                        (DBValueInt)(-255),
+                        (DBValueString)"文字列",
+                        (DBValueString)"MapChip/[A]World_Grass-Grass_pipo.png",
+                        (DBValueString)"Map002.mps",
+                        (DBValueInt)0,
+                        (DBValueInt)(-2),
+                        (DBValueInt)3
                     },
-                    new List<DBItemValue>
+                    new()
                     {
-                        (DBValueInt) 6,
-                        (DBValueString) "7",
-                        (DBValueString) "MapData/Map002.mps",
-                        (DBValueString) "",
-                        (DBValueInt) 0,
-                        (DBValueInt) (-3),
-                        (DBValueInt) 9,
+                        (DBValueInt)6,
+                        (DBValueString)"7",
+                        (DBValueString)"MapData/Map002.mps",
+                        (DBValueString)"",
+                        (DBValueInt)0,
+                        (DBValueInt)(-3),
+                        (DBValueInt)9
                     },
-                    new List<DBItemValue>
+                    new()
                     {
-                        (DBValueInt) 0,
-                        (DBValueString) "うでぃた",
-                        (DBValueString) "",
-                        (DBValueString) "",
-                        (DBValueInt) 0,
-                        (DBValueInt) 0,
-                        (DBValueInt) 9,
+                        (DBValueInt)0,
+                        (DBValueString)"うでぃた",
+                        (DBValueString)"",
+                        (DBValueString)"",
+                        (DBValueInt)0,
+                        (DBValueInt)0,
+                        (DBValueInt)9
                     },
-                    new List<DBItemValue>
+                    new()
                     {
-                        (DBValueInt) 0,
-                        (DBValueString) "",
-                        (DBValueString) "まっぷでーた",
-                        (DBValueString) "Map007.mps",
-                        (DBValueInt) 0,
-                        (DBValueInt) (-1),
-                        (DBValueInt) 3,
+                        (DBValueInt)0,
+                        (DBValueString)"",
+                        (DBValueString)"まっぷでーた",
+                        (DBValueString)"Map007.mps",
+                        (DBValueInt)0,
+                        (DBValueInt)(-1),
+                        (DBValueInt)3
                     }
                 })
             };
@@ -89,20 +89,20 @@ namespace WodiLib.Test.IO
                 {
                     new List<DBItemValue>
                     {
-                        (DBValueString) "",
-                        (DBValueString) "",
-                        (DBValueString) "",
-                        (DBValueString) "",
-                        (DBValueString) "",
+                        (DBValueString)"",
+                        (DBValueString)"",
+                        (DBValueString)"",
+                        (DBValueString)"",
+                        (DBValueString)""
                     },
                     new List<DBItemValue>
                     {
-                        (DBValueString) "",
-                        (DBValueString) "",
-                        (DBValueString) "",
-                        (DBValueString) "",
-                        (DBValueString) "",
-                    },
+                        (DBValueString)"",
+                        (DBValueString)"",
+                        (DBValueString)"",
+                        (DBValueString)"",
+                        (DBValueString)""
+                    }
                 })
             };
             return result;
@@ -116,9 +116,9 @@ namespace WodiLib.Test.IO
                 {
                     new List<DBItemValue>
                     {
-                        (DBValueString) "ウルファール\r\nエディ\r\n夕一",
-                        (DBValueInt) 33,
-                        (DBValueInt) 20,
+                        (DBValueString)"ウルファール\r\nエディ\r\n夕一",
+                        (DBValueInt)33,
+                        (DBValueInt)20
                     }
                 })
             };
@@ -137,69 +137,68 @@ namespace WodiLib.Test.IO
                 SettingList = new DBDataSettingList(new List<DBDataSetting>
                 {
                     // CDB0
-                    new DBDataSetting(DBDataSettingType.Manual)
+                    new(DBDataSettingType.Manual)
                     {
                         SettingValuesList = new DBItemValuesList(new List<IReadOnlyList<DBItemValue>>
                         {
                             new List<DBItemValue>
                             {
-                                (DBValueString) "",
-                                (DBValueInt) 255,
-                                (DBValueString) "",
-                                (DBValueString) "CharaChip/[Animal]ChickenTX.png",
-                                (DBValueInt) 122,
-                                (DBValueInt) 8,
-                                (DBValueInt) 6,
-                                (DBValueInt) 1,
-                                (DBValueString) "234",
+                                (DBValueString)"",
+                                (DBValueInt)255,
+                                (DBValueString)"",
+                                (DBValueString)"CharaChip/[Animal]ChickenTX.png",
+                                (DBValueInt)122,
+                                (DBValueInt)8,
+                                (DBValueInt)6,
+                                (DBValueInt)1,
+                                (DBValueString)"234"
                             },
                             new List<DBItemValue>
                             {
-                                (DBValueString) "aaa",
-                                (DBValueInt) 255,
-                                (DBValueString) "aaa",
-                                (DBValueString) "",
-                                (DBValueInt) 0,
-                                (DBValueInt) 0,
-                                (DBValueInt) 0,
-                                (DBValueInt) 0,
-                                (DBValueString) "",
+                                (DBValueString)"aaa",
+                                (DBValueInt)255,
+                                (DBValueString)"aaa",
+                                (DBValueString)"",
+                                (DBValueInt)0,
+                                (DBValueInt)0,
+                                (DBValueInt)0,
+                                (DBValueInt)0,
+                                (DBValueString)""
                             },
                             new List<DBItemValue>
                             {
-                                (DBValueString) "",
-                                (DBValueInt) 127,
-                                (DBValueString) "",
-                                (DBValueString) "",
-                                (DBValueInt) 4,
-                                (DBValueInt) 0,
-                                (DBValueInt) 127,
-                                (DBValueInt) 1,
-                                (DBValueString) "",
-                            },
+                                (DBValueString)"",
+                                (DBValueInt)127,
+                                (DBValueString)"",
+                                (DBValueString)"",
+                                (DBValueInt)4,
+                                (DBValueInt)0,
+                                (DBValueInt)127,
+                                (DBValueInt)1,
+                                (DBValueString)""
+                            }
                         })
                     },
                     // CDB1
-                    new DBDataSetting(DBDataSettingType.DesignatedType, DBKind.Changeable, 4)
+                    new(DBDataSettingType.DesignatedType, DBKind.Changeable, 4)
                     {
                         SettingValuesList = new DBItemValuesList(new List<IReadOnlyList<DBItemValue>>
                         {
                             new List<DBItemValue>
                             {
-                                (DBValueString) "Wolf RPG Editor!",
-                            },
+                                (DBValueString)"Wolf RPG Editor!"
+                            }
                         })
-                    },
+                    }
                 })
             };
         }
 
         #endregion
 
-        /** ========================================
-         *  テスト用ファイル出力
-         *  ======================================== */
-
+        /// ========================================
+        /// テスト用ファイル出力
+        /// ========================================
         /// <summary>テストディレクトリルート</summary>
         public static string TestWorkRootDir => MapFileTestItemGenerator.TestWorkRootDir;
 
@@ -210,11 +209,11 @@ namespace WodiLib.Test.IO
             ("CDatabase0.dat", TestResources.CDatabase0Dat),
             ("Database1.dat", TestResources.Database1Dat),
             ("CDatabase1.dat", TestResources.CDatabase1Dat),
-            ("SysDatabase1.dat", TestResources.SysDatabase1Dat),
+            ("SysDatabase1.dat", TestResources.SysDatabase1Dat)
         };
 
         /// <summary>
-        /// ファイルを tmp フォルダに出力する。
+        ///     ファイルを tmp フォルダに出力する。
         /// </summary>
         public static void OutputFile()
         {
@@ -230,7 +229,7 @@ namespace WodiLib.Test.IO
         }
 
         /// <summary>
-        /// ファイルを削除する。
+        ///     ファイルを削除する。
         /// </summary>
         public static void DeleteFile()
         {

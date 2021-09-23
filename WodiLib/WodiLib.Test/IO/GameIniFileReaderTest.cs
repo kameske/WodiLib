@@ -62,6 +62,7 @@ namespace WodiLib.Test.IO
                 throw new InvalidOperationException(
                     $"Error Occured. Message : {errorMessage}");
             }
+
             Assert.NotNull(readData);
 
             Console.WriteLine("Read Test Clear.");
@@ -84,6 +85,5 @@ namespace WodiLib.Test.IO
             // テスト用ファイル削除
             GameIniDataTestItemGenerator.DeleteFile();
         }
-
     }
 }

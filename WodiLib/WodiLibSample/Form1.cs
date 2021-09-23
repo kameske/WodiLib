@@ -41,8 +41,10 @@ namespace WodiLibSample
                 LoadCommonEventList();
                 LoadMapList();
 
-                {       // プロジェクト内のイベントすべてに対してイベントコマンド文を取得する
-                    {       // Map
+                {
+                    // プロジェクト内のイベントすべてに対してイベントコマンド文を取得する
+                    {
+                        // Map
                         foreach (var dataDesc in value.GetDatabaseDataDescList(DBKind.System, 0))
                         {
                             string mapFilePath = dataDesc.ItemValueList[0].StringValue;
@@ -51,15 +53,17 @@ namespace WodiLibSample
 
                             foreach (var mapEvent in mapData.MapEvents)
                             {
-                                for(var page = 0; page < mapEvent.PageValue; page++)
+                                for (var page = 0; page < mapEvent.PageValue; page++)
                                 {
-                                    var sentenceInfo = value.GetMapEventEventCommandSentenceInfoListSync(mapFilePath, mapEvent.MapEventId,
+                                    var sentenceInfo = value.GetMapEventEventCommandSentenceInfoListSync(mapFilePath,
+                                        mapEvent.MapEventId,
                                         page);
                                 }
                             }
                         }
                     }
-                    {       // Common
+                    {
+                        // Common
                         foreach (var commonEvent in value.CommonEventList)
                         {
                             var sentenceInfo = value.GetCommonEventEventCommandSentenceInfoListSync(commonEvent.Id);
@@ -93,7 +97,7 @@ namespace WodiLibSample
 
         private CommonEventId? SelectedCommonEventId { get; set; }
 
-        private List<CommonEventListItem> commonEventList = new List<CommonEventListItem>();
+        private List<CommonEventListItem> commonEventList = new();
 
         private List<CommonEventListItem> CommonEventList
         {
@@ -137,7 +141,7 @@ namespace WodiLibSample
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// フォームロード時の処理
+        ///     フォームロード時の処理
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -149,7 +153,7 @@ namespace WodiLibSample
         #region ProjectInfo
 
         /// <summary>
-        /// サンプルプロジェクト読み込みボタン押下時の処理
+        ///     サンプルプロジェクト読み込みボタン押下時の処理
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -161,7 +165,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// フォルダ参照ボタン押下時の処理
+        ///     フォルダ参照ボタン押下時の処理
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -193,7 +197,7 @@ namespace WodiLibSample
         #region Map
 
         /// <summary>
-        /// マップ一覧ダブルクリック時の処理
+        ///     マップ一覧ダブルクリック時の処理
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -208,7 +212,7 @@ namespace WodiLibSample
             SelectedCommonEventId = null;
 
             // 選択したマップの情報を取得する
-            var selectedMapItem = (DatabaseDataDesc) lstMap.SelectedItem;
+            var selectedMapItem = (DatabaseDataDesc)lstMap.SelectedItem;
             // マップファイルパスを取得する
             var mpsFileName = selectedMapItem.ItemValueList[0].StringValue.ToString();
             if (!mpsFileName.StartsWith(@"Data\"))
@@ -225,7 +229,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// マップ一覧更新ボタン押下時の処理
+        ///     マップ一覧更新ボタン押下時の処理
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -254,7 +258,7 @@ namespace WodiLibSample
         #region MapEvent
 
         /// <summary>
-        /// マップイベント一覧ダブルクリック時の処理
+        ///     マップイベント一覧ダブルクリック時の処理
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -271,7 +275,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// マップイベント一覧更新ボタン押下時の処理
+        ///     マップイベント一覧更新ボタン押下時の処理
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -291,7 +295,6 @@ namespace WodiLibSample
             LoadCommonEventList();
 
             ClearStateMessage();
-
         }
 
         #endregion
@@ -299,7 +302,7 @@ namespace WodiLibSample
         #region CommonEvent
 
         /// <summary>
-        /// コモンイベントリストダブルクリック時の処理
+        ///     コモンイベントリストダブルクリック時の処理
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -317,7 +320,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// コモンイベントリスト更新ボタン押下時の処理
+        ///     コモンイベントリスト更新ボタン押下時の処理
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -343,7 +346,7 @@ namespace WodiLibSample
         #region Output
 
         /// <summary>
-        /// イベントコマンド文 / イベントコード切り替えボタン押下時の処理
+        ///     イベントコマンド文 / イベントコード切り替えボタン押下時の処理
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -364,7 +367,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// イベントコマンド配色切り替え
+        ///     イベントコマンド配色切り替え
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -394,7 +397,7 @@ namespace WodiLibSample
         #region ProjectInfo
 
         /// <summary>
-        /// 読み込んだプロジェクトパスを更新する。
+        ///     読み込んだプロジェクトパスを更新する。
         /// </summary>
         /// <param name="dir"></param>
         private void UpdateProjectDirText(string dir)
@@ -404,6 +407,7 @@ namespace WodiLibSample
                 Invoke((MethodInvoker)(() => UpdateProjectDirText(dir)));
                 return;
             }
+
             txtProjectDir.Text = dir;
         }
 
@@ -412,7 +416,7 @@ namespace WodiLibSample
         #region Map
 
         /// <summary>
-        /// マップ一覧を更新する。
+        ///     マップ一覧を更新する。
         /// </summary>
         private void UpdateMapList()
         {
@@ -435,7 +439,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// マップ一覧更新ボタン有効/無効をセットする。
+        ///     マップ一覧更新ボタン有効/無効をセットする。
         /// </summary>
         /// <param name="enabled"></param>
         private void UpdateBtnMapUpdateEnabled(bool enabled)
@@ -445,6 +449,7 @@ namespace WodiLibSample
                 Invoke((MethodInvoker)(() => UpdateBtnMapUpdateEnabled(enabled)));
                 return;
             }
+
             btnMapUpdate.Enabled = enabled;
         }
 
@@ -453,7 +458,7 @@ namespace WodiLibSample
         #region MapEvent
 
         /// <summary>
-        /// マップイベント一覧を更新する。
+        ///     マップイベント一覧を更新する。
         /// </summary>
         private void UpdateMapEventList()
         {
@@ -469,7 +474,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// マップイベント一覧更新ボタン有効/無効をセットする。
+        ///     マップイベント一覧更新ボタン有効/無効をセットする。
         /// </summary>
         /// <param name="enabled"></param>
         private void UpdateBtnMapEventUpdateEnabled(bool enabled)
@@ -479,6 +484,7 @@ namespace WodiLibSample
                 Invoke((MethodInvoker)(() => UpdateBtnMapEventUpdateEnabled(enabled)));
                 return;
             }
+
             btnMapEventUpdate.Enabled = enabled;
         }
 
@@ -487,7 +493,7 @@ namespace WodiLibSample
         #region CommonEvent
 
         /// <summary>
-        /// コモンイベント一覧を更新する。
+        ///     コモンイベント一覧を更新する。
         /// </summary>
         private void UpdateCommonEventList()
         {
@@ -503,7 +509,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// コモンイベント一覧更新ボタン有効/無効をセットする。
+        ///     コモンイベント一覧更新ボタン有効/無効をセットする。
         /// </summary>
         /// <param name="enabled"></param>
         private void UpdateBtnCmnUpdateEnabled(bool enabled)
@@ -513,6 +519,7 @@ namespace WodiLibSample
                 Invoke((MethodInvoker)(() => UpdateBtnCmnUpdateEnabled(enabled)));
                 return;
             }
+
             btnCmnUpdate.Enabled = enabled;
         }
 
@@ -552,7 +559,7 @@ namespace WodiLibSample
         #region Output
 
         /// <summary>
-        /// イベントコマンド文/コード切り替えボタン有効/無効をセットする。
+        ///     イベントコマンド文/コード切り替えボタン有効/無効をセットする。
         /// </summary>
         /// <param name="enabled"></param>
         private void UpdateBtnChangeSentenceCodeEnabled(bool enabled)
@@ -562,11 +569,12 @@ namespace WodiLibSample
                 Invoke((MethodInvoker)(() => UpdateBtnChangeSentenceCodeEnabled(enabled)));
                 return;
             }
+
             btnChangeSentenceCode.Enabled = enabled;
         }
 
         /// <summary>
-        /// 表示テキストを更新する。
+        ///     表示テキストを更新する。
         /// </summary>
         /// <param name="text">表示文字列</param>
         private void UpdateTxtShowText(string text)
@@ -581,7 +589,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// 表示テキストを更新する。
+        ///     表示テキストを更新する。
         /// </summary>
         /// <param name="infoList">表示コード情報リスト</param>
         private void UpdateTxtShowText(IEnumerable<EventCodeInfo> infoList)
@@ -605,7 +613,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// コマンド配色コンボボックス有効/無効をセットする。
+        ///     コマンド配色コンボボックス有効/無効をセットする。
         /// </summary>
         /// <param name="enable"></param>
         private void UpdateCmbEventCodeColorEnable(bool enable)
@@ -624,7 +632,7 @@ namespace WodiLibSample
         #region State
 
         /// <summary>
-        /// 状態メッセージを更新する。
+        ///     状態メッセージを更新する。
         /// </summary>
         /// <param name="message"></param>
         private void UpdateStateMessage(string message)
@@ -634,11 +642,12 @@ namespace WodiLibSample
                 Invoke((MethodInvoker)(() => UpdateStateMessage(message)));
                 return;
             }
+
             lblState.Text = message;
         }
 
         /// <summary>
-        /// 状態メッセージをクリアする。
+        ///     状態メッセージをクリアする。
         /// </summary>
         private void ClearStateMessage()
         {
@@ -647,6 +656,7 @@ namespace WodiLibSample
                 Invoke((MethodInvoker)(ClearStateMessage));
                 return;
             }
+
             UpdateStateMessage(string.Empty);
         }
 
@@ -659,8 +669,8 @@ namespace WodiLibSample
         // -------------------- Zip File --------------------
 
         /// <summary>
-        /// SampleResourceに登録済みのテスト用プロジェクトファイル（ZIP）を
-        /// Tmpフォルダに解凍する。
+        ///     SampleResourceに登録済みのテスト用プロジェクトファイル（ZIP）を
+        ///     Tmpフォルダに解凍する。
         /// </summary>
         /// <returns>解凍したフォルダ</returns>
         private static async Task<string> UnzipSampleProject()
@@ -706,7 +716,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// 読み込んだプロジェクトからマップ一覧を取得し、画面にセットする。
+        ///     読み込んだプロジェクトからマップ一覧を取得し、画面にセットする。
         /// </summary>
         private void LoadMapList()
         {
@@ -718,7 +728,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// 選択したマップデータからイベント一覧を取得し、画面にセットする。
+        ///     選択したマップデータからイベント一覧を取得し、画面にセットする。
         /// </summary>
         private void LoadMapEventList()
         {
@@ -730,7 +740,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// 読み込んだプロジェクトからコモンイベントの情報を取得し、画面にセットする。
+        ///     読み込んだプロジェクトからコモンイベントの情報を取得し、画面にセットする。
         /// </summary>
         private void LoadCommonEventList()
         {
@@ -744,20 +754,20 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// 選択したマップイベントの文字列をセットする。
+        ///     選択したマップイベントの文字列をセットする。
         /// </summary>
         /// <returns></returns>
         private async Task SetSelectedMapEventString()
         {
             if (SelectedMapEventId == null) throw new InvalidOperationException();
-            if (ShowEventCodeFlag) await SetMapEventSentence(SelectedMapEventId.Value);
-            else await SetMapEventCode(SelectedMapEventId.Value);
+            if (ShowEventCodeFlag) await SetMapEventSentence(SelectedMapEventId.RawValue);
+            else await SetMapEventCode(SelectedMapEventId.RawValue);
 
             UpdateBtnChangeSentenceCodeEnabled(true);
         }
 
         /// <summary>
-        /// マップイベントのイベントコマンド文を表示する。
+        ///     マップイベントのイベントコマンド文を表示する。
         /// </summary>
         /// <param name="id">マップイベントID</param>
         private async Task SetMapEventSentence(int id)
@@ -789,7 +799,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// マップイベントのイベントコマンドコードを表示する。
+        ///     マップイベントのイベントコマンドコードを表示する。
         /// </summary>
         /// <param name="id">マップイベントID</param>
         private async Task SetMapEventCode(int id)
@@ -809,7 +819,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// 選択したコモンイベントの文字列をセットする。
+        ///     選択したコモンイベントの文字列をセットする。
         /// </summary>
         private async Task SetSelectedCommonEventString()
         {
@@ -827,7 +837,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// コモンイベントのイベントコマンド文を表示する。
+        ///     コモンイベントのイベントコマンド文を表示する。
         /// </summary>
         /// <param name="id">コモンイベントID</param>
         private async Task SetCommonEventSentence(int id)
@@ -859,7 +869,7 @@ namespace WodiLibSample
         }
 
         /// <summary>
-        /// コモンイベントのイベントコマンドコードを表示する。
+        ///     コモンイベントのイベントコマンドコードを表示する。
         /// </summary>
         /// <param name="id">コモンイベントID</param>
         private async Task SetCommonEventCode(int id)

@@ -24,7 +24,7 @@ namespace WodiLib.Map
         //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private MapEventId mapEventId;
+        private MapEventId mapEventId = 0;
 
         /// <summary>マップイベントID</summary>
         public MapEventId MapEventId
@@ -54,7 +54,7 @@ namespace WodiLib.Map
             }
         }
 
-        private Position position;
+        private Position position = new(0, 0);
 
         /// <summary>座標</summary>
         public Position Position
@@ -70,7 +70,7 @@ namespace WodiLib.Map
         /// <summary>ページ数</summary>
         public int PageValue => MapEventPageList.Count;
 
-        private MapEventPageList mapEventPageList = new MapEventPageList(new[]
+        private MapEventPageList mapEventPageList = new(new[]
         {
             new MapEventPage()
         });
@@ -101,7 +101,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// マップイベントリストプロパティ変更通知
+        ///     マップイベントリストプロパティ変更通知
         /// </summary>
         /// <param name="sender">送信元</param>
         /// <param name="args">情報</param>
@@ -120,7 +120,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         public MapEvent()
         {
@@ -132,7 +132,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// イベントコマンド文字列情報リストを取得する。
+        ///     イベントコマンド文字列情報リストを取得する。
         /// </summary>
         /// <param name="resolver">名前解決クラスインスタンス</param>
         /// <param name="desc">付加情報</param>
@@ -154,7 +154,7 @@ namespace WodiLib.Map
         }
 
         /// <summary>
-        /// 値を比較する。
+        ///     値を比較する。
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
@@ -173,7 +173,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// バイナリ変換する。
+        ///     バイナリ変換する。
         /// </summary>
         /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
@@ -203,10 +203,10 @@ namespace WodiLib.Map
 
         /// <summary>ヘッダバイト</summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public static readonly byte[] Header = {0x6F, 0x39, 0x30, 0x00, 0x00};
+        public static readonly byte[] Header = { 0x6F, 0x39, 0x30, 0x00, 0x00 };
 
         /// <summary>フッタバイト</summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public static readonly byte[] Footer = {0x70};
+        public static readonly byte[] Footer = { 0x70 };
     }
 }

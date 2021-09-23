@@ -47,7 +47,7 @@ namespace WodiLib.Test.Cmn
             var instance = new NormalNumberVariableAddress(variableAddress);
 
             // 取得した値が意図した値と一致すること
-            Assert.AreEqual(instance.VariableIndex, (NormalNumberVariableIndex) answer);
+            Assert.AreEqual(instance.VariableIndex, (NormalNumberVariableIndex)answer);
         }
 
         [TestCase(2000000)]
@@ -71,7 +71,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                var _ = (NormalNumberVariableAddress) value;
+                var _ = (NormalNumberVariableAddress)value;
             }
             catch (Exception ex)
             {
@@ -94,7 +94,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                castValue = (int) instance;
+                castValue = (int)instance;
             }
             catch (Exception ex)
             {
@@ -139,10 +139,10 @@ namespace WodiLib.Test.Cmn
             if (errorOccured) return;
 
             // 意図した値と一致すること
-            Assert.AreEqual((int) result, variableAddress + value);
+            Assert.AreEqual((int)result, variableAddress + value);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int) instance, variableAddress);
+            Assert.AreEqual((int)instance, variableAddress);
         }
 
         [TestCase(2000000, -100000, true)]
@@ -175,10 +175,10 @@ namespace WodiLib.Test.Cmn
             if (errorOccured) return;
 
             // 意図した値と一致すること
-            Assert.AreEqual((int) result, variableAddress - value);
+            Assert.AreEqual((int)result, variableAddress - value);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int) instance, variableAddress);
+            Assert.AreEqual((int)instance, variableAddress);
         }
 
         [TestCase(2053002, 2000000)]
@@ -207,7 +207,7 @@ namespace WodiLib.Test.Cmn
             Assert.AreEqual(result, srcVariableAddress - dstVariableAddress);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int) instance, srcVariableAddress);
+            Assert.AreEqual((int)instance, srcVariableAddress);
         }
 
         [TestCase(2053002, 2000000)]
@@ -220,7 +220,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                result = instance - (NormalNumberVariableAddress) dstVariableAddress;
+                result = instance - (NormalNumberVariableAddress)dstVariableAddress;
             }
             catch (Exception ex)
             {
@@ -235,7 +235,7 @@ namespace WodiLib.Test.Cmn
             Assert.AreEqual(result, srcVariableAddress - dstVariableAddress);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int) instance, srcVariableAddress);
+            Assert.AreEqual((int)instance, srcVariableAddress);
         }
     }
 }

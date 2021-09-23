@@ -15,7 +15,7 @@ using WodiLib.Sys;
 namespace WodiLib.Common
 {
     /// <summary>
-    /// コモンイベント数値引数特殊指定情報クラス
+    ///     コモンイベント数値引数特殊指定情報クラス
     /// </summary>
     [Serializable]
     public partial class CommonEventSpecialNumberArgDesc : ModelBase<CommonEventSpecialNumberArgDesc>,
@@ -28,7 +28,7 @@ namespace WodiLib.Common
         private CommonEventArgName argName = "";
 
         /// <summary>
-        /// 引数名
+        ///     引数名
         /// </summary>
         /// <exception cref="PropertyNullException">nullをセットした場合</exception>
         public CommonEventArgName ArgName
@@ -45,33 +45,33 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 引数特殊指定タイプ
+        ///     引数特殊指定タイプ
         /// </summary>
         public CommonEventArgType ArgType => InnerDesc.ArgType;
 
         /// <summary>
-        /// DB参照時のDB種別
+        ///     DB参照時のDB種別
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
         public DBKind DatabaseUseDbKind => InnerDesc.DatabaseUseDbKind;
 
         /// <summary>
-        /// DB参照時のタイプID
+        ///     DB参照時のタイプID
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
         public TypeId DatabaseDbTypeId => InnerDesc.DatabaseDbTypeId;
 
 
         /// <summary>
-        /// DB参照時の追加項目使用フラグ
+        ///     DB参照時の追加項目使用フラグ
         /// </summary>
         /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
         public bool DatabaseUseAdditionalItemsFlag => InnerDesc.DatabaseUseAdditionalItemsFlag;
 
-        private CommonEventNumberArgInitValue initValue;
+        private CommonEventNumberArgInitValue initValue = 0;
 
         /// <summary>
-        /// 数値引数の初期値
+        ///     数値引数の初期値
         /// </summary>
         public CommonEventNumberArgInitValue InitValue
         {
@@ -84,7 +84,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 【読み取り専用】選択肢情報リスト
+        ///     【読み取り専用】選択肢情報リスト
         /// </summary>
         public IReadOnlyCommonEventSpecialArgCaseList SpecialArgCaseList
             => InnerDesc.SpecialArgCaseList;
@@ -96,7 +96,7 @@ namespace WodiLib.Common
         private IInnerDesc innerDesc = new InnerDescNormal();
 
         /// <summary>
-        /// 情報内部クラス
+        ///     情報内部クラス
         /// </summary>
         private IInnerDesc InnerDesc
         {
@@ -119,7 +119,7 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 情報内部クラスプロパティ変更通知
+        ///     情報内部クラスプロパティ変更通知
         /// </summary>
         /// <param name="sender">送信元</param>
         /// <param name="args">情報</param>
@@ -141,7 +141,7 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 引数特殊指定タイプを変更する。
+        ///     引数特殊指定タイプを変更する。
         /// </summary>
         /// <param name="type">特殊指定タイプ</param>
         /// <param name="argCases">選択肢リスト</param>
@@ -161,7 +161,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// DB参照時の参照DBをセットする。
+        ///     DB参照時の参照DBをセットする。
         /// </summary>
         /// <param name="dbKind">DB種別</param>
         /// <param name="dbTypeId">タイプID</param>
@@ -173,7 +173,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// DB参照時の追加項目使用フラグをセットする。
+        ///     DB参照時の追加項目使用フラグをセットする。
         /// </summary>
         /// <param name="flag">追加項目使用フラグ</param>
         /// <exception cref="InvalidOperationException">特殊指定が「データベース参照」以外の場合</exception>
@@ -183,7 +183,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// すべての選択肢を取得する。
+        ///     すべての選択肢を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
         public IReadOnlyList<CommonEventSpecialArgCase> GetAllSpecialCase()
@@ -192,8 +192,8 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// すべての選択肢番号を取得する。
-        /// <para>特殊指定が「データベース参照」の場合、返却されるリストは[-1, -2, -3]ではなく[DB種別コード, DBタイプID, -1～-3追加フラグ]。</para>
+        ///     すべての選択肢番号を取得する。
+        ///     <para>特殊指定が「データベース参照」の場合、返却されるリストは[-1, -2, -3]ではなく[DB種別コード, DBタイプID, -1～-3追加フラグ]。</para>
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
         public IReadOnlyList<int> GetAllSpecialCaseNumber()
@@ -202,7 +202,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// すべての選択肢文字列を取得する。
+        ///     すべての選択肢文字列を取得する。
         /// </summary>
         /// <returns>すべての選択肢リスト</returns>
         public IReadOnlyList<string> GetAllSpecialCaseDescription()
@@ -211,7 +211,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 値を比較する。
+        ///     値を比較する。
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
@@ -222,11 +222,11 @@ namespace WodiLib.Common
 
             if (!(other is CommonEventSpecialNumberArgDesc casted)) return false;
 
-            return Equals((IEquatable<CommonEventSpecialNumberArgDesc>) casted);
+            return Equals((IEquatable<CommonEventSpecialNumberArgDesc>)casted);
         }
 
         /// <summary>
-        /// 値を比較する。
+        ///     値を比較する。
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
@@ -240,7 +240,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 選択肢を追加する。
+        ///     選択肢を追加する。
         /// </summary>
         /// <param name="argCase">[NotEmpty] 追加する選択肢</param>
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
@@ -251,7 +251,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 選択肢を追加する。
+        ///     選択肢を追加する。
         /// </summary>
         /// <param name="argCases">追加する選択肢</param>
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
@@ -262,7 +262,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 選択肢を挿入する。
+        ///     選択肢を挿入する。
         /// </summary>
         /// <param name="index">[Range(0, 選択肢数)] 追加する選択肢</param>
         /// <param name="argCase">追加する選択肢</param>
@@ -275,7 +275,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 選択肢を挿入する。
+        ///     選択肢を挿入する。
         /// </summary>
         /// <param name="index">[Range(0, 選択肢数)] 追加する選択肢</param>
         /// <param name="argCases">追加する選択肢</param>
@@ -288,7 +288,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// DB参照時の追加選択肢文字列を更新する。
+        ///     DB参照時の追加選択肢文字列を更新する。
         /// </summary>
         /// <param name="caseNumber">[Range[-3, -1)] 選択肢番号</param>
         /// <param name="description">[NotNewLine] 文字列</param>
@@ -302,7 +302,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 選択肢を更新する。
+        ///     選択肢を更新する。
         /// </summary>
         /// <param name="index">[Range(0, 選択肢数-1)] 更新する選択肢</param>
         /// <param name="argCase">[NotEmpty] 更新する選択肢内容</param>
@@ -315,7 +315,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 選択肢を削除する。
+        ///     選択肢を削除する。
         /// </summary>
         /// <param name="index">[Range(0, 選択肢数-1)] 更新する選択肢</param>
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
@@ -326,7 +326,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 選択肢を範囲削除する。
+        ///     選択肢を範囲削除する。
         /// </summary>
         /// <param name="index">[Range(0, 選択肢数-1)] 更新する選択肢</param>
         /// <param name="count">[Range(0, 選択肢数-1)] 削除数</param>
@@ -339,7 +339,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// 選択肢をクリアする。
+        ///     選択肢をクリアする。
         /// </summary>
         /// <exception cref="InvalidOperationException">特殊指定が「手動生成」以外の場合</exception>
         public void Clear()

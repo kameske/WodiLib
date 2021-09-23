@@ -9,10 +9,11 @@ namespace WodiLib.Test.IO
     {
         #region TileSetData
 
-        /** ========================================
-         *  タイルセットデータオブジェクト作成
-         *  ======================================== */
-
+        /**
+         * ========================================
+         * タイルセットデータオブジェクト作成
+         * ========================================
+         */
         public static TileSetData GenerateData0()
         {
             return new TileSetData
@@ -20,7 +21,7 @@ namespace WodiLib.Test.IO
                 TileSetSettingList = new TileSetSettingList(new List<TileSetSetting>
                 {
                     TileSetFileDataTestItemGenerator.GenerateSettingData0(),
-                    TileSetFileDataTestItemGenerator.GenerateSettingData1(),
+                    TileSetFileDataTestItemGenerator.GenerateSettingData1()
                 })
             };
         }
@@ -36,11 +37,11 @@ namespace WodiLib.Test.IO
         public static readonly IEnumerable<(string, byte[])> TestFiles = new List<(string, byte[])>
         {
             (@"Dir0\TileSetData.dat", TestResources.TileSetData0),
-            (@"Dir1\TileSetData.dat", TestResources.TileSetData1),
+            (@"Dir1\TileSetData.dat", TestResources.TileSetData1)
         };
 
         /// <summary>
-        /// テストデータファイルを tmp フォルダに出力する。
+        ///     テストデータファイルを tmp フォルダに出力する。
         /// </summary>
         public static void OutputFile()
         {
@@ -59,7 +60,7 @@ namespace WodiLib.Test.IO
         }
 
         /// <summary>
-        /// テストデータファイルを削除する。
+        ///     テストデータファイルを削除する。
         /// </summary>
         public static void DeleteFile()
         {

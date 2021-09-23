@@ -16,7 +16,7 @@ namespace WodiLib.Test.IO
                 DBKind = DBKind.User,
                 TypeSettingList = new DBTypeSettingList(new List<DBTypeSetting>
                 {
-                    new DBTypeSetting
+                    new()
                     {
                         TypeName = "UDB0",
                         Memo = "",
@@ -25,11 +25,11 @@ namespace WodiLib.Test.IO
                             "文字列",
                             "7",
                             "うでぃた",
-                            "",
+                            ""
                         }),
                         ItemSettingList = new DBItemSettingList(new List<DBItemSetting>
                         {
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "設定項目0",
                                 SpecialSettingDesc =
@@ -37,18 +37,18 @@ namespace WodiLib.Test.IO
                                     {
                                         ItemMemo = "",
                                         InitValue = 0
-                                    },
+                                    }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "文字列項目",
                                 SpecialSettingDesc =
                                     new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                     {
-                                        ItemMemo = "",
-                                    },
+                                        ItemMemo = ""
+                                    }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "ファイル名設定1",
                                 SpecialSettingDesc =
@@ -56,10 +56,10 @@ namespace WodiLib.Test.IO
                                     {
                                         ItemMemo = "",
                                         FolderName = "MapChip",
-                                        OmissionFolderNameFlag = false,
-                                    },
+                                        OmissionFolderNameFlag = false
+                                    }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "ファイル名設定2",
                                 SpecialSettingDesc =
@@ -67,10 +67,10 @@ namespace WodiLib.Test.IO
                                     {
                                         ItemMemo = "",
                                         FolderName = "MapData",
-                                        OmissionFolderNameFlag = true,
-                                    },
+                                        OmissionFolderNameFlag = true
+                                    }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "DBから",
                                 SpecialSettingDesc =
@@ -81,18 +81,18 @@ namespace WodiLib.Test.IO
                                         DatabaseReferKind = DBReferType.User,
                                         DatabaseDbTypeId = 4,
                                         DatabaseUseAdditionalItemsFlag = false
-                                    },
+                                    }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "DBから　その2",
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(
                                     DBItemSpecialSettingType.ReferDatabase,
                                     new List<DatabaseValueCase>
                                     {
-                                        new DatabaseValueCase(-1, "Minus1"),
-                                        new DatabaseValueCase(-2, "Minus2"),
-                                        new DatabaseValueCase(-3, "Minus3"),
+                                        new(-1, "Minus1"),
+                                        new(-2, "Minus2"),
+                                        new(-3, "Minus3")
                                     })
                                 {
                                     ItemMemo = "",
@@ -100,27 +100,27 @@ namespace WodiLib.Test.IO
                                     DatabaseReferKind = DBReferType.Changeable,
                                     DatabaseDbTypeId = 1,
                                     DatabaseUseAdditionalItemsFlag = true
-                                },
+                                }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "手動生成",
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Manual,
                                     new List<DatabaseValueCase>
                                     {
-                                        new DatabaseValueCase(0, "Zero"),
-                                        new DatabaseValueCase(3, "さん"),
-                                        new DatabaseValueCase(10, "１０"),
-                                        new DatabaseValueCase(9, "nine"),
+                                        new(0, "Zero"),
+                                        new(3, "さん"),
+                                        new(10, "１０"),
+                                        new(9, "nine")
                                     })
                                 {
                                     ItemMemo = "",
-                                    InitValue = 0,
+                                    InitValue = 0
                                 }
                             }
                         })
                     },
-                    new DBTypeSetting
+                    new()
                     {
                         TypeName = "",
                         Memo = "",
@@ -129,105 +129,105 @@ namespace WodiLib.Test.IO
                             ""
                         })
                     },
-                    new DBTypeSetting
+                    new()
                     {
                         TypeName = "ゆーでーびーつー",
                         Memo = "UDB2メモ欄\r\n改行",
                         DataNameList = new DataNameList(new List<DataName>
                         {
                             "", // ウディタ上で「×NoData」と表示される場合、空文字が格納されている
-                            "",
+                            ""
                         }),
                         ItemSettingList = new DBItemSettingList(new List<DBItemSetting>
                         {
-                            new DBItemSetting
+                            new()
                             {
                                 SpecialSettingDesc =
                                     new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                     {
-                                        ItemMemo = "",
+                                        ItemMemo = ""
                                     },
-                                ItemName = "文字列項目",
+                                ItemName = "文字列項目"
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 SpecialSettingDesc =
                                     new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                     {
-                                        ItemMemo = "",
+                                        ItemMemo = ""
                                     },
                                 ItemName = "文字列項目2"
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 SpecialSettingDesc =
                                     new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                     {
-                                        ItemMemo = "",
+                                        ItemMemo = ""
                                     },
                                 ItemName = "文字列項目3"
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 SpecialSettingDesc =
                                     new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                     {
-                                        ItemMemo = "",
+                                        ItemMemo = ""
                                     },
                                 ItemName = "文字列項目4"
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 SpecialSettingDesc =
                                     new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                     {
-                                        ItemMemo = "",
+                                        ItemMemo = ""
                                     },
                                 ItemName = "文字列項目5"
-                            },
+                            }
                         })
                     },
-                    new DBTypeSetting
+                    new()
                     {
                         TypeName = "UDB3",
                         Memo = "",
                         DataNameList = new DataNameList(new List<DataName>
                         {
-                            "",
+                            ""
                         }),
                         ItemSettingList = new DBItemSettingList(new List<DBItemSetting>
                         {
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "",
                                 SpecialSettingDesc =
                                     new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                     {
-                                        ItemMemo = "",
-                                    },
+                                        ItemMemo = ""
+                                    }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "",
                                 SpecialSettingDesc =
                                     new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                     {
                                         InitValue = 0,
-                                        ItemMemo = "",
-                                    },
+                                        ItemMemo = ""
+                                    }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "項目",
                                 SpecialSettingDesc =
                                     new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                     {
                                         InitValue = 0,
-                                        ItemMemo = "",
-                                    },
-                            },
+                                        ItemMemo = ""
+                                    }
+                            }
                         })
-                    },
+                    }
                 })
             };
         }
@@ -250,7 +250,7 @@ namespace WodiLib.Test.IO
                         Memo = "メモ欄",
                         ItemSettingList = new DBItemSettingList(new List<DBItemSetting>
                         {
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "ItemName",
                                 SpecialSettingDesc =
@@ -260,7 +260,7 @@ namespace WodiLib.Test.IO
                                         ItemMemo = ""
                                     }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "Field2",
                                 SpecialSettingDesc =
@@ -270,7 +270,7 @@ namespace WodiLib.Test.IO
                                         ItemMemo = ""
                                     }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "",
                                 SpecialSettingDesc =
@@ -279,7 +279,7 @@ namespace WodiLib.Test.IO
                                         ItemMemo = ""
                                     }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "FilePath",
                                 SpecialSettingDesc =
@@ -290,7 +290,7 @@ namespace WodiLib.Test.IO
                                         ItemMemo = ""
                                     }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "",
                                 SpecialSettingDesc =
@@ -300,7 +300,7 @@ namespace WodiLib.Test.IO
                                         ItemMemo = ""
                                     }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "",
                                 SpecialSettingDesc =
@@ -313,7 +313,7 @@ namespace WodiLib.Test.IO
                                         ItemMemo = ""
                                     }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "",
                                 SpecialSettingDesc =
@@ -323,22 +323,22 @@ namespace WodiLib.Test.IO
                                         ItemMemo = ""
                                     }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "Case",
                                 SpecialSettingDesc = new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Manual,
                                     new List<DatabaseValueCase>
                                     {
-                                        new DatabaseValueCase(0, "選択肢1"),
-                                        new DatabaseValueCase(1, "選択肢2"),
-                                        new DatabaseValueCase(2, "選択肢3"),
+                                        new(0, "選択肢1"),
+                                        new(1, "選択肢2"),
+                                        new(2, "選択肢3")
                                     })
                                 {
                                     InitValue = 0,
                                     ItemMemo = ""
                                 }
                             },
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "NormalString",
                                 SpecialSettingDesc =
@@ -346,13 +346,13 @@ namespace WodiLib.Test.IO
                                     {
                                         ItemMemo = ""
                                     }
-                            },
+                            }
                         }),
                         DataNameList = new DataNameList(new List<DataName>
                         {
                             "a",
                             "b",
-                            "c",
+                            "c"
                         })
                     },
                     // CDB1
@@ -362,31 +362,30 @@ namespace WodiLib.Test.IO
                         Memo = "",
                         DataNameList = new DataNameList(new List<DataName>
                         {
-                            "",
+                            ""
                         }),
                         ItemSettingList = new DBItemSettingList(new List<DBItemSetting>
                         {
-                            new DBItemSetting
+                            new()
                             {
                                 ItemName = "ItemField",
                                 SpecialSettingDesc =
                                     new DBItemSpecialSettingDesc(DBItemSpecialSettingType.Normal, null)
                                     {
-                                        ItemMemo = "",
+                                        ItemMemo = ""
                                     }
-                            },
+                            }
                         })
-                    },
+                    }
                 }
             };
         }
 
         #endregion
 
-        /** ========================================
-         *  テスト用ファイル出力
-         *  ======================================== */
-
+        /// ========================================
+        /// テスト用ファイル出力
+        /// ========================================
         /// <summary>テストディレクトリルート</summary>
         public static string TestWorkRootDir => MapFileTestItemGenerator.TestWorkRootDir;
 
@@ -397,11 +396,11 @@ namespace WodiLib.Test.IO
             ("CDatabase0.project", TestResources.CDatabase0Project),
             ("Database1.project", TestResources.Database1Project),
             ("CDatabase1.project", TestResources.CDatabase1Project),
-            ("SysDatabase1.project", TestResources.SysDatabase1Project),
+            ("SysDatabase1.project", TestResources.SysDatabase1Project)
         };
 
         /// <summary>
-        /// ファイルを tmp フォルダに出力する。
+        ///     ファイルを tmp フォルダに出力する。
         /// </summary>
         public static void OutputFile()
         {
@@ -417,7 +416,7 @@ namespace WodiLib.Test.IO
         }
 
         /// <summary>
-        /// ファイルを削除する。
+        ///     ファイルを削除する。
         /// </summary>
         public static void DeleteFile()
         {

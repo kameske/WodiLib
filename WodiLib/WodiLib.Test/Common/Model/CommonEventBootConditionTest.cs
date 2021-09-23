@@ -22,8 +22,8 @@ namespace WodiLib.Test.Common
 
         private static readonly object[] CommonEventBootTypeTestCaseSource =
         {
-            new object[] {null, true},
-            new object[] {CommonEventBootType.Parallel, false},
+            new object[] { null, true },
+            new object[] { CommonEventBootType.Parallel, false }
         };
 
         [TestCaseSource(nameof(CommonEventBootTypeTestCaseSource))]
@@ -111,7 +111,7 @@ namespace WodiLib.Test.Common
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var rightSide = (ConditionRight) 100;
+            var rightSide = (ConditionRight)100;
 
             var errorOccured = false;
             try

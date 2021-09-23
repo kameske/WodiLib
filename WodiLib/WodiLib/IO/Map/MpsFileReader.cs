@@ -17,19 +17,19 @@ using WodiLib.Sys.Cmn;
 namespace WodiLib.IO
 {
     /// <summary>
-    /// マップファイル読み込みクラス
+    ///     マップファイル読み込みクラス
     /// </summary>
     public class MpsFileReader : WoditorFileReaderBase<MpsFilePath, MapData>
     {
         private FileReadStatus ReadStatus { get; }
 
-        private readonly object readLock = new object();
+        private readonly object readLock = new();
 
         /// <summary>ロガー</summary>
         private WodiLibLogger WodiLibLogger { get; } = WodiLibLogger.GetInstance();
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="filePath">読み込みファイルパス</param>
         /// <exception cref="ArgumentNullException">filePathがnullの場合</exception>
@@ -39,7 +39,7 @@ namespace WodiLib.IO
         }
 
         /// <summary>
-        /// ファイルを同期的に読み込む
+        ///     ファイルを同期的に読み込む
         /// </summary>
         /// <returns>読み込んだデータ</returns>
         /// <exception cref="InvalidOperationException">
@@ -91,7 +91,7 @@ namespace WodiLib.IO
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// ヘッダ
+        ///     ヘッダ
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイルヘッダが仕様と異なる場合</exception>
@@ -113,7 +113,7 @@ namespace WodiLib.IO
         }
 
         /// <summary>
-        /// ヘッダ文字列
+        ///     ヘッダ文字列
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapData">データ格納マップデータインスタンス</param>
@@ -128,7 +128,7 @@ namespace WodiLib.IO
         }
 
         /// <summary>
-        /// タイルセットID
+        ///     タイルセットID
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapData">データ格納マップデータインスタンス</param>
@@ -142,7 +142,7 @@ namespace WodiLib.IO
         }
 
         /// <summary>
-        /// マップサイズ横
+        ///     マップサイズ横
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapData">データ格納マップデータインスタンス</param>
@@ -156,7 +156,7 @@ namespace WodiLib.IO
         }
 
         /// <summary>
-        /// マップサイズ縦
+        ///     マップサイズ縦
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapData">データ格納マップデータインスタンス</param>
@@ -170,7 +170,7 @@ namespace WodiLib.IO
         }
 
         /// <summary>
-        /// マップイベント数
+        ///     マップイベント数
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         private int ReadMapEventLength(FileReadStatus status)
@@ -185,7 +185,7 @@ namespace WodiLib.IO
         }
 
         /// <summary>
-        /// レイヤー1～3
+        ///     レイヤー1～3
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapData">データ格納マップデータインスタンス</param>
@@ -210,7 +210,7 @@ namespace WodiLib.IO
         }
 
         /// <summary>
-        /// 1レイヤー情報
+        ///     1レイヤー情報
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapData">データ格納マップデータインスタンス</param>
@@ -218,7 +218,7 @@ namespace WodiLib.IO
         private void ReadOneLayer(FileReadStatus status, MapData mapData, int layerNo)
         {
             var chips = new List<List<MapChip>>();
-            for (var x = 0; x < (int) mapData.MapSizeWidth; x++)
+            for (var x = 0; x < (int)mapData.MapSizeWidth; x++)
             {
                 WodiLibLogger.Debug(FileIOMessage.StartCommonRead(typeof(MpsFileReader),
                     $"列{x}"));
@@ -237,7 +237,7 @@ namespace WodiLib.IO
         }
 
         /// <summary>
-        /// 1レイヤー列情報
+        ///     1レイヤー列情報
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapSizeHeight">マップ高さ</param>
@@ -246,21 +246,21 @@ namespace WodiLib.IO
             ICollection<List<MapChip>> chipList)
         {
             var lineChips = new List<MapChip>();
-            for (var y = 0; y < (int) mapSizeHeight; y++)
+            for (var y = 0; y < (int)mapSizeHeight; y++)
             {
-                var chip = (MapChip) status.ReadInt();
+                var chip = (MapChip)status.ReadInt();
                 lineChips.Add(chip);
                 status.IncreaseIntOffset();
 
                 WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
-                    $"座標Y:{y} チップ番号", (int) chip));
+                    $"座標Y:{y} チップ番号", (int)chip));
             }
 
             chipList.Add(lineChips);
         }
 
         /// <summary>
-        /// マップイベント
+        ///     マップイベント
         /// </summary>
         /// <param name="size">マップイベント数</param>
         /// <param name="status">読み込み経過状態</param>
@@ -320,7 +320,7 @@ namespace WodiLib.IO
                 WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
                     "Y座標", posY));
 
-                mapEvent.Position = (posX, posY);
+                mapEvent.Position = new Position(posX, posY);
 
                 // イベントページ数
                 var pageLength = status.ReadInt();
@@ -391,7 +391,7 @@ namespace WodiLib.IO
         }
 
         /// <summary>
-        /// マップイベントページ
+        ///     マップイベントページ
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <param name="mapEventPages">格納先リスト</param>
@@ -418,7 +418,7 @@ namespace WodiLib.IO
             var graphicInfo = new MapEventPageGraphicInfo();
 
             // タイル画像ID
-            var graphicTileId = (MapEventTileId) status.ReadInt();
+            var graphicTileId = (MapEventTileId)status.ReadInt();
 
             WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
                 "マップイベントページタイル画像ID", graphicTileId));
@@ -487,15 +487,15 @@ namespace WodiLib.IO
             // 条件1～4演算子 & 使用フラグ
             var conditions = new List<MapEventBootCondition>
             {
-                new MapEventBootCondition(),
-                new MapEventBootCondition(),
-                new MapEventBootCondition(),
-                new MapEventBootCondition(),
+                new(),
+                new(),
+                new(),
+                new()
             };
             for (var i = 0; i < 4; i++)
             {
-                conditions[i].Operation = CriteriaOperator.FromByte((byte) (status.ReadByte() & 0xF0));
-                conditions[i].UseCondition = (byte) (status.ReadByte() & 0x0F) != 0;
+                conditions[i].Operation = CriteriaOperator.FromByte((byte)(status.ReadByte() & 0xF0));
+                conditions[i].UseCondition = (byte)(status.ReadByte() & 0x0F) != 0;
                 status.IncreaseByteOffset();
 
                 WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
@@ -632,7 +632,7 @@ namespace WodiLib.IO
             WodiLibLogger.Debug(FileIOMessage.SuccessRead(typeof(MpsFileReader),
                 "マップイベントページ接触範囲拡張Y", rangeHeight));
 
-            result.HitExtendRange = (rangeWidth, rangeHeight);
+            result.HitExtendRange = new HitExtendRange(rangeWidth, rangeHeight);
 
             // イベントページ末尾チェック
             foreach (var b in MapEventPage.Footer)
@@ -654,7 +654,7 @@ namespace WodiLib.IO
         }
 
         /// <summary>
-        /// 動作コマンドリスト
+        ///     動作コマンドリスト
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>
@@ -681,7 +681,7 @@ namespace WodiLib.IO
         }
 
         /// <summary>
-        /// フッタ
+        ///     フッタ
         /// </summary>
         /// <param name="status">読み込み経過状態</param>
         /// <exception cref="InvalidOperationException">ファイル仕様が異なる場合</exception>

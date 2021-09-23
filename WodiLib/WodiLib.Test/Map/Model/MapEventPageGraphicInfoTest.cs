@@ -32,7 +32,7 @@ namespace WodiLib.Test.Map
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var graphicTileId = (MapEventTileId) tileId;
+            var graphicTileId = (MapEventTileId)tileId;
             var errorOccured = false;
             try
             {
@@ -69,7 +69,7 @@ namespace WodiLib.Test.Map
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
-            var charaChipName = (CharaChipFilePath) fileName;
+            var charaChipName = (CharaChipFilePath)fileName;
             try
             {
                 instance.CharaChipFilePath = charaChipName;
@@ -140,7 +140,7 @@ namespace WodiLib.Test.Map
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var mapEventTileId = (MapEventTileId) tileId;
+            var mapEventTileId = (MapEventTileId)tileId;
             var errorOccured = false;
             try
             {
@@ -183,7 +183,7 @@ namespace WodiLib.Test.Map
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var charaChipFileName = (CharaChipFilePath) fileName;
+            var charaChipFileName = (CharaChipFilePath)fileName;
             var errorOccured = false;
             try
             {

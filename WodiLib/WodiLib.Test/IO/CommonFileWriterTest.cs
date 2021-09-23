@@ -24,7 +24,7 @@ namespace WodiLib.Test.IO
             {
                 CommonFileTestItemGenerator.GenerateCommon005To006Data(),
                 $@"{CommonFileTestItemGenerator.TestWorkRootDir}\OutputCommon005to006_コモンイベント006.common"
-            },
+            }
         };
 
         [TestCaseSource(nameof(WriteSyncTestCaseSource))]

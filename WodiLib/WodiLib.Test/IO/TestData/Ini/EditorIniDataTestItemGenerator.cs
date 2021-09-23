@@ -9,22 +9,23 @@ namespace WodiLib.Test.IO
     {
         #region CreateEditorIniData
 
-        /** ========================================
-         *  EditorIniオブジェクト作成
-         *  ======================================== */
-
+        /**
+         * ========================================
+         * EditorIniオブジェクト作成
+         * ========================================
+         */
         public static EditorIniData GenerateData0()
         {
             return new EditorIniData
             {
-                StartFlag =  0,
+                StartFlag = 0,
                 LastLoadFile = "MapData/Map000.mps",
                 MainWindowPosition = (0, 0),
                 MainWindowSize = (651, 322),
                 MapChipWindowPosition = (0, 0),
                 MapEventWindowPosition = (273, 230),
                 MapEventWindowSize = (840, 410),
-                MapEventInputWindowPosition = (0,0),
+                MapEventInputWindowPosition = (0, 0),
                 CommonEventWindowPosition = (0, 0),
                 CommonEventWindowSize = (800, 640),
                 CommonEventInputWindowPosition = (0, 0),
@@ -33,8 +34,8 @@ namespace WodiLib.Test.IO
                 SystemDbWindowPosition = (27, 54),
                 DatabaseValueNumberDrawType = DatabaseValueNumberDrawType.FromCode("0"),
                 EditTimeDrawType = EditTimeDrawType.On,
-                EditTime=14,
-                NotEditTime=0,
+                EditTime = 14,
+                NotEditTime = 0,
                 IsShowDebugWindow = true,
                 LayerTransparent = LaterTransparentType.FromCode("2"),
                 EventLayerOpacity = EventLayerOpacityType.FromCode("1"),
@@ -58,14 +59,14 @@ namespace WodiLib.Test.IO
                     EventCommandShortCutKey.J, EventCommandShortCutKey.One, EventCommandShortCutKey.One,
                     EventCommandShortCutKey.One, EventCommandShortCutKey.One, EventCommandShortCutKey.One,
                     EventCommandShortCutKey.One, EventCommandShortCutKey.One, EventCommandShortCutKey.One,
-                    EventCommandShortCutKey.One, EventCommandShortCutKey.One, EventCommandShortCutKey.One,
+                    EventCommandShortCutKey.One, EventCommandShortCutKey.One, EventCommandShortCutKey.One
                 }),
                 CommandPositionList = new ShortCutPositionList(new ShortCutPosition[]
                 {
                     1, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1,
-                    17, 18, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0,
+                    17, 18, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0
                 }),
-                IsUseExpertCommand = false,
+                IsUseExpertCommand = false
             };
         }
 
@@ -80,11 +81,11 @@ namespace WodiLib.Test.IO
         public static readonly IEnumerable<(string, byte[])> TestFiles = new List<(string, byte[])>
         {
             (@"Dir0\Editor.ini", TestResources.EditorIni0),
-            (@"Dir1\Editor.ini", TestResources.EditorIni1),
+            (@"Dir1\Editor.ini", TestResources.EditorIni1)
         };
 
         /// <summary>
-        /// テストデータファイルを tmp フォルダに出力する。
+        ///     テストデータファイルを tmp フォルダに出力する。
         /// </summary>
         public static void OutputFile()
         {
@@ -103,7 +104,7 @@ namespace WodiLib.Test.IO
         }
 
         /// <summary>
-        /// テストデータファイルを削除する。
+        ///     テストデータファイルを削除する。
         /// </summary>
         public static void DeleteFile()
         {

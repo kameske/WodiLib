@@ -37,7 +37,7 @@ namespace WodiLib.Test.Map
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var value = (MapDataMemo) "test";
+            var value = (MapDataMemo)"test";
             var errorOccured = false;
             try
             {
@@ -71,7 +71,7 @@ namespace WodiLib.Test.Map
             {
                 Layer1 = layer1,
                 Layer2 = layer2,
-                Layer3 = layer3,
+                Layer3 = layer3
             };
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
@@ -260,8 +260,8 @@ namespace WodiLib.Test.Map
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var width = (MapSizeWidth) 30;
-            var height = (MapSizeHeight) 24;
+            var width = (MapSizeWidth)30;
+            var height = (MapSizeHeight)24;
 
             var setLayer = new Layer();
             setLayer.UpdateSize(width, height);
@@ -307,15 +307,15 @@ namespace WodiLib.Test.Map
         {
             var instance = new MapData();
 
-            var width = (MapSizeWidth) 30;
-            var height = (MapSizeHeight) 24;
+            var width = (MapSizeWidth)30;
+            var height = (MapSizeHeight)24;
 
             instance.UpdateMapSize(width, height);
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var layerWidth = isEqualWidth ? width : (MapSizeWidth) (width + 1);
-            var layerHeight = isEqualHeight ? height : (MapSizeHeight) (height + 1);
+            var layerWidth = isEqualWidth ? width : (MapSizeWidth)(width + 1);
+            var layerHeight = isEqualHeight ? height : (MapSizeHeight)(height + 1);
 
             var setLayer = new Layer();
             setLayer.UpdateSize(layerWidth, layerHeight);
@@ -369,15 +369,15 @@ namespace WodiLib.Test.Map
         {
             var instance = new MapData();
 
-            var width = (MapSizeWidth) 30;
-            var height = (MapSizeHeight) 24;
+            var width = (MapSizeWidth)30;
+            var height = (MapSizeHeight)24;
 
             instance.UpdateMapSize(width, height);
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var layerWidth = isEqualWidth ? width : (MapSizeWidth) (width + 1);
-            var layerHeight = isEqualHeight ? height : (MapSizeHeight) (height + 1);
+            var layerWidth = isEqualWidth ? width : (MapSizeWidth)(width + 1);
+            var layerHeight = isEqualHeight ? height : (MapSizeHeight)(height + 1);
 
             var setLayer = new Layer();
             setLayer.UpdateSize(layerWidth, layerHeight);
@@ -430,7 +430,7 @@ namespace WodiLib.Test.Map
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var width = (MapSizeWidth) 30;
+            var width = (MapSizeWidth)30;
 
             var errorOccured = false;
             try
@@ -466,7 +466,7 @@ namespace WodiLib.Test.Map
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var height = (MapSizeHeight) 30;
+            var height = (MapSizeHeight)30;
 
             var errorOccured = false;
             try
@@ -504,7 +504,7 @@ namespace WodiLib.Test.Map
 
             using (var fs = new FileStream($@"{MapFileTestItemGenerator.TestWorkRootDir}\Map023.mps", FileMode.Open))
             {
-                var length = (int) fs.Length;
+                var length = (int)fs.Length;
                 // ファイルサイズが規定でない場合誤作動防止の為テスト失敗にする
                 Assert.AreEqual(length, 6615);
 
@@ -556,7 +556,7 @@ namespace WodiLib.Test.Map
 
             using (var fs = new FileStream($@"{MapFileTestItemGenerator.TestWorkRootDir}\Map024.mps", FileMode.Open))
             {
-                var length = (int) fs.Length;
+                var length = (int)fs.Length;
                 // ファイルサイズが規定でない場合誤作動防止の為テスト失敗にする
                 Assert.AreEqual(length, 6080);
 
@@ -608,7 +608,7 @@ namespace WodiLib.Test.Map
 
             using (var fs = new FileStream($@"{MapFileTestItemGenerator.TestWorkRootDir}\Map025.mps", FileMode.Open))
             {
-                var length = (int) fs.Length;
+                var length = (int)fs.Length;
                 // ファイルサイズが規定でない場合誤作動防止の為テスト失敗にする
                 Assert.AreEqual(length, 9211);
 
@@ -660,7 +660,7 @@ namespace WodiLib.Test.Map
 
             using (var fs = new FileStream($@"{MapFileTestItemGenerator.TestWorkRootDir}\fix.mps", FileMode.Open))
             {
-                var length = (int) fs.Length;
+                var length = (int)fs.Length;
                 // ファイルサイズが規定でない場合誤作動防止の為テスト失敗にする
                 Assert.AreEqual(length, 4398);
 
@@ -712,7 +712,7 @@ namespace WodiLib.Test.Map
 
             using (var fs = new FileStream($@"{MapFileTestItemGenerator.TestWorkRootDir}\Map2.255.mps", FileMode.Open))
             {
-                var length = (int) fs.Length;
+                var length = (int)fs.Length;
                 // ファイルサイズが規定でない場合誤作動防止の為テスト失敗にする
                 Assert.AreEqual(length, 3890);
 

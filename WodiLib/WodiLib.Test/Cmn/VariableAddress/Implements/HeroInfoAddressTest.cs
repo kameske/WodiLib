@@ -41,14 +41,14 @@ namespace WodiLib.Test.Cmn
 
         private static readonly object[] InfoTypeTestCaseSource =
         {
-            new object[] {9180000, InfoAddressInfoType.PositionX},
-            new object[] {9180001, InfoAddressInfoType.PositionY},
-            new object[] {9180002, InfoAddressInfoType.PositionXPrecise},
-            new object[] {9180003, InfoAddressInfoType.PositionYPrecise},
-            new object[] {9180004, InfoAddressInfoType.Height},
-            new object[] {9180005, InfoAddressInfoType.ShadowGraphicId},
-            new object[] {9180006, InfoAddressInfoType.Direction},
-            new object[] {9180009, InfoAddressInfoType.CharacterGraphicName},
+            new object[] { 9180000, InfoAddressInfoType.PositionX },
+            new object[] { 9180001, InfoAddressInfoType.PositionY },
+            new object[] { 9180002, InfoAddressInfoType.PositionXPrecise },
+            new object[] { 9180003, InfoAddressInfoType.PositionYPrecise },
+            new object[] { 9180004, InfoAddressInfoType.Height },
+            new object[] { 9180005, InfoAddressInfoType.ShadowGraphicId },
+            new object[] { 9180006, InfoAddressInfoType.Direction },
+            new object[] { 9180009, InfoAddressInfoType.CharacterGraphicName }
         };
 
         [TestCaseSource(nameof(InfoTypeTestCaseSource))]
@@ -81,7 +81,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                var _ = (HeroInfoAddress) value;
+                var _ = (HeroInfoAddress)value;
             }
             catch (Exception ex)
             {
@@ -104,7 +104,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                castValue = (int) instance;
+                castValue = (int)instance;
             }
             catch (Exception ex)
             {
@@ -149,10 +149,10 @@ namespace WodiLib.Test.Cmn
             if (errorOccured) return;
 
             // 意図した値と一致すること
-            Assert.AreEqual((int) result, variableAddress + value);
+            Assert.AreEqual((int)result, variableAddress + value);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int) instance, variableAddress);
+            Assert.AreEqual((int)instance, variableAddress);
         }
 
         [TestCase(9180000, -10, true)]
@@ -185,10 +185,10 @@ namespace WodiLib.Test.Cmn
             if (errorOccured) return;
 
             // 意図した値と一致すること
-            Assert.AreEqual((int) result, variableAddress - value);
+            Assert.AreEqual((int)result, variableAddress - value);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int) instance, variableAddress);
+            Assert.AreEqual((int)instance, variableAddress);
         }
 
         [TestCase(9180003, 9180000)]
@@ -217,7 +217,7 @@ namespace WodiLib.Test.Cmn
             Assert.AreEqual(result, srcVariableAddress - dstVariableAddress);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int) instance, srcVariableAddress);
+            Assert.AreEqual((int)instance, srcVariableAddress);
         }
     }
 }

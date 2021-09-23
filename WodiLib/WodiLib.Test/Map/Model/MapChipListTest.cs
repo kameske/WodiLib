@@ -48,8 +48,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] ConstructorTestBCaseSource =
         {
-            new object[] {(MapSizeWidth) 20, (MapSizeHeight) 15},
-            new object[] {(MapSizeWidth) 30, (MapSizeHeight) 31},
+            new object[] { (MapSizeWidth)20, (MapSizeHeight)15 },
+            new object[] { (MapSizeWidth)30, (MapSizeHeight)31 }
         };
 
         [TestCaseSource(nameof(ConstructorTestBCaseSource))]
@@ -72,10 +72,10 @@ namespace WodiLib.Test.Map
             Assert.IsFalse(errorOccured);
 
             // 件数が一致すること
-            Assert.AreEqual(instance.Count, width.ToInt());
+            Assert.AreEqual(instance.Count, (int)width);
             foreach (var columns in instance)
             {
-                Assert.AreEqual(columns.Count, height.ToInt());
+                Assert.AreEqual(columns.Count, (int)height);
             }
         }
 
@@ -182,8 +182,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] InitializeChipsTestBCaseSource =
         {
-            new object[] {(MapSizeWidth) 20, (MapSizeHeight) 15},
-            new object[] {(MapSizeWidth) 33, (MapSizeHeight) 31},
+            new object[] { (MapSizeWidth)20, (MapSizeHeight)15 },
+            new object[] { (MapSizeWidth)33, (MapSizeHeight)31 }
         };
 
         [TestCaseSource(nameof(InitializeChipsTestBCaseSource))]
@@ -220,9 +220,9 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] UpdateWidthTestCaseSource =
         {
-            new object[] {30, 20, (MapSizeWidth) 25},
-            new object[] {30, 20, (MapSizeWidth) 30},
-            new object[] {30, 20, (MapSizeWidth) 35},
+            new object[] { 30, 20, (MapSizeWidth)25 },
+            new object[] { 30, 20, (MapSizeWidth)30 },
+            new object[] { 30, 20, (MapSizeWidth)35 }
         };
 
         [TestCaseSource(nameof(UpdateWidthTestCaseSource))]
@@ -260,9 +260,9 @@ namespace WodiLib.Test.Map
 
             // 件数が意図した値と一致すること
             Assert.AreEqual(instance.Width, width);
-            Assert.AreEqual(instance.Height.ToInt(), initHeight);
+            Assert.AreEqual((int)instance.Height, initHeight);
 
-            var notChangedLength = initWidth < width ? initWidth : width.ToInt();
+            var notChangedLength = initWidth < width ? initWidth : (int)width;
 
             var i = 0;
             // 操作しなかった項目がもとの値のままであること
@@ -318,9 +318,9 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] UpdateHeightTestCaseSource =
         {
-            new object[] {30, 20, (MapSizeHeight) 15},
-            new object[] {30, 20, (MapSizeHeight) 20},
-            new object[] {30, 20, (MapSizeHeight) 25},
+            new object[] { 30, 20, (MapSizeHeight)15 },
+            new object[] { 30, 20, (MapSizeHeight)20 },
+            new object[] { 30, 20, (MapSizeHeight)25 }
         };
 
         [TestCaseSource(nameof(UpdateHeightTestCaseSource))]
@@ -357,10 +357,10 @@ namespace WodiLib.Test.Map
             Assert.IsFalse(errorOccured);
 
             // 件数が意図した値と一致すること
-            Assert.AreEqual(instance.Width.ToInt(), initWidth);
+            Assert.AreEqual((int)instance.Width, initWidth);
             Assert.AreEqual(instance.Height, height);
 
-            var notChangedLength = initHeight < height ? initHeight : height.ToInt();
+            var notChangedLength = initHeight < height ? initHeight : (int)height;
 
             for (var i = 0; i < instance.Width; i++)
             {

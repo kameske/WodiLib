@@ -6,19 +6,19 @@ namespace WodiLib.Test.Event.EventCommand
     using Factory = EventCommandFactory;
 
     /// <summary>
-    /// イベントコマンド・DB操作に関するテスト
+    ///     イベントコマンド・DB操作に関するテスト
     /// </summary>
     [TestFixture]
     public static class DBManagementTest
     {
         /// <summary>
-        /// 数値入力に関するテスト
+        ///     数値入力に関するテスト
         /// </summary>
         [TestFixture]
         public static class DBManagementInputNumberTest
         {
             /// <summary>
-            /// タイプIDテスト
+            ///     タイプIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -27,7 +27,8 @@ namespace WodiLib.Test.Event.EventCommand
             [TestCase(30, "abc", false)]
             public static void DBTypeTest(int intSrc, string stringSrc, bool isUseStr)
             {
-                var instance = new DBManagementInputNumber {DBTypeId = (intSrc, stringSrc), IsTypeIdUseStr = isUseStr};
+                var instance = new DBManagementInputNumber
+                    { DBTypeId = (intSrc, stringSrc), IsTypeIdUseStr = isUseStr };
 
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBTypeId;
@@ -56,7 +57,7 @@ namespace WodiLib.Test.Event.EventCommand
             }
 
             /// <summary>
-            /// データIDテスト
+            ///     データIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -65,7 +66,8 @@ namespace WodiLib.Test.Event.EventCommand
             [TestCase(30, "abc", false)]
             public static void DBDataTest(int intSrc, string stringSrc, bool isUseStr)
             {
-                var instance = new DBManagementInputNumber {DBDataId = (intSrc, stringSrc), IsDataIdUseStr = isUseStr};
+                var instance = new DBManagementInputNumber
+                    { DBDataId = (intSrc, stringSrc), IsDataIdUseStr = isUseStr };
 
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBDataId;
@@ -94,7 +96,7 @@ namespace WodiLib.Test.Event.EventCommand
             }
 
             /// <summary>
-            /// 項目IDテスト
+            ///     項目IDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -103,7 +105,8 @@ namespace WodiLib.Test.Event.EventCommand
             [TestCase(30, "abc", false)]
             public static void DBItemTest(int intSrc, string stringSrc, bool isUseStr)
             {
-                var instance = new DBManagementInputNumber {DBItemId = (intSrc, stringSrc), IsItemIdUseStr = isUseStr};
+                var instance = new DBManagementInputNumber
+                    { DBItemId = (intSrc, stringSrc), IsItemIdUseStr = isUseStr };
 
                 // UseStr フラグによってIntかStrどちらかを持つこと
                 var typeId = instance.DBItemId;
@@ -133,13 +136,13 @@ namespace WodiLib.Test.Event.EventCommand
         }
 
         /// <summary>
-        /// 文字列入力に関するテスト
+        ///     文字列入力に関するテスト
         /// </summary>
         [TestFixture]
         public static class DBManagementInputStringTest
         {
             /// <summary>
-            /// タイプIDテスト
+            ///     タイプIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -179,7 +182,7 @@ namespace WodiLib.Test.Event.EventCommand
             }
 
             /// <summary>
-            /// データIDテスト
+            ///     データIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -219,7 +222,7 @@ namespace WodiLib.Test.Event.EventCommand
             }
 
             /// <summary>
-            /// 項目IDテスト
+            ///     項目IDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -260,13 +263,13 @@ namespace WodiLib.Test.Event.EventCommand
         }
 
         /// <summary>
-        /// 出力に関するテスト
+        ///     出力に関するテスト
         /// </summary>
         [TestFixture]
         public static class DBManagementOutputTest
         {
             /// <summary>
-            /// タイプIDテスト
+            ///     タイプIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -306,7 +309,7 @@ namespace WodiLib.Test.Event.EventCommand
             }
 
             /// <summary>
-            /// データIDテスト
+            ///     データIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -346,7 +349,7 @@ namespace WodiLib.Test.Event.EventCommand
             }
 
             /// <summary>
-            /// 項目IDテスト
+            ///     項目IDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -387,13 +390,13 @@ namespace WodiLib.Test.Event.EventCommand
         }
 
         /// <summary>
-        /// 全データ初期化に関するテスト
+        ///     全データ初期化に関するテスト
         /// </summary>
         [TestFixture]
         public static class DBManagementClearDataTest
         {
             /// <summary>
-            /// タイプIDテスト
+            ///     タイプIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -434,13 +437,13 @@ namespace WodiLib.Test.Event.EventCommand
         }
 
         /// <summary>
-        /// 全項目初期化に関するテスト
+        ///     全項目初期化に関するテスト
         /// </summary>
         [TestFixture]
         public static class DBManagementClearFieldTest
         {
             /// <summary>
-            /// タイプIDテスト
+            ///     タイプIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -480,7 +483,7 @@ namespace WodiLib.Test.Event.EventCommand
             }
 
             /// <summary>
-            /// データIDテスト
+            ///     データIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -521,13 +524,13 @@ namespace WodiLib.Test.Event.EventCommand
         }
 
         /// <summary>
-        /// データ番号取得に関するテスト
+        ///     データ番号取得に関するテスト
         /// </summary>
         [TestFixture]
         public static class DBManagementGetDataIdTest
         {
             /// <summary>
-            /// タイプIDテスト
+            ///     タイプIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -568,13 +571,13 @@ namespace WodiLib.Test.Event.EventCommand
         }
 
         /// <summary>
-        /// データ数取得に関するテスト
+        ///     データ数取得に関するテスト
         /// </summary>
         [TestFixture]
         public static class DBManagementGetDataLengthTest
         {
             /// <summary>
-            /// タイプIDテスト
+            ///     タイプIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -615,13 +618,13 @@ namespace WodiLib.Test.Event.EventCommand
         }
 
         /// <summary>
-        /// データ名取得に関するテスト
+        ///     データ名取得に関するテスト
         /// </summary>
         [TestFixture]
         public static class DBManagementGetDataNameTest
         {
             /// <summary>
-            /// タイプIDテスト
+            ///     タイプIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -662,13 +665,13 @@ namespace WodiLib.Test.Event.EventCommand
         }
 
         /// <summary>
-        /// 項目番号取得に関するテスト
+        ///     項目番号取得に関するテスト
         /// </summary>
         [TestFixture]
         public static class DBManagementGetItemIdTest
         {
             /// <summary>
-            /// タイプIDテスト
+            ///     タイプIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -709,13 +712,13 @@ namespace WodiLib.Test.Event.EventCommand
         }
 
         /// <summary>
-        /// 項目数取得に関するテスト
+        ///     項目数取得に関するテスト
         /// </summary>
         [TestFixture]
         public static class DBManagementGetItemLengthTest
         {
             /// <summary>
-            /// タイプIDテスト
+            ///     タイプIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -756,13 +759,13 @@ namespace WodiLib.Test.Event.EventCommand
         }
 
         /// <summary>
-        /// 項目名取得に関するテスト
+        ///     項目名取得に関するテスト
         /// </summary>
         [TestFixture]
         public static class DBManagementGetItemNameTest
         {
             /// <summary>
-            /// タイプIDテスト
+            ///     タイプIDテスト
             /// </summary>
             /// <param name="intSrc"></param>
             /// <param name="stringSrc"></param>
@@ -803,7 +806,7 @@ namespace WodiLib.Test.Event.EventCommand
         }
 
         /// <summary>
-        /// タイプ番号取得に関するテスト
+        ///     タイプ番号取得に関するテスト
         /// </summary>
         [TestFixture]
         public static class DBManagementGetTypeIdTest
@@ -812,7 +815,7 @@ namespace WodiLib.Test.Event.EventCommand
         }
 
         /// <summary>
-        /// 数値入力に関するテスト
+        ///     数値入力に関するテスト
         /// </summary>
         [TestFixture]
         public static class DBManagementGetTypeNameTest

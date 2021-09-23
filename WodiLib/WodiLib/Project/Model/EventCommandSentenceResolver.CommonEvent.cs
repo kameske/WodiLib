@@ -14,7 +14,7 @@ using WodiLib.Common;
 namespace WodiLib.Project
 {
     /// <summary>
-    /// イベントコマンド文文字列解決クラス・コモンイベント
+    ///     イベントコマンド文文字列解決クラス・コモンイベント
     /// </summary>
     internal class EventCommandSentenceResolver_CommonEvent
     {
@@ -37,7 +37,7 @@ namespace WodiLib.Project
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="master">呼び出し元</param>
         public EventCommandSentenceResolver_CommonEvent(
@@ -51,7 +51,7 @@ namespace WodiLib.Project
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コモンイベントIDを返す。
+        ///     コモンイベントIDを返す。
         /// </summary>
         /// <param name="name">コモンイベント名</param>
         /// <returns>コモンイベントID（存在しない場合null）</returns>
@@ -62,7 +62,7 @@ namespace WodiLib.Project
         }
 
         /// <summary>
-        /// コモンイベントID（文字列）を返す。
+        ///     コモンイベントID（文字列）を返す。
         /// </summary>
         /// <param name="name">コモンイベント名</param>
         /// <returns>コモンイベントIDの文字列（存在しない場合専用の文字列）</returns>
@@ -74,7 +74,7 @@ namespace WodiLib.Project
         }
 
         /// <summary>
-        /// コモンイベント名を返す。
+        ///     コモンイベント名を返す。
         /// </summary>
         /// <param name="id">コモンイベントID</param>
         /// <returns>コモンイベント名（存在しない場合専用の文字列）</returns>
@@ -86,7 +86,7 @@ namespace WodiLib.Project
         }
 
         /// <summary>
-        /// コモンイベントIDとインデックスからコモンイベントセルフ変数名を取得する。
+        ///     コモンイベントIDとインデックスからコモンイベントセルフ変数名を取得する。
         /// </summary>
         /// <param name="commonEventId">コモンイベントID</param>
         /// <param name="index">インデックス</param>
@@ -101,7 +101,7 @@ namespace WodiLib.Project
         }
 
         /// <summary>
-        /// コモンイベント数値引数の文字列を取得する。
+        ///     コモンイベント数値引数の文字列を取得する。
         /// </summary>
         /// <param name="id">コモンイベントID</param>
         /// <param name="intArgIndex">[Range(0, 0～4)]引数インデックス</param>
@@ -168,7 +168,7 @@ namespace WodiLib.Project
         }
 
         /// <summary>
-        /// 相対指定のコモンイベントIDから絶対指定のコモンイベントIDを取得する。
+        ///     相対指定のコモンイベントIDから絶対指定のコモンイベントIDを取得する。
         /// </summary>
         /// <param name="targetCommonEventId">相対指定のコモンイベントID</param>
         /// <param name="thisCommonEventId">走査対象のコモンイベントID</param>
@@ -192,7 +192,7 @@ namespace WodiLib.Project
                 case { } t when t == EventCommandSentenceType.Common:
                     if (thisCommonEventId is null) throw new InvalidOperationException();
 
-                    targetId = thisCommonEventId.Value + difference;
+                    targetId = thisCommonEventId.RawValue + difference;
                     break;
 
                 case { } t when t == EventCommandSentenceType.Map:

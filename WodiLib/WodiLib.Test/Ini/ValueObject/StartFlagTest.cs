@@ -37,18 +37,6 @@ namespace WodiLib.Test.Ini.ValueObject
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(int.MinValue)]
-        [TestCase(int.MaxValue)]
-        public static void ToIntTest(int value)
-        {
-            var instance = new StartFlag(value);
-
-            var intValue = instance.ToInt();
-
-            // セットした値と取得した値が一致すること
-            Assert.AreEqual(intValue, value);
-        }
-
         [TestCase(int.MinValue, false)]
         [TestCase(int.MaxValue, false)]
         public static void CastIntToStartFlagTest(int value, bool isError)
@@ -56,7 +44,7 @@ namespace WodiLib.Test.Ini.ValueObject
             var errorOccured = false;
             try
             {
-                var _ = (StartFlag) value;
+                var _ = (StartFlag)value;
             }
             catch (Exception ex)
             {
@@ -79,7 +67,7 @@ namespace WodiLib.Test.Ini.ValueObject
             var errorOccured = false;
             try
             {
-                castValue =  instance;
+                castValue = instance;
             }
             catch (Exception ex)
             {
@@ -96,31 +84,31 @@ namespace WodiLib.Test.Ini.ValueObject
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {int.MinValue, int.MinValue, true},
-            new object[] {int.MinValue, int.MaxValue, false},
+            new object[] { int.MinValue, int.MinValue, true },
+            new object[] { int.MinValue, int.MaxValue, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (StartFlag) left;
-            var rightIndex = (StartFlag) right;
+            var leftIndex = (StartFlag)left;
+            var rightIndex = (StartFlag)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (StartFlag) left;
-            var rightIndex = (StartFlag) right;
+            var leftIndex = (StartFlag)left;
+            var rightIndex = (StartFlag)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (StartFlag) left;
-            var rightIndex = (StartFlag) right;
+            var leftIndex = (StartFlag)left;
+            var rightIndex = (StartFlag)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

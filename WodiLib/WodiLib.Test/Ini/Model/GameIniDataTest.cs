@@ -181,8 +181,8 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] FrameSkipTypeTestCaseSource =
         {
-            new object[] {null, true},
-            new object[] {FrameSkipType.HighSpec, false},
+            new object[] { null, true },
+            new object[] { FrameSkipType.HighSpec, false }
         };
 
         [TestCaseSource(nameof(FrameSkipTypeTestCaseSource))]
@@ -229,8 +229,8 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] ProxyAddressTestCaseSource =
         {
-            new object[] {null, true},
-            new object[] {(ProxyAddress) "address", false},
+            new object[] { null, true },
+            new object[] { (ProxyAddress)"address", false }
         };
 
         [TestCaseSource(nameof(ProxyAddressTestCaseSource))]
@@ -277,7 +277,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] ProxyPortTestCaseSource =
         {
-            new object[] {(ProxyPort) 222},
+            new object[] { (ProxyPort)222 }
         };
 
         [TestCaseSource(nameof(ProxyPortTestCaseSource))]
@@ -378,7 +378,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] DisplayNumberTestCaseSource =
         {
-            new object[] {(DisplayNumber) 0},
+            new object[] { (DisplayNumber)0 }
         };
 
         [TestCaseSource(nameof(DisplayNumberTestCaseSource))]

@@ -20,17 +20,17 @@ namespace WodiLib.Test.Event.EventCommand
 
         private static readonly object[] SameRateAccessorTestCaseSource =
         {
-            new object[] {ZoomRateType.Normal, false},
-            new object[] {ZoomRateType.OnlyDepth, true},
-            new object[] {ZoomRateType.OnlyWidth, true},
-            new object[] {ZoomRateType.Different, true},
-            new object[] {ZoomRateType.Same, false},
+            new object[] { ZoomRateType.Normal, false },
+            new object[] { ZoomRateType.OnlyDepth, true },
+            new object[] { ZoomRateType.OnlyWidth, true },
+            new object[] { ZoomRateType.Different, true },
+            new object[] { ZoomRateType.Same, false }
         };
 
         [TestCaseSource(nameof(SameRateAccessorTestCaseSource))]
         public static void SameRateAccessorTest(ZoomRateType zoomRateType, bool isError)
         {
-            var instance = new ZoomRate {ZoomRateType = zoomRateType};
+            var instance = new ZoomRate { ZoomRateType = zoomRateType };
             var errorOccured = false;
 
             {
@@ -72,17 +72,17 @@ namespace WodiLib.Test.Event.EventCommand
 
         private static readonly object[] DifferenceRateAccessorTestCaseSource =
         {
-            new object[] {ZoomRateType.Normal, true},
-            new object[] {ZoomRateType.OnlyDepth, false},
-            new object[] {ZoomRateType.OnlyWidth, false},
-            new object[] {ZoomRateType.Different, false},
-            new object[] {ZoomRateType.Same, true},
+            new object[] { ZoomRateType.Normal, true },
+            new object[] { ZoomRateType.OnlyDepth, false },
+            new object[] { ZoomRateType.OnlyWidth, false },
+            new object[] { ZoomRateType.Different, false },
+            new object[] { ZoomRateType.Same, true }
         };
 
         [TestCaseSource(nameof(DifferenceRateAccessorTestCaseSource))]
         public static void DifferenceRateAccessorTest(ZoomRateType zoomRateType, bool isError)
         {
-            var instance = new ZoomRate {ZoomRateType = zoomRateType};
+            var instance = new ZoomRate { ZoomRateType = zoomRateType };
             var errorOccured = false;
 
             {

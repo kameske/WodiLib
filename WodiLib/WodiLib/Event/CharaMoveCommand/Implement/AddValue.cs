@@ -16,7 +16,7 @@ using WodiLib.Sys;
 namespace WodiLib.Event.CharaMoveCommand
 {
     /// <summary>
-    /// 動作指定：加算
+    ///     動作指定：加算
     /// </summary>
     [Serializable]
     public class AddValue : CharaMoveCommandBase, ISerializable
@@ -34,10 +34,10 @@ namespace WodiLib.Event.CharaMoveCommand
         //     Override Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override CharaMoveCommandCode CommandCode => CharaMoveCommandCode.AddValue;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override byte ValueLengthByte => 0x02;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -55,7 +55,7 @@ namespace WodiLib.Event.CharaMoveCommand
         {
             get
             {
-                var targetAddress = GetNumberValue(0).ToInt();
+                var targetAddress = GetNumberValue(0).RawValue;
                 if (NormalNumberVariableAddress.MinValue <= targetAddress &&
                     targetAddress <= NormalNumberVariableAddress.MaxValue) return targetAddress;
 
@@ -79,7 +79,7 @@ namespace WodiLib.Event.CharaMoveCommand
         }
 
         /// <summary>
-        /// 加算値
+        ///     加算値
         /// </summary>
         public CharaMoveCommandValue Value
         {
@@ -110,7 +110,7 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         public AddValue()
         {
@@ -122,7 +122,7 @@ namespace WodiLib.Event.CharaMoveCommand
         //     Public Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override string GetEventCommandSentence(
             EventCommandSentenceResolver resolver, EventCommandSentenceType type,
@@ -149,7 +149,7 @@ namespace WodiLib.Event.CharaMoveCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        ///     オブジェクトをシリアル化するために必要なデータを設定する。
         /// </summary>
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>
@@ -162,7 +162,7 @@ namespace WodiLib.Event.CharaMoveCommand
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>

@@ -20,7 +20,7 @@ namespace WodiLib.Test.Event.EventCommand.Model
         }
 
         /// <summary>
-        /// コンストラクタテスト
+        ///     コンストラクタテスト
         /// </summary>
         /// <param name="length"></param>
         /// <param name="isError"></param>
@@ -69,11 +69,11 @@ namespace WodiLib.Test.Event.EventCommand.Model
 
         private static readonly object[] ValidateTestCaseSource =
         {
-            new object[] {new IEventCommand[] {new Blank()}, true},
-            new object[] {new IEventCommand[] {new CallCommonEventById()}, false},
-            new object[] {new IEventCommand[] {new Message(), new Blank {Indent = 0}}, true},
-            new object[] {new IEventCommand[] {new Message(), new Blank {Indent = 1}}, false},
-            new object[] {new IEventCommand[] {new Message(), new DebugText()}, false},
+            new object[] { new IEventCommand[] { new Blank() }, true },
+            new object[] { new IEventCommand[] { new CallCommonEventById() }, false },
+            new object[] { new IEventCommand[] { new Message(), new Blank { Indent = 0 } }, true },
+            new object[] { new IEventCommand[] { new Message(), new Blank { Indent = 1 } }, false },
+            new object[] { new IEventCommand[] { new Message(), new DebugText() }, false }
         };
 
         [TestCaseSource(nameof(ValidateTestCaseSource))]

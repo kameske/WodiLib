@@ -48,8 +48,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] ConstructorTestBCaseSource =
         {
-            new object[] {(MapSizeHeight) 15},
-            new object[] {(MapSizeHeight) 31},
+            new object[] { (MapSizeHeight)15 },
+            new object[] { (MapSizeHeight)31 }
         };
 
         [TestCaseSource(nameof(ConstructorTestBCaseSource))]
@@ -72,7 +72,7 @@ namespace WodiLib.Test.Map
             Assert.IsFalse(errorOccured);
 
             // 件数が一致すること
-            Assert.AreEqual(instance.Count, height.ToInt());
+            Assert.AreEqual(instance.Count, (int)height);
 
             // すべての要素がデフォルト値で初期化されていること
             foreach (var chip in instance)
@@ -172,8 +172,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] InitializeChipsTestBCaseSource =
         {
-            new object[] {(MapSizeHeight) 15},
-            new object[] {(MapSizeHeight) 31},
+            new object[] { (MapSizeHeight)15 },
+            new object[] { (MapSizeHeight)31 }
         };
 
         [TestCaseSource(nameof(InitializeChipsTestBCaseSource))]
@@ -196,7 +196,7 @@ namespace WodiLib.Test.Map
             Assert.IsFalse(errorOccured);
 
             // 件数が意図した値と一致すること
-            Assert.AreEqual(instance.Count, height.ToInt());
+            Assert.AreEqual(instance.Count, (int)height);
 
             // すべての要素がデフォルト値で初期化されていること
             foreach (var chip in instance)
@@ -207,9 +207,9 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] UpdateSizeTestCaseSource =
         {
-            new object[] {20, (MapSizeHeight) 15},
-            new object[] {20, (MapSizeHeight) 20},
-            new object[] {20, (MapSizeHeight) 31},
+            new object[] { 20, (MapSizeHeight)15 },
+            new object[] { 20, (MapSizeHeight)20 },
+            new object[] { 20, (MapSizeHeight)31 }
         };
 
         [TestCaseSource(nameof(UpdateSizeTestCaseSource))]
@@ -239,9 +239,9 @@ namespace WodiLib.Test.Map
             Assert.IsFalse(errorOccured);
 
             // 件数が意図した値と一致すること
-            Assert.AreEqual(instance.Count, height.ToInt());
+            Assert.AreEqual(instance.Count, (int)height);
 
-            var notChangedLength = initLength < height ? initLength : height.ToInt();
+            var notChangedLength = initLength < height ? initLength : (int)height;
 
             var i = 0;
             // 操作しなかった項目がもとの値のままであること

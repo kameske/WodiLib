@@ -27,7 +27,7 @@ namespace WodiLib.Test.Common
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var argName = isSetNull ? null : (CommonEventArgName) "test";
+            var argName = isSetNull ? null : (CommonEventArgName)"test";
 
             var errorOccured = false;
             try

@@ -27,7 +27,7 @@ namespace WodiLib.Test.Common.Internal
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var description = isNull ? null : (CommonEventResultDescription) "test";
+            var description = isNull ? null : (CommonEventResultDescription)"test";
 
             var errorOccured = false;
             try
@@ -63,7 +63,7 @@ namespace WodiLib.Test.Common.Internal
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var index = (CommonEventReturnVariableIndex) commonVariableIndex;
+            var index = (CommonEventReturnVariableIndex)commonVariableIndex;
 
             var errorOccured = false;
             try
@@ -113,7 +113,7 @@ namespace WodiLib.Test.Common.Internal
             Assert.AreEqual(instance.IsReturnValue, false);
 
             // 返戻アドレスが-1であること
-            Assert.AreEqual((int) instance.ReturnVariableIndex, -1);
+            Assert.AreEqual((int)instance.ReturnVariableIndex, -1);
 
             // 意図したとおりプロパティ変更通知が発火していること
             Assert.AreEqual(changedPropertyList.Count, 2);

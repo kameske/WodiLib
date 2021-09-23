@@ -16,7 +16,7 @@ namespace WodiLib.Test.IO
             {
                 TileSetDataTestItemGenerator.GenerateData0(),
                 $@"{CommonFileTestItemGenerator.TestWorkRootDir}\Output0\TileSetData.dat"
-            },
+            }
         };
 
         [TestCaseSource(nameof(WriteSyncTestCaseSource))]

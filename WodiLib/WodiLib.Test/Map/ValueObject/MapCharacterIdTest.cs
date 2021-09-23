@@ -37,48 +37,36 @@ namespace WodiLib.Test.Map
             Assert.AreEqual(errorOccured, isError);
         }
 
-        [TestCase(0)]
-        [TestCase(99)]
-        public static void ToIntTest(int value)
-        {
-            var instance = new MapCharacterId(value);
-
-            var intValue = instance.ToInt();
-
-            // セットした値と取得した値が一致すること
-            Assert.AreEqual(intValue, value);
-        }
-
         private static readonly object[] CompareTestCaseSource =
         {
-            new object[] {-5, -7},
-            new object[] {-5, -5},
-            new object[] {-5, -1},
-            new object[] {-5, 0},
-            new object[] {-5, 1},
-            new object[] {-5, 5},
-            new object[] {-5, 8},
-            new object[] {0, -7},
-            new object[] {0, -5},
-            new object[] {0, -1},
-            new object[] {0, 0},
-            new object[] {0, 1},
-            new object[] {0, 5},
-            new object[] {0, 8},
-            new object[] {5, -7},
-            new object[] {5, -5},
-            new object[] {5, -1},
-            new object[] {5, 0},
-            new object[] {5, 1},
-            new object[] {5, 5},
-            new object[] {5, 8},
+            new object[] { -5, -7 },
+            new object[] { -5, -5 },
+            new object[] { -5, -1 },
+            new object[] { -5, 0 },
+            new object[] { -5, 1 },
+            new object[] { -5, 5 },
+            new object[] { -5, 8 },
+            new object[] { 0, -7 },
+            new object[] { 0, -5 },
+            new object[] { 0, -1 },
+            new object[] { 0, 0 },
+            new object[] { 0, 1 },
+            new object[] { 0, 5 },
+            new object[] { 0, 8 },
+            new object[] { 5, -7 },
+            new object[] { 5, -5 },
+            new object[] { 5, -1 },
+            new object[] { 5, 0 },
+            new object[] { 5, 1 },
+            new object[] { 5, 5 },
+            new object[] { 5, 8 }
         };
 
         [TestCaseSource(nameof(CompareTestCaseSource))]
         public static void CompareToTest(int left, int right)
         {
-            var leftInstance = (MapCharacterId) left;
-            var rightInstance = (MapCharacterId) right;
+            var leftInstance = (MapCharacterId)left;
+            var rightInstance = (MapCharacterId)right;
 
             var result = leftInstance.CompareTo(rightInstance);
 
@@ -95,7 +83,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                var _ = (MapCharacterId) value;
+                var _ = (MapCharacterId)value;
             }
             catch (Exception ex)
             {
@@ -135,63 +123,63 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {0, 0, true},
-            new object[] {0, 31, false},
+            new object[] { 0, 0, true },
+            new object[] { 0, 31, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapCharacterId) left;
-            var rightIndex = (MapCharacterId) right;
+            var leftIndex = (MapCharacterId)left;
+            var rightIndex = (MapCharacterId)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapCharacterId) left;
-            var rightIndex = (MapCharacterId) right;
+            var leftIndex = (MapCharacterId)left;
+            var rightIndex = (MapCharacterId)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapCharacterId) left;
-            var rightIndex = (MapCharacterId) right;
+            var leftIndex = (MapCharacterId)left;
+            var rightIndex = (MapCharacterId)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
 
         [TestCaseSource(nameof(CompareTestCaseSource))]
         public static void OperatorLessTest(int left, int right)
         {
-            var leftInstance = (MapCharacterId) left;
-            var rightInstance = (MapCharacterId) right;
+            var leftInstance = (MapCharacterId)left;
+            var rightInstance = (MapCharacterId)right;
             Assert.AreEqual(leftInstance < rightInstance, left < right);
         }
 
         [TestCaseSource(nameof(CompareTestCaseSource))]
         public static void OperatorLessOrEqualTest(int left, int right)
         {
-            var leftInstance = (MapCharacterId) left;
-            var rightInstance = (MapCharacterId) right;
+            var leftInstance = (MapCharacterId)left;
+            var rightInstance = (MapCharacterId)right;
             Assert.AreEqual(leftInstance <= rightInstance, left <= right);
         }
 
         [TestCaseSource(nameof(CompareTestCaseSource))]
         public static void OperatorGreaterOrEqualTest(int left, int right)
         {
-            var leftInstance = (MapCharacterId) left;
-            var rightInstance = (MapCharacterId) right;
+            var leftInstance = (MapCharacterId)left;
+            var rightInstance = (MapCharacterId)right;
             Assert.AreEqual(leftInstance >= rightInstance, left >= right);
         }
 
         [TestCaseSource(nameof(CompareTestCaseSource))]
         public static void OperatorGreaterTest(int left, int right)
         {
-            var leftInstance = (MapCharacterId) left;
-            var rightInstance = (MapCharacterId) right;
+            var leftInstance = (MapCharacterId)left;
+            var rightInstance = (MapCharacterId)right;
             Assert.AreEqual(leftInstance > rightInstance, left > right);
         }
     }

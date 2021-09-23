@@ -49,7 +49,7 @@ namespace WodiLib.Test.IO.ValueObject
             if (errorOccured) return;
 
             // 内容が一致すること
-            Assert.AreEqual((string) instance, path);
+            Assert.AreEqual((string)instance, path);
         }
     }
 }

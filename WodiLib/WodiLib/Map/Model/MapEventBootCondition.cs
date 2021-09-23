@@ -76,7 +76,7 @@ namespace WodiLib.Map
             }
         }
 
-        private ConditionRight rightSide;
+        private ConditionRight rightSide = 0;
 
         /// <summary>右辺</summary>
         public ConditionRight RightSide
@@ -94,7 +94,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         public MapEventBootCondition()
         {
@@ -112,12 +112,17 @@ namespace WodiLib.Map
         {
             byte result = 0x00;
             result += Operation.Code;
-            result += UseCondition ? FlgHasCondition : (byte) 0x00;
+
+            if (UseCondition)
+            {
+                result += FlgHasCondition;
+            }
+
             return result;
         }
 
         /// <summary>
-        /// 値を比較する。
+        ///     値を比較する。
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
@@ -136,7 +141,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        ///     オブジェクトをシリアル化するために必要なデータを設定する。
         /// </summary>
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>
@@ -150,7 +155,7 @@ namespace WodiLib.Map
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>

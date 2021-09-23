@@ -26,8 +26,8 @@ namespace WodiLib.Test.Common
 
         private static readonly object[] EventBootConditionTestCaseSource =
         {
-            new object[] {new CommonEventBootCondition(), false},
-            new object[] {null, true},
+            new object[] { new CommonEventBootCondition(), false },
+            new object[] { null, true }
         };
 
         [TestCaseSource(nameof(EventBootConditionTestCaseSource))]
@@ -167,7 +167,7 @@ namespace WodiLib.Test.Common
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var name = isNull ? null : (CommonEventName) "test";
+            var name = isNull ? null : (CommonEventName)"test";
 
             var errorOccured = false;
             try
@@ -205,9 +205,9 @@ namespace WodiLib.Test.Common
 
         private static readonly object[] EventCommandsTestCaseSource =
         {
-            new object[] {new EventCommandList(new List<IEventCommand> {new Blank()}), false},
+            new object[] { new EventCommandList(new List<IEventCommand> { new Blank() }), false },
             // new object[] {new EventCommandList(new List<IEventCommand>()), true}, イベント0行のEventCommandListは作成不可能
-            new object[] {null, true},
+            new object[] { null, true }
         };
 
         [TestCaseSource(nameof(EventCommandsTestCaseSource))]
@@ -259,7 +259,7 @@ namespace WodiLib.Test.Common
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var str = isNull ? null : (CommonEventDescription) "test";
+            var str = isNull ? null : (CommonEventDescription)"test";
 
             var errorOccured = false;
             try
@@ -303,7 +303,7 @@ namespace WodiLib.Test.Common
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var str = isNull ? null : (CommonEventMemo) "test";
+            var str = isNull ? null : (CommonEventMemo)"test";
 
             var errorOccured = false;
             try
@@ -341,8 +341,8 @@ namespace WodiLib.Test.Common
 
         private static readonly object[] LabelColorTestCaseSource =
         {
-            new object[] {CommonEventLabelColor.Black, false},
-            new object[] {null, true},
+            new object[] { CommonEventLabelColor.Black, false },
+            new object[] { null, true }
         };
 
         [TestCaseSource(nameof(LabelColorTestCaseSource))]
@@ -394,7 +394,7 @@ namespace WodiLib.Test.Common
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var str = isNull ? null : (CommonEventFooterString) "test";
+            var str = isNull ? null : (CommonEventFooterString)"test";
 
             var errorOccured = false;
             try
@@ -438,7 +438,7 @@ namespace WodiLib.Test.Common
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var str = isNull ? null : (CommonEventResultDescription) "test";
+            var str = isNull ? null : (CommonEventResultDescription)"test";
 
             var errorOccured = false;
             try
@@ -539,7 +539,7 @@ namespace WodiLib.Test.Common
                 changedSpecialStringArgDescPropertyCollection.Add(args);
             };
 
-            var index = (CommonEventNumberArgIndex) 1;
+            var index = (CommonEventNumberArgIndex)1;
             var desc = isNull ? null : new CommonEventSpecialNumberArgDesc();
 
             var errorOccured = false;
@@ -604,7 +604,7 @@ namespace WodiLib.Test.Common
                 changedSpecialStringArgDescPropertyCollection.Add(args);
             };
 
-            var index = (CommonEventNumberArgIndex) 0;
+            var index = (CommonEventNumberArgIndex)0;
 
             var errorOccured = false;
             try
@@ -657,7 +657,7 @@ namespace WodiLib.Test.Common
                 changedSpecialStringArgDescPropertyCollection.Add(args);
             };
 
-            var index = (CommonEventStringArgIndex) 2;
+            var index = (CommonEventStringArgIndex)2;
             var desc = isNull ? null : new CommonEventSpecialStringArgDesc();
 
             var errorOccured = false;
@@ -722,7 +722,7 @@ namespace WodiLib.Test.Common
                 changedSpecialStringArgDescPropertyCollection.Add(args);
             };
 
-            var index = (CommonEventStringArgIndex) 1;
+            var index = (CommonEventStringArgIndex)1;
 
             var errorOccured = false;
             try
@@ -753,7 +753,7 @@ namespace WodiLib.Test.Common
             var changedPropertyList = new List<string>();
             instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var commonVarAddress = (CommonEventReturnVariableIndex) 10;
+            var commonVarAddress = (CommonEventReturnVariableIndex)10;
 
             var errorOccured = false;
             try

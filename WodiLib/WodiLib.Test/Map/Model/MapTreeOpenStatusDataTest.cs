@@ -21,8 +21,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] StatusListTestCaseSource =
         {
-            new object[] {new MapTreeOpenStatusList(), false},
-            new object[] {null, true},
+            new object[] { new MapTreeOpenStatusList(), false },
+            new object[] { null, true }
         };
 
         [TestCaseSource(nameof(StatusListTestCaseSource))]

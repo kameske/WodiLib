@@ -92,7 +92,7 @@ namespace WodiLib.Test.IO
             // 元のデータと一致すること
             using (var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                var bufLength = (int) stream.Length;
+                var bufLength = (int)stream.Length;
                 var buf = new byte[bufLength];
                 stream.Read(buf, 0, bufLength);
 

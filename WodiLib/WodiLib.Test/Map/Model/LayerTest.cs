@@ -34,8 +34,8 @@ namespace WodiLib.Test.Map
             Assert.True(true);
 
             // 幅、高さが正しく取得できること
-            Assert.AreEqual((int) layer.Width, 20);
-            Assert.AreEqual((int) layer.Height, 15);
+            Assert.AreEqual((int)layer.Width, 20);
+            Assert.AreEqual((int)layer.Height, 15);
 
             // プロパティ変更通知が発火していないこと
             Assert.AreEqual(changedPropertyList.Count, 0);
@@ -51,7 +51,7 @@ namespace WodiLib.Test.Map
             var changedPropertyList = new List<string>();
             layer.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var width = (MapSizeWidth) sizeWidth;
+            var width = (MapSizeWidth)sizeWidth;
 
             var errorOccured = false;
             try
@@ -85,7 +85,7 @@ namespace WodiLib.Test.Map
             var changedPropertyList = new List<string>();
             layer.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var height = (MapSizeHeight) heightSize;
+            var height = (MapSizeHeight)heightSize;
 
             var errorOccured = false;
             try
@@ -117,8 +117,8 @@ namespace WodiLib.Test.Map
             var changedPropertyList = new List<string>();
             layer.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var width = (MapSizeWidth) 30;
-            var height = (MapSizeHeight) 24;
+            var width = (MapSizeWidth)30;
+            var height = (MapSizeHeight)24;
 
             var errorOccured = false;
             try
@@ -146,11 +146,11 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] SetChipTestCaseSource =
         {
-            new object[] {2, 4, (MapChip) 322, false},
-            new object[] {19, 4, (MapChip) 322, false},
-            new object[] {20, 4, (MapChip) 322, true},
-            new object[] {2, 14, (MapChip) 322, false},
-            new object[] {2, 15, (MapChip) 322, true},
+            new object[] { 2, 4, (MapChip)322, false },
+            new object[] { 19, 4, (MapChip)322, false },
+            new object[] { 20, 4, (MapChip)322, true },
+            new object[] { 2, 14, (MapChip)322, false },
+            new object[] { 2, 15, (MapChip)322, true }
             // new object[] {2, 4, null, true},  /* MapChipを構造体にしたため、nullは設定不可能 */
         };
 
@@ -194,7 +194,7 @@ namespace WodiLib.Test.Map
             {
                 // チップ番号値が指定した値になっていること
                 var result = layer.Chips[x][y];
-                Assert.AreEqual((int) result, (int) chip);
+                Assert.AreEqual((int)result, (int)chip);
             }
 
             // 意図したとおりプロパティ変更通知が発火していること
@@ -259,7 +259,7 @@ namespace WodiLib.Test.Map
             if (!errorOccured)
             {
                 // 座標の値が初期化した値になっていること
-                Assert.AreEqual((int) getChip, x * 10 + y);
+                Assert.AreEqual((int)getChip, x * 10 + y);
             }
 
             // プロパティ変更通知が発火していないこと
@@ -279,7 +279,7 @@ namespace WodiLib.Test.Map
                 var testChipList = new List<MapChip>();
                 for (var j = 0; j < height; j++)
                 {
-                    var chip = (MapChip) (i * 10 + j);
+                    var chip = (MapChip)(i * 10 + j);
                     testChipList.Add(chip);
                 }
 

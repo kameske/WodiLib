@@ -6,19 +6,20 @@ using WodiLib.Test.Tools;
 namespace WodiLib.Test.IO
 {
     /// <summary>
-    /// CommonFileReader/Writerテスト時に比較するためのアイテムを生成する。
+    ///     CommonFileReader/Writerテスト時に比較するためのアイテムを生成する。
     /// </summary>
     public static class CommonFileTestItemGenerator
     {
-        /** ========================================
-         *  マップデータオブジェクト作成
-         *  ======================================== */
-
+        /**
+         * ========================================
+         * マップデータオブジェクト作成
+         * ========================================
+         */
         public static CommonFileData GenerateCommon000Data()
         {
             var commonEventList = new List<CommonEvent>
             {
-                CommonEventDataFileTestItemGenerator.CommonEvent00Data.GenerateCommonEvent000(),
+                CommonEventDataFileTestItemGenerator.CommonEvent00Data.GenerateCommonEvent000()
             };
 
             var result = new CommonFileData();
@@ -34,7 +35,7 @@ namespace WodiLib.Test.IO
             {
                 CommonEventDataFileTestItemGenerator.CommonEvent00Data.GenerateCommonEvent003(),
                 CommonEventDataFileTestItemGenerator.CommonEvent00Data.GenerateCommonEvent004(),
-                CommonEventDataFileTestItemGenerator.CommonEvent00Data.GenerateCommonEvent005(),
+                CommonEventDataFileTestItemGenerator.CommonEvent00Data.GenerateCommonEvent005()
             };
 
             var result = new CommonFileData();
@@ -49,7 +50,7 @@ namespace WodiLib.Test.IO
             var commonEventList = new List<CommonEvent>
             {
                 CommonEventDataFileTestItemGenerator.CommonEvent00Data.GenerateCommonEvent005(),
-                CommonEventDataFileTestItemGenerator.CommonEvent00Data.GenerateCommonEvent006(),
+                CommonEventDataFileTestItemGenerator.CommonEvent00Data.GenerateCommonEvent006()
             };
 
             var result = new CommonFileData();
@@ -59,10 +60,9 @@ namespace WodiLib.Test.IO
             return result;
         }
 
-        /** ========================================
-         *  テスト用ファイル出力
-         *  ======================================== */
-
+        /// ========================================
+        /// テスト用ファイル出力
+        /// ========================================
         /// <summary>テストディレクトリルート</summary>
         public static string TestWorkRootDir => MapFileTestItemGenerator.TestWorkRootDir;
 
@@ -72,11 +72,11 @@ namespace WodiLib.Test.IO
             ("000_コモンイベント000.common", TestResources.c000_コモンイベント000),
             ("Common003to005_コモンイベント003.common", TestResources.Common003to005_コモンイベント003),
             ("Common005to006_コモンイベント005.common", TestResources.Common005to006_コモンイベント005),
-            ("各種メニュー呼び出し.common", TestResources.各種メニュー呼出),
+            ("各種メニュー呼び出し.common", TestResources.各種メニュー呼出)
         };
 
         /// <summary>
-        /// マップファイルを tmp フォルダに出力する。
+        ///     マップファイルを tmp フォルダに出力する。
         /// </summary>
         public static void OutputFile()
         {
@@ -92,7 +92,7 @@ namespace WodiLib.Test.IO
         }
 
         /// <summary>
-        /// マップファイルを削除する。
+        ///     マップファイルを削除する。
         /// </summary>
         public static void DeleteMapFile()
         {

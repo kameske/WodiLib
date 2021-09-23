@@ -45,8 +45,8 @@ namespace WodiLib.Test.Cmn
         [TestCase(1099999999, 99)]
         public static void TypeIdTest(int variableAddress, int answer)
         {
-            var varAddress = (UserDatabaseAddress) variableAddress;
-            var answerTypeId = (TypeId) answer;
+            var varAddress = (UserDatabaseAddress)variableAddress;
+            var answerTypeId = (TypeId)answer;
 
             Assert.AreEqual(varAddress.TypeId, answerTypeId);
         }
@@ -56,8 +56,8 @@ namespace WodiLib.Test.Cmn
         [TestCase(1099999999, 9999)]
         public static void DataIdTest(int variableAddress, int answer)
         {
-            var varAddress = (UserDatabaseAddress) variableAddress;
-            var answerDataId = (DataId) answer;
+            var varAddress = (UserDatabaseAddress)variableAddress;
+            var answerDataId = (DataId)answer;
 
             Assert.AreEqual(varAddress.DataId, answerDataId);
         }
@@ -67,8 +67,8 @@ namespace WodiLib.Test.Cmn
         [TestCase(1099999999, 99)]
         public static void ItemIdTest(int variableAddress, int answer)
         {
-            var varAddress = (UserDatabaseAddress) variableAddress;
-            var answerItemId = (ItemId) answer;
+            var varAddress = (UserDatabaseAddress)variableAddress;
+            var answerItemId = (ItemId)answer;
 
             Assert.AreEqual(varAddress.ItemId, answerItemId);
         }
@@ -94,7 +94,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                var _ = (UserDatabaseAddress) value;
+                var _ = (UserDatabaseAddress)value;
             }
             catch (Exception ex)
             {
@@ -117,7 +117,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                castValue = (int) instance;
+                castValue = (int)instance;
             }
             catch (Exception ex)
             {
@@ -162,10 +162,10 @@ namespace WodiLib.Test.Cmn
             if (errorOccured) return;
 
             // 意図した値と一致すること
-            Assert.AreEqual((int) result, variableAddress + value);
+            Assert.AreEqual((int)result, variableAddress + value);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int) instance, variableAddress);
+            Assert.AreEqual((int)instance, variableAddress);
         }
 
         [TestCase(1000000000, -100000000, true)]
@@ -198,10 +198,10 @@ namespace WodiLib.Test.Cmn
             if (errorOccured) return;
 
             // 意図した値と一致すること
-            Assert.AreEqual((int) result, variableAddress - value);
+            Assert.AreEqual((int)result, variableAddress - value);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int) instance, variableAddress);
+            Assert.AreEqual((int)instance, variableAddress);
         }
 
         [TestCase(1021003522, 1000000000)]
@@ -230,7 +230,7 @@ namespace WodiLib.Test.Cmn
             Assert.AreEqual(result, srcVariableAddress - dstVariableAddress);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int) instance, srcVariableAddress);
+            Assert.AreEqual((int)instance, srcVariableAddress);
         }
 
         [TestCase(1021003522, 1000000000)]
@@ -243,7 +243,7 @@ namespace WodiLib.Test.Cmn
             var errorOccured = false;
             try
             {
-                result = instance - (UserDatabaseAddress) dstVariableAddress;
+                result = instance - (UserDatabaseAddress)dstVariableAddress;
             }
             catch (Exception ex)
             {
@@ -258,7 +258,7 @@ namespace WodiLib.Test.Cmn
             Assert.AreEqual(result, srcVariableAddress - dstVariableAddress);
 
             // もとの値が変化していないこと
-            Assert.AreEqual((int) instance, srcVariableAddress);
+            Assert.AreEqual((int)instance, srcVariableAddress);
         }
     }
 }

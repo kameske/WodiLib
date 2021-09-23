@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using WodiLib.Map;
-using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Map
 {

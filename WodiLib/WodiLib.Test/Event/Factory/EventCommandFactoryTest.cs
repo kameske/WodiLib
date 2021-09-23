@@ -12,7 +12,7 @@ namespace WodiLib.Test.Event
     using Factory = EventCommandFactory;
 
     /// <summary>
-    /// イベントコマンドFactoryテスト
+    ///     イベントコマンドFactoryテスト
     /// </summary>
     [TestFixture]
     public class EventCommandFactoryTest
@@ -27,7 +27,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「空白行」のインスタンス生成
+        ///     イベントコマンド「空白行」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -38,7 +38,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「選択肢の強制中断」のインスタンス生成
+        ///     イベントコマンド「選択肢の強制中断」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -49,7 +49,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「コモンイベント（ID指定）」のインスタンス生成
+        ///     イベントコマンド「コモンイベント（ID指定）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -60,7 +60,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「コモンイベント（イベント名）」のインスタンス生成
+        ///     イベントコマンド「コモンイベント（イベント名）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -71,7 +71,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「マップチップ通行設定」のインスタンス生成
+        ///     イベントコマンド「マップチップ通行設定」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -82,7 +82,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「色調変更」のインスタンス生成
+        ///     イベントコマンド「色調変更」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -93,7 +93,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「キャラエフェクト」のインスタンス生成
+        ///     イベントコマンド「キャラエフェクト」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -104,7 +104,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「チェックポイント」のインスタンス生成
+        ///     イベントコマンド「チェックポイント」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -115,7 +115,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「分岐終端」のインスタンス生成
+        ///     イベントコマンド「分岐終端」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -126,7 +126,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「選択肢・開始」のインスタンス生成
+        ///     イベントコマンド「選択肢・開始」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -137,7 +137,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「キャンセル始端」のインスタンス生成
+        ///     イベントコマンド「キャンセル始端」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -148,7 +148,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「強制中断分岐」のインスタンス生成
+        ///     イベントコマンド「強制中断分岐」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -159,7 +159,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「左キー分岐」のインスタンス生成
+        ///     イベントコマンド「左キー分岐」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -170,7 +170,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「右キー分岐」のインスタンス生成
+        ///     イベントコマンド「右キー分岐」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -181,7 +181,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「デバッグ文全消去」のインスタンス生成
+        ///     イベントコマンド「デバッグ文全消去」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -192,7 +192,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「コメント文」のインスタンス生成
+        ///     イベントコマンド「コメント文」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -203,7 +203,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「コモンイベント予約」のインスタンス生成
+        ///     イベントコマンド「コモンイベント予約」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -214,7 +214,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「条件（変数）・始端」のインスタンス生成
+        ///     イベントコマンド「条件（変数）・始端」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -225,7 +225,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「条件（文字列）・始端」のインスタンス生成
+        ///     イベントコマンド「条件（文字列）・始端」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -236,7 +236,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「CSV入出力」のインスタンス生成
+        ///     イベントコマンド「CSV入出力」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -247,7 +247,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「DB操作（全データ初期化）」のインスタンス生成
+        ///     イベントコマンド「DB操作（全データ初期化）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -258,7 +258,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「DB操作（全項目初期化）」のインスタンス生成
+        ///     イベントコマンド「DB操作（全項目初期化）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -269,7 +269,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「DB操作（データ番号取得）」のインスタンス生成
+        ///     イベントコマンド「DB操作（データ番号取得）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -280,7 +280,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「DB操作（データ数取得）」のインスタンス生成
+        ///     イベントコマンド「DB操作（データ数取得）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -291,7 +291,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「DB操作（データ名取得）」のインスタンス生成
+        ///     イベントコマンド「DB操作（データ名取得）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -302,7 +302,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「DB操作（項目番号取得）」のインスタンス生成
+        ///     イベントコマンド「DB操作（項目番号取得）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -313,7 +313,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「DB操作（項目数取得）」のインスタンス生成
+        ///     イベントコマンド「DB操作（項目数取得）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -324,7 +324,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「DB操作（項目名取得）」のインスタンス生成
+        ///     イベントコマンド「DB操作（項目名取得）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -335,7 +335,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「DB操作（タイプ番号取得）」のインスタンス生成
+        ///     イベントコマンド「DB操作（タイプ番号取得）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -346,7 +346,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「DB操作（タイプ名取得）」のインスタンス生成
+        ///     イベントコマンド「DB操作（タイプ名取得）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -357,7 +357,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「DB操作（数値入力）」のインスタンス生成
+        ///     イベントコマンド「DB操作（数値入力）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -368,7 +368,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「DB操作（文字入力）」のインスタンス生成
+        ///     イベントコマンド「DB操作（文字入力）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -379,7 +379,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「DB操作（出力）」のインスタンス生成
+        ///     イベントコマンド「DB操作（出力）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -390,7 +390,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「デバッグ文」のインスタンス生成
+        ///     イベントコマンド「デバッグ文」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -401,7 +401,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「キー入力禁止（デバイス入力）」のインスタンス生成
+        ///     イベントコマンド「キー入力禁止（デバイス入力）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -412,7 +412,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ダウンロード」のインスタンス生成
+        ///     イベントコマンド「ダウンロード」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -423,7 +423,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「イベント一時消去」のインスタンス生成
+        ///     イベントコマンド「イベント一時消去」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -434,7 +434,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「トランジション実行」のインスタンス生成
+        ///     イベントコマンド「トランジション実行」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -445,7 +445,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「イベント処理中断」のインスタンス生成
+        ///     イベントコマンド「イベント処理中断」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -456,7 +456,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ゲーム終了」のインスタンス生成
+        ///     イベントコマンド「ゲーム終了」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -467,7 +467,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「タイトル画面へ戻る」のインスタンス生成
+        ///     イベントコマンド「タイトル画面へ戻る」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -478,7 +478,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ピクチャ以外の画像更新[停止]」のインスタンス生成
+        ///     イベントコマンド「ピクチャ以外の画像更新[停止]」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -489,7 +489,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「指定ラベルに飛ぶ」のインスタンス生成
+        ///     イベントコマンド「指定ラベルに飛ぶ」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -500,7 +500,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「自動キー入力（基本入力）」のインスタンス生成
+        ///     イベントコマンド「自動キー入力（基本入力）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -511,7 +511,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「自動キー入力（キーボード）」のインスタンス生成
+        ///     イベントコマンド「自動キー入力（キーボード）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -522,7 +522,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「自動キー入力（マウス）」のインスタンス生成
+        ///     イベントコマンド「自動キー入力（マウス）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -533,7 +533,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「キー入力（基本）」のインスタンス生成
+        ///     イベントコマンド「キー入力（基本）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -544,7 +544,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「キー入力（キーボード）」のインスタンス生成
+        ///     イベントコマンド「キー入力（キーボード）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -555,7 +555,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「キー入力（マウス）」のインスタンス生成
+        ///     イベントコマンド「キー入力（マウス）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -566,7 +566,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「キー入力（パッド）」のインスタンス生成
+        ///     イベントコマンド「キー入力（パッド）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -577,7 +577,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ロード」のインスタンス生成
+        ///     イベントコマンド「ロード」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -588,7 +588,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ループ中断」のインスタンス生成
+        ///     イベントコマンド「ループ中断」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -599,7 +599,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ループ開始へ戻る」のインスタンス生成
+        ///     イベントコマンド「ループ開始へ戻る」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -610,7 +610,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ループ終端」のインスタンス生成
+        ///     イベントコマンド「ループ終端」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -621,7 +621,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「回数指定ループ始端」のインスタンス生成
+        ///     イベントコマンド「回数指定ループ始端」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -632,7 +632,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「無限ループ始端」のインスタンス生成
+        ///     イベントコマンド「無限ループ始端」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -643,7 +643,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「マップエフェクト（シェイク）」のインスタンス生成
+        ///     イベントコマンド「マップエフェクト（シェイク）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -654,7 +654,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「マップエフェクト（ズーム）」のインスタンス生成
+        ///     イベントコマンド「マップエフェクト（ズーム）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -665,7 +665,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「文章の表示」のインスタンス生成
+        ///     イベントコマンド「文章の表示」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -676,7 +676,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「イベント処理中のEv移動OFF」のインスタンス生成
+        ///     イベントコマンド「イベント処理中のEv移動OFF」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -687,7 +687,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「イベント処理中のEv移動ON」のインスタンス生成
+        ///     イベントコマンド「イベント処理中のEv移動ON」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -698,7 +698,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「動作指定」のインスタンス生成
+        ///     イベントコマンド「動作指定」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -709,7 +709,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「マップチップ上書き」のインスタンス生成
+        ///     イベントコマンド「マップチップ上書き」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -720,7 +720,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「パーティ画像（挿入）」のインスタンス生成
+        ///     イベントコマンド「パーティ画像（挿入）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -731,7 +731,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「パーティ画像（削除）」のインスタンス生成
+        ///     イベントコマンド「パーティ画像（削除）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -742,7 +742,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「パーティ画像（画像指定削除）」のインスタンス生成
+        ///     イベントコマンド「パーティ画像（画像指定削除）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -753,7 +753,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「パーティ画像（入れ替え）」のインスタンス生成
+        ///     イベントコマンド「パーティ画像（入れ替え）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -764,7 +764,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「パーティ画像（特殊処理）」のインスタンス生成
+        ///     イベントコマンド「パーティ画像（特殊処理）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -775,7 +775,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ピクチャ（ディレイリセット）」のインスタンス生成
+        ///     イベントコマンド「ピクチャ（ディレイリセット）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -786,7 +786,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ピクチャエフェクト」のインスタンス生成
+        ///     イベントコマンド「ピクチャエフェクト」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -797,7 +797,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ピクチャ（消去）」のインスタンス生成
+        ///     イベントコマンド「ピクチャ（消去）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -808,7 +808,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ピクチャ（移動）」のインスタンス生成
+        ///     イベントコマンド「ピクチャ（移動）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -819,7 +819,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ピクチャ（表示） ファイル読み込み（直接指定）」のインスタンス生成
+        ///     イベントコマンド「ピクチャ（表示） ファイル読み込み（直接指定）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -830,7 +830,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ピクチャ（表示） ファイル読み込み（文字列変数でファイル指定）」のインスタンス生成
+        ///     イベントコマンド「ピクチャ（表示） ファイル読み込み（文字列変数でファイル指定）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -841,7 +841,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ピクチャ（表示） お手軽ウィンドウ（直接指定）」のインスタンス生成
+        ///     イベントコマンド「ピクチャ（表示） お手軽ウィンドウ（直接指定）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -852,7 +852,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ピクチャ（表示） お手軽ウィンドウ（文字列変数でファイル指定）」のインスタンス生成
+        ///     イベントコマンド「ピクチャ（表示） お手軽ウィンドウ（文字列変数でファイル指定）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -863,7 +863,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ピクチャ（表示） ファイル読み込み（文字列をピクチャとして描画）」のインスタンス生成
+        ///     イベントコマンド「ピクチャ（表示） ファイル読み込み（文字列をピクチャとして描画）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -874,7 +874,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「トランジション準備」のインスタンス生成
+        ///     イベントコマンド「トランジション準備」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -885,7 +885,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「セーブデータの内容読込」のインスタンス生成
+        ///     イベントコマンド「セーブデータの内容読込」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -896,7 +896,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ピクチャ以外の画像更新[再開]」のインスタンス生成
+        ///     イベントコマンド「ピクチャ以外の画像更新[再開]」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -907,7 +907,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「セーブ」のインスタンス生成
+        ///     イベントコマンド「セーブ」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -918,7 +918,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「内容書込み」のインスタンス生成
+        ///     イベントコマンド「内容書込み」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -929,7 +929,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「画面スクロール」のインスタンス生成
+        ///     イベントコマンド「画面スクロール」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -940,7 +940,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ラベル設置」のインスタンス生成
+        ///     イベントコマンド「ラベル設置」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -951,7 +951,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「文字列操作（キーボード入力）」のインスタンス生成
+        ///     イベントコマンド「文字列操作（キーボード入力）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -962,7 +962,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「文字列操作（手動入力）」のインスタンス生成
+        ///     イベントコマンド「文字列操作（手動入力）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -973,7 +973,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「文字列操作（変数指定）」のインスタンス生成
+        ///     イベントコマンド「文字列操作（変数指定）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -984,7 +984,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「文字列操作（文字列変数）」のインスタンス生成
+        ///     イベントコマンド「文字列操作（文字列変数）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -995,7 +995,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「オプション指定トランジション」のインスタンス生成
+        ///     イベントコマンド「オプション指定トランジション」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1006,7 +1006,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「変数操作」のインスタンス生成
+        ///     イベントコマンド「変数操作」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1017,7 +1017,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「変数操作+（キャラ）」のインスタンス生成
+        ///     イベントコマンド「変数操作+（キャラ）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1028,7 +1028,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「変数操作+（その他）」のインスタンス生成
+        ///     イベントコマンド「変数操作+（その他）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1039,7 +1039,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「変数操作+（ピクチャ番号）」のインスタンス生成
+        ///     イベントコマンド「変数操作+（ピクチャ番号）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1050,7 +1050,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「変数操作+（位置）」のインスタンス生成
+        ///     イベントコマンド「変数操作+（位置）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1061,7 +1061,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「サウンド（通常再生）」のインスタンス生成
+        ///     イベントコマンド「サウンド（通常再生）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1072,7 +1072,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「サウンド（メモリロード）」のインスタンス生成
+        ///     イベントコマンド「サウンド（メモリロード）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1083,7 +1083,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「サウンド（メモリ解放）」のインスタンス生成
+        ///     イベントコマンド「サウンド（メモリ解放）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1094,7 +1094,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「チェックポイント（特殊）」のインスタンス生成
+        ///     イベントコマンド「チェックポイント（特殊）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1105,7 +1105,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「キー入力禁止（基本入力）」のインスタンス生成
+        ///     イベントコマンド「キー入力禁止（基本入力）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1116,7 +1116,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「文章強制中断」のインスタンス生成
+        ///     イベントコマンド「文章強制中断」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1127,7 +1127,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「チップセット切り替え」のインスタンス生成
+        ///     イベントコマンド「チップセット切り替え」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1138,7 +1138,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「合成音声」のインスタンス生成
+        ///     イベントコマンド「合成音声」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1149,7 +1149,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「場所移動（移動先指定）」のインスタンス生成
+        ///     イベントコマンド「場所移動（移動先指定）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1160,7 +1160,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「場所移動（登録位置）」のインスタンス生成
+        ///     イベントコマンド「場所移動（登録位置）」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1171,7 +1171,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「ウェイト」のインスタンス生成
+        ///     イベントコマンド「ウェイト」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1182,7 +1182,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// イベントコマンド「動作完了までウェイト」のインスタンス生成
+        ///     イベントコマンド「動作完了までウェイト」のインスタンス生成
         /// </summary>
         /// <returns></returns>
         [Test]
@@ -1193,7 +1193,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// 文字列からインスタンス生成テスト
+        ///     文字列からインスタンス生成テスト
         /// </summary>
         /// <param name="src"></param>
         [TestCase("[0][0,0]<1>()()")]
@@ -1280,7 +1280,8 @@ namespace WodiLib.Test.Event
             "[150][18,1]<0>(0,120,20,4,3,1,255,200,300,95,18,0,33554432,30,0,101,102,103)(\"CharaChip/[Animal]Chicken.png\")")]
         [TestCase(
             "[150][18,1]<0>(33567280,120,11,4,4,3,65,10,20,1000060,4000,0,33554432,22,0,70,80,90)(\"SystemGraphic/Text_Pause.png\")")]
-        [TestCase("[150][18,1]<0>(32,3221,0,1,1,1,255,0,0,100,0,0,33554432,51,0,100,100,100)(\"ディレイあり、カラー100、同値false\")")]
+        [TestCase(
+            "[150][18,1]<0>(32,3221,0,1,1,1,255,0,0,100,0,0,33554432,51,0,100,100,100)(\"ディレイあり、カラー100、同値false\")")]
         [TestCase("[150][18,0]<0>(16777217,3,0,0,0,1,255,0,0,100,0,0,33554432,0,4,100,100,100)()")]
         [TestCase(
             "[150][19,0]<0>(19996944,120,1000030,1,10,1000010,1000020,1000000,1000001,1000060,1000050,3000020,33554432,1000040,123,1000080,1000081,1000082,1000070)()")]
@@ -1464,7 +1465,7 @@ namespace WodiLib.Test.Event
             Assert.AreEqual(instance.AllNumberArgList.Count, numArgLength + 1);
             Assert.AreEqual(instance.AllStringArgList.Count, strArgLength);
 
-            var indent = (sbyte) int.Parse(split[2]);
+            var indent = (sbyte)int.Parse(split[2]);
             Assert.AreEqual(instance.Indent.ToSByte(), indent);
 
             var numArgs = split[3].IsEmpty() ? new string[] { } : split[3].Split(',');
@@ -1493,7 +1494,7 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// 文字列からインスタンス生成テスト（エラーパターン）
+        ///     文字列からインスタンス生成テスト（エラーパターン）
         /// </summary>
         /// <param name="src"></param>
         [TestCase(null)]
@@ -1527,10 +1528,10 @@ namespace WodiLib.Test.Event
         }
 
         /// <summary>
-        /// 文字列からインスタンス生成テスト（正常終了するがコマンドコードが一致しないパターン）
-        /// <para>- コード途中の空白はトリムして読み込まれるが復元できない。</para>
-        /// <para>- 引数の指定数と実際の数が異なる場合は自動で補正するため元のコードとは違う結果になる。</para>
-        /// <para>- 「動作指定」コマンドは復元できない。（ウディタ仕様では数値引数も復元しないが、WodiLib仕様では数値引数を復元する）</para>
+        ///     文字列からインスタンス生成テスト（正常終了するがコマンドコードが一致しないパターン）
+        ///     <para>- コード途中の空白はトリムして読み込まれるが復元できない。</para>
+        ///     <para>- 引数の指定数と実際の数が異なる場合は自動で補正するため元のコードとは違う結果になる。</para>
+        ///     <para>- 「動作指定」コマンドは復元できない。（ウディタ仕様では数値引数も復元しないが、WodiLib仕様では数値引数を復元する）</para>
         /// </summary>
         [TestCase("[101][0, 1]<0>()(\"文章の表示\")")]
         [TestCase("[290][7,0]<0>(0,10,10, 10,40, 50,60)()")]

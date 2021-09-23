@@ -55,16 +55,16 @@ namespace WodiLib.Test.Map
             if (errorOccured) return;
 
             // セットした値と一致すること
-            Assert.AreEqual(instance.X, x);
-            Assert.AreEqual(instance.Y, y);
+            Assert.AreEqual((int)instance.X, x);
+            Assert.AreEqual((int)instance.Y, y);
         }
 
         private static readonly object[] EqualsTestCaseSource =
         {
-            new object[] {new Position(3, 5), new Position(3, 5), true},
-            new object[] {new Position(3, 5), new Position(5, 5), false},
-            new object[] {new Position(3, 5), new Position(3, 3), false},
-            new object[] {new Position(3, 5), new Position(5, 3), false},
+            new object[] { new Position(3, 5), new Position(3, 5), true },
+            new object[] { new Position(3, 5), new Position(5, 5), false },
+            new object[] { new Position(3, 5), new Position(3, 3), false },
+            new object[] { new Position(3, 5), new Position(5, 3), false }
         };
 
         [TestCaseSource(nameof(EqualsTestCaseSource))]

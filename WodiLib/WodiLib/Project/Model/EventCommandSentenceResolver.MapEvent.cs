@@ -14,7 +14,7 @@ using WodiLib.Map;
 namespace WodiLib.Project
 {
     /// <summary>
-    /// イベントコマンド文文字列解決クラス・マップイベント
+    ///     イベントコマンド文文字列解決クラス・マップイベント
     /// </summary>
     public class EventCommandSentenceResolver_MapEvent
     {
@@ -36,7 +36,7 @@ namespace WodiLib.Project
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="master">呼び出し元</param>
         public EventCommandSentenceResolver_MapEvent(
@@ -50,7 +50,7 @@ namespace WodiLib.Project
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// マップキャラID文字列を取得する。
+        ///     マップキャラID文字列を取得する。
         /// </summary>
         /// <param name="characterId">キャラID</param>
         /// <param name="type">イベントコマンド種別</param>
@@ -65,7 +65,7 @@ namespace WodiLib.Project
         {
             try
             {
-                var castMapCharacterId = (MapCharacterId) characterId;
+                var castMapCharacterId = (MapCharacterId)characterId;
                 return GetMapEventIdStr(castMapCharacterId, type, desc);
             }
             catch
@@ -75,7 +75,7 @@ namespace WodiLib.Project
         }
 
         /// <summary>
-        /// マップキャラID文字列を取得する。
+        ///     マップキャラID文字列を取得する。
         /// </summary>
         /// <param name="characterId">キャラID</param>
         /// <param name="type">イベントコマンド種別</param>
@@ -97,7 +97,7 @@ namespace WodiLib.Project
                 return (true, $"仲間{memberId}");
             }
 
-            if (characterId.ToInt().IsNumericVariableAddressSimpleCheck())
+            if (characterId.RawValue.IsNumericVariableAddressSimpleCheck())
             {
                 var varName = Master.GetNumericVariableAddressString(characterId, type, desc);
                 return (true, $"ｷｬﾗ[{varName}]");
@@ -110,7 +110,7 @@ namespace WodiLib.Project
         }
 
         /// <summary>
-        /// マップ名を取得する。
+        ///     マップ名を取得する。
         /// </summary>
         /// <param name="mapId">マップID</param>
         /// <returns>
@@ -122,7 +122,7 @@ namespace WodiLib.Project
         }
 
         /// <summary>
-        /// マップイベント名を取得する。
+        ///     マップイベント名を取得する。
         /// </summary>
         /// <param name="mapEventId">マップイベントID</param>
         /// <param name="type">イベントコマンド種別</param>
@@ -145,7 +145,7 @@ namespace WodiLib.Project
         }
 
         /// <summary>
-        /// キャラクター名を取得する。
+        ///     キャラクター名を取得する。
         /// </summary>
         /// <param name="characterId">キャラクターID</param>
         /// <param name="type">イベントコマンド種別</param>
@@ -161,14 +161,14 @@ namespace WodiLib.Project
             if (characterId == -2) return "主人公";
             if (characterId < -2) return $"仲間{(characterId + 2) * -1}";
 
-            if (!characterId.ToInt().IsVariableAddressSimpleCheck()) return $"Ev{characterId}";
+            if (!characterId.RawValue.IsVariableAddressSimpleCheck()) return $"Ev{characterId}";
 
             var varAddressSentence = Master.GetNumericVariableAddressString(characterId, type, desc);
             return $"ｷｬﾗ[{varAddressSentence}]";
         }
 
         /// <summary>
-        /// 場所移動対象のイベント名を取得する。
+        ///     場所移動対象のイベント名を取得する。
         /// </summary>
         /// <param name="eventId">イベントID</param>
         /// <param name="type">イベントコマンド種別</param>

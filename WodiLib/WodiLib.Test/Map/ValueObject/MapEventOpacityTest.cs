@@ -57,7 +57,7 @@ namespace WodiLib.Test.Map
             var errorOccured = false;
             try
             {
-                var _ = (MapEventOpacity) value;
+                var _ = (MapEventOpacity)value;
             }
             catch (Exception ex)
             {
@@ -97,31 +97,31 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {0, 0, true},
-            new object[] {0, 31, false},
+            new object[] { 0, 0, true },
+            new object[] { 0, 31, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapEventOpacity) left;
-            var rightIndex = (MapEventOpacity) right;
+            var leftIndex = (MapEventOpacity)left;
+            var rightIndex = (MapEventOpacity)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapEventOpacity) left;
-            var rightIndex = (MapEventOpacity) right;
+            var leftIndex = (MapEventOpacity)left;
+            var rightIndex = (MapEventOpacity)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (MapEventOpacity) left;
-            var rightIndex = (MapEventOpacity) right;
+            var leftIndex = (MapEventOpacity)left;
+            var rightIndex = (MapEventOpacity)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

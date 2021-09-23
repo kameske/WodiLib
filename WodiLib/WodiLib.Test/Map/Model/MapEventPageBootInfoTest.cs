@@ -21,8 +21,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] EventBootTypeTestCaseSource =
         {
-            new object[] {MapEventBootType.Auto, false},
-            new object[] {null, true}
+            new object[] { MapEventBootType.Auto, false },
+            new object[] { null, true }
         };
 
         [TestCaseSource(nameof(EventBootTypeTestCaseSource))]

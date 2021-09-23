@@ -67,7 +67,7 @@ namespace WodiLib.Test.Event.CharaMoveCommand
             var errorOccured = false;
             try
             {
-                var _ = (CalledEventVariableAddress) value;
+                var _ = (CalledEventVariableAddress)value;
             }
             catch (Exception ex)
             {
@@ -89,7 +89,7 @@ namespace WodiLib.Test.Event.CharaMoveCommand
             var errorOccured = false;
             try
             {
-                castValue = (int) instance;
+                castValue = (int)instance;
             }
             catch (Exception ex)
             {
@@ -106,31 +106,31 @@ namespace WodiLib.Test.Event.CharaMoveCommand
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {1100000, 1100000, true},
-            new object[] {1100000, 1600003, false},
+            new object[] { 1100000, 1100000, true },
+            new object[] { 1100000, 1600003, false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (CalledEventVariableAddress) left;
-            var rightIndex = (CalledEventVariableAddress) right;
+            var leftIndex = (CalledEventVariableAddress)left;
+            var rightIndex = (CalledEventVariableAddress)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (CalledEventVariableAddress) left;
-            var rightIndex = (CalledEventVariableAddress) right;
+            var leftIndex = (CalledEventVariableAddress)left;
+            var rightIndex = (CalledEventVariableAddress)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(int left, int right, bool isEqual)
         {
-            var leftIndex = (CalledEventVariableAddress) left;
-            var rightIndex = (CalledEventVariableAddress) right;
+            var leftIndex = (CalledEventVariableAddress)left;
+            var rightIndex = (CalledEventVariableAddress)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

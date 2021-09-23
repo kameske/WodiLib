@@ -8,14 +8,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using WodiLib.Sys;
 using WodiLib.Sys.Collections;
 
 namespace WodiLib.Map
 {
     /// <summary>
-    /// タイルタグ番号リストクラス
+    ///     タイルタグ番号リストクラス
     /// </summary>
     public class TileTagNumberList : RestrictedCapacityList<TileTagNumber, TileTagNumberList>,
         IFixedLengthTileTagNumberList, IEquatable<TileTagNumberList>
@@ -35,14 +34,14 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         public TileTagNumberList()
         {
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="items">初期リスト</param>
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
@@ -59,32 +58,32 @@ namespace WodiLib.Map
         //     Public Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override int GetMaxCapacity() => MaxCapacity;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override int GetMinCapacity() => MinCapacity;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override TileTagNumber MakeDefaultItem(int index)
-            => new TileTagNumber();
+            => new(0);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 容量を返す。
+        ///     容量を返す。
         /// </summary>
         /// <returns>容量</returns>
         public int GetCapacity() => Count;
 
         /// <summary>
-        /// 値を比較する。
+        ///     値を比較する。
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
@@ -100,7 +99,7 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// バイナリ変換する。
+        ///     バイナリ変換する。
         /// </summary>
         /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
@@ -110,7 +109,7 @@ namespace WodiLib.Map
             result.AddRange(Count.ToWoditorIntBytes());
 
             foreach (var tagId in this)
-                result.Add(tagId);
+                result.Add(tagId.RawValue);
 
             return result.ToArray();
         }

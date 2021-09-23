@@ -18,7 +18,7 @@ using WodiLib.Sys.Cmn;
 namespace WodiLib.Common
 {
     /// <summary>
-    /// コモンイベント起動条件実装クラス
+    ///     コモンイベント起動条件実装クラス
     /// </summary>
     [Serializable]
     public class CommonEventBootCondition : ModelBase<CommonEventBootCondition>, ISerializable
@@ -44,7 +44,7 @@ namespace WodiLib.Common
             }
         }
 
-        private int leftSide = (NormalNumberVariableAddress) 2000000;
+        private int leftSide = (NormalNumberVariableAddress)2000000;
 
         /// <summary>
         ///     [SafetyConvertible(NormalNumberVariableAddress)]
@@ -85,7 +85,7 @@ namespace WodiLib.Common
             }
         }
 
-        private ConditionRight rightSide;
+        private ConditionRight rightSide = 0;
 
         /// <summary>右辺</summary>
         public ConditionRight RightSide
@@ -103,7 +103,7 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         public CommonEventBootCondition()
         {
@@ -114,7 +114,7 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 値を比較する。
+        ///     値を比較する。
         /// </summary>
         /// <param name="other">比較対象</param>
         /// <returns>一致する場合、true</returns>
@@ -133,7 +133,7 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// バイナリ変換する。
+        ///     バイナリ変換する。
         /// </summary>
         /// <returns>バイナリデータ</returns>
         public byte[] ToBinary()
@@ -141,7 +141,7 @@ namespace WodiLib.Common
             var result = new List<byte>();
 
             // 比較演算子 & 起動条件
-            result.Add((byte) (Operation.Code + CommonEventBootType.Code));
+            result.Add((byte)(Operation.Code + CommonEventBootType.Code));
 
             // 左辺
             result.AddRange(LeftSide.ToBytes(Endian.Woditor));
@@ -157,7 +157,7 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// オブジェクトをシリアル化するために必要なデータを設定する。
+        ///     オブジェクトをシリアル化するために必要なデータを設定する。
         /// </summary>
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>
@@ -171,7 +171,7 @@ namespace WodiLib.Common
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="info">デシリアライズ情報</param>
         /// <param name="context">コンテキスト</param>

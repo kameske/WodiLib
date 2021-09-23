@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WodiLib.Test", "WodiLib.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WodiLibSample", "WodiLibSample\WodiLibSample.csproj", "{7EC8343F-EE7F-47C5-93FF-D1603E44207B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WodiLib.SourceGenerator", "WodiLib.SourceGenerator\WodiLib.SourceGenerator.csproj", "{95BD1564-9C80-48EB-AC97-ECB6E12A08EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WodiLib.SourceGenerator.Test", "WodiLib.SourceGenerator.Test\WodiLib.SourceGenerator.Test.csproj", "{DA522834-C0D7-43D3-A655-A9105C77C129}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{7EC8343F-EE7F-47C5-93FF-D1603E44207B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EC8343F-EE7F-47C5-93FF-D1603E44207B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EC8343F-EE7F-47C5-93FF-D1603E44207B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95BD1564-9C80-48EB-AC97-ECB6E12A08EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95BD1564-9C80-48EB-AC97-ECB6E12A08EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95BD1564-9C80-48EB-AC97-ECB6E12A08EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95BD1564-9C80-48EB-AC97-ECB6E12A08EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA522834-C0D7-43D3-A655-A9105C77C129}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA522834-C0D7-43D3-A655-A9105C77C129}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA522834-C0D7-43D3-A655-A9105C77C129}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA522834-C0D7-43D3-A655-A9105C77C129}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

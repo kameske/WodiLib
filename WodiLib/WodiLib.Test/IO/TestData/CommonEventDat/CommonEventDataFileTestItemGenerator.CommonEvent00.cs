@@ -42,7 +42,7 @@ namespace WodiLib.Test.IO
                     Description = "",
                     Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
-                    FooterString = "",
+                    FooterString = ""
                 };
 
                 result.SelfVariableNameList[0] = "cself0";
@@ -85,7 +85,7 @@ namespace WodiLib.Test.IO
                     Description = "",
                     Memo = "Memo",
                     LabelColor = CommonEventLabelColor.Blue,
-                    FooterString = "",
+                    FooterString = ""
                 };
 
                 /* ---------- セルフ変数名 ---------- */
@@ -103,7 +103,7 @@ namespace WodiLib.Test.IO
 
                 /* ---------- 数値引数 ---------- */
                 result.UpdateSpecialNumberArgDesc(0,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
@@ -112,14 +112,14 @@ namespace WodiLib.Test.IO
                         };
                         desc.ChangeArgType(CommonEventArgType.Manual, new List<CommonEventSpecialArgCase>
                         {
-                            new CommonEventSpecialArgCase(128, "DDD"),
-                            new CommonEventSpecialArgCase(-1, "AAA"),
-                            new CommonEventSpecialArgCase(127, "BBB")
+                            new(128, "DDD"),
+                            new(-1, "AAA"),
+                            new(127, "BBB")
                         });
                         return desc;
                     }))());
                 result.UpdateSpecialNumberArgDesc(1,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
@@ -128,14 +128,14 @@ namespace WodiLib.Test.IO
                         };
                         desc.ChangeArgType(CommonEventArgType.Manual, new List<CommonEventSpecialArgCase>
                         {
-                            new CommonEventSpecialArgCase(0, ""),
-                            new CommonEventSpecialArgCase(128, ""),
-                            new CommonEventSpecialArgCase(65535, "")
+                            new(0, ""),
+                            new(128, ""),
+                            new(65535, "")
                         });
                         return desc;
                     }))());
                 result.UpdateSpecialNumberArgDesc(2,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
@@ -148,7 +148,7 @@ namespace WodiLib.Test.IO
                         return desc;
                     }))());
                 result.UpdateSpecialNumberArgDesc(3,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         /* 数値変数4は実際には設定されていないが、一度でも設定されたことがある場合そのデータが残っている。 */
                         var desc = new CommonEventSpecialNumberArgDesc
@@ -160,7 +160,7 @@ namespace WodiLib.Test.IO
                         {
                             new CommonEventSpecialArgCase(-1, ""),
                             new CommonEventSpecialArgCase(-2, ""),
-                            new CommonEventSpecialArgCase(-3, "End"),
+                            new CommonEventSpecialArgCase(-3, "End")
                         });
                         desc.SetDatabaseRefer(DBKind.System, 0);
                         desc.SetDatabaseUseAdditionalItemsFlag(true);
@@ -223,12 +223,12 @@ namespace WodiLib.Test.IO
                     Description = "",
                     Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
-                    FooterString = "",
+                    FooterString = ""
                 };
 
                 /* ---------- 数値引数 ---------- */
                 result.UpdateSpecialNumberArgDesc(0,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         /* 画面では見えないが、一度設定したことがあるためデータ内に存在する。*/
                         var desc = new CommonEventSpecialNumberArgDesc
@@ -268,12 +268,12 @@ namespace WodiLib.Test.IO
                         {
                             EventCommandFactory.CreateCommandString("[210][6,0]<0>(600100,34,0,0,1600005,1600005)()"),
                             EventCommandFactory.CreateCommandString("[210][3,0]<0>(600099,16777216,1600000)()"),
-                            EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
+                            EventCommandFactory.CreateCommandString("[0][0,0]<0>()()")
                         }),
                     Description = "",
                     Memo = "Memo",
                     LabelColor = CommonEventLabelColor.Purple,
-                    FooterString = "",
+                    FooterString = ""
                 };
 
                 /* ---------- セルフ変数名 ---------- */
@@ -284,7 +284,7 @@ namespace WodiLib.Test.IO
 
                 /* ---------- 数値引数 ---------- */
                 result.UpdateSpecialNumberArgDesc(0,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
@@ -295,7 +295,7 @@ namespace WodiLib.Test.IO
                         return desc;
                     }))());
                 result.UpdateSpecialNumberArgDesc(1,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
@@ -308,7 +308,7 @@ namespace WodiLib.Test.IO
                         return desc;
                     }))());
                 result.UpdateSpecialNumberArgDesc(2,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
@@ -319,14 +319,14 @@ namespace WodiLib.Test.IO
                         {
                             new CommonEventSpecialArgCase(-1, "Value-1"),
                             new CommonEventSpecialArgCase(-2, "Value-2"),
-                            new CommonEventSpecialArgCase(-3, "Value-3"),
+                            new CommonEventSpecialArgCase(-3, "Value-3")
                         });
                         desc.SetDatabaseRefer(DBKind.Changeable, 10);
                         desc.SetDatabaseUseAdditionalItemsFlag(true);
                         return desc;
                     }))());
                 result.UpdateSpecialNumberArgDesc(3,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
@@ -338,7 +338,7 @@ namespace WodiLib.Test.IO
                             new CommonEventSpecialArgCase(0, "Select0"),
                             new CommonEventSpecialArgCase(1, "Select1"),
                             new CommonEventSpecialArgCase(2, "Select2"),
-                            new CommonEventSpecialArgCase(3, "Select3"),
+                            new CommonEventSpecialArgCase(3, "Select3")
                         });
                         return desc;
                     }))());
@@ -386,12 +386,12 @@ namespace WodiLib.Test.IO
                     EventCommands = new EventCommandList(
                         new List<IEventCommand>
                         {
-                            EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
+                            EventCommandFactory.CreateCommandString("[0][0,0]<0>()()")
                         }),
                     Description = "",
                     Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
-                    FooterString = "",
+                    FooterString = ""
                 };
 
                 return result;
@@ -415,12 +415,12 @@ namespace WodiLib.Test.IO
                     EventCommands = new EventCommandList(
                         new List<IEventCommand>
                         {
-                            EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
+                            EventCommandFactory.CreateCommandString("[0][0,0]<0>()()")
                         }),
                     Description = "",
                     Memo = "",
                     LabelColor = CommonEventLabelColor.Green,
-                    FooterString = "",
+                    FooterString = ""
                 };
 
                 return result;
@@ -444,12 +444,12 @@ namespace WodiLib.Test.IO
                     EventCommands = new EventCommandList(
                         new List<IEventCommand>
                         {
-                            EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
+                            EventCommandFactory.CreateCommandString("[0][0,0]<0>()()")
                         }),
                     Description = "",
                     Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
-                    FooterString = "",
+                    FooterString = ""
                 };
 
                 /* ---------- セルフ変数名 ---------- */
@@ -464,7 +464,7 @@ namespace WodiLib.Test.IO
 
                 /* ---------- 数値引数 ---------- */
                 result.UpdateSpecialNumberArgDesc(0,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
@@ -475,7 +475,7 @@ namespace WodiLib.Test.IO
                         return desc;
                     }))());
                 result.UpdateSpecialNumberArgDesc(1,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
@@ -486,7 +486,7 @@ namespace WodiLib.Test.IO
                         return desc;
                     }))());
                 result.UpdateSpecialNumberArgDesc(2,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
@@ -497,7 +497,7 @@ namespace WodiLib.Test.IO
                         return desc;
                     }))());
                 result.UpdateSpecialNumberArgDesc(3,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
@@ -508,7 +508,7 @@ namespace WodiLib.Test.IO
                         return desc;
                     }))());
                 result.UpdateSpecialNumberArgDesc(4,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {
@@ -569,17 +569,17 @@ namespace WodiLib.Test.IO
                     EventCommands = new EventCommandList(
                         new List<IEventCommand>
                         {
-                            EventCommandFactory.CreateCommandString("[0][0,0]<0>()()"),
+                            EventCommandFactory.CreateCommandString("[0][0,0]<0>()()")
                         }),
                     Description = "",
                     Memo = "",
                     LabelColor = CommonEventLabelColor.Black,
-                    FooterString = "",
+                    FooterString = ""
                 };
 
                 /* ---------- 数値引数 ---------- */
                 result.UpdateSpecialNumberArgDesc(0,
-                    ((Func<CommonEventSpecialNumberArgDesc>) (() =>
+                    ((Func<CommonEventSpecialNumberArgDesc>)(() =>
                     {
                         var desc = new CommonEventSpecialNumberArgDesc
                         {

@@ -99,8 +99,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] PathOptionTestCaseSource =
         {
-            new object[] {TilePathOption.Hide, false},
-            new object[] {null, true},
+            new object[] { TilePathOption.Hide, false },
+            new object[] { null, true }
         };
 
         [TestCaseSource(nameof(PathOptionTestCaseSource))]
@@ -205,8 +205,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] ChangePathPermissionAllowTestCaseSource =
         {
-            new object[] {new TileCannotPassingFlags {Left = true}, false},
-            new object[] {null, false},
+            new object[] { new TileCannotPassingFlags { Left = true }, false },
+            new object[] { null, false }
         };
 
         [TestCaseSource(nameof(ChangePathPermissionAllowTestCaseSource))]
@@ -257,8 +257,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] ChangePathPermissionDependentTestCaseSource =
         {
-            new object[] {new TileCannotPassingFlags {Left = true}, false},
-            new object[] {null, false},
+            new object[] { new TileCannotPassingFlags { Left = true }, false },
+            new object[] { null, false }
         };
 
         [TestCaseSource(nameof(ChangePathPermissionDependentTestCaseSource))]
@@ -342,8 +342,8 @@ namespace WodiLib.Test.Map
 
         private static readonly object[] ChangePathPermissionPartialDenyTestCaseSource =
         {
-            new object[] {new TileImpassableFlags {LeftUp = true}, false},
-            new object[] {null, false},
+            new object[] { new TileImpassableFlags { LeftUp = true }, false },
+            new object[] { null, false }
         };
 
         [TestCaseSource(nameof(ChangePathPermissionPartialDenyTestCaseSource))]

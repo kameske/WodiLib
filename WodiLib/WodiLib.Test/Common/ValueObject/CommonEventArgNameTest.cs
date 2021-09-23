@@ -110,36 +110,36 @@ namespace WodiLib.Test.Common
             if (errorOccured) return;
 
             // キャストした結果が一致すること
-            Assert.AreEqual((string) instance, value);
+            Assert.AreEqual((string)instance, value);
         }
 
         private static readonly object[] EqualTestCaseSource =
         {
-            new object[] {"a", "a", true},
-            new object[] {"a", "b", false},
+            new object[] { "a", "a", true },
+            new object[] { "a", "b", false }
         };
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualTest(string left, string right, bool isEqual)
         {
-            var leftIndex = (CommonEventArgName) left;
-            var rightIndex = (CommonEventArgName) right;
+            var leftIndex = (CommonEventArgName)left;
+            var rightIndex = (CommonEventArgName)right;
             Assert.AreEqual(leftIndex == rightIndex, isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorNotEqualTest(string left, string right, bool isEqual)
         {
-            var leftIndex = (CommonEventArgName) left;
-            var rightIndex = (CommonEventArgName) right;
+            var leftIndex = (CommonEventArgName)left;
+            var rightIndex = (CommonEventArgName)right;
             Assert.AreEqual(leftIndex != rightIndex, !isEqual);
         }
 
         [TestCaseSource(nameof(EqualTestCaseSource))]
         public static void OperatorEqualsTest(string left, string right, bool isEqual)
         {
-            var leftIndex = (CommonEventArgName) left;
-            var rightIndex = (CommonEventArgName) right;
+            var leftIndex = (CommonEventArgName)left;
+            var rightIndex = (CommonEventArgName)right;
             Assert.AreEqual(leftIndex.Equals(rightIndex), isEqual);
         }
     }

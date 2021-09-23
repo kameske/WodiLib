@@ -9,10 +9,11 @@ namespace WodiLib.Test.IO
     {
         #region CreateGameIniData
 
-        /** ========================================
-         *  GameIniオブジェクト作成
-         *  ======================================== */
-
+        /**
+         * ========================================
+         * GameIniオブジェクト作成
+         * ========================================
+         */
         public static GameIniData GenerateData0()
         {
             return new GameIniData
@@ -28,7 +29,7 @@ namespace WodiLib.Test.IO
                 CanTakeScreenShot = true,
                 CanReset = true,
                 DisplayNumber = 0,
-                IsUseOldDirectX = false,
+                IsUseOldDirectX = false
             };
         }
 
@@ -43,11 +44,11 @@ namespace WodiLib.Test.IO
         public static readonly IEnumerable<(string, byte[])> TestFiles = new List<(string, byte[])>
         {
             (@"Dir0\Game.ini", TestResources.GameIni0),
-            (@"Dir1\Game.ini", TestResources.GameIni1),
+            (@"Dir1\Game.ini", TestResources.GameIni1)
         };
 
         /// <summary>
-        /// テストデータファイルを tmp フォルダに出力する。
+        ///     テストデータファイルを tmp フォルダに出力する。
         /// </summary>
         public static void OutputFile()
         {
@@ -66,7 +67,7 @@ namespace WodiLib.Test.IO
         }
 
         /// <summary>
-        /// テストデータファイルを削除する。
+        ///     テストデータファイルを削除する。
         /// </summary>
         public static void DeleteFile()
         {
