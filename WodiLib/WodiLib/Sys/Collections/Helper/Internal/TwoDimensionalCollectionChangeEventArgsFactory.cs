@@ -56,13 +56,9 @@ namespace WodiLib.Sys.Collections
         //     Private Static Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        // ______________________ Need ______________________
-
         private static bool NeedTranspose(Direction direction1, Direction direction2)
             => direction1 == Direction.Row && direction2 == Direction.Column
                || direction1 == Direction.Column && direction2 == Direction.Row;
-
-        // ______________________ Determine ______________________
 
         private static ArgsCreateType DetermineArgsCreateType_SingleAction(
             NotifyTwoDimensionalListChangeEventType type, Direction direction,
@@ -124,7 +120,7 @@ namespace WodiLib.Sys.Collections
                     (true, false) => MultiActionType.Replace,
                     (true, true) => MultiActionType.Add,
                     (false, false) => MultiActionType.Add,
-                    (false, true) => MultiActionType.Replace,
+                    (false, true) => MultiActionType.Replace
                 };
 
                 return (argsCreateType, actionType);
@@ -150,30 +146,26 @@ namespace WodiLib.Sys.Collections
                         MultiActionType.Replace)
                 };
             }
-            else
+
+            if (!type.IsMultiAction)
             {
-                if (!type.IsMultiAction)
-                {
-                    return (ArgsCreateType.All, MultiActionType.Reset);
-                }
-
-                return type.GroupingType.Id switch
-                {
-                    nameof(NotifyTwoDimensionalListChangeEventGroupingType.All) => (ArgsCreateType.All,
-                        MultiActionType.Both),
-                    nameof(NotifyTwoDimensionalListChangeEventGroupingType.Row) => (ArgsCreateType.Row,
-                        MultiActionType.Both),
-                    nameof(NotifyTwoDimensionalListChangeEventGroupingType.Column) => (ArgsCreateType.Column,
-                        MultiActionType.Both),
-                    nameof(NotifyTwoDimensionalListChangeEventGroupingType.None) => (ArgsCreateType.None,
-                        MultiActionType.Both),
-                    // type.GroupingType == NotifyTwoDimensionalListChangeEventGroupingType.Direct
-                    _ => (direction == Direction.Row ? ArgsCreateType.Row : ArgsCreateType.Column, MultiActionType.Both)
-                };
+                return (ArgsCreateType.All, MultiActionType.Reset);
             }
-        }
 
-        // ______________________ Create ______________________
+            return type.GroupingType.Id switch
+            {
+                nameof(NotifyTwoDimensionalListChangeEventGroupingType.All) => (ArgsCreateType.All,
+                    MultiActionType.Both),
+                nameof(NotifyTwoDimensionalListChangeEventGroupingType.Row) => (ArgsCreateType.Row,
+                    MultiActionType.Both),
+                nameof(NotifyTwoDimensionalListChangeEventGroupingType.Column) => (ArgsCreateType.Column,
+                    MultiActionType.Both),
+                nameof(NotifyTwoDimensionalListChangeEventGroupingType.None) => (ArgsCreateType.None,
+                    MultiActionType.Both),
+                // type.GroupingType == NotifyTwoDimensionalListChangeEventGroupingType.Direct
+                _ => (direction == Direction.Row ? ArgsCreateType.Row : ArgsCreateType.Column, MultiActionType.Both)
+            };
+        }
 
         private static IEnumerable<TwoDimensionalCollectionChangeEventInternalArgs<T>> CreateSet(
             NotifyTwoDimensionalListChangeEventType type, int row, int column,
@@ -350,22 +342,22 @@ namespace WodiLib.Sys.Collections
                 ArgsCreateType.All => new[]
                 {
                     TwoDimensionalCollectionChangeEventInternalArgs<T>.CreateResetArgs(
-                        fixedOldItems, fixedNewItems, row, column, notifyDirection),
+                        fixedOldItems, fixedNewItems, row, column, notifyDirection)
                 },
                 ArgsCreateType.Row => new[]
                 {
                     TwoDimensionalCollectionChangeEventInternalArgs<T>.CreateResetArgs(
-                        fixedOldItems, fixedNewItems, row, column, notifyDirection),
+                        fixedOldItems, fixedNewItems, row, column, notifyDirection)
                 },
                 ArgsCreateType.Column => new[]
                 {
                     TwoDimensionalCollectionChangeEventInternalArgs<T>.CreateResetArgs(
-                        fixedOldItems, fixedNewItems, row, column, notifyDirection),
+                        fixedOldItems, fixedNewItems, row, column, notifyDirection)
                 },
                 ArgsCreateType.None => new[]
                 {
                     TwoDimensionalCollectionChangeEventInternalArgs<T>.CreateResetArgs(
-                        fixedOldItems, fixedNewItems, row, column, notifyDirection),
+                        fixedOldItems, fixedNewItems, row, column, notifyDirection)
                 },
                 _ => throw new ArgumentOutOfRangeException()
             };
@@ -549,7 +541,7 @@ namespace WodiLib.Sys.Collections
             Row,
             Column,
             None,
-            Empty,
+            Empty
         }
 
         private enum MultiActionType

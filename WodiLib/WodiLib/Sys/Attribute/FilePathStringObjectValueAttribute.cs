@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 汎用ファイルパス文字列オブジェクトの設定属性（継承元クラス用）
+    ///     汎用ファイルパス文字列オブジェクトの設定属性（継承元クラス用）
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class FilePathStringObjectValueAttribute : CommonOneLineStringValueObjectAttribute

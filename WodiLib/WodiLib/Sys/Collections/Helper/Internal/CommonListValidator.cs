@@ -39,7 +39,7 @@ namespace WodiLib.Sys.Collections
         {
             ThrowHelper.ValidateArgumentNotNull(item is null, nameof(item));
 
-            Set(index, new[] {item}!);
+            Set(index, new[] { item });
         }
 
         public override void Set(int index, IReadOnlyList<T> items)
@@ -53,7 +53,7 @@ namespace WodiLib.Sys.Collections
         {
             ThrowHelper.ValidateArgumentNotNull(item is null, nameof(item));
 
-            Insert(index, new[] {item}!);
+            Insert(index, new[] { item });
         }
 
         public override void Insert(int index, IReadOnlyList<T> items)

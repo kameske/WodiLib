@@ -142,7 +142,10 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     リストの連続した列要素を更新する。
         /// </summary>
-        /// <param name="columnIndex">[Range(0, <see cref="IReadableTwoDimensionalList{TItem, TImpl}.ColumnCount"/> - 1)] 更新開始列インデックス</param>
+        /// <param name="columnIndex">
+        ///     [Range(0, <see cref="IReadableTwoDimensionalList{TItem, TImpl}.ColumnCount"/> - 1)]
+        ///     更新開始列インデックス
+        /// </param>
         /// <param name="items">更新要素</param>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="items"/> が <see langword="null"/> の場合、

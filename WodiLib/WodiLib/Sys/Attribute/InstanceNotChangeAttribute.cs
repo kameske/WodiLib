@@ -20,7 +20,7 @@ namespace WodiLib.Sys
     ///     <see cref="INotifyPropertyChanged.PropertyChanged"/> も通知されることはない。
     /// </remarks>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Property)]
     public class InstanceNotChangeAttribute : Attribute
     {
     }

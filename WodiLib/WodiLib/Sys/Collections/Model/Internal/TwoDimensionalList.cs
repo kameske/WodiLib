@@ -116,7 +116,7 @@ namespace WodiLib.Sys.Collections
             {
                 ThrowHelper.ValidatePropertyNotNull(value is null, typeof(TwoDimensionalList<>).Name);
                 Validator?.SetItem(rowIndex, columnIndex, value);
-                Set_Impl(rowIndex, columnIndex, new[] {new[] {value}}, Direction.None);
+                Set_Impl(rowIndex, columnIndex, new[] { new[] { value } }, Direction.None);
             }
         }
 
@@ -227,7 +227,7 @@ namespace WodiLib.Sys.Collections
 
         internal TwoDimensionalList(int rowLength, int columnLength,
             Config config) : this(
-            ((Func<IEnumerable<IEnumerable<T>>>) (() =>
+            ((Func<IEnumerable<IEnumerable<T>>>)(() =>
                 Enumerable.Range(0, rowLength).Select(rowIdx
                     => Enumerable.Range(0, columnLength).Select(colIdx
                         => config.ItemFactory(rowIdx, colIdx)))))(),

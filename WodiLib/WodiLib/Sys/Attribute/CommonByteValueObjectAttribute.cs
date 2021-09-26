@@ -13,7 +13,7 @@ using WodiLib.SourceGenerator.ValueObject.Enums;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 汎用単一byte値オブジェクトの設定属性
+    ///     汎用単一byte値オブジェクトの設定属性
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class CommonByteValueObjectAttribute : ByteValueObjectAttribute

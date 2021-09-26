@@ -149,8 +149,8 @@ namespace WodiLib.Sys.Collections
         private NotifyCollectionChangedEventArgsEx(T oldItem, T newItem, int index) : base(
             NotifyCollectionChangedAction.Replace, newItem, oldItem, index)
         {
-            NewItems = new ExtendedList<T>(new[] {newItem});
-            OldItems = new ExtendedList<T>(new[] {oldItem});
+            NewItems = new ExtendedList<T>(new[] { newItem });
+            OldItems = new ExtendedList<T>(new[] { oldItem });
             NewStartingIndex = base.NewStartingIndex;
             OldStartingIndex = base.OldStartingIndex;
         }
@@ -183,11 +183,11 @@ namespace WodiLib.Sys.Collections
             switch (action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    NewItems = new ExtendedList<T>(new[] {item});
+                    NewItems = new ExtendedList<T>(new[] { item });
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    OldItems = new ExtendedList<T>(new[] {item});
+                    OldItems = new ExtendedList<T>(new[] { item });
                     break;
 
                 default:
@@ -234,8 +234,8 @@ namespace WodiLib.Sys.Collections
         private NotifyCollectionChangedEventArgsEx(T item, int newIndex, int oldIndex) : base(
             NotifyCollectionChangedAction.Move, item, newIndex, oldIndex)
         {
-            NewItems = new ExtendedList<T>(new[] {item});
-            OldItems = new ExtendedList<T>(new[] {item});
+            NewItems = new ExtendedList<T>(new[] { item });
+            OldItems = new ExtendedList<T>(new[] { item });
             NewStartingIndex = base.NewStartingIndex;
             OldStartingIndex = base.OldStartingIndex;
         }

@@ -7,7 +7,6 @@
 // ========================================
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace WodiLib.Sys.Collections
 {
@@ -31,12 +30,12 @@ namespace WodiLib.Sys.Collections
         protected abstract IWodiLibListValidator<T>? BaseValidator { get; }
 
         /// <summary>
-        /// 各種メソッドの操作対象
+        ///     各種メソッドの操作対象
         /// </summary>
         protected IReadOnlyExtendedList<T> Target { get; }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="target">各種メソッドの操作対象</param>
         protected WodiLibListValidatorTemplate(IReadOnlyExtendedList<T> target)
@@ -93,7 +92,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <inheritdoc/>
-        public virtual void Remove([AllowNull] T item)
+        public virtual void Remove(T? item)
         {
             BaseValidator?.Remove(item);
         }

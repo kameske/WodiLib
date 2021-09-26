@@ -54,8 +54,8 @@ namespace WodiLib.Sys.Collections
         /// <returns>イベント引数インスタンス</returns>
         public static TwoDimensionalCollectionChangeEventInternalArgs<T> CreateSetArgs(int row, int column,
             T[] oldItems, T[] newItems, Direction direction)
-            => new(TwoDimensionalCollectionChangeAction.Replace, new[] {oldItems},
-                new[] {newItems}, row, column, direction);
+            => new(TwoDimensionalCollectionChangeAction.Replace, new[] { oldItems },
+                new[] { newItems }, row, column, direction);
 
         /// <summary>
         ///     SetRange （行方向操作）イベントの引数（複数行/列）を生成する。
@@ -92,9 +92,9 @@ namespace WodiLib.Sys.Collections
             int index, T[] items, Direction direction)
             => direction == Direction.Row
                 ? new TwoDimensionalCollectionChangeEventInternalArgs<T>(TwoDimensionalCollectionChangeAction.Add,
-                    new[] {items}, index, 0, direction)
+                    new[] { items }, index, 0, direction)
                 : new TwoDimensionalCollectionChangeEventInternalArgs<T>(TwoDimensionalCollectionChangeAction.Add,
-                    new[] {items}, 0, index, direction);
+                    new[] { items }, 0, index, direction);
 
         /// <summary>
         ///     Add, Insert イベントの引数（単一行/列）を生成する。
@@ -107,7 +107,7 @@ namespace WodiLib.Sys.Collections
         public static TwoDimensionalCollectionChangeEventInternalArgs<T> CreateAddArgs(
             int row, int column, T[] items, Direction direction)
             => new(TwoDimensionalCollectionChangeAction.Add,
-                new[] {items}, row, column, direction);
+                new[] { items }, row, column, direction);
 
         /// <summary>
         ///     Add, Insert イベントの引数（複数行/列）を生成する。
@@ -149,9 +149,9 @@ namespace WodiLib.Sys.Collections
             int newIndex, T[] items, Direction direction)
             => direction == Direction.Row
                 ? new TwoDimensionalCollectionChangeEventInternalArgs<T>(
-                    new[] {items}, oldIndex, 0, newIndex, 0, direction)
+                    new[] { items }, oldIndex, 0, newIndex, 0, direction)
                 : new TwoDimensionalCollectionChangeEventInternalArgs<T>(
-                    new[] {items}, 0, oldIndex, 0, newIndex, direction);
+                    new[] { items }, 0, oldIndex, 0, newIndex, direction);
 
         /// <summary>
         ///     Move イベント（複数行/列）の引数を生成する。
@@ -188,9 +188,9 @@ namespace WodiLib.Sys.Collections
             int index, T[] items, Direction direction)
             => direction == Direction.Row
                 ? new TwoDimensionalCollectionChangeEventInternalArgs<T>(
-                    TwoDimensionalCollectionChangeAction.Remove, new[] {items}, index, 0, direction)
+                    TwoDimensionalCollectionChangeAction.Remove, new[] { items }, index, 0, direction)
                 : new TwoDimensionalCollectionChangeEventInternalArgs<T>(
-                    TwoDimensionalCollectionChangeAction.Remove, new[] {items}, 0, index, direction);
+                    TwoDimensionalCollectionChangeAction.Remove, new[] { items }, 0, index, direction);
 
         /// <summary>
         ///     Remove イベントの引数（複数行/列）を生成する。
@@ -286,8 +286,8 @@ namespace WodiLib.Sys.Collections
         /// <param name="row">行番号</param>
         /// <param name="column">列番号</param>
         private TwoDimensionalCollectionChangeEventInternalArgs(T oldItem, T newItem, int row, int column)
-            : this(TwoDimensionalCollectionChangeAction.Replace, new[] {new[] {oldItem}},
-                new[] {new[] {newItem}}, row, column, Direction.None)
+            : this(TwoDimensionalCollectionChangeAction.Replace, new[] { new[] { oldItem } },
+                new[] { new[] { newItem } }, row, column, Direction.None)
         {
         }
 
@@ -323,7 +323,7 @@ namespace WodiLib.Sys.Collections
         /// <param name="column">追加/削除開始列番号</param>
         private TwoDimensionalCollectionChangeEventInternalArgs(TwoDimensionalCollectionChangeAction action,
             T item, int row, int column)
-            : this(action, new[] {new[] {item}}, row, column, Direction.None)
+            : this(action, new[] { new[] { item } }, row, column, Direction.None)
         {
         }
 
@@ -364,7 +364,7 @@ namespace WodiLib.Sys.Collections
         /// <param name="newColumn">移動後開始列番号</param>
         private TwoDimensionalCollectionChangeEventInternalArgs(T item,
             int oldRow, int oldColumn, int newRow, int newColumn)
-            : this(new[] {new[] {item}}, oldRow, oldColumn, newRow, newColumn, Direction.None)
+            : this(new[] { new[] { item } }, oldRow, oldColumn, newRow, newColumn, Direction.None)
         {
         }
 

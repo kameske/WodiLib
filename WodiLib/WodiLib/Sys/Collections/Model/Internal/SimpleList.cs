@@ -9,7 +9,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace WodiLib.Sys.Collections
@@ -88,7 +87,7 @@ namespace WodiLib.Sys.Collections
             => Items.GetEnumerator();
 
         /// <inheritdoc cref="List{T}.IndexOf(T)"/>
-        public int IndexOf([AllowNull] T item)
+        public int IndexOf(T? item)
             => item is null ? -1 : Items.IndexOf(item);
 
         /// <inheritdoc cref="List{T}.CopyTo(T[], int)"/>

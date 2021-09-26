@@ -42,7 +42,7 @@ namespace WodiLib.Sys.Collections
                     TwoDimensionalCollectionChangeEventArgsFactory =
                         TwoDimensionalCollectionChangeEventArgsFactory<T>.CreateSet(
                             target, row, column, oldItems, items, direction);
-                    NotifyProperties = new[] {ListConstant.IndexerName};
+                    NotifyProperties = new[] { ListConstant.IndexerName };
                 }
             }
         }

@@ -22,7 +22,7 @@ namespace WodiLib.Sys
         public static T GetValue<T>(this SerializationInfo info, string name)
         {
             var type = typeof(T);
-            return (T) info.GetValue(name, type);
+            return (T)info.GetValue(name, type);
         }
     }
 }

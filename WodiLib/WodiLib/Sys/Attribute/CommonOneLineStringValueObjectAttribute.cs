@@ -13,10 +13,10 @@ using WodiLib.SourceGenerator.ValueObject.Enums;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 汎用単一文字列値オブジェクトの設定属性
+    ///     汎用単一文字列値オブジェクトの設定属性
     /// </summary>
     /// <remarks>
-    /// この属性はデフォルト設定で改行コードを許さない。
+    ///     この属性はデフォルト設定で改行コードを許さない。
     /// </remarks>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class CommonOneLineStringValueObjectAttribute : StringValueObjectAttribute

@@ -10,7 +10,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using WodiLib.Sys.Cmn;
 
@@ -174,11 +173,11 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc cref="ICollection{T}.Contains"/>
-        public bool Contains([AllowNull] T item)
+        public bool Contains(T? item)
             => Items.Contains(item);
 
         /// <inheritdoc cref="IReadableList{TItem,TImpl}.IndexOf(TItem, IEqualityComparer{TItem}?)"/>
-        public bool Contains([AllowNull] T item, IEqualityComparer<T>? itemComparer)
+        public bool Contains(T? item, IEqualityComparer<T>? itemComparer)
             => IndexOf(item, itemComparer) > -1;
 
         /// <inheritdoc/>
@@ -195,11 +194,11 @@ namespace WodiLib.Sys.Collections
             => Get_Impl(index, count);
 
         /// <inheritdoc cref="IList{T}.IndexOf"/>
-        public int IndexOf([AllowNull] T item)
+        public int IndexOf(T? item)
             => Items.IndexOf(item);
 
         /// <inheritdoc cref="IReadableList{TItem,TImpl}.IndexOf(TItem, IEqualityComparer{TItem}?)"/>
-        public int IndexOf([AllowNull] T item, IEqualityComparer<T>? itemComparer)
+        public int IndexOf(T? item, IEqualityComparer<T>? itemComparer)
         {
             if (itemComparer is null)
             {
@@ -252,7 +251,7 @@ namespace WodiLib.Sys.Collections
             => Move_Impl(oldIndex, newIndex, count);
 
         /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.Remove"/>
-        public bool Remove([AllowNull] T item)
+        public bool Remove(T? item)
             => Remove_Impl(item);
 
         /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.RemoveAt"/>
@@ -295,7 +294,8 @@ namespace WodiLib.Sys.Collections
         public bool ItemEquals(IEnumerable<T>? other)
             => ItemEquals(other, null);
 
-        /// <inheritdoc cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.ItemEquals(IEnumerable{TItem}?, IEqualityComparer{TItem}?)"/>
+        /// <inheritdoc
+        ///     cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.ItemEquals(IEnumerable{TItem}?, IEqualityComparer{TItem}?)"/>
         public bool ItemEquals(IEnumerable<T>? other, IEqualityComparer<T>? itemComparer)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -332,7 +332,7 @@ namespace WodiLib.Sys.Collections
         /// <inheritdoc/>
         public override ExtendedList<T> DeepClone()
         {
-            return new(this, null, null, FuncMakeItems);
+            return new ExtendedList<T>(this, null, null, FuncMakeItems);
         }
 
         /// <inheritdoc cref="IDeepCloneableList{T,TIn}.DeepCloneWith"/>
@@ -540,7 +540,7 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="item">除去対象</param>
         /// <returns>削除成否</returns>
-        private bool Remove_Impl([AllowNull] T item)
+        private bool Remove_Impl(T? item)
         {
             if (item is null) return false;
 
@@ -548,7 +548,7 @@ namespace WodiLib.Sys.Collections
             if (index < 0) return false;
 
             var collectionChangeEventArgsFactory =
-                CollectionChangeEventArgsFactory<T>.CreateRemove(this, index, new List<T> {item});
+                CollectionChangeEventArgsFactory<T>.CreateRemove(this, index, new List<T> { item });
 
             var notifyManager = MakeNotifyManager(
                 collectionChangeEventArgsFactory.CollectionChangingEventArgs,

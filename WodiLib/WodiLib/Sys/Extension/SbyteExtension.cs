@@ -18,6 +18,6 @@ namespace WodiLib.Sys
         /// </summary>
         /// <param name="src">対象</param>
         /// <returns>byte値</returns>
-        public static byte ToByte(this sbyte src) => (byte) src;
+        public static byte ToByte(this sbyte src) => (byte)src;
     }
 }

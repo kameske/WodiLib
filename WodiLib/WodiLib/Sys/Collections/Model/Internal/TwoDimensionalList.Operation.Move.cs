@@ -33,7 +33,7 @@ namespace WodiLib.Sys.Collections
                         TwoDimensionalCollectionChangeEventArgsFactory<T>.CreateMove(target, oldIndex, newIndex,
                             moveItems, direction);
 
-                    NotifyProperties = new[] {ListConstant.IndexerName};
+                    NotifyProperties = new[] { ListConstant.IndexerName };
                 }
 
                 protected abstract T[][] MoveItems(TwoDimensionalList<T> target, int oldIndex, int count);

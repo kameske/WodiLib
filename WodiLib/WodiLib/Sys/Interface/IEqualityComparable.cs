@@ -7,7 +7,6 @@
 // ========================================
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace WodiLib.Sys
 {
@@ -28,7 +27,7 @@ namespace WodiLib.Sys
         /// <returns>
         ///     同値 または 同一 である場合 <see langword="true"/>。
         /// </returns>
-        public bool ItemEquals([AllowNull] T other);
+        public bool ItemEquals(T? other);
     }
 
     /// <summary>

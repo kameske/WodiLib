@@ -159,7 +159,7 @@ namespace WodiLib.Sys.Collections
                 (_, propName) =>
                 {
                     if (propName.Equals(nameof(Count))) return null;
-                    if (propName.Equals(ListConstant.IndexerName)) return new[] {GetNotifyPropertyIndexerName()};
+                    if (propName.Equals(ListConstant.IndexerName)) return new[] { GetNotifyPropertyIndexerName() };
                     return null;
                 });
         }
@@ -169,11 +169,11 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc cref="IWritableList{TItem,TImpl,TReadable}.Contains(TItem)"/>
-        public bool Contains([AllowNull] T item)
+        public bool Contains(T? item)
             => Contains(item, null);
 
         /// <inheritdoc cref="IWritableList{TItem,TImpl,TReadable}.Contains(TItem, IEqualityComparer{TItem}?)"/>
-        public bool Contains([AllowNull] T item, IEqualityComparer<T>? itemComparer)
+        public bool Contains(T? item, IEqualityComparer<T>? itemComparer)
         {
             if (item is null) return false;
             return Items.Contains(item, itemComparer);
@@ -191,11 +191,11 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <inheritdoc cref="IWritableList{TItem,TImpl,TReadable}.IndexOf(TItem)"/>
-        public int IndexOf([AllowNull] T item)
+        public int IndexOf(T? item)
             => IndexOf(item, null);
 
         /// <inheritdoc cref="IWritableList{TItem,TImpl,TReadable}.IndexOf(TItem, IEqualityComparer{TItem}?)"/>
-        public int IndexOf([AllowNull] T item, IEqualityComparer<T>? itemComparer)
+        public int IndexOf(T? item, IEqualityComparer<T>? itemComparer)
         {
             if (item is null) return -1;
             return Items.IndexOf(item, itemComparer);
@@ -370,19 +370,17 @@ namespace WodiLib.Sys.Collections
         [return: NotNull]
         protected abstract T MakeDefaultItem(int index);
 
-        /* 一時的に virtual 宣言 */
         /// <summary>
         ///     新規インスタンスを作成する。
         /// </summary>
         /// <param name="items">新規インスタンスの要素</param>
         /// <returns>新規作成したインスタンス</returns>
-        protected virtual TImpl MakeInstance(IEnumerable<T> items) => default!;
+        protected abstract TImpl MakeInstance(IEnumerable<T> items);
 
         /// <summary>
         ///     自身の検証処理を実行する <see cref="IWodiLibListValidator{T}"/> インスタンスを生成する。
         /// </summary>
         /// <returns>検証処理実行クラスのインスタンス。検証処理を行わない場合 <see langward="null"/></returns>
-        [return: MaybeNull]
         protected virtual IWodiLibListValidator<T> MakeValidator()
         {
             return new FixedLengthListValidator<T>(this);

@@ -52,6 +52,7 @@ namespace WodiLib.Sys.Collections
 
             private Action<TwoDimensionalCollectionChangeEventInternalArgs<T>>?
                 TwoDimensionalListChangingAction { get; }
+
             private Action<TwoDimensionalCollectionChangeEventInternalArgs<T>>?
                 TwoDimensionalListChangedAction { get; }
 

@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace WodiLib.Sys.Collections
 {
@@ -46,7 +45,7 @@ namespace WodiLib.Sys.Collections
                 initItems.Count, Target.GetMinCapacity(), Target.GetMaxCapacity());
         }
 
-        public override void Insert(int index, T item) => Insert(index, new[] {item});
+        public override void Insert(int index, T item) => Insert(index, new[] { item });
 
         public override void Insert(int index, IReadOnlyList<T> items)
         {
@@ -65,7 +64,7 @@ namespace WodiLib.Sys.Collections
             }
         }
 
-        public override void Remove([AllowNull] T item)
+        public override void Remove(T? item)
         {
             if (item is null) return;
             var index = Target.IndexOf(item);

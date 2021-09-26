@@ -57,7 +57,7 @@ namespace WodiLib.Sys
         /// <returns>変換後のメソッド</returns>
         private T ConvertToClass()
         {
-            return (T) this;
+            return (T)this;
         }
 
         /// <inheritdoc/>
@@ -68,7 +68,7 @@ namespace WodiLib.Sys
 
         /// <inheritdoc/>
         public bool Equals(T? other)
-            => Equals((TypeSafeEnum<T>?) other);
+            => Equals((TypeSafeEnum<T>?)other);
 
         /// <inheritdoc/>
         public bool Equals(TypeSafeEnum<T>? other)
@@ -84,7 +84,7 @@ namespace WodiLib.Sys
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((TypeSafeEnum<T>) obj);
+            return Equals((TypeSafeEnum<T>)obj);
         }
 
         /// <inheritdoc/>

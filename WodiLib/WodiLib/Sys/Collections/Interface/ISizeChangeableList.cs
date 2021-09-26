@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 
 namespace WodiLib.Sys.Collections
 {
@@ -67,7 +66,7 @@ namespace WodiLib.Sys.Collections
         /// <param name="item">対象要素</param>
         /// <param name="itemComparer">子要素比較処理</param>
         /// <returns>指定の要素が含まれる場合は <see langword="true"/>、含まれない場合は <see langword="false"/>。</returns>
-        public bool Contains([AllowNull] TItem item, IEqualityComparer<TItem>? itemComparer);
+        public bool Contains(TItem? item, IEqualityComparer<TItem>? itemComparer);
 
         /// <summary>
         ///     指定したオブジェクトを検索し、最初に出現する位置のインデックスを返す。
@@ -75,7 +74,7 @@ namespace WodiLib.Sys.Collections
         /// <param name="item">対象要素</param>
         /// <param name="itemComparer">子要素比較処理</param>
         /// <returns>要素が含まれていない場合、-1</returns>
-        public int IndexOf([AllowNull] TItem item, IEqualityComparer<TItem>? itemComparer);
+        public int IndexOf(TItem? item, IEqualityComparer<TItem>? itemComparer);
 
         /// <summary>
         ///     リストの連続した要素を更新する。
@@ -229,7 +228,7 @@ namespace WodiLib.Sys.Collections
         /// <exception cref="ArgumentException">
         ///     操作によって要素数が <see cref="GetMinCapacity"/> を下回る場合。
         /// </exception>
-        public new bool Remove([AllowNull] TItem item);
+        public new bool Remove(TItem? item);
 
         /// <summary>
         ///     指定したインデックスの要素を削除する。

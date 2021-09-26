@@ -96,7 +96,8 @@ namespace WodiLib.Sys.Collections
             #region Single
 
             private static IEnumerable<TwoDimensionalCollectionChangeEventInternalArgs<T>>
-                CreateSingle_Outer(Direction execDirection, IReadOnlyCollection<T[]> fixedOldItems, IReadOnlyCollection<T[]> fixedNewItems)
+                CreateSingle_Outer(Direction execDirection, IReadOnlyCollection<T[]> fixedOldItems,
+                    IReadOnlyCollection<T[]> fixedNewItems)
             {
                 var isAdded = fixedNewItems.Count > fixedOldItems.Count;
                 return isAdded
@@ -114,7 +115,8 @@ namespace WodiLib.Sys.Collections
             }
 
             private static IEnumerable<TwoDimensionalCollectionChangeEventInternalArgs<T>>
-                CreateSingle_Outer_Remove(Direction execDirection, IEnumerable<T[]> fixedOldItems, IReadOnlyCollection<T[]> fixedNewItems)
+                CreateSingle_Outer_Remove(Direction execDirection, IEnumerable<T[]> fixedOldItems,
+                    IReadOnlyCollection<T[]> fixedNewItems)
             {
                 var index = fixedNewItems.Count;
                 var removeItems = fixedOldItems.Skip(index).ToArray();
@@ -133,7 +135,7 @@ namespace WodiLib.Sys.Collections
                 return new[]
                 {
                     TwoDimensionalCollectionChangeEventInternalArgs<T>.CreateResetArgs(
-                        fixedOldItems, fixedNewItems, 0, 0, notifyDirection),
+                        fixedOldItems, fixedNewItems, 0, 0, notifyDirection)
                 };
             }
 

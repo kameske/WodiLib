@@ -17,8 +17,12 @@ namespace WodiLib.Sys.Collections
     /// </summary>
     /// <typeparam name="TItem">リスト要素型</typeparam>
     /// <typeparam name="TImpl">実装型</typeparam>
-    /// <typeparam name="TRowSizeChangeable"><see cref="IRowSizeChangeableTwoDimensionalList{TItem,TImpl,TWritable,TReadable}"/>実装型</typeparam>
-    /// <typeparam name="TColumnSizeChangeable"><see cref="IColumnSizeChangeableTwoDimensionalList{TItem,TImpl,TWritable,TReadable}"/>実装型</typeparam>
+    /// <typeparam name="TRowSizeChangeable">
+    ///     <see cref="IRowSizeChangeableTwoDimensionalList{TItem,TImpl,TWritable,TReadable}"/>実装型
+    /// </typeparam>
+    /// <typeparam name="TColumnSizeChangeable">
+    ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TItem,TImpl,TWritable,TReadable}"/>実装型
+    /// </typeparam>
     /// <typeparam name="TWritable"><see cref="IWritableTwoDimensionalList{TItem,TImpl,TReadable}"/>実装型</typeparam>
     /// <typeparam name="TReadable"><see cref="IReadableTwoDimensionalList{TItem,TImpl}"/>実装型</typeparam>
     internal interface ISizeChangeableTwoDimensionalList<TItem, TImpl, out TRowSizeChangeable,
@@ -157,7 +161,10 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     リストの連続した列要素を更新する。
         /// </summary>
-        /// <param name="columnIndex">[Range(0, <see cref="IReadableTwoDimensionalList{TItem, TImpl}.ColumnCount"/> - 1)] 更新開始列インデックス</param>
+        /// <param name="columnIndex">
+        ///     [Range(0, <see cref="IReadableTwoDimensionalList{TItem, TImpl}.ColumnCount"/> - 1)]
+        ///     更新開始列インデックス
+        /// </param>
         /// <param name="items">更新要素</param>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="items"/> が <see langword="null"/> の場合、

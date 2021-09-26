@@ -6,7 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using System;
 using System.ComponentModel;
 using WodiLib.SourceGenerator.ValueObject.Attributes;
 using WodiLib.SourceGenerator.ValueObject.Enums;
@@ -14,7 +13,7 @@ using WodiLib.SourceGenerator.ValueObject.Enums;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 汎用単一int値オブジェクトの設定属性
+    ///     汎用単一int値オブジェクトの設定属性
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class CommonIntValueObjectAttribute : IntValueObjectAttribute

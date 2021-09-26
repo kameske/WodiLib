@@ -25,7 +25,7 @@ namespace WodiLib.Sys
             private static readonly string[] NotifyFlagPropertyNames =
             {
                 nameof(NotifyPropertyChangingEventType),
-                nameof(NotifyPropertyChangedEventType),
+                nameof(NotifyPropertyChangedEventType)
             };
 
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -285,7 +285,7 @@ namespace WodiLib.Sys
                 if (IsNotifyFlagName(propertyName)) return null;
 
                 // mapperなしの場合無条件に通知
-                if (mapNotifyPropertyName is null) return new[] {propertyName};
+                if (mapNotifyPropertyName is null) return new[] { propertyName };
 
                 return mapNotifyPropertyName(sender, propertyName);
             }

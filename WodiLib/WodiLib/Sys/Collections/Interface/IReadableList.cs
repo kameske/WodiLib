@@ -9,7 +9,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 
 namespace WodiLib.Sys.Collections
 {
@@ -42,7 +41,7 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="item">対象要素</param>
         /// <returns>指定の要素が含まれる場合は <see langword="true"/>、含まれない場合は <see langword="false"/>。</returns>
-        public bool Contains([AllowNull] TItem item);
+        public bool Contains(TItem? item);
 
         /// <summary>
         ///     指定の要素が含まれているか判断する。
@@ -50,14 +49,14 @@ namespace WodiLib.Sys.Collections
         /// <param name="item">対象要素</param>
         /// <param name="itemComparer">子要素比較処理</param>
         /// <returns>指定の要素が含まれる場合は <see langword="true"/>、含まれない場合は <see langword="false"/>。</returns>
-        public bool Contains([AllowNull] TItem item, IEqualityComparer<TItem>? itemComparer);
+        public bool Contains(TItem? item, IEqualityComparer<TItem>? itemComparer);
 
         /// <summary>
         ///     指定したオブジェクトを検索し、最初に出現する位置のインデックスを返す。
         /// </summary>
         /// <param name="item">対象要素</param>
         /// <returns>要素が含まれていない場合、-1</returns>
-        public int IndexOf([AllowNull] TItem item);
+        public int IndexOf(TItem? item);
 
         /// <summary>
         ///     指定したオブジェクトを検索し、最初に出現する位置のインデックスを返す。
@@ -65,7 +64,7 @@ namespace WodiLib.Sys.Collections
         /// <param name="item">対象要素</param>
         /// <param name="itemComparer">子要素比較処理</param>
         /// <returns>要素が含まれていない場合、-1</returns>
-        public int IndexOf([AllowNull] TItem item, IEqualityComparer<TItem>? itemComparer);
+        public int IndexOf(TItem? item, IEqualityComparer<TItem>? itemComparer);
 
         /// <summary>
         ///     すべての要素を、指定された配列のインデックスから始まる部分にコピーする。

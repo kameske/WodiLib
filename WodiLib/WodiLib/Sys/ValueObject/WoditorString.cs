@@ -85,7 +85,7 @@ namespace WodiLib.Sys
             String = WoditorEncoding.GetString(chars);
 
             // 長さ
-            ByteLength = (int) (innerOffset - offset) + length;
+            ByteLength = (int)(innerOffset - offset) + length;
 
             // byte配列
             var copy = new byte[ByteLength];

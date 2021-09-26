@@ -25,7 +25,7 @@ namespace WodiLib.Sys.Collections
                 return new[]
                 {
                     TwoDimensionalCollectionChangeEventInternalArgs<T>.CreateRemoveArgs(
-                        index, items, execDirection),
+                        index, items, execDirection)
                 };
             }
 

@@ -37,12 +37,12 @@ namespace WodiLib.Sys
 
             if (EqualityGenericComparerDic.ContainsKey(type))
             {
-                result = (IEqualityComparer<T>) EqualityGenericComparerDic[type];
+                result = (IEqualityComparer<T>)EqualityGenericComparerDic[type];
             }
             else
             {
                 result = new Comparer<T>();
-                EqualityGenericComparerDic.Add(type, (IEqualityComparer) result);
+                EqualityGenericComparerDic.Add(type, (IEqualityComparer)result);
             }
 
             return result;
@@ -64,12 +64,12 @@ namespace WodiLib.Sys
 
             if (EqualityGenericComparerDic.ContainsKey(type))
             {
-                result = (IEqualityComparer<TEnum>) EqualityGenericComparerDic[type];
+                result = (IEqualityComparer<TEnum>)EqualityGenericComparerDic[type];
             }
             else
             {
                 result = new EqualityComparableItemsComparer<TEnum, TItem>();
-                EqualityGenericComparerDic.Add(type, (IEqualityComparer) result);
+                EqualityGenericComparerDic.Add(type, (IEqualityComparer)result);
             }
 
             return result;

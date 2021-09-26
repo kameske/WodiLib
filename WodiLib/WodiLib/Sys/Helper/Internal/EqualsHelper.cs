@@ -7,17 +7,16 @@
 // ========================================
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// 比較処理Helperクラス
+    ///     比較処理Helperクラス
     /// </summary>
     internal static class EqualsHelper
     {
         /// <summary>
-        /// <see langword="null"/> の可能性がある二つのインスタンスを比較する。
+        ///     <see langword="null"/> の可能性がある二つのインスタンスを比較する。
         /// </summary>
         /// <remarks>
         ///     引数 <paramref name="comparer"/> を指定した場合、これを用いて比較処理を行う。
@@ -28,7 +27,7 @@ namespace WodiLib.Sys
         /// <param name="comparer">比較処理実施クラスインスタンス</param>
         /// <typeparam name="T">比較インスタンス型</typeparam>
         /// <returns>差項と右項が一致する場合 <see langword="true"/></returns>
-        public static bool NullableEquals<T>([AllowNull] T left, [AllowNull] T right,
+        public static bool NullableEquals<T>(T? left, T? right,
             IEqualityComparer<T>? comparer = null)
             where T : IEqualityComparable<T>
         {

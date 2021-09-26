@@ -217,7 +217,7 @@ namespace WodiLib.Sys.Collections
             {
                 return new[]
                 {
-                    NotifyCollectionChangedEventArgsEx<T>.CreateSetArgs(index, oldItems, newItems),
+                    NotifyCollectionChangedEventArgsEx<T>.CreateSetArgs(index, oldItems, newItems)
                 };
             }
 
@@ -239,7 +239,7 @@ namespace WodiLib.Sys.Collections
             {
                 return new[]
                 {
-                    NotifyCollectionChangedEventArgsEx<T>.CreateInsertArgs(index, items),
+                    NotifyCollectionChangedEventArgsEx<T>.CreateInsertArgs(index, items)
                 };
             }
 
@@ -294,7 +294,7 @@ namespace WodiLib.Sys.Collections
                 return new[]
                 {
                     NotifyCollectionChangedEventArgsEx<T>.CreateSetArgs(index, replaceOldItems, replaceNewItems),
-                    NotifyCollectionChangedEventArgsEx<T>.CreateInsertArgs(insertStartIndex, addNewItems),
+                    NotifyCollectionChangedEventArgsEx<T>.CreateInsertArgs(insertStartIndex, addNewItems)
                 };
             }
 
@@ -321,7 +321,7 @@ namespace WodiLib.Sys.Collections
             {
                 return new[]
                 {
-                    NotifyCollectionChangedEventArgsEx<T>.CreateMoveArgs(oldIndex, newIndex, items),
+                    NotifyCollectionChangedEventArgsEx<T>.CreateMoveArgs(oldIndex, newIndex, items)
                 };
             }
 
@@ -346,7 +346,7 @@ namespace WodiLib.Sys.Collections
             {
                 return new[]
                 {
-                    NotifyCollectionChangedEventArgsEx<T>.CreateRemoveArgs(index, items),
+                    NotifyCollectionChangedEventArgsEx<T>.CreateRemoveArgs(index, items)
                 };
             }
 

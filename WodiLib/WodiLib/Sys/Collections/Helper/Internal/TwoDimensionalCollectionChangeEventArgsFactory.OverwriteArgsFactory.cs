@@ -52,7 +52,7 @@ namespace WodiLib.Sys.Collections
                     {
                         TwoDimensionalCollectionChangeEventInternalArgs<T>.CreateResetArgs(
                             fixedOldItems, fixedNewItems, row, column,
-                            notifyArgsDirection),
+                            notifyArgsDirection)
                     };
                 }
 
@@ -96,7 +96,7 @@ namespace WodiLib.Sys.Collections
 
                 var (fixedReplaceOldItems, fixedReplaceNewItems, fixedAddItems, row, column) =
                     needTranspose
-                        ? ((Func<(T[][], T[][], T[][], int, int)>) (() =>
+                        ? ((Func<(T[][], T[][], T[][], int, int)>)(() =>
                         {
                             var repLength = replaceNewItems.Length;
                             var repOldItems =
@@ -151,7 +151,8 @@ namespace WodiLib.Sys.Collections
             }
 
             public static IEnumerable<TwoDimensionalCollectionChangeEventInternalArgs<T>> CreateReset(
-                Direction execDirection, int index, T[][] replaceOldItems, IEnumerable<T[]> replaceNewItems, IEnumerable<T[]> addItems)
+                Direction execDirection, int index, T[][] replaceOldItems, IEnumerable<T[]> replaceNewItems,
+                IEnumerable<T[]> addItems)
             {
                 var oldItems = replaceOldItems;
                 var newItems = replaceNewItems.Concat(addItems).ToArray();

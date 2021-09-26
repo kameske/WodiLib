@@ -60,7 +60,7 @@ namespace WodiLib.Sys.Collections
                                     ListConstant.IndexerName, nameof(Target.IsEmpty), nameof(Target.RowCount),
                                     nameof(Target.ColumnCount), nameof(Target.AllCount)
                                 }
-                            : new[] {ListConstant.IndexerName, nameof(Target.RowCount), nameof(Target.AllCount)};
+                            : new[] { ListConstant.IndexerName, nameof(Target.RowCount), nameof(Target.AllCount) };
                 }
             }
 
@@ -114,7 +114,8 @@ namespace WodiLib.Sys.Collections
 
                     var result1
                         = CollectionChangeEventArgsFactory<IReadOnlyList<T>>.CreateSet(Target, 0, oldItems, newItems);
-                    var result2 = new[] {ListConstant.IndexerName, nameof(Target.ColumnCount), nameof(Target.AllCount)};
+                    var result2 = new[]
+                        { ListConstant.IndexerName, nameof(Target.ColumnCount), nameof(Target.AllCount) };
 
                     return (result1, result2);
                 }

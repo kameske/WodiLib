@@ -82,7 +82,7 @@ namespace WodiLib.Sys
         public static int ToInt32(this byte value)
         {
             // リトルエンディアンとして扱う
-            var bytes = new byte[] {value, 0x00, 0x00, 0x00};
+            var bytes = new byte[] { value, 0x00, 0x00, 0x00 };
             bytes = GetEndianBytes(bytes, Endian.Little);
             return BitConverter.ToInt32(bytes, 0);
         }
@@ -144,16 +144,16 @@ namespace WodiLib.Sys
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(length), lengthMin, lengthMax, length));
 
-            var maxColumn = target == 0 ? 0 : (int) Math.Log10(target);
+            var maxColumn = target == 0 ? 0 : (int)Math.Log10(target);
 
             if (beginColumn < 0 || maxColumn < beginColumn)
                 throw new ArgumentOutOfRangeException(
                     ErrorMessage.OutOfRange(nameof(beginColumn), 0, maxColumn, beginColumn));
 
             // 指定より下の桁を除去
-            var result = target / (int) Math.Pow(10, beginColumn);
+            var result = target / (int)Math.Pow(10, beginColumn);
             // 指定より上の桁を除去
-            result %= (int) Math.Pow(10, length);
+            result %= (int)Math.Pow(10, length);
 
             return result;
         }

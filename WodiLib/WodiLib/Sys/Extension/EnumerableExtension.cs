@@ -62,7 +62,7 @@ namespace WodiLib.Sys
             => src.FindIndex(elem => comparer?.Equals(elem, searchItem) ?? elem?.Equals(searchItem) ?? false);
 
         /// <summary>
-        /// インデックス番号をキーとした<see cref="IReadOnlyDictionary{TKey,TValue}"/>に変換する。
+        ///     インデックス番号をキーとした<see cref="IReadOnlyDictionary{TKey,TValue}"/>に変換する。
         /// </summary>
         /// <param name="src">変換対象</param>
         /// <typeparam name="T">対象リスト内の要素型</typeparam>

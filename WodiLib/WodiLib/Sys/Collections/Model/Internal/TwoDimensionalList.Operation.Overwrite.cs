@@ -48,11 +48,11 @@ namespace WodiLib.Sys.Collections
 
                     var notifyPropertyList = new List<string>
                     {
-                        ListConstant.IndexerName,
+                        ListConstant.IndexerName
                     };
                     if (insertItems.Length > 0)
                     {
-                        notifyPropertyList.AddRange(new[] {nameof(target.RowCount), nameof(Target.AllCount)});
+                        notifyPropertyList.AddRange(new[] { nameof(target.RowCount), nameof(Target.AllCount) });
                     }
 
                     NotifyProperties = notifyPropertyList.ToArray();
@@ -74,7 +74,7 @@ namespace WodiLib.Sys.Collections
                 {
                     var notifyProps = new List<string>
                     {
-                        ListConstant.IndexerName,
+                        ListConstant.IndexerName
                     };
 
                     {
@@ -110,7 +110,7 @@ namespace WodiLib.Sys.Collections
 
                         if (addItems.Length > 0)
                         {
-                            notifyProps.AddRange(new[] {nameof(target.ColumnCount), nameof(Target.AllCount)});
+                            notifyProps.AddRange(new[] { nameof(target.ColumnCount), nameof(Target.AllCount) });
                         }
                     }
 

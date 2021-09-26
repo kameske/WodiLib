@@ -59,7 +59,7 @@ namespace WodiLib.Sys.Collections
                                 ListConstant.IndexerName, nameof(target.RowCount), nameof(target.ColumnCount),
                                 nameof(target.AllCount), nameof(target.IsEmpty)
                             }
-                            : new[] {ListConstant.IndexerName, nameof(target.RowCount), nameof(target.AllCount)};
+                            : new[] { ListConstant.IndexerName, nameof(target.RowCount), nameof(target.AllCount) };
                 }
 
                 protected override T[][] RemoveItems(TwoDimensionalList<T> target, int index, int count)
@@ -89,7 +89,7 @@ namespace WodiLib.Sys.Collections
                             Target, 0, oldItems, newItems);
 
                     NotifyProperties = new[]
-                        {ListConstant.IndexerName, nameof(Target.ColumnCount), nameof(Target.AllCount)};
+                        { ListConstant.IndexerName, nameof(Target.ColumnCount), nameof(Target.AllCount) };
                 }
 
                 protected override T[][] RemoveItems(TwoDimensionalList<T> target, int index, int count)

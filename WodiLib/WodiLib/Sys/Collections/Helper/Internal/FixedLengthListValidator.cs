@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace WodiLib.Sys.Collections
 {
@@ -47,7 +46,7 @@ namespace WodiLib.Sys.Collections
         public override void Overwrite(int index, IReadOnlyList<T> items)
             => throw new NotSupportedException();
 
-        public override void Remove([AllowNull] T item)
+        public override void Remove(T? item)
             => throw new NotSupportedException();
 
         public override void Remove(int index, int count)

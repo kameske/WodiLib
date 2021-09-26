@@ -9,24 +9,24 @@
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// ディープクローン可能であることを示すインタフェース
+    ///     ディープクローン可能であることを示すインタフェース
     /// </summary>
     public interface IDeepCloneable<out T> : IDeepCloneable
     {
         /// <summary>
-        /// 自身のディープコピーを作成する。
+        ///     自身のディープコピーを作成する。
         /// </summary>
         /// <returns>自身をディープコピーしたインスタンス</returns>
         public new T DeepClone();
     }
 
     /// <summary>
-    /// ディープクローン可能であることを示すインタフェース（非 Generic 版）
+    ///     ディープクローン可能であることを示すインタフェース（非 Generic 版）
     /// </summary>
     public interface IDeepCloneable
     {
         /// <summary>
-        /// 自身のディープコピーを作成する。
+        ///     自身のディープコピーを作成する。
         /// </summary>
         /// <returns>自身をディープコピーしたインスタンス</returns>
         public object DeepClone();

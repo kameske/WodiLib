@@ -7,7 +7,6 @@
 // ========================================
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -15,12 +14,12 @@ using System.Runtime.CompilerServices;
 namespace WodiLib.Sys
 {
     /// <summary>
-    /// リフレクション処理Helperクラス
+    ///     リフレクション処理Helperクラス
     /// </summary>
     internal static class ReflectionHelper
     {
         /// <summary>
-        /// 呼び出し元メソッドに付与された <see cref="ObsoleteAttribute"/> の <see cref="ObsoleteAttribute.Message"/> を取得する。
+        ///     呼び出し元メソッドに付与された <see cref="ObsoleteAttribute"/> の <see cref="ObsoleteAttribute.Message"/> を取得する。
         /// </summary>
         /// <param name="caller">呼び出し元クラス</param>
         /// <param name="targetName">対象メソッド名</param>
@@ -40,7 +39,7 @@ namespace WodiLib.Sys
 
                 if (attr is null) return "null";
 
-                var result = ((ObsoleteAttribute) attr).Message;
+                var result = ((ObsoleteAttribute)attr).Message;
                 isFailure = false;
                 return result;
             }
