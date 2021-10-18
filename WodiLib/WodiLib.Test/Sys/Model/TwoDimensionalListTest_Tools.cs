@@ -673,7 +673,7 @@ namespace WodiLib.Test.Sys
         /// <param name="validator">検証処理実施インスタンス</param>
         /// <param name="funcMakeItem">要素生成関数</param>
         public static TwoDimensionalList<TestRecord> MakeTwoDimensionalList(TestDoubleEnumerableInstanceType type,
-            ITwoDimensionalListValidator<TestRecord> validator, Func<int, int, TestRecord> funcMakeItem)
+            ITwoDimensionalListValidator<TestRecord, TestRecord> validator, Func<int, int, TestRecord> funcMakeItem)
         {
             // あえて行列を入れ替える場面はないはず
             var items = MakeTestRecordList(type, false, funcMakeItem);
@@ -691,7 +691,7 @@ namespace WodiLib.Test.Sys
         }
 
         public static TwoDimensionalList<TestRecord>.Config CreateCommonConfig(Func<int, int, TestRecord> itemFactory,
-            ITwoDimensionalListValidator<TestRecord> validator = null)
+            ITwoDimensionalListValidator<TestRecord, TestRecord> validator = null)
             => new()
             {
                 MaxRowCapacity = int.MaxValue,
@@ -699,7 +699,8 @@ namespace WodiLib.Test.Sys
                 MaxColumnCapacity = int.MaxValue,
                 MinColumnCapacity = 0,
                 ItemFactory = itemFactory,
-                ValidatorFactory = target => validator ?? new CommonTwoDimensionalListValidator<TestRecord>(target),
+                ValidatorFactory = target =>
+                    validator ?? new CommonTwoDimensionalListValidator<TestRecord, TestRecord>(target),
             };
 
         #endregion
@@ -875,7 +876,7 @@ namespace WodiLib.Test.Sys
 
         public static bool IsAllItemReferenceEquals(IEnumerable<TestRecord> left,
             IEnumerable<TestRecord> right)
-            => IsAllItemReferenceEquals(new[] {left}, new[] {right});
+            => IsAllItemReferenceEquals(new[] { left }, new[] { right });
 
         public static bool IsAllItemReferenceEquals(TestRecord[,] left,
             TestRecord[,] right)
@@ -1085,7 +1086,7 @@ namespace WodiLib.Test.Sys
                     }
                 });
 
-                return (int) result;
+                return (int)result;
             }
         }
 

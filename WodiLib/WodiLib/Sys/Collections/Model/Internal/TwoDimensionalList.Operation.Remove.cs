@@ -81,7 +81,7 @@ namespace WodiLib.Sys.Collections
                     {
                         var result = new ExtendedList<T>(line);
                         result.RemoveRange(index, count);
-                        return result;
+                        return result.ToList();
                     }).ToList();
 
                     CollectionChangeEventArgsFactory =

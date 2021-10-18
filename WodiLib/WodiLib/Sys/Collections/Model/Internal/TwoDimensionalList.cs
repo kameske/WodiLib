@@ -35,6 +35,8 @@ namespace WodiLib.Sys.Collections
     /// </remarks>
     internal partial class TwoDimensionalList<T> :
         ModelBase<TwoDimensionalList<T>>,
+        ITwoDimensionalList<T, T>,
+        IDeepCloneableTwoDimensionalListInternal<TwoDimensionalList<T>, T>,
         ITwoDimensionalList<T>, IReadableTwoDimensionalList<T, TwoDimensionalList<T>>
     {
         /*
@@ -50,7 +52,7 @@ namespace WodiLib.Sys.Collections
         ///     各操作の検証処理実施クラスを注入する。
         /// </summary>
         /// <param name="self">自分自身</param>
-        public delegate ITwoDimensionalListValidator<T>? InjectValidator(
+        public delegate ITwoDimensionalListValidator<T, T>? InjectValidator(
             TwoDimensionalList<T> self);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -173,7 +175,7 @@ namespace WodiLib.Sys.Collections
 
         private Func<int, int, T> FuncMakeDefaultItem { get; }
 
-        private ITwoDimensionalListValidator<T>? Validator { get; }
+        private ITwoDimensionalListValidator<T, T>? Validator { get; }
 
         private int MaxRowCapacity => config.MaxRowCapacity;
         private int MinRowCapacity => config.MinRowCapacity;
@@ -450,6 +452,9 @@ namespace WodiLib.Sys.Collections
         public bool ItemEquals(ITwoDimensionalList<T>? other)
             => ItemEquals(other, null);
 
+        public bool ItemEquals(ITwoDimensionalList<T, T>? other)
+            => ItemEquals(other, null);
+
         public bool ItemEquals(IEnumerable<IEnumerable<T>>? other,
             IEqualityComparer<T>? itemComparer = null)
         {
@@ -550,11 +555,18 @@ namespace WodiLib.Sys.Collections
         ITwoDimensionalList<T> IDeepCloneable<ITwoDimensionalList<T>>.DeepClone()
             => DeepClone();
 
+        ITwoDimensionalList<T, T> IDeepCloneable<ITwoDimensionalList<T, T>>.DeepClone()
+            => DeepClone();
+
         #endregion
 
         #region DeepCloneWith
 
         ITwoDimensionalList<T> IDeepCloneableTwoDimensionalListInternal<ITwoDimensionalList<T>, T>.DeepCloneWith(
+            int? rowLength, int? colLength, IReadOnlyDictionary<(int row, int col), T>? values)
+            => DeepCloneWith(rowLength, colLength, values);
+
+        ITwoDimensionalList<T, T> IDeepCloneableTwoDimensionalListInternal<ITwoDimensionalList<T, T>, T>.DeepCloneWith(
             int? rowLength, int? colLength, IReadOnlyDictionary<(int row, int col), T>? values)
             => DeepCloneWith(rowLength, colLength, values);
 

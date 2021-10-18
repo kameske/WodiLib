@@ -7,7 +7,7 @@
     <Copyright>Copyright 2019 kameske</Copyright>
     <Version>2.3.65534.27</Version>
     <PackageProjectUrl>https://github.com/kameske/WodiLib</PackageProjectUrl>
-    <PackageLicenseUrl/>
+    <PackageLicenseUrl />
     <RepositoryUrl>https://github.com/kameske/WodiLib.git</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <Title>WodiLib</Title>
@@ -19,6 +19,8 @@
     <LangVersion>9</LangVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
 
+    <!--    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>-->
+    <!--    <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>-->
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
@@ -30,12 +32,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0"/>
-    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0"/>
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.0"/>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WodiLib.SourceGenerator\WodiLib.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+    <ProjectReference Include="..\WodiLib.SourceGenerator\WodiLib.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <!--    <Compile Remove="Generated\**\*.cs" />-->
   </ItemGroup>
 </Project>

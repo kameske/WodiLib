@@ -16,8 +16,8 @@ namespace WodiLib.Sys.Collections
     /// </summary>
     /// <typeparam name="T">出力型</typeparam>
     /// <typeparam name="TIn">リスト内包型</typeparam>
-    internal interface IDeepCloneableTwoDimensionalListInternal<out T, TIn> : IDeepCloneable<T>
-        where T : IEnumerable<IEnumerable<TIn>>
+    internal interface IDeepCloneableTwoDimensionalListInternal<out T, TIn> :
+        IDeepCloneable<T>
     {
         /// <summary>
         ///     自身の要素をコピーした新たなインスタンスを返却する。

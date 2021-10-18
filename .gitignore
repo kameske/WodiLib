@@ -39,3 +39,6 @@ Desktop.ini
 
 # Mac
 .DS_Store
+
+# Generator
+**/Generated/

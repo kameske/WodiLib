@@ -1653,7 +1653,7 @@ namespace WodiLib.Test.Sys
 
         #region TestClass
 
-        private class TwoDimensionalListValidatorMock : ITwoDimensionalListValidator<TestRecord>
+        private class TwoDimensionalListValidatorMock : ITwoDimensionalListValidator<TestRecord, TestRecord>
         {
             private List<string> CalledMethodNames { get; } = new();
             private TestRecord[][] Items { get; set; }
@@ -1809,8 +1809,8 @@ namespace WodiLib.Test.Sys
                 Items = initItems.ToTwoDimensionalArray();
             }
 
-            public ITwoDimensionalListValidator<TestRecord> CreateAnotherFor(
-                ITwoDimensionalList<TestRecord> target)
+            public ITwoDimensionalListValidator<TestRecord, TestRecord> CreateAnotherFor(
+                ITwoDimensionalList<TestRecord, TestRecord> target)
                 => new TwoDimensionalListValidatorMock(IsRecordConstructor);
 
             #endregion

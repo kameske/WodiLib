@@ -149,7 +149,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                result = instance.ItemEquals(otherItem);
+                result = instance.ItemEquals((ITwoDimensionalList<TestRecord, TestRecord>) otherItem);
             }
             catch (Exception ex)
             {

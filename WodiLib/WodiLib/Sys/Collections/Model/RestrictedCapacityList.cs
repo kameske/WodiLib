@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
@@ -19,10 +20,253 @@ namespace WodiLib.Sys.Collections
     ///     容量制限のあるListクラス
     /// </summary>
     /// <remarks>
+    ///     機能概要は <seealso cref="IRestrictedCapacityList{TIn, TOut}"/> 参照。
+    /// </remarks>
+    /// <typeparam name="TIn">リスト要素入力型</typeparam>
+    /// <typeparam name="TOut">リスト要素出力型</typeparam>
+    /// <typeparam name="TInternal">リスト内包型</typeparam>
+    /// <typeparam name="TImpl">リスト実装型</typeparam>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public abstract class RestrictedCapacityList<TIn, TOut, TInternal, TImpl> :
+        RestrictedCapacityListBase<TInternal, TImpl>,
+        IRestrictedCapacityList<TIn, TOut>
+        where TImpl : RestrictedCapacityList<TIn, TOut, TInternal, TImpl>
+        where TOut : TIn
+        where TInternal : TOut
+    {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Constructors
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        protected RestrictedCapacityList()
+        {
+        }
+
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        /// <param name="initItems">初期要素</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="initItems"/> の要素数が <see cref="RestrictedCapacityListBase{T,TImpl}.GetMinCapacity"/> 未満
+        ///     または <see cref="RestrictedCapacityListBase{T,TImpl}.GetMaxCapacity"/> を超える場合。
+        /// </exception>
+        protected RestrictedCapacityList(IEnumerable<TInternal> initItems) : base(initItems)
+        {
+        }
+
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        /// <param name="initItems">初期要素</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="initItems"/> の要素数が <see cref="RestrictedCapacityListBase{T,TImpl}.GetMinCapacity"/> 未満
+        ///     または <see cref="RestrictedCapacityListBase{T,TImpl}.GetMaxCapacity"/> を超える場合。
+        /// </exception>
+        protected RestrictedCapacityList(IEnumerable<TIn> initItems)
+        {
+            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
+
+            Overwrite(0, CastInternal(initItems));
+        }
+
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        /// <param name="initItems">初期要素</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="initItems"/> の要素数が <see cref="RestrictedCapacityListBase{T,TImpl}.GetMinCapacity"/> 未満
+        ///     または <see cref="RestrictedCapacityListBase{T,TImpl}.GetMaxCapacity"/> を超える場合。
+        /// </exception>
+        protected RestrictedCapacityList(IEnumerable<TOut> initItems)
+        {
+            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
+
+            Overwrite(0, CastInternal(initItems));
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Public Methods
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc/>
+        public void SetRange(int index, IEnumerable<TIn> items)
+        {
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+
+            SetRange(index, CastInternal(items));
+        }
+
+        /// <inheritdoc/>
+        public void Add(TIn item)
+        {
+            ThrowHelper.ValidateArgumentNotNull(item is null, nameof(item));
+
+            base.Add(CastInternal(item));
+        }
+
+        /// <inheritdoc/>
+        public void AddRange(IEnumerable<TIn> items)
+        {
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+
+            AddRange(CastInternal(items));
+        }
+
+        /// <inheritdoc/>
+        public void Insert(int index, TIn item)
+        {
+            ThrowHelper.ValidateArgumentNotNull(item is null, nameof(item));
+
+            base.Insert(index, CastInternal(item));
+        }
+
+        /// <inheritdoc/>
+        public void InsertRange(int index, IEnumerable<TIn> items)
+        {
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+
+            InsertRange(index, CastInternal(items));
+        }
+
+        /// <inheritdoc/>
+        public void Overwrite(int index, IEnumerable<TIn> items)
+        {
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+
+            Overwrite(index, CastInternal(items));
+        }
+
+        /// <inheritdoc/>
+        public bool Remove(TIn? item)
+        {
+            if (item is null)
+            {
+                return false;
+            }
+
+            return base.Remove(CastInternal(item));
+        }
+
+        /// <inheritdoc/>
+        public void Reset(IEnumerable<TIn> initItems)
+        {
+            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
+
+            Reset(CastInternal(initItems));
+        }
+
+        /// <inheritdoc/>
+        public bool ItemEquals(IReadOnlyExtendedList<TIn, TOut>? other)
+            => ItemEquals(other, null);
+
+        /// <inheritdoc cref="IDeepCloneableList{T,TIn}.DeepCloneWith"/>
+        public new TImpl DeepCloneWith<TItem>(IReadOnlyDictionary<int, TItem>? values, int? length = null)
+            where TItem : TIn
+        {
+            if (values is null) return DeepCloneWith(length);
+
+            var cloneValues = new Dictionary<int, TInternal>();
+            values.ForEach(pair =>
+            {
+                var cloneValue = CastInternal(pair.Value);
+                cloneValues[pair.Key] = cloneValue;
+            });
+
+            return base.DeepCloneWith(cloneValues, length);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Interface Implementation
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        #region Indexer
+
+        TIn IWritableList<TIn, TOut>.this[int index]
+        {
+            set
+            {
+                ThrowHelper.ValidateArgumentNotNull(value is null, nameof(value));
+
+                this[index] = CastInternal(value);
+            }
+        }
+
+        TIn IFixedLengthList<TIn, TOut>.this[int index]
+        {
+            get => this[index];
+            set
+            {
+                ThrowHelper.ValidateArgumentNotNull(value is null, nameof(value));
+
+                this[index] = CastInternal(value);
+            }
+        }
+
+        TOut IReadableList<TOut>.this[int index] => this[index];
+
+        #endregion
+
+        #region GetEnumerator
+
+        IEnumerator<TOut> IEnumerable<TOut>.GetEnumerator() => this.Cast<TOut>().GetEnumerator();
+
+        #endregion
+
+        #region GetRange
+
+        IEnumerable<TOut> IReadableList<TOut>.GetRange(int index, int count) => GetRange(index, count).Cast<TOut>();
+
+        #endregion
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Protected Methods
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// <typeparamref name="TIn"/> を <typeparamref name="TInternal"/> に変換したディープクローンを生成する。
+        /// </summary>
+        /// <param name="src">クローン元</param>
+        /// <returns>クローンインスタンス</returns>
+        protected abstract TInternal CloneToInternal(TIn src);
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Private Methods
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private TInternal CastInternal(TIn src)
+            => CloneToInternal(src);
+
+        private IEnumerable<TInternal> CastInternal(IEnumerable<TIn> src)
+            => src.Select(CloneToInternal);
+
+        private IEnumerable<TInternal> CastInternal(IEnumerable<TOut> src)
+            => src.Select(item => CloneToInternal(item));
+    }
+
+    /// <summary>
+    ///     容量制限のあるListクラス
+    /// </summary>
+    /// <remarks>
     ///     機能概要は <seealso cref="IRestrictedCapacityList{T}"/> 参照。
     /// </remarks>
     /// <typeparam name="T">リスト内包型</typeparam>
     /// <typeparam name="TImpl">リスト実装型</typeparam>
+    [Obsolete]
     public abstract class RestrictedCapacityList<T, TImpl> : ModelBase<TImpl>,
         IRestrictedCapacityList<T>, IFixedLengthList<T>, IReadOnlyExtendedList<T>
         where TImpl : RestrictedCapacityList<T, TImpl>
@@ -425,17 +669,29 @@ namespace WodiLib.Sys.Collections
 
         #region DeepCloneWith
 
-        IRestrictedCapacityList<T> IDeepCloneableList<IRestrictedCapacityList<T>, T>.DeepCloneWith(int? length,
-            IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
+        IRestrictedCapacityList<T> IDeepCloneableList<IRestrictedCapacityList<T>, T>.DeepCloneWith(int? length)
+            => DeepClone();
 
-        IFixedLengthList<T> IDeepCloneableList<IFixedLengthList<T>, T>.DeepCloneWith(int? length,
-            IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
+        IReadOnlyExtendedList<T> IDeepCloneableList<IReadOnlyExtendedList<T>, T>.DeepCloneWith<TItem>(IReadOnlyDictionary<int, TItem>? values, int? length)
+        {
+            throw new NotImplementedException();
+        }
 
-        IReadOnlyExtendedList<T> IDeepCloneableList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length,
-            IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
+        IFixedLengthList<T> IDeepCloneableList<IFixedLengthList<T>, T>.DeepCloneWith<TItem>(IReadOnlyDictionary<int, TItem>? values, int? length)
+        {
+            throw new NotImplementedException();
+        }
+
+        IRestrictedCapacityList<T> IDeepCloneableList<IRestrictedCapacityList<T>, T>.DeepCloneWith<TItem>(IReadOnlyDictionary<int, TItem>? values, int? length)
+        {
+            throw new NotImplementedException();
+        }
+
+        IFixedLengthList<T> IDeepCloneableList<IFixedLengthList<T>, T>.DeepCloneWith(int? length)
+            => DeepClone();
+
+        IReadOnlyExtendedList<T> IDeepCloneableList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length)
+            => DeepClone();
 
         #endregion
 

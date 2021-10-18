@@ -121,8 +121,10 @@ namespace WodiLib.Test.Sys
             {
                 instance = new TestClass.TestTwoDimClass(
                     new TestClass.CapacityInfo(maxCapacity, minCapacity, maxItemCapacity, minItemCapacity),
-                    target => new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem>(target, "行名",
-                        "列名"),
+                    target =>
+                        new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem, TestClass.TwoDimItem>(
+                            target, "行名",
+                            "列名"),
                     makeDefaultValueItem);
             }
             catch (Exception ex)
@@ -158,22 +160,22 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] ConstructorTest2CaseSource =
         {
-            new object[] {TestClass.ListType.Normal, InitMinCapacity - 1, InitMinItemCapacity, true},
-            new object[] {TestClass.ListType.Normal, InitMinCapacity - 1, InitMaxItemCapacity, true},
-            new object[] {TestClass.ListType.Normal, InitMinCapacity, InitMinItemCapacity - 1, true},
-            new object[] {TestClass.ListType.Normal, InitMinCapacity, InitMinItemCapacity, false},
-            new object[] {TestClass.ListType.Normal, InitMinCapacity, InitMaxItemCapacity, false},
-            new object[] {TestClass.ListType.Normal, InitMinCapacity, InitMaxItemCapacity + 1, true},
-            new object[] {TestClass.ListType.Normal, InitMaxCapacity, InitMinItemCapacity - 1, true},
-            new object[] {TestClass.ListType.Normal, InitMaxCapacity, InitMinItemCapacity, false},
-            new object[] {TestClass.ListType.Normal, InitMaxCapacity, InitMaxItemCapacity, false},
-            new object[] {TestClass.ListType.Normal, InitMaxCapacity, InitMaxItemCapacity + 1, true},
-            new object[] {TestClass.ListType.Normal, InitMaxCapacity + 1, InitMaxItemCapacity, true},
-            new object[] {TestClass.ListType.Normal, InitMaxCapacity + 1, InitMinItemCapacity, true},
-            new object[] {TestClass.ListType.SelfNull, InitMinCapacity, InitMinItemCapacity, true},
-            new object[] {TestClass.ListType.RowHasNull, InitMinCapacity, InitMaxItemCapacity, true},
-            new object[] {TestClass.ListType.ColumnHasNull, InitMaxCapacity, InitMinItemCapacity, true},
-            new object[] {TestClass.ListType.ColumnSizeDifference, InitMaxCapacity, InitMaxItemCapacity, true},
+            new object[] { TestClass.ListType.Normal, InitMinCapacity - 1, InitMinItemCapacity, true },
+            new object[] { TestClass.ListType.Normal, InitMinCapacity - 1, InitMaxItemCapacity, true },
+            new object[] { TestClass.ListType.Normal, InitMinCapacity, InitMinItemCapacity - 1, true },
+            new object[] { TestClass.ListType.Normal, InitMinCapacity, InitMinItemCapacity, false },
+            new object[] { TestClass.ListType.Normal, InitMinCapacity, InitMaxItemCapacity, false },
+            new object[] { TestClass.ListType.Normal, InitMinCapacity, InitMaxItemCapacity + 1, true },
+            new object[] { TestClass.ListType.Normal, InitMaxCapacity, InitMinItemCapacity - 1, true },
+            new object[] { TestClass.ListType.Normal, InitMaxCapacity, InitMinItemCapacity, false },
+            new object[] { TestClass.ListType.Normal, InitMaxCapacity, InitMaxItemCapacity, false },
+            new object[] { TestClass.ListType.Normal, InitMaxCapacity, InitMaxItemCapacity + 1, true },
+            new object[] { TestClass.ListType.Normal, InitMaxCapacity + 1, InitMaxItemCapacity, true },
+            new object[] { TestClass.ListType.Normal, InitMaxCapacity + 1, InitMinItemCapacity, true },
+            new object[] { TestClass.ListType.SelfNull, InitMinCapacity, InitMinItemCapacity, true },
+            new object[] { TestClass.ListType.RowHasNull, InitMinCapacity, InitMaxItemCapacity, true },
+            new object[] { TestClass.ListType.ColumnHasNull, InitMaxCapacity, InitMinItemCapacity, true },
+            new object[] { TestClass.ListType.ColumnSizeDifference, InitMaxCapacity, InitMaxItemCapacity, true },
         };
 
         [TestCaseSource(nameof(ConstructorTest2CaseSource))]
@@ -190,7 +192,9 @@ namespace WodiLib.Test.Sys
             {
                 instance = new TestClass.TestTwoDimClass(InitCapacityInfo,
                     initList,
-                    self => new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem>(self, "行名", "列名"),
+                    self =>
+                        new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem, TestClass.TwoDimItem>(
+                            self, "行名", "列名"),
                     funcMakeDefaultValueItem);
             }
             catch (Exception ex)
@@ -219,7 +223,9 @@ namespace WodiLib.Test.Sys
             try
             {
                 instance = new TestClass.TestTwoDimClass(InitCapacityInfo,
-                    self => new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem>(self, "行名", "列名"),
+                    self =>
+                        new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem, TestClass.TwoDimItem>(
+                            self, "行名", "列名"),
                     funcMakeDefaultValueItem);
             }
             catch (Exception ex)
@@ -396,13 +402,13 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] AddRowTestCaseSource =
         {
-            new object[] {InitCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true},
-            new object[] {InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false},
-            new object[] {InitCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true},
-            new object[] {InitCapacity, InitItemCapacity, TestClass.ListType.SelfNull, true},
-            new object[] {InitCapacity, InitItemCapacity, TestClass.ListType.ColumnHasNull, true},
-            new object[] {InitMaxCapacity - 1, InitItemCapacity, TestClass.ListType.Normal, false},
-            new object[] {InitMaxCapacity, InitItemCapacity, TestClass.ListType.Normal, true},
+            new object[] { InitCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true },
+            new object[] { InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false },
+            new object[] { InitCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true },
+            new object[] { InitCapacity, InitItemCapacity, TestClass.ListType.SelfNull, true },
+            new object[] { InitCapacity, InitItemCapacity, TestClass.ListType.ColumnHasNull, true },
+            new object[] { InitMaxCapacity - 1, InitItemCapacity, TestClass.ListType.Normal, false },
+            new object[] { InitMaxCapacity, InitItemCapacity, TestClass.ListType.Normal, true },
         };
 
         [TestCaseSource(nameof(AddRowTestCaseSource))]
@@ -429,13 +435,13 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] AddColumnTestCaseSource =
         {
-            new object[] {InitItemCapacity, InitCapacity - 1, TestClass.ListType.Normal, true},
-            new object[] {InitItemCapacity, InitCapacity, TestClass.ListType.Normal, false},
-            new object[] {InitItemCapacity, InitCapacity + 1, TestClass.ListType.Normal, true},
-            new object[] {InitItemCapacity, InitCapacity, TestClass.ListType.SelfNull, true},
-            new object[] {InitItemCapacity, InitCapacity, TestClass.ListType.ColumnHasNull, true},
-            new object[] {InitMaxItemCapacity - 1, InitCapacity, TestClass.ListType.Normal, false},
-            new object[] {InitMaxItemCapacity, InitCapacity, TestClass.ListType.Normal, true},
+            new object[] { InitItemCapacity, InitCapacity - 1, TestClass.ListType.Normal, true },
+            new object[] { InitItemCapacity, InitCapacity, TestClass.ListType.Normal, false },
+            new object[] { InitItemCapacity, InitCapacity + 1, TestClass.ListType.Normal, true },
+            new object[] { InitItemCapacity, InitCapacity, TestClass.ListType.SelfNull, true },
+            new object[] { InitItemCapacity, InitCapacity, TestClass.ListType.ColumnHasNull, true },
+            new object[] { InitMaxItemCapacity - 1, InitCapacity, TestClass.ListType.Normal, false },
+            new object[] { InitMaxItemCapacity, InitCapacity, TestClass.ListType.Normal, true },
         };
 
         [TestCaseSource(nameof(AddColumnTestCaseSource))]
@@ -462,19 +468,19 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] AddRowRangeTestCaseSource =
         {
-            new object[] {InitCapacity, 0, InitItemCapacity, TestClass.ListType.Normal, false},
+            new object[] { InitCapacity, 0, InitItemCapacity, TestClass.ListType.Normal, false },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true},
+                { InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false},
+                { InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true},
+                { InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true},
+                { InitCapacity, InitMaxCapacity - InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.SelfNull, true},
+                { InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.SelfNull, true },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.RowHasNull, true},
+                { InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.RowHasNull, true },
             new object[]
             {
                 InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.ColumnHasNull, true
@@ -484,8 +490,8 @@ namespace WodiLib.Test.Sys
                 InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.ColumnSizeDifference,
                 true
             },
-            new object[] {InitMaxCapacity, 0, InitItemCapacity, TestClass.ListType.Normal, false},
-            new object[] {InitMaxCapacity, 1, InitItemCapacity, TestClass.ListType.Normal, true},
+            new object[] { InitMaxCapacity, 0, InitItemCapacity, TestClass.ListType.Normal, false },
+            new object[] { InitMaxCapacity, 1, InitItemCapacity, TestClass.ListType.Normal, true },
         };
 
         [TestCaseSource(nameof(AddRowRangeTestCaseSource))]
@@ -553,8 +559,8 @@ namespace WodiLib.Test.Sys
                 InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity,
                 TestClass.ListType.ColumnSizeDifference, true
             },
-            new object[] {InitMaxItemCapacity, 0, 0, TestClass.ListType.Normal, false},
-            new object[] {InitMaxItemCapacity, 1, InitCapacity, TestClass.ListType.Normal, true},
+            new object[] { InitMaxItemCapacity, 0, 0, TestClass.ListType.Normal, false },
+            new object[] { InitMaxItemCapacity, 1, InitCapacity, TestClass.ListType.Normal, true },
         };
 
         [TestCaseSource(nameof(AddColumnRangeTestCaseSource))]
@@ -582,16 +588,16 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] InsertRowTestCaseSource =
         {
-            new object[] {InitCapacity, -1, InitItemCapacity, TestClass.ListType.Normal, true},
-            new object[] {InitCapacity, 0, InitItemCapacity - 1, TestClass.ListType.Normal, true},
-            new object[] {InitCapacity, 0, InitItemCapacity, TestClass.ListType.Normal, false},
-            new object[] {InitCapacity, 0, InitItemCapacity + 1, TestClass.ListType.Normal, true},
-            new object[] {InitCapacity, 0, InitItemCapacity, TestClass.ListType.SelfNull, true},
-            new object[] {InitCapacity, 0, InitItemCapacity, TestClass.ListType.ColumnHasNull, true},
-            new object[] {InitCapacity, InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false},
-            new object[] {InitCapacity, InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true},
-            new object[] {InitMaxCapacity - 1, 0, InitItemCapacity, TestClass.ListType.Normal, false},
-            new object[] {InitMaxCapacity, 0, InitItemCapacity, TestClass.ListType.Normal, true},
+            new object[] { InitCapacity, -1, InitItemCapacity, TestClass.ListType.Normal, true },
+            new object[] { InitCapacity, 0, InitItemCapacity - 1, TestClass.ListType.Normal, true },
+            new object[] { InitCapacity, 0, InitItemCapacity, TestClass.ListType.Normal, false },
+            new object[] { InitCapacity, 0, InitItemCapacity + 1, TestClass.ListType.Normal, true },
+            new object[] { InitCapacity, 0, InitItemCapacity, TestClass.ListType.SelfNull, true },
+            new object[] { InitCapacity, 0, InitItemCapacity, TestClass.ListType.ColumnHasNull, true },
+            new object[] { InitCapacity, InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false },
+            new object[] { InitCapacity, InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true },
+            new object[] { InitMaxCapacity - 1, 0, InitItemCapacity, TestClass.ListType.Normal, false },
+            new object[] { InitMaxCapacity, 0, InitItemCapacity, TestClass.ListType.Normal, true },
         };
 
         [TestCaseSource(nameof(InsertRowTestCaseSource))]
@@ -618,16 +624,16 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] InsertColumnTestCaseSource =
         {
-            new object[] {InitItemCapacity, -1, InitCapacity, TestClass.ListType.Normal, true},
-            new object[] {InitItemCapacity, 0, InitCapacity - 1, TestClass.ListType.Normal, true},
-            new object[] {InitItemCapacity, 0, InitCapacity, TestClass.ListType.Normal, false},
-            new object[] {InitItemCapacity, 0, InitCapacity + 1, TestClass.ListType.Normal, true},
-            new object[] {InitItemCapacity, 0, InitCapacity, TestClass.ListType.SelfNull, true},
-            new object[] {InitItemCapacity, 0, InitCapacity, TestClass.ListType.ColumnHasNull, true},
-            new object[] {InitItemCapacity, InitItemCapacity, InitCapacity, TestClass.ListType.Normal, false},
-            new object[] {InitItemCapacity, InitItemCapacity + 1, InitCapacity, TestClass.ListType.Normal, true},
-            new object[] {InitMaxItemCapacity - 1, 0, InitCapacity, TestClass.ListType.Normal, false},
-            new object[] {InitMaxItemCapacity, 0, InitCapacity, TestClass.ListType.Normal, true},
+            new object[] { InitItemCapacity, -1, InitCapacity, TestClass.ListType.Normal, true },
+            new object[] { InitItemCapacity, 0, InitCapacity - 1, TestClass.ListType.Normal, true },
+            new object[] { InitItemCapacity, 0, InitCapacity, TestClass.ListType.Normal, false },
+            new object[] { InitItemCapacity, 0, InitCapacity + 1, TestClass.ListType.Normal, true },
+            new object[] { InitItemCapacity, 0, InitCapacity, TestClass.ListType.SelfNull, true },
+            new object[] { InitItemCapacity, 0, InitCapacity, TestClass.ListType.ColumnHasNull, true },
+            new object[] { InitItemCapacity, InitItemCapacity, InitCapacity, TestClass.ListType.Normal, false },
+            new object[] { InitItemCapacity, InitItemCapacity + 1, InitCapacity, TestClass.ListType.Normal, true },
+            new object[] { InitMaxItemCapacity - 1, 0, InitCapacity, TestClass.ListType.Normal, false },
+            new object[] { InitMaxItemCapacity, 0, InitCapacity, TestClass.ListType.Normal, true },
         };
 
         [TestCaseSource(nameof(InsertColumnTestCaseSource))]
@@ -654,26 +660,26 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] InsertRowRangeTestCaseSource =
         {
-            new object[] {-1, 1, InitItemCapacity, TestClass.ListType.Normal, true},
-            new object[] {0, 0, 0, TestClass.ListType.Normal, false},
-            new object[] {0, InitMaxCapacity - InitCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true},
-            new object[] {0, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false},
-            new object[] {0, InitMaxCapacity - InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true},
-            new object[] {InitCapacity, 0, 0, TestClass.ListType.Normal, false},
-            new object[] {InitCapacity, 1, InitItemCapacity - 1, TestClass.ListType.Normal, true},
-            new object[] {InitCapacity, 1, InitItemCapacity, TestClass.ListType.Normal, false},
-            new object[] {InitCapacity, 1, InitItemCapacity + 1, TestClass.ListType.Normal, true},
+            new object[] { -1, 1, InitItemCapacity, TestClass.ListType.Normal, true },
+            new object[] { 0, 0, 0, TestClass.ListType.Normal, false },
+            new object[] { 0, InitMaxCapacity - InitCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true },
+            new object[] { 0, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false },
+            new object[] { 0, InitMaxCapacity - InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true },
+            new object[] { InitCapacity, 0, 0, TestClass.ListType.Normal, false },
+            new object[] { InitCapacity, 1, InitItemCapacity - 1, TestClass.ListType.Normal, true },
+            new object[] { InitCapacity, 1, InitItemCapacity, TestClass.ListType.Normal, false },
+            new object[] { InitCapacity, 1, InitItemCapacity + 1, TestClass.ListType.Normal, true },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false},
+                { InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true},
+                { InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true},
-            new object[] {InitCapacity + 1, 1, InitItemCapacity, TestClass.ListType.Normal, true},
+                { InitCapacity, InitMaxCapacity - InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true },
+            new object[] { InitCapacity + 1, 1, InitItemCapacity, TestClass.ListType.Normal, true },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.SelfNull, true},
+                { InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.SelfNull, true },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.RowHasNull, true},
+                { InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.RowHasNull, true },
             new object[]
             {
                 InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.ColumnHasNull, true
@@ -709,15 +715,17 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] InsertColumnRangeTestCaseSource =
         {
-            new object[] {-1, 1, InitCapacity, TestClass.ListType.Normal, true},
-            new object[] {0, 0, 0, TestClass.ListType.Normal, false},
-            new object[] {0, InitMaxItemCapacity - InitItemCapacity, InitCapacity - 1, TestClass.ListType.Normal, true},
-            new object[] {0, InitMaxItemCapacity - InitItemCapacity, InitCapacity, TestClass.ListType.Normal, false},
-            new object[] {0, InitMaxItemCapacity - InitItemCapacity + 1, InitCapacity, TestClass.ListType.Normal, true},
-            new object[] {InitItemCapacity, 0, 0, TestClass.ListType.Normal, false},
-            new object[] {InitItemCapacity, 1, InitCapacity - 1, TestClass.ListType.Normal, true},
-            new object[] {InitItemCapacity, 1, InitCapacity, TestClass.ListType.Normal, false},
-            new object[] {InitItemCapacity, 1, InitCapacity + 1, TestClass.ListType.Normal, true},
+            new object[] { -1, 1, InitCapacity, TestClass.ListType.Normal, true },
+            new object[] { 0, 0, 0, TestClass.ListType.Normal, false },
+            new object[]
+                { 0, InitMaxItemCapacity - InitItemCapacity, InitCapacity - 1, TestClass.ListType.Normal, true },
+            new object[] { 0, InitMaxItemCapacity - InitItemCapacity, InitCapacity, TestClass.ListType.Normal, false },
+            new object[]
+                { 0, InitMaxItemCapacity - InitItemCapacity + 1, InitCapacity, TestClass.ListType.Normal, true },
+            new object[] { InitItemCapacity, 0, 0, TestClass.ListType.Normal, false },
+            new object[] { InitItemCapacity, 1, InitCapacity - 1, TestClass.ListType.Normal, true },
+            new object[] { InitItemCapacity, 1, InitCapacity, TestClass.ListType.Normal, false },
+            new object[] { InitItemCapacity, 1, InitCapacity + 1, TestClass.ListType.Normal, true },
             new object[]
             {
                 InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity, TestClass.ListType.Normal, false
@@ -732,11 +740,11 @@ namespace WodiLib.Test.Sys
                 InitItemCapacity, InitMaxItemCapacity - InitItemCapacity + 1, InitCapacity, TestClass.ListType.Normal,
                 true
             },
-            new object[] {InitItemCapacity + 1, 1, InitCapacity, TestClass.ListType.Normal, true},
-            new object[] {0, InitMaxItemCapacity - InitCapacity, InitCapacity, TestClass.ListType.SelfNull, true},
-            new object[] {0, InitMaxItemCapacity - InitCapacity, InitCapacity, TestClass.ListType.RowHasNull, true},
+            new object[] { InitItemCapacity + 1, 1, InitCapacity, TestClass.ListType.Normal, true },
+            new object[] { 0, InitMaxItemCapacity - InitCapacity, InitCapacity, TestClass.ListType.SelfNull, true },
+            new object[] { 0, InitMaxItemCapacity - InitCapacity, InitCapacity, TestClass.ListType.RowHasNull, true },
             new object[]
-                {0, InitMaxItemCapacity - InitCapacity, InitCapacity, TestClass.ListType.ColumnHasNull, true},
+                { 0, InitMaxItemCapacity - InitCapacity, InitCapacity, TestClass.ListType.ColumnHasNull, true },
             new object[]
             {
                 0, InitMaxItemCapacity - InitCapacity, InitCapacity, TestClass.ListType.ColumnSizeDifference, true
@@ -767,26 +775,26 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] OverwriteRowTestCaseSource =
         {
-            new object[] {-1, 1, InitItemCapacity, TestClass.ListType.Normal, true},
-            new object[] {0, 0, 0, TestClass.ListType.Normal, false},
-            new object[] {0, InitMaxCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true},
-            new object[] {0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.Normal, false},
-            new object[] {0, InitMaxCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true},
-            new object[] {0, InitMaxCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true},
-            new object[] {InitCapacity, 0, 0, TestClass.ListType.Normal, false},
+            new object[] { -1, 1, InitItemCapacity, TestClass.ListType.Normal, true },
+            new object[] { 0, 0, 0, TestClass.ListType.Normal, false },
+            new object[] { 0, InitMaxCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true },
+            new object[] { 0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.Normal, false },
+            new object[] { 0, InitMaxCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true },
+            new object[] { 0, InitMaxCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true },
+            new object[] { InitCapacity, 0, 0, TestClass.ListType.Normal, false },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true},
+                { InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity - 1, TestClass.ListType.Normal, true },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false},
+                { InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity, TestClass.ListType.Normal, false },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true},
+                { InitCapacity, InitMaxCapacity - InitCapacity, InitItemCapacity + 1, TestClass.ListType.Normal, true },
             new object[]
-                {InitCapacity, InitMaxCapacity - InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true},
-            new object[] {InitCapacity + 1, 1, InitItemCapacity, TestClass.ListType.Normal, true},
-            new object[] {0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.SelfNull, true},
-            new object[] {0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.RowHasNull, true},
-            new object[] {0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.ColumnHasNull, true},
-            new object[] {0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.ColumnSizeDifference, true},
+                { InitCapacity, InitMaxCapacity - InitCapacity + 1, InitItemCapacity, TestClass.ListType.Normal, true },
+            new object[] { InitCapacity + 1, 1, InitItemCapacity, TestClass.ListType.Normal, true },
+            new object[] { 0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.SelfNull, true },
+            new object[] { 0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.RowHasNull, true },
+            new object[] { 0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.ColumnHasNull, true },
+            new object[] { 0, InitMaxCapacity, InitItemCapacity, TestClass.ListType.ColumnSizeDifference, true },
         };
 
         [TestCaseSource(nameof(OverwriteRowTestCaseSource))]
@@ -814,13 +822,13 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] OverwriteColumnTestCaseSource =
         {
-            new object[] {-1, 1, InitCapacity, TestClass.ListType.Normal, true},
-            new object[] {0, 0, 0, TestClass.ListType.Normal, false},
-            new object[] {0, InitMaxItemCapacity, InitCapacity - 1, TestClass.ListType.Normal, true},
-            new object[] {0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.Normal, false},
-            new object[] {0, InitMaxItemCapacity, InitCapacity + 1, TestClass.ListType.Normal, true},
-            new object[] {0, InitMaxItemCapacity + 1, InitCapacity, TestClass.ListType.Normal, true},
-            new object[] {InitItemCapacity, 0, 0, TestClass.ListType.Normal, false},
+            new object[] { -1, 1, InitCapacity, TestClass.ListType.Normal, true },
+            new object[] { 0, 0, 0, TestClass.ListType.Normal, false },
+            new object[] { 0, InitMaxItemCapacity, InitCapacity - 1, TestClass.ListType.Normal, true },
+            new object[] { 0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.Normal, false },
+            new object[] { 0, InitMaxItemCapacity, InitCapacity + 1, TestClass.ListType.Normal, true },
+            new object[] { 0, InitMaxItemCapacity + 1, InitCapacity, TestClass.ListType.Normal, true },
+            new object[] { InitItemCapacity, 0, 0, TestClass.ListType.Normal, false },
             new object[]
             {
                 InitItemCapacity, InitMaxItemCapacity - InitItemCapacity, InitCapacity - 1, TestClass.ListType.Normal,
@@ -840,11 +848,11 @@ namespace WodiLib.Test.Sys
                 InitItemCapacity, InitMaxItemCapacity - InitItemCapacity + 1, InitCapacity, TestClass.ListType.Normal,
                 true
             },
-            new object[] {InitItemCapacity + 1, 1, InitCapacity, TestClass.ListType.Normal, true},
-            new object[] {0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.SelfNull, true},
-            new object[] {0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.RowHasNull, true},
-            new object[] {0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.ColumnHasNull, true},
-            new object[] {0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.ColumnSizeDifference, true},
+            new object[] { InitItemCapacity + 1, 1, InitCapacity, TestClass.ListType.Normal, true },
+            new object[] { 0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.SelfNull, true },
+            new object[] { 0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.RowHasNull, true },
+            new object[] { 0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.ColumnHasNull, true },
+            new object[] { 0, InitMaxItemCapacity, InitCapacity, TestClass.ListType.ColumnSizeDifference, true },
         };
 
         [TestCaseSource(nameof(OverwriteColumnTestCaseSource))]
@@ -929,18 +937,18 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] AdjustLengthTestCaseSource =
         {
-            new object[] {InitMinCapacity - 1, InitMinItemCapacity, true},
-            new object[] {InitMinCapacity - 1, InitMaxItemCapacity, true},
-            new object[] {InitMinCapacity, InitMinItemCapacity - 1, true},
-            new object[] {InitMinCapacity, InitMinItemCapacity, false},
-            new object[] {InitMinCapacity, InitMaxItemCapacity, false},
-            new object[] {InitMinCapacity, InitMaxItemCapacity + 1, true},
-            new object[] {InitMaxCapacity, InitMinItemCapacity - 1, true},
-            new object[] {InitMaxCapacity, InitMinItemCapacity, false},
-            new object[] {InitMaxCapacity, InitMaxItemCapacity, false},
-            new object[] {InitMaxCapacity, InitMaxItemCapacity + 1, true},
-            new object[] {InitMaxCapacity + 1, InitMinItemCapacity, true},
-            new object[] {InitMaxCapacity + 1, InitMaxItemCapacity, true},
+            new object[] { InitMinCapacity - 1, InitMinItemCapacity, true },
+            new object[] { InitMinCapacity - 1, InitMaxItemCapacity, true },
+            new object[] { InitMinCapacity, InitMinItemCapacity - 1, true },
+            new object[] { InitMinCapacity, InitMinItemCapacity, false },
+            new object[] { InitMinCapacity, InitMaxItemCapacity, false },
+            new object[] { InitMinCapacity, InitMaxItemCapacity + 1, true },
+            new object[] { InitMaxCapacity, InitMinItemCapacity - 1, true },
+            new object[] { InitMaxCapacity, InitMinItemCapacity, false },
+            new object[] { InitMaxCapacity, InitMaxItemCapacity, false },
+            new object[] { InitMaxCapacity, InitMaxItemCapacity + 1, true },
+            new object[] { InitMaxCapacity + 1, InitMinItemCapacity, true },
+            new object[] { InitMaxCapacity + 1, InitMaxItemCapacity, true },
         };
 
         [TestCaseSource(nameof(AdjustLengthTestCaseSource))]
@@ -1005,10 +1013,10 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] AdjustRowLengthTestCaseSource =
         {
-            new object[] {InitMinCapacity - 1, true},
-            new object[] {InitMinCapacity, false},
-            new object[] {InitMaxCapacity, false},
-            new object[] {InitMaxCapacity + 1, true},
+            new object[] { InitMinCapacity - 1, true },
+            new object[] { InitMinCapacity, false },
+            new object[] { InitMaxCapacity, false },
+            new object[] { InitMaxCapacity + 1, true },
         };
 
         [TestCaseSource(nameof(AdjustRowLengthTestCaseSource))]
@@ -1073,10 +1081,10 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] AdjustColumnLengthTestCaseSource =
         {
-            new object[] {InitMinItemCapacity - 1, true},
-            new object[] {InitMinItemCapacity, false},
-            new object[] {InitMaxItemCapacity, false},
-            new object[] {InitMaxItemCapacity + 1, true},
+            new object[] { InitMinItemCapacity - 1, true },
+            new object[] { InitMinItemCapacity, false },
+            new object[] { InitMaxItemCapacity, false },
+            new object[] { InitMaxItemCapacity + 1, true },
         };
 
         [TestCaseSource(nameof(AdjustColumnLengthTestCaseSource))]
@@ -1317,7 +1325,8 @@ namespace WodiLib.Test.Sys
                 if (initRowLength == 0 && initColumnLength != 0) Assert.Ignore();
 
                 var result = new TestTwoDimClass(capacityInfo, initRowLength, initColumnLength,
-                    target => new RestrictedCapacityTwoDimensionalListValidator<TwoDimItem>(target, "行名", "列名"),
+                    target => new RestrictedCapacityTwoDimensionalListValidator<TwoDimItem, TwoDimItem>(target, "行名",
+                        "列名"),
                     MakeDefaultValueItemForList);
 
                 return result;
@@ -1365,9 +1374,9 @@ namespace WodiLib.Test.Sys
                 {
                     if (this == SelfNull) return null;
 
-                    var funcMakeItem = (Func<int, TwoDimItem>) (i =>
+                    var funcMakeItem = (Func<int, TwoDimItem>)(i =>
                         this == ColumnHasNull && i % 2 == 0
-                            ? (string) null
+                            ? (string)null
                             : MakeDefaultValueItemForAddColumn(0, i));
 
                     return Enumerable.Range(0, itemCount)
@@ -1379,11 +1388,11 @@ namespace WodiLib.Test.Sys
                 {
                     if (this == SelfNull) return null;
 
-                    var funcMakeItem = (Func<int, int, TwoDimItem>) ((i, j) =>
+                    var funcMakeItem = (Func<int, int, TwoDimItem>)((i, j) =>
                         this == ColumnHasNull && j % 2 == 1
                             ? null
                             : MakeDefaultValueItemForAddColumn(i, j));
-                    var funcMakeRow = (Func<int, int, TwoDimItem[]>) ((i, colCount) =>
+                    var funcMakeRow = (Func<int, int, TwoDimItem[]>)((i, colCount) =>
                         this == RowHasNull && i % 2 == 1
                             ? null
                             : Enumerable.Range(0, this == ColumnSizeDifference && i == 1

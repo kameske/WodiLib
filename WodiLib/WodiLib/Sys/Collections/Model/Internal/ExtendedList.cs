@@ -22,9 +22,11 @@ namespace WodiLib.Sys.Collections
     ///     機能概要は <seealso cref="IExtendedList{T}"/> 参照。
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    internal partial class ExtendedList<T> : ModelBase<ExtendedList<T>>, IExtendedList<T>,
-        IFixedLengthList<T>, IReadOnlyExtendedList<T>,
-        IDeepCloneableList<ExtendedList<T>, T>
+    internal partial class ExtendedList<T> : ModelBase<ExtendedList<T>>,
+        IRestrictedCapacityList<T, T>,
+        IDeepCloneableList<ExtendedList<T>, T>,
+        // 以下のインタフェースは削除
+        IFixedLengthList<T>, IReadOnlyExtendedList<T>, IExtendedList<T>
     {
         /*
          * WodiLib 内部で使用する独自汎用リスト。
@@ -79,7 +81,7 @@ namespace WodiLib.Sys.Collections
         //      Public Properties
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc cref="IExtendedList{T}.this"/>
+        /// <inheritdoc cref="IRestrictedCapacityList{T, T}.this"/>
         public T this[int index]
         {
             get => Get_Impl(index, 1).First();
@@ -88,7 +90,7 @@ namespace WodiLib.Sys.Collections
 
         T IReadOnlyList<T>.this[int index] => Get_Impl(index, 1).First();
 
-        /// <inheritdoc cref="IExtendedList{T}.Count"/>
+        /// <inheritdoc cref="IListProperty.Count"/>
         public int Count => Items.Count;
 
         /// <inheritdoc/>
@@ -288,40 +290,22 @@ namespace WodiLib.Sys.Collections
 
         /// <inheritdoc/>
         public override bool ItemEquals(ExtendedList<T>? other)
-            => ItemEquals(other, null);
+            => ItemEquals<T>(other, null);
 
-        /// <inheritdoc cref="IEqualityComparable.ItemEquals"/>
+        public bool ItemEquals(IReadOnlyExtendedList<T, T>? other)
+            => ItemEquals<T>(other, null);
+
+        /// <inheritdoc/>
         public bool ItemEquals(IEnumerable<T>? other)
-            => ItemEquals(other, null);
+            => Items.ItemEquals(other);
 
-        /// <inheritdoc
-        ///     cref="ISizeChangeableList{TItem,TImpl,TWritable,TReadable}.ItemEquals(IEnumerable{TItem}?, IEqualityComparer{TItem}?)"/>
+        /// <inheritdoc/>
         public bool ItemEquals(IEnumerable<T>? other, IEqualityComparer<T>? itemComparer)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
+            => ItemEquals<T>(other, itemComparer);
 
-            var otherList = other.ToList();
-
-            if (Count != otherList.Count) return false;
-            if (Count == 0) return true;
-
-            return this.Zip(otherList).All(zip =>
-            {
-                var (x, y) = zip;
-                if (itemComparer is not null)
-                {
-                    return itemComparer.Equals(x, y);
-                }
-
-                if (x is IEqualityComparable comparable)
-                {
-                    return comparable.ItemEquals(y);
-                }
-
-                return x!.Equals(y);
-            });
-        }
+        /// <inheritdoc/>
+        public bool ItemEquals<TOther>(IEnumerable<TOther>? other, IEqualityComparer<TOther>? itemComparer)
+            => Items.ItemEquals(other, itemComparer);
 
         /// <inheritdoc/>
         public IFixedLengthList<T> AsWritableList() => this;
@@ -335,18 +319,15 @@ namespace WodiLib.Sys.Collections
             return new ExtendedList<T>(this, null, null, FuncMakeItems);
         }
 
-        /// <inheritdoc cref="IDeepCloneableList{T,TIn}.DeepCloneWith"/>
-        public ExtendedList<T> DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
+        public ExtendedList<T> DeepCloneWith(int? length)
+            => DeepCloneWith<T>(null, length);
+
+        /// <inheritdoc cref="IDeepCloneableList{T,TIn}.DeepCloneWith{TItem}"/>
+        public ExtendedList<T> DeepCloneWith<TItem>(IReadOnlyDictionary<int, TItem>? values, int? length = null)
+            where TItem : T
         {
-            var valueList = values?.ToList();
-            valueList?.ForEach(pair =>
-            {
-                ThrowHelper.ValidateArgumentNotNull(pair.Value is null, $"{nameof(values)} の要素 (Key: {pair.Key})");
-            });
-
-            var clone = Items.DeepCloneWith(length, values);
-
-            return new ExtendedList<T>(clone);
+            var cloneItems = Items.DeepCloneWith(values, length);
+            return new ExtendedList<T>(cloneItems);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -355,7 +336,6 @@ namespace WodiLib.Sys.Collections
 
         #region GetEnumerator
 
-        /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
 
@@ -389,17 +369,26 @@ namespace WodiLib.Sys.Collections
 
         #region DeepCloneWith
 
-        IExtendedList<T> IDeepCloneableList<IExtendedList<T>, T>.DeepCloneWith(int? length,
-            IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
+        IExtendedList<T> IDeepCloneableList<IExtendedList<T>, T>.DeepCloneWith(int? length)
+            => DeepCloneWith<T>(null, length);
 
-        IReadOnlyExtendedList<T> IDeepCloneableList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length,
-            IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
+        IFixedLengthList<T> IDeepCloneableList<IFixedLengthList<T>, T>.DeepCloneWith(int? length)
+            => DeepCloneWith<T>(null, length);
 
-        IFixedLengthList<T> IDeepCloneableList<IFixedLengthList<T>, T>.DeepCloneWith(int? length,
-            IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
+        IReadOnlyExtendedList<T> IDeepCloneableList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length)
+            => DeepCloneWith<T>(null, length);
+
+        IExtendedList<T> IDeepCloneableList<IExtendedList<T>, T>.DeepCloneWith<TItem>(
+            IReadOnlyDictionary<int, TItem>? values, int? length)
+            => DeepCloneWith(values, length);
+
+        IFixedLengthList<T> IDeepCloneableList<IFixedLengthList<T>, T>.DeepCloneWith<TItem>(
+            IReadOnlyDictionary<int, TItem>? values, int? length)
+            => DeepCloneWith(values, length);
+
+        IReadOnlyExtendedList<T> IDeepCloneableList<IReadOnlyExtendedList<T>, T>.DeepCloneWith<TItem>(
+            IReadOnlyDictionary<int, TItem>? values, int? length)
+            => DeepCloneWith(values, length);
 
         #endregion
 

@@ -20,11 +20,193 @@ namespace WodiLib.Sys.Collections
     ///     容量固定のList基底クラス
     /// </summary>
     /// <remarks>
+    ///     機能概要は <seealso cref="IFixedLengthList{T, T}"/> 参照。
+    /// </remarks>
+    /// <typeparam name="TIn">リスト要素入力型</typeparam>
+    /// <typeparam name="TOut">リスト要素出力型</typeparam>
+    /// <typeparam name="TInternal">リスト内包型</typeparam>
+    /// <typeparam name="TImpl">リスト実装型</typeparam>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public abstract class FixedLengthList<TIn, TOut, TInternal, TImpl> : FixedLengthListBase<TInternal, TImpl>,
+        IFixedLengthList<TIn, TOut>
+        where TImpl : FixedLengthList<TIn, TOut, TInternal, TImpl>
+        where TOut : TIn
+        where TInternal : TOut
+    {
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Constructors
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        /// <param name="length">要素数</param>
+        protected FixedLengthList(int length) : base(length)
+        {
+        }
+
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        /// <param name="initItems">初期リスト</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
+        /// </exception>
+        protected FixedLengthList(IEnumerable<TInternal> initItems) : base(initItems)
+        {
+        }
+
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        /// <param name="initItems">初期リスト</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
+        /// </exception>
+        protected FixedLengthList(IEnumerable<TIn> initItems) : base(((Func<int>)(() =>
+        {
+            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
+            var initItemArray = initItems.ToArray();
+            ThrowHelper.ValidateArgumentItemsHasNotNull(initItemArray.HasNullItem(), nameof(initItems));
+
+            return initItemArray.Length;
+        }))())
+        {
+            SetRange(0, CastInternal(initItems));
+        }
+
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        /// <param name="initItems">初期リスト</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
+        /// </exception>
+        protected FixedLengthList(IEnumerable<TOut> initItems) : base(((Func<int>)(() =>
+        {
+            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
+            var initItemArray = initItems.ToArray();
+            ThrowHelper.ValidateArgumentItemsHasNotNull(initItemArray.HasNullItem(), nameof(initItems));
+
+            return initItemArray.Length;
+        }))())
+        {
+            SetRange(0, CastInternal(initItems));
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Public Methods
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc/>
+        public void SetRange(int index, IEnumerable<TIn> items)
+        {
+            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+
+            SetRange(index, CastInternal(items));
+        }
+
+        /// <inheritdoc/>
+        public bool ItemEquals(IReadOnlyExtendedList<TIn, TOut>? other)
+            => ItemEquals((IReadOnlyExtendedList<TInternal, TInternal>?)other);
+
+        /// <inheritdoc cref="IDeepCloneableList{T,TIn}.DeepCloneWith"/>
+        public new TImpl DeepCloneWith<TItem>(IReadOnlyDictionary<int, TItem>? values, int? length = null)
+            where TItem : TIn
+        {
+            if (values is null) return DeepCloneWith(length);
+
+            var cloneValues = new Dictionary<int, TInternal>();
+            values.ForEach(pair =>
+            {
+                var cloneValue = CastInternal(pair.Value);
+                cloneValues[pair.Key] = cloneValue;
+            });
+
+            return base.DeepCloneWith(cloneValues, length);
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Interface Implementation
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        #region Indexer
+
+        TIn IWritableList<TIn, TOut>.this[int index]
+        {
+            set
+            {
+                ThrowHelper.ValidateArgumentNotNull(value is null, nameof(value));
+
+                this[index] = CastInternal(value);
+            }
+        }
+
+        TIn IFixedLengthList<TIn, TOut>.this[int index]
+        {
+            get => this[index];
+            set
+            {
+                ThrowHelper.ValidateArgumentNotNull(value is null, nameof(value));
+
+                this[index] = CastInternal(value);
+            }
+        }
+
+        TOut IReadableList<TOut>.this[int index] => this[index];
+
+        #endregion
+
+        #region GetEnumerator
+
+        IEnumerator<TOut> IEnumerable<TOut>.GetEnumerator() => this.Cast<TOut>().GetEnumerator();
+
+        #endregion
+
+        #region GetRange
+
+        IEnumerable<TOut> IReadableList<TOut>.GetRange(int index, int count) => GetRange(index, count).Cast<TOut>();
+
+        #endregion
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Protected Methods
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// <typeparamref name="TIn"/> を <typeparamref name="TInternal"/> に変換したディープクローンを生成する。
+        /// </summary>
+        /// <param name="src">クローン元</param>
+        /// <returns>クローンインスタンス</returns>
+        protected abstract TInternal CloneToInternal(TIn src);
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Private Methods
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private TInternal CastInternal(TIn src)
+            => CloneToInternal(src);
+
+        private IEnumerable<TInternal> CastInternal(IEnumerable<TIn> src)
+            => src.Select(CloneToInternal);
+
+        private IEnumerable<TInternal> CastInternal(IEnumerable<TOut> src)
+            => src.Select(item => CloneToInternal(item));
+    }
+
+    /// <summary>
+    ///     容量固定のList基底クラス
+    /// </summary>
+    /// <remarks>
     ///     機能概要は <seealso cref="IFixedLengthList{T}"/> 参照。
     /// </remarks>
     /// <typeparam name="T">リスト内包型</typeparam>
     /// <typeparam name="TImpl">リスト実装型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [Obsolete]
     public abstract class FixedLengthList<T, TImpl> : ModelBase<TImpl>,
         IFixedLengthList<T>, IReadOnlyExtendedList<T>
         where TImpl : FixedLengthList<T, TImpl>
@@ -330,13 +512,27 @@ namespace WodiLib.Sys.Collections
 
         #region DeepCloneWith
 
-        IFixedLengthList<T> IDeepCloneableList<IFixedLengthList<T>, T>.DeepCloneWith(int? length,
-            IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
+        IFixedLengthList<T> IDeepCloneableList<IFixedLengthList<T>, T>.DeepCloneWith(int? length)
+        {
+            throw new NotImplementedException();
+        }
 
-        IReadOnlyExtendedList<T> IDeepCloneableList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length,
-            IReadOnlyDictionary<int, T>? values)
-            => DeepCloneWith(length, values);
+        IReadOnlyExtendedList<T> IDeepCloneableList<IReadOnlyExtendedList<T>, T>.DeepCloneWith(int? length)
+        {
+            throw new NotImplementedException();
+        }
+
+        IFixedLengthList<T> IDeepCloneableList<IFixedLengthList<T>, T>.DeepCloneWith<TItem>(
+            IReadOnlyDictionary<int, TItem>? values, int? length)
+        {
+            throw new NotImplementedException();
+        }
+
+        IReadOnlyExtendedList<T> IDeepCloneableList<IReadOnlyExtendedList<T>, T>.DeepCloneWith<TItem>(
+            IReadOnlyDictionary<int, TItem>? values, int? length)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
@@ -370,12 +566,13 @@ namespace WodiLib.Sys.Collections
         [return: NotNull]
         protected abstract T MakeDefaultItem(int index);
 
+        /* TODO: 一時的に virtual 宣言 */
         /// <summary>
         ///     新規インスタンスを作成する。
         /// </summary>
         /// <param name="items">新規インスタンスの要素</param>
         /// <returns>新規作成したインスタンス</returns>
-        protected abstract TImpl MakeInstance(IEnumerable<T> items);
+        protected virtual TImpl MakeInstance(IEnumerable<T> items) => default!;
 
         /// <summary>
         ///     自身の検証処理を実行する <see cref="IWodiLibListValidator{T}"/> インスタンスを生成する。

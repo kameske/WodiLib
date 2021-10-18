@@ -17,7 +17,8 @@ namespace WodiLib.Sys.Collections
     ///     WodiLib 内部で使用する基本リストクラス。
     ///     基本的なメソッドを定義しただけのクラス。イベント通知などは一切行わない。
     /// </summary>
-    internal class SimpleList<T> : ModelBase<SimpleList<T>>, IEnumerable<T>
+    internal class SimpleList<T> : ModelBase<SimpleList<T>>, IEnumerable<T>,
+        IDeepCloneableList<SimpleList<T>, T>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Public Properties
@@ -217,11 +218,34 @@ namespace WodiLib.Sys.Collections
             return this.SequenceEqual(other);
         }
 
+        /// <inheritdoc cref="IReadOnlyExtendedList{TIn,TOut}.ItemEquals{TOther}"/>
+        public bool ItemEquals<TOther>(IEnumerable<TOther>? other, IEqualityComparer<TOther>? itemComparer = null)
+        {
+            if (other is null) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            var otherList = other.ToList();
+
+            if (Count != otherList.Count) return false;
+            if (Count == 0) return true;
+
+            return this.Zip(otherList).All(zip =>
+            {
+                var (x, y) = zip;
+
+                return ItemEquals(x, y, itemComparer);
+            });
+        }
+
         /// <inheritdoc/>
         public override SimpleList<T> DeepClone() => new(this, true);
 
-        /// <inheritdoc cref="IDeepCloneableList{T,TIn}.DeepCloneWith"/>
-        public SimpleList<T> DeepCloneWith(int? length, IReadOnlyDictionary<int, T>? values)
+        public SimpleList<T> DeepCloneWith(int? length)
+            => DeepCloneWith<T>(null, length);
+
+        /// <inheritdoc/>
+        public SimpleList<T> DeepCloneWith<TItem>(IReadOnlyDictionary<int, TItem>? values, int? length)
+            where TItem : T
         {
             var result = DeepClone();
 
@@ -245,5 +269,47 @@ namespace WodiLib.Sys.Collections
         /// <inheritdoc/>
         IEnumerator IEnumerable.GetEnumerator()
             => GetEnumerator();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Private Static Methods
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 2つの要素について同値判定を行う。
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="other"></param>
+        /// <param name="itemComparer"></param>
+        /// <typeparam name="TOther"></typeparam>
+        /// <returns></returns>
+        private static bool ItemEquals<TOther>(T? item, TOther? other, IEqualityComparer<TOther>? itemComparer)
+        {
+            if (ReferenceEquals(item, other))
+            {
+                return true;
+            }
+
+            if (item is null && other is null)
+            {
+                return true;
+            }
+
+            if (item is null | other is null)
+            {
+                return false;
+            }
+
+            if (itemComparer is not null && item is TOther otherX)
+            {
+                return itemComparer.Equals(otherX, other!);
+            }
+
+            if (item is IEqualityComparable comparable)
+            {
+                return comparable.ItemEquals(other);
+            }
+
+            return Equals(item, other);
+        }
     }
 }

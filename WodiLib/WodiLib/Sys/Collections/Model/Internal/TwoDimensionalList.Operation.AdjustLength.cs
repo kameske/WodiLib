@@ -101,7 +101,7 @@ namespace WodiLib.Sys.Collections
 
                 private static TwoDimensionalCollectionChangeEventArgsFactory<T>
                     CreateTwoDimensionalCollectionChangeEventArgsFactory(
-                        ITwoDimensionalList<T> target, IEnumerable<T[]> addRowItems,
+                        ITwoDimensionalList<T, T> target, IEnumerable<T[]> addRowItems,
                         IReadOnlyList<T[]> addColumnItems, int rowLength, int columnLength, Direction direction)
                 {
                     var oldItems = target.ToTwoDimensionalArray();
@@ -142,7 +142,7 @@ namespace WodiLib.Sys.Collections
                     return newItems;
                 }
 
-                private static string[] CreateNotifyPropertyList(ITwoDimensionalList<T> target,
+                private static string[] CreateNotifyPropertyList(ITwoDimensionalList<T, T> target,
                     int rowLength, int columnLength)
                 {
                     var isChangeRowLength = target.RowCount != rowLength;

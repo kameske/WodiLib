@@ -1,6 +1,13 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : IWodiLibListValidator.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 
 namespace WodiLib.Sys.Collections
 {
@@ -8,8 +15,8 @@ namespace WodiLib.Sys.Collections
     ///     WodiLib 独自実装リスト検証処理インタフェース
     /// </summary>
     /// <remarks>
-    ///     <see cref="IRestrictedCapacityList{T}"/>,
-    ///     <see cref="IFixedLengthList{T}"/> で用いられる。
+    ///     <see cref="IRestrictedCapacityList{TIn, TOut}"/>,
+    ///     <see cref="IFixedLengthList{TIn, TOut}"/> で用いられる。
     /// </remarks>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     public interface IWodiLibListValidator<in T>
@@ -74,7 +81,7 @@ namespace WodiLib.Sys.Collections
         ///     Remove メソッドの検証処理
         /// </summary>
         /// <param name="item">除去対象</param>
-        void Remove([AllowNull] T item);
+        void Remove(T? item);
 
         /// <summary>
         ///     Remove, RemoveRange メソッドの検証処理
