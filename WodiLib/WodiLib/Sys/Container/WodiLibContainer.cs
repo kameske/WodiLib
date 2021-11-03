@@ -14,7 +14,7 @@ namespace WodiLib.Sys
     /// <summary>
     ///     オブジェクト注入用クラス
     /// </summary>
-    internal static class WodiLibContainer
+    internal static partial class WodiLibContainer
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Constants
@@ -42,6 +42,23 @@ namespace WodiLib.Sys
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         private static DictForKey ContainerDic { get; } = new();
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Constructor
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        static WodiLibContainer()
+        {
+            RegisterModels();
+        }
+
+        /// <summary>
+        /// WodiLib 内モデルクラスの生成処理を登録する。
+        /// </summary>
+        /// <remarks>
+        /// このメソッドの実装は WodiLib.SourceGenerator から出力される。
+        /// </remarks>
+        static partial void RegisterModels();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Public Static Methods

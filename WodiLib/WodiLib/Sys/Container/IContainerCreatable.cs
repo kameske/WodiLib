@@ -27,19 +27,8 @@ namespace WodiLib.Sys
     ///     初期化パラメータが必要な場合は <see cref="IContainerCreatable"/> を実装する。
     /// </remarks>
     /// <typeparam name="TParam">インスタンス作成パラメータ定義型</typeparam>
+    // ReSharper disable once UnusedTypeParameter
     public interface IContainerCreatable<TParam>
-        where TParam : IContainerCreatableParam
-    {
-    }
-
-    /// <summary>
-    ///     SourceGenerator用
-    ///     パラメータと出力インタフェースを紐付ける。
-    ///     これを付与した実装クラスにパラメータを用いたコンストラクタを実装する。
-    /// </summary>
-    /// <typeparam name="TParam"></typeparam>
-    /// <typeparam name="TIf"></typeparam>
-    internal interface IContainerCreatableInternal<TParam, TIf> : IContainerCreatable<TParam>
         where TParam : IContainerCreatableParam
     {
     }
