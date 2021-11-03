@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib.SourceGenerator
-// File Name    : TypeSymbolExtension.cs
+// File Name    : PropertySymbolExtension.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file

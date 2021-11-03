@@ -157,6 +157,9 @@ namespace WodiLib.SourceGenerator.Core.SourceBuilder
         public static implicit operator SourceFormatTargetBlock(SourceFormatTarget[] src)
             => new(src);
 
+        public static implicit operator SourceFormatTargetBlock(string[] src)
+            => new(src);
+
         public static implicit operator SourceFormatTargetBlock(List<SourceFormatTarget> src)
             => new(src);
     }

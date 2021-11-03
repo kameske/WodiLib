@@ -13,7 +13,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using WodiLib.SourceGenerator.Core.Dtos;
-using WodiLib.SourceGenerator.Core.Extensions;
+using WodiLib.SourceGenerator.Core.Enums;
 using WodiLib.SourceGenerator.Core.SourceAddables.PostInitialize;
 using WodiLib.SourceGenerator.Core.SourceBuilder;
 
@@ -88,10 +88,11 @@ namespace WodiLib.SourceGenerator.Core.Templates.FromAttribute
         /// <summary>
         ///     属性プロパティデフォルト値ディクショナリ
         /// </summary>
-        private AnalyzedPropertyValueDictionary PropertyDefaultValueDict { get; } = new();
+        private protected AnalyzedPropertyValueDictionary PropertyDefaultValueDict { get; } = new();
 
         /// <inheritdoc/>
-        public void AddSource(GeneratorExecutionContext context, ITypeDefinitionInfoResolver typeDefinitionInfoResolver)
+        public virtual void AddSource(GeneratorExecutionContext context,
+            ITypeDefinitionInfoResolver typeDefinitionInfoResolver)
         {
             Logger?.AppendLine($"start AddSource from attribute: {TargetAttribute.TypeFullName}");
             Logger?.AppendLine($"SyntaxWorkResultDict Count: {SyntaxWorkResultDict.Count}");
@@ -162,7 +163,7 @@ namespace WodiLib.SourceGenerator.Core.Templates.FromAttribute
         /// <param name="workState">ワーク状態</param>
         /// <returns>ヒント名</returns>
         private protected virtual string HintName(WorkState workState)
-            => workState.FullName.CompressNameSpace();
+            => workState.FullName;
 
         /// <summary>
         ///     ソース文字列を生成する。
@@ -313,7 +314,10 @@ namespace WodiLib.SourceGenerator.Core.Templates.FromAttribute
             var accessibility = AccessibilityConverter.ConvertSourceText(typeDefinitionInfo.Accessibility);
             resultBuilder.Append(accessibility);
 
-            if (typeDefinitionInfo.IsAbstract)
+            if (
+                typeDefinitionInfo.IsAbstract
+                && typeDefinitionInfo.ObjectType != ObjectType.Interface // interface の場合 IsAbstract が true になる
+            )
             {
                 resultBuilder.Append(" abstract");
             }

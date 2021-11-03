@@ -42,5 +42,37 @@ namespace WodiLib.SourceGenerator.Core.Extensions
         public static AttributeData? FirstOrDefaultAttribute(this ISymbol symbol, string targetAttributeFullName)
             => symbol.GetAttributes().FirstOrDefault(attr =>
                 attr.AttributeClass?.FullName().Equals(targetAttributeFullName) ?? false);
+
+        /// <summary>
+        ///     <paramref name="symbol"/> に含まれる、指定した名前に一致する属性またはその属性から継承された属性の情報を検索する。
+        /// </summary>
+        /// <param name="symbol">検索対象</param>
+        /// <param name="targetAttributeFullName">検索属性名（フル）</param>
+        /// <returns>属性が付与されている場合、属性情報。付与されていない場合、<see langword="null"/>。</returns>
+        public static IEnumerable<AttributeData> SameOrExtendedAttributes(this ISymbol symbol,
+            string targetAttributeFullName)
+            => symbol.GetAttributes().Where(attr =>
+            {
+                var selfAttrClass = attr.AttributeClass;
+                if (selfAttrClass is null)
+                {
+                    return false;
+                }
+
+                // self check
+                if (selfAttrClass.FullName().Equals(targetAttributeFullName))
+                {
+                    return true;
+                }
+
+                // base check
+                var baseType = selfAttrClass.BaseType;
+                if (baseType is not null && baseType.IsSameOrExtended(targetAttributeFullName))
+                {
+                    return true;
+                }
+
+                return false;
+            });
     }
 }

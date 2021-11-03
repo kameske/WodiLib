@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -77,6 +78,21 @@ namespace WodiLib.SourceGenerator.Core.Extensions
             resultBuilder.Append(split.Last());
 
             return resultBuilder.ToString();
+        }
+
+        /// <summary>
+        /// インデントとして用いられているスペース数を返す。
+        /// </summary>
+        /// <param name="src">対象文字列</param>
+        /// <returns>スペース数</returns>
+        public static int IndentSpaceSize(this string src)
+        {
+            if (src.Equals(""))
+            {
+                return 0;
+            }
+
+            return Math.Max(src.IndexOf(c => !c.Equals(' ')), 0);
         }
     }
 }

@@ -28,7 +28,6 @@ namespace WodiLib.Sys.Collections
         IReadableList<TOut>,
         INotifiableCollectionChange,
         IEqualityComparable<IReadOnlyExtendedList<TIn, TOut>>
-        // , IDeepCloneableList<IReadOnlyExtendedList<TIn, TOut>, TIn>
         where TOut : TIn
     {
         /// <summary>

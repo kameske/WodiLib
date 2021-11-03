@@ -36,14 +36,14 @@ namespace WodiLib.SourceGenerator.Core
 
         /// <inheritdoc/>
         public void AppendLine(string message)
-            => Append($"{message}{Environment.NewLine}");
+            => Append($"/* [{GetHashCode()}] */ {message}{Environment.NewLine}");
 
         /// <inheritdoc/>
         public void AppendLine(params string[] messages)
         {
             foreach (var message in messages)
             {
-                AppendLine($"/* [{GetHashCode()}] */ {message}");
+                AppendLine(message);
             }
         }
 

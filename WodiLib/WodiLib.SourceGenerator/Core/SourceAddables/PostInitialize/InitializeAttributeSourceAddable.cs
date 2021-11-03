@@ -33,7 +33,7 @@ namespace WodiLib.SourceGenerator.Core.SourceAddables.PostInitialize
         public abstract string Summary { get; }
 
         /// <summary>Remarks</summary>
-        public virtual string? Remarks { get; set; }
+        public virtual string? Remarks => null;
 
         /// <summary>派生クラスへの継承フラグ</summary>
         public virtual bool Inherited { get; } = true;
@@ -76,7 +76,7 @@ namespace WodiLib.SourceGenerator.Core.SourceAddables.PostInitialize
             var workResult = new SyntaxWorkResult(null, data);
             return new PropertyValues(
                 workResult,
-                MakeDefaultValueDict()
+                MakeDefaultValueDict(data)
             );
         }
 
@@ -131,11 +131,30 @@ namespace WodiLib.SourceGenerator.Core.SourceAddables.PostInitialize
         }
 
         /// <returns>デフォルト値ディクショナリ</returns>
-        private IReadOnlyDictionary<string, PropertyValue> MakeDefaultValueDict()
+        private IReadOnlyDictionary<string, PropertyValue> MakeDefaultValueDict(AttributeData data)
         {
+            // 属性プロパティ
+            var attrProperties = data.AttributeClass
+                                     ?.GetMembers()
+                                     .Where(member => member.Kind == SymbolKind.Property)
+                                     .Cast<IPropertySymbol>()
+                                     .ToList()
+                                 ?? new List<IPropertySymbol>();
+
             return Properties().ToDictionary(
                 prop => prop.Name,
-                prop => prop.SourceTextDefaultValue(false)
+                prop =>
+                {
+                    var defaultValueForAttr = attrProperties.FirstOrDefault(attrProp
+                        => attrProp.Name.Equals(prop.Name)
+                    )?.GetDefaultValue();
+                    if (defaultValueForAttr.HasValue)
+                    {
+                        return new PropertyValue(defaultValueForAttr);
+                    }
+
+                    return prop.SourceTextDefaultValue(false);
+                }
             );
         }
     }

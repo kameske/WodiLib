@@ -34,7 +34,7 @@ namespace WodiLib.SourceGenerator.Core.SourceBuilder
         /// </summary>
         /// <param name="sentence">本文</param>
         /// <returns>タグ文字列</returns>
-        public static string Para(string sentence) => Base("para", ToEscapedDocumentCommentString(sentence));
+        public static string Para(string sentence) => Base("para", sentence);
 
         /// <summary>
         ///     {param} タグ
@@ -56,21 +56,21 @@ namespace WodiLib.SourceGenerator.Core.SourceBuilder
         /// </summary>
         /// <param name="body">本文</param>
         /// <returns>タグ文字列</returns>
-        public static string Remarks(string body) => Base("remarks", ToEscapedDocumentCommentString(body));
+        public static string Remarks(string body) => Base("remarks", body);
 
         /// <summary>
         ///     {returns} タグ
         /// </summary>
         /// <param name="body">本文</param>
         /// <returns>タグ文字列</returns>
-        public static string Returns(string body) => Base("returns", ToEscapedDocumentCommentString(body));
+        public static string Returns(string body) => Base("returns", body);
 
         /// <summary>
         ///     {summary} タグ
         /// </summary>
         /// <param name="body">本文</param>
         /// <returns>タグ文字列</returns>
-        public static string Summary(string body) => Base("summary", ToEscapedDocumentCommentString(body));
+        public static string Summary(string body) => Base("summary", body);
 
         /// <summary>
         ///     Bodyなしタグ
@@ -98,11 +98,5 @@ namespace WodiLib.SourceGenerator.Core.SourceBuilder
         /// <returns>タグ文字列</returns>
         private static string ElementsToString(params (string name, string value)[] elements)
             => string.Join(" ", elements.Select(elem => $"{elem.name}=\"{elem.value}\"")).PrefixIfNotEmpty(" ");
-
-        /// <returns>ドキュメントコメント用にエスケープした文字列</returns>
-        internal static string ToEscapedDocumentCommentString(string src)
-            => src.Replace("&", "&amp;")
-                .Replace("<", "&lt;")
-                .Replace(">", "&gt;");
     }
 }

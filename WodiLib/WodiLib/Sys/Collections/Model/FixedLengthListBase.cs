@@ -25,8 +25,8 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="TImpl">リスト実装型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class FixedLengthListBase<T, TImpl> : ModelBase<TImpl>,
-        IFixedLengthList<T, T>
-        , IDeepCloneableList<TImpl, T>
+        IFixedLengthList<T, T>,
+        IDeepCloneableList<TImpl, T>
         where TImpl : FixedLengthListBase<T, TImpl>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
