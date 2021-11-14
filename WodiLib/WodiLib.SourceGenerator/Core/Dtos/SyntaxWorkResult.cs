@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using WodiLib.SourceGenerator.Core.Extensions;
 
@@ -29,7 +30,7 @@ namespace WodiLib.SourceGenerator.Core.Dtos
         public string Namespace => TargetSymbol?.Namespace() ?? "";
 
         /// <summary>配置するクラス名</summary>
-        public string ClassName => TargetSymbol?.Name ?? "";
+        public string ClassName => TargetSymbol?.ClassName() ?? "";
 
         /// <summary>名前空間.クラス名</summary>
         public string FullName => TargetSymbol?.ToString() ?? "";

@@ -81,18 +81,11 @@ namespace WodiLib.SourceGenerator.Core.Extensions
         }
 
         /// <summary>
-        /// インデントとして用いられているスペース数を返す。
+        /// 山括弧 ("&lt;", "&gt;") を下線 ("_") に 置換する。
         /// </summary>
         /// <param name="src">対象文字列</param>
-        /// <returns>スペース数</returns>
-        public static int IndentSpaceSize(this string src)
-        {
-            if (src.Equals(""))
-            {
-                return 0;
-            }
-
-            return Math.Max(src.IndexOf(c => !c.Equals(' ')), 0);
-        }
+        /// <returns>処理結果</returns>
+        public static string ReplaceAngleBracketsToUnderscore(this string src)
+            => src.Replace("<", "_").Replace(">", "_");
     }
 }

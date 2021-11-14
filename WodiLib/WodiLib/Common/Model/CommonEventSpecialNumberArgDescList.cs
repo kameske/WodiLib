@@ -25,7 +25,7 @@ namespace WodiLib.Common
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public CommonEventSpecialNumberArgDescList()
+        public CommonEventSpecialNumberArgDescList() : base(Capacity)
         {
         }
 
@@ -40,16 +40,6 @@ namespace WodiLib.Common
             : base(items)
         {
         }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Override Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// 容量を返す。
-        /// </summary>
-        /// <returns>容量</returns>
-        public override int GetCapacity() => Capacity;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method

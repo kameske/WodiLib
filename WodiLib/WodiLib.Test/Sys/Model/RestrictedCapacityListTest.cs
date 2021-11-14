@@ -118,7 +118,7 @@ namespace WodiLib.Test.Sys
         [TestCase(TestClassType.Type5, 11, true)]
         [TestCase(TestClassType.Type6, -1, true)]
         [TestCase(TestClassType.Type6, 0, false)] // Ver 2.4 ~ コンストラクタではデフォルト値の null チェックを行わない
-        [TestCase(TestClassType.Type6, 10, false)]
+        [TestCase(TestClassType.Type6, 10, true)] // Ver 3.0 ~ 処理の都合上初期要素がある場合はデフォルト値の null チェックを行う
         [TestCase(TestClassType.Type6, 11, true)]
         public static void ConstructorTest2(TestClassType testType, int initLength, bool isError)
         {
@@ -2085,15 +2085,15 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] ResetTestCaseSource =
         {
-            new object[] {-1, false, true},
-            new object[] {4, false, true},
-            new object[] {5, false, false},
-            new object[] {5, true, true},
-            new object[] {7, false, false},
-            new object[] {7, true, true},
-            new object[] {10, false, false},
-            new object[] {10, true, true},
-            new object[] {11, false, true},
+            new object[] { -1, false, true },
+            new object[] { 4, false, true },
+            new object[] { 5, false, false },
+            new object[] { 5, true, true },
+            new object[] { 7, false, false },
+            new object[] { 7, true, true },
+            new object[] { 10, false, false },
+            new object[] { 10, true, true },
+            new object[] { 11, false, true },
         };
 
         [TestCaseSource(nameof(ResetTestCaseSource))]
@@ -2113,7 +2113,73 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
+                // ReSharper disable once AssignNullToNotNullAttribute
                 instance.Reset(resetItem);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(errorOccured, isError);
+
+            if (errorOccured) return;
+
+            // 要素数が初期化要素と一致すること
+            Assert.AreEqual(instance.Count, resetItemLength);
+
+            // 各イベントが意図した回数呼ばれていること
+            var assertCollectionChangeEventArgsList =
+                new Action<Dictionary<string, List<NotifyCollectionChangedEventArgs>>>(
+                    dic =>
+                    {
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Replace)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Add)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Move)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Remove)].Count, 0);
+                        Assert.AreEqual(dic[nameof(NotifyCollectionChangedAction.Reset)].Count, 1);
+                    });
+            assertCollectionChangeEventArgsList(collectionChangingEventArgsList);
+            assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
+            Assert.AreEqual(propertyChangingEventCalledCount[nameof(instance.Count)], 1);
+            Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], 1);
+            Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 1);
+            Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 1);
+
+            // 各要素が初期化した要素と一致すること
+            Assert.IsTrue(instance.SequenceEqual(resetItem));
+        }
+
+        private static readonly object[] ResetAsWritableListTestCaseSource =
+        {
+            new object[] { -1, false, true },
+            new object[] { 6, false, true },
+            new object[] { 7, false, false },
+            new object[] { 7, true, true },
+            new object[] { 10, false, true },
+        };
+
+        [TestCaseSource(nameof(ResetAsWritableListTestCaseSource))]
+        public static void ResetTestAsWritableList(int resetItemLength, bool isResetItemHasNull, bool isError)
+        {
+            const int initItemLength = 7;
+            var initItem = MakeStringList(initItemLength);
+            var instance =
+                MakeCollection2ForMethodTest(initItem, initItemLength,
+                    out var collectionChangingEventArgsList,
+                    out var collectionChangedEventArgsList,
+                    out var propertyChangingEventCalledCount,
+                    out var propertyChangedEventCalledCount);
+            var resetItem = MakeStringList2(resetItemLength, isResetItemHasNull)?
+                .Select(s => s is null ? null : $"reset_{s}").ToList();
+
+            var errorOccured = false;
+            try
+            {
+                // ReSharper disable once AssignNullToNotNullAttribute
+                ((IWritableList<string, string>)instance).Reset(resetItem);
             }
             catch (Exception ex)
             {
@@ -2197,92 +2263,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], 0);
             Assert.AreEqual(propertyChangedEventCalledCount[nameof(instance.Count)], 0);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
-        }
-
-        [TestCase(5, "1", 1)]
-        [TestCase(5, "6", -1)]
-        [TestCase(5, null, -1)]
-        public static void IndexOfTest(int initLength, string item, int result)
-        {
-            var instance = MakeCollectionForMethodTest(initLength, out _, out _, out _, out _);
-            var indexOfResult = -1;
-
-            var errorOccured = false;
-            try
-            {
-                indexOfResult = instance.IndexOf(item);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生しないこと
-            Assert.IsFalse(errorOccured);
-
-            // 取得した値が意図した値と一致すること
-            Assert.AreEqual(indexOfResult, result);
-
-
-            // 初期値が変化していないこと
-            for (var i = 0; i < initLength; i++)
-            {
-                Assert.AreEqual(instance[i], i.ToString());
-            }
-        }
-
-        [TestCase(0, 0, -1, true)]
-        [TestCase(0, 0, 0, false)]
-        [TestCase(0, 0, 1, true)]
-        [TestCase(1, 0, -1, true)]
-        [TestCase(1, 0, 0, true)]
-        [TestCase(1, 0, 1, true)]
-        [TestCase(1, 1, -1, true)]
-        [TestCase(1, 1, 0, false)]
-        [TestCase(1, 1, 1, true)]
-        [TestCase(1, 2, -1, true)]
-        [TestCase(1, 2, 0, false)]
-        [TestCase(1, 2, 1, false)]
-        public static void CopyToTest(int initLength, int arrayLength, int index, bool isError)
-        {
-            var instance = MakeCollectionForMethodTest(initLength, out _, out _, out _, out _);
-            var copyArray = MakeStringArray(arrayLength);
-
-            var errorOccured = false;
-            try
-            {
-                instance.CopyTo(copyArray, index);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            // 初期値が変化していないこと
-            for (var j = 0; j < initLength; j++)
-            {
-                Assert.AreEqual(instance[j], j.ToString());
-            }
-
-            if (errorOccured) return;
-
-            // 配列の要素（コピー領域より前）が変化していないこと
-            var i = 0;
-            for (; i < index; i++)
-            {
-                Assert.AreEqual(copyArray[i], (i * 100).ToString());
-            }
-
-            // 配列の要素（コピーした領域）がコピーした内容で上書きされていること
-            for (; i < initLength; i++)
-            {
-                Assert.AreEqual(copyArray[i + index], i.ToString());
-            }
         }
 
         [Test]
@@ -2498,7 +2478,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                clone = instance.DeepCloneWith();
+                clone = instance.DeepCloneWith(null);
             }
             catch (Exception ex)
             {
@@ -2536,11 +2516,11 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] DeepCloneWithTestCaseSource_1 =
         {
-            new object[] {null, false},
-            new object[] {-1, true},
-            new object[] {0, false},
-            new object[] {10, false},
-            new object[] {11, true},
+            new object[] { null, false },
+            new object[] { -1, true },
+            new object[] { 0, false },
+            new object[] { 10, false },
+            new object[] { 11, true },
         };
 
         [TestCaseSource(nameof(DeepCloneWithTestCaseSource_1))]
@@ -2610,18 +2590,20 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] DeepCloneWithTestCaseSource_2 =
         {
-            new object[] {null, false},
-            new object[] {Array.Empty<KeyValuePair<int, TestClass>>(), false},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(-1, new TestClass())}, false},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(0, new TestClass())}, false},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(4, new TestClass())}, false},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(5, new TestClass())}, false},
+            new object[] { null, false },
+            new object[] { Array.Empty<KeyValuePair<int, TestClass>>(), false },
+            new object[] { new KeyValuePair<int, TestClass>[] { new(-1, new TestClass()) }, false },
+            new object[] { new KeyValuePair<int, TestClass>[] { new(0, new TestClass()) }, false },
+            new object[] { new KeyValuePair<int, TestClass>[] { new(4, new TestClass()) }, false },
+            new object[] { new KeyValuePair<int, TestClass>[] { new(5, new TestClass()) }, false },
             new object[]
-                {new KeyValuePair<int, TestClass>[] {new(-1, new TestClass()), new(0, new TestClass())}, false},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(0, new TestClass()), new(4, new TestClass())}, false},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(3, new TestClass()), new(5, new TestClass())}, false},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(1, null)}, true},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(3, new TestClass()), new(4, null)}, true},
+                { new KeyValuePair<int, TestClass>[] { new(-1, new TestClass()), new(0, new TestClass()) }, false },
+            new object[]
+                { new KeyValuePair<int, TestClass>[] { new(0, new TestClass()), new(4, new TestClass()) }, false },
+            new object[]
+                { new KeyValuePair<int, TestClass>[] { new(3, new TestClass()), new(5, new TestClass()) }, false },
+            new object[] { new KeyValuePair<int, TestClass>[] { new(1, null) }, true },
+            new object[] { new KeyValuePair<int, TestClass>[] { new(3, new TestClass()), new(4, null) }, true },
         };
 
         [TestCaseSource(nameof(DeepCloneWithTestCaseSource_2))]
@@ -2697,33 +2679,39 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] DeepCloneWithTestCaseSource_3 =
         {
-            new object[] {null, null, false},
-            new object[] {null, Array.Empty<KeyValuePair<int, TestClass>>(), false},
-            new object[] {null, new KeyValuePair<int, TestClass>[] {new(-1, new TestClass())}, false},
-            new object[] {null, new KeyValuePair<int, TestClass>[] {new(0, new TestClass())}, false},
-            new object[] {null, new KeyValuePair<int, TestClass>[] {new(4, new TestClass())}, false},
-            new object[] {null, new KeyValuePair<int, TestClass>[] {new(5, new TestClass())}, false},
+            new object[] { null, null, false },
+            new object[] { null, Array.Empty<KeyValuePair<int, TestClass>>(), false },
+            new object[] { null, new KeyValuePair<int, TestClass>[] { new(-1, new TestClass()) }, false },
+            new object[] { null, new KeyValuePair<int, TestClass>[] { new(0, new TestClass()) }, false },
+            new object[] { null, new KeyValuePair<int, TestClass>[] { new(4, new TestClass()) }, false },
+            new object[] { null, new KeyValuePair<int, TestClass>[] { new(5, new TestClass()) }, false },
             new object[]
-                {null, new KeyValuePair<int, TestClass>[] {new(-1, new TestClass()), new(0, new TestClass())}, false},
+            {
+                null, new KeyValuePair<int, TestClass>[] { new(-1, new TestClass()), new(0, new TestClass()) }, false
+            },
             new object[]
-                {null, new KeyValuePair<int, TestClass>[] {new(0, new TestClass()), new(4, new TestClass())}, false},
+            {
+                null, new KeyValuePair<int, TestClass>[] { new(0, new TestClass()), new(4, new TestClass()) }, false
+            },
             new object[]
-                {null, new KeyValuePair<int, TestClass>[] {new(3, new TestClass()), new(5, new TestClass())}, false},
-            new object[] {-1, null, true},
-            new object[] {0, null, false},
-            new object[] {10, null, false},
-            new object[] {11, null, true},
-            new object[] {0, Array.Empty<KeyValuePair<int, TestClass>>(), false},
-            new object[] {0, new KeyValuePair<int, TestClass>[] {new(0, new TestClass())}, false},
-            new object[] {3, Array.Empty<KeyValuePair<int, TestClass>>(), false},
+            {
+                null, new KeyValuePair<int, TestClass>[] { new(3, new TestClass()), new(5, new TestClass()) }, false
+            },
+            new object[] { -1, null, true },
+            new object[] { 0, null, false },
+            new object[] { 10, null, false },
+            new object[] { 11, null, true },
+            new object[] { 0, Array.Empty<KeyValuePair<int, TestClass>>(), false },
+            new object[] { 0, new KeyValuePair<int, TestClass>[] { new(0, new TestClass()) }, false },
+            new object[] { 3, Array.Empty<KeyValuePair<int, TestClass>>(), false },
             new object[]
-                {3, new KeyValuePair<int, TestClass>[] {new(0, new TestClass()), new(2, new TestClass())}, false},
+                { 3, new KeyValuePair<int, TestClass>[] { new(0, new TestClass()), new(2, new TestClass()) }, false },
             new object[]
-                {3, new KeyValuePair<int, TestClass>[] {new(0, new TestClass()), new(3, new TestClass())}, false},
+                { 3, new KeyValuePair<int, TestClass>[] { new(0, new TestClass()), new(3, new TestClass()) }, false },
             new object[]
-                {3, new KeyValuePair<int, TestClass>[] {new(0, null)}, true},
+                { 3, new KeyValuePair<int, TestClass>[] { new(0, null) }, true },
             new object[]
-                {3, new KeyValuePair<int, TestClass>[] {new(0, null), new(3, new TestClass())}, true},
+                { 3, new KeyValuePair<int, TestClass>[] { new(0, null), new(3, new TestClass()) }, true },
         };
 
         [TestCaseSource(nameof(DeepCloneWithTestCaseSource_3))]
@@ -2742,7 +2730,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                clone = instance.DeepCloneWith(length, valueList);
+                clone = instance.DeepCloneWith(valueList, length);
             }
             catch (Exception ex)
             {
@@ -2845,17 +2833,6 @@ namespace WodiLib.Test.Sys
             return result;
         }
 
-        private static string[] MakeStringArray(int length)
-        {
-            var result = new string[length];
-            for (var i = 0; i < length; i++)
-            {
-                result[i] = (i * 100).ToString();
-            }
-
-            return result;
-        }
-
         private static ListTest1 MakeCollectionForMethodTest(int initLength,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList,
@@ -2933,7 +2910,7 @@ namespace WodiLib.Test.Sys
                 NotifyCollectionChangedEventType = NotifyCollectionChangeEventType.Single
             };
 
-            result.AddRange(new[] {"", "", "", "", ""});
+            result.AddRange(new[] { "", "", "", "", "" });
             result.IsThrowException = true;
 
             collectionChangingEventArgsList = MakeCollectionChangeEventArgsDic();
@@ -2966,11 +2943,11 @@ namespace WodiLib.Test.Sys
         private static Dictionary<string, List<NotifyCollectionChangedEventArgs>> MakeCollectionChangeEventArgsDic()
             => new()
             {
-                {nameof(NotifyCollectionChangedAction.Add), new List<NotifyCollectionChangedEventArgs>()},
-                {nameof(NotifyCollectionChangedAction.Replace), new List<NotifyCollectionChangedEventArgs>()},
-                {nameof(NotifyCollectionChangedAction.Remove), new List<NotifyCollectionChangedEventArgs>()},
-                {nameof(NotifyCollectionChangedAction.Reset), new List<NotifyCollectionChangedEventArgs>()},
-                {nameof(NotifyCollectionChangedAction.Move), new List<NotifyCollectionChangedEventArgs>()},
+                { nameof(NotifyCollectionChangedAction.Add), new List<NotifyCollectionChangedEventArgs>() },
+                { nameof(NotifyCollectionChangedAction.Replace), new List<NotifyCollectionChangedEventArgs>() },
+                { nameof(NotifyCollectionChangedAction.Remove), new List<NotifyCollectionChangedEventArgs>() },
+                { nameof(NotifyCollectionChangedAction.Reset), new List<NotifyCollectionChangedEventArgs>() },
+                { nameof(NotifyCollectionChangedAction.Move), new List<NotifyCollectionChangedEventArgs>() },
             };
 
         /// <summary>
@@ -2979,7 +2956,8 @@ namespace WodiLib.Test.Sys
         /// <param name="isBefore">CollectionChanging にセットする場合true, CollectionChanged にセットする場合false</param>
         /// <param name="resultDic">発生したイベント引数を格納するDirectory</param>
         /// <returns>生成したインスタンス</returns>
-        private static NotifyCollectionChangedEventHandler MakeCollectionChangeEventHandler(bool isBefore,
+        private static EventHandler<NotifyCollectionChangedEventArgsEx<string>> MakeCollectionChangeEventHandler(
+            bool isBefore,
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> resultDic)
             => (_, args) =>
             {
@@ -3000,8 +2978,8 @@ namespace WodiLib.Test.Sys
         /// <returns>生成したインスタンス</returns>
         private static Dictionary<string, int> MakePropertyChangedArgsDic() => new()
         {
-            {"Count", 0},
-            {ListConstant.IndexerName, 0},
+            { "Count", 0 },
+            { ListConstant.IndexerName, 0 },
         };
 
         /// <summary>
@@ -3088,6 +3066,9 @@ namespace WodiLib.Test.Sys
             {
                 throw new Exception();
             }
+
+            protected override ListTest1 MakeInstance(IEnumerable<string> items)
+                => new(items.ToList());
         }
 
         private class ListTest2 : AbsListTest<ListTest2>
@@ -3120,6 +3101,9 @@ namespace WodiLib.Test.Sys
             {
                 throw new Exception();
             }
+
+            protected override ListTest2 MakeInstance(IEnumerable<string> items)
+                => new(items.ToList());
         }
 
         private class ListTest3 : AbsListTest<ListTest3>
@@ -3153,6 +3137,9 @@ namespace WodiLib.Test.Sys
             {
                 throw new Exception();
             }
+
+            protected override ListTest3 MakeInstance(IEnumerable<string> items)
+                => new(items.ToList());
         }
 
         private class ListTest4 : AbsListTest<ListTest4>
@@ -3183,6 +3170,9 @@ namespace WodiLib.Test.Sys
             {
                 throw new Exception();
             }
+
+            protected override ListTest4 MakeInstance(IEnumerable<string> items)
+                => new(items.ToList());
         }
 
         private class ListTest5 : AbsListTest<ListTest5>
@@ -3214,6 +3204,9 @@ namespace WodiLib.Test.Sys
             {
                 throw new Exception();
             }
+
+            protected override ListTest5 MakeInstance(IEnumerable<string> items)
+                => new(items.ToList());
         }
 
         private class ListTest6 : AbsListTest<ListTest6>
@@ -3244,6 +3237,9 @@ namespace WodiLib.Test.Sys
             {
                 throw new Exception();
             }
+
+            protected override ListTest6 MakeInstance(IEnumerable<string> items)
+                => new(items.ToList());
         }
 
         private class CollectionTest7 : FixedLengthList<string, CollectionTest7>
@@ -3283,6 +3279,11 @@ namespace WodiLib.Test.Sys
                 CollectionChanging += OnCollectionChanging;
             }
 
+            private ListTest8(IEnumerable<string> initItems) : base(initItems.ToList())
+            {
+                CollectionChanging += OnCollectionChanging;
+            }
+
             private void OnCollectionChanging(object sender, NotifyCollectionChangedEventArgs e)
             {
                 if (IsThrowException) throw new Exception();
@@ -3292,6 +3293,9 @@ namespace WodiLib.Test.Sys
             {
                 throw new Exception();
             }
+
+            protected override ListTest8 MakeInstance(IEnumerable<string> items)
+                => new(items.ToList());
         }
 
         private class ListTest9 : RestrictedCapacityList<TestClass, ListTest9>
@@ -3301,7 +3305,7 @@ namespace WodiLib.Test.Sys
             public override int GetMinCapacity() => 0;
 
             public ListTest9(IEnumerable<TestClass> list) : base(
-                ((Func<IEnumerable<TestClass>>) (() => list.Select(x => x.DeepClone())))())
+                ((Func<IEnumerable<TestClass>>)(() => list.Select(x => x.DeepClone())))())
             {
             }
 
@@ -3310,6 +3314,9 @@ namespace WodiLib.Test.Sys
 
             protected override TestClass MakeDefaultItem(int index)
                 => new();
+
+            protected override ListTest9 MakeInstance(IEnumerable<TestClass> items)
+                => new(items);
         }
 
         public class TestClass : IEqualityComparable<TestClass>

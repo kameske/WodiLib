@@ -6,7 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -26,7 +25,8 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="TOut">リスト要素出力型</typeparam>
     public interface IReadOnlyExtendedList<TIn, TOut> :
         IReadableList<TOut>,
-        INotifiableCollectionChange,
+        INotifiableCollectionChange<TOut>,
+        IContainerCreatable, IContainerCreatable<ListInitParam<TIn>>,
         IEqualityComparable<IReadOnlyExtendedList<TIn, TOut>>
         where TOut : TIn
     {
@@ -52,9 +52,8 @@ namespace WodiLib.Sys.Collections
     ///         それ以外にもいくつかメソッドを追加している。
     ///     </para>
     /// </remarks>
-    /// <typeparam name="T">リスト内包クラス</typeparam>
-    [Obsolete]
-    public interface IReadOnlyExtendedList<T> : IReadableList<T, IReadOnlyExtendedList<T>>
+    /// <typeparam name="T">リスト要素型</typeparam>
+    public interface IReadOnlyExtendedList<T> : IReadOnlyExtendedList<T, T>
     {
     }
 }

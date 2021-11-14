@@ -238,7 +238,14 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <inheritdoc/>
-        public override SimpleList<T> DeepClone() => new(this, true);
+        public override SimpleList<T> DeepClone()
+        {
+            var result = new SimpleList<T>(this, true)
+            {
+                FuncMakeItems = FuncMakeItems
+            };
+            return result;
+        }
 
         public SimpleList<T> DeepCloneWith(int? length)
             => DeepCloneWith<T>(null, length);
@@ -256,7 +263,7 @@ namespace WodiLib.Sys.Collections
 
             values?.ForEach(pair =>
             {
-                if (result.Count < pair.Key) result[pair.Key] = pair.Value;
+                if (0 <= pair.Key && pair.Key < result.Count) result[pair.Key] = pair.Value;
             });
 
             return result;

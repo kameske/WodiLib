@@ -8,7 +8,6 @@ using NUnit.Framework;
 using WodiLib.Sys;
 using WodiLib.Sys.Collections;
 using WodiLib.Test.Tools;
-using LinqExtension = Commons.Linq.Extension.LinqExtension;
 
 namespace WodiLib.Test.Sys
 {
@@ -610,10 +609,10 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] ResetTestCaseSource =
         {
-            new object[] {-1, true},
-            new object[] {9, true},
-            new object[] {10, false},
-            new object[] {11, true},
+            new object[] { -1, true },
+            new object[] { 9, true },
+            new object[] { 10, false },
+            new object[] { 11, true },
         };
 
         [TestCaseSource(nameof(ResetTestCaseSource))]
@@ -630,6 +629,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
+                // ReSharper disable once AssignNullToNotNullAttribute
                 instance.Reset(resetItem);
             }
             catch (Exception ex)
@@ -707,91 +707,6 @@ namespace WodiLib.Test.Sys
             assertCollectionChangeEventArgsList(collectionChangedEventArgsList);
             Assert.AreEqual(propertyChangingEventCalledCount[ListConstant.IndexerName], 0);
             Assert.AreEqual(propertyChangedEventCalledCount[ListConstant.IndexerName], 0);
-        }
-
-        [TestCase("1", 1)]
-        [TestCase("11", -1)]
-        [TestCase(null, -1)]
-        public static void IndexOfTest(string item, int result)
-        {
-            var instance = MakeCollectionForMethodTest(10, out _, out _, out _, out _);
-
-            var indexOfResult = -1;
-
-            var errorOccured = false;
-            try
-            {
-                indexOfResult = instance.IndexOf(item);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生しないこと
-            Assert.IsFalse(errorOccured);
-
-            // 取得した値が意図した値と一致すること
-            Assert.AreEqual(indexOfResult, result);
-
-
-            // 初期値が変化していないこと
-            for (var i = 0; i < 10; i++)
-            {
-                Assert.AreEqual(instance[i], i.ToString());
-            }
-        }
-
-        [TestCase(9, -1, true)]
-        [TestCase(9, 0, true)]
-        [TestCase(9, 1, true)]
-        [TestCase(10, -1, true)]
-        [TestCase(10, 0, false)]
-        [TestCase(10, 1, true)]
-        [TestCase(11, -1, true)]
-        [TestCase(11, 0, false)]
-        [TestCase(11, 1, false)]
-        [TestCase(11, 2, true)]
-        public static void CopyToTest(int arrayLength, int index, bool isError)
-        {
-            var instance = MakeCollectionForMethodTest(10, out _, out _, out _, out _);
-            var copyArray = MakeStringArray(arrayLength);
-
-            var errorOccured = false;
-            try
-            {
-                instance.CopyTo(copyArray, index);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーフラグが一致すること
-            Assert.AreEqual(errorOccured, isError);
-
-            // 初期値が変化していないこと
-            for (var j = 0; j < 10; j++)
-            {
-                Assert.AreEqual(instance[j], j.ToString());
-            }
-
-            if (errorOccured) return;
-
-            // 配列の要素（コピー領域より前）が変化していないこと
-            var i = 0;
-            for (; i < index; i++)
-            {
-                Assert.AreEqual(copyArray[i], (i * 100).ToString());
-            }
-
-            // 配列の要素（コピーした領域）がコピーした内容で上書きされていること
-            for (; i < 10; i++)
-            {
-                Assert.AreEqual(copyArray[i + index], i.ToString());
-            }
         }
 
         [Test]
@@ -950,17 +865,18 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] DeepCloneWithTestCaseSource =
         {
-            new object[] {null, false},
-            new object[] {Array.Empty<KeyValuePair<int, TestClass>>(), false},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(-1, new TestClass())}, false},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(0, new TestClass())}, false},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(4, new TestClass())}, false},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(5, new TestClass())}, false},
+            new object[] { null, false },
+            new object[] { Array.Empty<KeyValuePair<int, TestClass>>(), false },
+            new object[] { new KeyValuePair<int, TestClass>[] { new(-1, new TestClass()) }, false },
+            new object[] { new KeyValuePair<int, TestClass>[] { new(0, new TestClass()) }, false },
+            new object[] { new KeyValuePair<int, TestClass>[] { new(4, new TestClass()) }, false },
+            new object[] { new KeyValuePair<int, TestClass>[] { new(5, new TestClass()) }, false },
             new object[]
-                {new KeyValuePair<int, TestClass>[] {new(-1, new TestClass()), new(0, new TestClass())}, false},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(0, new TestClass()), new(4, new TestClass())}, false},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(1, null)}, true},
-            new object[] {new KeyValuePair<int, TestClass>[] {new(3, new TestClass()), new(2, null)}, true},
+                { new KeyValuePair<int, TestClass>[] { new(-1, new TestClass()), new(0, new TestClass()) }, false },
+            new object[]
+                { new KeyValuePair<int, TestClass>[] { new(0, new TestClass()), new(4, new TestClass()) }, false },
+            new object[] { new KeyValuePair<int, TestClass>[] { new(1, null) }, true },
+            new object[] { new KeyValuePair<int, TestClass>[] { new(3, new TestClass()), new(2, null) }, true },
         };
 
         [TestCaseSource(nameof(DeepCloneWithTestCaseSource))]
@@ -1050,17 +966,6 @@ namespace WodiLib.Test.Sys
             return result;
         }
 
-        private static string[] MakeStringArray(int length)
-        {
-            var result = new string[length];
-            for (var i = 0; i < length; i++)
-            {
-                result[i] = (i * 100).ToString();
-            }
-
-            return result;
-        }
-
         private static CollectionTest1 MakeCollectionForMethodTest(int initLength,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangingEventArgsList,
             out Dictionary<string, List<NotifyCollectionChangedEventArgs>> collectionChangedEventArgsList,
@@ -1135,9 +1040,9 @@ namespace WodiLib.Test.Sys
         private static Dictionary<string, List<NotifyCollectionChangedEventArgs>> MakeCollectionChangeEventArgsDic()
             => new()
             {
-                {nameof(NotifyCollectionChangedAction.Replace), new List<NotifyCollectionChangedEventArgs>()},
-                {nameof(NotifyCollectionChangedAction.Reset), new List<NotifyCollectionChangedEventArgs>()},
-                {nameof(NotifyCollectionChangedAction.Move), new List<NotifyCollectionChangedEventArgs>()},
+                { nameof(NotifyCollectionChangedAction.Replace), new List<NotifyCollectionChangedEventArgs>() },
+                { nameof(NotifyCollectionChangedAction.Reset), new List<NotifyCollectionChangedEventArgs>() },
+                { nameof(NotifyCollectionChangedAction.Move), new List<NotifyCollectionChangedEventArgs>() },
             };
 
         /// <summary>
@@ -1146,7 +1051,8 @@ namespace WodiLib.Test.Sys
         /// <param name="isBefore">CollectionChanging にセットする場合true, CollectionChanged にセットする場合false</param>
         /// <param name="resultDic">発生したイベント引数を格納するDirectory</param>
         /// <returns>生成したインスタンス</returns>
-        private static NotifyCollectionChangedEventHandler MakeCollectionChangeEventHandler(bool isBefore,
+        private static EventHandler<NotifyCollectionChangedEventArgsEx<string>> MakeCollectionChangeEventHandler(
+            bool isBefore,
             Dictionary<string, List<NotifyCollectionChangedEventArgs>> resultDic)
             => (_, args) =>
             {
@@ -1167,7 +1073,7 @@ namespace WodiLib.Test.Sys
         /// <returns>生成したインスタンス</returns>
         private static Dictionary<string, int> MakePropertyChangedArgsDic() => new()
         {
-            {ListConstant.IndexerName, 0},
+            { ListConstant.IndexerName, 0 },
         };
 
         /// <summary>

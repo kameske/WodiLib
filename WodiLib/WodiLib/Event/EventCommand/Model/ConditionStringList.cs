@@ -17,7 +17,8 @@ namespace WodiLib.Event.EventCommand
     /// <summary>
     /// 条件（文字列）条件リスト
     /// </summary>
-    public class ConditionStringList : FixedLengthList<ConditionStringDesc, ConditionStringList>, IModelBase<ConditionStringList>
+    public class ConditionStringList : FixedLengthList<ConditionStringDesc, ConditionStringList>,
+        IModelBase<ConditionStringList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      public Constant
@@ -56,7 +57,7 @@ namespace WodiLib.Event.EventCommand
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        internal ConditionStringList()
+        internal ConditionStringList() : base(Capacity)
         {
         }
 
@@ -73,17 +74,6 @@ namespace WodiLib.Event.EventCommand
         public ConditionStringList(IEnumerable<ConditionStringDesc> items) : base(items)
         {
         }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Override Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <inheritdoc />
-        /// <summary>
-        /// 容量値を返す。
-        /// </summary>
-        /// <returns>容量最大値</returns>
-        public override int GetCapacity() => Capacity;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method

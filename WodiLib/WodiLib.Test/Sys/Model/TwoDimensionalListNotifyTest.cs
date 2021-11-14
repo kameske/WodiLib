@@ -3231,19 +3231,19 @@ namespace WodiLib.Test.Sys
                 logger.Debug("}");
             };
 
-        private static NotifyCollectionChangedEventHandler MakeCollectionChangeEventHandler(bool isBefore,
+        private static EventHandler<NotifyCollectionChangedEventArgsEx<IReadOnlyList<TestRecord>>>
+            MakeCollectionChangeEventHandler(bool isBefore,
             NotifyCollectionChangedEventArgsDic resultDic)
             => (_, args) =>
             {
-                var argsEx = (NotifyCollectionChangedEventArgsEx<IReadOnlyList<TestRecord>>) args;
-                resultDic.Add(argsEx);
+                resultDic.Add(args);
                 logger.Debug($"Collection{(isBefore ? "Changing" : "Changed")} Event Raise. ");
-                logger.Debug($"{nameof(argsEx)}: {{");
-                logger.Debug($"    {nameof(argsEx.Action)}: {argsEx.Action}");
-                logger.Debug($"    {nameof(argsEx.OldStartingIndex)}: {argsEx.OldStartingIndex}");
-                logger.Debug($"    {nameof(argsEx.OldItems)}: {argsEx.OldItems}");
-                logger.Debug($"    {nameof(argsEx.NewStartingIndex)}: {argsEx.NewStartingIndex}");
-                logger.Debug($"    {nameof(argsEx.NewItems)}: {argsEx.NewItems}");
+                logger.Debug($"{nameof(args)}: {{");
+                logger.Debug($"    {nameof(args.Action)}: {args.Action}");
+                logger.Debug($"    {nameof(args.OldStartingIndex)}: {args.OldStartingIndex}");
+                logger.Debug($"    {nameof(args.OldItems)}: {args.OldItems}");
+                logger.Debug($"    {nameof(args.NewStartingIndex)}: {args.NewStartingIndex}");
+                logger.Debug($"    {nameof(args.NewItems)}: {args.NewItems}");
                 logger.Debug("}");
             };
 

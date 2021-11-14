@@ -6,16 +6,6 @@ namespace WodiLib.Test.Event.EventCommand
     [TestFixture]
     public class ConditionStringListTest
     {
-        [Test]
-        public static void GetCapacityTest()
-        {
-            var instance = new ConditionStringList();
-            var maxCapacity = instance.GetCapacity();
-
-            // 取得した値が容量最大値と一致すること
-            Assert.AreEqual(maxCapacity, ConditionStringList.Capacity);
-        }
-
         private static readonly object[] SearchUseNumberVariableForRightSideMaxTestCaseSource =
         {
             new object[] { 1, false, false, false, false, 1 },

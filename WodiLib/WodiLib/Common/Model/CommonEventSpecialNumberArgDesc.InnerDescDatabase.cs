@@ -148,7 +148,7 @@ namespace WodiLib.Common
             {
                 // -1～-3を使用しない場合は空リストで良い
                 if (!DatabaseUseAdditionalItemsFlag) return new List<CommonEventSpecialArgCase>();
-                return ArgCaseList;
+                return ArgCaseList.ToList();
             }
 
             /// <inheritdoc/>

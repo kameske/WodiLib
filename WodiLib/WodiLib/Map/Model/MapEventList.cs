@@ -142,13 +142,13 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        protected override IWodiLibListValidator<MapEvent> MakeValidator()
+        protected override Validators MakeValidator()
         {
-            return new CustomValidator(this);
+            return new Validators(new CustomValidator(this), new CustomValidator(this));
         }
 
         /// <inheritdoc />
-        protected override MapEvent MakeDefaultItem(int index) => new MapEvent();
+        protected override MapEvent MakeDefaultItem(int index) => new() { MapEventId = index };
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common

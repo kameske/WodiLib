@@ -87,13 +87,6 @@ namespace WodiLib.Ini
         [Obsolete("GetCapacity() メソッドを参照してください。 Ver 2.5 で削除します。")]
         public int GetMinCapacity() => MinCapacity;
 
-        /// <inheritdoc />
-        /// <summary>
-        /// 容量を返す。
-        /// </summary>
-        /// <returns>容量</returns>
-        public override int GetCapacity() => Capacity;
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

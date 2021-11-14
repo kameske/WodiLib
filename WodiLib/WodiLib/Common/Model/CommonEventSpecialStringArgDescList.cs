@@ -8,7 +8,9 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベント文字列引数特殊指定情報リスト
     /// </summary>
-    public class CommonEventSpecialStringArgDescList : FixedLengthList<CommonEventSpecialStringArgDesc, CommonEventSpecialStringArgDescList>
+    public class
+        CommonEventSpecialStringArgDescList : FixedLengthList<CommonEventSpecialStringArgDesc,
+            CommonEventSpecialStringArgDescList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -24,7 +26,7 @@ namespace WodiLib.Common
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public CommonEventSpecialStringArgDescList()
+        public CommonEventSpecialStringArgDescList() : base(Capacity)
         {
         }
 
@@ -39,16 +41,6 @@ namespace WodiLib.Common
             : base(items)
         {
         }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Override Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        /// 容量を返す。
-        /// </summary>
-        /// <returns>容量</returns>
-        public override int GetCapacity() => Capacity;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method

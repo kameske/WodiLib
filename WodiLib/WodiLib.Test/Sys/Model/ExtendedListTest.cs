@@ -26,17 +26,17 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] NotifyCollectionChangeEventArgsTestCaseSource =
         {
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.None.Id},
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Once.Id},
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Simple.Id},
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Single.Id},
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Multi.Id},
-            new object[] {NotifyCollectionChangeEventType.Once.Id, NotifyCollectionChangeEventType.None.Id},
-            new object[] {NotifyCollectionChangeEventType.Simple.Id, NotifyCollectionChangeEventType.None.Id},
-            new object[] {NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.None.Id},
-            new object[] {NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.None.Id},
-            new object[] {NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.Once.Id},
-            new object[] {NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.Multi.Id},
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.None.Id },
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Once.Id },
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Simple.Id },
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Single.Id },
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Multi.Id },
+            new object[] { NotifyCollectionChangeEventType.Once.Id, NotifyCollectionChangeEventType.None.Id },
+            new object[] { NotifyCollectionChangeEventType.Simple.Id, NotifyCollectionChangeEventType.None.Id },
+            new object[] { NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.None.Id },
+            new object[] { NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.None.Id },
+            new object[] { NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.Once.Id },
+            new object[] { NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.Multi.Id },
         };
 
         [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
@@ -120,7 +120,7 @@ namespace WodiLib.Test.Sys
                              || eventType == NotifyCollectionChangeEventType.Multi)
                     {
                         // Replace が一度通知されていること
-                        dic.CheckReplaceEventArgs(1, false, setIndex, new[] {oldValue}, new[] {setValue});
+                        dic.CheckReplaceEventArgs(1, false, setIndex, new[] { oldValue }, new[] { setValue });
                     }
                     else
                     {
@@ -140,7 +140,7 @@ namespace WodiLib.Test.Sys
             var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
 
             const int setIndex = 3;
-            string[] setValues = {"new value", "NEW VALUE 2"};
+            string[] setValues = { "new value", "NEW VALUE 2" };
             var setValueLength = setValues.Length;
 
             var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
@@ -208,7 +208,7 @@ namespace WodiLib.Test.Sys
                              || eventType == NotifyCollectionChangeEventType.Multi)
                     {
                         // Add が一度通知されていること
-                        dic.CheckAddEventArgs(1, false, beforeLength, new[] {addValue});
+                        dic.CheckAddEventArgs(1, false, beforeLength, new[] { addValue });
                     }
                     else
                     {
@@ -227,7 +227,7 @@ namespace WodiLib.Test.Sys
             var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
             var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
 
-            string[] addValues = {"new value", "NEW VALUE 2"};
+            string[] addValues = { "new value", "NEW VALUE 2" };
             var addValueLength = addValues.Length;
 
             var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
@@ -295,7 +295,7 @@ namespace WodiLib.Test.Sys
                              || eventType == NotifyCollectionChangeEventType.Multi)
                     {
                         // Add が一度通知されていること
-                        dic.CheckAddEventArgs(1, false, insertIndex, new[] {insertValue});
+                        dic.CheckAddEventArgs(1, false, insertIndex, new[] { insertValue });
                     }
                     else
                     {
@@ -315,7 +315,7 @@ namespace WodiLib.Test.Sys
             var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
 
             const int insertIndex = 7;
-            string[] insertValues = {"new value", "NEW VALUE 2"};
+            string[] insertValues = { "new value", "NEW VALUE 2" };
             var insertValueLength = insertValues.Length;
 
             var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
@@ -384,7 +384,7 @@ namespace WodiLib.Test.Sys
                              || eventType == NotifyCollectionChangeEventType.Multi)
                     {
                         // Move が一度通知されていること
-                        dic.CheckMoveEventArgs(1, false, oldIndex, newIndex, new[] {moveItem});
+                        dic.CheckMoveEventArgs(1, false, oldIndex, newIndex, new[] { moveItem });
                     }
                     else
                     {
@@ -474,7 +474,7 @@ namespace WodiLib.Test.Sys
                              || eventType == NotifyCollectionChangeEventType.Multi)
                     {
                         // Remove が一度通知されていること
-                        dic.CheckRemoveEventArgs(1, false, removeIndex, new[] {removeItem});
+                        dic.CheckRemoveEventArgs(1, false, removeIndex, new[] { removeItem });
                     }
                     else
                     {
@@ -623,19 +623,19 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] NotifyCollectionChangeEventArgs_OverwriteTestCaseSource =
         {
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.None.Id, 5, 2},
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Once.Id, 5, 2},
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Simple.Id, 5, 2},
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Single.Id, 5, 2},
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Multi.Id, 5, 2},
-            new object[] {NotifyCollectionChangeEventType.Once.Id, NotifyCollectionChangeEventType.None.Id, 8, 5},
-            new object[] {NotifyCollectionChangeEventType.Simple.Id, NotifyCollectionChangeEventType.None.Id, 8, 5},
-            new object[] {NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.None.Id, 8, 5},
-            new object[] {NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.None.Id, 8, 5},
-            new object[] {NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.Once.Id, 8, 5},
-            new object[] {NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.Multi.Id, 10, 2},
-            new object[] {NotifyCollectionChangeEventType.Once.Id, NotifyCollectionChangeEventType.Simple.Id, 10, 2},
-            new object[] {NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.None.Id, 10, 2},
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.None.Id, 5, 2 },
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Once.Id, 5, 2 },
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Simple.Id, 5, 2 },
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Single.Id, 5, 2 },
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Multi.Id, 5, 2 },
+            new object[] { NotifyCollectionChangeEventType.Once.Id, NotifyCollectionChangeEventType.None.Id, 8, 5 },
+            new object[] { NotifyCollectionChangeEventType.Simple.Id, NotifyCollectionChangeEventType.None.Id, 8, 5 },
+            new object[] { NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.None.Id, 8, 5 },
+            new object[] { NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.None.Id, 8, 5 },
+            new object[] { NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.Once.Id, 8, 5 },
+            new object[] { NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.Multi.Id, 10, 2 },
+            new object[] { NotifyCollectionChangeEventType.Once.Id, NotifyCollectionChangeEventType.Simple.Id, 10, 2 },
+            new object[] { NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.None.Id, 10, 2 },
         };
 
         [TestCaseSource(nameof(NotifyCollectionChangeEventArgs_OverwriteTestCaseSource))]
@@ -766,18 +766,18 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] NotifyCollectionChangeEventArgs_AdjustLengthTestCaseSource =
         {
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.None.Id, 6},
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Once.Id, 6},
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Simple.Id, 6},
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Single.Id, 6},
-            new object[] {NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Multi.Id, 6},
-            new object[] {NotifyCollectionChangeEventType.Once.Id, NotifyCollectionChangeEventType.None.Id, 12},
-            new object[] {NotifyCollectionChangeEventType.Simple.Id, NotifyCollectionChangeEventType.None.Id, 12},
-            new object[] {NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.None.Id, 12},
-            new object[] {NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.None.Id, 12},
-            new object[] {NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.Once.Id, 12},
-            new object[] {NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.Multi.Id, 6},
-            new object[] {NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.Multi.Id, 12},
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.None.Id, 6 },
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Once.Id, 6 },
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Simple.Id, 6 },
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Single.Id, 6 },
+            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Multi.Id, 6 },
+            new object[] { NotifyCollectionChangeEventType.Once.Id, NotifyCollectionChangeEventType.None.Id, 12 },
+            new object[] { NotifyCollectionChangeEventType.Simple.Id, NotifyCollectionChangeEventType.None.Id, 12 },
+            new object[] { NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.None.Id, 12 },
+            new object[] { NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.None.Id, 12 },
+            new object[] { NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.Once.Id, 12 },
+            new object[] { NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.Multi.Id, 6 },
+            new object[] { NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.Multi.Id, 12 },
         };
 
         [TestCaseSource(nameof(NotifyCollectionChangeEventArgs_AdjustLengthTestCaseSource))]
@@ -911,40 +911,6 @@ namespace WodiLib.Test.Sys
 
         #region NotNotifyMethods
 
-        [TestCase("", false)]
-        [TestCase("0", true)]
-        [TestCase("10", false)]
-        [TestCase(null, false)]
-        public static void ContainsTest_1(string searchValue, bool answer)
-        {
-            var instance = MakeTestList(10);
-
-            var result = instance.Contains(searchValue);
-
-            Assert.AreEqual(answer, result);
-        }
-
-        [TestCase("0", true, true)]
-        [TestCase("5", true, false)]
-        [TestCase("10", true, false)]
-        [TestCase(null, true, false)]
-        [TestCase("0", false, true)]
-        [TestCase("5", false, false)]
-        [TestCase("10", false, true)]
-        [TestCase(null, false, false)]
-        public static void ContainsTest_2(string searchValue, bool itemComparerIsNull, bool answer)
-        {
-            var instance = MakeTestList(5);
-
-            var itemComparer = itemComparerIsNull
-                ? null
-                : new TestStringComparer();
-
-            var result = instance.Contains(searchValue, itemComparer);
-
-            Assert.AreEqual(answer, result);
-        }
-
         [Test]
         public static void GetMaxCapacityTest()
         {
@@ -1008,7 +974,7 @@ namespace WodiLib.Test.Sys
 
             {
                 // null
-                Assert.AreEqual(false, instance.ItemEquals(null, null));
+                Assert.AreEqual(false, instance.ItemEquals<string>(null, null));
             }
 
             {
@@ -1086,22 +1052,6 @@ namespace WodiLib.Test.Sys
             }
         }
 
-        [Test]
-        public static void AsWritableListTest()
-        {
-            var instance = MakeTestList(1);
-            var writable = instance.AsWritableList();
-            Assert.IsTrue(instance.ItemEquals(writable));
-        }
-
-        [Test]
-        public static void AsReadableListTest()
-        {
-            var instance = MakeTestList(1);
-            var readable = instance.AsReadableList();
-            Assert.IsTrue(instance.ItemEquals(readable));
-        }
-
         #endregion
 
         private static TestList MakeTestList(int initLength,
@@ -1171,19 +1121,19 @@ namespace WodiLib.Test.Sys
         /// <param name="isBefore">CollectionChanging にセットする場合true, CollectionChanged にセットする場合false</param>
         /// <param name="resultDic">発生したイベント引数を格納するDirectory</param>
         /// <returns>生成したインスタンス</returns>
-        private static NotifyCollectionChangedEventHandler MakeCollectionChangeEventHandler(bool isBefore,
+        private static EventHandler<NotifyCollectionChangedEventArgsEx<string>> MakeCollectionChangeEventHandler(
+            bool isBefore,
             NotifyCollectionChangedEventArgsDic resultDic)
             => (_, args) =>
             {
-                var argsEx = (NotifyCollectionChangedEventArgsEx<string>) args;
-                resultDic.Add(argsEx);
+                resultDic.Add(args);
                 logger.Debug($"Collection{(isBefore ? "Changing" : "Changed")} Event Raise. ");
-                logger.Debug($"{nameof(argsEx)}: {{");
-                logger.Debug($"    {nameof(argsEx.Action)}: {argsEx.Action}");
-                logger.Debug($"    {nameof(argsEx.OldStartingIndex)}: {argsEx.OldStartingIndex}");
-                logger.Debug($"    {nameof(argsEx.OldItems)}: {argsEx.OldItems}");
-                logger.Debug($"    {nameof(argsEx.NewStartingIndex)}: {argsEx.NewStartingIndex}");
-                logger.Debug($"    {nameof(argsEx.NewItems)}: {argsEx.NewItems}");
+                logger.Debug($"{nameof(args)}: {{");
+                logger.Debug($"    {nameof(args.Action)}: {args.Action}");
+                logger.Debug($"    {nameof(args.OldStartingIndex)}: {args.OldStartingIndex}");
+                logger.Debug($"    {nameof(args.OldItems)}: {args.OldItems}");
+                logger.Debug($"    {nameof(args.NewStartingIndex)}: {args.NewStartingIndex}");
+                logger.Debug($"    {nameof(args.NewItems)}: {args.NewItems}");
                 logger.Debug("}");
             };
 

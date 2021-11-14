@@ -6,7 +6,7 @@
 // see LICENSE file
 // ========================================
 
-using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace WodiLib.Sys.Collections
@@ -26,6 +26,8 @@ namespace WodiLib.Sys.Collections
         ISizeChangeableList<TIn, TOut>
         where TOut : TIn
     {
+        /// <inheritdoc cref="ISizeChangeableList{TIn,TOut}.Reset"/>
+        public new void Reset(IEnumerable<TIn> initItems);
     }
 
     /// <summary>
@@ -36,10 +38,10 @@ namespace WodiLib.Sys.Collections
     ///     <see cref="ObservableCollection{T}"/> のCRUD各種処理に範囲指定バージョン（XXXRange メソッド）を追加している。
     ///     それ以外にもいくつかメソッドを追加している。
     /// </remarks>
-    /// <typeparam name="T">リスト内包クラス</typeparam>
-    [Obsolete]
-    public interface IRestrictedCapacityList<T> : ISizeChangeableList<T, IRestrictedCapacityList<T>, IFixedLengthList<T>
-        , IReadOnlyExtendedList<T>>
+    /// <typeparam name="T">リスト内包型</typeparam>
+    public interface IRestrictedCapacityList<T> : IRestrictedCapacityList<T, T>,
+        IFixedLengthList<T>,
+        ISizeChangeableList<T>
     {
     }
 }

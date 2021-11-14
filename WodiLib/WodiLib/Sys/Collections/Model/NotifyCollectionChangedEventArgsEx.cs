@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 
 namespace WodiLib.Sys.Collections
 {
@@ -119,6 +120,58 @@ namespace WodiLib.Sys.Collections
         public static NotifyCollectionChangedEventArgsEx<T> CreateResetArgs(int index, IEnumerable<T> oldItems,
             IEnumerable<T> newItems)
             => new(index, oldItems, newItems);
+
+        /// <summary>
+        /// <see cref="NewItems"/>, <see cref="OldItems"/> を別の型にキャストした新たな
+        /// <see cref="NotifyCollectionChangedEventArgsEx{T}"/> インスタンスを生成する。
+        /// </summary>
+        /// <param name="other">キャスト元</param>
+        /// <param name="caster">キャスト処理</param>
+        /// <typeparam name="TOther">キャスト元型</typeparam>
+        /// <returns>キャストした新たなインスタンス</returns>
+        internal static NotifyCollectionChangedEventArgsEx<T> CreateFromOtherType<TOther>(
+            NotifyCollectionChangedEventArgsEx<TOther> other, Func<TOther, T> caster)
+        {
+            switch (other.Action)
+            {
+                case NotifyCollectionChangedAction.Replace:
+                    return CreateSetArgs(
+                        other.NewStartingIndex,
+                        other.OldItems!.Select(caster).ToList(),
+                        other.NewItems!.Select(caster).ToList()
+                    );
+
+                case NotifyCollectionChangedAction.Add:
+                    return CreateInsertArgs(
+                        other.NewStartingIndex,
+                        other.NewItems!.Select(caster).ToList()
+                    );
+
+                case NotifyCollectionChangedAction.Move:
+                    return CreateMoveArgs(
+                        other.OldStartingIndex,
+                        other.NewStartingIndex,
+                        other.NewItems!.Select(caster).ToList()
+                    );
+
+                case NotifyCollectionChangedAction.Remove:
+                    return CreateRemoveArgs(
+                        other.OldStartingIndex,
+                        other.OldItems!.Select(caster).ToList()
+                    );
+
+                case NotifyCollectionChangedAction.Reset:
+                    return CreateResetArgs(
+                        other.NewStartingIndex,
+                        other.OldItems!.Select(caster).ToList(),
+                        other.NewItems!.Select(caster).ToList()
+                    );
+
+                default:
+                    // 通常ここへは来ない
+                    throw new InvalidOperationException();
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Property

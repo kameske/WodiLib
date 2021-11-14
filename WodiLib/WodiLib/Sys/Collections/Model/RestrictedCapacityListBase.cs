@@ -24,8 +24,8 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="T">リスト内包型</typeparam>
     /// <typeparam name="TImpl">リスト実装型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class RestrictedCapacityListBase<T, TImpl> : ModelBase<TImpl>,
-        IRestrictedCapacityList<T, T>,
+    public abstract partial class RestrictedCapacityListBase<T, TImpl> : ModelBase<TImpl>,
+        IRestrictedCapacityList<T>,
         IDeepCloneableList<TImpl, T>
         where TImpl : RestrictedCapacityListBase<T, TImpl>
     {
@@ -34,14 +34,14 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc/>
-        public event NotifyCollectionChangedEventHandler CollectionChanging
+        public event EventHandler<NotifyCollectionChangedEventArgsEx<T>> CollectionChanging
         {
             add => Items.CollectionChanging += value;
             remove => Items.CollectionChanging -= value;
         }
 
         /// <inheritdoc/>
-        public event NotifyCollectionChangedEventHandler CollectionChanged
+        public event EventHandler<NotifyCollectionChangedEventArgsEx<T>> CollectionChanged
         {
             add => Items.CollectionChanged += value;
             remove => Items.CollectionChanged -= value;
@@ -67,7 +67,9 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <inheritdoc/>
-        public int Count => Items.Count;
+        // ReSharper disable ConstantConditionalAccessQualifier
+        public int Count => Items?.Count ?? -1; // コンストラクタ中のみ、 Items == null の可能性がある
+        // ReSharper restore ConstantConditionalAccessQualifier
 
         /// <inheritdoc/>
         public NotifyCollectionChangeEventType NotifyCollectionChangingEventType
@@ -88,10 +90,19 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>引数検証処理</summary>
-        private IWodiLibListValidator<T>? Validator { get; }
+        private IWodiLibListValidator<T>? Validator => validators.ForMe;
+
+        /// <summary>引数検証処理（IFixedLengthList キャスト時用）</summary>
+        private IWodiLibListValidator<T>? ValidatorForWritableList => validators.ForWritableList;
 
         /// <summary>リスト</summary>
         private ExtendedList<T> Items { get; }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Fields
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private readonly Validators validators;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Constructors
@@ -107,7 +118,7 @@ namespace WodiLib.Sys.Collections
 
             var items = MakeClearItems();
 
-            Validator = MakeValidator();
+            validators = MakeValidator();
             Validator?.Constructor(items);
 
             Items = new ExtendedList<T>(items)
@@ -115,6 +126,25 @@ namespace WodiLib.Sys.Collections
                 FuncMakeItems = MakeItems
             };
 
+            PropagatePropertyChangeEvent();
+        }
+
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        /// <param name="length">要素数</param>
+        protected RestrictedCapacityListBase(int length)
+        {
+            var items = MakeItems(0, length)
+                .ToArray();
+
+            validators = MakeValidator();
+            Validator?.Constructor(items);
+
+            Items = new ExtendedList<T>(items)
+            {
+                FuncMakeItems = MakeItems
+            };
             PropagatePropertyChangeEvent();
         }
 
@@ -130,13 +160,13 @@ namespace WodiLib.Sys.Collections
         ///     <paramref name="initItems"/> の要素数が <see cref="GetMinCapacity"/> 未満
         ///     または <see cref="GetMaxCapacity"/> を超える場合。
         /// </exception>
-        protected RestrictedCapacityListBase(IEnumerable<T> initItems)
+        public RestrictedCapacityListBase(IEnumerable<T> initItems)
         {
             ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
 
             var items = initItems.ToList();
 
-            Validator = MakeValidator();
+            validators = MakeValidator();
             Validator?.Constructor(items);
             Items = new ExtendedList<T>(items)
             {
@@ -292,7 +322,7 @@ namespace WodiLib.Sys.Collections
         public void Reset()
             => Items.Reset();
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="ISizeChangeableList{TIn,TOut}.Reset"/>
         public void Reset(IEnumerable<T> initItems)
         {
             ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
@@ -302,6 +332,9 @@ namespace WodiLib.Sys.Collections
             Validator?.Reset(itemList);
             Items.Reset(itemList);
         }
+
+        void IWritableList<T, T>.Reset(IEnumerable<T> initItems)
+            => ResetAsWritableList(initItems);
 
         /// <inheritdoc/>
         public void Clear()
@@ -344,6 +377,17 @@ namespace WodiLib.Sys.Collections
         //      Interface Implementation
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        #region CollectionChanging
+
+        /// <inheritdoc/>
+        event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
+        {
+            add => ((INotifyCollectionChanged)Items).CollectionChanged += value;
+            remove => ((INotifyCollectionChanged)Items).CollectionChanged -= value;
+        }
+
+        #endregion
+
         #region GetEnumerator
 
         IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)Items).GetEnumerator();
@@ -353,6 +397,21 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Protected Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// 自身を <see cref="IWritableList{TIn,TOut}"/> とみなして
+        /// <see cref="IWritableList{TIn,TOut}.Reset(IEnumerable{TIn})"/> メソッドを実行する。
+        /// </summary>
+        /// <param name="initItems">初期化要素</param>
+        protected void ResetAsWritableList(IEnumerable<T> initItems)
+        {
+            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
+
+            var itemList = initItems.ToList();
+
+            ValidatorForWritableList?.Reset(itemList);
+            Items.Reset(itemList);
+        }
 
         /// <summary>
         ///     初期化された <typeparamref name="T"/> のインスタンスを生成する。
@@ -370,15 +429,22 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="items">新規インスタンスの要素</param>
         /// <returns>新規作成したインスタンス</returns>
-        protected abstract TImpl MakeInstance(IEnumerable<T> items);
+        // TODO: 一時的にVirtual宣言
+        protected virtual TImpl MakeInstance(IEnumerable<T> items)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         ///     自身の検証処理を実行する <see cref="IWodiLibListValidator{T}"/> インスタンスを生成する。
         /// </summary>
         /// <returns>検証処理実行クラスのインスタンス。検証処理を行わない場合 <see langward="null"/></returns>
-        protected virtual IWodiLibListValidator<T> MakeValidator()
+        protected virtual Validators MakeValidator()
         {
-            return new RestrictedCapacityListValidator<T, T>(this);
+            return new Validators(
+                new RestrictedCapacityListValidator<T>(this),
+                new FixedLengthListValidator<T>(this)
+            );
         }
 
         /// <summary>
@@ -434,6 +500,23 @@ namespace WodiLib.Sys.Collections
 
                     return result;
                 });
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Classes
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// Validator保持クラス
+        /// </summary>
+        [CommonMultiValueObject]
+        protected partial record Validators
+        {
+            /// <summary>通常使用するValidator</summary>
+            public IWodiLibListValidator<T>? ForMe { get; init; }
+
+            /// <summary>IFixedLengthListキャスト時に使用するValidator</summary>
+            public IWodiLibListValidator<T>? ForWritableList { get; init; }
         }
     }
 }

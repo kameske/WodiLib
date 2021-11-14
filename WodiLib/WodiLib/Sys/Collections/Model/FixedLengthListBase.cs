@@ -34,14 +34,14 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc/>
-        public event NotifyCollectionChangedEventHandler CollectionChanging
+        public event EventHandler<NotifyCollectionChangedEventArgsEx<T>> CollectionChanging
         {
             add => Items.CollectionChanging += value;
             remove => Items.CollectionChanging -= value;
         }
 
         /// <inheritdoc/>
-        public event NotifyCollectionChangedEventHandler CollectionChanged
+        public event EventHandler<NotifyCollectionChangedEventArgsEx<T>> CollectionChanged
         {
             add => Items.CollectionChanged += value;
             remove => Items.CollectionChanged -= value;
@@ -67,7 +67,9 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <inheritdoc/>
-        public int Count => Items.Count;
+        // ReSharper disable ConstantConditionalAccessQualifier
+        public int Count => Items?.Count ?? -1; // コンストラクタ中のみ、 Items == null の可能性がある
+        // ReSharper restore ConstantConditionalAccessQualifier
 
         /// <inheritdoc/>
         public NotifyCollectionChangeEventType NotifyCollectionChangingEventType
@@ -211,6 +213,20 @@ namespace WodiLib.Sys.Collections
             => Items.Reset();
 
         /// <inheritdoc/>
+        public void Reset(IEnumerable<T> items)
+        {
+            if (items is null)
+            {
+                throw new ArgumentNullException(ErrorMessage.NotNull(nameof(items)));
+            }
+
+            var itemArray = items.ToList();
+
+            Validator?.Reset(itemArray);
+            Items.Reset(itemArray);
+        }
+
+        /// <inheritdoc/>
         public override bool ItemEquals(TImpl? other)
             => ItemEquals(other, null);
 
@@ -246,6 +262,17 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Interface Implementation
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        #region CollectionChanging
+
+        /// <inheritdoc/>
+        event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
+        {
+            add => ((INotifyCollectionChanged)Items).CollectionChanged += value;
+            remove => ((INotifyCollectionChanged)Items).CollectionChanged -= value;
+        }
+
+        #endregion
 
         #region GetEnumerator
 
@@ -287,7 +314,11 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="items">新規インスタンスの要素</param>
         /// <returns>新規作成したインスタンス</returns>
-        protected abstract TImpl MakeInstance(IEnumerable<T> items);
+        // TODO: 一時的にVirtual宣言
+        protected virtual TImpl MakeInstance(IEnumerable<T> items)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         ///     自身の検証処理を実行する <see cref="IWodiLibListValidator{T}"/> インスタンスを生成する。

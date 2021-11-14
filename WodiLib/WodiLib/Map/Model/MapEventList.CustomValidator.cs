@@ -21,7 +21,7 @@ namespace WodiLib.Map
 
             private new IRestrictedCapacityList<MapEvent> Target { get; }
 
-            public CustomValidator(IRestrictedCapacityList<MapEvent> target) : base(target.AsReadableList())
+            public CustomValidator(IRestrictedCapacityList<MapEvent> target) : base(target)
             {
                 Target = target;
                 BaseValidator = new RestrictedCapacityListValidator<MapEvent>(target);

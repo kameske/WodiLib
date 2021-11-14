@@ -83,6 +83,23 @@ namespace WodiLib.SourceGenerator.Core.Extensions
         }
 
         /// <summary>
+        ///     クラス名を取得する。
+        /// </summary>
+        /// <param name="symbol">対象</param>
+        /// <returns>名称</returns>
+        public static string ClassName(this INamedTypeSymbol symbol)
+        {
+            var generic = "";
+            if (symbol.Arity > 0)
+            {
+                generic =
+                    $"<{string.Join(", ", symbol.TypeArguments.Select(arg => arg.ToString()))}>";
+            }
+
+            return $"{symbol.Name}{generic}";
+        }
+
+        /// <summary>
         ///     名前空間名を含む全名称を取得する。
         /// </summary>
         /// <param name="symbol">対象</param>

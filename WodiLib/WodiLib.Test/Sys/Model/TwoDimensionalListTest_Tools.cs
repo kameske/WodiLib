@@ -673,7 +673,7 @@ namespace WodiLib.Test.Sys
         /// <param name="validator">検証処理実施インスタンス</param>
         /// <param name="funcMakeItem">要素生成関数</param>
         public static TwoDimensionalList<TestRecord> MakeTwoDimensionalList(TestDoubleEnumerableInstanceType type,
-            ITwoDimensionalListValidator<TestRecord, TestRecord> validator, Func<int, int, TestRecord> funcMakeItem)
+            ITwoDimensionalListValidator<TestRecord> validator, Func<int, int, TestRecord> funcMakeItem)
         {
             // あえて行列を入れ替える場面はないはず
             var items = MakeTestRecordList(type, false, funcMakeItem);
@@ -691,7 +691,7 @@ namespace WodiLib.Test.Sys
         }
 
         public static TwoDimensionalList<TestRecord>.Config CreateCommonConfig(Func<int, int, TestRecord> itemFactory,
-            ITwoDimensionalListValidator<TestRecord, TestRecord> validator = null)
+            ITwoDimensionalListValidator<TestRecord> validator = null)
             => new()
             {
                 MaxRowCapacity = int.MaxValue,
@@ -700,7 +700,7 @@ namespace WodiLib.Test.Sys
                 MinColumnCapacity = 0,
                 ItemFactory = itemFactory,
                 ValidatorFactory = target =>
-                    validator ?? new CommonTwoDimensionalListValidator<TestRecord, TestRecord>(target),
+                    validator ?? new CommonTwoDimensionalListValidator<TestRecord>(target),
             };
 
         #endregion

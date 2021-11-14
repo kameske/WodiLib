@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 
 namespace WodiLib.Sys.Collections
 {
@@ -47,8 +46,8 @@ namespace WodiLib.Sys.Collections
             private Action<string> PropertyChangingAction { get; }
             private Action<string> PropertyChangedAction { get; }
 
-            private Action<NotifyCollectionChangedEventArgs>? CollectionChangingAction { get; }
-            private Action<NotifyCollectionChangedEventArgs>? CollectionChangedAction { get; }
+            private Action<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>>? CollectionChangingAction { get; }
+            private Action<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>>? CollectionChangedAction { get; }
 
             private Action<TwoDimensionalCollectionChangeEventInternalArgs<T>>?
                 TwoDimensionalListChangingAction { get; }
@@ -79,8 +78,8 @@ namespace WodiLib.Sys.Collections
             public NotifyManager(
                 Action<string> propertyChangingAction,
                 Action<string> propertyChangedAction,
-                Action<NotifyCollectionChangedEventArgs>? collectionChangingAction,
-                Action<NotifyCollectionChangedEventArgs>? collectionChangedAction,
+                Action<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>>? collectionChangingAction,
+                Action<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>>? collectionChangedAction,
                 Action<TwoDimensionalCollectionChangeEventInternalArgs<T>>? twoDimensionalListChangingAction,
                 Action<TwoDimensionalCollectionChangeEventInternalArgs<T>>? twoDimensionalListChangedAction,
                 IEnumerable<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>>? collectionChangingEventArgs,

@@ -72,6 +72,17 @@ namespace WodiLib.Sys
         ///     NotMatchエラーメッセージ
         /// </summary>
         /// <param name="itemName">項目名</param>
+        /// <param name="item">一致するべき値</param>
+        /// <returns>エラーメッセージ</returns>
+        public static string NotMatch(string itemName, IntOrStr item)
+        {
+            return $"{itemName}は {item} と一致する必要があります。";
+        }
+
+        /// <summary>
+        ///     NotMatchエラーメッセージ
+        /// </summary>
+        /// <param name="itemName">項目名</param>
         /// <param name="items">一致するべき値候補</param>
         /// <returns>エラーメッセージ</returns>
         public static string NotMatch(string itemName, IEnumerable<IntOrStr> items)

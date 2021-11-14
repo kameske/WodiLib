@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using WodiLib.SourceGenerator.Core.Dtos;
 using WodiLib.SourceGenerator.Core.Enums;
+using WodiLib.SourceGenerator.Core.Extensions;
 using WodiLib.SourceGenerator.Core.SourceAddables.PostInitialize;
 using WodiLib.SourceGenerator.Core.SourceBuilder;
 
@@ -163,7 +164,7 @@ namespace WodiLib.SourceGenerator.Core.Templates.FromAttribute
         /// <param name="workState">ワーク状態</param>
         /// <returns>ヒント名</returns>
         private protected virtual string HintName(WorkState workState)
-            => workState.FullName;
+            => workState.FullName.ReplaceAngleBracketsToUnderscore();
 
         /// <summary>
         ///     ソース文字列を生成する。

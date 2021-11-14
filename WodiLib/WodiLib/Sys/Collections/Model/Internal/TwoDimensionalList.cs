@@ -33,11 +33,9 @@ namespace WodiLib.Sys.Collections
     ///         行数 > 0 かつ 列数 == 0 の状況にはなりうるが、行数 == 0 かつ 列数 > 0 の状況にはなりえない。
     ///     </para>
     /// </remarks>
-    internal partial class TwoDimensionalList<T> :
-        ModelBase<TwoDimensionalList<T>>,
+    internal partial class TwoDimensionalList<T> : ModelBase<TwoDimensionalList<T>>,
         ITwoDimensionalList<T, T>,
-        IDeepCloneableTwoDimensionalListInternal<TwoDimensionalList<T>, T>,
-        ITwoDimensionalList<T>, IReadableTwoDimensionalList<T, TwoDimensionalList<T>>
+        IDeepCloneableTwoDimensionalListInternal<TwoDimensionalList<T>, T>
     {
         /*
          * このクラスの実装観点は ExtendedList<T> と同じ。
@@ -52,14 +50,14 @@ namespace WodiLib.Sys.Collections
         ///     各操作の検証処理実施クラスを注入する。
         /// </summary>
         /// <param name="self">自分自身</param>
-        public delegate ITwoDimensionalListValidator<T, T>? InjectValidator(
+        public delegate ITwoDimensionalListValidator<T>? InjectValidator(
             TwoDimensionalList<T> self);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Events
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        public event NotifyCollectionChangedEventHandler CollectionChanging
+        public event EventHandler<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>> CollectionChanging
         {
             add
             {
@@ -70,7 +68,7 @@ namespace WodiLib.Sys.Collections
             remove => collectionChanging -= value;
         }
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged
+        public event EventHandler<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>> CollectionChanged
         {
             add
             {
@@ -175,7 +173,7 @@ namespace WodiLib.Sys.Collections
 
         private Func<int, int, T> FuncMakeDefaultItem { get; }
 
-        private ITwoDimensionalListValidator<T, T>? Validator { get; }
+        private ITwoDimensionalListValidator<T>? Validator { get; }
 
         private int MaxRowCapacity => config.MaxRowCapacity;
         private int MinRowCapacity => config.MinRowCapacity;
@@ -188,8 +186,9 @@ namespace WodiLib.Sys.Collections
 
         /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
 
-        private event NotifyCollectionChangedEventHandler? collectionChanging;
-        private event NotifyCollectionChangedEventHandler? collectionChanged;
+        private event EventHandler<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>>? collectionChanging;
+        private event EventHandler<NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>>>? collectionChanged;
+        private event NotifyCollectionChangedEventHandler? originalCollectionChanged;
 
         private event EventHandler<TwoDimensionalCollectionChangeEventInternalArgs<T>>? twoDimensionalListChanging;
         private event EventHandler<TwoDimensionalCollectionChangeEventInternalArgs<T>>? twoDimensionalListChanged;
@@ -449,9 +448,6 @@ namespace WodiLib.Sys.Collections
             TwoDimensionalList<T>? other)
             => ItemEquals(other, null);
 
-        public bool ItemEquals(ITwoDimensionalList<T>? other)
-            => ItemEquals(other, null);
-
         public bool ItemEquals(ITwoDimensionalList<T, T>? other)
             => ItemEquals(other, null);
 
@@ -473,22 +469,6 @@ namespace WodiLib.Sys.Collections
             return this.Zip(otherArray)
                 .All(zip => zip.Item1.SequenceEqual(zip.Item2, itemComparer));
         }
-
-        public ITwoDimensionalList<T>
-            AsRowSizeChangeableList()
-            => this;
-
-        public ITwoDimensionalList<T>
-            AsColumnSizeChangeableList()
-            => this;
-
-        public ITwoDimensionalList<T>
-            AsWritableList()
-            => this;
-
-        public ITwoDimensionalList<T>
-            AsReadableList()
-            => this;
 
         public T[][] ToTwoDimensionalArray(bool isTranspose = false)
             => isTranspose
@@ -544,6 +524,21 @@ namespace WodiLib.Sys.Collections
         //      Interface Implementation
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        #region CollectionChanged
+
+        event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
+        {
+            add
+            {
+                if (originalCollectionChanged != null
+                    && originalCollectionChanged.GetInvocationList().Contains(value)) return;
+                originalCollectionChanged += value;
+            }
+            remove => originalCollectionChanged -= value;
+        }
+
+        #endregion
+
         #region GetEnumerator
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -552,19 +547,12 @@ namespace WodiLib.Sys.Collections
 
         #region DeepClone
 
-        ITwoDimensionalList<T> IDeepCloneable<ITwoDimensionalList<T>>.DeepClone()
-            => DeepClone();
-
         ITwoDimensionalList<T, T> IDeepCloneable<ITwoDimensionalList<T, T>>.DeepClone()
             => DeepClone();
 
         #endregion
 
         #region DeepCloneWith
-
-        ITwoDimensionalList<T> IDeepCloneableTwoDimensionalListInternal<ITwoDimensionalList<T>, T>.DeepCloneWith(
-            int? rowLength, int? colLength, IReadOnlyDictionary<(int row, int col), T>? values)
-            => DeepCloneWith(rowLength, colLength, values);
 
         ITwoDimensionalList<T, T> IDeepCloneableTwoDimensionalListInternal<ITwoDimensionalList<T, T>, T>.DeepCloneWith(
             int? rowLength, int? colLength, IReadOnlyDictionary<(int row, int col), T>? values)
@@ -576,11 +564,14 @@ namespace WodiLib.Sys.Collections
         //      Private Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private void RaiseCollectionChanging(NotifyCollectionChangedEventArgs args)
+        private void RaiseCollectionChanging(NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>> args)
             => collectionChanging?.Invoke(this, args);
 
-        private void RaiseCollectionChanged(NotifyCollectionChangedEventArgs args)
-            => collectionChanged?.Invoke(this, args);
+        private void RaiseCollectionChanged(NotifyCollectionChangedEventArgsEx<IReadOnlyList<T>> args)
+        {
+            collectionChanged?.Invoke(this, args);
+            originalCollectionChanged?.Invoke(this, args);
+        }
 
         private void RaiseTowDimensionalListChanging(
             TwoDimensionalCollectionChangeEventInternalArgs<T> internalArgs)

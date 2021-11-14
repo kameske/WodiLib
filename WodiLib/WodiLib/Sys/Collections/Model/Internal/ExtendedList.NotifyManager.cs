@@ -57,19 +57,19 @@ namespace WodiLib.Sys.Collections
             private Action<string> PropertyChangedAction { get; }
 
             /// <summary>
-            ///     <see cref="INotifiableCollectionChange.CollectionChanging"/> 通知アクション
+            ///     <see cref="INotifiableCollectionChange{T}.CollectionChanging"/> 通知アクション
             /// </summary>
-            private Action<NotifyCollectionChangedEventArgs>? CollectionChangingAction { get; }
+            private Action<NotifyCollectionChangedEventArgsEx<T>>? CollectionChangingAction { get; }
 
             /// <summary>
             ///     <see cref="INotifyCollectionChanged.CollectionChanged"/> 通知アクション
             /// </summary>
-            private Action<NotifyCollectionChangedEventArgs>? CollectionChangedAction { get; }
+            private Action<NotifyCollectionChangedEventArgsEx<T>>? CollectionChangedAction { get; }
 
             private string[] NotifyProperties { get; }
 
             /// <summary>
-            ///     <see cref="INotifiableCollectionChange.CollectionChanging"/>
+            ///     <see cref="INotifiableCollectionChange{T}.CollectionChanging"/>
             ///     通知引数
             /// </summary>
             /// <summary>
@@ -78,7 +78,7 @@ namespace WodiLib.Sys.Collections
             private IEnumerable<NotifyCollectionChangedEventArgsEx<T>>? CollectionChangingEventArgs { get; }
 
             /// <summary>
-            ///     <see cref="INotifiableCollectionChange.CollectionChanged"/>
+            ///     <see cref="INotifiableCollectionChange{T}.CollectionChanged"/>
             ///     通知引数
             /// </summary>
             private IEnumerable<NotifyCollectionChangedEventArgsEx<T>>? CollectionChangedEventArgs { get; }
@@ -90,8 +90,8 @@ namespace WodiLib.Sys.Collections
             public NotifyManager(
                 Action<string> propertyChangingAction,
                 Action<string> propertyChangedAction,
-                Action<NotifyCollectionChangedEventArgs>? collectionChangingAction,
-                Action<NotifyCollectionChangedEventArgs>? collectionChangedAction,
+                Action<NotifyCollectionChangedEventArgsEx<T>>? collectionChangingAction,
+                Action<NotifyCollectionChangedEventArgsEx<T>>? collectionChangedAction,
                 IEnumerable<NotifyCollectionChangedEventArgsEx<T>>? collectionChangingEventArgs,
                 IEnumerable<NotifyCollectionChangedEventArgsEx<T>>? collectionChangedEventArgs,
                 params string[] notifyProperties)

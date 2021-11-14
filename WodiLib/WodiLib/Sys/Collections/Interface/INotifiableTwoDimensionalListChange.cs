@@ -44,7 +44,9 @@ namespace WodiLib.Sys.Collections
     ///         WPFのUIにバインドし、範囲操作するメソッドを実行して複数の要素を操作すると例外が発生するため注意。
     ///     </para>
     /// </remarks>
-    public interface INotifiableTwoDimensionalListChange<T, TArgs> : INotifiableCollectionChange
+    /// <typeparam name="T">コレクション要素型</typeparam>
+    /// <typeparam name="TArgs">コレクション変更通知イベント引数型</typeparam>
+    public interface INotifiableTwoDimensionalListChange<T, TArgs> : INotifiableCollectionChange<T>
         where TArgs : ITwoDimensionalCollectionChangeEventArgs<T>
     {
         /// <summary>

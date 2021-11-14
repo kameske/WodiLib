@@ -22,6 +22,13 @@ namespace WodiLib.Sys.Collections
     public interface IWodiLibListValidator<in T>
     {
         /// <summary>
+        /// リストに追加・挿入・編集されようとする要素の検証処理。
+        /// 各メソッド検証処理よりも前に呼ばれる。
+        /// </summary>
+        /// <param name="items"></param>
+        void InItem(IReadOnlyList<T> items);
+
+        /// <summary>
         ///     コンストラクタの検証処理
         /// </summary>
         /// <param name="initItems">初期要素</param>

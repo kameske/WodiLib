@@ -30,7 +30,7 @@ namespace WodiLib.SourceGenerator.ValueObject.Generation.Main.MultiValues
 
         private protected override SourceFormatTargetBlock GenerateTypeDefinitionSource(WorkState workState)
         {
-            var thisType = workState.PropertyValues.TargetSymbol?.Name ?? "";
+            var thisType = workState.PropertyValues.TargetSymbol?.ClassName() ?? "";
             var defInfo = workState.CurrentTypeDefinitionInfo;
 
             var properties = GetInitializeProperties(workState)
@@ -124,11 +124,11 @@ namespace WodiLib.SourceGenerator.ValueObject.Generation.Main.MultiValues
         {
             var propertyArray = properties.ToArray();
 
-            var typeName = workState.Name;
+            var typeName = workState.PropertyValues.TargetSymbol?.Name ?? "";
             var argsDocComments = propertyArray.Select(prop =>
                 $"/// {Tag.Param(prop.Name.ToLowerFirstChar(), Tag.See.Cref(prop.Name))}");
             var argsCode = string.Join(",",
-                propertyArray.Select(prop => $"{prop.Type.FullName()} {prop.Name.ToLowerFirstChar()}"));
+                propertyArray.Select(prop => $"{prop.Type} {prop.Name.ToLowerFirstChar()}"));
             var validateNullArgCodes = propertyArray.Where(prop => prop.Type.TypeKind == TypeKind.Class)
                 .Select(prop =>
                     $"{__}if ({prop.Name.ToLowerFirstChar()} is null) throw new System.ArgumentNullException(nameof({prop.Name.ToLowerFirstChar()}));");
@@ -176,6 +176,7 @@ namespace WodiLib.SourceGenerator.ValueObject.Generation.Main.MultiValues
                 ? "explicit"
                 : "implicit";
             var typeName = workState.Name;
+            var typeNameForDocumentComment = typeName.Replace("<", "&lt;").Replace(">", "&gt;");
             var tupleTypesList = GetCanCastTupleTypes(propertyArray).ToList();
 
             var tupleToTypeCodeBlocks = new List<SourceFormatTargetBlock>();
@@ -187,13 +188,14 @@ namespace WodiLib.SourceGenerator.ValueObject.Generation.Main.MultiValues
                 var tupleTypeArray = tupleTypes.ToArray();
 
                 var tupleTypeStr = string.Join(",", tupleTypeArray);
+                var tupleTypeStrForDocumentComment = tupleTypeStr.Replace("<", "&lt;").Replace(">", "&gt;");
                 var tupleDecomposed = string.Join(",", tupleTypeArray.Select((_, idx) => $"tuple.Item{idx + 1}"));
                 var voDecomposed = string.Join(",", propertyArray.Select(prop => $"src.{prop.Name}"));
 
                 tupleToTypeCodeBlocks.Add(new SourceFormatTarget[]
                 {
                     (@$"/// <summary>"),
-                    (@$"/// Tuple&lt;{tupleTypeStr}> -> {typeName} 型変換"),
+                    (@$"/// Tuple&lt;{tupleTypeStrForDocumentComment}&gt; -> {typeNameForDocumentComment} 型変換"),
                     (@$"/// </summary>"),
                     (@$"/// {Tag.Param("tuple", "変換元")}"),
                     (@$"/// {Tag.Returns("変換した値")}"),
@@ -207,7 +209,7 @@ namespace WodiLib.SourceGenerator.ValueObject.Generation.Main.MultiValues
                 valueTupleToTypeCodeBlocks.Add(new SourceFormatTarget[]
                 {
                     (@$"/// <summary>"),
-                    (@$"/// ({tupleTypeStr}) -> {typeName} 型変換"),
+                    (@$"/// ({tupleTypeStrForDocumentComment}) -> {typeNameForDocumentComment} 型変換"),
                     (@$"/// </summary>"),
                     (@$"/// {Tag.Param("tuple", "変換元")}"),
                     (@$"/// {Tag.Returns("変換した値")}"),
@@ -221,7 +223,7 @@ namespace WodiLib.SourceGenerator.ValueObject.Generation.Main.MultiValues
                 typeToTupleCodeBlocks.Add(new SourceFormatTarget[]
                 {
                     (@$"/// <summary>"),
-                    (@$"/// {typeName} -> Tuple&lt;{tupleTypeStr}> 型変換"),
+                    (@$"/// {typeNameForDocumentComment} -> Tuple&lt;{tupleTypeStrForDocumentComment}&gt; 型変換"),
                     (@$"/// </summary>"),
                     (@$"/// {Tag.Param("src", "変換元")}"),
                     (@$"/// {Tag.Returns("変換した値")}"),
@@ -234,7 +236,7 @@ namespace WodiLib.SourceGenerator.ValueObject.Generation.Main.MultiValues
                 typeToTupleCodeBlocks.Add(new SourceFormatTarget[]
                 {
                     (@$"/// <summary>"),
-                    (@$"/// {typeName} -> ValueTuple&lt;{tupleTypeStr}> 型変換"),
+                    (@$"/// {typeName} -> ValueTuple&lt;{tupleTypeStrForDocumentComment}&gt; 型変換"),
                     (@$"/// </summary>"),
                     (@$"/// {Tag.Param("src", "変換元")}"),
                     (@$"/// {Tag.Returns("変換した値")}"),
@@ -266,7 +268,7 @@ namespace WodiLib.SourceGenerator.ValueObject.Generation.Main.MultiValues
 
             foreach (var propertySymbol in properties)
             {
-                originalTypeList.Add(propertySymbol.Type.FullName());
+                originalTypeList.Add(propertySymbol.Type.ToString());
 
                 var propertyType = propertySymbol.Type;
 

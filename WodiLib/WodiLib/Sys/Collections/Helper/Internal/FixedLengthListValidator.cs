@@ -14,6 +14,17 @@ namespace WodiLib.Sys.Collections
     /// <summary>
     ///     IFixedLengthList の基本検証処理実施クラス
     /// </summary>
+    /// <typeparam name="T">リスト要素型</typeparam>
+    internal class FixedLengthListValidator<T> : FixedLengthListValidator<T, T>
+    {
+        public FixedLengthListValidator(IFixedLengthList<T, T> target) : base(target)
+        {
+        }
+    }
+
+    /// <summary>
+    ///     IFixedLengthList の基本検証処理実施クラス
+    /// </summary>
     /// <typeparam name="TIn">リスト要素入力型</typeparam>
     /// <typeparam name="TOut">リスト要素出力型</typeparam>
     internal class FixedLengthListValidator<TIn, TOut> : WodiLibListValidatorTemplate<TIn, TOut>
@@ -27,11 +38,6 @@ namespace WodiLib.Sys.Collections
         {
             Target = target;
             BaseValidator = new CommonListValidator<TIn, TOut>(target);
-        }
-
-        public override void Constructor(IReadOnlyList<TIn> initItems)
-        {
-            BaseValidator?.Constructor(initItems);
         }
 
         public override void Reset(IReadOnlyList<TIn> items)
@@ -50,58 +56,6 @@ namespace WodiLib.Sys.Collections
             => throw new NotSupportedException();
 
         public override void Remove(TIn? item)
-            => throw new NotSupportedException();
-
-        public override void Remove(int index, int count)
-            => throw new NotSupportedException();
-
-        public override void AdjustLength(int length)
-            => throw new NotSupportedException();
-
-        public override void AdjustLengthIfShort(int length)
-            => throw new NotSupportedException();
-
-        public override void AdjustLengthIfLong(int length)
-            => throw new NotSupportedException();
-    }
-
-    /// <summary>
-    ///     IFixedLengthList の基本検証処理実施クラス
-    /// </summary>
-    [Obsolete]
-    internal class FixedLengthListValidator<T> : WodiLibListValidatorTemplate<T>
-    {
-        protected override IWodiLibListValidator<T>? BaseValidator { get; }
-
-        private new IFixedLengthList<T> Target { get; }
-
-        public FixedLengthListValidator(IFixedLengthList<T> target) : base(target.AsReadableList())
-        {
-            Target = target;
-            BaseValidator = new CommonListValidator<T>(target.AsReadableList());
-        }
-
-        public override void Constructor(IReadOnlyList<T> initItems)
-        {
-            BaseValidator?.Constructor(initItems);
-        }
-
-        public override void Reset(IReadOnlyList<T> items)
-        {
-            BaseValidator?.Reset(items);
-            FixedLengthListValidationHelper.ItemCount(items.Count, Target.Count);
-        }
-
-        public override void Insert(int index, T item)
-            => throw new NotSupportedException();
-
-        public override void Insert(int index, IReadOnlyList<T> items)
-            => throw new NotSupportedException();
-
-        public override void Overwrite(int index, IReadOnlyList<T> items)
-            => throw new NotSupportedException();
-
-        public override void Remove(T? item)
             => throw new NotSupportedException();
 
         public override void Remove(int index, int count)

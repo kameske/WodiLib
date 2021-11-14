@@ -75,22 +75,6 @@ namespace WodiLib.Test.Common.Internal
             Assert.AreEqual(instance.Count, answerResultLength);
         }
 
-        [Test]
-        public static void GetCapacityTest()
-        {
-            var instance = new CommonEventSelfVariableNameList();
-            var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
-
-            var maxCapacity = instance.GetCapacity();
-
-            // 取得した値が制限容量と一致すること
-            Assert.AreEqual(maxCapacity, CommonEventSelfVariableNameList.Capacity);
-
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
-        }
-
         private static List<CommonEventSelfVariableName> MakeInitList(int length, bool hasNullItem)
         {
             if (length == -1) return null;

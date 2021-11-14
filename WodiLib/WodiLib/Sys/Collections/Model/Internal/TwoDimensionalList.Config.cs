@@ -24,7 +24,7 @@ namespace WodiLib.Sys.Collections
             public int MaxColumnCapacity { get; init; } = int.MaxValue;
             public int MinColumnCapacity { get; init; }
 
-            public Func<TwoDimensionalList<T>, ITwoDimensionalListValidator<T, T>?>
+            public Func<TwoDimensionalList<T>, ITwoDimensionalListValidator<T>?>
                 ValidatorFactory { get; init; } = default!;
         }
     }
