@@ -91,10 +91,6 @@ namespace WodiLib.Sys.Collections
         public int IndexOf(T? item)
             => item is null ? -1 : Items.IndexOf(item);
 
-        /// <inheritdoc cref="List{T}.CopyTo(T[], int)"/>
-        public void CopyTo(T[] array, int arrayIndex)
-            => Items.CopyTo(array, arrayIndex);
-
         /// <summary>
         ///     SetRange メソッドの処理本体
         /// </summary>
@@ -127,17 +123,6 @@ namespace WodiLib.Sys.Collections
         {
             Set(index, param.ReplaceNewItems);
             Insert(param.InsertStartIndex, param.InsertItems);
-        }
-
-        /// <summary>
-        ///     Overwrite メソッドの処理本体
-        /// </summary>
-        /// <param name="index">上書き開始インデックス</param>
-        /// <param name="items">上書き要素</param>
-        public void Overwrite(int index, params T[] items)
-        {
-            var param = OverwriteParam<T>.Factory.Create(this, index, items);
-            Overwrite(index, param);
         }
 
         /// <summary>

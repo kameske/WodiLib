@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace WodiLib.Sys.Collections
 {
@@ -15,24 +16,36 @@ namespace WodiLib.Sys.Collections
     ///     行および列サイズ変更可能であることを表すインタフェース。
     ///     書き込み可能でもある。
     /// </summary>
-    /// <typeparam name="TIn">リスト要素入力型</typeparam>
-    /// <typeparam name="TOut">リスト要素出力型</typeparam>
-    internal interface ISizeChangeableTwoDimensionalList<in TIn, out TOut> :
-        IRowSizeChangeableTwoDimensionalList<TIn, TOut>,
-        IColumnSizeChangeableTwoDimensionalList<TIn, TOut>
-        where TOut : TIn
+    /// <typeparam name="TInRow">リスト行データ入力型</typeparam>
+    /// <typeparam name="TOutRow">リスト行データ出力型</typeparam>
+    /// <typeparam name="TInItem">リスト要素入力型</typeparam>
+    /// <typeparam name="TOutItem">リスト要素出力型</typeparam>
+    internal interface ISizeChangeableTwoDimensionalList<in TInRow, out TOutRow, in TInItem, out TOutItem> :
+        IRowSizeChangeableTwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem>,
+        IColumnSizeChangeableTwoDimensionalList<TOutRow, TInItem, TOutItem>
+        where TInRow : IEnumerable<TInItem>
+        where TInItem : TOutItem
     {
         /// <summary>
         ///     行数および列数を指定の数に合わせる。
         /// </summary>
+        /// <remarks>
+        ///     <para>
+        ///     コレクション変更通知について<br/>
+        ///     ・行数のみが変化した場合、 <see cref="NotifyCollectionChangedAction.Add"/>
+        ///     または <see cref="NotifyCollectionChangedAction.Remove"/> が通知される。<br/>
+        ///     ・列数のみが変化した場合、 <see cref="NotifyCollectionChangedAction.Replace"/> が通知される。<br/>
+        ///     ・行数・列数ともに変化した場合、 <see cref="NotifyCollectionChangedAction.Reset"/> が通知される。
+        /// </para>
+        /// </remarks>
         /// <param name="rowLength">
-        ///     [Range(<see cref="IRowSizeChangeableTwoDimensionalList{TIn, TOut}.GetMinRowCapacity"/>,
-        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TIn, TOut}.GetMaxRowCapacity"/>)]
+        ///     [Range(<see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem, TOutItem}.GetMinRowCapacity"/>,
+        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem, TOutItem}.GetMaxRowCapacity"/>)]
         ///     調整する行数
         /// </param>
         /// <param name="columnLength">
-        ///     [Range(<see cref="IColumnSizeChangeableTwoDimensionalList{TIn, TOut}.GetMinColumnCapacity"/>,
-        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TIn, TOut}.GetMaxColumnCapacity"/>)]
+        ///     [Range(<see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem, TOutItem}.GetMinColumnCapacity"/>,
+        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem, TOutItem}.GetMaxColumnCapacity"/>)]
         ///     調整する列数
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -44,14 +57,22 @@ namespace WodiLib.Sys.Collections
         ///     行数が不足している場合、行数を指定の数に合わせ、
         ///     列数が不足している場合、列数を指定の数に合わせる。
         /// </summary>
+        /// <remarks>
+        ///     <para>
+        ///     コレクション変更通知について<br/>
+        ///     ・行数のみが変化した場合、 <see cref="NotifyCollectionChangedAction.Add"/> が通知される。<br/>
+        ///     ・列数のみが変化した場合、 <see cref="NotifyCollectionChangedAction.Replace"/> が通知される。<br/>
+        ///     ・行数・列数ともに変化した場合、 <see cref="NotifyCollectionChangedAction.Reset"/> が通知される。
+        /// </para>
+        /// </remarks>
         /// <param name="rowLength">
-        ///     [Range(<see cref="IRowSizeChangeableTwoDimensionalList{TIn, TOut}.GetMinRowCapacity"/>,
-        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TIn, TOut}.GetMaxRowCapacity"/>)]
+        ///     [Range(<see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem, TOutItem}.GetMinRowCapacity"/>,
+        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem, TOutItem}.GetMaxRowCapacity"/>)]
         ///     調整する行数
         /// </param>
         /// <param name="columnLength">
-        ///     [Range(<see cref="IColumnSizeChangeableTwoDimensionalList{TIn, TOut}.GetMinColumnCapacity"/>,
-        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TIn, TOut}.GetMaxColumnCapacity"/>)]
+        ///     [Range(<see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem, TOutItem}.GetMinColumnCapacity"/>,
+        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem, TOutItem}.GetMaxColumnCapacity"/>)]
         ///     調整する列数
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -63,14 +84,22 @@ namespace WodiLib.Sys.Collections
         ///     行数が超過している場合、行数を指定の数に合わせ、
         ///     列数が超過している場合、列数を指定の数に合わせる。
         /// </summary>
+        /// <remarks>
+        ///     <para>
+        ///     コレクション変更通知について<br/>
+        ///     ・行数のみが変化した場合、 <see cref="NotifyCollectionChangedAction.Remove"/> が通知される。<br/>
+        ///     ・列数のみが変化した場合、 <see cref="NotifyCollectionChangedAction.Replace"/> が通知される。<br/>
+        ///     ・行数・列数ともに変化した場合、 <see cref="NotifyCollectionChangedAction.Reset"/> が通知される。
+        /// </para>
+        /// </remarks>
         /// <param name="rowLength">
-        ///     [Range(<see cref="IRowSizeChangeableTwoDimensionalList{TIn, TOut}.GetMinRowCapacity"/>,
-        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TIn, TOut}.GetMaxRowCapacity"/>)]
+        ///     [Range(<see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem, TOutItem}.GetMinRowCapacity"/>,
+        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem, TOutItem}.GetMaxRowCapacity"/>)]
         ///     調整する行数
         /// </param>
         /// <param name="columnLength">
-        ///     [Range(<see cref="IColumnSizeChangeableTwoDimensionalList{TIn, TOut}.GetMinColumnCapacity"/>,
-        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TIn, TOut}.GetMaxColumnCapacity"/>)]
+        ///     [Range(<see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem, TOutItem}.GetMinColumnCapacity"/>,
+        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem, TOutItem}.GetMaxColumnCapacity"/>)]
         ///     調整する列数
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -89,7 +118,7 @@ namespace WodiLib.Sys.Collections
         /// <exception cref="ArgumentException">
         ///     <paramref name="initItems"/> のすべての要素の要素数が統一されていない場合。
         /// </exception>
-        public void Reset(IEnumerable<IEnumerable<TIn>> initItems);
+        public void Reset(IEnumerable<TInRow> initItems);
 
         /// <summary>
         ///     自分自身を初期化する。
@@ -97,11 +126,11 @@ namespace WodiLib.Sys.Collections
         /// <remarks>
         ///     <para>
         ///         既存の要素はすべて除去され、
-        ///         <typeparam name="TOut">
+        ///         <typeparam name="TInItem">
         ///             のデフォルト要素で埋められた
         ///         </typeparam>
-        ///         <see cref="IRowSizeChangeableTwoDimensionalList{TIn, TOut}.GetMinRowCapacity"/> 行
-        ///         <see cref="IColumnSizeChangeableTwoDimensionalList{TIn, TOut}.GetMinColumnCapacity"/> 列の
+        ///         <see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem, TOutItem}.GetMinRowCapacity"/> 行
+        ///         <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem, TOutItem}.GetMinColumnCapacity"/> 列の
         ///         二次元リストとなる。
         ///     </para>
         /// </remarks>

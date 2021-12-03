@@ -72,12 +72,34 @@ namespace WodiLib.Sys.Collections
         // ReSharper restore ConstantConditionalAccessQualifier
 
         /// <inheritdoc/>
+        public override NotifyPropertyChangeEventType NotifyPropertyChangingEventType
+        {
+            get => Items.NotifyPropertyChangingEventType;
+            set
+            {
+                ThrowHelper.ValidateArgumentNotNull(value is null, nameof(NotifyPropertyChangingEventType));
+                Items.NotifyPropertyChangingEventType = value;
+            }
+        }
+
+        /// <inheritdoc/>
+        public override NotifyPropertyChangeEventType NotifyPropertyChangedEventType
+        {
+            get => Items.NotifyPropertyChangedEventType;
+            set
+            {
+                ThrowHelper.ValidateArgumentNotNull(value is null, nameof(NotifyPropertyChangedEventType));
+                Items.NotifyPropertyChangedEventType = value;
+            }
+        }
+
+        /// <inheritdoc/>
         public NotifyCollectionChangeEventType NotifyCollectionChangingEventType
         {
             get => Items.NotifyCollectionChangingEventType;
             set
             {
-                ThrowHelper.ValidateArgumentNotNull(value is null, nameof(value));
+                ThrowHelper.ValidateArgumentNotNull(value is null, nameof(NotifyCollectionChangingEventType));
                 Items.NotifyCollectionChangingEventType = value;
             }
         }
@@ -88,7 +110,7 @@ namespace WodiLib.Sys.Collections
             get => Items.NotifyCollectionChangedEventType;
             set
             {
-                ThrowHelper.ValidateArgumentNotNull(value is null, nameof(value));
+                ThrowHelper.ValidateArgumentNotNull(value is null, nameof(NotifyCollectionChangedEventType));
                 Items.NotifyCollectionChangedEventType = value;
             }
         }
@@ -265,7 +287,12 @@ namespace WodiLib.Sys.Collections
 
         #region CollectionChanging
 
-        /// <inheritdoc/>
+        event EventHandler<NotifyCollectionChangedEventArgs>? INotifiableCollectionChange.CollectionChanging
+        {
+            add => ((INotifiableCollectionChange)Items).CollectionChanging += value;
+            remove => ((INotifiableCollectionChange)Items).CollectionChanging -= value;
+        }
+
         event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
         {
             add => ((INotifyCollectionChanged)Items).CollectionChanged += value;

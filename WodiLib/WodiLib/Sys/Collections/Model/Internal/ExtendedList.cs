@@ -10,6 +10,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using WodiLib.Sys.Cmn;
 
@@ -98,12 +99,28 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <inheritdoc cref="INotifiableCollectionChange{T}.NotifyCollectionChangingEventType"/>
-        public NotifyCollectionChangeEventType NotifyCollectionChangingEventType { get; set; }
-            = WodiLibConfig.GetDefaultNotifyBeforeCollectionChangeEventType();
+        public NotifyCollectionChangeEventType NotifyCollectionChangingEventType
+        {
+            get => notifyCollectionChangingEventType;
+            set
+            {
+                ThrowHelper.ValidatePropertyNotNull(value is null, nameof(NotifyCollectionChangingEventType));
+                notifyCollectionChangingEventType = value;
+                ApplyPropertyChangingEventType(this);
+            }
+        }
 
         /// <inheritdoc cref="INotifiableCollectionChange{T}.NotifyCollectionChangedEventType"/>
-        public NotifyCollectionChangeEventType NotifyCollectionChangedEventType { get; set; }
-            = WodiLibConfig.GetDefaultNotifyAfterCollectionChangeEventType();
+        public NotifyCollectionChangeEventType NotifyCollectionChangedEventType
+        {
+            get => notifyCollectionChangedEventType;
+            set
+            {
+                ThrowHelper.ValidatePropertyNotNull(value is null, nameof(NotifyCollectionChangedEventType));
+                notifyCollectionChangedEventType = value;
+                ApplyPropertyChangedEventType(this);
+            }
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Fields
@@ -112,7 +129,14 @@ namespace WodiLib.Sys.Collections
         /* マルチスレッドを考慮して、イベントハンドラ本体の実装は自動実装に任せる。 */
         private event EventHandler<NotifyCollectionChangedEventArgsEx<T>>? _collectionChanging;
         private event EventHandler<NotifyCollectionChangedEventArgsEx<T>>? _collectionChanged;
+        private event EventHandler<NotifyCollectionChangedEventArgs>? _originalCollectionChanging;
         private event NotifyCollectionChangedEventHandler? _originalCollectionChanged;
+
+        private NotifyCollectionChangeEventType notifyCollectionChangingEventType
+            = WodiLibConfig.GetDefaultNotifyBeforeCollectionChangeEventType();
+
+        private NotifyCollectionChangeEventType notifyCollectionChangedEventType
+            = WodiLibConfig.GetDefaultNotifyAfterCollectionChangeEventType();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Private Properties
@@ -135,6 +159,7 @@ namespace WodiLib.Sys.Collections
 
             Items = new SimpleList<T>(initItemArray);
 
+            AddInnerItemPropertyChangeEvent(Items.ToArray());
             PropagatePropertyChangeEvent(Items);
         }
 
@@ -145,11 +170,13 @@ namespace WodiLib.Sys.Collections
         /// <param name="length">コピー後の要素数</param>
         /// <param name="values">コピー時上書き要素</param>
         /// <param name="funcMakeItem">デフォルト要素生成関数</param>
-        private ExtendedList(IEnumerable<T> src, int? length, IReadOnlyDictionary<int, T>? values,
-            Func<int, int, IEnumerable<T>> funcMakeItem)
+        private ExtendedList(ExtendedList<T> src, int? length, IReadOnlyDictionary<int, T>? values,
+            Func<int, int, IEnumerable<T>> funcMakeItem) : base(src)
         {
             Items = new SimpleList<T>(src, true);
             FuncMakeItems = funcMakeItem;
+            NotifyCollectionChangingEventType = src.NotifyCollectionChangingEventType;
+            NotifyCollectionChangedEventType = src.NotifyCollectionChangedEventType;
 
             if (length is not null)
             {
@@ -164,6 +191,9 @@ namespace WodiLib.Sys.Collections
                     this[key] = pair.Value;
                 }
             });
+
+            AddInnerItemPropertyChangeEvent(Items.ToArray());
+            PropagatePropertyChangeEvent(Items);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -283,6 +313,17 @@ namespace WodiLib.Sys.Collections
 
         #region CollectionChanged
 
+        event EventHandler<NotifyCollectionChangedEventArgs>? INotifiableCollectionChange.CollectionChanging
+        {
+            add
+            {
+                if (_originalCollectionChanging != null
+                    && _originalCollectionChanging.GetInvocationList().Contains(value)) return;
+                _originalCollectionChanging += value;
+            }
+            remove => _originalCollectionChanging -= value;
+        }
+
         event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
         {
             add
@@ -295,7 +336,6 @@ namespace WodiLib.Sys.Collections
         }
 
         #endregion
-
 
         #region GetEnumerator
 
@@ -320,7 +360,10 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="args">イベント引数</param>
         private void CallCollectionChanging(NotifyCollectionChangedEventArgsEx<T> args)
-            => _collectionChanging?.Invoke(this, args);
+        {
+            _collectionChanging?.Invoke(this, args);
+            _originalCollectionChanging?.Invoke(this, args);
+        }
 
         /// <summary>
         ///     CollectionChanged イベントを発火する。
@@ -330,6 +373,26 @@ namespace WodiLib.Sys.Collections
         {
             _collectionChanged?.Invoke(this, args);
             _originalCollectionChanged?.Invoke(this, args);
+        }
+
+        private void InnerItemOnPropertyChanging(object sender, PropertyChangingEventArgs e)
+        {
+            NotifyPropertyChanging(ListConstant.IndexerName);
+        }
+
+        private void InnerItemOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            NotifyPropertyChanged(ListConstant.IndexerName);
+        }
+
+        private void InnerItemOnCollectionChanging(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            NotifyPropertyChanging(ListConstant.IndexerName);
+        }
+
+        private void InnerItemOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            NotifyPropertyChanged(ListConstant.IndexerName);
         }
 
         /// <summary>
@@ -352,6 +415,12 @@ namespace WodiLib.Sys.Collections
 
             var oldItems = Items.Get(index, items.Length).ToArray();
 
+            var isAllItemReferenceEqual = oldItems.Zip(items).All(zip => ReferenceEquals(zip.Item1, zip.Item2));
+            if (isAllItemReferenceEqual)
+            {
+                return;
+            }
+
             var collectionChangeEventArgsFactory =
                 CollectionChangeEventArgsFactory<T>.CreateSet(this, index, oldItems, items);
 
@@ -360,11 +429,14 @@ namespace WodiLib.Sys.Collections
                 collectionChangeEventArgsFactory.CollectionChangedEventArgs,
                 ListConstant.IndexerName);
 
+            RemoveInnerItemPropertyChangeEvent(oldItems);
             notifyManager.NotifyBeforeEvent();
 
             Items.Set(index, items);
 
             notifyManager.NotifyAfterEvent();
+            ApplyPropertyChangeEventType(items);
+            AddInnerItemPropertyChangeEvent(items);
         }
 
         /// <summary>
@@ -389,6 +461,8 @@ namespace WodiLib.Sys.Collections
             Items.Insert(index, items);
 
             notifyManager.NotifyAfterEvent();
+            ApplyPropertyChangeEventType(items);
+            AddInnerItemPropertyChangeEvent(items);
         }
 
         /// <summary>
@@ -412,11 +486,14 @@ namespace WodiLib.Sys.Collections
                 param.NotifyProperties);
 
             // 処理本体
+            RemoveInnerItemPropertyChangeEvent(param.ReplaceOldItems);
             notifyManager.NotifyBeforeEvent();
 
             Items.Overwrite(index, param);
 
             notifyManager.NotifyAfterEvent();
+            ApplyPropertyChangeEventType(items);
+            AddInnerItemPropertyChangeEvent(items);
         }
 
         /// <summary>
@@ -466,6 +543,7 @@ namespace WodiLib.Sys.Collections
                 collectionChangeEventArgsFactory.CollectionChangedEventArgs,
                 nameof(IList.Count), ListConstant.IndexerName);
 
+            RemoveInnerItemPropertyChangeEvent(item);
             notifyManager.NotifyBeforeEvent();
 
             Items.Remove(index, 1);
@@ -494,6 +572,7 @@ namespace WodiLib.Sys.Collections
                 collectionChangeEventArgsFactory.CollectionChangedEventArgs,
                 nameof(IList.Count), ListConstant.IndexerName);
 
+            RemoveInnerItemPropertyChangeEvent(removeItems);
             notifyManager.NotifyBeforeEvent();
 
             Items.Remove(index, count);
@@ -564,9 +643,11 @@ namespace WodiLib.Sys.Collections
 
             notifyManager.NotifyBeforeEvent();
 
-            Items.AdjustIfShort(length);
+            Items.Add(items);
 
             notifyManager.NotifyAfterEvent();
+            ApplyPropertyChangeEventType(items);
+            AddInnerItemPropertyChangeEvent(items);
         }
 
         /// <summary>
@@ -587,6 +668,7 @@ namespace WodiLib.Sys.Collections
                 collectionChangeEventArgsFactory.CollectionChangedEventArgs,
                 nameof(IList.Count), ListConstant.IndexerName);
 
+            RemoveInnerItemPropertyChangeEvent(removeItems);
             notifyManager.NotifyBeforeEvent();
 
             Items.AdjustIfLong(length);
@@ -600,19 +682,24 @@ namespace WodiLib.Sys.Collections
         /// <param name="items">初期化要素</param>
         private void Reset_Impl(params T[] items)
         {
+            var oldItems = this.ToArray();
+
             var collectionChangeEventArgsFactory =
-                CollectionChangeEventArgsFactory<T>.CreateReset(this, this.ToList(), items);
+                CollectionChangeEventArgsFactory<T>.CreateReset(this, oldItems, items);
 
             var notifyManager = MakeNotifyManager(
                 collectionChangeEventArgsFactory.CollectionChangingEventArgs,
                 collectionChangeEventArgsFactory.CollectionChangedEventArgs,
                 nameof(IList.Count), ListConstant.IndexerName);
 
+            RemoveInnerItemPropertyChangeEvent(oldItems);
             notifyManager.NotifyBeforeEvent();
 
             Items.Reset(items);
 
             notifyManager.NotifyAfterEvent();
+            ApplyPropertyChangeEventType(items);
+            AddInnerItemPropertyChangeEvent(items);
         }
 
         /// <summary>
@@ -621,6 +708,163 @@ namespace WodiLib.Sys.Collections
         private void Clear_Impl()
         {
             Reset_Impl(Array.Empty<T>());
+        }
+
+        /// <summary>
+        /// 指定した要素が <see cref="INotifiablePropertyChange"/> を実装する場合、
+        /// 各要素の <see cref="INotifiablePropertyChange.NotifyPropertyChangingEventType"/>,
+        /// <see cref="INotifiablePropertyChange.NotifyPropertyChangedEventType"/> に
+        /// 自身と同じ値を反映する。
+        /// </summary>
+        /// <param name="items">処理対象</param>
+        private void ApplyPropertyChangeEventType(IEnumerable<T> items)
+        {
+            var itemArray = items.ToArray();
+            if (itemArray.Length == 0)
+            {
+                return;
+            }
+
+            if (itemArray[0] is not INotifiablePropertyChange)
+            {
+                return;
+            }
+
+            itemArray.ForEach(item =>
+            {
+                ((INotifiablePropertyChange)item!).NotifyPropertyChangingEventType =
+                    NotifyPropertyChangingEventType;
+                ((INotifiablePropertyChange)item).NotifyPropertyChangedEventType = NotifyPropertyChangedEventType;
+            });
+        }
+
+        /// <summary>
+        /// 指定した要素が <see cref="INotifiablePropertyChange"/> を実装する場合、
+        /// 各要素の <see cref="INotifiablePropertyChange.NotifyPropertyChangingEventType"/> に
+        /// 自身の <see cref="INotifiablePropertyChange.NotifyPropertyChangingEventType"/> の値を反映する。
+        /// </summary>
+        /// <param name="items">処理対象</param>
+        private void ApplyPropertyChangingEventType(IEnumerable<T> items)
+        {
+            var itemArray = items.ToArray();
+            if (itemArray.Length == 0)
+            {
+                return;
+            }
+
+            if (itemArray[0] is not INotifiablePropertyChange)
+            {
+                return;
+            }
+
+            itemArray.ForEach(item =>
+            {
+                ((INotifiablePropertyChange)item!).NotifyPropertyChangingEventType =
+                    NotifyPropertyChangingEventType;
+            });
+        }
+
+        /// <summary>
+        /// 指定した要素が <see cref="INotifiablePropertyChange"/> を実装する場合、
+        /// 各要素の <see cref="INotifiablePropertyChange.NotifyPropertyChangedEventType"/> に
+        /// 自身の <see cref="INotifiablePropertyChange.NotifyPropertyChangedEventType"/> の値を反映する。
+        /// </summary>
+        /// <param name="items">処理対象</param>
+        private void ApplyPropertyChangedEventType(IEnumerable<T> items)
+        {
+            var itemArray = items.ToArray();
+            if (itemArray.Length == 0)
+            {
+                return;
+            }
+
+            if (itemArray[0] is not INotifiablePropertyChange)
+            {
+                return;
+            }
+
+            itemArray.ForEach(item =>
+            {
+                ((INotifiablePropertyChange)item!).NotifyPropertyChangedEventType = NotifyPropertyChangedEventType;
+            });
+        }
+
+        /// <summary>
+        /// リストに追加した要素に対し変更通知イベントを登録する。
+        /// </summary>
+        /// <param name="items">追加した要素</param>
+        private void AddInnerItemPropertyChangeEvent(params T[] items)
+        {
+            items.ForEach(item =>
+            {
+                switch (item)
+                {
+                    case INotifiableCollectionChange notifiableCollectionChange:
+                        notifiableCollectionChange.CollectionChanging += InnerItemOnCollectionChanging;
+                        notifiableCollectionChange.CollectionChanged += InnerItemOnCollectionChanged;
+                        break;
+                    case INotifyCollectionChanged notifyCollectionChanged:
+                        notifyCollectionChanged.CollectionChanged += InnerItemOnCollectionChanged;
+                        break;
+                }
+
+                if (item is INotifiablePropertyChange notifiablePropertyChange)
+                {
+                    notifiablePropertyChange.PropertyChanging += InnerItemOnPropertyChanging;
+                    notifiablePropertyChange.PropertyChanged += InnerItemOnPropertyChanged;
+                }
+                else
+                {
+                    if (item is INotifyPropertyChanging notifyPropertyChanging)
+                    {
+                        notifyPropertyChanging.PropertyChanging += InnerItemOnPropertyChanging;
+                    }
+
+                    if (item is INotifyPropertyChanged notifyPropertyChanged)
+                    {
+                        notifyPropertyChanged.PropertyChanged += InnerItemOnPropertyChanged;
+                    }
+                }
+            });
+        }
+
+        /// <summary>
+        /// リストから除去する要素に対し登録した変更通知イベントを解除する。
+        /// </summary>
+        /// <param name="items">除去する要素</param>
+        private void RemoveInnerItemPropertyChangeEvent(params T[] items)
+        {
+            items.ForEach(item =>
+            {
+                switch (item)
+                {
+                    case INotifiableCollectionChange notifiableCollectionChange:
+                        notifiableCollectionChange.CollectionChanging -= InnerItemOnCollectionChanging;
+                        notifiableCollectionChange.CollectionChanged -= InnerItemOnCollectionChanged;
+                        break;
+                    case INotifyCollectionChanged notifyCollectionChanged:
+                        notifyCollectionChanged.CollectionChanged -= InnerItemOnCollectionChanged;
+                        break;
+                }
+
+                if (item is INotifiablePropertyChange notifiablePropertyChange)
+                {
+                    notifiablePropertyChange.PropertyChanging -= InnerItemOnPropertyChanging;
+                    notifiablePropertyChange.PropertyChanged -= InnerItemOnPropertyChanged;
+                }
+                else
+                {
+                    if (item is INotifyPropertyChanging notifyPropertyChanging)
+                    {
+                        notifyPropertyChanging.PropertyChanging -= InnerItemOnPropertyChanging;
+                    }
+
+                    if (item is INotifyPropertyChanged notifyPropertyChanged)
+                    {
+                        notifyPropertyChanged.PropertyChanged -= InnerItemOnPropertyChanged;
+                    }
+                }
+            });
         }
     }
 }

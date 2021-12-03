@@ -15,7 +15,7 @@ using WodiLib.Sys.Collections;
 namespace WodiLib.Test.Sys
 {
     /// <summary>
-    ///     <see cref="TwoDimensionalList{T}"/> のテスト用ツール定義クラス
+    ///     <see cref="TwoDimensionalList{TRow, TInternal, TItem}"/> のテスト用ツール定義クラス
     /// </summary>
     internal static class TwoDimensionalListTest_Tools
     {
@@ -98,6 +98,18 @@ namespace WodiLib.Test.Sys
         public static TestRecord MakeItem(int row, int column, string prefix = "", string suffix = "")
         {
             return new($"{prefix}_{row:d2}_{column:d2}_{suffix}");
+        }
+
+        public class TestRecordList : ExtendedList<TestRecord>, IDeepCloneable<TestRecordList>
+        {
+            public TestRecordList(IEnumerable<TestRecord> items) : base(items)
+            {
+            }
+
+            public new TestRecordList DeepClone() => new(this)
+            {
+                FuncMakeItems = FuncMakeItems
+            };
         }
 
         #endregion
@@ -630,77 +642,103 @@ namespace WodiLib.Test.Sys
         #region TwoDimensionalList
 
         /// <summary>
-        ///     TwoDimensionalList{TestRecord} を作成する。イベント通知は一切行わず、
+        ///     TwoDimensionalList{IFixedLengthList{TestRecord},ExtendedList{TestRecord},TestRecord} を作成する。イベント通知は一切行わず、
         ///     引数の検証処理も行わない。
         /// </summary>
         /// <param name="type">種別</param>
         /// <param name="funcMakeItem">要素生成関数</param>
-        public static TwoDimensionalList<TestRecord> MakeTwoDimensionalList(string type,
-            Func<int, int, TestRecord> funcMakeItem)
+        public static TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>
+            MakeTwoDimensionalList(string type,
+                Func<int, int, TestRecord> funcMakeItem)
             => MakeTwoDimensionalList(TestDoubleEnumerableInstanceTypeFrom(type), funcMakeItem);
 
         /// <summary>
-        ///     TwoDimensionalList{TestRecord} を作成する。イベント通知は一切行わず、
+        ///     TwoDimensionalList{IFixedLengthList{TestRecord},ExtendedList{TestRecord},TestRecord} を作成する。イベント通知は一切行わず、
         ///     引数の検証処理も行わない。
         /// </summary>
         /// <param name="type">種別</param>
         /// <param name="funcMakeItem">要素生成関数</param>
-        public static TwoDimensionalList<TestRecord> MakeTwoDimensionalList(TestDoubleEnumerableInstanceType type,
-            Func<int, int, TestRecord> funcMakeItem)
+        public static TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>
+            MakeTwoDimensionalList(TestDoubleEnumerableInstanceType type,
+                Func<int, int, TestRecord> funcMakeItem)
         {
             if (type == TestDoubleEnumerableInstanceType.Null) return null;
 
             // あえて行列を入れ替える場面はないはず
             var items = MakeTestRecordList(type, false, funcMakeItem);
-            var result = new TwoDimensionalList<TestRecord>(items, CreateCommonConfig(funcMakeItem))
-            {
-                NotifyPropertyChangingEventType = NotifyPropertyChangeEventType.Disabled,
-                NotifyPropertyChangedEventType = NotifyPropertyChangeEventType.Disabled,
-                NotifyCollectionChangingEventType = NotifyCollectionChangeEventType.None,
-                NotifyCollectionChangedEventType = NotifyCollectionChangeEventType.None,
-                NotifyTwoDimensionalListChangingEventType = NotifyTwoDimensionalListChangeEventType.None,
-                NotifyTwoDimensionalListChangedEventType = NotifyTwoDimensionalListChangeEventType.None
-            };
+            var result =
+                new TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>(items,
+                    CreateCommonConfig(funcMakeItem))
+                {
+                    NotifyPropertyChangingEventType = NotifyPropertyChangeEventType.Disabled,
+                    NotifyPropertyChangedEventType = NotifyPropertyChangeEventType.Disabled,
+                    NotifyCollectionChangingEventType = NotifyCollectionChangeEventType.None,
+                    NotifyCollectionChangedEventType = NotifyCollectionChangeEventType.None,
+                };
 
             return result;
         }
 
+        public static IFixedLengthList<TestRecord> MakeRowList(IEnumerable<TestRecord> items)
+            => new ExtendedList<TestRecord>(items);
+
+        public static IFixedLengthList<TestRecord>[] MakeRowList(IEnumerable<IEnumerable<TestRecord>> items)
+            => items?.Select(line => new ExtendedList<TestRecord>(line)).Cast<IFixedLengthList<TestRecord>>().ToArray();
+
         /// <summary>
-        ///     TwoDimensionalList{TestRecord} を作成する。イベント通知は一切行わず、
+        ///     TwoDimensionalList{IFixedLengthList{TestRecord},ExtendedList{TestRecord},TestRecord} を作成する。イベント通知は一切行わず、
         ///     引数の検証処理も行わない。
         /// </summary>
         /// <param name="type">種別</param>
         /// <param name="validator">検証処理実施インスタンス</param>
         /// <param name="funcMakeItem">要素生成関数</param>
-        public static TwoDimensionalList<TestRecord> MakeTwoDimensionalList(TestDoubleEnumerableInstanceType type,
-            ITwoDimensionalListValidator<TestRecord> validator, Func<int, int, TestRecord> funcMakeItem)
+        public static TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>
+            MakeTwoDimensionalList(TestDoubleEnumerableInstanceType type,
+                ITwoDimensionalListValidator<IFixedLengthList<TestRecord>, TestRecord> validator,
+                Func<int, int, TestRecord> funcMakeItem)
         {
             // あえて行列を入れ替える場面はないはず
             var items = MakeTestRecordList(type, false, funcMakeItem);
-            var result = new TwoDimensionalList<TestRecord>(items, CreateCommonConfig(funcMakeItem, validator))
-            {
-                NotifyPropertyChangingEventType = NotifyPropertyChangeEventType.Disabled,
-                NotifyPropertyChangedEventType = NotifyPropertyChangeEventType.Disabled,
-                NotifyCollectionChangingEventType = NotifyCollectionChangeEventType.None,
-                NotifyCollectionChangedEventType = NotifyCollectionChangeEventType.None,
-                NotifyTwoDimensionalListChangingEventType = NotifyTwoDimensionalListChangeEventType.None,
-                NotifyTwoDimensionalListChangedEventType = NotifyTwoDimensionalListChangeEventType.None
-            };
+            var result =
+                new TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>(items,
+                    CreateCommonConfig(funcMakeItem, validator))
+                {
+                    NotifyPropertyChangingEventType = NotifyPropertyChangeEventType.Disabled,
+                    NotifyPropertyChangedEventType = NotifyPropertyChangeEventType.Disabled,
+                    NotifyCollectionChangingEventType = NotifyCollectionChangeEventType.None,
+                    NotifyCollectionChangedEventType = NotifyCollectionChangeEventType.None,
+                };
 
             return result;
         }
 
-        public static TwoDimensionalList<TestRecord>.Config CreateCommonConfig(Func<int, int, TestRecord> itemFactory,
-            ITwoDimensionalListValidator<TestRecord> validator = null)
-            => new()
+        public static TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>.Config
+            CreateCommonConfig(Func<int, int, TestRecord> itemFactory,
+                ITwoDimensionalListValidator<IFixedLengthList<TestRecord>, TestRecord> validator = null,
+                int? maxRowCapacity = null,
+                int? minRowCapacity = null,
+                int? maxColumnCapacity = null,
+                int? minColumnCapacity = null
+            )
+            => new(
+                records => new TestRecordList(records)
+                {
+                    FuncMakeItems = (r, count) => Enumerable.Range(0, count).Select(c => itemFactory(r, c)),
+                }, // RowFactoryFromItems
+                list => new TestRecordList(list)
+                {
+                    FuncMakeItems = (r, count) => Enumerable.Range(0, count).Select(c => itemFactory(r, c)),
+                }, // ToInternalRow
+                itemFactory,
+                (l, r) => l.ItemEquals(r), // ItemComparer
+                target => validator // ValidatorFactory
+                          ?? new CommonTwoDimensionalListValidator<IFixedLengthList<TestRecord>, TestRecord>(target)
+            )
             {
-                MaxRowCapacity = int.MaxValue,
-                MinRowCapacity = 0,
-                MaxColumnCapacity = int.MaxValue,
-                MinColumnCapacity = 0,
-                ItemFactory = itemFactory,
-                ValidatorFactory = target =>
-                    validator ?? new CommonTwoDimensionalListValidator<TestRecord>(target),
+                MaxRowCapacity = maxRowCapacity ?? int.MaxValue,
+                MinRowCapacity = minRowCapacity ?? 0,
+                MaxColumnCapacity = maxColumnCapacity ?? int.MaxValue,
+                MinColumnCapacity = minColumnCapacity ?? 0,
             };
 
         #endregion
@@ -739,16 +777,6 @@ namespace WodiLib.Test.Sys
             var result = MakeTestRecordList(recordType, initRowLength, initColumnLength, funcMakeItem);
             return ProcessingTestRecordList(result, type, funcMakeItem);
         }
-
-        /// <summary>
-        ///     テスト用の二次元配列作成
-        /// </summary>
-        /// <param name="type">種別</param>
-        /// <param name="isTranspose">行列入れ替えフラグ</param>
-        /// <param name="funcMakeItem">要素生成関数</param>
-        public static TestRecord[][] MakeTestRecordArrays(string type, bool isTranspose,
-            Func<int, int, TestRecord> funcMakeItem)
-            => MakeTestRecordArrays(TestDoubleEnumerableInstanceTypeFrom(type), isTranspose, funcMakeItem);
 
         /// <summary>
         ///     テスト用の二次元配列作成
@@ -1091,88 +1119,5 @@ namespace WodiLib.Test.Sys
         }
 
         #endregion
-
-        #region Other TestPatterns
-
-        public enum ContainsItemType
-        {
-            /// <summary>
-            ///     対象の <see cref="TwoDimensionalList{T}"/> に含まれる要素
-            /// </summary>
-            Included,
-
-            /// <summary>
-            ///     対象の <see cref="TwoDimensionalList{T}"/> に含まれない要素
-            /// </summary>
-            NotIncluded,
-
-            /// <summary>
-            ///     <see langword="null"/> 要素
-            /// </summary>
-            Null,
-        }
-
-        #endregion
-
-        public static Direction TestDirectionFrom(string value)
-            => value switch
-            {
-                null => null,
-                nameof(Direction.Row) => Direction.Row,
-                nameof(Direction.Column) => Direction.Column,
-                nameof(Direction.None) => Direction.None,
-                _ => throw new ArgumentException()
-            };
-
-        public static Direction NotifyDirectionFrom(
-            NotifyTwoDimensionalListChangeEventGroupingType groupingType, Direction execDirection)
-        {
-            return groupingType.Id switch
-            {
-                nameof(NotifyTwoDimensionalListChangeEventGroupingType.Row) => Direction.Row,
-                nameof(NotifyTwoDimensionalListChangeEventGroupingType.Column) => Direction.Column,
-                _ => execDirection,
-            };
-        }
-
-        /// <summary>
-        ///     <see cref="TwoDimensionalList{T}"/> の変更通知で必ず行方向の通知を行う通知種別
-        /// </summary>
-        private static readonly NotifyTwoDimensionalListChangeEventType[] RowDirectionTwoDimListNotifyTypes =
-        {
-            NotifyTwoDimensionalListChangeEventType.Multi_Row,
-            NotifyTwoDimensionalListChangeEventType.Simple_Row,
-        };
-
-        /// <summary>
-        ///     <see cref="TwoDimensionalList{T}"/> の変更通知で必ず列方向の通知を行う通知種別
-        /// </summary>
-        private static readonly NotifyTwoDimensionalListChangeEventType[] ColumnDirectionTwoDimListNotifyTypes =
-        {
-            NotifyTwoDimensionalListChangeEventType.Multi_Column,
-            NotifyTwoDimensionalListChangeEventType.Simple_Column,
-        };
-
-        /// <summary>
-        ///     <paramref name="execDirection"/> と <paramref name="notifyType"/> が示す方向（行 or 列）が
-        ///     一致するかどうかを返す。
-        /// </summary>
-        public static bool IsEqualExecDirectionAndNotifyDirection(Direction execDirection,
-            NotifyTwoDimensionalListChangeEventType notifyType)
-        {
-            if (execDirection != Direction.Column
-                && ColumnDirectionTwoDimListNotifyTypes.Contains(notifyType))
-            {
-                return false;
-            }
-
-            if (execDirection == Direction.Column
-                && RowDirectionTwoDimListNotifyTypes.Contains(notifyType))
-            {
-                return false;
-            }
-
-            return true;
-        }
     }
 }

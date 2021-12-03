@@ -72,6 +72,20 @@ namespace WodiLib.Sys.Collections
         // ReSharper restore ConstantConditionalAccessQualifier
 
         /// <inheritdoc/>
+        public override NotifyPropertyChangeEventType NotifyPropertyChangingEventType
+        {
+            get => Items.NotifyPropertyChangingEventType;
+            set => Items.NotifyPropertyChangingEventType = value;
+        }
+
+        /// <inheritdoc/>
+        public override NotifyPropertyChangeEventType NotifyPropertyChangedEventType
+        {
+            get => Items.NotifyPropertyChangedEventType;
+            set => Items.NotifyPropertyChangedEventType = value;
+        }
+
+        /// <inheritdoc/>
         public NotifyCollectionChangeEventType NotifyCollectionChangingEventType
         {
             get => Items.NotifyCollectionChangingEventType;
@@ -379,7 +393,12 @@ namespace WodiLib.Sys.Collections
 
         #region CollectionChanging
 
-        /// <inheritdoc/>
+        event EventHandler<NotifyCollectionChangedEventArgs>? INotifiableCollectionChange.CollectionChanging
+        {
+            add => ((INotifiableCollectionChange)Items).CollectionChanging += value;
+            remove => ((INotifiableCollectionChange)Items).CollectionChanging -= value;
+        }
+
         event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
         {
             add => ((INotifyCollectionChanged)Items).CollectionChanged += value;

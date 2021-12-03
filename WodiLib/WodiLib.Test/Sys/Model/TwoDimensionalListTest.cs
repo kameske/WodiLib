@@ -7,6 +7,7 @@ using WodiLib.Sys.Collections;
 using WodiLib.Test.Tools;
 using TestTools = WodiLib.Test.Sys.TwoDimensionalListTest_Tools;
 using TestRecord = WodiLib.Test.Sys.TwoDimensionalListTest_Tools.TestRecord;
+using TestRecordList = WodiLib.Test.Sys.TwoDimensionalListTest_Tools.TestRecordList;
 using TestDoubleEnumerableInstanceType = WodiLib.Test.Sys.TwoDimensionalListTest_Tools.TestDoubleEnumerableInstanceType;
 
 namespace WodiLib.Test.Sys
@@ -149,42 +150,6 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                result = instance.ItemEquals((ITwoDimensionalList<TestRecord, TestRecord>) otherItem);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                Assert.Fail();
-            }
-
-            // 取得結果が正しいこと
-            Assert.AreEqual(answer, result);
-        }
-
-        [TestCase(nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic), true)]
-        [TestCase(nameof(TestDoubleEnumerableInstanceType.NotNull_RowShort_ColumnBasic), false)]
-        [TestCase(nameof(TestDoubleEnumerableInstanceType.NotNull_RowLong_ColumnBasic), false)]
-        [TestCase(nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnShort), false)]
-        [TestCase(nameof(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnLong), false)]
-        [TestCase(nameof(TestDoubleEnumerableInstanceType.NotNull_HasDifferenceItemComparedBasic), false)]
-        [TestCase(nameof(TestDoubleEnumerableInstanceType.Empty), false)]
-        [TestCase(nameof(TestDoubleEnumerableInstanceType.EmptyRows), false)]
-        [TestCase(nameof(TestDoubleEnumerableInstanceType.HasNullRow), false)]
-        [TestCase(nameof(TestDoubleEnumerableInstanceType.HasNullColumn), false)]
-        [TestCase(nameof(TestDoubleEnumerableInstanceType.Null), false)]
-        public static void ItemEqualsTest_IEnumerable(string testType, bool answer)
-        {
-            Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
-            var instance = TestTools.MakeTwoDimensionalList(
-                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
-                funcMakeDefaultItem);
-
-            var otherItem = TestTools.MakeTestRecordList(testType, false, funcMakeDefaultItem);
-
-            var result = false;
-
-            try
-            {
                 result = instance.ItemEquals(otherItem);
             }
             catch (Exception ex)
@@ -250,7 +215,7 @@ namespace WodiLib.Test.Sys
             var originalCount = instance.RowCount;
             var originalItemCount = instance.ColumnCount;
 
-            TwoDimensionalList<TestRecord> result = null;
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> result = null;
 
             try
             {
@@ -276,9 +241,9 @@ namespace WodiLib.Test.Sys
 
         private static readonly object[] DeepCloneWithTestCaseSource =
         {
-            new object[] {null, null, null},
-            new object[] {5, null, null},
-            new object[] {null, 2, null},
+            new object[] { null, null, null },
+            new object[] { 5, null, null },
+            new object[] { null, 2, null },
             new object[]
             {
                 null, null, new[]
@@ -286,7 +251,7 @@ namespace WodiLib.Test.Sys
                     (1, 1, "ClonedItem"),
                 }
             },
-            new object[] {5, 2, null},
+            new object[] { 5, 2, null },
             new object[]
             {
                 5, null, new[]
@@ -342,7 +307,7 @@ namespace WodiLib.Test.Sys
             var originalCount = instance.RowCount;
             var originalItemCount = instance.ColumnCount;
 
-            TwoDimensionalList<TestRecord> result = null;
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> result = null;
 
             var assumedRowLength = rowLength ?? originalCount;
             var assumedColumnLength = colLength ?? originalItemCount;

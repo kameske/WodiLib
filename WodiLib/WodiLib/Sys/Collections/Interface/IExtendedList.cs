@@ -26,10 +26,14 @@ namespace WodiLib.Sys.Collections
     ///         固定。
     ///         そのため要素を追加/削除する操作によって要素数制限による例外は発生しない。
     ///     </para>
+    ///     <para>
+    ///         <see cref="ObservableCollection{T}"/> とは異なり、
+    ///         <typeparamref name="T"/> が変更通知を行うクラスだった場合、
+    ///         通知を受け取ると自身の "Items[]" プロパティ変更通知を行う。
+    ///     </para>
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
-    public interface
-        IExtendedList<T> : IRestrictedCapacityList<T>
+    public interface IExtendedList<T> : IRestrictedCapacityList<T>
     {
     }
 }

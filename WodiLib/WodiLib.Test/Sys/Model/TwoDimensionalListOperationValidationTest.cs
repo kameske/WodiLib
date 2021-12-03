@@ -5,6 +5,7 @@ using WodiLib.Sys.Collections;
 using WodiLib.Test.Tools;
 using TestTools = WodiLib.Test.Sys.TwoDimensionalListTest_Tools;
 using TestRecord = WodiLib.Test.Sys.TwoDimensionalListTest_Tools.TestRecord;
+using TestRecordList = WodiLib.Test.Sys.TwoDimensionalListTest_Tools.TestRecordList;
 using TestDoubleEnumerableInstanceType = WodiLib.Test.Sys.TwoDimensionalListTest_Tools.TestDoubleEnumerableInstanceType;
 
 namespace WodiLib.Test.Sys
@@ -46,7 +47,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                _ = new TwoDimensionalList<TestRecord>(initItems,
+                _ = new TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>(initItems,
                     TestTools.CreateCommonConfig(TestTools.MakeListDefaultItem));
             }
             catch (Exception ex)
@@ -69,7 +70,8 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                _ = new TwoDimensionalList<TestRecord>(initRowLength, initColumnLength,
+                _ = new TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>(initRowLength,
+                    initColumnLength,
                     TestTools.CreateCommonConfig(TestTools.MakeListDefaultItem));
             }
             catch (Exception ex)
@@ -87,7 +89,7 @@ namespace WodiLib.Test.Sys
             var errorOccured = false;
             try
             {
-                _ = new TwoDimensionalList<TestRecord>(
+                _ = new TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>(
                     TestTools.CreateCommonConfig(TestTools.MakeListDefaultItem));
             }
             catch (Exception ex)
@@ -359,7 +361,8 @@ namespace WodiLib.Test.Sys
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
                 TestTools.MakeInitItem);
 
-            var setItems = TestTools.MakeTestRecordList(setItemType, false, TestTools.MakeInsertItem);
+            var setItems =
+                TestTools.MakeRowList(TestTools.MakeTestRecordList(setItemType, false, TestTools.MakeInsertItem));
             var errorOccured = false;
             try
             {
@@ -448,7 +451,8 @@ namespace WodiLib.Test.Sys
                     : TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
                 TestTools.MakeInitItem);
 
-            var addItems = TestTools.MakeTestRecordList(addItemType, false, TestTools.MakeInsertItem);
+            var addItems =
+                TestTools.MakeRowList(TestTools.MakeTestRecordList(addItemType, false, TestTools.MakeInsertItem));
             var errorOccured = false;
             try
             {
@@ -562,7 +566,8 @@ namespace WodiLib.Test.Sys
                     : TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
                 TestTools.MakeInitItem);
 
-            var insertItems = TestTools.MakeTestRecordList(insertItemType, false, TestTools.MakeInsertItem);
+            var insertItems =
+                TestTools.MakeRowList(TestTools.MakeTestRecordList(insertItemType, false, TestTools.MakeInsertItem));
             var errorOccured = false;
             try
             {
@@ -697,7 +702,8 @@ namespace WodiLib.Test.Sys
                     : TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
                 TestTools.MakeInitItem);
 
-            var overwriteItems = TestTools.MakeTestRecordList(overwriteItemType, false, TestTools.MakeInsertItem);
+            var overwriteItems =
+                TestTools.MakeRowList(TestTools.MakeTestRecordList(overwriteItemType, false, TestTools.MakeInsertItem));
             var errorOccured = false;
             try
             {
@@ -1217,7 +1223,8 @@ namespace WodiLib.Test.Sys
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
                 TestTools.MakeInitItem);
 
-            var resetItems = TestTools.MakeTestRecordList(resetItemType, false, TestTools.MakeInsertItem);
+            var resetItems =
+                TestTools.MakeRowList(TestTools.MakeTestRecordList(resetItemType, false, TestTools.MakeInsertItem));
             var errorOccured = false;
             try
             {

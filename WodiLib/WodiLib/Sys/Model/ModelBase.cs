@@ -99,6 +99,27 @@ namespace WodiLib.Sys
             = new();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Constructors
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <summary>
+        /// コンストラクタ（通常）
+        /// </summary>
+        protected ModelBase()
+        {
+        }
+
+        /// <summary>
+        /// ディープコピーコンストラクタ
+        /// </summary>
+        /// <param name="src">コピー元</param>
+        protected ModelBase(ModelBase<TChild> src)
+        {
+            NotifyPropertyChangingEventType = src.NotifyPropertyChangingEventType;
+            NotifyPropertyChangedEventType = src.NotifyPropertyChangingEventType;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 

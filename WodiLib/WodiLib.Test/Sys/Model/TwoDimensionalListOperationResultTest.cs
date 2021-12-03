@@ -8,6 +8,7 @@ using WodiLib.Sys.Collections;
 using WodiLib.Test.Tools;
 using TestTools = WodiLib.Test.Sys.TwoDimensionalListTest_Tools;
 using TestRecord = WodiLib.Test.Sys.TwoDimensionalListTest_Tools.TestRecord;
+using TestRecordList = WodiLib.Test.Sys.TwoDimensionalListTest_Tools.TestRecordList;
 using TestDoubleEnumerableInstanceType = WodiLib.Test.Sys.TwoDimensionalListTest_Tools.TestDoubleEnumerableInstanceType;
 
 namespace WodiLib.Test.Sys
@@ -50,19 +51,16 @@ namespace WodiLib.Test.Sys
 
             var validatorMock = new TwoDimensionalListValidatorMock();
 
-            TwoDimensionalList<TestRecord> instance = null;
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance = null;
 
             try
             {
-                instance = new TwoDimensionalList<TestRecord>(initItems, new()
-                {
-                    ItemFactory = funcMakeDefaultItem,
-                    ValidatorFactory = _ => validatorMock,
-                    MaxRowCapacity = maxRowCapacity,
-                    MinRowCapacity = minRowCapacity,
-                    MaxColumnCapacity = maxColumnCapacity,
-                    MinColumnCapacity = minColumnCapacity
-                });
+                instance = new TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>(initItems,
+                    TestTools.CreateCommonConfig(funcMakeDefaultItem, validatorMock,
+                        maxRowCapacity,
+                        minRowCapacity,
+                        maxColumnCapacity,
+                        minColumnCapacity));
             }
             catch (Exception ex)
             {
@@ -89,17 +87,14 @@ namespace WodiLib.Test.Sys
             var validatorMock = new TwoDimensionalListValidatorMock();
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
 
-            TwoDimensionalList<TestRecord> instance = null;
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance = null;
 
             try
             {
-                instance = new TwoDimensionalList<TestRecord>(
+                instance = new TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>(
                     TestTools.InitRowLength, TestTools.InitColumnLength,
-                    new()
-                    {
-                        ItemFactory = funcMakeDefaultItem,
-                        ValidatorFactory = _ => validatorMock,
-                    });
+                    TestTools.CreateCommonConfig(funcMakeDefaultItem, validatorMock)
+                    );
             }
             catch (Exception ex)
             {
@@ -124,15 +119,12 @@ namespace WodiLib.Test.Sys
             var validatorMock = new TwoDimensionalListValidatorMock();
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
 
-            TwoDimensionalList<TestRecord> instance = null;
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance = null;
 
             try
             {
-                instance = new TwoDimensionalList<TestRecord>(new()
-                {
-                    ItemFactory = funcMakeDefaultItem,
-                    ValidatorFactory = _ => validatorMock,
-                });
+                instance = new TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>(
+                    TestTools.CreateCommonConfig(funcMakeDefaultItem, validatorMock));
             }
             catch (Exception ex)
             {
@@ -149,7 +141,7 @@ namespace WodiLib.Test.Sys
             AssertElementsConstructor(instance, expectedInitItems);
         }
 
-        private static void AssertElementsConstructor(TwoDimensionalList<TestRecord> instance, TestRecord[][] items)
+        private static void AssertElementsConstructor(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance, TestRecord[][] items)
         {
             var assumedCount = items.Length;
             var assumedItemCount = items.GetInnerArrayLength();
@@ -317,7 +309,7 @@ namespace WodiLib.Test.Sys
             AssertElementsGet(instance, rowIndex, rowCount, columnIndex, columnCount, Direction.Row, resultArray);
         }
 
-        private static void AssertElementsGet(TwoDimensionalList<TestRecord> instance,
+        private static void AssertElementsGet(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
             int row, int count, int column, int itemCount, Direction direction,
             TestRecord[][] resultArray)
         {
@@ -394,7 +386,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance.SetRow(row, TestTools.ConvertIEnumerableArray(setItems));
+                instance.SetRow(row, TestTools.MakeRowList(setItems));
             }
             catch (Exception ex)
             {
@@ -439,7 +431,7 @@ namespace WodiLib.Test.Sys
 
         private static void AssertElementsSetRow(
             int row, int column, TestRecord[][] setItems, Direction setDirection,
-            TwoDimensionalList<TestRecord> instance, TestRecord[][] oldItems)
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance, TestRecord[][] oldItems)
         {
             Assert.AreEqual(TestTools.InitRowLength, instance.RowCount);
             Assert.AreEqual(TestTools.InitColumnLength, instance.ColumnCount);
@@ -523,7 +515,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance.AddRow(TestTools.ConvertIEnumerableArray(addItems));
+                instance.AddRow(TestTools.MakeRowList(addItems));
             }
             catch (Exception ex)
             {
@@ -538,7 +530,7 @@ namespace WodiLib.Test.Sys
             AssertElementsAddRow(instance, oldItems, addItems);
         }
 
-        private static void AssertElementsAddRow(TwoDimensionalList<TestRecord> instance,
+        private static void AssertElementsAddRow(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
             TestRecord[][] oldItems, TestRecord[][] addItems)
         {
             var addRowLength = addItems.Length;
@@ -595,7 +587,7 @@ namespace WodiLib.Test.Sys
             AssertElementsAddColumn(instance, oldItems, addItems);
         }
 
-        private static void AssertElementsAddColumn(TwoDimensionalList<TestRecord> instance,
+        private static void AssertElementsAddColumn(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
             TestRecord[][] oldItems, TestRecord[][] addItems)
         {
             var addColumnLength = addItems.Length;
@@ -641,7 +633,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance.InsertRow(index, TestTools.ConvertIEnumerableArray(addItems));
+                instance.InsertRow(index, TestTools.MakeRowList(addItems));
             }
             catch (Exception ex)
             {
@@ -656,7 +648,7 @@ namespace WodiLib.Test.Sys
             AssertElementsInsertRow(index, instance, oldItems, addItems);
         }
 
-        private static void AssertElementsInsertRow(int index, TwoDimensionalList<TestRecord> instance,
+        private static void AssertElementsInsertRow(int index, TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
             TestRecord[][] oldItems, TestRecord[][] addItems)
         {
             var addRowLength = addItems.Length;
@@ -723,7 +715,7 @@ namespace WodiLib.Test.Sys
             AssertElementsInsertColumn(index, instance, oldItems, addItems);
         }
 
-        private static void AssertElementsInsertColumn(int index, TwoDimensionalList<TestRecord> instance,
+        private static void AssertElementsInsertColumn(int index, TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
             TestRecord[][] oldItems, TestRecord[][] addItems)
         {
             var addColumnLength = addItems.Length;
@@ -793,7 +785,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance.OverwriteRow(index, TestTools.ConvertIEnumerableArray(overwriteItems));
+                instance.OverwriteRow(index, TestTools.MakeRowList(overwriteItems));
             }
             catch (Exception ex)
             {
@@ -973,7 +965,7 @@ namespace WodiLib.Test.Sys
             AssertElementsMove(instance, oldIndex, newIndex, count, Direction.Column, oldItems);
         }
 
-        private static void AssertElementsMove(TwoDimensionalList<TestRecord> instance,
+        private static void AssertElementsMove(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
             int oldIndex, int newIndex, int count, Direction direction, TestRecord[][] oldItems)
         {
             Assert.IsTrue(instance.RowCount == TestTools.InitRowLength);
@@ -1036,7 +1028,7 @@ namespace WodiLib.Test.Sys
             AssertElementsRemoveRow(instance, index, removeCount, oldItems);
         }
 
-        private static void AssertElementsRemoveRow(TwoDimensionalList<TestRecord> instance,
+        private static void AssertElementsRemoveRow(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
             int index, int count, TestRecord[][] oldItems)
         {
             var answerRowLength = TestTools.InitRowLength - count;
@@ -1088,7 +1080,7 @@ namespace WodiLib.Test.Sys
             AssertElementsRemoveColumn(instance, index, removeCount, oldItems);
         }
 
-        private static void AssertElementsRemoveColumn(TwoDimensionalList<TestRecord> instance,
+        private static void AssertElementsRemoveColumn(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
             int index, int count, TestRecord[][] oldItems)
         {
             var answerColumnLength = TestTools.InitColumnLength - count;
@@ -1154,7 +1146,7 @@ namespace WodiLib.Test.Sys
 
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
 
-            var instance = MakeInstance(out var validatorMock);
+            var instance = MakeInstance(funcMakeDefaultItem, out var validatorMock);
             var oldItems = instance.ToTwoDimensionalArray();
 
             try
@@ -1202,7 +1194,7 @@ namespace WodiLib.Test.Sys
 
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
 
-            var instance = MakeInstance(out var validatorMock);
+            var instance = MakeInstance(funcMakeDefaultItem, out var validatorMock);
             var oldItems = instance.ToTwoDimensionalArray();
 
             try
@@ -1251,7 +1243,7 @@ namespace WodiLib.Test.Sys
 
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
 
-            var instance = MakeInstance(out var validatorMock);
+            var instance = MakeInstance(funcMakeDefaultItem, out var validatorMock);
             var oldItems = instance.ToTwoDimensionalArray();
 
             try
@@ -1291,7 +1283,7 @@ namespace WodiLib.Test.Sys
 
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
 
-            var instance = MakeInstance(out var validatorMock);
+            var instance = MakeInstance(funcMakeDefaultItem, out var validatorMock);
             var oldItems = instance.ToTwoDimensionalArray();
 
             try
@@ -1326,7 +1318,7 @@ namespace WodiLib.Test.Sys
 
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
 
-            var instance = MakeInstance(out var validatorMock);
+            var instance = MakeInstance(funcMakeDefaultItem, out var validatorMock);
             var oldItems = instance.ToTwoDimensionalArray();
 
             try
@@ -1362,7 +1354,7 @@ namespace WodiLib.Test.Sys
 
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
 
-            var instance = MakeInstance(out var validatorMock);
+            var instance = MakeInstance(funcMakeDefaultItem, out var validatorMock);
             var oldItems = instance.ToTwoDimensionalArray();
 
             try
@@ -1402,7 +1394,7 @@ namespace WodiLib.Test.Sys
 
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
 
-            var instance = MakeInstance(out var validatorMock);
+            var instance = MakeInstance(funcMakeDefaultItem, out var validatorMock);
             var oldItems = instance.ToTwoDimensionalArray();
 
             try
@@ -1437,7 +1429,7 @@ namespace WodiLib.Test.Sys
 
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
 
-            var instance = MakeInstance(out var validatorMock);
+            var instance = MakeInstance(funcMakeDefaultItem, out var validatorMock);
             var oldItems = instance.ToTwoDimensionalArray();
 
             try
@@ -1473,7 +1465,7 @@ namespace WodiLib.Test.Sys
 
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
 
-            var instance = MakeInstance(out var validatorMock);
+            var instance = MakeInstance(funcMakeDefaultItem, out var validatorMock);
             var oldItems = instance.ToTwoDimensionalArray();
 
             try
@@ -1496,7 +1488,7 @@ namespace WodiLib.Test.Sys
 
         #endregion
 
-        private static void AssertElementsAdjustLength(TwoDimensionalList<TestRecord> instance, int adjustRowLength,
+        private static void AssertElementsAdjustLength(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance, int adjustRowLength,
             int adjustColumnLength, TestRecord[][] oldItems, Func<int, int, TestRecord> funcMakeDefaultItem)
         {
             var oldRowLength = oldItems.Length;
@@ -1575,7 +1567,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance.Reset(resetItems);
+                instance.Reset(TestTools.MakeRowList(resetItems));
             }
             catch (Exception ex)
             {
@@ -1615,7 +1607,7 @@ namespace WodiLib.Test.Sys
             AssertElementsReset(instance, expectedResetItems);
         }
 
-        private static void AssertElementsReset(TwoDimensionalList<TestRecord> instance,
+        private static void AssertElementsReset(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
             TestRecord[][] resetItems)
         {
             var resetItemRowLength = resetItems.Length;
@@ -1637,14 +1629,20 @@ namespace WodiLib.Test.Sys
 
         #region TestTools
 
-        private static TwoDimensionalList<TestRecord> MakeInstance(
+
+        private static TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> MakeInstance(
+            out TwoDimensionalListValidatorMock validatorMock)
+            => MakeInstance(null, out validatorMock);
+
+        private static TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> MakeInstance(
+            Func<int, int, TestRecord> funcMakeDefaultItem,
             out TwoDimensionalListValidatorMock validatorMock)
         {
             validatorMock = new TwoDimensionalListValidatorMock(false);
 
             var result = TestTools.MakeTwoDimensionalList(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
-                validatorMock, TestTools.MakeListDefaultItem);
+                validatorMock, funcMakeDefaultItem ?? TestTools.MakeListDefaultItem);
 
             return result;
         }
@@ -1653,7 +1651,7 @@ namespace WodiLib.Test.Sys
 
         #region TestClass
 
-        private class TwoDimensionalListValidatorMock : ITwoDimensionalListValidator<TestRecord>
+        private class TwoDimensionalListValidatorMock : ITwoDimensionalListValidator<IFixedLengthList<TestRecord>, TestRecord>
         {
             private List<string> CalledMethodNames { get; } = new();
             private TestRecord[][] Items { get; set; }
@@ -1678,12 +1676,12 @@ namespace WodiLib.Test.Sys
 
             #region ValidateHandler
 
-            public void Constructor(TestRecord[][] initItems)
+            public void Constructor(IFixedLengthList<TestRecord>[] initItems)
             {
                 if (!IsRecordConstructor) return;
 
                 CalledMethodNames.Add(nameof(Constructor));
-                InitItems = initItems;
+                InitItems = initItems.ToTwoDimensionalArray();
             }
 
             public void GetRow(int row, int rowCount)
@@ -1716,7 +1714,7 @@ namespace WodiLib.Test.Sys
                 ColumnCount = columnCount;
             }
 
-            public void SetRow(int rowIndex, params IEnumerable<TestRecord>[] rows)
+            public void SetRow(int rowIndex, params IFixedLengthList<TestRecord>[] rows)
             {
                 CalledMethodNames.Add(nameof(SetRow));
                 Row = rowIndex;
@@ -1738,7 +1736,7 @@ namespace WodiLib.Test.Sys
                 Items = new[] {new[] {item}};
             }
 
-            public void InsertRow(int rowIndex, params IEnumerable<TestRecord>[] items)
+            public void InsertRow(int rowIndex, params IFixedLengthList<TestRecord>[] items)
             {
                 CalledMethodNames.Add(nameof(InsertRow));
                 Index = rowIndex;
@@ -1752,7 +1750,7 @@ namespace WodiLib.Test.Sys
                 Items = items.ToTwoDimensionalArray();
             }
 
-            public void OverwriteRow(int rowIndex, params IEnumerable<TestRecord>[] items)
+            public void OverwriteRow(int rowIndex, params IFixedLengthList<TestRecord>[] items)
             {
                 CalledMethodNames.Add(nameof(OverwriteRow));
                 Index = rowIndex;
@@ -1803,15 +1801,11 @@ namespace WodiLib.Test.Sys
                 ColumnLength = columnLength;
             }
 
-            public void Reset(IEnumerable<IEnumerable<TestRecord>> initItems)
+            public void Reset(IEnumerable<IFixedLengthList<TestRecord>> initItems)
             {
                 CalledMethodNames.Add(nameof(Reset));
                 Items = initItems.ToTwoDimensionalArray();
             }
-
-            public ITwoDimensionalListValidator<TestRecord> CreateAnotherFor(
-                ITwoDimensionalList<TestRecord, TestRecord> target)
-                => new TwoDimensionalListValidatorMock(IsRecordConstructor);
 
             #endregion
 

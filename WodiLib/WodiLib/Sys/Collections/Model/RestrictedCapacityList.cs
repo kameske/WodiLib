@@ -136,6 +136,19 @@ namespace WodiLib.Sys.Collections
         // ReSharper restore PossibleMultipleEnumeration
 
         /// <summary>
+        /// ディープコピーコンストラクタ
+        /// </summary>
+        /// <param name="src"></param>
+        protected RestrictedCapacityList(IReadOnlyExtendedList<TInternal, TInternal> src)
+            : this((IEnumerable<TIn>)src)
+        {
+            NotifyPropertyChangingEventType = src.NotifyPropertyChangingEventType;
+            NotifyPropertyChangedEventType = src.NotifyPropertyChangedEventType;
+            NotifyCollectionChangingEventType = src.NotifyCollectionChangingEventType;
+            NotifyCollectionChangedEventType = src.NotifyCollectionChangedEventType;
+        }
+
+        /// <summary>
         /// 本来のCollectionChangeイベントを自身のCollectionChangeイベントに伝播させる。
         /// </summary>
         private void PropagateCollectionChangeChangeEvent()

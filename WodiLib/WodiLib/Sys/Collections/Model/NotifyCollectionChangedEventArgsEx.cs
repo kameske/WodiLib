@@ -174,7 +174,7 @@ namespace WodiLib.Sys.Collections
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Protected Property
+        //     Public Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc cref="NotifyCollectionChangedEventArgs.NewItems"/>

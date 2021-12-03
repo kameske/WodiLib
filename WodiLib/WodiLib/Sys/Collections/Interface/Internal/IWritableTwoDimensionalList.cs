@@ -15,12 +15,15 @@ namespace WodiLib.Sys.Collections
     ///     書込み可能な二次元リストであることを表すインタフェース。
     ///     サイズ変更はできない。
     /// </summary>
-    /// <typeparam name="TIn">リスト要素入力型</typeparam>
-    /// <typeparam name="TOut">リスト要素出力型</typeparam>
-    internal interface IWritableTwoDimensionalList<in TIn, out TOut> :
+    /// <typeparam name="TInRow">リスト行データ入力型</typeparam>
+    /// <typeparam name="TOutRow">リスト行データ出力型</typeparam>
+    /// <typeparam name="TInItem">リスト要素入力型</typeparam>
+    /// <typeparam name="TOutItem">リスト要素出力型</typeparam>
+    internal interface IWritableTwoDimensionalList<in TInRow, out TOutRow, in TInItem, out TOutItem> :
         ITwoDimensionalListProperty,
-        IEnumerable<IEnumerable<TOut>>
-        where TOut : TIn
+        IEnumerable<TOutRow>
+        where TInRow : IEnumerable<TInItem>
+        where TInItem : TOutItem
     {
         /// <summary>
         ///     インデクサによるアクセス
@@ -29,7 +32,7 @@ namespace WodiLib.Sys.Collections
         /// <param name="columnIndex">[Range(0, <see cref="ITwoDimensionalListProperty.ColumnCount"/> - 1)] 列インデックス</param>
         /// <returns>指定したインデックスの要素</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="rowIndex"/>が指定範囲外の場合。</exception>
-        public TIn this[int rowIndex, int columnIndex] { set; }
+        public TInItem this[int rowIndex, int columnIndex] { set; }
 
         /// <summary>
         ///     リストの連続した行要素を更新する。
@@ -46,7 +49,7 @@ namespace WodiLib.Sys.Collections
         ///     <see cref="ITwoDimensionalListProperty.ColumnCount"/> と一致しない場合、
         ///     または 有効な範囲外の要素を編集しようとした場合。
         /// </exception>
-        public void SetRow(int rowIndex, params IEnumerable<TIn>[] items);
+        public void SetRow(int rowIndex, params TInRow[] items);
 
         /// <summary>
         ///     リストの連続した列要素を更新する。
@@ -66,7 +69,7 @@ namespace WodiLib.Sys.Collections
         ///     <see cref="ITwoDimensionalListProperty.RowCount"/> と一致しない場合、
         ///     または 有効な範囲外の要素を編集しようとした場合。
         /// </exception>
-        public void SetColumn(int columnIndex, params IEnumerable<TIn>[] items);
+        public void SetColumn(int columnIndex, params IEnumerable<TInItem>[] items);
 
         /// <summary>
         ///     指定した行番号から始まる連続した項目をコレクション内の新しい場所へ移動する。

@@ -15,12 +15,13 @@ namespace WodiLib.Sys.Collections
     ///     列サイズ変更可能であることを表すインタフェース。
     ///     書き込み可能でもある。
     /// </summary>
-    /// <typeparam name="TIn">リスト要素入力型</typeparam>
-    /// <typeparam name="TOut">リスト要素出力型</typeparam>
-    internal interface IColumnSizeChangeableTwoDimensionalList<in TIn, out TOut> :
+    /// <typeparam name="TOutRow">リスト行データ出力型</typeparam>
+    /// <typeparam name="TInItem">リスト要素入力型</typeparam>
+    /// <typeparam name="TOutItem">リスト要素出力型</typeparam>
+    internal interface IColumnSizeChangeableTwoDimensionalList<out TOutRow, in TInItem, out TOutItem> :
         ITwoDimensionalListProperty,
-        IEnumerable<IEnumerable<TOut>>
-        where TOut : TIn
+        IEnumerable<TOutRow>
+        where TInItem : TOutItem
     {
         /// <summary>
         ///     列容量最大値を返す。
@@ -46,7 +47,7 @@ namespace WodiLib.Sys.Collections
         ///     操作によって要素数が <see cref="GetMaxColumnCapacity"/> を上回る場合、
         ///     または <paramref name="items"/> の要素数が <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
         /// </exception>
-        public void AddColumn(params IEnumerable<TIn>[] items);
+        public void AddColumn(params IEnumerable<TInItem>[] items);
 
         /// <summary>
         ///     指定した列インデックスの位置に要素を挿入する。
@@ -61,7 +62,7 @@ namespace WodiLib.Sys.Collections
         ///     操作によって要素数が <see cref="GetMaxColumnCapacity"/> を上回る場合、
         ///     または <paramref name="items"/> の要素数が <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
         /// </exception>
-        public void InsertColumn(int columnIndex, params IEnumerable<TIn>[] items);
+        public void InsertColumn(int columnIndex, params IEnumerable<TInItem>[] items);
 
         /// <summary>
         ///     指定した列インデックスを起点として、要素の上書き/追加を行う。
@@ -83,7 +84,7 @@ namespace WodiLib.Sys.Collections
         ///     または <paramref name="items"/> のいずれかの要素の要素数が
         ///     <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
         /// </exception>
-        public void OverwriteColumn(int columnIndex, params IEnumerable<TIn>[] items);
+        public void OverwriteColumn(int columnIndex, params IEnumerable<TInItem>[] items);
 
         /// <summary>
         ///     要素の範囲を削除する。

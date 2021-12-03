@@ -105,37 +105,5 @@ namespace WodiLib.Sys.Cmn
         ///     <see langword="null"/> を設定しようとした場合。
         /// </exception>
         public NotifyCollectionChangeEventType DefaultNotifyAfterCollectionChangeEventType { get; set; }
-
-        /// <summary>
-        ///     新規作成した 二次元リスト の
-        ///     NotifyTwoDimensionalListChangingEventType 初期化値
-        /// </summary>
-        /// <remarks>
-        ///     <para>
-        ///         デフォルトでは <see cref="NotifyTwoDimensionalListChangeEventType.None"/> が設定されている。
-        ///     </para>
-        /// </remarks>
-        /// <exception cref="PropertyNullException">
-        ///     <see langword="null"/> を設定しようとした場合。
-        /// </exception>
-        public NotifyTwoDimensionalListChangeEventType DefaultNotifyBeforeTwoDimensionalListChangeEventType
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        ///     新規作成した 二次元リスト の
-        ///     NotifyTwoDimensionalListChangedEventType 初期化値
-        /// </summary>
-        /// <remarks>
-        ///     <para>
-        ///         デフォルトでは <see cref="NotifyTwoDimensionalListChangeEventType.Single"/> が設定されている。
-        ///     </para>
-        /// </remarks>
-        /// <exception cref="PropertyNullException">
-        ///     <see langword="null"/> を設定しようとした場合。
-        /// </exception>
-        public NotifyTwoDimensionalListChangeEventType DefaultNotifyAfterTwoDimensionalListChangeEventType { get; set; }
     }
 }

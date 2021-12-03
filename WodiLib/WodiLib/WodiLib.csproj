@@ -3,9 +3,9 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <PackageId>WodiLib</PackageId>
-    <PackageVersion>2.3.65534.27</PackageVersion>
+    <PackageVersion>2.3.65534.28</PackageVersion>
     <Copyright>Copyright 2019 kameske</Copyright>
-    <Version>2.3.65534.27</Version>
+    <Version>2.3.65534.28</Version>
     <PackageProjectUrl>https://github.com/kameske/WodiLib</PackageProjectUrl>
     <PackageLicenseUrl />
     <RepositoryUrl>https://github.com/kameske/WodiLib.git</RepositoryUrl>
@@ -14,7 +14,7 @@
     <Authors>Kameske</Authors>
     <RootNamespace>WodiLib</RootNamespace>
     <Product>WodiLib</Product>
-    <AssemblyVersion>2.3.65534.27</AssemblyVersion>
+    <AssemblyVersion>2.3.65534.28</AssemblyVersion>
     <AssemblyName>WodiLib</AssemblyName>
     <LangVersion>9</LangVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>

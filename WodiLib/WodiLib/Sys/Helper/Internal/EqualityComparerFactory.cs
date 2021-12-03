@@ -49,6 +49,18 @@ namespace WodiLib.Sys
         }
 
         /// <summary>
+        ///     <see cref="IEqualityComparable{T}"/> を実装する2つのインスタンスを比較するための
+        ///     <see cref="IEqualityComparer{T}"/> を生成する。
+        /// </summary>
+        /// <typeparam name="T">比較対象型</typeparam>
+        /// <param name="funcCompare">比較処理</param>
+        /// <returns>比較処理実装クラスインスタンス</returns>
+        public static IEqualityComparer<T> Create<T>(Func<T, T, bool> funcCompare)
+        {
+            return new AnonymousComparer<T>(funcCompare);
+        }
+
+        /// <summary>
         ///     <see cref="IEqualityComparable{T}"/> を実装するクラスの列挙を比較するための
         ///     <see cref="IEqualityComparer{T}"/> を生成する。
         /// </summary>
@@ -144,6 +156,50 @@ namespace WodiLib.Sys
             public override int GetHashCode(object obj)
             {
                 return obj.GetHashCode();
+            }
+        }
+
+        /// <summary>
+        ///     <see cref="IEqualityComparable{T}"/> を実装しないインスタンス比較用
+        ///     <see cref="IEqualityComparer{T}"/> 簡易実装クラス
+        /// </summary>
+        private class AnonymousComparer<T> : EqualityComparer<T>
+        {
+            private Func<T, T, bool>? FuncCompare { get; }
+
+            public AnonymousComparer(Func<T, T, bool>? funcCompare)
+            {
+                FuncCompare = funcCompare;
+            }
+
+            public override bool Equals(T x, T y)
+            {
+                if (FuncCompare is not null)
+                {
+                    return FuncCompare(x, y);
+                }
+
+                if (x is null && y is null)
+                {
+                    return true;
+                }
+
+                if (x is null ^ y is null)
+                {
+                    return false;
+                }
+
+                if (x is IEqualityComparable comparableX)
+                {
+                    return comparableX.ItemEquals(x);
+                }
+
+                return x!.Equals(y);
+            }
+
+            public override int GetHashCode(T obj)
+            {
+                return obj?.GetHashCode() ?? 0;
             }
         }
     }

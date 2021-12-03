@@ -15,12 +15,15 @@ namespace WodiLib.Sys.Collections
     ///     行サイズ変更可能であることを表すインタフェース。
     ///     書き込み可能でもある。
     /// </summary>
-    /// <typeparam name="TIn">リスト要素入力型</typeparam>
-    /// <typeparam name="TOut">リスト要素出力型</typeparam>
-    internal interface IRowSizeChangeableTwoDimensionalList<in TIn, out TOut> :
+    /// <typeparam name="TInRow">リスト行データ入力型</typeparam>
+    /// <typeparam name="TOutRow">リスト行データ出力型</typeparam>
+    /// <typeparam name="TInItem">リスト要素入力型</typeparam>
+    /// <typeparam name="TOutItem">リスト要素出力型</typeparam>
+    internal interface IRowSizeChangeableTwoDimensionalList<in TInRow, out TOutRow, in TInItem, out TOutItem> :
         ITwoDimensionalListProperty,
-        IEnumerable<IEnumerable<TOut>>
-        where TOut : TIn
+        IEnumerable<TOutRow>
+        where TInRow : IEnumerable<TInItem>
+        where TInItem : TOutItem
     {
         /// <summary>
         ///     行容量最大値を返す。
@@ -46,7 +49,7 @@ namespace WodiLib.Sys.Collections
         ///     操作によって要素数が <see cref="GetMaxRowCapacity"/> を上回る場合、
         ///     または <paramref name="items"/> の要素数が <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
         /// </exception>
-        public void AddRow(params IEnumerable<TIn>[] items);
+        public void AddRow(params TInRow[] items);
 
         /// <summary>
         ///     指定した行インデックスの位置に要素を挿入する。
@@ -61,7 +64,7 @@ namespace WodiLib.Sys.Collections
         ///     操作によって要素数が <see cref="GetMaxRowCapacity"/> を上回る場合、
         ///     または <paramref name="items"/> の要素数が <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
         /// </exception>
-        public void InsertRow(int rowIndex, params IEnumerable<TIn>[] items);
+        public void InsertRow(int rowIndex, params TInRow[] items);
 
         /// <summary>
         ///     指定した行インデックスを起点として、要素の上書き/追加を行う。
@@ -83,7 +86,7 @@ namespace WodiLib.Sys.Collections
         ///     または <paramref name="items"/> のいずれかの要素の要素数が
         ///     <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
         /// </exception>
-        public void OverwriteRow(int rowIndex, params IEnumerable<TIn>[] items);
+        public void OverwriteRow(int rowIndex, params TInRow[] items);
 
         /// <summary>
         ///     要素の範囲を削除する。

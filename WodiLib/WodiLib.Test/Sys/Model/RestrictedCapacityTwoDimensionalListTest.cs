@@ -121,10 +121,6 @@ namespace WodiLib.Test.Sys
             {
                 instance = new TestClass.TestTwoDimClass(
                     new TestClass.CapacityInfo(maxCapacity, minCapacity, maxItemCapacity, minItemCapacity),
-                    target =>
-                        new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem, TestClass.TwoDimItem>(
-                            target, "行名",
-                            "列名"),
                     makeDefaultValueItem);
             }
             catch (Exception ex)
@@ -192,9 +188,6 @@ namespace WodiLib.Test.Sys
             {
                 instance = new TestClass.TestTwoDimClass(InitCapacityInfo,
                     initList,
-                    self =>
-                        new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem, TestClass.TwoDimItem>(
-                            self, "行名", "列名"),
                     funcMakeDefaultValueItem);
             }
             catch (Exception ex)
@@ -223,9 +216,6 @@ namespace WodiLib.Test.Sys
             try
             {
                 instance = new TestClass.TestTwoDimClass(InitCapacityInfo,
-                    self =>
-                        new RestrictedCapacityTwoDimensionalListValidator<TestClass.TwoDimItem, TestClass.TwoDimItem>(
-                            self, "行名", "列名"),
                     funcMakeDefaultValueItem);
             }
             catch (Exception ex)
@@ -415,7 +405,7 @@ namespace WodiLib.Test.Sys
         public static void AddRowTest(int initLength, int addLineItemLength, TestClass.ListType addType, bool isError)
         {
             var instance = TestClass.MakeTestInstance(InitCapacityInfo, initLength, InitItemCapacity);
-            var addItem = addType.GetLine(addLineItemLength);
+            var addItem = new ExtendedList<TestClass.TwoDimItem>(addType.GetLine(addLineItemLength));
             var errorOccured = false;
 
             try
@@ -499,12 +489,12 @@ namespace WodiLib.Test.Sys
             TestClass.ListType addType, bool isError)
         {
             var instance = TestClass.MakeTestInstance(InitCapacityInfo, initRowLength, InitItemCapacity);
-            var addItem = addType.GetMultiLine(addRowLength, addLineItemLength);
+            var addItem = addType.GetMultiLineRow(addRowLength, addLineItemLength);
             var errorOccured = false;
 
             try
             {
-                instance.AddRow(ConvertIEnumerableArray(addItem));
+                instance.AddRow(addItem);
             }
             catch (Exception ex)
             {
@@ -574,7 +564,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance.AddColumn(ConvertIEnumerableArray(addItem));
+                instance.AddColumn(addItem.ToArray());
             }
             catch (Exception ex)
             {
@@ -696,12 +686,12 @@ namespace WodiLib.Test.Sys
             TestClass.ListType addType, bool isError)
         {
             var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
-            var addItem = addType.GetMultiLine(addRowLength, addLineItemLength);
+            var addItem = addType.GetMultiLineRow(addRowLength, addLineItemLength);
             var errorOccured = false;
 
             try
             {
-                instance.InsertRow(index, ConvertIEnumerableArray(addItem));
+                instance.InsertRow(index, addItem);
             }
             catch (Exception ex)
             {
@@ -761,7 +751,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance.InsertColumn(index, ConvertIEnumerableArray(addItem));
+                instance.InsertColumn(index, addItem);
             }
             catch (Exception ex)
             {
@@ -803,12 +793,12 @@ namespace WodiLib.Test.Sys
             bool isError)
         {
             var instance = TestClass.MakeTestInstance(InitCapacityInfo, InitCapacity, InitItemCapacity);
-            var items = addType.GetMultiLine(itemRowLength, addLineItemLength);
+            var items = addType.GetMultiLineRow(itemRowLength, addLineItemLength);
             var errorOccured = false;
 
             try
             {
-                instance.OverwriteRow(row, ConvertIEnumerableArray(items));
+                instance.OverwriteRow(row, items);
             }
             catch (Exception ex)
             {
@@ -865,7 +855,7 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance.OverwriteColumn(column, ConvertIEnumerableArray(items));
+                instance.OverwriteColumn(column, items);
             }
             catch (Exception ex)
             {
@@ -1203,9 +1193,6 @@ namespace WodiLib.Test.Sys
             Assert.AreEqual(errorOccured, isError);
         }
 
-        private static IEnumerable<TestClass.TwoDimItem>[] ConvertIEnumerableArray(TestClass.TwoDimItem[][] src)
-            => src.Cast<IEnumerable<TestClass.TwoDimItem>>().ToArray();
-
         public static class TestClass
         {
             #region MakeTestInstance
@@ -1216,12 +1203,11 @@ namespace WodiLib.Test.Sys
             private static TwoDimItem MakeDefaultValueItemForList(int row, int column)
                 => $"{MakeDefaultValueItem(row, column)} for List";
 
-            internal static TwoDimItem[][] MakeStringList(int rowCount, int columnCount)
+            internal static ExtendedList<TwoDimItem>[] MakeStringList(int rowCount, int columnCount)
             {
                 return Enumerable.Range(0, rowCount).Select(rowIdx =>
-                        Enumerable.Range(0, columnCount)
-                            .Select(colIdx => MakeDefaultValueItemForList(rowIdx, colIdx))
-                            .ToArray())
+                        new ExtendedList<TwoDimItem>(Enumerable.Range(0, columnCount)
+                            .Select(colIdx => MakeDefaultValueItemForList(rowIdx, colIdx))))
                     .ToArray();
             }
 
@@ -1272,50 +1258,51 @@ namespace WodiLib.Test.Sys
                 }
             }
 
-            internal class TestTwoDimClass : TwoDimensionalList<TwoDimItem>
+            internal class
+                TestTwoDimClass : TwoDimensionalList<ExtendedList<TwoDimItem>, ExtendedList<TwoDimItem>, TwoDimItem>
             {
                 public TestTwoDimClass(CapacityInfo capacityInfo,
-                    IEnumerable<IEnumerable<TwoDimItem>> values, InjectValidator injection,
+                    IEnumerable<IEnumerable<TwoDimItem>> values,
                     Func<int, int, TwoDimItem> funcMakeDefaultItem)
-                    : base(values, new Config
-                    {
-                        ItemFactory = funcMakeDefaultItem,
-                        ValidatorFactory = instance => injection(instance),
-                        MaxRowCapacity = capacityInfo.MaxCapacity,
-                        MinRowCapacity = capacityInfo.MinCapacity,
-                        MaxColumnCapacity = capacityInfo.MaxItemCapacity,
-                        MinColumnCapacity = capacityInfo.MinItemCapacity
-                    })
+                    : base(values, MakeConfig(capacityInfo, funcMakeDefaultItem))
                 {
                 }
 
                 public TestTwoDimClass(CapacityInfo capacityInfo,
-                    int rowLength, int columnLength, InjectValidator injection,
-                    Func<int, int, TwoDimItem> funcMakeDefaultItem) : base(rowLength, columnLength, new Config
-                {
-                    ItemFactory = funcMakeDefaultItem,
-                    ValidatorFactory = instance => injection(instance),
-                    MaxRowCapacity = capacityInfo.MaxCapacity,
-                    MinRowCapacity = capacityInfo.MinCapacity,
-                    MaxColumnCapacity = capacityInfo.MaxItemCapacity,
-                    MinColumnCapacity = capacityInfo.MinItemCapacity
-                })
+                    int rowLength, int columnLength,
+                    Func<int, int, TwoDimItem> funcMakeDefaultItem)
+                    : base(rowLength, columnLength, MakeConfig(capacityInfo, funcMakeDefaultItem))
                 {
                 }
 
                 public TestTwoDimClass(CapacityInfo capacityInfo,
-                    InjectValidator injection, Func<int, int, TwoDimItem> funcMakeDefaultItem)
-                    : base(new Config
+                    Func<int, int, TwoDimItem> funcMakeDefaultItem)
+                    : base(MakeConfig(capacityInfo, funcMakeDefaultItem))
+                {
+                }
+
+                private static Config MakeConfig(CapacityInfo capacityInfo,
+                    Func<int, int, TwoDimItem> funcMakeDefaultItem)
+                    => new(
+                        items => new ExtendedList<TwoDimItem>(items)
+                        {
+                            FuncMakeItems = (s, c) => Enumerable.Range(s, c).Select(i => funcMakeDefaultItem(0, i))
+                        },
+                        list => new ExtendedList<TwoDimItem>(list)
+                        {
+                            FuncMakeItems = (s, c) => Enumerable.Range(s, c).Select(i => funcMakeDefaultItem(0, i))
+                        },
+                        funcMakeDefaultItem,
+                        (r, l) => l.ItemEquals(r),
+                        target => new RestrictedCapacityTwoDimensionalListValidator<
+                            ExtendedList<TwoDimItem>, TwoDimItem>(target, "行名", "列名")
+                    )
                     {
-                        ItemFactory = funcMakeDefaultItem,
-                        ValidatorFactory = instance => injection(instance),
                         MaxRowCapacity = capacityInfo.MaxCapacity,
                         MinRowCapacity = capacityInfo.MinCapacity,
                         MaxColumnCapacity = capacityInfo.MaxItemCapacity,
                         MinColumnCapacity = capacityInfo.MinItemCapacity
-                    })
-                {
-                }
+                    };
             }
 
             internal static TestTwoDimClass MakeTestInstance(
@@ -1325,8 +1312,6 @@ namespace WodiLib.Test.Sys
                 if (initRowLength == 0 && initColumnLength != 0) Assert.Ignore();
 
                 var result = new TestTwoDimClass(capacityInfo, initRowLength, initColumnLength,
-                    target => new RestrictedCapacityTwoDimensionalListValidator<TwoDimItem, TwoDimItem>(target, "行名",
-                        "列名"),
                     MakeDefaultValueItemForList);
 
                 return result;
@@ -1370,7 +1355,7 @@ namespace WodiLib.Test.Sys
                     return AllItems.First(x => x.Id.Equals(id));
                 }
 
-                internal TwoDimItem[] GetLine(int itemCount)
+                internal ExtendedList<TwoDimItem> GetLine(int itemCount)
                 {
                     if (this == SelfNull) return null;
 
@@ -1379,12 +1364,17 @@ namespace WodiLib.Test.Sys
                             ? (string)null
                             : MakeDefaultValueItemForAddColumn(0, i));
 
-                    return Enumerable.Range(0, itemCount)
-                        .Select(funcMakeItem)
-                        .ToArray();
+                    return new ExtendedList<TwoDimItem>(Enumerable.Range(0, itemCount).Select(funcMakeItem));
                 }
 
-                internal TwoDimItem[][] GetMultiLine(int rowCount, int columnCount)
+                internal ExtendedList<TwoDimItem>[] GetMultiLineRow(int rowCount, int columnCount)
+                {
+                    var items = GetMultiLine(rowCount, columnCount);
+
+                    return items?.Select(row => new ExtendedList<TwoDimItem>(row)).ToArray();
+                }
+
+                internal IEnumerable<TwoDimItem>[] GetMultiLine(int rowCount, int columnCount)
                 {
                     if (this == SelfNull) return null;
 
@@ -1392,7 +1382,7 @@ namespace WodiLib.Test.Sys
                         this == ColumnHasNull && j % 2 == 1
                             ? null
                             : MakeDefaultValueItemForAddColumn(i, j));
-                    var funcMakeRow = (Func<int, int, TwoDimItem[]>)((i, colCount) =>
+                    var funcMakeRow = (Func<int, int, IEnumerable<TwoDimItem>>)((i, colCount) =>
                         this == RowHasNull && i % 2 == 1
                             ? null
                             : Enumerable.Range(0, this == ColumnSizeDifference && i == 1

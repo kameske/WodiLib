@@ -26,11 +26,13 @@ namespace WodiLib.Sys.Collections
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="target"/> の行、または列に <see langword="true"/> 要素が存在する場合
         /// </exception>
-        public static void ItemNotNull<T>(IReadOnlyList<IReadOnlyList<T>> target,
+        public static void ItemNotNull<T>(IEnumerable<IEnumerable<T>> target,
             string itemName = "initItems")
         {
-            ThrowHelper.ValidateArgumentItemsHasNotNull(target.HasNullItem(), itemName);
-            ThrowHelper.ValidateArgumentItemsHasNotNull(target.Any(x => x.HasNullItem()), $"{itemName}の要素");
+            var targetArray = target.ToTwoDimensionalArray();
+
+            ThrowHelper.ValidateArgumentItemsHasNotNull(targetArray.HasNullItem(), itemName);
+            ThrowHelper.ValidateArgumentItemsHasNotNull(targetArray.Any(x => x.HasNullItem()), $"{itemName}の要素");
         }
 
         /// <summary>
@@ -41,13 +43,15 @@ namespace WodiLib.Sys.Collections
         /// <exception cref="ArgumentException">
         ///     行数が2以上であり、かつ0行目の要素数と異なる行が存在する場合
         /// </exception>
-        public static void InnerItemLength<T>(IReadOnlyList<IReadOnlyList<T>> target)
+        public static void InnerItemLength<T>(IEnumerable<IEnumerable<T>> target)
         {
-            if (target.Count < 2) return;
+            var targetArray = target.ToTwoDimensionalArray();
 
-            var baseLength = target[0].Count;
-            var errorRowIndex = target.Skip(1)
-                .FindIndex(x => x.Count != baseLength);
+            if (targetArray.Length < 2) return;
+
+            var baseLength = targetArray[0].Length;
+            var errorRowIndex = targetArray.Skip(1)
+                .FindIndex(x => x.Length != baseLength);
             ThrowHelper.ValidateTwoDimListInnerItemLength(errorRowIndex != -1, errorRowIndex);
         }
 

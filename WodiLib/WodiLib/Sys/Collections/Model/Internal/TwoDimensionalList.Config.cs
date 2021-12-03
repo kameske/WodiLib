@@ -7,25 +7,28 @@
 // ========================================
 
 using System;
+using System.Collections.Generic;
 
 namespace WodiLib.Sys.Collections
 {
-    internal partial class TwoDimensionalList<T>
+    internal partial class TwoDimensionalList<TRow, TRowInternal, TItem>
     {
         /// <summary>
         ///     二次元リスト設定
         /// </summary>
-        public class Config
+        public record Config(
+            Func<IEnumerable<TItem>, TRowInternal> RowFactoryFromItems,
+            Func<TRow, TRowInternal> ToInternalRow,
+            Func<int, int, TItem> ItemFactory,
+            Func<TItem, TItem, bool> ItemComparer,
+            Func<TwoDimensionalList<TRow, TRowInternal, TItem>, ITwoDimensionalListValidator<TRow, TItem>?>
+                ValidatorFactory
+        )
         {
-            public Func<int, int, T> ItemFactory { get; init; } = default!;
-
             public int MaxRowCapacity { get; init; } = int.MaxValue;
-            public int MinRowCapacity { get; init; }
+            public int MinRowCapacity { get; init; } = 0;
             public int MaxColumnCapacity { get; init; } = int.MaxValue;
-            public int MinColumnCapacity { get; init; }
-
-            public Func<TwoDimensionalList<T>, ITwoDimensionalListValidator<T>?>
-                ValidatorFactory { get; init; } = default!;
+            public int MinColumnCapacity { get; init; } = 0;
         }
     }
 }

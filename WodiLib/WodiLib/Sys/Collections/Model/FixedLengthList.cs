@@ -159,6 +159,19 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
+        /// ディープコピーコンストラクタ
+        /// </summary>
+        /// <param name="src"></param>
+        protected FixedLengthList(IReadOnlyExtendedList<TInternal, TInternal> src)
+            : this((IEnumerable<TInternal>)src)
+        {
+            NotifyPropertyChangingEventType = src.NotifyPropertyChangingEventType;
+            NotifyPropertyChangedEventType = src.NotifyPropertyChangedEventType;
+            NotifyCollectionChangingEventType = src.NotifyCollectionChangingEventType;
+            NotifyCollectionChangedEventType = src.NotifyCollectionChangedEventType;
+        }
+
+        /// <summary>
         /// 本来のCollectionChangeイベントを自身のCollectionChangeイベントに伝播させる。
         /// </summary>
         private void PropagateCollectionChangeChangeEvent()

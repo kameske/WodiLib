@@ -7,16 +7,21 @@
 // ========================================
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WodiLib.Sys.Collections
 {
     /// <summary>
     ///     二次元リスト編集メソッドの引数汎用検証処理実施クラス
     /// </summary>
-    /// <typeparam name="T">リスト要素型</typeparam>
-    internal class CommonTwoDimensionalListValidator<T> : CommonTwoDimensionalListValidator<T, T>
+    /// <typeparam name="TRow">リスト行データ型</typeparam>
+    /// <typeparam name="TItem">リスト要素型</typeparam>
+    internal class CommonTwoDimensionalListValidator<TRow, TItem>
+        : CommonTwoDimensionalListValidator<TRow, TRow, TItem, TItem>
+        where TRow : IEnumerable<TItem>
     {
-        public CommonTwoDimensionalListValidator(ITwoDimensionalList<T, T> target, string rowName = "行",
+        public CommonTwoDimensionalListValidator(ITwoDimensionalList<TRow, TRow, TItem, TItem> target,
+            string rowName = "行",
             string rowIndexName = "row", string columnName = "列", string columnIndexName = "column") : base(target,
             rowName, rowIndexName, columnName, columnIndexName)
         {
@@ -26,17 +31,22 @@ namespace WodiLib.Sys.Collections
     /// <summary>
     ///     二次元リスト編集メソッドの引数汎用検証処理実施クラス
     /// </summary>
-    /// <typeparam name="TIn">リスト要素入力型</typeparam>
-    /// <typeparam name="TOut">リスト要素出力型</typeparam>
-    internal class CommonTwoDimensionalListValidator<TIn, TOut> : WodiLibTwoDimensionalListValidator<TIn, TOut>
-        where TOut : TIn
+    /// <typeparam name="TInRow">リスト行データ入力型</typeparam>
+    /// <typeparam name="TOutRow">リスト行データ出力型</typeparam>
+    /// <typeparam name="TInItem">リスト要素入力型</typeparam>
+    /// <typeparam name="TOutItem">リスト要素出力型</typeparam>
+    internal class CommonTwoDimensionalListValidator<TInRow, TOutRow, TInItem, TOutItem>
+        : WodiLibTwoDimensionalListValidator<TInRow, TOutRow, TInItem, TOutItem>
+        where TOutRow : IEnumerable<TOutItem>
+        where TInRow : IEnumerable<TInItem>, TOutRow
+        where TInItem : TOutItem
     {
-        protected override ITwoDimensionalListValidator<TIn>? BaseValidator => null;
+        protected override ITwoDimensionalListValidator<TInRow, TInItem>? BaseValidator => null;
 
         private string RowIndexName { get; }
         private string ColumnIndexName { get; }
 
-        public CommonTwoDimensionalListValidator(ITwoDimensionalList<TIn, TOut> target,
+        public CommonTwoDimensionalListValidator(ITwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem> target,
             string rowName = "行", string rowIndexName = "row",
             string columnName = "列", string columnIndexName = "column") : base(target, rowName, columnName)
         {
@@ -44,12 +54,14 @@ namespace WodiLib.Sys.Collections
             ColumnIndexName = columnIndexName;
         }
 
-        public override void Constructor(TIn[][] initItems)
+        public override void Constructor(TInRow[] initItems)
         {
             ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
 
-            TwoDimensionalListValidationHelper.ItemNotNull(initItems);
-            TwoDimensionalListValidationHelper.InnerItemLength(initItems);
+            var casted = initItems.Cast<IEnumerable<TInItem>>().ToArray();
+
+            TwoDimensionalListValidationHelper.ItemNotNull(casted);
+            TwoDimensionalListValidationHelper.InnerItemLength(casted);
         }
 
         public override void GetRow(int rowIndex, int rowCount)
@@ -84,13 +96,13 @@ namespace WodiLib.Sys.Collections
             ListValidationHelper.SelectIndex(columnIndex, Target.ColumnCount, nameof(columnIndex));
         }
 
-        public override void SetRow(int rowIndex, params IEnumerable<TIn>[] rows)
+        public override void SetRow(int rowIndex, params TInRow[] rows)
         {
             ListValidationHelper.SelectIndex(rowIndex, Target.RowCount, nameof(rowIndex));
 
             ThrowHelper.ValidateArgumentNotNull(rows is null, nameof(rows));
 
-            var rowArrays = rows.ToTwoDimensionalArray();
+            var rowArrays = rows.Cast<IEnumerable<TInItem>>().ToTwoDimensionalArray();
 
             TwoDimensionalListValidationHelper.ItemNotNull(rowArrays, nameof(rows));
             TwoDimensionalListValidationHelper.InnerItemLength(rowArrays);
@@ -101,7 +113,7 @@ namespace WodiLib.Sys.Collections
             TwoDimensionalListValidationHelper.SizeEqual(columnLength, Target.ColumnCount);
         }
 
-        public override void SetColumn(int columnIndex, params IEnumerable<TIn>[] items)
+        public override void SetColumn(int columnIndex, params IEnumerable<TInItem>[] items)
         {
             ListValidationHelper.SelectIndex(columnIndex, Target.ColumnCount, nameof(columnIndex));
 
@@ -118,20 +130,20 @@ namespace WodiLib.Sys.Collections
             TwoDimensionalListValidationHelper.SizeEqual(rowLength, Target.RowCount);
         }
 
-        public override void SetItem(int rowIndex, int columnIndex, TIn item)
+        public override void SetItem(int rowIndex, int columnIndex, TInItem item)
         {
             ListValidationHelper.SelectIndex(rowIndex, Target.RowCount, nameof(rowIndex));
             ListValidationHelper.SelectIndex(columnIndex, Target.ColumnCount, nameof(columnIndex));
             ThrowHelper.ValidateArgumentNotNull(item is null, nameof(item));
         }
 
-        public override void InsertRow(int rowIndex, params IEnumerable<TIn>[] items)
+        public override void InsertRow(int rowIndex, params TInRow[] items)
         {
             ListValidationHelper.InsertIndex(rowIndex, Target.RowCount, RowIndexName);
 
             ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
 
-            var itemArrays = items.ToTwoDimensionalArray();
+            var itemArrays = items.Cast<IEnumerable<TInItem>>().ToTwoDimensionalArray();
 
             TwoDimensionalListValidationHelper.InnerItemLength(itemArrays);
             TwoDimensionalListValidationHelper.ItemNotNull(itemArrays, nameof(items));
@@ -143,7 +155,7 @@ namespace WodiLib.Sys.Collections
             }
         }
 
-        public override void InsertColumn(int columnIndex, params IEnumerable<TIn>[] items)
+        public override void InsertColumn(int columnIndex, params IEnumerable<TInItem>[] items)
         {
             ListValidationHelper.InsertIndex(columnIndex, Target.ColumnCount, ColumnIndexName);
 
@@ -161,13 +173,13 @@ namespace WodiLib.Sys.Collections
             }
         }
 
-        public override void OverwriteRow(int rowIndex, params IEnumerable<TIn>[] items)
+        public override void OverwriteRow(int rowIndex, params TInRow[] items)
         {
             ListValidationHelper.InsertIndex(rowIndex, Target.RowCount, RowIndexName);
 
             ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
 
-            var itemArrays = items.ToTwoDimensionalArray();
+            var itemArrays = items.Cast<IEnumerable<TInItem>>().ToTwoDimensionalArray();
 
             TwoDimensionalListValidationHelper.InnerItemLength(itemArrays);
             TwoDimensionalListValidationHelper.ItemNotNull(itemArrays, nameof(items));
@@ -179,7 +191,7 @@ namespace WodiLib.Sys.Collections
             }
         }
 
-        public override void OverwriteColumn(int columnIndex, params IEnumerable<TIn>[] items)
+        public override void OverwriteColumn(int columnIndex, params IEnumerable<TInItem>[] items)
         {
             ListValidationHelper.InsertIndex(columnIndex, Target.ColumnCount, ColumnIndexName);
 
@@ -250,10 +262,10 @@ namespace WodiLib.Sys.Collections
                 $"{RowName}数および{ColumnName}数の指定", $"{RowName}数 == 0 かつ {ColumnName}数 != 0 の指定はできません");
         }
 
-        public override void Reset(IEnumerable<IEnumerable<TIn>> items)
+        public override void Reset(IEnumerable<TInRow> items)
         {
             ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
-            var itemArray = items.ToTwoDimensionalArray();
+            var itemArray = items.Cast<IEnumerable<TInItem>>().ToTwoDimensionalArray();
 
             TwoDimensionalListValidationHelper.ItemNotNull(itemArray);
             TwoDimensionalListValidationHelper.InnerItemLength(itemArray);

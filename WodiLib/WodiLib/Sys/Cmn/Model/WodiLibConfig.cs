@@ -179,76 +179,6 @@ namespace WodiLib.Sys.Cmn
             return config.DefaultNotifyAfterCollectionChangeEventType;
         }
 
-        /// <summary>
-        ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        ///     <see cref="IWodiLibConfig.DefaultNotifyBeforeTwoDimensionalListChangeEventType"/> プロパティを設定する。
-        /// </summary>
-        /// <param name="type">設定値</param>
-        /// <param name="keyName">
-        ///     設定対象キー名。<br/>
-        ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        ///     <paramref name="type"/> が <see langword="null"/> の場合。
-        /// </exception>
-        public static void SetDefaultNotifyBeforeCollectionChangeFlag(
-            NotifyTwoDimensionalListChangeEventType type, WodiLibContainerKeyName? keyName = null)
-        {
-            ThrowHelper.ValidateArgumentNotNull(type is null, nameof(type));
-
-            var config = GetConfig(keyName ?? TargetKeyName);
-            config.DefaultNotifyBeforeTwoDimensionalListChangeEventType = type;
-        }
-
-        /// <summary>
-        ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        ///     <see cref="IWodiLibConfig.DefaultNotifyBeforeTwoDimensionalListChangeEventType"/> プロパティを取得する。
-        /// </summary>
-        /// <param name="keyName">
-        ///     設定対象キー名。<br/>
-        ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
-        /// </param>
-        public static NotifyTwoDimensionalListChangeEventType GetDefaultNotifyBeforeTwoDimensionalListChangeEventType(
-            WodiLibContainerKeyName? keyName = null)
-        {
-            var config = GetConfig(keyName ?? TargetKeyName);
-            return config.DefaultNotifyBeforeTwoDimensionalListChangeEventType;
-        }
-
-        /// <summary>
-        ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        ///     <see cref="IWodiLibConfig.DefaultNotifyAfterTwoDimensionalListChangeEventType"/> プロパティを設定する。
-        /// </summary>
-        /// <param name="type">設定値</param>
-        /// <param name="keyName">
-        ///     設定対象キー名。<br/>
-        ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        ///     <paramref name="type"/> が <see langword="null"/> の場合。
-        /// </exception>
-        public static void SetDefaultNotifyAfterTwoDimensionalListChangeEventType(
-            NotifyTwoDimensionalListChangeEventType type, WodiLibContainerKeyName? keyName = null)
-        {
-            var config = GetConfig(keyName ?? TargetKeyName);
-            config.DefaultNotifyAfterTwoDimensionalListChangeEventType = type;
-        }
-
-        /// <summary>
-        ///     指定されたキー名で管理される <see cref="WodiLibConfig"/> インスタンスの
-        ///     <see cref="IWodiLibConfig.DefaultNotifyAfterTwoDimensionalListChangeEventType"/> プロパティを取得する。
-        /// </summary>
-        /// <param name="keyName">
-        ///     設定対象キー名。<br/>
-        ///     <see langword="null"/> の場合 <see cref="TargetKeyName"/> の値を使用する。
-        /// </param>
-        public static NotifyTwoDimensionalListChangeEventType GetDefaultNotifyAfterTwoDimensionalListChangeEventType(
-            WodiLibContainerKeyName? keyName = null)
-        {
-            var config = GetConfig(keyName ?? TargetKeyName);
-            return config.DefaultNotifyAfterTwoDimensionalListChangeEventType;
-        }
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Static Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -344,30 +274,6 @@ namespace WodiLib.Sys.Cmn
             }
         }
 
-        /// <inheritdoc/>
-        public NotifyTwoDimensionalListChangeEventType DefaultNotifyBeforeTwoDimensionalListChangeEventType
-        {
-            get => defaultNotifyBeforeTwoDimensionalListChangeEventType;
-            set
-            {
-                ThrowHelper.ValidatePropertyNotNull(value is null,
-                    nameof(DefaultNotifyBeforeTwoDimensionalListChangeEventType));
-                defaultNotifyBeforeTwoDimensionalListChangeEventType = value;
-            }
-        }
-
-        /// <inheritdoc/>
-        public NotifyTwoDimensionalListChangeEventType DefaultNotifyAfterTwoDimensionalListChangeEventType
-        {
-            get => defaultNotifyAfterTwoDimensionalListChangeEventType;
-            set
-            {
-                ThrowHelper.ValidatePropertyNotNull(value is null,
-                    nameof(DefaultNotifyAfterTwoDimensionalListChangeEventType));
-                defaultNotifyAfterTwoDimensionalListChangeEventType = value;
-            }
-        }
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Fields
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -376,8 +282,6 @@ namespace WodiLib.Sys.Cmn
         private NotifyPropertyChangeEventType defaultNotifyAfterPropertyChangeEventType;
         private NotifyCollectionChangeEventType defaultNotifyBeforeCollectionChangeEventType;
         private NotifyCollectionChangeEventType defaultNotifyAfterCollectionChangeEventType;
-        private NotifyTwoDimensionalListChangeEventType defaultNotifyBeforeTwoDimensionalListChangeEventType;
-        private NotifyTwoDimensionalListChangeEventType defaultNotifyAfterTwoDimensionalListChangeEventType;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -398,8 +302,6 @@ namespace WodiLib.Sys.Cmn
             defaultNotifyAfterPropertyChangeEventType = NotifyPropertyChangeEventType.Enabled;
             defaultNotifyBeforeCollectionChangeEventType = NotifyCollectionChangeEventType.None;
             defaultNotifyAfterCollectionChangeEventType = NotifyCollectionChangeEventType.Single;
-            defaultNotifyBeforeTwoDimensionalListChangeEventType = NotifyTwoDimensionalListChangeEventType.None;
-            defaultNotifyAfterTwoDimensionalListChangeEventType = NotifyTwoDimensionalListChangeEventType.Single;
         }
     }
 }

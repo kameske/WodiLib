@@ -16,10 +16,17 @@ namespace WodiLib.Sys.Collections
     ///     長さが固定されたListインタフェース
     /// </summary>
     /// <remarks>
-    ///     <see cref="ObservableCollection{T}"/> をベースに、容量を固定した機能。
-    ///     <see cref="ObservableCollection{T}"/> の Read, Update 各種処理に範囲指定バージョン（XXXRange メソッド）を追加している。
-    ///     それ以外にもいくつかメソッドを追加している。
-    ///     固定しているのは容量のみで、要素の入れ替えや更新は可能。
+    ///     <para>
+    ///         <see cref="ObservableCollection{T}"/> をベースに、容量を固定した機能。
+    ///         <see cref="ObservableCollection{T}"/> の Read, Update 各種処理に範囲指定バージョン（XXXRange メソッド）を追加している。
+    ///         それ以外にもいくつかメソッドを追加している。
+    ///         固定しているのは容量のみで、要素の入れ替えや更新は可能。
+    ///     </para>
+    ///     <para>
+    ///         <see cref="ObservableCollection{T}"/> とは異なり、
+    ///         <typeparamref name="TOut"/> が変更通知を行うクラスだった場合、
+    ///         通知を受け取ると自身の "Items[]" プロパティ変更通知を行う。
+    ///     </para>
     /// </remarks>
     /// <typeparam name="TIn">リスト要素入力型</typeparam>
     /// <typeparam name="TOut">リスト要素出力型</typeparam>
@@ -36,10 +43,17 @@ namespace WodiLib.Sys.Collections
     ///     長さが固定されたListインタフェース
     /// </summary>
     /// <remarks>
-    ///     <see cref="ObservableCollection{T}"/> をベースに、容量を固定した機能。
-    ///     <see cref="ObservableCollection{T}"/> の Read, Update 各種処理に範囲指定バージョン（XXXRange メソッド）を追加している。
-    ///     それ以外にもいくつかメソッドを追加している。
-    ///     固定しているのは容量のみで、要素の入れ替えや更新は可能。
+    ///     <para>
+    ///         <see cref="ObservableCollection{T}"/> をベースに、容量を固定した機能。
+    ///         <see cref="ObservableCollection{T}"/> の Read, Update 各種処理に範囲指定バージョン（XXXRange メソッド）を追加している。
+    ///         それ以外にもいくつかメソッドを追加している。
+    ///         固定しているのは容量のみで、要素の入れ替えや更新は可能。
+    ///     </para>
+    ///     <para>
+    ///         <see cref="ObservableCollection{T}"/> とは異なり、
+    ///         <typeparamref name="T"/> が変更通知を行うクラスだった場合、
+    ///         通知を受け取ると自身の "Items[]" プロパティ変更通知を行う。
+    ///     </para>
     /// </remarks>
     /// <typeparam name="T">リスト要素入力型</typeparam>
     public interface IFixedLengthList<T> : IFixedLengthList<T, T>,
@@ -49,8 +63,8 @@ namespace WodiLib.Sys.Collections
     }
 
     /// <summary>
-    /// <see cref="IFixedLengthList{TIn,TOut}"/> および
-    /// <see cref="IFixedLengthList{T}"/> の拡張クラス
+    ///     <see cref="IFixedLengthList{TIn,TOut}"/> および
+    ///     <see cref="IFixedLengthList{T}"/> の拡張クラス
     /// </summary>
     public static class FixedLengthListExtension
     {
@@ -60,7 +74,7 @@ namespace WodiLib.Sys.Collections
             => SetValues<T, T>(src, values);
 
         /// <summary>
-        /// インデックスを指定して複数の要素を更新する。
+        ///     インデックスを指定して複数の要素を更新する。
         /// </summary>
         /// <param name="src">処理対象</param>
         /// <param name="values">更新要素情報</param>
