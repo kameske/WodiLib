@@ -612,7 +612,7 @@ namespace WodiLib.Test.Sys
             new object[] { -1, true },
             new object[] { 9, true },
             new object[] { 10, false },
-            new object[] { 11, true },
+            new object[] { 11, true }
         };
 
         [TestCaseSource(nameof(ResetTestCaseSource))]
@@ -814,73 +814,27 @@ namespace WodiLib.Test.Sys
             }
         }
 
-        [Test]
-        public static void DeepCloneWithTest()
-        {
-            const int initCount = 10;
-            var instance = MakeCollection5(initCount);
-
-            var guidList = instance.Select(x => x.Guid).ToList();
-
-            IFixedLengthList<TestClass> clone = null;
-
-            var errorOccured = false;
-            try
-            {
-                clone = instance.DeepCloneWith(values: new Dictionary<int, TestClass>());
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                errorOccured = true;
-            }
-
-            // エラーが発生しないこと
-            Assert.IsFalse(errorOccured);
-
-            // ----- Original Test -----
-
-            // 元のリストが変化していないこと
-            Assert.AreEqual(instance.Count, guidList.Count);
-            for (var i = 0; i < instance.Count; i++)
-            {
-                Assert.IsTrue(instance[i].Guid.Equals(guidList[i]));
-            }
-
-            // ----- Clone Test -----
-
-            // 元とは異なる参照であること
-            Assert.False(ReferenceEquals(clone, instance));
-
-            // 元の要素数から変化していないこと
-            Assert.AreEqual(clone.Count, initCount);
-
-            // 各要素がディープクローンであること
-            for (var i = 0; i < Math.Min(initCount, clone.Count); i++)
-            {
-                Assert.IsTrue(clone[i].Guid.Equals(guidList[i]));
-                Assert.IsFalse(ReferenceEquals(instance[i], clone[i]));
-            }
-        }
-
         private static readonly object[] DeepCloneWithTestCaseSource =
         {
-            new object[] { null, false },
-            new object[] { Array.Empty<KeyValuePair<int, TestClass>>(), false },
-            new object[] { new KeyValuePair<int, TestClass>[] { new(-1, new TestClass()) }, false },
-            new object[] { new KeyValuePair<int, TestClass>[] { new(0, new TestClass()) }, false },
-            new object[] { new KeyValuePair<int, TestClass>[] { new(4, new TestClass()) }, false },
-            new object[] { new KeyValuePair<int, TestClass>[] { new(5, new TestClass()) }, false },
+            new object[] { true, null, true },
+            new object[] { false, Array.Empty<KeyValuePair<int, TestClass>>(), false },
+            new object[] { false, new KeyValuePair<int, TestClass>[] { new(-1, new TestClass()) }, false },
+            new object[] { false, new KeyValuePair<int, TestClass>[] { new(0, new TestClass()) }, false },
+            new object[] { false, new KeyValuePair<int, TestClass>[] { new(4, new TestClass()) }, false },
+            new object[] { false, new KeyValuePair<int, TestClass>[] { new(5, new TestClass()) }, false },
             new object[]
-                { new KeyValuePair<int, TestClass>[] { new(-1, new TestClass()), new(0, new TestClass()) }, false },
+            {
+                false, new KeyValuePair<int, TestClass>[] { new(-1, new TestClass()), new(0, new TestClass()) }, false
+            },
             new object[]
-                { new KeyValuePair<int, TestClass>[] { new(0, new TestClass()), new(4, new TestClass()) }, false },
-            new object[] { new KeyValuePair<int, TestClass>[] { new(1, null) }, true },
-            new object[] { new KeyValuePair<int, TestClass>[] { new(3, new TestClass()), new(2, null) }, true },
+            {
+                false, new KeyValuePair<int, TestClass>[] { new(0, new TestClass()), new(4, new TestClass()) }, false
+            }
         };
 
         [TestCaseSource(nameof(DeepCloneWithTestCaseSource))]
-        public static void DeepCloneWithTest(IEnumerable<KeyValuePair<int, TestClass>> values, bool isError)
+        public static void DeepCloneWithTest(bool paramIsNull, IEnumerable<KeyValuePair<int, TestClass>> values,
+            bool isError)
         {
             const int initCount = 10;
             var instance = MakeCollection5(initCount);
@@ -889,12 +843,19 @@ namespace WodiLib.Test.Sys
             var valueList =
                 new Dictionary<int, TestClass>(values?.ToArray() ?? Array.Empty<KeyValuePair<int, TestClass>>());
 
+            var param = paramIsNull
+                ? null
+                : new ListDeepCloneParam<TestClass>
+                {
+                    Values = valueList
+                };
+
             IFixedLengthList<TestClass> clone = null;
 
             var errorOccured = false;
             try
             {
-                clone = instance.DeepCloneWith(values: valueList);
+                clone = instance.DeepCloneWith(param);
             }
             catch (Exception ex)
             {
@@ -1030,7 +991,7 @@ namespace WodiLib.Test.Sys
 
         private static CollectionTest4 MakeCollection5(int length)
         {
-            return new(Enumerable.Repeat("", length).Select(_ => new TestClass()));
+            return new CollectionTest4(Enumerable.Repeat("", length).Select(_ => new TestClass()));
         }
 
         /// <summary>
@@ -1042,7 +1003,7 @@ namespace WodiLib.Test.Sys
             {
                 { nameof(NotifyCollectionChangedAction.Replace), new List<NotifyCollectionChangedEventArgs>() },
                 { nameof(NotifyCollectionChangedAction.Reset), new List<NotifyCollectionChangedEventArgs>() },
-                { nameof(NotifyCollectionChangedAction.Move), new List<NotifyCollectionChangedEventArgs>() },
+                { nameof(NotifyCollectionChangedAction.Move), new List<NotifyCollectionChangedEventArgs>() }
             };
 
         /// <summary>
@@ -1073,7 +1034,7 @@ namespace WodiLib.Test.Sys
         /// <returns>生成したインスタンス</returns>
         private static Dictionary<string, int> MakePropertyChangedArgsDic() => new()
         {
-            { ListConstant.IndexerName, 0 },
+            { ListConstant.IndexerName, 0 }
         };
 
         /// <summary>
@@ -1179,7 +1140,7 @@ namespace WodiLib.Test.Sys
 
             public TestClass DeepClone() => new()
             {
-                Guid = Guid,
+                Guid = Guid
             };
         }
     }

@@ -268,16 +268,17 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <inheritdoc/>
-        public TImpl DeepCloneWith(int? length)
+        public TImpl DeepCloneWith<TItem>(ListDeepCloneParam<TItem> param) where TItem : T
         {
-            var cloneItems = Items.DeepCloneWith(length);
-            return MakeInstance(cloneItems);
-        }
+            ThrowHelper.ValidateArgumentNotNull(param is null, nameof(param));
 
-        /// <inheritdoc/>
-        public TImpl DeepCloneWith<TItem>(IReadOnlyDictionary<int, TItem>? values, int? length = null) where TItem : T
-        {
-            var clonedItems = Items.DeepCloneWith(values, length);
+            // 長さを変更させないよう、パラメータを詰め替える
+            var newParam = param with
+            {
+                Length = null
+            };
+
+            var clonedItems = Items.DeepCloneWith(newParam);
             return MakeInstance(clonedItems);
         }
 

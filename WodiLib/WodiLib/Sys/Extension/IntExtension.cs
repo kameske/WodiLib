@@ -18,6 +18,19 @@ namespace WodiLib.Sys
     internal static class IntExtension
     {
         /// <summary>
+        ///     値が指定範囲内に存在するかどうかを判定する。
+        /// </summary>
+        /// <param name="src">判定対象</param>
+        /// <param name="min">下限値</param>
+        /// <param name="max">上限値</param>
+        /// <returns>
+        ///     <paramref name="min"/>以上かつ<paramref name="max"/>以下の場合<see langword="true"/>、
+        ///     それ以外の場合 <see langword="false"/>
+        /// </returns>
+        public static bool IsBetween(this int src, int min, int max)
+            => min <= src && src <= max;
+
+        /// <summary>
         ///     エンディアンを指定して byte[] の指定したオフセットから始まる4バイトデータ -> int32 変換を行う
         /// </summary>
         /// <param name="value">変換対象バイト配列</param>

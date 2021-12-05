@@ -18,6 +18,20 @@ namespace WodiLib.Test.Sys
             logger = Logger.GetInstance();
         }
 
+        [TestCase(10, 9, 9, false)]
+        [TestCase(10, 9, 10, true)]
+        [TestCase(10, 9, 11, true)]
+        [TestCase(10, 10, 10, true)]
+        [TestCase(10, 10, 11, true)]
+        [TestCase(10, 11, 11, false)]
+        public static void IsBetweenTest(int target, int min, int max, bool actual)
+        {
+            var expected = target.IsBetween(min, max);
+
+            // 意図した結果であること
+            Assert.AreEqual(expected, actual);
+        }
+
         private static readonly object[] ToInt32TestCaseSource =
         {
             new object[]

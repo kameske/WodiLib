@@ -232,21 +232,18 @@ namespace WodiLib.Sys.Collections
             return result;
         }
 
-        public SimpleList<T> DeepCloneWith(int? length)
-            => DeepCloneWith<T>(null, length);
-
         /// <inheritdoc/>
-        public SimpleList<T> DeepCloneWith<TItem>(IReadOnlyDictionary<int, TItem>? values, int? length)
+        public SimpleList<T> DeepCloneWith<TItem>(ListDeepCloneParam<TItem> param)
             where TItem : T
         {
             var result = DeepClone();
 
-            if (length is not null)
+            if (param.Length is not null)
             {
-                result.Adjust(length.Value);
+                result.Adjust(param.Length.Value);
             }
 
-            values?.ForEach(pair =>
+            param.Values?.ForEach(pair =>
             {
                 if (0 <= pair.Key && pair.Key < result.Count) result[pair.Key] = pair.Value;
             });
@@ -267,7 +264,7 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 2つの要素について同値判定を行う。
+        ///     2つの要素について同値判定を行う。
         /// </summary>
         /// <param name="item"></param>
         /// <param name="other"></param>

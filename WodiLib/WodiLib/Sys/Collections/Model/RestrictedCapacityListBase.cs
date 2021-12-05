@@ -92,7 +92,7 @@ namespace WodiLib.Sys.Collections
             set => Items.NotifyCollectionChangingEventType = value;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public NotifyCollectionChangeEventType NotifyCollectionChangedEventType
         {
             get => Items.NotifyCollectionChangedEventType;
@@ -212,14 +212,14 @@ namespace WodiLib.Sys.Collections
         public IEnumerator<T> GetEnumerator()
             => Items.GetEnumerator();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IEnumerable<T> GetRange(int index, int count)
         {
             Validator?.Get(index, count);
             return Items.GetRange(index, count);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void SetRange(int index, IEnumerable<T> items)
         {
             ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
@@ -229,7 +229,7 @@ namespace WodiLib.Sys.Collections
             Items.SetRange(index, itemList);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Add(T item)
         {
             Validator?.Insert(Count, item);
@@ -246,7 +246,7 @@ namespace WodiLib.Sys.Collections
             Items.AddRange(itemList);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Insert(int index, T item)
         {
             Validator?.Insert(index, item);
@@ -273,21 +273,21 @@ namespace WodiLib.Sys.Collections
             Items.Overwrite(index, itemList);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Move(int oldIndex, int newIndex)
         {
             Validator?.Move(oldIndex, newIndex, 1);
             Items.Move(oldIndex, newIndex);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void MoveRange(int oldIndex, int newIndex, int count)
         {
             Validator?.Move(oldIndex, newIndex, count);
             Items.MoveRange(oldIndex, newIndex, count);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool Remove(T? item)
         {
             Validator?.Remove(item);
@@ -297,7 +297,7 @@ namespace WodiLib.Sys.Collections
             return Items.Remove(item);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void RemoveAt(int index)
         {
             Validator?.Remove(index, 1);
@@ -332,7 +332,7 @@ namespace WodiLib.Sys.Collections
             Items.AdjustLengthIfLong(length);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Reset()
             => Items.Reset();
 
@@ -361,7 +361,7 @@ namespace WodiLib.Sys.Collections
         public override bool ItemEquals(TImpl? other)
             => Items.ItemEquals(other);
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool ItemEquals(IReadOnlyExtendedList<T, T>? other)
             => Items.ItemEquals(other);
 
@@ -376,14 +376,26 @@ namespace WodiLib.Sys.Collections
             return MakeInstance(clonedItems);
         }
 
-        /// <inheritdoc />
-        public TImpl DeepCloneWith(int? length)
-            => DeepCloneWith<T>(null, length);
-
-        /// <inheritdoc />
-        public TImpl DeepCloneWith<TItem>(IReadOnlyDictionary<int, TItem>? values, int? length = null) where TItem : T
+        /// <inheritdoc/>
+        public TImpl DeepCloneWith<TItem>(ListDeepCloneParam<TItem> param) where TItem : T
         {
-            var clonedItems = Items.DeepCloneWith(values, length);
+            ThrowHelper.ValidateArgumentNotNull(param is null, nameof(param));
+
+            if (param.Length is not null)
+            {
+                var length = param.Length.Value;
+
+                var max = GetMaxCapacity();
+                var min = GetMinCapacity();
+                ThrowHelper.ValidateArgumentValueRange(
+                    !length.IsBetween(min, max),
+                    $"{nameof(param)}.{nameof(param.Length)}",
+                    length,
+                    min,
+                    max);
+            }
+
+            var clonedItems = Items.DeepCloneWith(param);
             return MakeInstance(clonedItems);
         }
 
@@ -418,8 +430,8 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 自身を <see cref="IWritableList{TIn,TOut}"/> とみなして
-        /// <see cref="IWritableList{TIn,TOut}.Reset(IEnumerable{TIn})"/> メソッドを実行する。
+        ///     自身を <see cref="IWritableList{TIn,TOut}"/> とみなして
+        ///     <see cref="IWritableList{TIn,TOut}.Reset(IEnumerable{TIn})"/> メソッドを実行する。
         /// </summary>
         /// <param name="initItems">初期化要素</param>
         protected void ResetAsWritableList(IEnumerable<T> initItems)
@@ -526,7 +538,7 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// Validator保持クラス
+        ///     Validator保持クラス
         /// </summary>
         [CommonMultiValueObject]
         protected partial record Validators

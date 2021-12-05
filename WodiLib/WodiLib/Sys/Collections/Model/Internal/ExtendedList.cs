@@ -295,15 +295,13 @@ namespace WodiLib.Sys.Collections
         public bool ItemEquals<TOther>(IEnumerable<TOther>? other, IEqualityComparer<TOther>? itemComparer)
             => Items.ItemEquals(other, itemComparer);
 
-        /// <inheritdoc/>
-        public ExtendedList<T> DeepCloneWith(int? length)
-            => DeepCloneWith<T>(null, length);
-
         /// <inheritdoc cref="IDeepCloneableList{T,TIn}.DeepCloneWith{TItem}"/>
-        public ExtendedList<T> DeepCloneWith<TItem>(IReadOnlyDictionary<int, TItem>? values, int? length = null)
+        public ExtendedList<T> DeepCloneWith<TItem>(ListDeepCloneParam<TItem> param)
             where TItem : T
         {
-            var cloneItems = Items.DeepCloneWith(values, length);
+            ThrowHelper.ValidateArgumentNotNull(param is null, nameof(param));
+
+            var cloneItems = Items.DeepCloneWith(param);
             return new ExtendedList<T>(cloneItems);
         }
 
@@ -711,10 +709,10 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// 指定した要素が <see cref="INotifiablePropertyChange"/> を実装する場合、
-        /// 各要素の <see cref="INotifiablePropertyChange.NotifyPropertyChangingEventType"/>,
-        /// <see cref="INotifiablePropertyChange.NotifyPropertyChangedEventType"/> に
-        /// 自身と同じ値を反映する。
+        ///     指定した要素が <see cref="INotifiablePropertyChange"/> を実装する場合、
+        ///     各要素の <see cref="INotifiablePropertyChange.NotifyPropertyChangingEventType"/>,
+        ///     <see cref="INotifiablePropertyChange.NotifyPropertyChangedEventType"/> に
+        ///     自身と同じ値を反映する。
         /// </summary>
         /// <param name="items">処理対象</param>
         private void ApplyPropertyChangeEventType(IEnumerable<T> items)
@@ -739,9 +737,9 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// 指定した要素が <see cref="INotifiablePropertyChange"/> を実装する場合、
-        /// 各要素の <see cref="INotifiablePropertyChange.NotifyPropertyChangingEventType"/> に
-        /// 自身の <see cref="INotifiablePropertyChange.NotifyPropertyChangingEventType"/> の値を反映する。
+        ///     指定した要素が <see cref="INotifiablePropertyChange"/> を実装する場合、
+        ///     各要素の <see cref="INotifiablePropertyChange.NotifyPropertyChangingEventType"/> に
+        ///     自身の <see cref="INotifiablePropertyChange.NotifyPropertyChangingEventType"/> の値を反映する。
         /// </summary>
         /// <param name="items">処理対象</param>
         private void ApplyPropertyChangingEventType(IEnumerable<T> items)
@@ -765,9 +763,9 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// 指定した要素が <see cref="INotifiablePropertyChange"/> を実装する場合、
-        /// 各要素の <see cref="INotifiablePropertyChange.NotifyPropertyChangedEventType"/> に
-        /// 自身の <see cref="INotifiablePropertyChange.NotifyPropertyChangedEventType"/> の値を反映する。
+        ///     指定した要素が <see cref="INotifiablePropertyChange"/> を実装する場合、
+        ///     各要素の <see cref="INotifiablePropertyChange.NotifyPropertyChangedEventType"/> に
+        ///     自身の <see cref="INotifiablePropertyChange.NotifyPropertyChangedEventType"/> の値を反映する。
         /// </summary>
         /// <param name="items">処理対象</param>
         private void ApplyPropertyChangedEventType(IEnumerable<T> items)
@@ -790,7 +788,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// リストに追加した要素に対し変更通知イベントを登録する。
+        ///     リストに追加した要素に対し変更通知イベントを登録する。
         /// </summary>
         /// <param name="items">追加した要素</param>
         private void AddInnerItemPropertyChangeEvent(params T[] items)
@@ -829,7 +827,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// リストから除去する要素に対し登録した変更通知イベントを解除する。
+        ///     リストから除去する要素に対し登録した変更通知イベントを解除する。
         /// </summary>
         /// <param name="items">除去する要素</param>
         private void RemoveInnerItemPropertyChangeEvent(params T[] items)

@@ -64,11 +64,8 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                     $"{__}/// <inheritdoc cref=\"Sys.IDeepCloneable{{T}}.DeepClone\"/>",
                     $"{__}public new {interfaceName} DeepClone();",
                     $"",
-                    $"{__}/// <inheritdoc cref=\"Sys.Collections.IDeepCloneableList{{T,TIn}}.DeepCloneWith\"/>",
-                    $"{__}public new {interfaceName} DeepCloneWith(int? length);",
-                    $"",
-                    $"{__}/// <inheritdoc cref=\"Sys.Collections.IDeepCloneableList{{T,TIn}}.DeepCloneWith{{TItem}}(System.Collections.Generic.IReadOnlyDictionary{{int,TItem}}?,int?)\"/>",
-                    $"{__}public new {interfaceName} DeepCloneWith<TItem>(System.Collections.Generic.IReadOnlyDictionary<int, TItem>? values, int? length = null) where TItem : {interfaceInItemType};",
+                    $"{__}/// <inheritdoc cref=\"Sys.Collections.IDeepCloneableList{{T,TIn}}.DeepCloneWith{{TItem}}\"/>",
+                    $"{__}public new {interfaceName} DeepCloneWith<TItem>(Sys.Collections.ListDeepCloneParam<TItem> param) where TItem : {interfaceInItemType};",
                 }),
                 new[]
                 {
@@ -92,11 +89,8 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                     $"{__}/// <inheritdoc cref=\"Sys.IDeepCloneable{{T}}.DeepClone\"/>",
                     $"{__}public new {fixedLengthInterfaceName} DeepClone();",
                     $"",
-                    $"{__}/// <inheritdoc cref=\"Sys.Collections.IDeepCloneableList{{T,TIn}}.DeepCloneWith\"/>",
-                    $"{__}public new {fixedLengthInterfaceName} DeepCloneWith(int? length);",
-                    $"",
-                    $"{__}/// <inheritdoc cref=\"Sys.Collections.IDeepCloneableList{{T,TIn}}.DeepCloneWith{{TItem}}(System.Collections.Generic.IReadOnlyDictionary{{int,TItem}}?,int?)\"/>",
-                    $"{__}public new {fixedLengthInterfaceName} DeepCloneWith<TItem>(System.Collections.Generic.IReadOnlyDictionary<int, TItem>? values, int? length = null) where TItem : {interfaceInItemType};",
+                    $"{__}/// <inheritdoc cref=\"Sys.Collections.IDeepCloneableList{{T,TIn}}.DeepCloneWith{{TItem}}\"/>",
+                    $"{__}public new {fixedLengthInterfaceName} DeepCloneWith<TItem>(Sys.Collections.ListDeepCloneParam<TItem> param) where TItem : {interfaceInItemType};",
                 }),
                 new[]
                 {

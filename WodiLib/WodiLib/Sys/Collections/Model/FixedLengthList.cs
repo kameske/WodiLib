@@ -109,7 +109,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="initParam">初期化パラメータ</param>
         protected FixedLengthList(ListInitParam<TIn> initParam) : this(initParam.InitItems)
@@ -159,7 +159,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// ディープコピーコンストラクタ
+        ///     ディープコピーコンストラクタ
         /// </summary>
         /// <param name="src"></param>
         protected FixedLengthList(IReadOnlyExtendedList<TInternal, TInternal> src)
@@ -172,7 +172,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// 本来のCollectionChangeイベントを自身のCollectionChangeイベントに伝播させる。
+        ///     本来のCollectionChangeイベントを自身のCollectionChangeイベントに伝播させる。
         /// </summary>
         private void PropagateCollectionChangeChangeEvent()
         {
@@ -218,22 +218,6 @@ namespace WodiLib.Sys.Collections
         /// <inheritdoc/>
         public bool ItemEquals(IReadOnlyExtendedList<TIn, TOut>? other)
             => ItemEquals((IReadOnlyExtendedList<TInternal, TInternal>?)other);
-
-        /// <inheritdoc cref="IDeepCloneableList{T,TIn}.DeepCloneWith"/>
-        public new TImpl DeepCloneWith<TItem>(IReadOnlyDictionary<int, TItem>? values, int? length = null)
-            where TItem : TIn
-        {
-            if (values is null) return DeepCloneWith(length);
-
-            var cloneValues = new Dictionary<int, TInternal>();
-            values.ForEach(pair =>
-            {
-                var cloneValue = CastInternal(pair.Value);
-                cloneValues[pair.Key] = cloneValue;
-            });
-
-            return base.DeepCloneWith(cloneValues, length);
-        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Interface Implementation
@@ -284,7 +268,7 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// <typeparamref name="TIn"/> を <typeparamref name="TInternal"/> に変換したディープクローンを生成する。
+        ///     <typeparamref name="TIn"/> を <typeparamref name="TInternal"/> に変換したディープクローンを生成する。
         /// </summary>
         /// <param name="src">クローン元</param>
         /// <returns>クローンインスタンス</returns>
@@ -346,6 +330,14 @@ namespace WodiLib.Sys.Collections
         }))())
         {
             SetRange(0, initItems);
+        }
+
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        /// <param name="initParam">初期化パラメータ</param>
+        protected FixedLengthList(ListInitParam<T> initParam) : base(initParam)
+        {
         }
 
         /// <inheritdoc/>
