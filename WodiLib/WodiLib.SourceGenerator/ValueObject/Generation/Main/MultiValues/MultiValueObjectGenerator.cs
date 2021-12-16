@@ -16,8 +16,6 @@ using WodiLib.SourceGenerator.Core.SourceAddables.PostInitialize;
 using WodiLib.SourceGenerator.Core.SourceBuilder;
 using WodiLib.SourceGenerator.Core.Templates.FromAttribute;
 using WodiLib.SourceGenerator.ValueObject.Extensions;
-using WodiLib.SourceGenerator.ValueObject.Generation.PostInitAction.Attributes;
-using WodiLib.SourceGenerator.ValueObject.Generation.PostInitAction.Enums;
 using MyAttr =
     WodiLib.SourceGenerator.ValueObject.Generation.PostInitAction.Attributes.MultiValueObjectAttribute;
 using static WodiLib.SourceGenerator.Core.SourceBuilder.SourceConstants;
@@ -42,8 +40,6 @@ namespace WodiLib.SourceGenerator.ValueObject.Generation.Main.MultiValues
                     ($@"{{")
                 },
                 SourceTextFormatter.Format(IndentSpace, ConstructorSource(properties, workState)),
-                SourceFormatTargetBlock.Empty,
-                SourceTextFormatter.Format(IndentSpace, CastSource(properties, workState)),
                 new SourceFormatTarget[]
                 {
                     ($@"}}")
@@ -85,7 +81,7 @@ namespace WodiLib.SourceGenerator.ValueObject.Generation.Main.MultiValues
         /// <returns></returns>
         private static IEnumerable<IPropertySymbol> GetInitializeProperties(WorkState workState)
         {
-            // public なプロパティのうち init アクセッサを持つプロパティを対象とする。
+            // public なプロパティのうち init アクセサを持たないプロパティを対象とする。
 
             var symbol = workState.CurrentSymbol;
 
@@ -101,16 +97,10 @@ namespace WodiLib.SourceGenerator.ValueObject.Generation.Main.MultiValues
                                                    && member.DeclaredAccessibility == Accessibility.Public
                                                    && ((member as IMethodSymbol)?.IsInitOnly ?? false))
                               ?? new List<ISymbol>();
-            var initPropertiesNames = initMethods.Select(method => method.Name.Substring(4) /* "get_" を除去 */);
+            var initPropertiesNames = initMethods.Select(method => method.Name.Substring(4) /* "set_" を除去 */)
+                .ToList();
 
-            foreach (var name in initPropertiesNames)
-            {
-                var property = properties.Find(prop => prop.Name.Equals(name));
-                if (property is not null)
-                {
-                    yield return property;
-                }
-            }
+            return properties.Where(prop => !initPropertiesNames.Contains(prop.Name));
         }
 
         /// <summary>
@@ -152,154 +142,6 @@ namespace WodiLib.SourceGenerator.ValueObject.Generation.Main.MultiValues
                     (@$"}}")
                 }
             );
-        }
-
-        /// <summary>
-        ///     キャスト部のソースコードブロックを生成する。
-        /// </summary>
-        /// <param name="properties">コンストラクタで初期化するプロパティ一覧</param>
-        /// <param name="workState">ワーク状態</param>
-        /// <returns>ソースコード文字列ブロック</returns>
-        private static SourceFormatTargetBlock CastSource(IEnumerable<IPropertySymbol> properties, WorkState workState)
-        {
-            var sCastType = workState.PropertyValues.GetOrDefault(MyAttr.CastType.Name, CastType.Code_None.ToString());
-            var iCastType = int.Parse(sCastType);
-
-            if (iCastType == CastType.Code_None)
-            {
-                return SourceFormatTargetBlock.Empty;
-            }
-
-            var propertyArray = properties.ToArray();
-
-            var operationKeyword = iCastType == CastType.Code_Explicit
-                ? "explicit"
-                : "implicit";
-            var typeName = workState.Name;
-            var typeNameForDocumentComment = typeName.Replace("<", "&lt;").Replace(">", "&gt;");
-            var tupleTypesList = GetCanCastTupleTypes(propertyArray).ToList();
-
-            var tupleToTypeCodeBlocks = new List<SourceFormatTargetBlock>();
-            var valueTupleToTypeCodeBlocks = new List<SourceFormatTargetBlock>();
-            var typeToTupleCodeBlocks = new List<SourceFormatTargetBlock>();
-
-            foreach (var tupleTypes in tupleTypesList)
-            {
-                var tupleTypeArray = tupleTypes.ToArray();
-
-                var tupleTypeStr = string.Join(",", tupleTypeArray);
-                var tupleTypeStrForDocumentComment = tupleTypeStr.Replace("<", "&lt;").Replace(">", "&gt;");
-                var tupleDecomposed = string.Join(",", tupleTypeArray.Select((_, idx) => $"tuple.Item{idx + 1}"));
-                var voDecomposed = string.Join(",", propertyArray.Select(prop => $"src.{prop.Name}"));
-
-                tupleToTypeCodeBlocks.Add(new SourceFormatTarget[]
-                {
-                    (@$"/// <summary>"),
-                    (@$"/// Tuple&lt;{tupleTypeStrForDocumentComment}&gt; -> {typeNameForDocumentComment} 型変換"),
-                    (@$"/// </summary>"),
-                    (@$"/// {Tag.Param("tuple", "変換元")}"),
-                    (@$"/// {Tag.Returns("変換した値")}"),
-                    (@$"public static {operationKeyword} operator {typeName}(System.Tuple<{tupleTypeStr}> tuple)"),
-                    (@$"{{"),
-                    (@$"{__}return new {typeName}({tupleDecomposed});"),
-                    (@$"}}"),
-                    (@$"")
-                });
-
-                valueTupleToTypeCodeBlocks.Add(new SourceFormatTarget[]
-                {
-                    (@$"/// <summary>"),
-                    (@$"/// ({tupleTypeStrForDocumentComment}) -> {typeNameForDocumentComment} 型変換"),
-                    (@$"/// </summary>"),
-                    (@$"/// {Tag.Param("tuple", "変換元")}"),
-                    (@$"/// {Tag.Returns("変換した値")}"),
-                    (@$"public static {operationKeyword} operator {typeName}(System.ValueTuple<{tupleTypeStr}> tuple)"),
-                    (@$"{{"),
-                    (@$"{__}return new {typeName}({tupleDecomposed});"),
-                    (@$"}}"),
-                    (@$"")
-                });
-
-                typeToTupleCodeBlocks.Add(new SourceFormatTarget[]
-                {
-                    (@$"/// <summary>"),
-                    (@$"/// {typeNameForDocumentComment} -> Tuple&lt;{tupleTypeStrForDocumentComment}&gt; 型変換"),
-                    (@$"/// </summary>"),
-                    (@$"/// {Tag.Param("src", "変換元")}"),
-                    (@$"/// {Tag.Returns("変換した値")}"),
-                    (@$"public static {operationKeyword} operator System.Tuple<{tupleTypeStr}>({typeName} src)"),
-                    (@$"{{"),
-                    (@$"{__}return new System.Tuple<{tupleTypeStr}>({voDecomposed});"),
-                    (@$"}}")
-                });
-
-                typeToTupleCodeBlocks.Add(new SourceFormatTarget[]
-                {
-                    (@$"/// <summary>"),
-                    (@$"/// {typeName} -> ValueTuple&lt;{tupleTypeStrForDocumentComment}&gt; 型変換"),
-                    (@$"/// </summary>"),
-                    (@$"/// {Tag.Param("src", "変換元")}"),
-                    (@$"/// {Tag.Returns("変換した値")}"),
-                    (@$"public static {operationKeyword} operator System.ValueTuple<{tupleTypeStr}>({typeName} src)"),
-                    (@$"{{"),
-                    (@$"{__}return new System.ValueTuple<{tupleTypeStr}>({voDecomposed});"),
-                    (@$"}}")
-                });
-            }
-
-            var allBlocks = tupleToTypeCodeBlocks.Concat(
-                valueTupleToTypeCodeBlocks
-            ).Concat(
-                typeToTupleCodeBlocks
-            ).ToArray();
-
-            return SourceTextFormatter.Format("", allBlocks);
-        }
-
-        /// <summary>
-        ///     キャスト可能なタプル型の要素型リストを取得する。
-        /// </summary>
-        /// <param name="properties">プロパティ一覧</param>
-        /// <returns>タプル型の要素型一覧</returns>
-        private static IEnumerable<IEnumerable<string>> GetCanCastTupleTypes(IEnumerable<IPropertySymbol> properties)
-        {
-            var originalTypeList = new List<string>();
-            var castedTypeList = new List<string?>();
-
-            foreach (var propertySymbol in properties)
-            {
-                originalTypeList.Add(propertySymbol.Type.ToString());
-
-                var propertyType = propertySymbol.Type;
-
-                if (propertyType.IsAppliedAttribute(IntValueObjectAttribute.Instance.TypeFullName))
-                {
-                    castedTypeList.Add("int");
-                }
-                else if (propertyType.IsAppliedAttribute(ByteValueObjectAttribute.Instance.TypeFullName))
-                {
-                    castedTypeList.Add("byte");
-                }
-                else if (propertyType.IsAppliedAttribute(StringValueObjectAttribute.Instance.TypeFullName))
-                {
-                    castedTypeList.Add("string");
-                }
-                else
-                {
-                    castedTypeList.Add(null);
-                }
-            }
-
-            if (castedTypeList.Count > 0 && castedTypeList.TrueForAll(s => s is not null))
-            {
-                // すべてのプロパティが SingleValueObject の場合はその値の実態でキャストできるようにする
-                yield return castedTypeList.Cast<string>();
-            }
-            else
-            {
-                // 一つでも SingleValueObject ではないプロパティがあればプロパティの型でキャストできるようにする
-                yield return originalTypeList;
-            }
         }
 
         private MultiValueObjectGenerator()

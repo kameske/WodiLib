@@ -1,6 +1,5 @@
 using NUnit.Framework;
 using WodiLib.SourceGenerator.ValueObject.Attributes;
-using WodiLib.SourceGenerator.ValueObject.Enums;
 
 namespace WodiLib.SourceGenerator.Test.ValueObject.MultiValues
 {
@@ -13,15 +12,16 @@ namespace WodiLib.SourceGenerator.Test.ValueObject.MultiValues
         }
     }
 
-    [MultiValueObject(CastType = CastType.Explicit)]
+    [MultiValueObject]
     public partial record MultiValueObject
     {
-        /// <summary>
-        ///     X
-        /// </summary>
-        public int X { get; init; }
+        /// <summary>X</summary>
+        public int X { get; }
 
         /// <summary>Y</summary>
-        public int Y { get; init; }
+        public int Y { get; }
+
+        /// <summary>Z</summary>
+        public int Z { get; init; } = 0;
     }
 }
