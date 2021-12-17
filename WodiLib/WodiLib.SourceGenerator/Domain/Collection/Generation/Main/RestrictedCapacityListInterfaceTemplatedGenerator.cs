@@ -35,9 +35,6 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                 propertyValues[RestrictedCapacityListInterfaceTemplatedAttribute.InterfaceInItemType.Name]!;
             var interfaceOutItemType =
                 propertyValues[RestrictedCapacityListInterfaceTemplatedAttribute.InterfaceOutItemType.Name]!;
-            var isImplementDeepCloneableList =
-                bool.Parse(propertyValues[
-                    RestrictedCapacityListInterfaceTemplatedAttribute.IsImplementDeepCloneableList.Name]!);
 
             var isSameTypeInAndOut = interfaceInItemType.Equals(interfaceOutItemType);
             var fixedLengthInterfaceName = $"IFixedLength{interfaceName.Substring(1)}";
@@ -52,21 +49,13 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                     $"{accessibility} partial interface {interfaceName} :",
                     $"{__}{fixedLengthInterfaceName},",
                     isSameTypeInAndOut
-                        ? $"{__}Sys.Collections.IRestrictedCapacityList<{interfaceInItemType}>"
-                        : $"{__}Sys.Collections.IRestrictedCapacityList<{interfaceInItemType}, {interfaceOutItemType}>",
-                    isImplementDeepCloneableList
-                        ? $"{__}, Sys.Collections.IDeepCloneableList<{interfaceName}, {interfaceInItemType}>"
-                        : "",
+                        ? $"{__}Sys.Collections.IRestrictedCapacityList<{interfaceInItemType}>,"
+                        : $"{__}Sys.Collections.IRestrictedCapacityList<{interfaceInItemType}, {interfaceOutItemType}>,",
+                    $"{__}Sys.IDeepCloneable<{interfaceName}>",
                     $"{{",
-                },
-                SourceTextFormatter.If(isImplementDeepCloneableList, new[]
-                {
                     $"{__}/// <inheritdoc cref=\"Sys.IDeepCloneable{{T}}.DeepClone\"/>",
                     $"{__}public new {interfaceName} DeepClone();",
-                    $"",
-                    $"{__}/// <inheritdoc cref=\"Sys.Collections.IDeepCloneableList{{T,TIn}}.DeepCloneWith{{TItem}}\"/>",
-                    $"{__}public new {interfaceName} DeepCloneWith<TItem>(Sys.Collections.ListDeepCloneParam<TItem> param) where TItem : {interfaceInItemType};",
-                }),
+                },
                 new[]
                 {
                     $"}}",
@@ -77,23 +66,15 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                     $"{accessibility} partial interface {fixedLengthInterfaceName} :",
                     $"{__}{readOnlyInterfaceName},",
                     isSameTypeInAndOut
-                        ? $"{__}Sys.Collections.IFixedLengthList<{interfaceInItemType}>"
-                        : $"{__}Sys.Collections.IFixedLengthList<{interfaceInItemType}, {interfaceOutItemType}>",
-                    isImplementDeepCloneableList
-                        ? $"{__}, Sys.Collections.IDeepCloneableList<{fixedLengthInterfaceName}, {interfaceInItemType}>"
-                        : "",
+                        ? $"{__}Sys.Collections.IFixedLengthList<{interfaceInItemType}>,"
+                        : $"{__}Sys.Collections.IFixedLengthList<{interfaceInItemType}, {interfaceOutItemType}>,",
+                    $"{__}Sys.IDeepCloneable<{fixedLengthInterfaceName}>",
                     $"{{",
                 },
-                SourceTextFormatter.If(isImplementDeepCloneableList, new[]
+                new[]
                 {
                     $"{__}/// <inheritdoc cref=\"Sys.IDeepCloneable{{T}}.DeepClone\"/>",
                     $"{__}public new {fixedLengthInterfaceName} DeepClone();",
-                    $"",
-                    $"{__}/// <inheritdoc cref=\"Sys.Collections.IDeepCloneableList{{T,TIn}}.DeepCloneWith{{TItem}}\"/>",
-                    $"{__}public new {fixedLengthInterfaceName} DeepCloneWith<TItem>(Sys.Collections.ListDeepCloneParam<TItem> param) where TItem : {interfaceInItemType};",
-                }),
-                new[]
-                {
                     $"}}",
                     $"",
                     $"/// <summary>",
@@ -101,11 +82,9 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                     $"/// </summary>",
                     $"{accessibility} partial interface {readOnlyInterfaceName} :",
                     isSameTypeInAndOut
-                        ? $"{__}Sys.Collections.IReadOnlyExtendedList<{interfaceInItemType}>"
-                        : $"{__}Sys.Collections.IReadOnlyExtendedList<{interfaceInItemType}, {interfaceOutItemType}>",
-                    isImplementDeepCloneableList
-                        ? $"{__}, Sys.Collections.IDeepCloneableList<{readOnlyInterfaceName}, {interfaceInItemType}>"
-                        : "",
+                        ? $"{__}Sys.Collections.IReadOnlyExtendedList<{interfaceInItemType}>,"
+                        : $"{__}Sys.Collections.IReadOnlyExtendedList<{interfaceInItemType}, {interfaceOutItemType}>,",
+                    $"{__}Sys.IDeepCloneable<{readOnlyInterfaceName}>",
                     $"{{",
                     $"}}",
                 }

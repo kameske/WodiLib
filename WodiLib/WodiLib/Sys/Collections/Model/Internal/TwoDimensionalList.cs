@@ -38,8 +38,7 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="TItem">リスト要素型</typeparam>
     internal partial class TwoDimensionalList<TRow, TRowInternal, TItem>
         : ModelBase<TwoDimensionalList<TRow, TRowInternal, TItem>>,
-            ITwoDimensionalList<TRow, TRow, TItem, TItem>,
-            IDeepCloneableTwoDimensionalListInternal<TwoDimensionalList<TRow, TRowInternal, TItem>, TItem>
+            ITwoDimensionalList<TRow, TRow, TItem, TItem>
         where TRow : IFixedLengthList<TItem>
         where TRowInternal : class, IExtendedList<TItem>, TRow, IDeepCloneable<TRowInternal>
     {
@@ -584,48 +583,6 @@ namespace WodiLib.Sys.Collections
         public override TwoDimensionalList<TRow, TRowInternal, TItem>
             DeepClone() => new(this);
 
-        public TwoDimensionalList<TRow, TRowInternal, TItem> DeepCloneWith(
-            int? rowLength = null, int? colLength = null,
-            IReadOnlyDictionary<(int row, int col), TItem>? values = null)
-        {
-            var result =
-                new TwoDimensionalList<TRow, TRowInternal, TItem>(this);
-
-            switch (rowLength, colLength)
-            {
-                case (not null, not null):
-                    result.AdjustLength(rowLength.Value, colLength.Value);
-                    break;
-                case (not null, null):
-                    result.AdjustRowLength(rowLength.Value);
-                    break;
-
-                case (null, not null):
-                    result.AdjustColumnLength(colLength.Value);
-                    break;
-
-                case (null, null):
-                    break;
-            }
-
-            var resultRowLength = rowLength ?? RowCount;
-            var resultColumnLength = colLength ?? ColumnCount;
-            values?.ForEach(pair
-                =>
-            {
-                var (row, col) = pair.Key;
-                var value = pair.Value;
-
-                if (-1 < row && row < resultRowLength
-                             && -1 < col && col < resultColumnLength)
-                {
-                    result[row, col] = value;
-                }
-            });
-
-            return result;
-        }
-
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Interface Implementation
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -654,18 +611,6 @@ namespace WodiLib.Sys.Collections
         #region GetEnumerator
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        #endregion
-
-        #region DeepClone
-
-        ITwoDimensionalList<TRow, TRow, TItem, TItem> IDeepCloneable<ITwoDimensionalList<TRow, TRow, TItem, TItem>>.DeepClone() => DeepClone();
-
-        #endregion
-
-        #region DeepCloneWith
-
-        ITwoDimensionalList<TRow, TRow, TItem, TItem> IDeepCloneableTwoDimensionalListInternal<ITwoDimensionalList<TRow, TRow, TItem, TItem>, TItem>.DeepCloneWith(int? rowLength, int? colLength, IReadOnlyDictionary<(int row, int col), TItem>? values) => DeepCloneWith(rowLength, colLength, values);
 
         #endregion
         // @formatter:on

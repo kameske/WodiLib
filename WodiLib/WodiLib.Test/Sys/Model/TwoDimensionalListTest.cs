@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Commons;
 using NUnit.Framework;
 using WodiLib.Sys;
@@ -236,111 +235,6 @@ namespace WodiLib.Test.Sys
             {
                 Assert.IsTrue(instance[r, c].ItemEquals(result[r, c]));
                 Assert.False(ReferenceEquals(instance[r, c], result[r, c]));
-            }
-        }
-
-        private static readonly object[] DeepCloneWithTestCaseSource =
-        {
-            new object[] { null, null, null },
-            new object[] { 5, null, null },
-            new object[] { null, 2, null },
-            new object[]
-            {
-                null, null, new[]
-                {
-                    (1, 1, "ClonedItem"),
-                }
-            },
-            new object[] { 5, 2, null },
-            new object[]
-            {
-                5, null, new[]
-                {
-                    (1, 1, "ClonedItem"),
-                }
-            },
-            new object[]
-            {
-                null, 2, new[]
-                {
-                    (1, 1, "ClonedItem"),
-                }
-            },
-            new object[]
-            {
-                5, 2, new[]
-                {
-                    (1, 1, "ClonedItem"),
-                    (5, 0, "ClonedItem2"),
-                    (0, 2, "ClonedItem3"),
-                }
-            },
-        };
-
-        [TestCaseSource(nameof(DeepCloneWithTestCaseSource))]
-        public static void DeepCloneWithTest(int? rowLength, int? colLength,
-            (int row, int column, string prefix)[] valuesSources)
-        {
-            /*
-             * TestRecord が internal static なクラス内で定義されているため、
-             * テストメソッドでは object 型で受け取り、変換してから使用する。
-             */
-            Dictionary<(int row, int col), TestRecord> castedValues;
-            if (valuesSources is null)
-            {
-                castedValues = null;
-            }
-            else
-            {
-                castedValues = new Dictionary<(int row, int col), TestRecord>();
-                valuesSources.ForEach(src =>
-                {
-                    var (row, column, prefix) = src;
-                    castedValues[(row, column)] = TestTools.MakeItem(row, column, prefix);
-                });
-            }
-
-            Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
-            var instance = TestTools.MakeTwoDimensionalList(
-                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
-                funcMakeDefaultItem);
-            var originalCount = instance.RowCount;
-            var originalItemCount = instance.ColumnCount;
-
-            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> result = null;
-
-            var assumedRowLength = rowLength ?? originalCount;
-            var assumedColumnLength = colLength ?? originalItemCount;
-
-            try
-            {
-                result = instance.DeepCloneWith(rowLength, colLength, castedValues);
-            }
-            catch (Exception ex)
-            {
-                logger.Exception(ex);
-                Assert.Fail();
-            }
-
-            // 取得結果が正しいこと
-            Assert.AreEqual(assumedRowLength, result.RowCount);
-            Assert.AreEqual(assumedColumnLength, result.ColumnCount);
-            Assert.False(ReferenceEquals(instance, result));
-            for (var r = 0; r < Math.Min(rowLength ?? int.MaxValue, originalCount); r++)
-            for (var c = 0; c < Math.Min(colLength ?? int.MaxValue, originalItemCount); c++)
-            {
-                if (castedValues?.ContainsKey((r, c)) ?? false)
-                {
-                    // 上書き指定した要素が編集されていること
-                    var value = castedValues[(r, c)];
-                    Assert.IsTrue(value.ItemEquals(result[r, c]));
-                    Assert.True(ReferenceEquals(value, result[r, c]));
-                }
-                else
-                {
-                    Assert.IsTrue(instance[r, c].ItemEquals(result[r, c]));
-                    Assert.False(ReferenceEquals(instance[r, c], result[r, c]));
-                }
             }
         }
 

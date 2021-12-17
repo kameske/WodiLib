@@ -53,15 +53,6 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.PostInitAction.At
             DefaultValue = null,
         };
 
-        public static readonly PropertyInfo IsImplementDeepCloneableList = new()
-        {
-            Name = nameof(IsImplementDeepCloneableList),
-            Type = "bool",
-            Summary = "<see cref=\"Sys.Collections.IDeepCloneableList{T,TIn}\"/> 自動実装フラグ",
-            DefaultValue = "true",
-            DefaultValueAsSourceCode = true,
-        };
-
         /// <inheritdoc/>
         public override AttributeTargets AttributeTargets
             => AttributeTargets.Interface;
@@ -72,8 +63,7 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.PostInitAction.At
             {
                 Description,
                 InterfaceInItemType,
-                InterfaceOutItemType,
-                IsImplementDeepCloneableList
+                InterfaceOutItemType
             };
 
         private RestrictedCapacityListInterfaceTemplatedAttribute()

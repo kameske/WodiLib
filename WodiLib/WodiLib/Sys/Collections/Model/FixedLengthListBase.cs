@@ -25,8 +25,7 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="TImpl">リスト実装型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class FixedLengthListBase<T, TImpl> : ModelBase<TImpl>,
-        IFixedLengthList<T, T>,
-        IDeepCloneableList<TImpl, T>
+        IFixedLengthList<T, T>
         where TImpl : FixedLengthListBase<T, TImpl>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -265,21 +264,6 @@ namespace WodiLib.Sys.Collections
         {
             var cloneItems = Items.DeepClone();
             return MakeInstance(cloneItems);
-        }
-
-        /// <inheritdoc/>
-        public TImpl DeepCloneWith<TItem>(ListDeepCloneParam<TItem> param) where TItem : T
-        {
-            ThrowHelper.ValidateArgumentNotNull(param is null, nameof(param));
-
-            // 長さを変更させないよう、パラメータを詰め替える
-            var newParam = param with
-            {
-                Length = null
-            };
-
-            var clonedItems = Items.DeepCloneWith(newParam);
-            return MakeInstance(clonedItems);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

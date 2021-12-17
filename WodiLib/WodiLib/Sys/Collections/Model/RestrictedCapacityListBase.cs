@@ -25,8 +25,7 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="TImpl">リスト実装型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract partial class RestrictedCapacityListBase<T, TImpl> : ModelBase<TImpl>,
-        IRestrictedCapacityList<T>,
-        IDeepCloneableList<TImpl, T>
+        IRestrictedCapacityList<T>
         where TImpl : RestrictedCapacityListBase<T, TImpl>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -373,29 +372,6 @@ namespace WodiLib.Sys.Collections
         public override TImpl DeepClone()
         {
             var clonedItems = Items.DeepClone();
-            return MakeInstance(clonedItems);
-        }
-
-        /// <inheritdoc/>
-        public TImpl DeepCloneWith<TItem>(ListDeepCloneParam<TItem> param) where TItem : T
-        {
-            ThrowHelper.ValidateArgumentNotNull(param is null, nameof(param));
-
-            if (param.Length is not null)
-            {
-                var length = param.Length.Value;
-
-                var max = GetMaxCapacity();
-                var min = GetMinCapacity();
-                ThrowHelper.ValidateArgumentValueRange(
-                    !length.IsBetween(min, max),
-                    $"{nameof(param)}.{nameof(param.Length)}",
-                    length,
-                    min,
-                    max);
-            }
-
-            var clonedItems = Items.DeepCloneWith(param);
             return MakeInstance(clonedItems);
         }
 

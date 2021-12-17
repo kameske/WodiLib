@@ -24,8 +24,7 @@ namespace WodiLib.Sys.Collections
     /// </remarks>
     /// <typeparam name="T">リスト内包クラス</typeparam>
     internal partial class ExtendedList<T> : ModelBase<ExtendedList<T>>,
-        IExtendedList<T>,
-        IDeepCloneableList<ExtendedList<T>, T>
+        IExtendedList<T>
     {
         /*
          * WodiLib 内部で使用する独自汎用リスト。
@@ -294,16 +293,6 @@ namespace WodiLib.Sys.Collections
         /// <inheritdoc/>
         public bool ItemEquals<TOther>(IEnumerable<TOther>? other, IEqualityComparer<TOther>? itemComparer)
             => Items.ItemEquals(other, itemComparer);
-
-        /// <inheritdoc cref="IDeepCloneableList{T,TIn}.DeepCloneWith{TItem}"/>
-        public ExtendedList<T> DeepCloneWith<TItem>(ListDeepCloneParam<TItem> param)
-            where TItem : T
-        {
-            ThrowHelper.ValidateArgumentNotNull(param is null, nameof(param));
-
-            var cloneItems = Items.DeepCloneWith(param);
-            return new ExtendedList<T>(cloneItems);
-        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Interface Implementation

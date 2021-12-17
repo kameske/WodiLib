@@ -29,8 +29,7 @@ namespace WodiLib.Sys.Collections
         IWritableTwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem>,
         ISizeChangeableTwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem>,
         INotifiableCollectionChange<TOutRow>,
-        IEqualityComparable<ITwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem>>,
-        IDeepCloneableTwoDimensionalListInternal<ITwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem>, TInItem>
+        IEqualityComparable<ITwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem>>
         where TOutRow : IEnumerable<TOutItem>
         where TInRow : IEnumerable<TInItem>, TOutRow
         where TInItem : TOutItem
