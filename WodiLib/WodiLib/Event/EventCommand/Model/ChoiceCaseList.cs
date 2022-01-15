@@ -43,7 +43,8 @@ namespace WodiLib.Event.EventCommand
             {
                 if (value < 1 || 12 < value)
                     throw new PropertyOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(CaseValue), 1, 12, value));
+                        ErrorMessage.OutOfRange(nameof(CaseValue), 1, 12, value)
+                    );
                 caseValue = value;
             }
         }
@@ -59,7 +60,8 @@ namespace WodiLib.Event.EventCommand
         {
             if (index < 0 || CaseValue <= index)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(index), 0, CaseValue - 1, index));
+                    ErrorMessage.OutOfRange(nameof(index), 0, CaseValue - 1, index)
+                );
             return this[index];
         }
 
@@ -75,10 +77,12 @@ namespace WodiLib.Event.EventCommand
         {
             if (index < 0 || CaseValue <= index)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(index), 0, CaseValue - 1, index));
+                    ErrorMessage.OutOfRange(nameof(index), 0, CaseValue - 1, index)
+                );
             if (src is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(src)));
+                    ErrorMessage.NotNull(nameof(src))
+                );
             this[index] = src;
         }
 
@@ -107,6 +111,9 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc />
+        protected override int GetCapacity() => Capacity;
 
         /// <inheritdoc />
         protected override string MakeDefaultItem(int index) => "";

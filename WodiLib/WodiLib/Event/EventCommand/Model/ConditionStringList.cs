@@ -44,7 +44,8 @@ namespace WodiLib.Event.EventCommand
             {
                 if (value < 1 || Capacity < value)
                     throw new PropertyOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(ConditionValue), 1, 4, value));
+                        ErrorMessage.OutOfRange(nameof(ConditionValue), 1, 4, value)
+                    );
                 conditionValue = value;
                 NotifyPropertyChanged();
             }
@@ -106,6 +107,9 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc/>
+        protected override int GetCapacity() => Capacity;
 
         /// <inheritdoc />
         /// <summary>

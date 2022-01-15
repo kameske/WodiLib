@@ -17,7 +17,11 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="T">リスト要素型</typeparam>
     internal class FixedLengthListValidator<T> : FixedLengthListValidator<T, T>
     {
-        public FixedLengthListValidator(IFixedLengthList<T, T> target) : base(target)
+        public FixedLengthListValidator(IFixedLengthList<T, T> target, int capacity) : base(target, capacity)
+        {
+        }
+
+        public FixedLengthListValidator(IFixedLengthList<T, T> target, Func<int> capacityGetter) : base(target, capacityGetter)
         {
         }
     }
@@ -34,40 +38,85 @@ namespace WodiLib.Sys.Collections
 
         private new IFixedLengthList<TIn, TOut> Target { get; }
 
-        public FixedLengthListValidator(IFixedLengthList<TIn, TOut> target) : base(target)
+        private ICapacityGetter Capacity { get; }
+
+        public FixedLengthListValidator(IFixedLengthList<TIn, TOut> target, int capacity) : base(target)
         {
             Target = target;
+            Capacity = new ICapacityGetter.ForStaticValue(capacity);
             BaseValidator = new CommonListValidator<TIn, TOut>(target);
         }
 
-        public override void Reset(IReadOnlyList<TIn> items)
+        public FixedLengthListValidator(IFixedLengthList<TIn, TOut> target, Func<int> capacityGetter) : base(target)
         {
-            BaseValidator?.Reset(items);
-            FixedLengthListValidationHelper.ItemCount(items.Count, Target.Count);
+            Target = target;
+            Capacity = new ICapacityGetter.ForGetter(capacityGetter);
+            BaseValidator = new CommonListValidator<TIn, TOut>(target);
         }
 
-        public override void Insert(int index, TIn item)
+        public override void Constructor(NamedValue<IReadOnlyList<TIn>> initItems)
+        {
+            BaseValidator?.Constructor(initItems);
+            FixedLengthListValidationHelper.ItemCount(initItems.Value.Count, Capacity.Get());
+        }
+
+        public override void Reset(NamedValue<IReadOnlyList<TIn>> items)
+        {
+            BaseValidator?.Reset(items);
+            FixedLengthListValidationHelper.ItemCount(items.Value.Count, Capacity.Get());
+        }
+
+        public override void Insert(NamedValue<int> index, NamedValue<TIn> item)
             => throw new NotSupportedException();
 
-        public override void Insert(int index, IReadOnlyList<TIn> items)
+        public override void Insert(NamedValue<int> index, NamedValue<IReadOnlyList<TIn>> items)
             => throw new NotSupportedException();
 
-        public override void Overwrite(int index, IReadOnlyList<TIn> items)
+        public override void Overwrite(NamedValue<int> index, NamedValue<IReadOnlyList<TIn>> items)
             => throw new NotSupportedException();
 
-        public override void Remove(TIn? item)
+        public override void Remove(NamedValue<TIn?> item)
             => throw new NotSupportedException();
 
-        public override void Remove(int index, int count)
+        public override void Remove(NamedValue<int> index, NamedValue<int> count)
             => throw new NotSupportedException();
 
-        public override void AdjustLength(int length)
+        public override void AdjustLength(NamedValue<int> length)
             => throw new NotSupportedException();
 
-        public override void AdjustLengthIfShort(int length)
+        public override void AdjustLengthIfShort(NamedValue<int> length)
             => throw new NotSupportedException();
 
-        public override void AdjustLengthIfLong(int length)
+        public override void AdjustLengthIfLong(NamedValue<int> length)
             => throw new NotSupportedException();
+
+        private interface ICapacityGetter
+        {
+            public int Get();
+
+            public class ForStaticValue : ICapacityGetter
+            {
+                private readonly int value;
+
+                public ForStaticValue(int capacity)
+                {
+                    value = capacity;
+                }
+
+                public int Get() => value;
+            }
+
+            public class ForGetter : ICapacityGetter
+            {
+                private readonly Func<int> getter;
+
+                public ForGetter(Func<int> getter)
+                {
+                    this.getter = getter;
+                }
+
+                public int Get() => getter.Invoke();
+            }
+        }
     }
 }

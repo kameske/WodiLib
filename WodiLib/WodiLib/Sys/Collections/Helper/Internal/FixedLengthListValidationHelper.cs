@@ -27,18 +27,5 @@ namespace WodiLib.Sys.Collections
             ThrowHelper.ValidateArgumentNotExecute(count != capacity,
                 () => ErrorMessage.NotEqual($"{itemName}の要素数", $"適切な要素数({capacity})"));
         }
-
-        /// <summary>
-        ///     容量設定を検証する。
-        /// </summary>
-        /// <param name="capacity">容量</param>
-        /// <exception cref="InvalidOperationException">
-        ///     <paramref name="capacity"/> が 0 未満の場合。
-        /// </exception>
-        public static void CapacityConfig(int capacity)
-        {
-            ThrowHelper.InvalidOperationIf(capacity < 0,
-                () => ErrorMessage.GreaterOrEqual("Capacity", 0, capacity));
-        }
     }
 }

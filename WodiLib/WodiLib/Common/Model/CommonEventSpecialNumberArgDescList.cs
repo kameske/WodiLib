@@ -45,6 +45,9 @@ namespace WodiLib.Common
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        /// <inheritdoc/>
+        protected override int GetCapacity() => Capacity;
+
         /// <inheritdoc />
         /// <summary>
         /// 格納対象のデフォルトインスタンスを生成する。

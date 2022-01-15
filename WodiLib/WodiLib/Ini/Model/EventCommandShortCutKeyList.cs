@@ -20,7 +20,8 @@ namespace WodiLib.Ini
     /// イベントコマンドショートカットキーリスト
     /// </summary>
     public class EventCommandShortCutKeyList : FixedLengthList<EventCommandShortCutKey, EventCommandShortCutKeyList>,
-        IFixedLengthEventCommandShortCutKeyList, IEquatable<EventCommandShortCutKeyList>
+        IFixedLengthEventCommandShortCutKeyList,
+        IEquatable<EventCommandShortCutKeyList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -47,9 +48,9 @@ namespace WodiLib.Ini
                 $"同じキーが複数登録されています。({command})";
 
             public static string Invalid() =>
-                "現在使用されていないコマンド（インデックス19~29）のショートカットキーには" +
-                $"${nameof(EventCommandShortCutKey)}.{nameof(EventCommandShortCutKey.None)}が" +
-                "設定されている必要があります。";
+                "現在使用されていないコマンド（インデックス19~29）のショートカットキーには"
+                + $"${nameof(EventCommandShortCutKey)}.{nameof(EventCommandShortCutKey.None)}が"
+                + "設定されている必要があります。";
         }
 
         /// <summary>使用中のインデックス最大値</summary>
@@ -98,7 +99,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Message)));
+                        ErrorMessage.NotNull(nameof(Message))
+                    );
                 this[IndexMessage] = value;
             }
         }
@@ -114,7 +116,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Choice)));
+                        ErrorMessage.NotNull(nameof(Choice))
+                    );
                 this[IndexChoice] = value;
             }
         }
@@ -130,7 +133,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(SetVariable)));
+                        ErrorMessage.NotNull(nameof(SetVariable))
+                    );
                 this[IndexSetVariable] = value;
             }
         }
@@ -146,7 +150,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(DBManagement)));
+                        ErrorMessage.NotNull(nameof(DBManagement))
+                    );
                 this[IndexDbManagement] = value;
             }
         }
@@ -162,7 +167,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(SetString)));
+                        ErrorMessage.NotNull(nameof(SetString))
+                    );
                 this[IndexSetString] = value;
             }
         }
@@ -178,7 +184,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(SetVariablePlus)));
+                        ErrorMessage.NotNull(nameof(SetVariablePlus))
+                    );
                 this[IndexSetVariablePlus] = value;
             }
         }
@@ -194,7 +201,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(ConditionNumber)));
+                        ErrorMessage.NotNull(nameof(ConditionNumber))
+                    );
                 this[IndexConditionNumber] = value;
             }
         }
@@ -210,7 +218,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(ConditionString)));
+                        ErrorMessage.NotNull(nameof(ConditionString))
+                    );
                 this[IndexConditionString] = value;
             }
         }
@@ -226,7 +235,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(KeyInput)));
+                        ErrorMessage.NotNull(nameof(KeyInput))
+                    );
                 this[IndexKeyInput] = value;
             }
         }
@@ -242,7 +252,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Picture)));
+                        ErrorMessage.NotNull(nameof(Picture))
+                    );
                 this[IndexPicture] = value;
             }
         }
@@ -258,7 +269,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Effect)));
+                        ErrorMessage.NotNull(nameof(Effect))
+                    );
                 this[IndexEffect] = value;
             }
         }
@@ -274,7 +286,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Sound)));
+                        ErrorMessage.NotNull(nameof(Sound))
+                    );
                 this[IndexSound] = value;
             }
         }
@@ -290,7 +303,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(SaveAndLoad)));
+                        ErrorMessage.NotNull(nameof(SaveAndLoad))
+                    );
                 this[IndexSaveAndLoad] = value;
             }
         }
@@ -306,7 +320,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(PartyGraphic)));
+                        ErrorMessage.NotNull(nameof(PartyGraphic))
+                    );
                 this[IndexPartyGraphic] = value;
             }
         }
@@ -322,7 +337,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(MapChip)));
+                        ErrorMessage.NotNull(nameof(MapChip))
+                    );
                 this[IndexMapChip] = value;
             }
         }
@@ -338,7 +354,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Transfer)));
+                        ErrorMessage.NotNull(nameof(Transfer))
+                    );
                 this[IndexTransfer] = value;
             }
         }
@@ -354,7 +371,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(EventControl)));
+                        ErrorMessage.NotNull(nameof(EventControl))
+                    );
                 this[IndexEventControl] = value;
             }
         }
@@ -370,7 +388,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(CommonEvent)));
+                        ErrorMessage.NotNull(nameof(CommonEvent))
+                    );
                 this[IndexCommonEvent] = value;
             }
         }
@@ -386,7 +405,8 @@ namespace WodiLib.Ini
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Download)));
+                        ErrorMessage.NotNull(nameof(Download))
+                    );
                 this[IndexDownload] = value;
             }
         }
@@ -499,39 +519,41 @@ namespace WodiLib.Ini
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public EventCommandShortCutKeyList() : this(new[]
-        {
-            EventCommandShortCutKey.One,
-            EventCommandShortCutKey.Two,
-            EventCommandShortCutKey.Three,
-            EventCommandShortCutKey.Four,
-            EventCommandShortCutKey.Five,
-            EventCommandShortCutKey.Six,
-            EventCommandShortCutKey.Seven,
-            EventCommandShortCutKey.Eight,
-            EventCommandShortCutKey.Nine,
-            EventCommandShortCutKey.A,
-            EventCommandShortCutKey.B,
-            EventCommandShortCutKey.C,
-            EventCommandShortCutKey.D,
-            EventCommandShortCutKey.E,
-            EventCommandShortCutKey.F,
-            EventCommandShortCutKey.G,
-            EventCommandShortCutKey.H,
-            EventCommandShortCutKey.I,
-            EventCommandShortCutKey.J,
-            EventCommandShortCutKey.None,
-            EventCommandShortCutKey.None,
-            EventCommandShortCutKey.None,
-            EventCommandShortCutKey.None,
-            EventCommandShortCutKey.None,
-            EventCommandShortCutKey.None,
-            EventCommandShortCutKey.None,
-            EventCommandShortCutKey.None,
-            EventCommandShortCutKey.None,
-            EventCommandShortCutKey.None,
-            EventCommandShortCutKey.None,
-        })
+        public EventCommandShortCutKeyList() : this(
+            new[]
+            {
+                EventCommandShortCutKey.One,
+                EventCommandShortCutKey.Two,
+                EventCommandShortCutKey.Three,
+                EventCommandShortCutKey.Four,
+                EventCommandShortCutKey.Five,
+                EventCommandShortCutKey.Six,
+                EventCommandShortCutKey.Seven,
+                EventCommandShortCutKey.Eight,
+                EventCommandShortCutKey.Nine,
+                EventCommandShortCutKey.A,
+                EventCommandShortCutKey.B,
+                EventCommandShortCutKey.C,
+                EventCommandShortCutKey.D,
+                EventCommandShortCutKey.E,
+                EventCommandShortCutKey.F,
+                EventCommandShortCutKey.G,
+                EventCommandShortCutKey.H,
+                EventCommandShortCutKey.I,
+                EventCommandShortCutKey.J,
+                EventCommandShortCutKey.None,
+                EventCommandShortCutKey.None,
+                EventCommandShortCutKey.None,
+                EventCommandShortCutKey.None,
+                EventCommandShortCutKey.None,
+                EventCommandShortCutKey.None,
+                EventCommandShortCutKey.None,
+                EventCommandShortCutKey.None,
+                EventCommandShortCutKey.None,
+                EventCommandShortCutKey.None,
+                EventCommandShortCutKey.None,
+            }
+        )
         {
         }
 
@@ -620,8 +642,10 @@ namespace WodiLib.Ini
         public bool ValidateDuplicateKey([NotNullWhen(false)] out string? errorMsg)
         {
             var cloneList = this.Where(x => !x.Equals(EventCommandShortCutKey.None)).ToList();
-            cloneList.Sort((left, right) =>
-                String.Compare(left.Code, right.Code, StringComparison.CurrentCultureIgnoreCase));
+            cloneList.Sort(
+                (left, right) =>
+                    String.Compare(left.Code, right.Code, StringComparison.CurrentCultureIgnoreCase)
+            );
 
             for (var i = 1; i < cloneList.Count; i++)
             {
@@ -663,6 +687,9 @@ namespace WodiLib.Ini
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc/>
+        protected override int GetCapacity() => Capacity;
 
         /// <inheritdoc />
         /// <summary>

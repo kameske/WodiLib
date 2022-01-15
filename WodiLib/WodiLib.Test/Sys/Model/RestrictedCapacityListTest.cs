@@ -2924,6 +2924,8 @@ namespace WodiLib.Test.Sys
             {
                 throw new Exception();
             }
+
+            protected override int GetCapacity() => 10;
         }
 
         private class ListTest8 : AbsListTest<ListTest8>

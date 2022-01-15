@@ -37,7 +37,8 @@ namespace WodiLib.Common
         /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
         /// <exception cref="InvalidOperationException">itemsの要素数が5以外の場合</exception>
         public CommonEventSpecialStringArgDescList(
-            IEnumerable<CommonEventSpecialStringArgDesc> items)
+            IEnumerable<CommonEventSpecialStringArgDesc> items
+        )
             : base(items)
         {
         }
@@ -45,6 +46,9 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc/>
+        protected override int GetCapacity() => Capacity;
 
         /// <inheritdoc />
         /// <summary>

@@ -98,6 +98,9 @@ namespace WodiLib.Map
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        /// <inheritdoc/>
+        protected override int GetCapacity() => Capacity;
+
         /// <inheritdoc />
         protected override AutoTileFileName MakeDefaultItem(int index) => "";
 

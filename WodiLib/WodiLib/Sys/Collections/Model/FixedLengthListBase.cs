@@ -297,6 +297,12 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
+        /// 自身の容量を返す。
+        /// </summary>
+        /// <returns>容量</returns>
+        protected abstract int GetCapacity();
+
+        /// <summary>
         ///     自身の内部リストが通知する IndexerName プロパティ変更通知のプロパティ名を変換する。
         /// </summary>
         /// <remarks>

@@ -46,7 +46,8 @@ namespace WodiLib.Common
         /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
         /// <exception cref="InvalidOperationException">itemsの要素数が100以外の場合</exception>
         public CommonEventSelfVariableNameList(
-            IEnumerable<CommonEventSelfVariableName> items)
+            IEnumerable<CommonEventSelfVariableName> items
+        )
             : base(items)
         {
         }
@@ -54,6 +55,9 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc/>
+        protected override int GetCapacity() => Capacity;
 
         /// <inheritdoc />
         /// <summary>
@@ -106,14 +110,7 @@ namespace WodiLib.Common
             /// <param name="target">対象</param>
             public Validator(CommonEventSelfVariableNameList target) : base(target)
             {
-                BaseValidator = new FixedLengthListValidator<CommonEventSelfVariableName>(target);
-            }
-
-            /// <inheritdoc/>
-            public override void Constructor(IReadOnlyList<CommonEventSelfVariableName> initItems)
-            {
-                BaseValidator?.Constructor(initItems);
-                FixedLengthListValidationHelper.ItemCount(initItems.Count, Capacity);
+                BaseValidator = new FixedLengthListValidator<CommonEventSelfVariableName>(target, Capacity);
             }
         }
     }
