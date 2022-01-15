@@ -88,6 +88,11 @@ namespace WodiLib.Sys
             }
         }
 
+        /// <summary>
+        /// 生成元のコンテナキー名（コンテナから生成されていない場合 <see langword="null"/>）
+        /// </summary>
+        public WodiLibContainerKeyName ContainerKeyName { get; init; } = WodiLibContainer.TargetKeyName;
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -117,6 +122,19 @@ namespace WodiLib.Sys
         {
             NotifyPropertyChangingEventType = src.NotifyPropertyChangingEventType;
             NotifyPropertyChangedEventType = src.NotifyPropertyChangingEventType;
+        }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="param">初期化パラメータ</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="param"/> が <see langword="null"/> の場合。
+        /// </exception>
+        protected ModelBase(IContainerCreatableParam param)
+        {
+            ThrowHelper.ValidateArgumentNotNull(param is null, nameof(param));
+            ContainerKeyName = param.ContainerKeyName;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

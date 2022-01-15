@@ -58,11 +58,16 @@ namespace WodiLib.Test.Sys
             logger = Logger.GetInstance();
 
             // テスト用メソッドをコンテナに登録
-            WodiLibContainer.Register<IContainerCreatableNoParam>(() => new ContainerCreatableNoParam(),
-                WodiLibContainer.Lifetime.Transient, TestContainerName_HasCreateMethodTest);
+            WodiLibContainer.Register<IContainerCreatableNoParam>(
+                () => new ContainerCreatableNoParam(),
+                WodiLibContainer.Lifetime.Transient,
+                TestContainerName_HasCreateMethodTest
+            );
             WodiLibContainer.Register<IContainerCreatableHasParam, IContainerCreatableInitParam>(
-                param => new ContainerCreatableHasParam(param), WodiLibContainer.Lifetime.Transient,
-                TestContainerName_HasCreateMethodTest);
+                param => new ContainerCreatableHasParam(param),
+                WodiLibContainer.Lifetime.Transient,
+                TestContainerName_HasCreateMethodTest
+            );
         }
 
         [TestCase(false, false)]
@@ -108,9 +113,11 @@ namespace WodiLib.Test.Sys
                 {
                     nameof(IContainerCreatableNoParam) =>
                         WodiLibContainer.HasCreateMethod<IContainerCreatableNoParam>(
-                            TestContainerName_HasCreateMethodTest),
+                            TestContainerName_HasCreateMethodTest
+                        ),
                     nameof(IContainerCreatableNoImpl) => WodiLibContainer.HasCreateMethod<IContainerCreatableNoImpl>(
-                        TestContainerName_HasCreateMethodTest),
+                        TestContainerName_HasCreateMethodTest
+                    ),
                     _ => throw new ArgumentOutOfRangeException(nameof(testIfName), testIfName, null)
                 };
             }
@@ -135,10 +142,12 @@ namespace WodiLib.Test.Sys
                 {
                     nameof(IContainerCreatableHasParam) =>
                         WodiLibContainer.HasCreateMethod<IContainerCreatableHasParam, IContainerCreatableInitParam>(
-                            TestContainerName_HasCreateMethodTest),
+                            TestContainerName_HasCreateMethodTest
+                        ),
                     nameof(IContainerCreatableHasParamNoImpl) => WodiLibContainer
                         .HasCreateMethod<IContainerCreatableHasParamNoImpl, IContainerCreatableInitParam>(
-                            TestContainerName_HasCreateMethodTest),
+                            TestContainerName_HasCreateMethodTest
+                        ),
                     _ => throw new ArgumentOutOfRangeException(nameof(testIfName), testIfName, null)
                 };
             }
@@ -179,8 +188,11 @@ namespace WodiLib.Test.Sys
         public static void ChangeTargetKeyTest()
         {
             // デフォルトキー にテスト用の情報を登録する
-            WodiLibContainer.Register<IContainerCreatableCustom>(() => new ContainerCreatableCustom1(),
-                WodiLibContainer.Lifetime.Transient, WodiLibContainer.DefaultKeyName);
+            WodiLibContainer.Register<IContainerCreatableCustom>(
+                () => new ContainerCreatableCustom1(),
+                WodiLibContainer.Lifetime.Transient,
+                WodiLibContainer.DefaultKeyName
+            );
 
             // ターゲットキー切り替え
             WodiLibContainer.ChangeTargetKey(TestContainerName_ChangeTestA);
@@ -189,13 +201,15 @@ namespace WodiLib.Test.Sys
             {
                 // 前提として、デフォルトキーに情報が登録されていること（登録した情報が消えていないこと）
                 Assert.IsTrue(
-                    WodiLibContainer.HasCreateMethod<IContainerCreatableCustom>(WodiLibContainer.DefaultKeyName));
+                    WodiLibContainer.HasCreateMethod<IContainerCreatableCustom>(WodiLibContainer.DefaultKeyName)
+                );
                 // 前提として、現在のターゲットキー名が切り替えたキー名と一致すること
                 Assert.IsTrue(((string)WodiLibContainer.TargetKeyName).Equals((string)TestContainerName_ChangeTestA));
 
                 // キー情報が存在すること
                 Assert.IsTrue(
-                    WodiLibContainer.HasCreateMethod<IContainerCreatableCustom>(TestContainerName_ChangeTestA));
+                    WodiLibContainer.HasCreateMethod<IContainerCreatableCustom>(TestContainerName_ChangeTestA)
+                );
 
                 // ライフタイムが Transient であること（2つのインスタンスを生成して同一参照ではないことを確認）
                 var instanceA = WodiLibContainer.Resolve<IContainerCreatableCustom>();
@@ -205,8 +219,11 @@ namespace WodiLib.Test.Sys
 
             // デフォルトキーの情報を更新
             {
-                WodiLibContainer.Register<IContainerCreatableCustom>(() => new ContainerCreatableCustom2(),
-                    WodiLibContainer.Lifetime.Container, WodiLibContainer.DefaultKeyName);
+                WodiLibContainer.Register<IContainerCreatableCustom>(
+                    () => new ContainerCreatableCustom2(),
+                    WodiLibContainer.Lifetime.Container,
+                    WodiLibContainer.DefaultKeyName
+                );
 
                 // TestContainerName_ChangeTestA の登録情報が変化していないこと（2つのインスタンスを生成して同一参照ではないことを確認）
                 var instanceA = WodiLibContainer.Resolve<IContainerCreatableCustom>();
@@ -228,13 +245,15 @@ namespace WodiLib.Test.Sys
             {
                 // 前提として、デフォルトキーに情報が登録されていること（登録した情報が消えていないこと）
                 Assert.IsTrue(
-                    WodiLibContainer.HasCreateMethod<IContainerCreatableCustom>(WodiLibContainer.DefaultKeyName));
+                    WodiLibContainer.HasCreateMethod<IContainerCreatableCustom>(WodiLibContainer.DefaultKeyName)
+                );
                 // 前提として、現在のターゲットキー名が切り替えたキー名と一致すること
                 Assert.IsTrue(((string)WodiLibContainer.TargetKeyName).Equals((string)TestContainerName_ChangeTestB));
 
                 // キー情報が存在すること
                 Assert.IsTrue(
-                    WodiLibContainer.HasCreateMethod<IContainerCreatableCustom>(TestContainerName_ChangeTestB));
+                    WodiLibContainer.HasCreateMethod<IContainerCreatableCustom>(TestContainerName_ChangeTestB)
+                );
 
                 // ライフタイムが Container であること（2つのインスタンスを生成して同一参照であることを確認）
                 var instanceA = WodiLibContainer.Resolve<IContainerCreatableCustom>();
@@ -345,8 +364,11 @@ namespace WodiLib.Test.Sys
                 var errorOccured = false;
                 try
                 {
-                    WodiLibContainer.Register<IContainerCreatableNoParam>(() => new ContainerCreatableNoParam(),
-                        WodiLibContainer.Lifetime.Container, testKey);
+                    WodiLibContainer.Register<IContainerCreatableNoParam>(
+                        () => new ContainerCreatableNoParam(),
+                        WodiLibContainer.Lifetime.Container,
+                        testKey
+                    );
                 }
                 catch (Exception ex)
                 {
@@ -374,8 +396,11 @@ namespace WodiLib.Test.Sys
 
             // 事前準備：テスト用のコンテナ作成 & 上書き前情報登録
             WodiLibContainer.AddContainerIfNotHas(testKey);
-            WodiLibContainer.Register<IContainerCreatableNoParam>(() => new ContainerCreatableNoParam(),
-                WodiLibContainer.Lifetime.Container, testKey);
+            WodiLibContainer.Register<IContainerCreatableNoParam>(
+                () => new ContainerCreatableNoParam(),
+                WodiLibContainer.Lifetime.Container,
+                testKey
+            );
 
             // 前提条件：コンテナが存在すること & ライフタイムが Container あること ＝ 新規取得したインスタンスが既存インスタンスと同一参照であること
             Assert.IsTrue(WodiLibContainer.HasContainer(testKey));
@@ -388,8 +413,11 @@ namespace WodiLib.Test.Sys
                 var errorOccured = false;
                 try
                 {
-                    WodiLibContainer.Register<IContainerCreatableNoParam>(() => new ContainerCreatableNoParam(),
-                        WodiLibContainer.Lifetime.Transient, testKey);
+                    WodiLibContainer.Register<IContainerCreatableNoParam>(
+                        () => new ContainerCreatableNoParam(),
+                        WodiLibContainer.Lifetime.Transient,
+                        testKey
+                    );
                 }
                 catch (Exception ex)
                 {
@@ -426,7 +454,10 @@ namespace WodiLib.Test.Sys
                 try
                 {
                     WodiLibContainer.Register<IContainerCreatableHasParam, IContainerCreatableInitParam>(
-                        p => new ContainerCreatableHasParam(p), WodiLibContainer.Lifetime.Container, testKey);
+                        p => new ContainerCreatableHasParam(p),
+                        WodiLibContainer.Lifetime.Container,
+                        testKey
+                    );
                 }
                 catch (Exception ex)
                 {
@@ -444,10 +475,14 @@ namespace WodiLib.Test.Sys
             // 情報が登録されていること & ライフタイムが Container あること ＝ 新規取得したインスタンスが既存インスタンスと同一参照であること
             var instanceA =
                 WodiLibContainer.Resolve<IContainerCreatableHasParam, IContainerCreatableInitParam>(
-                    new ContainerCreatableHasParam.InitParam(), testKey);
+                    new ContainerCreatableHasParam.InitParam(),
+                    testKey
+                );
             var instanceB =
                 WodiLibContainer.Resolve<IContainerCreatableHasParam, IContainerCreatableInitParam>(
-                    new ContainerCreatableHasParam.InitParam(), testKey);
+                    new ContainerCreatableHasParam.InitParam(),
+                    testKey
+                );
             Assert.IsTrue(ReferenceEquals(instanceA, instanceB));
         }
 
@@ -460,16 +495,22 @@ namespace WodiLib.Test.Sys
             WodiLibContainer.AddContainerIfNotHas(testKey);
             WodiLibContainer.Register<IContainerCreatableHasParam, IContainerCreatableInitParam>(
                 p => new ContainerCreatableHasParam(p),
-                WodiLibContainer.Lifetime.Container, testKey);
+                WodiLibContainer.Lifetime.Container,
+                testKey
+            );
 
             // 前提条件：コンテナが存在すること & ライフタイムが Container あること ＝ 新規取得したインスタンスが既存インスタンスと同一参照であること
             Assert.IsTrue(WodiLibContainer.HasContainer(testKey));
             var instanceA =
                 WodiLibContainer.Resolve<IContainerCreatableHasParam, IContainerCreatableInitParam>(
-                    new ContainerCreatableHasParam.InitParam(), testKey);
+                    new ContainerCreatableHasParam.InitParam(),
+                    testKey
+                );
             var instanceB =
                 WodiLibContainer.Resolve<IContainerCreatableHasParam, IContainerCreatableInitParam>(
-                    new ContainerCreatableHasParam.InitParam(), testKey);
+                    new ContainerCreatableHasParam.InitParam(),
+                    testKey
+                );
             Assert.IsTrue(ReferenceEquals(instanceA, instanceB));
 
             // 情報登録
@@ -478,7 +519,10 @@ namespace WodiLib.Test.Sys
                 try
                 {
                     WodiLibContainer.Register<IContainerCreatableHasParam, IContainerCreatableInitParam>(
-                        p => new ContainerCreatableHasParam(p), WodiLibContainer.Lifetime.Transient, testKey);
+                        p => new ContainerCreatableHasParam(p),
+                        WodiLibContainer.Lifetime.Transient,
+                        testKey
+                    );
                 }
                 catch (Exception ex)
                 {
@@ -494,13 +538,18 @@ namespace WodiLib.Test.Sys
             Assert.IsTrue(WodiLibContainer.HasContainer(testKey));
             // 情報が更新されていること（ライフタイムが Transient であること ＝ 新規取得したインスタンスが既存インスタンスと同一参照ではないこと ）
             Assert.IsTrue(
-                WodiLibContainer.HasCreateMethod<IContainerCreatableHasParam, IContainerCreatableInitParam>(testKey));
+                WodiLibContainer.HasCreateMethod<IContainerCreatableHasParam, IContainerCreatableInitParam>(testKey)
+            );
             var instanceC =
                 WodiLibContainer.Resolve<IContainerCreatableHasParam, IContainerCreatableInitParam>(
-                    new ContainerCreatableHasParam.InitParam(), testKey);
+                    new ContainerCreatableHasParam.InitParam(),
+                    testKey
+                );
             var instanceD =
                 WodiLibContainer.Resolve<IContainerCreatableHasParam, IContainerCreatableInitParam>(
-                    new ContainerCreatableHasParam.InitParam(), testKey);
+                    new ContainerCreatableHasParam.InitParam(),
+                    testKey
+                );
             Assert.IsFalse(ReferenceEquals(instanceA, instanceC));
             Assert.IsFalse(ReferenceEquals(instanceA, instanceD));
             Assert.IsFalse(ReferenceEquals(instanceC, instanceD));
@@ -516,8 +565,11 @@ namespace WodiLib.Test.Sys
             Assert.IsFalse(WodiLibContainer.HasCreateMethod<IContainerCreatableNoParam>(testKey));
 
             // 初回
-            WodiLibContainer.Register<IContainerCreatableNoParam>(() => new ContainerCreatableNoParam(),
-                WodiLibContainer.Lifetime.Container, testKey);
+            WodiLibContainer.Register<IContainerCreatableNoParam>(
+                () => new ContainerCreatableNoParam(),
+                WodiLibContainer.Lifetime.Container,
+                testKey
+            );
 
             // ライフタイムが Container であること（2つのインスタンスを生成して同一参照であることを確認）
             var instanceA =
@@ -527,8 +579,11 @@ namespace WodiLib.Test.Sys
             Assert.IsTrue(ReferenceEquals(instanceA, instanceB));
 
             // 二回目
-            WodiLibContainer.RegisterIfNotHas<IContainerCreatableNoParam>(() => new ContainerCreatableNoParam(),
-                WodiLibContainer.Lifetime.Transient, testKey);
+            WodiLibContainer.RegisterIfNotHas<IContainerCreatableNoParam>(
+                () => new ContainerCreatableNoParam(),
+                WodiLibContainer.Lifetime.Transient,
+                testKey
+            );
 
             // 上書きされていないこと（ライフタイムが Container のままであること ＝ 新規取得したインスタンスが既存インスタンスと同一参照であること ）
             var instanceC =
@@ -543,28 +598,40 @@ namespace WodiLib.Test.Sys
 
             // 前提条件：未登録であること
             Assert.False(
-                WodiLibContainer.HasCreateMethod<IContainerCreatableHasParam, IContainerCreatableInitParam>(testKey));
+                WodiLibContainer.HasCreateMethod<IContainerCreatableHasParam, IContainerCreatableInitParam>(testKey)
+            );
 
             // 初回
             WodiLibContainer.Register<IContainerCreatableHasParam, IContainerCreatableInitParam>(
                 p => new ContainerCreatableHasParam(p),
-                WodiLibContainer.Lifetime.Container, testKey);
+                WodiLibContainer.Lifetime.Container,
+                testKey
+            );
 
             // ライフタイムが Container であること（2つのインスタンスを生成して同一参照であることを確認）
             var instanceA = WodiLibContainer.Resolve<IContainerCreatableHasParam, IContainerCreatableInitParam>(
-                new ContainerCreatableHasParam.InitParam(), testKey);
+                new ContainerCreatableHasParam.InitParam(),
+                testKey
+            );
             var instanceB = WodiLibContainer.Resolve<IContainerCreatableHasParam, IContainerCreatableInitParam>(
-                new ContainerCreatableHasParam.InitParam(), testKey);
+                new ContainerCreatableHasParam.InitParam(),
+                testKey
+            );
             Assert.IsTrue(ReferenceEquals(instanceA, instanceB));
 
             // 二回目
-            WodiLibContainer.RegisterIfNotHas<IContainerCreatableNoParam>(() => new ContainerCreatableNoParam(),
-                WodiLibContainer.Lifetime.Transient, testKey);
+            WodiLibContainer.RegisterIfNotHas<IContainerCreatableNoParam>(
+                () => new ContainerCreatableNoParam(),
+                WodiLibContainer.Lifetime.Transient,
+                testKey
+            );
 
             // 上書きされていないこと（ライフタイムが Container のままであること ＝ 新規取得したインスタンスが既存インスタンスと同一参照であること ）
             var instanceC =
                 WodiLibContainer.Resolve<IContainerCreatableHasParam, IContainerCreatableInitParam>(
-                    new ContainerCreatableHasParam.InitParam(), testKey);
+                    new ContainerCreatableHasParam.InitParam(),
+                    testKey
+                );
             Assert.IsTrue(ReferenceEquals(instanceA, instanceC));
         }
 
@@ -676,8 +743,11 @@ namespace WodiLib.Test.Sys
             var testKey = TestContainerName_UnregisterMethodTest;
 
             // 事前準備：生成情報登録
-            WodiLibContainer.Register<IContainerCreatableNoParam>(() => new ContainerCreatableNoParam(),
-                WodiLibContainer.Lifetime.Transient, testKey);
+            WodiLibContainer.Register<IContainerCreatableNoParam>(
+                () => new ContainerCreatableNoParam(),
+                WodiLibContainer.Lifetime.Transient,
+                testKey
+            );
 
             // 前提条件：情報が存在すること
             Assert.IsTrue(WodiLibContainer.HasCreateMethod<IContainerCreatableNoParam>(testKey));
@@ -740,11 +810,14 @@ namespace WodiLib.Test.Sys
             // 事前準備：生成情報登録
             WodiLibContainer.Register<IContainerCreatableHasParam, IContainerCreatableInitParam>(
                 p => new ContainerCreatableHasParam(p),
-                WodiLibContainer.Lifetime.Transient, testKey);
+                WodiLibContainer.Lifetime.Transient,
+                testKey
+            );
 
             // 前提条件：情報が存在すること
             Assert.IsTrue(
-                WodiLibContainer.HasCreateMethod<IContainerCreatableHasParam, IContainerCreatableInitParam>(testKey));
+                WodiLibContainer.HasCreateMethod<IContainerCreatableHasParam, IContainerCreatableInitParam>(testKey)
+            );
 
             // 情報除去
             {
@@ -765,7 +838,8 @@ namespace WodiLib.Test.Sys
 
             // 情報が存在しないこと
             Assert.IsFalse(
-                WodiLibContainer.HasCreateMethod<IContainerCreatableHasParam, IContainerCreatableInitParam>(testKey));
+                WodiLibContainer.HasCreateMethod<IContainerCreatableHasParam, IContainerCreatableInitParam>(testKey)
+            );
         }
 
         [Test]
@@ -774,8 +848,10 @@ namespace WodiLib.Test.Sys
             var testKey = TestContainerName_UnregisterMethodTest;
 
             // 前提条件：情報が存在しないこと
-            Assert.IsFalse(WodiLibContainer
-                .HasCreateMethod<IContainerCreatableHasParamNoImpl, IContainerCreatableInitParam>(testKey));
+            Assert.IsFalse(
+                WodiLibContainer
+                    .HasCreateMethod<IContainerCreatableHasParamNoImpl, IContainerCreatableInitParam>(testKey)
+            );
 
             // 情報除去
             {
@@ -783,7 +859,8 @@ namespace WodiLib.Test.Sys
                 try
                 {
                     WodiLibContainer.Unregister<IContainerCreatableHasParamNoImpl, IContainerCreatableInitParam>(
-                        testKey);
+                        testKey
+                    );
                 }
                 catch (Exception ex)
                 {
@@ -796,8 +873,10 @@ namespace WodiLib.Test.Sys
             }
 
             // 情報が存在しないこと
-            Assert.IsFalse(WodiLibContainer
-                .HasCreateMethod<IContainerCreatableHasParamNoImpl, IContainerCreatableInitParam>(testKey));
+            Assert.IsFalse(
+                WodiLibContainer
+                    .HasCreateMethod<IContainerCreatableHasParamNoImpl, IContainerCreatableInitParam>(testKey)
+            );
         }
 
         #region テスト用クラス
@@ -847,7 +926,8 @@ namespace WodiLib.Test.Sys
             {
                 public int IntValue { get; init; }
                 public int StringValue { get; init; }
-                public WodiLibContainerKeyName KeyName { get; set; }
+                public WodiLibContainerKeyName ContainerKeyName { get; init; }
+                    = WodiLibContainer.TargetKeyName;
             }
         }
 

@@ -16,6 +16,6 @@ namespace WodiLib.Sys
         /// <summary>
         ///     初期化時に指定されたコンテナキー名
         /// </summary>
-        public WodiLibContainerKeyName KeyName { get; }
+        public WodiLibContainerKeyName ContainerKeyName { get; }
     }
 }

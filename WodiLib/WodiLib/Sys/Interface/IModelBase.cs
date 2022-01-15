@@ -26,7 +26,9 @@ namespace WodiLib.Sys
     /// <typeparam name="TChild">Model実装クラス型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public interface IReadOnlyModelBase<TChild> : INotifiablePropertyChange,
-        IEqualityComparable<TChild>, IDeepCloneable<TChild>
+        IEqualityComparable<TChild>,
+        IDeepCloneable<TChild>,
+        IContainerCreatableParam
         where TChild : IReadOnlyModelBase<TChild>
     {
     }
