@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -16,14 +17,17 @@ namespace WodiLib.Map
     [CommonMultiValueObject]
     public partial record Position
     {
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
         /// <summary>X座標</summary>
-        public MapCoordinate X { get; init; }
+        public MapCoordinate X { get; init; } = 0;
 
         /// <summary>Y座標</summary>
-        public MapCoordinate Y { get; init; }
+        public MapCoordinate Y { get; init; } = 0;
+
+        [Obsolete]
+        public Position(MapCoordinate x, MapCoordinate y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 }

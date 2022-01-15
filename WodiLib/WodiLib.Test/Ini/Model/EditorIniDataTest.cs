@@ -29,7 +29,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -67,7 +67,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -105,7 +105,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MainWindowPositionTestCaseSource =
         {
-            new object[] { (WindowPosition)(10, 100) }
+            new object[] { new WindowPosition { X = 10, Y = 100 } }
         };
 
         [TestCaseSource(nameof(MainWindowPositionTestCaseSource))]
@@ -113,7 +113,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -141,7 +141,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MainWindowSizeTestCaseSource =
         {
-            new object[] { (WindowSize)(10, 100) }
+            new object[] { new WindowSize { X = 10, Y = 100 } }
         };
 
         [TestCaseSource(nameof(MainWindowSizeTestCaseSource))]
@@ -149,7 +149,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -177,7 +177,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MapChipWindowPositionTestCaseSource =
         {
-            new object[] { (WindowPosition)(10, 100) }
+            new object[] { new WindowPosition { X = 10, Y = 100 } }
         };
 
         [TestCaseSource(nameof(MapChipWindowPositionTestCaseSource))]
@@ -185,7 +185,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -213,7 +213,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MapEventWindowPositionTestCaseSource =
         {
-            new object[] { (WindowPosition)(10, 100) }
+            new object[] { new WindowPosition { X = 10, Y = 100 } }
         };
 
         [TestCaseSource(nameof(MapEventWindowPositionTestCaseSource))]
@@ -221,7 +221,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -249,7 +249,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MapEventWindowSizeTestCaseSource =
         {
-            new object[] { (WindowSize)(10, 100) }
+            new object[] { new WindowSize { X = 10, Y = 100 } }
         };
 
         [TestCaseSource(nameof(MapEventWindowSizeTestCaseSource))]
@@ -257,7 +257,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -285,7 +285,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] MapEventInputWindowPositionTestCaseSource =
         {
-            new object[] { (WindowPosition)(10, 100) }
+            new object[] { new WindowPosition { X = 10, Y = 100 } }
         };
 
         [TestCaseSource(nameof(MapEventInputWindowPositionTestCaseSource))]
@@ -293,7 +293,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -321,7 +321,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] CommonEventWindowPositionTestCaseSource =
         {
-            new object[] { (WindowPosition)(10, 100) }
+            new object[] { new WindowPosition { X = 10, Y = 100 } }
         };
 
         [TestCaseSource(nameof(CommonEventWindowPositionTestCaseSource))]
@@ -329,7 +329,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -357,7 +357,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] CommonEventWindowSizeTestCaseSource =
         {
-            new object[] { (WindowSize)(10, 100) }
+            new object[] { new WindowSize { X = 10, Y = 100 } }
         };
 
         [TestCaseSource(nameof(CommonEventWindowSizeTestCaseSource))]
@@ -365,7 +365,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -393,7 +393,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] CommonEventInputWindowPositionTestCaseSource =
         {
-            new object[] { (WindowPosition)(10, 100) }
+            new object[] { new WindowPosition { X = 10, Y = 100 } }
         };
 
         [TestCaseSource(nameof(CommonEventInputWindowPositionTestCaseSource))]
@@ -401,7 +401,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -429,7 +429,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] UserDbWindowPositionTestCaseSource =
         {
-            new object[] { (WindowPosition)(10, 100) }
+            new object[] { new WindowPosition { X = 10, Y = 100 } }
         };
 
         [TestCaseSource(nameof(UserDbWindowPositionTestCaseSource))]
@@ -437,7 +437,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -465,7 +465,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] ChangeableDbWindowPositionTestCaseSource =
         {
-            new object[] { (WindowPosition)(10, 100) }
+            new object[] { new WindowPosition { X = 10, Y = 100 } }
         };
 
         [TestCaseSource(nameof(ChangeableDbWindowPositionTestCaseSource))]
@@ -473,7 +473,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -501,7 +501,7 @@ namespace WodiLib.Test.Ini.Model
 
         private static readonly object[] SystemDbWindowPositionTestCaseSource =
         {
-            new object[] { (WindowPosition)(10, 100) }
+            new object[] { new WindowPosition { X = 10, Y = 100 } }
         };
 
         [TestCaseSource(nameof(SystemDbWindowPositionTestCaseSource))]
@@ -509,7 +509,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -546,7 +546,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -593,7 +593,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -639,7 +639,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -675,7 +675,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -706,7 +706,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -743,7 +743,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -790,7 +790,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -837,7 +837,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -878,7 +878,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -915,7 +915,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -961,7 +961,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -998,7 +998,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try
@@ -1040,14 +1040,16 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var item = isNull ? null : new EventCommandShortCutKeyList();
+            var item = isNull
+                ? null
+                : new EventCommandShortCutKeyList();
 
             var errorOccured = false;
             try
             {
-                instance.ShortCutKeyList = item;
+                instance.ShortCutKeyList = item!;
             }
             catch (Exception ex)
             {
@@ -1077,14 +1079,16 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
-            var item = isNull ? null : new ShortCutPositionList();
+            var item = isNull
+                ? null
+                : new ShortCutPositionList();
 
             var errorOccured = false;
             try
             {
-                instance.CommandPositionList = item;
+                instance.CommandPositionList = item!;
             }
             catch (Exception ex)
             {
@@ -1113,7 +1117,7 @@ namespace WodiLib.Test.Ini.Model
         {
             var instance = new EditorIniData();
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (sender, args) => { changedPropertyList.Add(args.PropertyName); };
+            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
 
             var errorOccured = false;
             try

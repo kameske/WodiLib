@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using WodiLib.Cmn;
 using WodiLib.Sys;
 
@@ -17,14 +18,17 @@ namespace WodiLib.Ini
     [CommonMultiValueObject]
     public partial record WindowSize
     {
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
         /// <summary>サイズX</summary>
-        public SideLength X { get; init; }
+        public SideLength X { get; init; } = 0;
 
         /// <summary>サイズY</summary>
-        public SideLength Y { get; init; }
+        public SideLength Y { get; init; } = 0;
+
+        [Obsolete]
+        public WindowSize(SideLength x, SideLength y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 }

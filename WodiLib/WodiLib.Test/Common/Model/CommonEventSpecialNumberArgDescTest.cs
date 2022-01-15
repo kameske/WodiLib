@@ -255,7 +255,9 @@ namespace WodiLib.Test.Common
         [TestCase(0x02, 10, false)]
         public static void ChangeArgTypeTest(byte typeCode, int caseLength, bool isError)
         {
-            var type = typeCode == 0xFF ? null : CommonEventArgType.FromByte(typeCode);
+            var type = typeCode == 0xFF
+                ? null
+                : CommonEventArgType.FromByte(typeCode);
             var argCaseList = MakeArgCaseList(caseLength);
 
             var instance = new CommonEventSpecialNumberArgDesc();
@@ -287,10 +289,14 @@ namespace WodiLib.Test.Common
                 Assert.IsTrue(changedPropertyList[0].Equals(nameof(CommonEventSpecialNumberArgDesc.ArgType)));
                 Assert.IsTrue(changedPropertyList[1].Equals(nameof(CommonEventSpecialNumberArgDesc.DatabaseUseDbKind)));
                 Assert.IsTrue(changedPropertyList[2].Equals(nameof(CommonEventSpecialNumberArgDesc.DatabaseDbTypeId)));
-                Assert.IsTrue(changedPropertyList[3]
-                    .Equals(nameof(CommonEventSpecialNumberArgDesc.DatabaseUseAdditionalItemsFlag)));
-                Assert.IsTrue(changedPropertyList[4]
-                    .Equals(nameof(CommonEventSpecialNumberArgDesc.SpecialArgCaseList)));
+                Assert.IsTrue(
+                    changedPropertyList[3]
+                        .Equals(nameof(CommonEventSpecialNumberArgDesc.DatabaseUseAdditionalItemsFlag))
+                );
+                Assert.IsTrue(
+                    changedPropertyList[4]
+                        .Equals(nameof(CommonEventSpecialNumberArgDesc.SpecialArgCaseList))
+                );
             }
         }
 
@@ -394,8 +400,10 @@ namespace WodiLib.Test.Common
             else
             {
                 Assert.AreEqual(changedPropertyList.Count, 1);
-                Assert.IsTrue(changedPropertyList[0]
-                    .Equals(nameof(CommonEventSpecialNumberArgDesc.DatabaseUseAdditionalItemsFlag)));
+                Assert.IsTrue(
+                    changedPropertyList[0]
+                        .Equals(nameof(CommonEventSpecialNumberArgDesc.DatabaseUseAdditionalItemsFlag))
+                );
             }
         }
 
@@ -412,8 +420,12 @@ namespace WodiLib.Test.Common
         };
 
         [TestCaseSource(nameof(GetSpecialCaseTestCaseSource))]
-        public static void GetSpecialCaseTest(CommonEventArgType type, bool isSetDatabaseAddition, int initCaseLength,
-            int answerLength)
+        public static void GetSpecialCaseTest(
+            CommonEventArgType type,
+            bool isSetDatabaseAddition,
+            int initCaseLength,
+            int answerLength
+        )
         {
             var instance = new CommonEventSpecialNumberArgDesc();
             instance.ChangeArgType(type, MakeArgCaseList(initCaseLength));
@@ -472,8 +484,12 @@ namespace WodiLib.Test.Common
         };
 
         [TestCaseSource(nameof(GetAllSpecialCaseNumberTestCaseSource))]
-        public static void GetAllSpecialCaseNumberTest(CommonEventArgType type, bool isSetDatabaseAddition,
-            int initCaseLength, int answerLength)
+        public static void GetAllSpecialCaseNumberTest(
+            CommonEventArgType type,
+            bool isSetDatabaseAddition,
+            int initCaseLength,
+            int answerLength
+        )
         {
             var instance = new CommonEventSpecialNumberArgDesc();
             instance.ChangeArgType(type, MakeArgCaseList(initCaseLength));
@@ -532,8 +548,12 @@ namespace WodiLib.Test.Common
         };
 
         [TestCaseSource(nameof(GetAllSpecialCaseDescriptionTestCaseSource))]
-        public static void GetAllSpecialCaseDescriptionTest(CommonEventArgType type, bool isSetDatabaseAddition,
-            int initCaseLength, int answerLength)
+        public static void GetAllSpecialCaseDescriptionTest(
+            CommonEventArgType type,
+            bool isSetDatabaseAddition,
+            int initCaseLength,
+            int answerLength
+        )
         {
             var instance = new CommonEventSpecialNumberArgDesc();
             instance.ChangeArgType(type, MakeArgCaseList(initCaseLength));
@@ -610,7 +630,9 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                var argCase = isNullArgCase ? null : new CommonEventSpecialArgCase(0, "");
+                var argCase = isNullArgCase
+                    ? null
+                    : new CommonEventSpecialArgCase();
                 instance.AddSpecialCase(argCase);
             }
             catch (Exception ex)
@@ -633,13 +655,19 @@ namespace WodiLib.Test.Common
             {
                 Assert.AreEqual(changedDescPropertyList.Count, 0);
                 Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 2);
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[0]
-                    .Equals(nameof(instance.SpecialArgCaseList.Count)));
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[1]
-                    .Equals(ListConstant.IndexerName));
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[0]
+                        .Equals(nameof(instance.SpecialArgCaseList.Count))
+                );
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[1]
+                        .Equals(ListConstant.IndexerName)
+                );
                 Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 1);
-                Assert.AreEqual(changedSpecialArgCaseListCollectionArgList[0].Action,
-                    NotifyCollectionChangedAction.Add);
+                Assert.AreEqual(
+                    changedSpecialArgCaseListCollectionArgList[0].Action,
+                    NotifyCollectionChangedAction.Add
+                );
             }
         }
 
@@ -702,13 +730,19 @@ namespace WodiLib.Test.Common
             {
                 Assert.AreEqual(changedDescPropertyList.Count, 0);
                 Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 2);
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[0]
-                    .Equals(nameof(instance.SpecialArgCaseList.Count)));
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[1]
-                    .Equals(ListConstant.IndexerName));
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[0]
+                        .Equals(nameof(instance.SpecialArgCaseList.Count))
+                );
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[1]
+                        .Equals(ListConstant.IndexerName)
+                );
                 Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 1);
-                Assert.AreEqual(changedSpecialArgCaseListCollectionArgList[0].Action,
-                    NotifyCollectionChangedAction.Add);
+                Assert.AreEqual(
+                    changedSpecialArgCaseListCollectionArgList[0].Action,
+                    NotifyCollectionChangedAction.Add
+                );
             }
         }
 
@@ -737,8 +771,13 @@ namespace WodiLib.Test.Common
         };
 
         [TestCaseSource(nameof(InsertSpecialCaseTestCaseSource))]
-        public static void InsertSpecialCaseTest(CommonEventArgType type, int initCaseLength, int index,
-            bool isNullArgCase, bool isError)
+        public static void InsertSpecialCaseTest(
+            CommonEventArgType type,
+            int initCaseLength,
+            int index,
+            bool isNullArgCase,
+            bool isError
+        )
         {
             var instance = new CommonEventSpecialNumberArgDesc();
             instance.ChangeArgType(type, MakeArgCaseList(initCaseLength));
@@ -758,7 +797,9 @@ namespace WodiLib.Test.Common
             var errorOccured = false;
             try
             {
-                var argCase = isNullArgCase ? null : new CommonEventSpecialArgCase(0, "");
+                var argCase = isNullArgCase
+                    ? null
+                    : new CommonEventSpecialArgCase(0, "");
                 instance.InsertSpecialCase(index, argCase);
             }
             catch (Exception ex)
@@ -781,13 +822,19 @@ namespace WodiLib.Test.Common
             {
                 Assert.AreEqual(changedDescPropertyList.Count, 0);
                 Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 2);
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[0]
-                    .Equals(nameof(instance.SpecialArgCaseList.Count)));
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[1]
-                    .Equals(ListConstant.IndexerName));
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[0]
+                        .Equals(nameof(instance.SpecialArgCaseList.Count))
+                );
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[1]
+                        .Equals(ListConstant.IndexerName)
+                );
                 Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 1);
-                Assert.AreEqual(changedSpecialArgCaseListCollectionArgList[0].Action,
-                    NotifyCollectionChangedAction.Add);
+                Assert.AreEqual(
+                    changedSpecialArgCaseListCollectionArgList[0].Action,
+                    NotifyCollectionChangedAction.Add
+                );
             }
         }
 
@@ -826,8 +873,13 @@ namespace WodiLib.Test.Common
         };
 
         [TestCaseSource(nameof(InsertRangeSpecialCaseTestCaseSource))]
-        public static void InsertRangeSpecialCaseTest(CommonEventArgType type, int initCaseLength, int index,
-            int insertLength, bool isError)
+        public static void InsertRangeSpecialCaseTest(
+            CommonEventArgType type,
+            int initCaseLength,
+            int index,
+            int insertLength,
+            bool isError
+        )
         {
             var instance = new CommonEventSpecialNumberArgDesc();
             instance.ChangeArgType(type, MakeArgCaseList(initCaseLength));
@@ -865,13 +917,19 @@ namespace WodiLib.Test.Common
             {
                 Assert.AreEqual(changedDescPropertyList.Count, 0);
                 Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 2);
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[0]
-                    .Equals(nameof(instance.SpecialArgCaseList.Count)));
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[1]
-                    .Equals(ListConstant.IndexerName));
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[0]
+                        .Equals(nameof(instance.SpecialArgCaseList.Count))
+                );
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[1]
+                        .Equals(ListConstant.IndexerName)
+                );
                 Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 1);
-                Assert.AreEqual(changedSpecialArgCaseListCollectionArgList[0].Action,
-                    NotifyCollectionChangedAction.Add);
+                Assert.AreEqual(
+                    changedSpecialArgCaseListCollectionArgList[0].Action,
+                    NotifyCollectionChangedAction.Add
+                );
             }
             else
             {
@@ -958,8 +1016,12 @@ namespace WodiLib.Test.Common
         };
 
         [TestCaseSource(nameof(UpdateDatabaseSpecialCaseTestCaseSource))]
-        public static void UpdateDatabaseSpecialCase(CommonEventArgType type, int caseNumber,
-            string description, bool isError)
+        public static void UpdateDatabaseSpecialCase(
+            CommonEventArgType type,
+            int caseNumber,
+            string description,
+            bool isError
+        )
         {
             var instance = new CommonEventSpecialNumberArgDesc();
             instance.ChangeArgType(type, null);
@@ -1001,11 +1063,15 @@ namespace WodiLib.Test.Common
             {
                 Assert.AreEqual(changedDescPropertyList.Count, 0);
                 Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 1);
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[0]
-                    .Equals(ListConstant.IndexerName));
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[0]
+                        .Equals(ListConstant.IndexerName)
+                );
                 Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 1);
-                Assert.AreEqual(changedSpecialArgCaseListCollectionArgList[0].Action,
-                    NotifyCollectionChangedAction.Replace);
+                Assert.AreEqual(
+                    changedSpecialArgCaseListCollectionArgList[0].Action,
+                    NotifyCollectionChangedAction.Replace
+                );
             }
         }
 
@@ -1034,8 +1100,13 @@ namespace WodiLib.Test.Common
         };
 
         [TestCaseSource(nameof(UpdateManualSpecialCaseTestCaseSource))]
-        public static void UpdateManualSpecialCaseTest(CommonEventArgType type, int initCaseLength, int index,
-            bool isNullArgCase, bool isError)
+        public static void UpdateManualSpecialCaseTest(
+            CommonEventArgType type,
+            int initCaseLength,
+            int index,
+            bool isNullArgCase,
+            bool isError
+        )
         {
             var instance = new CommonEventSpecialNumberArgDesc();
             instance.ChangeArgType(type, MakeArgCaseList(initCaseLength));
@@ -1080,11 +1151,15 @@ namespace WodiLib.Test.Common
             {
                 Assert.AreEqual(changedDescPropertyList.Count, 0);
                 Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 1);
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[0]
-                    .Equals(ListConstant.IndexerName));
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[0]
+                        .Equals(ListConstant.IndexerName)
+                );
                 Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 1);
-                Assert.AreEqual(changedSpecialArgCaseListCollectionArgList[0].Action,
-                    NotifyCollectionChangedAction.Replace);
+                Assert.AreEqual(
+                    changedSpecialArgCaseListCollectionArgList[0].Action,
+                    NotifyCollectionChangedAction.Replace
+                );
             }
         }
 
@@ -1148,13 +1223,19 @@ namespace WodiLib.Test.Common
             {
                 Assert.AreEqual(changedDescPropertyList.Count, 0);
                 Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 2);
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[0]
-                    .Equals(nameof(instance.SpecialArgCaseList.Count)));
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[1]
-                    .Equals(ListConstant.IndexerName));
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[0]
+                        .Equals(nameof(instance.SpecialArgCaseList.Count))
+                );
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[1]
+                        .Equals(ListConstant.IndexerName)
+                );
                 Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 1);
-                Assert.AreEqual(changedSpecialArgCaseListCollectionArgList[0].Action,
-                    NotifyCollectionChangedAction.Remove);
+                Assert.AreEqual(
+                    changedSpecialArgCaseListCollectionArgList[0].Action,
+                    NotifyCollectionChangedAction.Remove
+                );
             }
         }
 
@@ -1206,8 +1287,13 @@ namespace WodiLib.Test.Common
         };
 
         [TestCaseSource(nameof(RemoveRangeTestCaseSource))]
-        public static void RemoveRangeTest(CommonEventArgType type, int initCaseLength, int index,
-            int count, bool isError)
+        public static void RemoveRangeTest(
+            CommonEventArgType type,
+            int initCaseLength,
+            int index,
+            int count,
+            bool isError
+        )
         {
             var instance = new CommonEventSpecialNumberArgDesc();
             instance.ChangeArgType(type, MakeArgCaseList(initCaseLength));
@@ -1245,13 +1331,19 @@ namespace WodiLib.Test.Common
             {
                 Assert.AreEqual(changedDescPropertyList.Count, 0);
                 Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 2);
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[0]
-                    .Equals(nameof(instance.SpecialArgCaseList.Count)));
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[1]
-                    .Equals(ListConstant.IndexerName));
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[0]
+                        .Equals(nameof(instance.SpecialArgCaseList.Count))
+                );
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[1]
+                        .Equals(ListConstant.IndexerName)
+                );
                 Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 1);
-                Assert.AreEqual(changedSpecialArgCaseListCollectionArgList[0].Action,
-                    NotifyCollectionChangedAction.Remove);
+                Assert.AreEqual(
+                    changedSpecialArgCaseListCollectionArgList[0].Action,
+                    NotifyCollectionChangedAction.Remove
+                );
             }
             else
             {
@@ -1318,13 +1410,19 @@ namespace WodiLib.Test.Common
             {
                 Assert.AreEqual(changedDescPropertyList.Count, 0);
                 Assert.AreEqual(changedSpecialArgCaseListPropertyList.Count, 2);
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[0]
-                    .Equals(nameof(instance.SpecialArgCaseList.Count)));
-                Assert.IsTrue(changedSpecialArgCaseListPropertyList[1]
-                    .Equals(ListConstant.IndexerName));
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[0]
+                        .Equals(nameof(instance.SpecialArgCaseList.Count))
+                );
+                Assert.IsTrue(
+                    changedSpecialArgCaseListPropertyList[1]
+                        .Equals(ListConstant.IndexerName)
+                );
                 Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 1);
-                Assert.AreEqual(changedSpecialArgCaseListCollectionArgList[0].Action,
-                    NotifyCollectionChangedAction.Reset);
+                Assert.AreEqual(
+                    changedSpecialArgCaseListCollectionArgList[0].Action,
+                    NotifyCollectionChangedAction.Reset
+                );
             }
         }
 

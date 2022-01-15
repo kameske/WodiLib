@@ -20,18 +20,18 @@ namespace WodiLib.Test.IO
             {
                 StartFlag = 0,
                 LastLoadFile = "MapData/Map000.mps",
-                MainWindowPosition = (0, 0),
-                MainWindowSize = (651, 322),
-                MapChipWindowPosition = (0, 0),
-                MapEventWindowPosition = (273, 230),
-                MapEventWindowSize = (840, 410),
-                MapEventInputWindowPosition = (0, 0),
-                CommonEventWindowPosition = (0, 0),
-                CommonEventWindowSize = (800, 640),
-                CommonEventInputWindowPosition = (0, 0),
-                UserDbWindowPosition = (27, 54),
-                ChangeableDbWindowPosition = (27, 54),
-                SystemDbWindowPosition = (27, 54),
+                MainWindowPosition = new WindowPosition { X = 0, Y = 0 },
+                MainWindowSize = new WindowSize { X = 651, Y = 322 },
+                MapChipWindowPosition = new WindowPosition { X = 0, Y = 0 },
+                MapEventWindowPosition = new WindowPosition { X = 273, Y = 230 },
+                MapEventWindowSize = new WindowSize { X = 840, Y = 410 },
+                MapEventInputWindowPosition = new WindowPosition { X = 0, Y = 0 },
+                CommonEventWindowPosition = new WindowPosition { X = 0, Y = 0 },
+                CommonEventWindowSize = new WindowSize { X = 800, Y = 640 },
+                CommonEventInputWindowPosition = new WindowPosition { X = 0, Y = 0 },
+                UserDbWindowPosition = new WindowPosition { X = 27, Y = 54 },
+                ChangeableDbWindowPosition = new WindowPosition { X = 27, Y = 54 },
+                SystemDbWindowPosition = new WindowPosition { X = 27, Y = 54 },
                 DatabaseValueNumberDrawType = DatabaseValueNumberDrawType.FromCode("0"),
                 EditTimeDrawType = EditTimeDrawType.On,
                 EditTime = 14,
@@ -41,31 +41,37 @@ namespace WodiLib.Test.IO
                 EventLayerOpacity = EventLayerOpacityType.FromCode("1"),
                 CommandColorType = CommandColorType.FromCode("0"),
                 IsDrawBackgroundImage = true,
-                NotCopyExtList = new ExtensionList(new Extension[]
-                {
-                    ".psd", ".sai", ".svg", ".xls", ".db", ".tmp",
-                    ".bak", ".db", "dummy_file"
-                }),
+                NotCopyExtList = new ExtensionList(
+                    new Extension[]
+                    {
+                        ".psd", ".sai", ".svg", ".xls", ".db", ".tmp",
+                        ".bak", ".db", "dummy_file"
+                    }
+                ),
                 CommandViewType = 0,
                 BackupType = ProjectBackupType.FromCode("3"),
-                ShortCutKeyList = new EventCommandShortCutKeyList(new[]
-                {
-                    EventCommandShortCutKey.One, EventCommandShortCutKey.Two, EventCommandShortCutKey.Three,
-                    EventCommandShortCutKey.Four, EventCommandShortCutKey.Five, EventCommandShortCutKey.Six,
-                    EventCommandShortCutKey.Seven, EventCommandShortCutKey.Eight, EventCommandShortCutKey.Nine,
-                    EventCommandShortCutKey.A, EventCommandShortCutKey.B, EventCommandShortCutKey.C,
-                    EventCommandShortCutKey.D, EventCommandShortCutKey.E, EventCommandShortCutKey.F,
-                    EventCommandShortCutKey.G, EventCommandShortCutKey.H, EventCommandShortCutKey.I,
-                    EventCommandShortCutKey.J, EventCommandShortCutKey.One, EventCommandShortCutKey.One,
-                    EventCommandShortCutKey.One, EventCommandShortCutKey.One, EventCommandShortCutKey.One,
-                    EventCommandShortCutKey.One, EventCommandShortCutKey.One, EventCommandShortCutKey.One,
-                    EventCommandShortCutKey.One, EventCommandShortCutKey.One, EventCommandShortCutKey.One
-                }),
-                CommandPositionList = new ShortCutPositionList(new ShortCutPosition[]
-                {
-                    1, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1,
-                    17, 18, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0
-                }),
+                ShortCutKeyList = new EventCommandShortCutKeyList(
+                    new[]
+                    {
+                        EventCommandShortCutKey.One, EventCommandShortCutKey.Two, EventCommandShortCutKey.Three,
+                        EventCommandShortCutKey.Four, EventCommandShortCutKey.Five, EventCommandShortCutKey.Six,
+                        EventCommandShortCutKey.Seven, EventCommandShortCutKey.Eight, EventCommandShortCutKey.Nine,
+                        EventCommandShortCutKey.A, EventCommandShortCutKey.B, EventCommandShortCutKey.C,
+                        EventCommandShortCutKey.D, EventCommandShortCutKey.E, EventCommandShortCutKey.F,
+                        EventCommandShortCutKey.G, EventCommandShortCutKey.H, EventCommandShortCutKey.I,
+                        EventCommandShortCutKey.J, EventCommandShortCutKey.One, EventCommandShortCutKey.One,
+                        EventCommandShortCutKey.One, EventCommandShortCutKey.One, EventCommandShortCutKey.One,
+                        EventCommandShortCutKey.One, EventCommandShortCutKey.One, EventCommandShortCutKey.One,
+                        EventCommandShortCutKey.One, EventCommandShortCutKey.One, EventCommandShortCutKey.One
+                    }
+                ),
+                CommandPositionList = new ShortCutPositionList(
+                    new ShortCutPosition[]
+                    {
+                        1, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1,
+                        17, 18, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0
+                    }
+                ),
                 IsUseExpertCommand = false
             };
         }

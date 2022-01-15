@@ -8,7 +8,6 @@
 
 using System.ComponentModel;
 using WodiLib.SourceGenerator.ValueObject.Attributes;
-using WodiLib.SourceGenerator.ValueObject.Enums;
 
 namespace WodiLib.Sys
 {
@@ -18,8 +17,5 @@ namespace WodiLib.Sys
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class CommonMultiValueObjectAttribute : MultiValueObjectAttribute
     {
-        /// <inheritdoc/>
-        [DefaultValue(CastType.Implicit)]
-        public override CastType CastType { get; init; } = default!;
     }
 }

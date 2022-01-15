@@ -17,19 +17,11 @@ namespace WodiLib.Project
     [CommonMultiValueObject]
     public partial record EventCommandSentenceInfo
     {
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
         /// <summary>イベントコマンドカラーセット</summary>
-        public EventCommandColorSet ColorSet { get; init; }
+        public EventCommandColorSet ColorSet { get; }
 
         /// <summary>イベントコマンド文</summary>
-        public EventCommandSentence Sentence { get; init; }
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Method
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        public EventCommandSentence Sentence { get; }
 
         /// <summary>
         ///     コマンドカラー種別からコマンドカラーを取得する。

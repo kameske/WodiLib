@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using WodiLib.Sys;
 
 namespace WodiLib.Map
@@ -16,14 +17,17 @@ namespace WodiLib.Map
     [CommonMultiValueObject]
     public partial record HitExtendRange
     {
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //     Public Property
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
         /// <summary>幅</summary>
-        public HitExtendSideLength Width { get; init; }
+        public HitExtendSideLength Width { get; init; } = 0;
 
         /// <summary>高さ</summary>
-        public HitExtendSideLength Height { get; init; }
+        public HitExtendSideLength Height { get; init; } = 0;
+
+        [Obsolete]
+        public HitExtendRange(HitExtendSideLength width, HitExtendSideLength height)
+        {
+            Width = width;
+            Height = height;
+        }
     }
 }
