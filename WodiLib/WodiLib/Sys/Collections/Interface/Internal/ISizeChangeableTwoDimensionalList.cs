@@ -19,12 +19,10 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="TInRow">リスト行データ入力型</typeparam>
     /// <typeparam name="TOutRow">リスト行データ出力型</typeparam>
     /// <typeparam name="TInItem">リスト要素入力型</typeparam>
-    /// <typeparam name="TOutItem">リスト要素出力型</typeparam>
-    internal interface ISizeChangeableTwoDimensionalList<in TInRow, out TOutRow, in TInItem, out TOutItem> :
-        IRowSizeChangeableTwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem>,
-        IColumnSizeChangeableTwoDimensionalList<TOutRow, TInItem, TOutItem>
+    internal interface ISizeChangeableTwoDimensionalList<in TInRow, out TOutRow, in TInItem> :
+        IRowSizeChangeableTwoDimensionalList<TInRow, TOutRow, TInItem>,
+        IColumnSizeChangeableTwoDimensionalList<TOutRow, TInItem>
         where TInRow : IEnumerable<TInItem>
-        where TInItem : TOutItem
     {
         /// <summary>
         ///     行数および列数を指定の数に合わせる。
@@ -39,13 +37,13 @@ namespace WodiLib.Sys.Collections
         /// </para>
         /// </remarks>
         /// <param name="rowLength">
-        ///     [Range(<see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem, TOutItem}.GetMinRowCapacity"/>,
-        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem, TOutItem}.GetMaxRowCapacity"/>)]
+        ///     [Range(<see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem}.GetMinRowCapacity"/>,
+        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem}.GetMaxRowCapacity"/>)]
         ///     調整する行数
         /// </param>
         /// <param name="columnLength">
-        ///     [Range(<see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem, TOutItem}.GetMinColumnCapacity"/>,
-        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem, TOutItem}.GetMaxColumnCapacity"/>)]
+        ///     [Range(<see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem}.GetMinColumnCapacity"/>,
+        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem}.GetMaxColumnCapacity"/>)]
         ///     調整する列数
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -66,13 +64,13 @@ namespace WodiLib.Sys.Collections
         /// </para>
         /// </remarks>
         /// <param name="rowLength">
-        ///     [Range(<see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem, TOutItem}.GetMinRowCapacity"/>,
-        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem, TOutItem}.GetMaxRowCapacity"/>)]
+        ///     [Range(<see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem}.GetMinRowCapacity"/>,
+        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem}.GetMaxRowCapacity"/>)]
         ///     調整する行数
         /// </param>
         /// <param name="columnLength">
-        ///     [Range(<see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem, TOutItem}.GetMinColumnCapacity"/>,
-        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem, TOutItem}.GetMaxColumnCapacity"/>)]
+        ///     [Range(<see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem}.GetMinColumnCapacity"/>,
+        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem}.GetMaxColumnCapacity"/>)]
         ///     調整する列数
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -93,13 +91,13 @@ namespace WodiLib.Sys.Collections
         /// </para>
         /// </remarks>
         /// <param name="rowLength">
-        ///     [Range(<see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem, TOutItem}.GetMinRowCapacity"/>,
-        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem, TOutItem}.GetMaxRowCapacity"/>)]
+        ///     [Range(<see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem}.GetMinRowCapacity"/>,
+        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem}.GetMaxRowCapacity"/>)]
         ///     調整する行数
         /// </param>
         /// <param name="columnLength">
-        ///     [Range(<see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem, TOutItem}.GetMinColumnCapacity"/>,
-        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem, TOutItem}.GetMaxColumnCapacity"/>)]
+        ///     [Range(<see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem}.GetMinColumnCapacity"/>,
+        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem}.GetMaxColumnCapacity"/>)]
         ///     調整する列数
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -129,8 +127,8 @@ namespace WodiLib.Sys.Collections
         ///         <typeparam name="TInItem">
         ///             のデフォルト要素で埋められた
         ///         </typeparam>
-        ///         <see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem, TOutItem}.GetMinRowCapacity"/> 行
-        ///         <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem, TOutItem}.GetMinColumnCapacity"/> 列の
+        ///         <see cref="IRowSizeChangeableTwoDimensionalList{TInRow, TOutRow, TInItem}.GetMinRowCapacity"/> 行
+        ///         <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem}.GetMinColumnCapacity"/> 列の
         ///         二次元リストとなる。
         ///     </para>
         /// </remarks>

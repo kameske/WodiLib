@@ -25,9 +25,9 @@ namespace WodiLib.Sys.Collections
     internal abstract class
         WodiLibTwoDimensionalListValidator<TInRow, TOutRow, TInItem, TOutItem>
         : ITwoDimensionalListValidator<TInRow, TInItem>
-        where TOutRow : IEnumerable<TOutItem>
-        where TInRow : IEnumerable<TInItem>, TOutRow
-        where TInItem : TOutItem
+        where TInRow : IEnumerable<TInItem>
+        where TOutRow : IEnumerable<TOutItem>, TInRow
+        where TOutItem : TInItem
     {
         protected abstract ITwoDimensionalListValidator<TInRow, TInItem>? BaseValidator { get; }
 
@@ -37,66 +37,87 @@ namespace WodiLib.Sys.Collections
 
         protected string ColumnName { get; }
 
-        protected WodiLibTwoDimensionalListValidator(ITwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem> target,
-            string rowName, string columnName)
+        protected WodiLibTwoDimensionalListValidator(
+            ITwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem> target,
+            string rowName,
+            string columnName
+        )
         {
             Target = target;
             RowName = rowName;
             ColumnName = columnName;
         }
 
-        public virtual void Constructor(TInRow[] initItems)
+        public virtual void Constructor(NamedValue<TInRow[]> initItems)
             => BaseValidator?.Constructor(initItems);
 
-        public virtual void GetRow(int rowIndex, int rowCount)
+        public virtual void GetRow(NamedValue<int> rowIndex, NamedValue<int> rowCount)
             => BaseValidator?.GetRow(rowIndex, rowCount);
 
-        public virtual void GetColumn(int columnIndex, int columnCount)
+        public virtual void GetColumn(NamedValue<int> columnIndex, NamedValue<int> columnCount)
             => BaseValidator?.GetColumn(columnIndex, columnCount);
 
-        public virtual void GetItem(int rowIndex, int rowCount, int columnIndex, int columnCount)
+        public virtual void GetItem(
+            NamedValue<int> rowIndex,
+            NamedValue<int> rowCount,
+            NamedValue<int> columnIndex,
+            NamedValue<int> columnCount
+        )
             => BaseValidator?.GetItem(columnIndex, columnCount, rowIndex, rowCount);
 
-        public virtual void GetItem(int rowIndex, int columnIndex)
+        public virtual void GetItem(NamedValue<int> rowIndex, NamedValue<int> columnIndex)
             => BaseValidator?.GetItem(rowIndex, columnIndex);
 
-        public virtual void SetRow(int rowIndex, params TInRow[] rows)
-            => BaseValidator?.SetRow(rowIndex, rows);
+        public virtual void SetRow(NamedValue<int> rowIndex, string targetParamName, params TInRow[] rows)
+            => BaseValidator?.SetRow(rowIndex, targetParamName, rows);
 
-        public virtual void SetColumn(int columnIndex, params IEnumerable<TInItem>[] items)
-            => BaseValidator?.SetColumn(columnIndex, items);
+        public virtual void SetColumn(
+            NamedValue<int> columnIndex,
+            string targetParamName,
+            params IEnumerable<TInItem>[] items
+        )
+            => BaseValidator?.SetColumn(columnIndex, targetParamName, items);
 
-        public virtual void SetItem(int rowIndex, int columnIndex, TInItem item)
+        public virtual void SetItem(NamedValue<int> rowIndex, NamedValue<int> columnIndex, NamedValue<TInItem> item)
             => BaseValidator?.SetItem(rowIndex, columnIndex, item);
 
-        public virtual void InsertRow(int rowIndex, params TInRow[] items)
-            => BaseValidator?.InsertRow(rowIndex, items);
+        public virtual void InsertRow(NamedValue<int> rowIndex, string targetParamName, params TInRow[] items)
+            => BaseValidator?.InsertRow(rowIndex, targetParamName, items);
 
-        public virtual void InsertColumn(int columnIndex, params IEnumerable<TInItem>[] items)
-            => BaseValidator?.InsertColumn(columnIndex, items);
+        public virtual void InsertColumn(
+            NamedValue<int> columnIndex,
+            string targetParamName,
+            params IEnumerable<TInItem>[] items
+        )
+            => BaseValidator?.InsertColumn(columnIndex, targetParamName, items);
 
-        public virtual void OverwriteRow(int rowIndex, params TInRow[] items)
-            => BaseValidator?.OverwriteRow(rowIndex, items);
+        public virtual void OverwriteRow(NamedValue<int> rowIndex, string targetParamName, params TInRow[] items)
+            => BaseValidator?.OverwriteRow(rowIndex, targetParamName, items);
 
-        public virtual void OverwriteColumn(int columnIndex, params IEnumerable<TInItem>[] items)
-            => BaseValidator?.OverwriteColumn(columnIndex, items);
+        public virtual void OverwriteColumn(NamedValue<int> columnIndex, string targetParamName,
+            params IEnumerable<TInItem>[] items)
+            => BaseValidator?.OverwriteColumn(columnIndex, targetParamName, items);
 
-        public virtual void MoveRow(int oldRowIndex, int newRowIndex, int count)
+        public virtual void MoveRow(NamedValue<int> oldRowIndex, NamedValue<int> newRowIndex, NamedValue<int> count)
             => BaseValidator?.MoveRow(oldRowIndex, newRowIndex, count);
 
-        public virtual void MoveColumn(int oldColumnIndex, int newColumnIndex, int count)
+        public virtual void MoveColumn(
+            NamedValue<int> oldColumnIndex,
+            NamedValue<int> newColumnIndex,
+            NamedValue<int> count
+        )
             => BaseValidator?.MoveColumn(oldColumnIndex, newColumnIndex, count);
 
-        public virtual void RemoveRow(int rowIndex, int count)
+        public virtual void RemoveRow(NamedValue<int> rowIndex, NamedValue<int> count)
             => BaseValidator?.RemoveRow(rowIndex, count);
 
-        public virtual void RemoveColumn(int columnIndex, int count)
+        public virtual void RemoveColumn(NamedValue<int> columnIndex, NamedValue<int> count)
             => BaseValidator?.RemoveColumn(columnIndex, count);
 
-        public virtual void AdjustLength(int rowLength, int columnLength)
+        public virtual void AdjustLength(NamedValue<int> rowLength, NamedValue<int> columnLength)
             => BaseValidator?.AdjustLength(rowLength, columnLength);
 
-        public virtual void Reset(IEnumerable<TInRow> initItems)
+        public virtual void Reset(NamedValue<IEnumerable<TInRow>> initItems)
             => BaseValidator?.Reset(initItems);
     }
 }

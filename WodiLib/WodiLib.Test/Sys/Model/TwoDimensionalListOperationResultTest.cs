@@ -42,7 +42,9 @@ namespace WodiLib.Test.Sys
             Func<int, int, TestRecord> funcMakeDefaultItem = TestTools.MakeListDefaultItem;
             var initItems = TestTools.MakeTestRecordArrays(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
-                false, funcMakeDefaultItem);
+                false,
+                funcMakeDefaultItem
+            );
 
             const int maxRowCapacity = TestTools.InitRowLength + 4;
             const int minRowCapacity = 1;
@@ -55,12 +57,17 @@ namespace WodiLib.Test.Sys
 
             try
             {
-                instance = new TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>(initItems,
-                    TestTools.CreateCommonConfig(funcMakeDefaultItem, validatorMock,
+                instance = new TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>(
+                    initItems,
+                    TestTools.CreateCommonConfig(
+                        funcMakeDefaultItem,
+                        validatorMock,
                         maxRowCapacity,
                         minRowCapacity,
                         maxColumnCapacity,
-                        minColumnCapacity));
+                        minColumnCapacity
+                    )
+                );
             }
             catch (Exception ex)
             {
@@ -92,9 +99,10 @@ namespace WodiLib.Test.Sys
             try
             {
                 instance = new TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>(
-                    TestTools.InitRowLength, TestTools.InitColumnLength,
+                    TestTools.InitRowLength,
+                    TestTools.InitColumnLength,
                     TestTools.CreateCommonConfig(funcMakeDefaultItem, validatorMock)
-                    );
+                );
             }
             catch (Exception ex)
             {
@@ -104,7 +112,9 @@ namespace WodiLib.Test.Sys
 
             var expectedInitItems = TestTools.MakeTestRecordArrays(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
-                false, funcMakeDefaultItem);
+                false,
+                funcMakeDefaultItem
+            );
 
             // 検証処理が正しく呼ばれていること
             validatorMock.CheckConstructor(expectedInitItems, false);
@@ -124,7 +134,8 @@ namespace WodiLib.Test.Sys
             try
             {
                 instance = new TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord>(
-                    TestTools.CreateCommonConfig(funcMakeDefaultItem, validatorMock));
+                    TestTools.CreateCommonConfig(funcMakeDefaultItem, validatorMock)
+                );
             }
             catch (Exception ex)
             {
@@ -141,7 +152,10 @@ namespace WodiLib.Test.Sys
             AssertElementsConstructor(instance, expectedInitItems);
         }
 
-        private static void AssertElementsConstructor(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance, TestRecord[][] items)
+        private static void AssertElementsConstructor(
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
+            TestRecord[][] items
+        )
         {
             var assumedCount = items.Length;
             var assumedItemCount = items.GetInnerArrayLength();
@@ -150,8 +164,10 @@ namespace WodiLib.Test.Sys
             for (var i = 0; i < assumedCount; i++)
             for (var j = 0; j < assumedItemCount; j++)
             {
-                Assert.IsTrue(instance[i, j].ItemEquals(items[i][j]),
-                    $"instance[{i}, {j}] == items{i}][{j}] ({instance[i, j]}.ItemEquals({items[i][j]}))");
+                Assert.IsTrue(
+                    instance[i, j].ItemEquals(items[i][j]),
+                    $"instance[{i}, {j}] == items{i}][{j}] ({instance[i, j]}.ItemEquals({items[i][j]}))"
+                );
             }
         }
 
@@ -186,8 +202,10 @@ namespace WodiLib.Test.Sys
             {
                 var expectedItem = TestTools.MakeListDefaultItem(rowIndex, columnIndex);
 
-                Assert.IsTrue(result.ItemEquals(expectedItem),
-                    $"result.ItemEquals(expectedItem) ({result}.ItemEquals({expectedItem}))");
+                Assert.IsTrue(
+                    result.ItemEquals(expectedItem),
+                    $"result.ItemEquals(expectedItem) ({result}.ItemEquals({expectedItem}))"
+                );
             }
         }
 
@@ -215,8 +233,10 @@ namespace WodiLib.Test.Sys
             validatorMock.CheckSetItem(rowIndex, columnIndex, setItem);
 
             // 取得結果が正しいこと
-            Assert.IsTrue(instance[rowIndex, columnIndex].ItemEquals(setItem),
-                $"instance[{rowIndex}, {columnIndex}].ItemEquals(expectedItem) ({instance[rowIndex, columnIndex]}.ItemEquals({setItem}))");
+            Assert.IsTrue(
+                instance[rowIndex, columnIndex].ItemEquals(setItem),
+                $"instance[{rowIndex}, {columnIndex}].ItemEquals(expectedItem) ({instance[rowIndex, columnIndex]}.ItemEquals({setItem}))"
+            );
         }
 
         #endregion
@@ -309,9 +329,15 @@ namespace WodiLib.Test.Sys
             AssertElementsGet(instance, rowIndex, rowCount, columnIndex, columnCount, Direction.Row, resultArray);
         }
 
-        private static void AssertElementsGet(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
-            int row, int count, int column, int itemCount, Direction direction,
-            TestRecord[][] resultArray)
+        private static void AssertElementsGet(
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
+            int row,
+            int count,
+            int column,
+            int itemCount,
+            Direction direction,
+            TestRecord[][] resultArray
+        )
         {
             if (direction == Direction.Row)
             {
@@ -382,7 +408,9 @@ namespace WodiLib.Test.Sys
 
             var setItems = TestTools.MakeTestRecordArrays(
                 TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
-                false, TestTools.MakeInitItem);
+                false,
+                TestTools.MakeInitItem
+            );
 
             try
             {
@@ -406,8 +434,11 @@ namespace WodiLib.Test.Sys
         {
             const int index = 1;
 
-            var setItems = TestTools.MakeTestRecordArrays(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
-                true, TestTools.MakeInitItem);
+            var setItems = TestTools.MakeTestRecordArrays(
+                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
+                true,
+                TestTools.MakeInitItem
+            );
 
             var instance = MakeInstance(out var validatorMock);
             var oldItems = instance.ToTwoDimensionalArray();
@@ -430,8 +461,13 @@ namespace WodiLib.Test.Sys
         }
 
         private static void AssertElementsSetRow(
-            int row, int column, TestRecord[][] setItems, Direction setDirection,
-            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance, TestRecord[][] oldItems)
+            int row,
+            int column,
+            TestRecord[][] setItems,
+            Direction setDirection,
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
+            TestRecord[][] oldItems
+        )
         {
             Assert.AreEqual(TestTools.InitRowLength, instance.RowCount);
             Assert.AreEqual(TestTools.InitColumnLength, instance.ColumnCount);
@@ -450,8 +486,10 @@ namespace WodiLib.Test.Sys
             for (; r < row; r++)
             for (var c = 0; c < TestTools.InitColumnLength; c++)
             {
-                Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c]),
-                    $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))");
+                Assert.IsTrue(
+                    instance[r, c].ItemEquals(oldItems[r][c]),
+                    $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))"
+                );
             }
 
             // 編集行：編集した列が編集した内容に変化していること
@@ -461,8 +499,10 @@ namespace WodiLib.Test.Sys
                 var c = 0;
                 for (; c < column; c++)
                 {
-                    Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c]),
-                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))");
+                    Assert.IsTrue(
+                        instance[r, c].ItemEquals(oldItems[r][c]),
+                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))"
+                    );
                 }
 
                 for (var cOffset = 0; cOffset < setItemColumnLength; cOffset++)
@@ -470,13 +510,17 @@ namespace WodiLib.Test.Sys
                     // 編集列：編集した内容に変化していること
                     if (setDirection == Direction.Row)
                     {
-                        Assert.IsTrue(instance[r, c].ItemEquals(setItems[rOffset][cOffset]),
-                            $"instance[{r}, {c}].ItemEquals(setItems[{rOffset}][{cOffset}]) ({instance[r, c]}.ItemEquals({setItems[rOffset][cOffset]}))");
+                        Assert.IsTrue(
+                            instance[r, c].ItemEquals(setItems[rOffset][cOffset]),
+                            $"instance[{r}, {c}].ItemEquals(setItems[{rOffset}][{cOffset}]) ({instance[r, c]}.ItemEquals({setItems[rOffset][cOffset]}))"
+                        );
                     }
                     else
                     {
-                        Assert.IsTrue(instance[r, c].ItemEquals(setItems[cOffset][rOffset]),
-                            $"instance[{r}, {c}].ItemEquals(setItems[{rOffset}][{cOffset}]) ({instance[r, c]}.ItemEquals({setItems[cOffset][rOffset]}))");
+                        Assert.IsTrue(
+                            instance[r, c].ItemEquals(setItems[cOffset][rOffset]),
+                            $"instance[{r}, {c}].ItemEquals(setItems[{rOffset}][{cOffset}]) ({instance[r, c]}.ItemEquals({setItems[cOffset][rOffset]}))"
+                        );
                     }
 
                     c++;
@@ -485,8 +529,10 @@ namespace WodiLib.Test.Sys
                 // 編集列より後：要素が変化していないこと
                 for (; c < TestTools.InitColumnLength; c++)
                 {
-                    Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c]),
-                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))");
+                    Assert.IsTrue(
+                        instance[r, c].ItemEquals(oldItems[r][c]),
+                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))"
+                    );
                 }
 
                 r++;
@@ -496,8 +542,10 @@ namespace WodiLib.Test.Sys
             for (; r < TestTools.InitRowLength; r++)
             for (var c = 0; c < TestTools.InitColumnLength; c++)
             {
-                Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c]),
-                    $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))");
+                Assert.IsTrue(
+                    instance[r, c].ItemEquals(oldItems[r][c]),
+                    $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))"
+                );
             }
         }
 
@@ -510,8 +558,11 @@ namespace WodiLib.Test.Sys
         {
             var instance = MakeInstance(out var validatorMock);
             var oldItems = instance.ToTwoDimensionalArray();
-            var addItems = TestTools.MakeTestRecordArrays(TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
-                false, TestTools.MakeInitItem);
+            var addItems = TestTools.MakeTestRecordArrays(
+                TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
+                false,
+                TestTools.MakeInitItem
+            );
 
             try
             {
@@ -530,8 +581,11 @@ namespace WodiLib.Test.Sys
             AssertElementsAddRow(instance, oldItems, addItems);
         }
 
-        private static void AssertElementsAddRow(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
-            TestRecord[][] oldItems, TestRecord[][] addItems)
+        private static void AssertElementsAddRow(
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
+            TestRecord[][] oldItems,
+            TestRecord[][] addItems
+        )
         {
             var addRowLength = addItems.Length;
 
@@ -544,8 +598,10 @@ namespace WodiLib.Test.Sys
             for (; r < oldItems.Length; r++)
             for (var c = 0; c < TestTools.InitColumnLength; c++)
             {
-                Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c]),
-                    $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))");
+                Assert.IsTrue(
+                    instance[r, c].ItemEquals(oldItems[r][c]),
+                    $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))"
+                );
             }
 
             // 追加行：追加した値と一致すること
@@ -554,8 +610,10 @@ namespace WodiLib.Test.Sys
             {
                 for (var c = 0; c < TestTools.InitColumnLength; c++)
                 {
-                    Assert.IsTrue(instance[r, c].ItemEquals(addItems[rOffset][c]),
-                        $"instance[{r}, {c}].ItemEquals(addItems[{rOffset}][{c}]) ({instance[r, c]}.ItemEquals({addItems[rOffset][c]}))");
+                    Assert.IsTrue(
+                        instance[r, c].ItemEquals(addItems[rOffset][c]),
+                        $"instance[{r}, {c}].ItemEquals(addItems[{rOffset}][{c}]) ({instance[r, c]}.ItemEquals({addItems[rOffset][c]}))"
+                    );
                 }
 
                 r++;
@@ -567,8 +625,11 @@ namespace WodiLib.Test.Sys
         {
             var instance = MakeInstance(out var validatorMock);
             var oldItems = instance.ToTwoDimensionalArray();
-            var addItems = TestTools.MakeTestRecordArrays(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
-                true, TestTools.MakeInitItem);
+            var addItems = TestTools.MakeTestRecordArrays(
+                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
+                true,
+                TestTools.MakeInitItem
+            );
 
             try
             {
@@ -587,8 +648,11 @@ namespace WodiLib.Test.Sys
             AssertElementsAddColumn(instance, oldItems, addItems);
         }
 
-        private static void AssertElementsAddColumn(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
-            TestRecord[][] oldItems, TestRecord[][] addItems)
+        private static void AssertElementsAddColumn(
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
+            TestRecord[][] oldItems,
+            TestRecord[][] addItems
+        )
         {
             var addColumnLength = addItems.Length;
 
@@ -601,16 +665,20 @@ namespace WodiLib.Test.Sys
                 // 追加列より前：値が変化していないこと
                 for (; c < TestTools.InitColumnLength; c++)
                 {
-                    Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c]),
-                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))");
+                    Assert.IsTrue(
+                        instance[r, c].ItemEquals(oldItems[r][c]),
+                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))"
+                    );
                 }
 
                 // 追加行：追加した値と一致すること
                 var cOffset = 0;
                 for (; cOffset < addColumnLength; cOffset++)
                 {
-                    Assert.IsTrue(instance[r, c].ItemEquals(addItems[cOffset][r]),
-                        $"instance[{r}, {c}].ItemEquals(addItems[{cOffset}][{r}]) ({instance[r, c]}.ItemEquals({addItems[cOffset][r]}))");
+                    Assert.IsTrue(
+                        instance[r, c].ItemEquals(addItems[cOffset][r]),
+                        $"instance[{r}, {c}].ItemEquals(addItems[{cOffset}][{r}]) ({instance[r, c]}.ItemEquals({addItems[cOffset][r]}))"
+                    );
                     c++;
                 }
             }
@@ -629,7 +697,9 @@ namespace WodiLib.Test.Sys
             var oldItems = instance.ToTwoDimensionalArray();
             var addItems = TestTools.MakeTestRecordArrays(
                 TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
-                false, TestTools.MakeInitItem);
+                false,
+                TestTools.MakeInitItem
+            );
 
             try
             {
@@ -648,8 +718,12 @@ namespace WodiLib.Test.Sys
             AssertElementsInsertRow(index, instance, oldItems, addItems);
         }
 
-        private static void AssertElementsInsertRow(int index, TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
-            TestRecord[][] oldItems, TestRecord[][] addItems)
+        private static void AssertElementsInsertRow(
+            int index,
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
+            TestRecord[][] oldItems,
+            TestRecord[][] addItems
+        )
         {
             var addRowLength = addItems.Length;
 
@@ -662,8 +736,10 @@ namespace WodiLib.Test.Sys
             for (; r < index; r++)
             for (var c = 0; c < TestTools.InitColumnLength; c++)
             {
-                Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c]),
-                    $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))");
+                Assert.IsTrue(
+                    instance[r, c].ItemEquals(oldItems[r][c]),
+                    $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))"
+                );
             }
 
             // 挿入行：挿入した値と一致すること
@@ -672,8 +748,10 @@ namespace WodiLib.Test.Sys
             {
                 for (var c = 0; c < TestTools.InitColumnLength; c++)
                 {
-                    Assert.IsTrue(instance[r, c].ItemEquals(addItems[rOffset][c]),
-                        $"instance[{r}, {c}].ItemEquals(addItems[{rOffset}][{c}]) ({instance[r, c]}.ItemEquals({addItems[rOffset][c]}))");
+                    Assert.IsTrue(
+                        instance[r, c].ItemEquals(addItems[rOffset][c]),
+                        $"instance[{r}, {c}].ItemEquals(addItems[{rOffset}][{c}]) ({instance[r, c]}.ItemEquals({addItems[rOffset][c]}))"
+                    );
                 }
 
                 r++;
@@ -683,8 +761,10 @@ namespace WodiLib.Test.Sys
             for (; r < TestTools.InitRowLength + addRowLength; r++)
             for (var c = 0; c < TestTools.InitColumnLength; c++)
             {
-                Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r - rOffset][c]),
-                    $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r - rOffset][c]}))");
+                Assert.IsTrue(
+                    instance[r, c].ItemEquals(oldItems[r - rOffset][c]),
+                    $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r - rOffset][c]}))"
+                );
             }
         }
 
@@ -695,8 +775,11 @@ namespace WodiLib.Test.Sys
 
             var instance = MakeInstance(out var validatorMock);
             var oldItems = instance.ToTwoDimensionalArray();
-            var addItems = TestTools.MakeTestRecordArrays(TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
-                true, TestTools.MakeInitItem);
+            var addItems = TestTools.MakeTestRecordArrays(
+                TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
+                true,
+                TestTools.MakeInitItem
+            );
 
             try
             {
@@ -715,8 +798,12 @@ namespace WodiLib.Test.Sys
             AssertElementsInsertColumn(index, instance, oldItems, addItems);
         }
 
-        private static void AssertElementsInsertColumn(int index, TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
-            TestRecord[][] oldItems, TestRecord[][] addItems)
+        private static void AssertElementsInsertColumn(
+            int index,
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
+            TestRecord[][] oldItems,
+            TestRecord[][] addItems
+        )
         {
             var addColumnLength = addItems.Length;
 
@@ -729,24 +816,30 @@ namespace WodiLib.Test.Sys
                 // 挿入列より前：値が変化していないこと
                 for (; c < index; c++)
                 {
-                    Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c]),
-                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))");
+                    Assert.IsTrue(
+                        instance[r, c].ItemEquals(oldItems[r][c]),
+                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))"
+                    );
                 }
 
                 // 挿入行：挿入した値と一致すること
                 var cOffset = 0;
                 for (; cOffset < addColumnLength; cOffset++)
                 {
-                    Assert.IsTrue(instance[r, c].ItemEquals(addItems[cOffset][r]),
-                        $"instance[{r}, {c}].ItemEquals(addItems[{cOffset}][{r}]) ({instance[r, c]}.ItemEquals({addItems[cOffset][r]}))");
+                    Assert.IsTrue(
+                        instance[r, c].ItemEquals(addItems[cOffset][r]),
+                        $"instance[{r}, {c}].ItemEquals(addItems[{cOffset}][{r}]) ({instance[r, c]}.ItemEquals({addItems[cOffset][r]}))"
+                    );
                     c++;
                 }
 
                 // 挿入列より後：値が変化していないこと
                 for (; c < TestTools.InitColumnLength + addColumnLength; c++)
                 {
-                    Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c - cOffset]),
-                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c - cOffset]}))");
+                    Assert.IsTrue(
+                        instance[r, c].ItemEquals(oldItems[r][c - cOffset]),
+                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c - cOffset]}))"
+                    );
                 }
             }
         }
@@ -768,7 +861,9 @@ namespace WodiLib.Test.Sys
             var oldItems = instance.ToTwoDimensionalArray();
             var overwriteItems = TestTools.MakeTestRecordArrays(
                 TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
-                false, TestTools.MakeInitItem);
+                false,
+                TestTools.MakeInitItem
+            );
 
             var addRowLength = overwriteItems.Length;
 
@@ -807,8 +902,10 @@ namespace WodiLib.Test.Sys
                 for (; r < index; r++)
                 for (var c = 0; c < TestTools.InitColumnLength; c++)
                 {
-                    Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c]),
-                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))");
+                    Assert.IsTrue(
+                        instance[r, c].ItemEquals(oldItems[r][c]),
+                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))"
+                    );
                 }
 
                 // 上書き行：上書きした値と一致すること
@@ -816,8 +913,10 @@ namespace WodiLib.Test.Sys
                 {
                     for (var c = 0; c < TestTools.InitColumnLength; c++)
                     {
-                        Assert.IsTrue(instance[r, c].ItemEquals(overwriteItems[rOffset][c]),
-                            $"instance[{r}, {c}].ItemEquals(overwriteItems[{rOffset}][{c}]) ({instance[r, c]}.ItemEquals({overwriteItems[rOffset][c]}))");
+                        Assert.IsTrue(
+                            instance[r, c].ItemEquals(overwriteItems[rOffset][c]),
+                            $"instance[{r}, {c}].ItemEquals(overwriteItems[{rOffset}][{c}]) ({instance[r, c]}.ItemEquals({overwriteItems[rOffset][c]}))"
+                        );
                     }
 
                     r++;
@@ -834,7 +933,9 @@ namespace WodiLib.Test.Sys
             var oldItems = instance.ToTwoDimensionalArray();
             var overwriteItems = TestTools.MakeTestRecordArrays(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnTwo,
-                true, TestTools.MakeInitItem);
+                true,
+                TestTools.MakeInitItem
+            );
 
             var addColumnLength = overwriteItems.Length;
 
@@ -874,15 +975,19 @@ namespace WodiLib.Test.Sys
                     // 上書き列より前：値が変化していないこと
                     for (; c < index; c++)
                     {
-                        Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c]),
-                            $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))");
+                        Assert.IsTrue(
+                            instance[r, c].ItemEquals(oldItems[r][c]),
+                            $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))"
+                        );
                     }
 
                     // 上書き列：上書きした値と一致すること
                     for (var cOffset = 0; cOffset < addColumnLength; cOffset++)
                     {
-                        Assert.IsTrue(instance[r, c].ItemEquals(overwriteItems[cOffset][r]),
-                            $"instance[{r}, {c}].ItemEquals(overwriteItems[{cOffset}][{r}]) ({instance[r, c]}.ItemEquals({overwriteItems[cOffset][r]}))");
+                        Assert.IsTrue(
+                            instance[r, c].ItemEquals(overwriteItems[cOffset][r]),
+                            $"instance[{r}, {c}].ItemEquals(overwriteItems[{cOffset}][{r}]) ({instance[r, c]}.ItemEquals({overwriteItems[cOffset][r]}))"
+                        );
                         c++;
                     }
                 }
@@ -965,8 +1070,14 @@ namespace WodiLib.Test.Sys
             AssertElementsMove(instance, oldIndex, newIndex, count, Direction.Column, oldItems);
         }
 
-        private static void AssertElementsMove(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
-            int oldIndex, int newIndex, int count, Direction direction, TestRecord[][] oldItems)
+        private static void AssertElementsMove(
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
+            int oldIndex,
+            int newIndex,
+            int count,
+            Direction direction,
+            TestRecord[][] oldItems
+        )
         {
             Assert.IsTrue(instance.RowCount == TestTools.InitRowLength);
             Assert.IsTrue(instance.ColumnCount == TestTools.InitColumnLength);
@@ -988,13 +1099,18 @@ namespace WodiLib.Test.Sys
                 inner.InsertRange(newIndex, moveItems);
             }
 
-            outer.ForEach((beforeRow, afterRow) =>
-                inner.ForEach((beforeColumn, afterColumn) =>
-                {
-                    Assert.IsTrue(instance[afterRow, afterColumn].ItemEquals(oldItems[beforeRow][beforeColumn]),
-                        $"instance[{afterRow}, {afterColumn}].ItemEquals(oldItems[{beforeRow}][{beforeColumn}]) " +
-                        $"({instance[afterRow, afterColumn]}.ItemEquals({oldItems[beforeRow][beforeColumn]}))");
-                })
+            outer.ForEach(
+                (beforeRow, afterRow) =>
+                    inner.ForEach(
+                        (beforeColumn, afterColumn) =>
+                        {
+                            Assert.IsTrue(
+                                instance[afterRow, afterColumn].ItemEquals(oldItems[beforeRow][beforeColumn]),
+                                $"instance[{afterRow}, {afterColumn}].ItemEquals(oldItems[{beforeRow}][{beforeColumn}]) "
+                                + $"({instance[afterRow, afterColumn]}.ItemEquals({oldItems[beforeRow][beforeColumn]}))"
+                            );
+                        }
+                    )
             );
         }
 
@@ -1028,8 +1144,12 @@ namespace WodiLib.Test.Sys
             AssertElementsRemoveRow(instance, index, removeCount, oldItems);
         }
 
-        private static void AssertElementsRemoveRow(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
-            int index, int count, TestRecord[][] oldItems)
+        private static void AssertElementsRemoveRow(
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
+            int index,
+            int count,
+            TestRecord[][] oldItems
+        )
         {
             var answerRowLength = TestTools.InitRowLength - count;
 
@@ -1041,16 +1161,20 @@ namespace WodiLib.Test.Sys
             for (; r < index; r++)
             for (var c = 0; c < TestTools.InitColumnLength; c++)
             {
-                Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c]),
-                    $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))");
+                Assert.IsTrue(
+                    instance[r, c].ItemEquals(oldItems[r][c]),
+                    $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))"
+                );
             }
 
             // 初期要素（削除位置より後）が変化していないこと
             for (; r < answerRowLength; r++)
             for (var c = 0; c < TestTools.InitColumnLength; c++)
             {
-                Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r + count][c]),
-                    $"instance[{r}, {c}].ItemEquals(oldItems[{r + count}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r + count][c]}))");
+                Assert.IsTrue(
+                    instance[r, c].ItemEquals(oldItems[r + count][c]),
+                    $"instance[{r}, {c}].ItemEquals(oldItems[{r + count}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r + count][c]}))"
+                );
             }
         }
 
@@ -1080,8 +1204,12 @@ namespace WodiLib.Test.Sys
             AssertElementsRemoveColumn(instance, index, removeCount, oldItems);
         }
 
-        private static void AssertElementsRemoveColumn(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
-            int index, int count, TestRecord[][] oldItems)
+        private static void AssertElementsRemoveColumn(
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
+            int index,
+            int count,
+            TestRecord[][] oldItems
+        )
         {
             var answerColumnLength = TestTools.InitColumnLength - count;
 
@@ -1095,15 +1223,19 @@ namespace WodiLib.Test.Sys
                 // 初期要素（削除位置より前）が変化していないこと
                 for (; c < index; c++)
                 {
-                    Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c]),
-                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))");
+                    Assert.IsTrue(
+                        instance[r, c].ItemEquals(oldItems[r][c]),
+                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))"
+                    );
                 }
 
                 // 初期要素（削除位置より後）が変化していないこと
                 for (; c < answerColumnLength; c++)
                 {
-                    Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c + count]),
-                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c + count}]) ({instance[r, c]}.ItemEquals({oldItems[r][c + count]}))");
+                    Assert.IsTrue(
+                        instance[r, c].ItemEquals(oldItems[r][c + count]),
+                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c + count}]) ({instance[r, c]}.ItemEquals({oldItems[r][c + count]}))"
+                    );
                 }
             }
         }
@@ -1211,8 +1343,13 @@ namespace WodiLib.Test.Sys
             validatorMock.CheckAdjustLength(rowLength, columnLength);
 
             // 結果が正しいこと
-            AssertElementsAdjustLength(instance, Math.Max(TestTools.InitRowLength, rowLength),
-                Math.Max(TestTools.InitColumnLength, columnLength), oldItems, funcMakeDefaultItem);
+            AssertElementsAdjustLength(
+                instance,
+                Math.Max(TestTools.InitRowLength, rowLength),
+                Math.Max(TestTools.InitColumnLength, columnLength),
+                oldItems,
+                funcMakeDefaultItem
+            );
         }
 
         [TestCase(AdjustLengthTestCase_LongLength, AdjustLengthTestCase_LongLength)]
@@ -1260,8 +1397,13 @@ namespace WodiLib.Test.Sys
             validatorMock.CheckAdjustLength(rowLength, columnLength);
 
             // 結果が正しいこと
-            AssertElementsAdjustLength(instance, Math.Min(TestTools.InitRowLength, rowLength),
-                Math.Min(TestTools.InitColumnLength, columnLength), oldItems, funcMakeDefaultItem);
+            AssertElementsAdjustLength(
+                instance,
+                Math.Min(TestTools.InitRowLength, rowLength),
+                Math.Min(TestTools.InitColumnLength, columnLength),
+                oldItems,
+                funcMakeDefaultItem
+            );
         }
 
         #endregion
@@ -1335,8 +1477,13 @@ namespace WodiLib.Test.Sys
             validatorMock.CheckAdjustLength(rowLength, TestTools.InitColumnLength);
 
             // 結果が正しいこと
-            AssertElementsAdjustLength(instance, Math.Max(TestTools.InitRowLength, rowLength),
-                TestTools.InitColumnLength, oldItems, funcMakeDefaultItem);
+            AssertElementsAdjustLength(
+                instance,
+                Math.Max(TestTools.InitRowLength, rowLength),
+                TestTools.InitColumnLength,
+                oldItems,
+                funcMakeDefaultItem
+            );
         }
 
         [TestCase(AdjustLengthTestCase_LongLength)]
@@ -1371,8 +1518,13 @@ namespace WodiLib.Test.Sys
             validatorMock.CheckAdjustLength(rowLength, TestTools.InitColumnLength);
 
             // 結果が正しいこと
-            AssertElementsAdjustLength(instance, Math.Min(TestTools.InitRowLength, rowLength),
-                TestTools.InitColumnLength, oldItems, funcMakeDefaultItem);
+            AssertElementsAdjustLength(
+                instance,
+                Math.Min(TestTools.InitRowLength, rowLength),
+                TestTools.InitColumnLength,
+                oldItems,
+                funcMakeDefaultItem
+            );
         }
 
         #endregion
@@ -1446,8 +1598,13 @@ namespace WodiLib.Test.Sys
             validatorMock.CheckAdjustLength(TestTools.InitRowLength, columnLength);
 
             // 結果が正しいこと
-            AssertElementsAdjustLength(instance, TestTools.InitRowLength,
-                Math.Max(TestTools.InitColumnLength, columnLength), oldItems, funcMakeDefaultItem);
+            AssertElementsAdjustLength(
+                instance,
+                TestTools.InitRowLength,
+                Math.Max(TestTools.InitColumnLength, columnLength),
+                oldItems,
+                funcMakeDefaultItem
+            );
         }
 
         [TestCase(AdjustLengthTestCase_LongLength)]
@@ -1482,14 +1639,24 @@ namespace WodiLib.Test.Sys
             validatorMock.CheckAdjustLength(TestTools.InitRowLength, columnLength);
 
             // 結果が正しいこと
-            AssertElementsAdjustLength(instance, TestTools.InitRowLength,
-                Math.Min(TestTools.InitColumnLength, columnLength), oldItems, funcMakeDefaultItem);
+            AssertElementsAdjustLength(
+                instance,
+                TestTools.InitRowLength,
+                Math.Min(TestTools.InitColumnLength, columnLength),
+                oldItems,
+                funcMakeDefaultItem
+            );
         }
 
         #endregion
 
-        private static void AssertElementsAdjustLength(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance, int adjustRowLength,
-            int adjustColumnLength, TestRecord[][] oldItems, Func<int, int, TestRecord> funcMakeDefaultItem)
+        private static void AssertElementsAdjustLength(
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
+            int adjustRowLength,
+            int adjustColumnLength,
+            TestRecord[][] oldItems,
+            Func<int, int, TestRecord> funcMakeDefaultItem
+        )
         {
             var oldRowLength = oldItems.Length;
             var oldColumnLength = oldItems.GetInnerArrayLength();
@@ -1512,8 +1679,10 @@ namespace WodiLib.Test.Sys
                 // 初期要素（調整位置より前）が変化していないこと
                 for (; c < notChangedColumnLength; c++)
                 {
-                    Assert.IsTrue(instance[r, c].ItemEquals(oldItems[r][c]),
-                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))");
+                    Assert.IsTrue(
+                        instance[r, c].ItemEquals(oldItems[r][c]),
+                        $"instance[{r}, {c}].ItemEquals(oldItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({oldItems[r][c]}))"
+                    );
                 }
 
                 if (isColumnAdded)
@@ -1523,8 +1692,10 @@ namespace WodiLib.Test.Sys
                     {
                         var answerItem = funcMakeDefaultItem(r, c);
 
-                        Assert.IsTrue(instance[r, c].ItemEquals(answerItem),
-                            $"instance[{r}, {c}].ItemEquals(answerItem) ({instance[r, c]}.ItemEquals({answerItem}))");
+                        Assert.IsTrue(
+                            instance[r, c].ItemEquals(answerItem),
+                            $"instance[{r}, {c}].ItemEquals(answerItem) ({instance[r, c]}.ItemEquals({answerItem}))"
+                        );
                     }
                 }
                 else
@@ -1541,8 +1712,10 @@ namespace WodiLib.Test.Sys
                 {
                     var answerItem = funcMakeDefaultItem(r, c);
 
-                    Assert.IsTrue(instance[r, c].ItemEquals(answerItem),
-                        $"instance[{r}, {c}] == defaultItem({r}][{c}) ({instance[r, c]} == {answerItem})");
+                    Assert.IsTrue(
+                        instance[r, c].ItemEquals(answerItem),
+                        $"instance[{r}, {c}] == defaultItem({r}][{c}) ({instance[r, c]} == {answerItem})"
+                    );
                 }
             }
             else
@@ -1561,8 +1734,11 @@ namespace WodiLib.Test.Sys
         {
             var instance = MakeInstance(out var validatorMock);
 
-            var resetItems = TestTools.MakeTestRecordList(TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
-                    false, TestTools.MakeInsertItem)
+            var resetItems = TestTools.MakeTestRecordList(
+                    TestDoubleEnumerableInstanceType.NotNull_RowTwo_ColumnBasic,
+                    false,
+                    TestTools.MakeInsertItem
+                )
                 .ToTwoDimensionalArray();
 
             try
@@ -1607,8 +1783,10 @@ namespace WodiLib.Test.Sys
             AssertElementsReset(instance, expectedResetItems);
         }
 
-        private static void AssertElementsReset(TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
-            TestRecord[][] resetItems)
+        private static void AssertElementsReset(
+            TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> instance,
+            TestRecord[][] resetItems
+        )
         {
             var resetItemRowLength = resetItems.Length;
             var resetItemColumnLength = resetItems.GetInnerArrayLength();
@@ -1620,8 +1798,10 @@ namespace WodiLib.Test.Sys
             for (var r = 0; r < resetItemRowLength; r++)
             for (var c = 0; c < resetItemColumnLength; c++)
             {
-                Assert.IsTrue(instance[r, c].ItemEquals(resetItems[r][c]),
-                    $"instance[{r}, {c}].ItemEquals(resetItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({resetItems[r][c]}))");
+                Assert.IsTrue(
+                    instance[r, c].ItemEquals(resetItems[r][c]),
+                    $"instance[{r}, {c}].ItemEquals(resetItems[{r}][{c}]) ({instance[r, c]}.ItemEquals({resetItems[r][c]}))"
+                );
             }
         }
 
@@ -1629,20 +1809,23 @@ namespace WodiLib.Test.Sys
 
         #region TestTools
 
-
         private static TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> MakeInstance(
-            out TwoDimensionalListValidatorMock validatorMock)
+            out TwoDimensionalListValidatorMock validatorMock
+        )
             => MakeInstance(null, out validatorMock);
 
         private static TwoDimensionalList<IFixedLengthList<TestRecord>, TestRecordList, TestRecord> MakeInstance(
             Func<int, int, TestRecord> funcMakeDefaultItem,
-            out TwoDimensionalListValidatorMock validatorMock)
+            out TwoDimensionalListValidatorMock validatorMock
+        )
         {
             validatorMock = new TwoDimensionalListValidatorMock(false);
 
             var result = TestTools.MakeTwoDimensionalList(
                 TestDoubleEnumerableInstanceType.NotNull_RowBasic_ColumnBasic,
-                validatorMock, funcMakeDefaultItem ?? TestTools.MakeListDefaultItem);
+                validatorMock,
+                funcMakeDefaultItem ?? TestTools.MakeListDefaultItem
+            );
 
             return result;
         }
@@ -1651,7 +1834,8 @@ namespace WodiLib.Test.Sys
 
         #region TestClass
 
-        private class TwoDimensionalListValidatorMock : ITwoDimensionalListValidator<IFixedLengthList<TestRecord>, TestRecord>
+        private class TwoDimensionalListValidatorMock :
+            ITwoDimensionalListValidator<IFixedLengthList<TestRecord>, TestRecord>
         {
             private List<string> CalledMethodNames { get; } = new();
             private TestRecord[][] Items { get; set; }
@@ -1676,135 +1860,168 @@ namespace WodiLib.Test.Sys
 
             #region ValidateHandler
 
-            public void Constructor(IFixedLengthList<TestRecord>[] initItems)
+            public void Constructor(NamedValue<IFixedLengthList<TestRecord>[]> initItems)
             {
                 if (!IsRecordConstructor) return;
 
                 CalledMethodNames.Add(nameof(Constructor));
-                InitItems = initItems.ToTwoDimensionalArray();
+                InitItems = initItems.Value.ToTwoDimensionalArray();
             }
 
-            public void GetRow(int row, int rowCount)
+            public void GetRow(NamedValue<int> rowIndex, NamedValue<int> rowCount)
             {
                 CalledMethodNames.Add(nameof(GetRow));
-                Row = row;
-                RowCount = rowCount;
+                Row = rowIndex.Value;
+                RowCount = rowCount.Value;
             }
 
-            public void GetColumn(int columnIndex, int columnCount)
+            public void GetColumn(NamedValue<int> columnIndex, NamedValue<int> columnCount)
             {
                 CalledMethodNames.Add(nameof(GetColumn));
-                Column = columnIndex;
-                ColumnCount = columnCount;
+                Column = columnIndex.Value;
+                ColumnCount = columnCount.Value;
             }
 
-            public void GetItem(int rowIndex, int columnIndex)
+            public void GetItem(NamedValue<int> rowIndex, NamedValue<int> columnIndex)
             {
                 CalledMethodNames.Add(nameof(GetItem));
-                Row = rowIndex;
-                Column = columnIndex;
+                Row = rowIndex.Value;
+                Column = columnIndex.Value;
             }
 
-            public void GetItem(int rowIndex, int rowCount, int columnIndex, int columnCount)
+            public void GetItem(
+                NamedValue<int> rowIndex,
+                NamedValue<int> rowCount,
+                NamedValue<int> columnIndex,
+                NamedValue<int> columnCount
+            )
             {
                 CalledMethodNames.Add(nameof(GetItem));
-                Row = rowIndex;
-                RowCount = rowCount;
-                Column = columnIndex;
-                ColumnCount = columnCount;
+                Row = rowIndex.Value;
+                RowCount = rowCount.Value;
+                Column = columnIndex.Value;
+                ColumnCount = columnCount.Value;
             }
 
-            public void SetRow(int rowIndex, params IFixedLengthList<TestRecord>[] rows)
+            public void SetRow(
+                NamedValue<int> rowIndex,
+                string targetParamName,
+                params IFixedLengthList<TestRecord>[] rows
+            )
             {
                 CalledMethodNames.Add(nameof(SetRow));
-                Row = rowIndex;
+                Row = rowIndex.Value;
                 Items = rows.ToTwoDimensionalArray();
             }
 
-            public void SetColumn(int columnIndex, params IEnumerable<TestRecord>[] items)
+            public void SetColumn(
+                NamedValue<int> columnIndex,
+                string targetParamName,
+                params IEnumerable<TestRecord>[] items
+            )
             {
                 CalledMethodNames.Add(nameof(SetColumn));
-                Column = columnIndex;
+                Column = columnIndex.Value;
                 Items = items.ToTwoDimensionalArray();
             }
 
-            public void SetItem(int rowIndex, int columnIndex, TestRecord item)
+            public void SetItem(NamedValue<int> rowIndex, NamedValue<int> columnIndex, NamedValue<TestRecord> item)
             {
                 CalledMethodNames.Add(nameof(SetItem));
-                Row = rowIndex;
-                Column = columnIndex;
-                Items = new[] {new[] {item}};
+                Row = rowIndex.Value;
+                Column = columnIndex.Value;
+                Items = new[] { new[] { item.Value } };
             }
 
-            public void InsertRow(int rowIndex, params IFixedLengthList<TestRecord>[] items)
+            public void InsertRow(
+                NamedValue<int> rowIndex,
+                string targetParamName,
+                params IFixedLengthList<TestRecord>[] items
+            )
             {
                 CalledMethodNames.Add(nameof(InsertRow));
-                Index = rowIndex;
+                Index = rowIndex.Value;
                 Items = items.ToTwoDimensionalArray();
             }
 
-            public void InsertColumn(int columnIndex, params IEnumerable<TestRecord>[] items)
+            public void InsertColumn(
+                NamedValue<int> columnIndex,
+                string targetParamName,
+                params IEnumerable<TestRecord>[] items
+            )
             {
                 CalledMethodNames.Add(nameof(InsertColumn));
-                Index = columnIndex;
+                Index = columnIndex.Value;
                 Items = items.ToTwoDimensionalArray();
             }
 
-            public void OverwriteRow(int rowIndex, params IFixedLengthList<TestRecord>[] items)
+            public void OverwriteRow(
+                NamedValue<int> rowIndex,
+                string targetParamName,
+                params IFixedLengthList<TestRecord>[] items
+            )
             {
                 CalledMethodNames.Add(nameof(OverwriteRow));
-                Index = rowIndex;
+                Index = rowIndex.Value;
                 Items = items.ToTwoDimensionalArray();
             }
 
-            public void OverwriteColumn(int columnIndex, params IEnumerable<TestRecord>[] items)
+            public void OverwriteColumn(
+                NamedValue<int> columnIndex,
+                string targetParamName,
+                params IEnumerable<TestRecord>[] items
+            )
             {
                 CalledMethodNames.Add(nameof(OverwriteColumn));
-                Index = columnIndex;
+                Index = columnIndex.Value;
                 Items = items.ToTwoDimensionalArray();
             }
 
-            public void MoveRow(int oldRowIndex, int newRowIndex, int count)
+            public void MoveRow(NamedValue<int> oldRowIndex, NamedValue<int> newRowIndex, NamedValue<int> count)
             {
                 CalledMethodNames.Add(nameof(MoveRow));
-                OldIndex = oldRowIndex;
-                NewIndex = newRowIndex;
-                Count = count;
+                OldIndex = oldRowIndex.Value;
+                NewIndex = newRowIndex.Value;
+                Count = count.Value;
             }
 
-            public void MoveColumn(int oldColumnIndex, int newColumnIndex, int count)
+            public void MoveColumn(
+                NamedValue<int> oldColumnIndex,
+                NamedValue<int> newColumnIndex,
+                NamedValue<int> count
+            )
             {
                 CalledMethodNames.Add(nameof(MoveColumn));
-                OldIndex = oldColumnIndex;
-                NewIndex = newColumnIndex;
-                Count = count;
+                OldIndex = oldColumnIndex.Value;
+                NewIndex = newColumnIndex.Value;
+                Count = count.Value;
             }
 
-            public void RemoveRow(int rowIndex, int count)
+            public void RemoveRow(NamedValue<int> rowIndex, NamedValue<int> count)
             {
                 CalledMethodNames.Add(nameof(RemoveRow));
-                Index = rowIndex;
-                Count = count;
+                Index = rowIndex.Value;
+                Count = count.Value;
             }
 
-            public void RemoveColumn(int columnIndex, int count)
+            public void RemoveColumn(NamedValue<int> columnIndex, NamedValue<int> count)
             {
                 CalledMethodNames.Add(nameof(RemoveColumn));
-                Index = columnIndex;
-                Count = count;
+                Index = columnIndex.Value;
+                Count = count.Value;
             }
 
-            public void AdjustLength(int rowLength, int columnLength)
+            public void AdjustLength(NamedValue<int> rowLength, NamedValue<int> columnLength)
             {
                 CalledMethodNames.Add(nameof(AdjustLength));
-                RowLength = rowLength;
-                ColumnLength = columnLength;
+                RowLength = rowLength.Value;
+                ColumnLength = columnLength.Value;
             }
 
-            public void Reset(IEnumerable<IFixedLengthList<TestRecord>> initItems)
+            public void Reset(NamedValue<IEnumerable<IFixedLengthList<TestRecord>>> initItems)
             {
                 CalledMethodNames.Add(nameof(Reset));
-                Items = initItems.ToTwoDimensionalArray();
+                Items = initItems.Value.ToTwoDimensionalArray();
             }
 
             #endregion
@@ -1822,9 +2039,11 @@ namespace WodiLib.Test.Sys
 
                 var valuesArray = values.ToTwoDimensionalArray();
 
-                Assert.IsTrue(isValuesUseConstructor
-                    ? TestTools.IsAllItemReferenceEquals(InitItems, valuesArray)
-                    : TestTools.IsAllItemEquals(InitItems, valuesArray));
+                Assert.IsTrue(
+                    isValuesUseConstructor
+                        ? TestTools.IsAllItemReferenceEquals(InitItems, valuesArray)
+                        : TestTools.IsAllItemEquals(InitItems, valuesArray)
+                );
                 CheckNull(nameof(InitItems));
             }
 
@@ -1933,7 +2152,7 @@ namespace WodiLib.Test.Sys
                 Assert.AreEqual(1, CalledMethodNames.Count);
                 Assert.IsTrue(CalledMethodNames[0].Equals(nameof(SetItem)));
 
-                var itemArray = new[] {new[] {item}};
+                var itemArray = new[] { new[] { item } };
 
                 Assert.AreEqual(rowIndex, Row);
                 Assert.AreEqual(columnIndex, Column);

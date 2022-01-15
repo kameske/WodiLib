@@ -23,7 +23,7 @@ namespace WodiLib.Sys.Collections
         ITwoDimensionalListProperty,
         IEnumerable<TOutRow>
         where TInRow : IEnumerable<TInItem>
-        where TInItem : TOutItem
+        where TOutItem : TInItem
     {
         /// <summary>
         ///     インデクサによるアクセス

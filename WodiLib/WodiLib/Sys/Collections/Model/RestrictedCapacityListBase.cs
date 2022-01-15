@@ -33,14 +33,14 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc/>
-        public event EventHandler<NotifyCollectionChangedEventArgsEx<T>> CollectionChanging
+        public virtual event EventHandler<NotifyCollectionChangedEventArgsEx<T>> CollectionChanging
         {
             add => Items.CollectionChanging += value;
             remove => Items.CollectionChanging -= value;
         }
 
         /// <inheritdoc/>
-        public event EventHandler<NotifyCollectionChangedEventArgsEx<T>> CollectionChanged
+        public virtual event EventHandler<NotifyCollectionChangedEventArgsEx<T>> CollectionChanged
         {
             add => Items.CollectionChanged += value;
             remove => Items.CollectionChanged -= value;
@@ -55,12 +55,12 @@ namespace WodiLib.Sys.Collections
         {
             get
             {
-                Validator?.Get(index, 1);
+                Validator?.Get((nameof(index), index), ("1", 1));
                 return Items[index];
             }
             set
             {
-                Validator?.Set(index, value);
+                Validator?.Set((nameof(index), index), (nameof(value), value));
                 Items[index] = value;
             }
         }
@@ -109,7 +109,7 @@ namespace WodiLib.Sys.Collections
         private IWodiLibListValidator<T>? ValidatorForWritableList => validators.ForWritableList;
 
         /// <summary>リスト</summary>
-        private ExtendedList<T> Items { get; }
+        protected virtual IExtendedList<T> Items { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Fields
@@ -132,7 +132,7 @@ namespace WodiLib.Sys.Collections
             var items = MakeClearItems();
 
             validators = MakeValidator();
-            Validator?.Constructor(items);
+            Validator?.Constructor(("InitItems of RestrictedCapacityListBase()", items));
 
             Items = new ExtendedList<T>(items)
             {
@@ -152,7 +152,7 @@ namespace WodiLib.Sys.Collections
                 .ToArray();
 
             validators = MakeValidator();
-            Validator?.Constructor(items);
+            Validator?.Constructor(("InitItems of RestrictedCapacityListBase(int)", items));
 
             Items = new ExtendedList<T>(items)
             {
@@ -180,7 +180,7 @@ namespace WodiLib.Sys.Collections
             var items = initItems.ToList();
 
             validators = MakeValidator();
-            Validator?.Constructor(items);
+            Validator?.Constructor((nameof(initItems), items));
             Items = new ExtendedList<T>(items)
             {
                 FuncMakeItems = MakeItems
@@ -214,7 +214,7 @@ namespace WodiLib.Sys.Collections
         /// <inheritdoc/>
         public IEnumerable<T> GetRange(int index, int count)
         {
-            Validator?.Get(index, count);
+            Validator?.Get((nameof(index), index), (nameof(count), count));
             return Items.GetRange(index, count);
         }
 
@@ -224,14 +224,14 @@ namespace WodiLib.Sys.Collections
             ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
 
             var itemList = items.ToList();
-            Validator?.Set(index, itemList);
+            Validator?.Set((nameof(index), index), (nameof(items), itemList));
             Items.SetRange(index, itemList);
         }
 
         /// <inheritdoc/>
         public void Add(T item)
         {
-            Validator?.Insert(Count, item);
+            Validator?.Insert((nameof(Count), Count), (nameof(item), item));
             Items.Add(item);
         }
 
@@ -241,14 +241,14 @@ namespace WodiLib.Sys.Collections
             ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
 
             var itemList = items.ToList();
-            Validator?.Insert(Count, itemList);
+            Validator?.Insert((nameof(Count), Count), (nameof(itemList), itemList));
             Items.AddRange(itemList);
         }
 
         /// <inheritdoc/>
         public void Insert(int index, T item)
         {
-            Validator?.Insert(index, item);
+            Validator?.Insert((nameof(index), index), (nameof(item), item));
             Items.Insert(index, item);
         }
 
@@ -258,7 +258,7 @@ namespace WodiLib.Sys.Collections
             ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
 
             var itemList = items.ToList();
-            Validator?.Insert(index, itemList);
+            Validator?.Insert((nameof(index), index), (nameof(items), itemList));
             Items.InsertRange(index, itemList);
         }
 
@@ -266,30 +266,36 @@ namespace WodiLib.Sys.Collections
         public void Overwrite(int index, IEnumerable<T> items)
         {
             ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+            var itemArray = items.ToArray();
+            ThrowHelper.ValidateArgumentItemsHasNotNull(itemArray.HasNullItem(), nameof(items));
+            Validator?.Overwrite((nameof(index), index), (nameof(items), itemArray));
 
-            var itemList = items.ToList();
-            Validator?.Overwrite(index, itemList);
-            Items.Overwrite(index, itemList);
+            if (itemArray.Length == 0)
+            {
+                return;
+            }
+
+            Items.Overwrite(index, itemArray);
         }
 
         /// <inheritdoc/>
         public void Move(int oldIndex, int newIndex)
         {
-            Validator?.Move(oldIndex, newIndex, 1);
+            Validator?.Move((nameof(oldIndex), oldIndex), (nameof(newIndex), newIndex), ("", 1));
             Items.Move(oldIndex, newIndex);
         }
 
         /// <inheritdoc/>
         public void MoveRange(int oldIndex, int newIndex, int count)
         {
-            Validator?.Move(oldIndex, newIndex, count);
+            Validator?.Move((nameof(oldIndex), oldIndex), (nameof(newIndex), newIndex), (nameof(count), count));
             Items.MoveRange(oldIndex, newIndex, count);
         }
 
         /// <inheritdoc/>
         public bool Remove(T? item)
         {
-            Validator?.Remove(item);
+            Validator?.Remove((nameof(item), item));
 
             if (item is null) return false;
 
@@ -299,35 +305,35 @@ namespace WodiLib.Sys.Collections
         /// <inheritdoc/>
         public void RemoveAt(int index)
         {
-            Validator?.Remove(index, 1);
+            Validator?.Remove((nameof(index), index), ("", 1));
             Items.RemoveAt(index);
         }
 
         /// <inheritdoc/>
         public void RemoveRange(int index, int count)
         {
-            Validator?.Remove(index, count);
+            Validator?.Remove((nameof(index), index), (nameof(count), count));
             Items.RemoveRange(index, count);
         }
 
         /// <inheritdoc/>
         public void AdjustLength(int length)
         {
-            Validator?.AdjustLength(length);
+            Validator?.AdjustLength((nameof(length), length));
             Items.AdjustLength(length);
         }
 
         /// <inheritdoc/>
         public void AdjustLengthIfShort(int length)
         {
-            Validator?.AdjustLengthIfShort(length);
+            Validator?.AdjustLengthIfShort((nameof(length), length));
             Items.AdjustLengthIfShort(length);
         }
 
         /// <inheritdoc/>
         public void AdjustLengthIfLong(int length)
         {
-            Validator?.AdjustLengthIfLong(length);
+            Validator?.AdjustLengthIfLong((nameof(length), length));
             Items.AdjustLengthIfLong(length);
         }
 
@@ -342,7 +348,7 @@ namespace WodiLib.Sys.Collections
 
             var itemList = initItems.ToList();
 
-            Validator?.Reset(itemList);
+            Validator?.Reset((nameof(initItems), itemList));
             Items.Reset(itemList);
         }
 
@@ -371,8 +377,7 @@ namespace WodiLib.Sys.Collections
         /// <inheritdoc/>
         public override TImpl DeepClone()
         {
-            var clonedItems = Items.DeepClone();
-            return MakeInstance(clonedItems);
+            return MakeInstance(Items);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -416,7 +421,7 @@ namespace WodiLib.Sys.Collections
 
             var itemList = initItems.ToList();
 
-            ValidatorForWritableList?.Reset(itemList);
+            ValidatorForWritableList?.Reset((nameof(itemList), itemList));
             Items.Reset(itemList);
         }
 
@@ -450,7 +455,7 @@ namespace WodiLib.Sys.Collections
         {
             return new Validators(
                 new RestrictedCapacityListValidator<T>(this),
-                new FixedLengthListValidator<T>(this)
+                new FixedLengthListValidator<T>(this, () => Count)
             );
         }
 
@@ -496,17 +501,20 @@ namespace WodiLib.Sys.Collections
         private IEnumerable<T> MakeItems(int index, int count)
         {
             return Enumerable.Range(0, count)
-                .Select(i =>
-                {
-                    var result = MakeDefaultItem(i + index);
-                    if (result is null)
+                .Select(
+                    i =>
                     {
-                        throw new NullReferenceException(
-                            ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}(index: {i}) の結果"));
-                    }
+                        var result = MakeDefaultItem(i + index);
+                        if (result is null)
+                        {
+                            throw new NullReferenceException(
+                                ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}(index: {i}) の結果")
+                            );
+                        }
 
-                    return result;
-                });
+                        return result;
+                    }
+                );
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -520,10 +528,10 @@ namespace WodiLib.Sys.Collections
         protected partial record Validators
         {
             /// <summary>通常使用するValidator</summary>
-            public IWodiLibListValidator<T>? ForMe { get; init; }
+            public IWodiLibListValidator<T>? ForMe { get; }
 
             /// <summary>IFixedLengthListキャスト時に使用するValidator</summary>
-            public IWodiLibListValidator<T>? ForWritableList { get; init; }
+            public IWodiLibListValidator<T>? ForWritableList { get; }
         }
     }
 }

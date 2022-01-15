@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using WodiLib.Sys;
 using WodiLib.Sys.Collections;
 
@@ -28,46 +27,46 @@ namespace WodiLib.Event.EventCommand
                 BaseValidator = new FixedLengthListValidator<string>(target, Capacity);
             }
 
-            public override void Get(int index, int count)
+            public override void Get(NamedValue<int> index, NamedValue<int> count)
             {
                 BaseValidator!.Get(index, count);
-                ListValidationHelper.SelectIndex(index, Target.CaseValue);
+                ListValidationHelper.SelectIndex(index, (nameof(Target.CaseValue), Target.CaseValue));
             }
 
-            public override void Set(int index, string item)
+            public override void Set(NamedValue<int> index, NamedValue<string> item)
             {
                 BaseValidator!.Set(index, item);
-                ListValidationHelper.SelectIndex(index, Target.CaseValue);
+                ListValidationHelper.SelectIndex(index, (nameof(Target.CaseValue), Target.CaseValue));
             }
 
-            public override void Set(int index, IReadOnlyList<string> items)
+            public override void Set(NamedValue<int> index, NamedValue<IReadOnlyList<string>> items)
             {
                 BaseValidator!.Set(index, items);
-                ListValidationHelper.SelectIndex(index, Target.CaseValue);
+                ListValidationHelper.SelectIndex(index, (nameof(Target.CaseValue), Target.CaseValue));
             }
 
-            public override void Insert(int index, string items)
+            public override void Insert(NamedValue<int> index, NamedValue<string> item)
                 => throw new NotSupportedException();
 
-            public override void Insert(int index, IReadOnlyList<string> items)
+            public override void Insert(NamedValue<int> index, NamedValue<IReadOnlyList<string>> items)
                 => throw new NotSupportedException();
 
-            public override void Overwrite(int index, IReadOnlyList<string> items)
+            public override void Overwrite(NamedValue<int> index, NamedValue<IReadOnlyList<string>> items)
                 => throw new NotSupportedException();
 
-            public override void Remove([AllowNull] string item)
+            public override void Remove(NamedValue<string?> item)
                 => throw new NotSupportedException();
 
-            public override void Remove(int index, int count)
+            public override void Remove(NamedValue<int> index, NamedValue<int> count)
                 => throw new NotSupportedException();
 
-            public override void AdjustLength(int length)
+            public override void AdjustLength(NamedValue<int> length)
                 => throw new NotSupportedException();
 
-            public override void AdjustLengthIfShort(int length)
+            public override void AdjustLengthIfShort(NamedValue<int> length)
                 => throw new NotSupportedException();
 
-            public override void AdjustLengthIfLong(int length)
+            public override void AdjustLengthIfLong(NamedValue<int> length)
                 => throw new NotSupportedException();
         }
     }

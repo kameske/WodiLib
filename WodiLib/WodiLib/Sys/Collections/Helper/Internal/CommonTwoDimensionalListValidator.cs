@@ -20,10 +20,19 @@ namespace WodiLib.Sys.Collections
         : CommonTwoDimensionalListValidator<TRow, TRow, TItem, TItem>
         where TRow : IEnumerable<TItem>
     {
-        public CommonTwoDimensionalListValidator(ITwoDimensionalList<TRow, TRow, TItem, TItem> target,
+        public CommonTwoDimensionalListValidator(
+            ITwoDimensionalList<TRow, TRow, TItem, TItem> target,
             string rowName = "行",
-            string rowIndexName = "row", string columnName = "列", string columnIndexName = "column") : base(target,
-            rowName, rowIndexName, columnName, columnIndexName)
+            string rowIndexName = "row",
+            string columnName = "列",
+            string columnIndexName = "column"
+        ) : base(
+            target,
+            rowName,
+            rowIndexName,
+            columnName,
+            columnIndexName
+        )
         {
         }
     }
@@ -37,244 +46,344 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="TOutItem">リスト要素出力型</typeparam>
     internal class CommonTwoDimensionalListValidator<TInRow, TOutRow, TInItem, TOutItem>
         : WodiLibTwoDimensionalListValidator<TInRow, TOutRow, TInItem, TOutItem>
-        where TOutRow : IEnumerable<TOutItem>
-        where TInRow : IEnumerable<TInItem>, TOutRow
-        where TInItem : TOutItem
+        where TInRow : IEnumerable<TInItem>
+        where TOutRow : IEnumerable<TOutItem>, TInRow
+        where TOutItem : TInItem
     {
         protected override ITwoDimensionalListValidator<TInRow, TInItem>? BaseValidator => null;
 
         private string RowIndexName { get; }
         private string ColumnIndexName { get; }
 
-        public CommonTwoDimensionalListValidator(ITwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem> target,
-            string rowName = "行", string rowIndexName = "row",
-            string columnName = "列", string columnIndexName = "column") : base(target, rowName, columnName)
+        public CommonTwoDimensionalListValidator(
+            ITwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem> target,
+            string rowName = "行",
+            string rowIndexName = "row",
+            string columnName = "列",
+            string columnIndexName = "column"
+        ) : base(target, rowName, columnName)
         {
             RowIndexName = rowIndexName;
             ColumnIndexName = columnIndexName;
         }
 
-        public override void Constructor(TInRow[] initItems)
+        public override void Constructor(NamedValue<TInRow[]> initItems)
         {
-            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
+            ThrowHelper.ValidateArgumentNotNull(initItems is null, initItems.Name);
 
-            var casted = initItems.Cast<IEnumerable<TInItem>>().ToArray();
+            var casted = initItems.Value.Cast<IEnumerable<TInItem>>().ToArray();
 
-            TwoDimensionalListValidationHelper.ItemNotNull(casted);
+            TwoDimensionalListValidationHelper.ItemNotNull<TInItem>((nameof(initItems), casted));
             TwoDimensionalListValidationHelper.InnerItemLength(casted);
         }
 
-        public override void GetRow(int rowIndex, int rowCount)
+        public override void GetRow(NamedValue<int> rowIndex, NamedValue<int> rowCount)
         {
-            ListValidationHelper.SelectIndex(rowIndex, Target.RowCount, nameof(rowIndex));
-            ListValidationHelper.Count(rowCount, Target.RowCount, nameof(rowCount));
-            ListValidationHelper.Range(rowIndex, rowCount, Target.RowCount, nameof(rowIndex), nameof(rowCount));
+            var namedRowCount = MakeNamedRowCount();
+            ListValidationHelper.SelectIndex(rowIndex, namedRowCount);
+            ListValidationHelper.Count(rowCount, namedRowCount);
+            ListValidationHelper.Range(rowIndex, rowCount, namedRowCount);
         }
 
-        public override void GetColumn(int columnIndex, int columnCount)
+        public override void GetColumn(NamedValue<int> columnIndex, NamedValue<int> columnCount)
         {
-            ListValidationHelper.SelectIndex(columnIndex, Target.ColumnCount, nameof(columnIndex));
-            ListValidationHelper.Count(columnCount, Target.ColumnCount, nameof(columnCount));
-            ListValidationHelper.Range(columnIndex, columnCount, Target.ColumnCount, nameof(columnIndex),
-                nameof(columnCount));
+            var namedColumnCount = MakeNamedColumnCount();
+            ListValidationHelper.SelectIndex(columnIndex, namedColumnCount);
+            ListValidationHelper.Count(columnCount, namedColumnCount);
+            ListValidationHelper.Range(columnIndex, columnCount, namedColumnCount);
         }
 
-        public override void GetItem(int rowIndex, int rowCount, int columnIndex, int columnCount)
+        public override void GetItem(
+            NamedValue<int> rowIndex,
+            NamedValue<int> rowCount,
+            NamedValue<int> columnIndex,
+            NamedValue<int> columnCount
+        )
         {
-            ListValidationHelper.SelectIndex(rowIndex, Target.RowCount, nameof(rowIndex));
-            ListValidationHelper.Count(rowCount, Target.RowCount, nameof(rowCount));
-            ListValidationHelper.Range(rowIndex, rowCount, Target.RowCount, nameof(rowIndex), nameof(rowCount));
-            ListValidationHelper.SelectIndex(columnIndex, Target.ColumnCount, nameof(columnIndex));
-            ListValidationHelper.Count(columnCount, Target.ColumnCount, nameof(columnCount));
-            ListValidationHelper.Range(columnIndex, columnCount, Target.ColumnCount, nameof(columnIndex),
-                nameof(columnCount));
+            var namedRowCount = MakeNamedRowCount();
+            var namedColumnCount = MakeNamedColumnCount();
+            ListValidationHelper.SelectIndex(rowIndex, namedRowCount);
+            ListValidationHelper.Count(rowCount, namedRowCount);
+            ListValidationHelper.Range(rowIndex, rowCount, namedRowCount);
+            ListValidationHelper.SelectIndex(columnIndex, namedColumnCount);
+            ListValidationHelper.Count(columnCount, namedColumnCount);
+            ListValidationHelper.Range(columnIndex, columnCount, namedColumnCount);
         }
 
-        public override void GetItem(int rowIndex, int columnIndex)
+        public override void GetItem(NamedValue<int> rowIndex, NamedValue<int> columnIndex)
         {
-            ListValidationHelper.SelectIndex(rowIndex, Target.RowCount, nameof(rowIndex));
-            ListValidationHelper.SelectIndex(columnIndex, Target.ColumnCount, nameof(columnIndex));
+            ListValidationHelper.SelectIndex(
+                rowIndex,
+                MakeNamedRowCount()
+            );
+            ListValidationHelper.SelectIndex(
+                columnIndex,
+                MakeNamedColumnCount()
+            );
         }
 
-        public override void SetRow(int rowIndex, params TInRow[] rows)
+        public override void SetRow(NamedValue<int> rowIndex, string targetParamName, params TInRow[] rows)
         {
-            ListValidationHelper.SelectIndex(rowIndex, Target.RowCount, nameof(rowIndex));
+            var namedRowCount = MakeNamedRowCount();
 
-            ThrowHelper.ValidateArgumentNotNull(rows is null, nameof(rows));
+            ListValidationHelper.SelectIndex(rowIndex, namedRowCount);
+
+            ThrowHelper.ValidateArgumentNotNull(rows is null, targetParamName);
 
             var rowArrays = rows.Cast<IEnumerable<TInItem>>().ToTwoDimensionalArray();
 
-            TwoDimensionalListValidationHelper.ItemNotNull(rowArrays, nameof(rows));
+            TwoDimensionalListValidationHelper.ItemNotNull<TInItem>((targetParamName, rowArrays));
             TwoDimensionalListValidationHelper.InnerItemLength(rowArrays);
 
-            ListValidationHelper.Range(rowIndex, rowArrays.Length, Target.RowCount);
+            ListValidationHelper.Range(
+                rowIndex,
+                ($"{nameof(rows)}.{nameof(rows.Length)}", rowArrays.Length),
+                namedRowCount
+            );
 
             var columnLength = rowArrays.GetInnerArrayLength();
-            TwoDimensionalListValidationHelper.SizeEqual(columnLength, Target.ColumnCount);
+            TwoDimensionalListValidationHelper.SizeEqual(
+                ($"{targetParamName}の要素数", columnLength),
+                MakeNamedColumnCount()
+            );
         }
 
-        public override void SetColumn(int columnIndex, params IEnumerable<TInItem>[] items)
+        public override void SetColumn(
+            NamedValue<int> columnIndex,
+            string targetParamName,
+            params IEnumerable<TInItem>[] items
+        )
         {
-            ListValidationHelper.SelectIndex(columnIndex, Target.ColumnCount, nameof(columnIndex));
+            var namedColumnCount = MakeNamedColumnCount();
 
-            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+            ListValidationHelper.SelectIndex(columnIndex, namedColumnCount);
+
+            ThrowHelper.ValidateArgumentNotNull(items is null, targetParamName);
 
             var itemArrays = items.ToTwoDimensionalArray();
 
-            TwoDimensionalListValidationHelper.ItemNotNull(itemArrays, nameof(items));
+            TwoDimensionalListValidationHelper.ItemNotNull<TInItem>((targetParamName, itemArrays));
             TwoDimensionalListValidationHelper.InnerItemLength(itemArrays);
 
-            ListValidationHelper.Range(columnIndex, items.Length, Target.ColumnCount);
+            ListValidationHelper.Range(columnIndex, (nameof(items.Length), items.Length), namedColumnCount);
 
             var rowLength = itemArrays.GetInnerArrayLength();
-            TwoDimensionalListValidationHelper.SizeEqual(rowLength, Target.RowCount);
+            TwoDimensionalListValidationHelper.SizeEqual(($"{targetParamName}の要素数", rowLength), MakeNamedRowCount());
         }
 
-        public override void SetItem(int rowIndex, int columnIndex, TInItem item)
+        public override void SetItem(NamedValue<int> rowIndex, NamedValue<int> columnIndex, NamedValue<TInItem> item)
         {
-            ListValidationHelper.SelectIndex(rowIndex, Target.RowCount, nameof(rowIndex));
-            ListValidationHelper.SelectIndex(columnIndex, Target.ColumnCount, nameof(columnIndex));
-            ThrowHelper.ValidateArgumentNotNull(item is null, nameof(item));
+            ListValidationHelper.SelectIndex(
+                rowIndex,
+                MakeNamedRowCount()
+            );
+            ListValidationHelper.SelectIndex(
+                columnIndex,
+                MakeNamedColumnCount()
+            );
+            ThrowHelper.ValidateArgumentNotNull(item is null, item.Name);
         }
 
-        public override void InsertRow(int rowIndex, params TInRow[] items)
+        public override void InsertRow(NamedValue<int> rowIndex, string targetParamName, params TInRow[] items)
         {
-            ListValidationHelper.InsertIndex(rowIndex, Target.RowCount, RowIndexName);
+            ListValidationHelper.InsertIndex(
+                rowIndex,
+                MakeNamedRowCount()
+            );
 
-            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+            ThrowHelper.ValidateArgumentNotNull(items is null, targetParamName);
 
             var itemArrays = items.Cast<IEnumerable<TInItem>>().ToTwoDimensionalArray();
 
             TwoDimensionalListValidationHelper.InnerItemLength(itemArrays);
-            TwoDimensionalListValidationHelper.ItemNotNull(itemArrays, nameof(items));
+            TwoDimensionalListValidationHelper.ItemNotNull<TInItem>((targetParamName, itemArrays));
 
             if (!Target.IsEmpty && items.Length > 0)
             {
-                TwoDimensionalListValidationHelper.SizeEqual(itemArrays[0].Length,
-                    Target.ColumnCount, ColumnIndexName);
+                TwoDimensionalListValidationHelper.SizeEqual(
+                    (ColumnIndexName, itemArrays[0].Length),
+                    MakeNamedColumnCount()
+                );
             }
         }
 
-        public override void InsertColumn(int columnIndex, params IEnumerable<TInItem>[] items)
+        public override void InsertColumn(
+            NamedValue<int> columnIndex,
+            string targetParamName,
+            params IEnumerable<TInItem>[] items
+        )
         {
-            ListValidationHelper.InsertIndex(columnIndex, Target.ColumnCount, ColumnIndexName);
+            ListValidationHelper.InsertIndex(
+                columnIndex,
+                MakeNamedColumnCount()
+            );
 
-            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+            ThrowHelper.ValidateArgumentNotNull(items is null, targetParamName);
 
             var itemArrays = items.ToTwoDimensionalArray();
 
             TwoDimensionalListValidationHelper.InnerItemLength(itemArrays);
-            TwoDimensionalListValidationHelper.ItemNotNull(itemArrays, nameof(items));
+            TwoDimensionalListValidationHelper.ItemNotNull<TInItem>((targetParamName, itemArrays));
 
             if (!Target.IsEmpty && items.Length > 0)
             {
-                TwoDimensionalListValidationHelper.SizeEqual(itemArrays[0].Length,
-                    Target.RowCount, RowIndexName);
+                TwoDimensionalListValidationHelper.SizeEqual(
+                    (RowIndexName, itemArrays[0].Length),
+                    MakeNamedRowCount()
+                );
             }
         }
 
-        public override void OverwriteRow(int rowIndex, params TInRow[] items)
+        public override void OverwriteRow(NamedValue<int> rowIndex, string targetParamName, params TInRow[] items)
         {
-            ListValidationHelper.InsertIndex(rowIndex, Target.RowCount, RowIndexName);
+            ListValidationHelper.InsertIndex(
+                rowIndex,
+                MakeNamedRowCount()
+            );
 
-            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+            ThrowHelper.ValidateArgumentNotNull(items is null, targetParamName);
 
             var itemArrays = items.Cast<IEnumerable<TInItem>>().ToTwoDimensionalArray();
 
             TwoDimensionalListValidationHelper.InnerItemLength(itemArrays);
-            TwoDimensionalListValidationHelper.ItemNotNull(itemArrays, nameof(items));
+            TwoDimensionalListValidationHelper.ItemNotNull<TInItem>((targetParamName, itemArrays));
 
             if (!Target.IsEmpty && items.Length > 0)
             {
-                TwoDimensionalListValidationHelper.SizeEqual(itemArrays[0].Length,
-                    Target.ColumnCount, ColumnIndexName);
+                TwoDimensionalListValidationHelper.SizeEqual(
+                    (ColumnIndexName, itemArrays[0].Length),
+                    MakeNamedColumnCount()
+                );
             }
         }
 
-        public override void OverwriteColumn(int columnIndex, params IEnumerable<TInItem>[] items)
+        public override void OverwriteColumn(
+            NamedValue<int> columnIndex,
+            string targetParamName,
+            params IEnumerable<TInItem>[] items
+        )
         {
-            ListValidationHelper.InsertIndex(columnIndex, Target.ColumnCount, ColumnIndexName);
+            ListValidationHelper.InsertIndex(
+                columnIndex,
+                MakeNamedColumnCount()
+            );
 
-            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+            ThrowHelper.ValidateArgumentNotNull(items is null, targetParamName);
 
             var itemArrays = items.ToTwoDimensionalArray();
 
             TwoDimensionalListValidationHelper.InnerItemLength(itemArrays);
-            TwoDimensionalListValidationHelper.ItemNotNull(itemArrays, nameof(items));
+            TwoDimensionalListValidationHelper.ItemNotNull<TInItem>((targetParamName, itemArrays));
 
             if (!Target.IsEmpty && items.Length > 0)
             {
-                TwoDimensionalListValidationHelper.SizeEqual(itemArrays[0].Length,
-                    Target.RowCount, RowIndexName);
+                TwoDimensionalListValidationHelper.SizeEqual(
+                    (RowIndexName, itemArrays[0].Length),
+                    MakeNamedRowCount()
+                );
             }
         }
 
-        public override void MoveRow(int oldRowIndex, int newRowIndex, int count)
+        public override void MoveRow(NamedValue<int> oldRowIndex, NamedValue<int> newRowIndex, NamedValue<int> count)
         {
-            TwoDimensionalListValidationHelper.LengthNotZero(Target.RowCount, RowIndexName);
-            ListValidationHelper.SelectIndex(oldRowIndex, Target.RowCount, nameof(oldRowIndex));
-            ListValidationHelper.InsertIndex(newRowIndex, Target.RowCount, nameof(newRowIndex));
-            ListValidationHelper.Count(count, Target.RowCount);
-            ListValidationHelper.Range(oldRowIndex, count, Target.RowCount, nameof(oldRowIndex));
-            ListValidationHelper.Range(count, newRowIndex, Target.RowCount, nameof(newRowIndex));
+            var namedRowCount = MakeNamedRowCount();
+            TwoDimensionalListValidationHelper.LengthNotZero((RowName, Target.RowCount));
+            ListValidationHelper.SelectIndex(oldRowIndex, namedRowCount);
+            ListValidationHelper.InsertIndex(newRowIndex, namedRowCount);
+            ListValidationHelper.Count(count, namedRowCount);
+            ListValidationHelper.Range(oldRowIndex, count, namedRowCount);
+            ListValidationHelper.Range(count, newRowIndex, namedRowCount);
         }
 
-        public override void MoveColumn(int oldColumnIndex, int newColumnIndex, int count)
+        public override void MoveColumn(
+            NamedValue<int> oldColumnIndex,
+            NamedValue<int> newColumnIndex,
+            NamedValue<int> count
+        )
         {
-            TwoDimensionalListValidationHelper.LengthNotZero(Target.ColumnCount, ColumnIndexName);
-            ListValidationHelper.SelectIndex(oldColumnIndex, Target.ColumnCount, nameof(oldColumnIndex));
-            ListValidationHelper.InsertIndex(newColumnIndex, Target.ColumnCount, nameof(newColumnIndex));
-            ListValidationHelper.Count(count, Target.ColumnCount);
-            ListValidationHelper.Range(oldColumnIndex, count, Target.ColumnCount, nameof(oldColumnIndex));
-            ListValidationHelper.Range(count, newColumnIndex, Target.ColumnCount, nameof(newColumnIndex));
+            var namedColumnCount = MakeNamedColumnCount();
+            TwoDimensionalListValidationHelper.LengthNotZero((ColumnIndexName, Target.ColumnCount));
+            ListValidationHelper.SelectIndex(oldColumnIndex, namedColumnCount);
+            ListValidationHelper.InsertIndex(newColumnIndex, namedColumnCount);
+            ListValidationHelper.Count(count, namedColumnCount);
+            ListValidationHelper.Range(oldColumnIndex, count, namedColumnCount);
+            ListValidationHelper.Range(count, newColumnIndex, namedColumnCount);
         }
 
-        public override void RemoveRow(int rowIndex, int count)
+        public override void RemoveRow(NamedValue<int> rowIndex, NamedValue<int> count)
         {
             ValidateTargetIsEmpty();
-            ListValidationHelper.SelectIndex(rowIndex, Target.RowCount, RowIndexName);
-            ListValidationHelper.Count(count, Target.RowCount);
-            ListValidationHelper.Range(rowIndex, count, Target.RowCount, RowIndexName);
+            var namedRowCount = MakeNamedRowCount();
+            ListValidationHelper.SelectIndex(
+                rowIndex,
+                namedRowCount
+            );
+            ListValidationHelper.Count(count, MakeNamedRowCount());
+            ListValidationHelper.Range(
+                rowIndex,
+                count,
+                namedRowCount
+            );
         }
 
-        public override void RemoveColumn(int columnIndex, int count)
+        public override void RemoveColumn(NamedValue<int> columnIndex, NamedValue<int> count)
         {
             ValidateTargetIsEmpty();
-            ListValidationHelper.SelectIndex(columnIndex, Target.ColumnCount, ColumnIndexName);
-            ListValidationHelper.Count(count, Target.ColumnCount);
-            ListValidationHelper.Range(columnIndex, count, Target.ColumnCount, ColumnIndexName);
+            var namedColumnCount = MakeNamedColumnCount();
+            ListValidationHelper.SelectIndex(columnIndex, namedColumnCount);
+            ListValidationHelper.Count(count, namedColumnCount);
+            ListValidationHelper.Range(columnIndex, count, namedColumnCount);
         }
 
-        public override void AdjustLength(int rowLength, int columnLength)
+        public override void AdjustLength(NamedValue<int> rowLength, NamedValue<int> columnLength)
         {
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(rowLength < 0,
-                nameof(rowLength), 0, rowLength);
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(columnLength < 0,
-                nameof(columnLength), 0, columnLength);
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(
+                rowLength.Value < 0,
+                rowLength.Name,
+                0,
+                rowLength.Value
+            );
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(
+                columnLength.Value < 0,
+                columnLength.Name,
+                0,
+                columnLength.Value
+            );
 
-            if (rowLength > 0) return;
+            if (rowLength.Value > 0) return;
             // rowLength == 0
 
-            if (columnLength == 0) return;
+            if (columnLength.Value == 0) return;
 
             // rowLength == 0 && columnLength != 0 は不正な指定
-            ThrowHelper.ValidateArgumentUnsuitable(true,
-                $"{RowName}数および{ColumnName}数の指定", $"{RowName}数 == 0 かつ {ColumnName}数 != 0 の指定はできません");
+            ThrowHelper.ValidateArgumentUnsuitable(
+                true,
+                $"{RowName}数および{ColumnName}数の指定",
+                $"{RowName}数 == 0 かつ {ColumnName}数 != 0 の指定はできません"
+            );
         }
 
-        public override void Reset(IEnumerable<TInRow> items)
+        public override void Reset(NamedValue<IEnumerable<TInRow>> initItems)
         {
-            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
-            var itemArray = items.Cast<IEnumerable<TInItem>>().ToTwoDimensionalArray();
+            ThrowHelper.ValidateArgumentNotNull(initItems.Value is null, initItems.Name);
+            var itemArray = initItems.Value.Cast<IEnumerable<TInItem>>().ToTwoDimensionalArray();
 
-            TwoDimensionalListValidationHelper.ItemNotNull(itemArray);
+            TwoDimensionalListValidationHelper.ItemNotNull<TInItem>((nameof(initItems), itemArray));
             TwoDimensionalListValidationHelper.InnerItemLength(itemArray);
         }
 
         private void ValidateTargetIsEmpty()
         {
-            ThrowHelper.InvalidOperationIf(Target.IsEmpty,
-                () => ErrorMessage.NotExecute("空リストのため"));
+            ThrowHelper.InvalidOperationIf(
+                Target.IsEmpty,
+                () => ErrorMessage.NotExecute("空リストのため")
+            );
         }
+
+        private NamedValue<int> MakeNamedRowCount()
+            => new($"{RowName}数", Target.RowCount);
+
+        private NamedValue<int> MakeNamedColumnCount()
+            => new($"{ColumnName}数", Target.ColumnCount);
     }
 }

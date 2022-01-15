@@ -40,7 +40,7 @@ namespace WodiLib.Sys.Collections
         : ModelBase<TwoDimensionalList<TRow, TRowInternal, TItem>>,
             ITwoDimensionalList<TRow, TRow, TItem, TItem>
         where TRow : IFixedLengthList<TItem>
-        where TRowInternal : class, IExtendedList<TItem>, TRow, IDeepCloneable<TRowInternal>
+        where TRowInternal : class, IRestrictedCapacityList<TItem>, TRow, IDeepCloneable<TRowInternal>
     {
         /*
          * このクラスの実装観点は ExtendedList<T> と同じ。
@@ -97,7 +97,7 @@ namespace WodiLib.Sys.Collections
         {
             get
             {
-                Validator?.GetItem(rowIndex, columnIndex);
+                Validator?.GetItem((nameof(rowIndex), rowIndex), (nameof(columnIndex), columnIndex));
                 return Get_Impl(rowIndex, columnIndex);
             }
             set
@@ -106,14 +106,22 @@ namespace WodiLib.Sys.Collections
                     value is null,
                     typeof(TwoDimensionalList<TRow, TRowInternal, TItem>).Name
                 );
-                Validator?.SetItem(rowIndex, columnIndex, value);
+                Validator?.SetItem(
+                    (nameof(rowIndex), rowIndex),
+                    (nameof(columnIndex), columnIndex),
+                    (nameof(value), value)
+                );
                 SetItem_Impl(rowIndex, columnIndex, value);
             }
         }
 
         public bool IsEmpty => RowCount == 0;
         public int RowCount => Items.Count;
-        public int ColumnCount => RowCount > 0 ? Items[0].Count : 0;
+
+        public int ColumnCount => RowCount > 0
+            ? Items[0].Count
+            : 0;
+
         public int AllCount => RowCount * ColumnCount;
 
         public override NotifyPropertyChangeEventType NotifyPropertyChangingEventType
@@ -200,15 +208,18 @@ namespace WodiLib.Sys.Collections
 
             var valuesArray = values.ToArray();
 
-            Validator?.Constructor(valuesArray);
+            Validator?.Constructor((nameof(values), valuesArray));
 
             var initItems = valuesArray.Select(FuncMakeRowFromInType);
             Items = new ExtendedList<TRowInternal>(initItems)
             {
                 FuncMakeItems = (start, count)
-                    => Enumerable.Range(0, count).Select(r => FuncMakeDefaultRowFromItems(
-                        Enumerable.Range(0, ColumnCount).Select(c => FuncMakeDefaultItem(start + r, c))
-                    ))
+                    => Enumerable.Range(0, count)
+                        .Select(
+                            r => FuncMakeDefaultRowFromItems(
+                                Enumerable.Range(0, ColumnCount).Select(c => FuncMakeDefaultItem(start + r, c))
+                            )
+                        )
             };
             ApplyChangeEventType(Items);
 
@@ -260,9 +271,10 @@ namespace WodiLib.Sys.Collections
 
         private TwoDimensionalList(TwoDimensionalList<TRow, TRowInternal, TItem> src)
             : this(
-                src.Select(row => row is IDeepCloneable deepCloneable
-                    ? ((TRow)deepCloneable.DeepClone()).ToArray()
-                    : row.ToArray()
+                src.Select(
+                    row => row is IDeepCloneable deepCloneable
+                        ? ((TRow)deepCloneable.DeepClone()).ToArray()
+                        : row.ToArray()
                 ),
                 src.config
             )
@@ -298,19 +310,24 @@ namespace WodiLib.Sys.Collections
 
         public IEnumerable<TRow> GetRow(int rowIndex, int rowCount)
         {
-            Validator?.GetRow(rowIndex, rowCount);
+            Validator?.GetRow((nameof(rowIndex), rowIndex), (nameof(rowCount), rowCount));
             return GetRow_Impl(rowIndex, rowCount);
         }
 
         public IEnumerable<IEnumerable<TItem>> GetColumn(int columnIndex, int columnCount)
         {
-            Validator?.GetColumn(columnIndex, columnCount);
+            Validator?.GetColumn((nameof(columnIndex), columnIndex), (nameof(columnCount), columnCount));
             return GetColumn_Impl(columnIndex, columnCount);
         }
 
         public IEnumerable<IEnumerable<TItem>> GetItem(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
-            Validator?.GetItem(rowIndex, rowCount, columnIndex, columnCount);
+            Validator?.GetItem(
+                (nameof(rowIndex), rowIndex),
+                (nameof(rowCount), rowCount),
+                (nameof(columnIndex), columnIndex),
+                (nameof(columnCount), columnCount)
+            );
             return Get_Impl(rowIndex, rowCount, columnIndex, columnCount, Direction.Row);
         }
 
@@ -319,14 +336,14 @@ namespace WodiLib.Sys.Collections
 
         public void SetRow(int rowIndex, params TRow[] items)
         {
-            Validator?.SetRow(rowIndex, items);
+            Validator?.SetRow((nameof(rowIndex), rowIndex), nameof(items), items);
             var setRows = items.Select(FuncMakeRowFromInType).ToArray();
             SetRow_Impl(rowIndex, setRows);
         }
 
         public void SetColumn(int columnIndex, params IEnumerable<TItem>[] items)
         {
-            Validator?.SetColumn(columnIndex, items);
+            Validator?.SetColumn((nameof(columnIndex), columnIndex), nameof(items), items);
             SetColumn_Impl(columnIndex, items.ToTwoDimensionalArray());
         }
 
@@ -380,7 +397,7 @@ namespace WodiLib.Sys.Collections
 
         public void InsertRow(int rowIndex, params TRow[] items)
         {
-            Validator?.InsertRow(rowIndex, items);
+            Validator?.InsertRow((nameof(rowIndex), rowIndex), nameof(items), items);
 
             var insertItems = items.Select(FuncMakeRowFromInType).ToArray();
             InsertRow_Impl(rowIndex, insertItems);
@@ -388,49 +405,57 @@ namespace WodiLib.Sys.Collections
 
         public void InsertColumn(int columnIndex, params IEnumerable<TItem>[] items)
         {
-            Validator?.InsertColumn(columnIndex, items);
+            Validator?.InsertColumn((nameof(columnIndex), columnIndex), nameof(items), items);
 
             InsertColumn_Impl(columnIndex, items.ToTwoDimensionalArray());
         }
 
         public void OverwriteRow(int rowIndex, params TRow[] items)
         {
-            Validator?.OverwriteRow(rowIndex, items);
+            Validator?.OverwriteRow((nameof(rowIndex), rowIndex), nameof(items), items);
 
             OverwriteRow_Impl(rowIndex, items);
         }
 
         public void OverwriteColumn(int columnIndex, params IEnumerable<TItem>[] items)
         {
-            Validator?.OverwriteColumn(columnIndex, items);
+            Validator?.OverwriteColumn((nameof(columnIndex), columnIndex), nameof(items), items);
 
             OverwriteColumn_Impl(columnIndex, items);
         }
 
         public void MoveRow(int oldRowIndex, int newRowIndex, int count = 1)
         {
-            Validator?.MoveRow(oldRowIndex, newRowIndex, count);
+            Validator?.MoveRow(
+                (nameof(oldRowIndex), oldRowIndex),
+                (nameof(newRowIndex), newRowIndex),
+                (nameof(count), count)
+            );
 
             MoveRow_Impl(oldRowIndex, newRowIndex, count);
         }
 
         public void MoveColumn(int oldColumnIndex, int newColumnIndex, int count = 1)
         {
-            Validator?.MoveColumn(oldColumnIndex, newColumnIndex, count);
+            Validator?.MoveColumn(
+                (nameof(oldColumnIndex), oldColumnIndex),
+                (nameof(newColumnIndex), newColumnIndex),
+                (nameof(count), count)
+            );
 
             MoveColumn_Impl(oldColumnIndex, newColumnIndex, count);
         }
 
         public void RemoveRow(int rowIndex, int count = 1)
         {
-            Validator?.RemoveRow(rowIndex, count);
+            Validator?.RemoveRow((nameof(rowIndex), rowIndex), (nameof(count), count));
 
             RemoveRow_Impl(rowIndex, count);
         }
 
         public void RemoveColumn(int columnIndex, int count = 1)
         {
-            Validator?.RemoveColumn(columnIndex, count);
+            Validator?.RemoveColumn((nameof(columnIndex), columnIndex), (nameof(count), count));
 
             RemoveColumn_Impl(columnIndex, count);
         }
@@ -479,14 +504,14 @@ namespace WodiLib.Sys.Collections
 
         public void AdjustLength(int rowLength, int columnLength)
         {
-            Validator?.AdjustLength(rowLength, columnLength);
+            Validator?.AdjustLength((nameof(rowLength), rowLength), (nameof(columnLength), columnLength));
 
             AdjustLength_Impl(rowLength, columnLength);
         }
 
         public void AdjustLengthIfShort(int rowLength, int columnLength)
         {
-            Validator?.AdjustLength(rowLength, columnLength);
+            Validator?.AdjustLength((nameof(rowLength), rowLength), (nameof(columnLength), columnLength));
 
             var fixedRowLength = Math.Max(rowLength, RowCount);
             var fixedColumnLength = Math.Max(columnLength, ColumnCount);
@@ -496,7 +521,7 @@ namespace WodiLib.Sys.Collections
 
         public void AdjustLengthIfLong(int rowLength, int columnLength)
         {
-            Validator?.AdjustLength(rowLength, columnLength);
+            Validator?.AdjustLength((nameof(rowLength), rowLength), (nameof(columnLength), columnLength));
 
             var fixedRowLength = Math.Min(rowLength, RowCount);
             var fixedColumnLength = Math.Min(columnLength, ColumnCount);
@@ -533,8 +558,14 @@ namespace WodiLib.Sys.Collections
         {
             ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
             var initItemArray = initItems.ToArray();
+            if (initItemArray.Length == 0)
+            {
+                return;
+            }
 
-            Validator?.Reset(initItemArray);
+            ThrowHelper.ValidateArgumentItemsHasNotNull(initItemArray.HasNullItem(), nameof(initItems));
+
+            Validator?.Reset((nameof(initItems), initItemArray));
 
             var rows = initItemArray.Select(FuncMakeRowFromInType);
 
@@ -567,11 +598,13 @@ namespace WodiLib.Sys.Collections
             }
 
             var isSameAllRow = this.Zip(other)
-                .All(zip =>
-                {
-                    var (l, r) = zip;
-                    return l.ItemEquals(r, itemComparer);
-                });
+                .All(
+                    zip =>
+                    {
+                        var (l, r) = zip;
+                        return l.ItemEquals(r, itemComparer);
+                    }
+                );
             return isSameAllRow;
         }
 
@@ -619,13 +652,19 @@ namespace WodiLib.Sys.Collections
         //      Private Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private static IEnumerable<TRowInternal> MakeDefaultItem(int rowCount, int columnCount,
-            Func<IEnumerable<TItem>, TRowInternal> rowFactory, Func<int, int, TItem> itemFactory)
+        private static IEnumerable<TRowInternal> MakeDefaultItem(
+            int rowCount,
+            int columnCount,
+            Func<IEnumerable<TItem>, TRowInternal> rowFactory,
+            Func<int, int, TItem> itemFactory
+        )
         {
             return Enumerable.Range(0, rowCount)
-                .Select(row => rowFactory(
-                    Enumerable.Range(0, columnCount).Select(column => itemFactory(row, column))
-                ));
+                .Select(
+                    row => rowFactory(
+                        Enumerable.Range(0, columnCount).Select(column => itemFactory(row, column))
+                    )
+                );
         }
 
         private void ItemsOnPropertyChanging(object sender, PropertyChangingEventArgs e)
@@ -745,9 +784,10 @@ namespace WodiLib.Sys.Collections
             var oldItems = Items.GetRange(row, setRange);
 
             var additionalNotifyPropertyNames = ComputeNotifyPropertyChangeName(
-                Math.Max(row + items.Length - 1, RowCount),
-                items[0].Count
-            ).ToArray();
+                    Math.Max(row + items.Length - 1, RowCount),
+                    items[0].Count
+                )
+                .ToArray();
 
             StartInnerListNotifiedPropertyNameDuplicateCheck();
 
@@ -918,7 +958,9 @@ namespace WodiLib.Sys.Collections
             var removeItems = Items.GetRange(index, count);
 
             var afterRowLength = RowCount - count;
-            var afterColumnLength = afterRowLength == 0 ? 0 : ColumnCount;
+            var afterColumnLength = afterRowLength == 0
+                ? 0
+                : ColumnCount;
             var additionalNotifyPropertyNames =
                 ComputeNotifyPropertyChangeName(afterRowLength, afterColumnLength);
 
@@ -1030,7 +1072,9 @@ namespace WodiLib.Sys.Collections
         {
             var newItemArray = newItems.ToArray();
 
-            var columnLength = newItemArray.Length > 0 ? newItemArray[0].Count : 0;
+            var columnLength = newItemArray.Length > 0
+                ? newItemArray[0].Count
+                : 0;
             var additionalNotifyPropertyNames =
                 ComputeNotifyPropertyChangeName(newItemArray.Length, columnLength);
 
@@ -1052,13 +1096,15 @@ namespace WodiLib.Sys.Collections
 
         private void ApplyChangeEventType(IEnumerable<TRowInternal> innerRows)
         {
-            innerRows.ForEach(row =>
-            {
-                row.NotifyPropertyChangingEventType = NotifyPropertyChangingEventType;
-                row.NotifyPropertyChangedEventType = NotifyPropertyChangedEventType;
-                row.NotifyCollectionChangingEventType = NotifyCollectionChangingEventType;
-                row.NotifyCollectionChangedEventType = NotifyCollectionChangedEventType;
-            });
+            innerRows.ForEach(
+                row =>
+                {
+                    row.NotifyPropertyChangingEventType = NotifyPropertyChangingEventType;
+                    row.NotifyPropertyChangedEventType = NotifyPropertyChangedEventType;
+                    row.NotifyCollectionChangingEventType = NotifyCollectionChangingEventType;
+                    row.NotifyCollectionChangedEventType = NotifyCollectionChangedEventType;
+                }
+            );
         }
 
         private void ApplyPropertyChangingEventType(IEnumerable<TRowInternal> innerRows)

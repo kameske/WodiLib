@@ -55,12 +55,12 @@ namespace WodiLib.Sys.Collections
         {
             get
             {
-                Validator?.Get(index, 1);
+                Validator?.Get((nameof(index), index), ("1", 1));
                 return Items[index];
             }
             set
             {
-                Validator?.Set(index, value);
+                Validator?.Set((nameof(index), index), (nameof(value), value));
                 Items[index] = value;
             }
         }
@@ -138,7 +138,7 @@ namespace WodiLib.Sys.Collections
                 .ToArray();
 
             Validator = MakeValidator();
-            Validator?.Constructor(items);
+            Validator?.Constructor(("initItems of FixedLengthListBase(ini)", items));
 
             Items = new ExtendedList<T>(items)
             {
@@ -165,7 +165,7 @@ namespace WodiLib.Sys.Collections
             var items = initItems.ToList();
 
             Validator = MakeValidator();
-            Validator?.Constructor(items);
+            Validator?.Constructor((nameof(items), items));
             Items = new ExtendedList<T>(items)
             {
                 FuncMakeItems = MakeItems
@@ -178,13 +178,15 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         private void PropagatePropertyChangeEvent()
         {
-            PropagatePropertyChangeEvent(Items,
+            PropagatePropertyChangeEvent(
+                Items,
                 (_, propName) =>
                 {
                     if (propName.Equals(nameof(Count))) return null;
                     if (propName.Equals(ListConstant.IndexerName)) return new[] { GetNotifyPropertyIndexerName() };
                     return null;
-                });
+                }
+            );
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -198,7 +200,7 @@ namespace WodiLib.Sys.Collections
         /// <inheritdoc/>
         public IEnumerable<T> GetRange(int index, int count)
         {
-            Validator?.Get(index, count);
+            Validator?.Get((nameof(index), index), (nameof(count), count));
             return Items.GetRange(index, count);
         }
 
@@ -211,21 +213,21 @@ namespace WodiLib.Sys.Collections
             }
 
             var itemList = items.ToList();
-            Validator?.Set(index, itemList);
+            Validator?.Set((nameof(index), index), (nameof(itemList), itemList));
             Items.SetRange(index, itemList);
         }
 
         /// <inheritdoc/>
         public void Move(int oldIndex, int newIndex)
         {
-            Validator?.Move(oldIndex, newIndex, 1);
+            Validator?.Move((nameof(oldIndex), oldIndex), (nameof(newIndex), newIndex), ("1", 1));
             Items.Move(oldIndex, newIndex);
         }
 
         /// <inheritdoc/>
         public void MoveRange(int oldIndex, int newIndex, int count)
         {
-            Validator?.Move(oldIndex, newIndex, count);
+            Validator?.Move((nameof(oldIndex), oldIndex), (nameof(newIndex), newIndex), (nameof(count), count));
             Items.MoveRange(oldIndex, newIndex, count);
         }
 
@@ -243,7 +245,7 @@ namespace WodiLib.Sys.Collections
 
             var itemArray = items.ToList();
 
-            Validator?.Reset(itemArray);
+            Validator?.Reset((nameof(items), itemArray));
             Items.Reset(itemArray);
         }
 
@@ -344,7 +346,7 @@ namespace WodiLib.Sys.Collections
         /// <returns>検証処理実行クラスのインスタンス。検証処理を行わない場合 <see langward="null"/></returns>
         protected virtual IWodiLibListValidator<T> MakeValidator()
         {
-            return new FixedLengthListValidator<T, T>(this);
+            return new FixedLengthListValidator<T, T>(this, GetCapacity());
         }
 
         /// <summary>
@@ -359,17 +361,20 @@ namespace WodiLib.Sys.Collections
         private IEnumerable<T> MakeItems(int index, int count)
         {
             return Enumerable.Range(0, count)
-                .Select(i =>
-                {
-                    var result = MakeDefaultItem(i + index);
-                    if (result is null)
+                .Select(
+                    i =>
                     {
-                        throw new NullReferenceException(
-                            ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}(index: {i}) の結果"));
-                    }
+                        var result = MakeDefaultItem(i + index);
+                        if (result is null)
+                        {
+                            throw new NullReferenceException(
+                                ErrorMessage.NotNull($"{nameof(MakeDefaultItem)}(index: {i}) の結果")
+                            );
+                        }
 
-                    return result;
-                });
+                        return result;
+                    }
+                );
         }
     }
 }

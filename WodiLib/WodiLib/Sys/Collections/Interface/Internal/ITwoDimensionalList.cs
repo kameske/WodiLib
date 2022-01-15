@@ -27,12 +27,12 @@ namespace WodiLib.Sys.Collections
     internal interface ITwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem> :
         IReadableTwoDimensionalList<TOutRow, TOutItem>,
         IWritableTwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem>,
-        ISizeChangeableTwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem>,
+        ISizeChangeableTwoDimensionalList<TInRow, TOutRow, TInItem>,
         INotifiableCollectionChange<TOutRow>,
         IEqualityComparable<ITwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem>>
-        where TOutRow : IEnumerable<TOutItem>
-        where TInRow : IEnumerable<TInItem>, TOutRow
-        where TInItem : TOutItem
+        where TInRow : IEnumerable<TInItem>
+        where TOutRow : IEnumerable<TOutItem>, TInRow
+        where TOutItem : TInItem
     {
         /// <summary>
         ///     インデクサによるアクセス

@@ -22,13 +22,27 @@ namespace WodiLib.Sys.Collections
         /// <param name="rowMax">最大行数</param>
         /// <param name="columnMin">最小列数</param>
         /// <param name="columnMax">最大列数</param>
-        public static void CapacityConfig(int rowMin, int rowMax, int columnMin, int columnMax)
+        public static void CapacityConfig(
+            NamedValue<int> rowMin,
+            NamedValue<int> rowMax,
+            NamedValue<int> columnMin,
+            NamedValue<int> columnMax
+        )
         {
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(rowMin < 0, "最小行数", 0, rowMax);
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(rowMin > rowMax, "最大行数", $"最小行数（{rowMin}）", rowMax);
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(columnMin < 0, "最小列数", 0, columnMax);
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(columnMin > columnMax, "最大列数", $"最小列数（{columnMin}）",
-                columnMax);
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(rowMin.Value < 0, rowMin.Name, 0, rowMax.Value);
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(
+                rowMin.Value > rowMax.Value,
+                rowMax.Name,
+                $"{rowMin.Name}（{rowMin.Value}）",
+                rowMax.Value
+            );
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(columnMin.Value < 0, columnMin.Name, 0, columnMax.Value);
+            ThrowHelper.ValidateArgumentValueGreaterOrEqual(
+                columnMin.Value > columnMax.Value,
+                columnMax.Name,
+                $"{columnMin.Name}（{columnMin.Value}）",
+                columnMax.Value
+            );
         }
 
         /// <summary>
@@ -37,13 +51,10 @@ namespace WodiLib.Sys.Collections
         /// <param name="count">行 or 列数</param>
         /// <param name="min">最小数</param>
         /// <param name="max">最大数</param>
-        /// <param name="direction">行 or 列</param>
-        public static void ItemCount(int count, int min, int max, Direction direction)
+        /// <param name="lineName">行名 or 列名</param>
+        public static void ItemCount(int count, int min, int max, string lineName)
         {
-            var elementName = direction == Direction.Row
-                ? "行数"
-                : "列数";
-            ThrowHelper.ValidateArgumentValueRange(count < min || max < count, elementName, count, min, max);
+            ThrowHelper.ValidateArgumentValueRange(count < min || max < count, lineName, count, min, max);
         }
 
         /// <summary>
@@ -63,18 +74,36 @@ namespace WodiLib.Sys.Collections
         /// <param name="itemName">エラーメッセージ中の項目名</param>
         /// <typeparam name="T">リスト内包型</typeparam>
         /// <exception cref="InvalidOperationException">targetの行数または列数が不適切な場合</exception>
-        public static void RowAndColCount<T>(T[][] target, int rowMin, int rowMax,
-            int colMin, int colMax, string rowName, string columnName, string itemName = "initItems")
+        public static void RowAndColCount<T>(
+            T[][] target,
+            int rowMin,
+            int rowMax,
+            int colMin,
+            int colMax,
+            string rowName,
+            string columnName,
+            string itemName = "initItems"
+        )
         {
             var rowCount = target.Length;
-            ThrowHelper.ValidateArgumentValueRange(rowCount < rowMin || rowMax < rowCount,
-                $"{itemName}の{rowName}数", rowCount, rowMin, rowMax);
+            ThrowHelper.ValidateArgumentValueRange(
+                rowCount < rowMin || rowMax < rowCount,
+                $"{itemName}の{rowName}数",
+                rowCount,
+                rowMin,
+                rowMax
+            );
 
             if (rowCount == 0) return;
 
             var colCount = target[0].Length;
-            ThrowHelper.ValidateArgumentValueRange(colCount < colMin || colMax < colCount,
-                $"{itemName}の{columnName}数", colCount, colMin, colMax);
+            ThrowHelper.ValidateArgumentValueRange(
+                colCount < colMin || colMax < colCount,
+                $"{itemName}の{columnName}数",
+                colCount,
+                colMin,
+                colMax
+            );
         }
 
         /// <summary>

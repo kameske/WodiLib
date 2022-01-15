@@ -21,18 +21,16 @@ namespace WodiLib.Sys.Collections
         ///     各要素が null でないことを検証する。
         /// </summary>
         /// <param name="target">検証対象</param>
-        /// <param name="itemName">エラーメッセージ中の要素名</param>
         /// <typeparam name="T">リスト内包型</typeparam>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="target"/> の行、または列に <see langword="true"/> 要素が存在する場合
         /// </exception>
-        public static void ItemNotNull<T>(IEnumerable<IEnumerable<T>> target,
-            string itemName = "initItems")
+        public static void ItemNotNull<T>(NamedValue<IEnumerable<IEnumerable<T>>> target)
         {
-            var targetArray = target.ToTwoDimensionalArray();
+            var targetArray = target.Value.ToTwoDimensionalArray();
 
-            ThrowHelper.ValidateArgumentItemsHasNotNull(targetArray.HasNullItem(), itemName);
-            ThrowHelper.ValidateArgumentItemsHasNotNull(targetArray.Any(x => x.HasNullItem()), $"{itemName}の要素");
+            ThrowHelper.ValidateArgumentItemsHasNotNull(targetArray.HasNullItem(), target.Name);
+            ThrowHelper.ValidateArgumentItemsHasNotNull(targetArray.Any(x => x.HasNullItem()), $"{target.Name}の要素");
         }
 
         /// <summary>
@@ -60,26 +58,25 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="size">検証対象</param>
         /// <param name="count">一致すべき値</param>
-        /// <param name="sizeName">エラーメッセージ中のサイズ名称</param>
-        /// <param name="countName">エラーメッセージ中のカウント名称</param>
         /// <exception cref="ArgumentException"></exception>
-        public static void SizeEqual(int size, int count, string sizeName = "size", string countName = "count")
+        public static void SizeEqual(NamedValue<int> size, NamedValue<int> count)
         {
-            ThrowHelper.ValidateArgumentNotEqual(size != count, sizeName, countName);
+            ThrowHelper.ValidateArgumentNotEqual(size.Value != count.Value, size.Name, count.Name);
         }
 
         /// <summary>
         ///     リストの要素数が0でないことを検証する。
         /// </summary>
         /// <param name="listCount">要素数</param>
-        /// <param name="lineName">行または列の名前</param>
         /// <exception cref="InvalidOperationException">
         ///     要素数が0の場合
         /// </exception>
-        public static void LengthNotZero(int listCount, string lineName)
+        public static void LengthNotZero(NamedValue<int> listCount)
         {
-            ThrowHelper.InvalidOperationIf(listCount == 0,
-                () => ErrorMessage.NotExecute($"{lineName}数が0のため"));
+            ThrowHelper.InvalidOperationIf(
+                listCount.Value == 0,
+                () => ErrorMessage.NotExecute($"{listCount.Name}数が0のため")
+            );
         }
     }
 }

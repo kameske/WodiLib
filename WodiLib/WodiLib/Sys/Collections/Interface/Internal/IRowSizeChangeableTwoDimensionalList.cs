@@ -18,12 +18,10 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="TInRow">リスト行データ入力型</typeparam>
     /// <typeparam name="TOutRow">リスト行データ出力型</typeparam>
     /// <typeparam name="TInItem">リスト要素入力型</typeparam>
-    /// <typeparam name="TOutItem">リスト要素出力型</typeparam>
-    internal interface IRowSizeChangeableTwoDimensionalList<in TInRow, out TOutRow, in TInItem, out TOutItem> :
+    internal interface IRowSizeChangeableTwoDimensionalList<in TInRow, out TOutRow, in TInItem> :
         ITwoDimensionalListProperty,
         IEnumerable<TOutRow>
         where TInRow : IEnumerable<TInItem>
-        where TInItem : TOutItem
     {
         /// <summary>
         ///     行容量最大値を返す。

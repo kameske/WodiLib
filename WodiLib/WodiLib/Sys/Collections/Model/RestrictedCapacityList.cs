@@ -36,7 +36,7 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc/>
-        public new event EventHandler<NotifyCollectionChangedEventArgsEx<TOut>>? CollectionChanging
+        public new virtual event EventHandler<NotifyCollectionChangedEventArgsEx<TOut>>? CollectionChanging
         {
             add
             {
@@ -55,7 +55,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <inheritdoc/>
-        public new event EventHandler<NotifyCollectionChangedEventArgsEx<TOut>>? CollectionChanged
+        public new virtual event EventHandler<NotifyCollectionChangedEventArgsEx<TOut>>? CollectionChanged
         {
             add
             {

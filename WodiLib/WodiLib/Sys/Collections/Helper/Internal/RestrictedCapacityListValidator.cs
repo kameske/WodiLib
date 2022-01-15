@@ -31,19 +31,23 @@ namespace WodiLib.Sys.Collections
 
         protected override IWodiLibListValidator<TIn>? BaseValidator { get; }
 
+        protected virtual string ListItemsName => "要素数";
+
         public RestrictedCapacityListValidator(IRestrictedCapacityList<TIn, TOut> target) : base(target)
         {
             Target = target;
             BaseValidator = new CommonListValidator<TIn, TOut>(target);
         }
 
-        public override void Constructor(IReadOnlyList<TIn> initItems)
+        public override void Constructor(NamedValue<IReadOnlyList<TIn>> initItems)
         {
 #if DEBUG
             try
             {
                 RestrictedListValidationHelper.CapacityConfig(
-                    Target.GetMinCapacity(), Target.GetMaxCapacity());
+                    ($"{Target.GetType().FullName}.{nameof(Target.GetMinCapacity)}", Target.GetMinCapacity()),
+                    ($"{Target.GetType().FullName}.{nameof(Target.GetMaxCapacity)}", Target.GetMaxCapacity())
+                );
             }
             catch (Exception ex)
             {
@@ -53,76 +57,105 @@ namespace WodiLib.Sys.Collections
 
             BaseValidator?.Constructor(initItems);
             RestrictedListValidationHelper.ArgumentItemsCount(
-                initItems.Count, Target.GetMinCapacity(), Target.GetMaxCapacity());
+                initItems.Value.Count,
+                Target.GetMinCapacity(),
+                Target.GetMaxCapacity()
+            );
         }
 
-        public override void Insert(int index, TIn item) => Insert(index, new[] { item });
+        public override void Insert(NamedValue<int> index, NamedValue<TIn> item)
+        {
+            BaseValidator?.Insert(index, item);
+            RestrictedListValidationHelper.ItemMaxCount(
+                Target.Count + 1,
+                Target.GetMaxCapacity()
+            );
+        }
 
-        public override void Insert(int index, IReadOnlyList<TIn> items)
+        public override void Insert(NamedValue<int> index, NamedValue<IReadOnlyList<TIn>> items)
         {
             BaseValidator?.Insert(index, items);
             RestrictedListValidationHelper.ItemMaxCount(
-                Target.Count + items.Count, Target.GetMaxCapacity());
+                Target.Count + items.Value.Count,
+                Target.GetMaxCapacity()
+            );
         }
 
-        public override void Overwrite(int index, IReadOnlyList<TIn> items)
+        public override void Overwrite(NamedValue<int> index, NamedValue<IReadOnlyList<TIn>> items)
         {
             BaseValidator?.Overwrite(index, items);
-            if (index + items.Count > Target.Count)
-            {
-                RestrictedListValidationHelper.ItemMaxCount(
-                    index + items.Count, Target.GetMaxCapacity());
-            }
+            RestrictedListValidationHelper.OverwrittenCount(
+                index.Value,
+                items.Value.Count,
+                Target.Count,
+                Target.GetMaxCapacity()
+            );
         }
 
-        public override void Remove(TIn? item)
+        public override void Remove(NamedValue<TIn?> item)
         {
-            if (item is null) return;
-            var index = Target.FindIndex(tItem => ReferenceEquals(tItem, item));
+            if (item.Value is null) return;
+            var index = Target.FindIndex(tItem => ReferenceEquals(tItem, item.Value));
             if (index == -1) return;
 
             BaseValidator?.Remove(item);
             RestrictedListValidationHelper.ItemMinCount(
-                Target.Count - 1, Target.GetMinCapacity());
+                (ListItemsName, Target.Count - 1),
+                Target.GetMinCapacity()
+            );
         }
 
-        public override void Remove(int index, int count)
+        public override void Remove(NamedValue<int> index, NamedValue<int> count)
         {
             BaseValidator?.Remove(index, count);
             RestrictedListValidationHelper.ItemMinCount(
-                Target.Count - count, Target.GetMinCapacity());
+                (ListItemsName, Target.Count - count.Value),
+                Target.GetMinCapacity()
+            );
         }
 
-        public override void AdjustLength(int length)
+        public override void AdjustLength(NamedValue<int> length)
         {
             BaseValidator?.AdjustLength(length);
             RestrictedListValidationHelper.ArgumentItemsCount(
-                length, Target.GetMinCapacity(), Target.GetMaxCapacity(),
-                nameof(length));
+                length.Value,
+                Target.GetMinCapacity(),
+                Target.GetMaxCapacity(),
+                length.Name
+            );
         }
 
-        public override void AdjustLengthIfShort(int length)
+        public override void AdjustLengthIfShort(NamedValue<int> length)
         {
             BaseValidator?.AdjustLengthIfShort(length);
             RestrictedListValidationHelper.ArgumentItemsCount(
-                length, Target.GetMinCapacity(), Target.GetMaxCapacity(),
-                nameof(length));
+                length.Value,
+                Target.GetMinCapacity(),
+                Target.GetMaxCapacity(),
+                length.Name
+            );
         }
 
-        public override void AdjustLengthIfLong(int length)
+        public override void AdjustLengthIfLong(NamedValue<int> length)
         {
             BaseValidator?.AdjustLengthIfLong(length);
             RestrictedListValidationHelper.ArgumentItemsCount(
-                length, Target.GetMinCapacity(), Target.GetMaxCapacity(),
-                nameof(length));
+                length.Value,
+                Target.GetMinCapacity(),
+                Target.GetMaxCapacity(),
+                length.Name
+            );
         }
 
-        public override void Reset(IReadOnlyList<TIn> items)
+        public override void Reset(NamedValue<IReadOnlyList<TIn>> items)
         {
             BaseValidator?.Reset(items);
             RestrictedListValidationHelper.ArgumentItemsCount(
-                items.Count, Target.GetMinCapacity(), Target.GetMaxCapacity(),
-                nameof(items));
+                items.Value.Count,
+                Target.GetMinCapacity(),
+                Target.GetMaxCapacity(),
+                items.Name
+            );
         }
     }
 }

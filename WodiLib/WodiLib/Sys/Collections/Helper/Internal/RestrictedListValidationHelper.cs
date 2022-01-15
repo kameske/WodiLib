@@ -19,8 +19,8 @@ namespace WodiLib.Sys.Collections
         ///     要素数が適切であることを検証する。
         /// </summary>
         /// <param name="count">要素数</param>
-        /// <param name="min">要素最小数</param>
-        /// <param name="max">要素最大数</param>
+        /// <param name="min">最小要素数</param>
+        /// <param name="max">最大要素数</param>
         /// <param name="itemName">エラーメッセージ中の項目名</param>
         /// <exception cref="ArgumentException">
         ///     <paramref name="count"/> &lt; <paramref name="min"/> の場合、
@@ -28,22 +28,26 @@ namespace WodiLib.Sys.Collections
         /// </exception>
         public static void ArgumentItemsCount(int count, int min, int max, string itemName = "initItems")
         {
-            ThrowHelper.ValidateArgumentNotExecute(count < min || max < count,
-                () => ErrorMessage.OutOfRange($"{itemName}の要素数", min, max, count));
+            ThrowHelper.ValidateArgumentNotExecute(
+                count < min || max < count,
+                () => ErrorMessage.OutOfRange($"{itemName}の要素数", min, max, count)
+            );
         }
 
         /// <summary>
         ///     要素数が最大数を超えないことを検証する。
         /// </summary>
         /// <param name="count">要素数</param>
-        /// <param name="max">要素最大数</param>
+        /// <param name="max">最大要素数</param>
         /// <exception cref="ArgumentException">
         ///     <paramref name="count"/> &gt; <paramref name="max"/> の場合。
         /// </exception>
         public static void ItemMaxCount(int count, int max)
         {
-            ThrowHelper.ValidateArgumentNotExecute(count > max,
-                () => ErrorMessage.OverListLength(max));
+            ThrowHelper.ValidateArgumentNotExecute(
+                count > max,
+                () => ErrorMessage.OverListLength(max)
+            );
         }
 
         /// <summary>
@@ -54,9 +58,26 @@ namespace WodiLib.Sys.Collections
         /// <exception cref="ArgumentException">
         ///     <paramref name="count"/> &lt; <paramref name="min"/> の場合。
         /// </exception>
-        public static void ItemMinCount(int count, int min)
+        public static void ItemMinCount(NamedValue<int> count, int min)
         {
-            ThrowHelper.ValidateListMinItemCount(count < min, "要素数", min);
+            ThrowHelper.ValidateListMinItemCount(count.Value < min, count.Name, min);
+        }
+
+        /// <summary>
+        /// 上書き後の要素数が最大数を超えないことを検証する。
+        /// </summary>
+        /// <param name="start">上書き開始インデックス</param>
+        /// <param name="overwrite">上書き要素数</param>
+        /// <param name="now">現在要素数</param>
+        /// <param name="max">最大要素数</param>
+        public static void OverwrittenCount(int start, int overwrite, int now, int max)
+        {
+            if (start + overwrite <= now)
+            {
+                return;
+            }
+
+            ItemMaxCount(start + overwrite, max);
         }
 
         /// <summary>
@@ -68,12 +89,16 @@ namespace WodiLib.Sys.Collections
         ///     <paramref name="min"/> が 0 未満の場合、
         ///     または <paramref name="max"/> が <paramref name="min"/> 未満の場合。
         /// </exception>
-        public static void CapacityConfig(int min, int max)
+        public static void CapacityConfig(NamedValue<int> min, NamedValue<int> max)
         {
-            ThrowHelper.InvalidOperationIf(min < 0,
-                () => ErrorMessage.GreaterOrEqual("MinCapacity", 0, min));
-            ThrowHelper.InvalidOperationIf(min > max,
-                () => ErrorMessage.GreaterOrEqual("MaxCapacity", $"MinValue({min})", max));
+            ThrowHelper.InvalidOperationIf(
+                min.Value < 0,
+                () => ErrorMessage.GreaterOrEqual(min.Name, 0, min.Value)
+            );
+            ThrowHelper.InvalidOperationIf(
+                min.Value > max.Value,
+                () => ErrorMessage.GreaterOrEqual(max.Name, $"MinValue({min})", max.Value)
+            );
         }
     }
 }

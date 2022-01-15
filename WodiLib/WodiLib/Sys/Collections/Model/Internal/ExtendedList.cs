@@ -138,11 +138,11 @@ namespace WodiLib.Sys.Collections
             = WodiLibConfig.GetDefaultNotifyAfterCollectionChangeEventType();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Private Properties
+        //      Private Protected Properties
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>リスト本体</summary>
-        private SimpleList<T> Items { get; }
+        private protected virtual SimpleList<T> Items { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Constructors
