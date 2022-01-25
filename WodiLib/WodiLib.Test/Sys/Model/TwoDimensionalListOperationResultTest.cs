@@ -1860,7 +1860,7 @@ namespace WodiLib.Test.Sys
 
             #region ValidateHandler
 
-            public void Constructor(NamedValue<IFixedLengthList<TestRecord>[]> initItems)
+            public void Constructor(NamedValue<IEnumerable<IFixedLengthList<TestRecord>>> initItems)
             {
                 if (!IsRecordConstructor) return;
 
@@ -1903,26 +1903,32 @@ namespace WodiLib.Test.Sys
                 ColumnCount = columnCount.Value;
             }
 
-            public void SetRow(
-                NamedValue<int> rowIndex,
-                string targetParamName,
-                params IFixedLengthList<TestRecord>[] rows
-            )
+            public void SetRow(NamedValue<int> rowIndex, NamedValue<IFixedLengthList<TestRecord>> row)
             {
                 CalledMethodNames.Add(nameof(SetRow));
                 Row = rowIndex.Value;
-                Items = rows.ToTwoDimensionalArray();
+                Items = new[] { row.Value.ToArray() };
             }
 
-            public void SetColumn(
-                NamedValue<int> columnIndex,
-                string targetParamName,
-                params IEnumerable<TestRecord>[] items
-            )
+            public void SetRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<IFixedLengthList<TestRecord>>> rows)
+            {
+                CalledMethodNames.Add(nameof(SetRow));
+                Row = rowIndex.Value;
+                Items = rows.Value.ToTwoDimensionalArray();
+            }
+
+            public void SetColumn(NamedValue<int> columnIndex, NamedValue<IEnumerable<TestRecord>> items)
             {
                 CalledMethodNames.Add(nameof(SetColumn));
                 Column = columnIndex.Value;
-                Items = items.ToTwoDimensionalArray();
+                Items = new[] { items.Value.ToArray() };
+            }
+
+            public void SetColumn(NamedValue<int> columnIndex, NamedValue<IEnumerable<IEnumerable<TestRecord>>> items)
+            {
+                CalledMethodNames.Add(nameof(SetColumn));
+                Column = columnIndex.Value;
+                Items = items.Value.ToTwoDimensionalArray();
             }
 
             public void SetItem(NamedValue<int> rowIndex, NamedValue<int> columnIndex, NamedValue<TestRecord> item)
@@ -1933,48 +1939,55 @@ namespace WodiLib.Test.Sys
                 Items = new[] { new[] { item.Value } };
             }
 
-            public void InsertRow(
-                NamedValue<int> rowIndex,
-                string targetParamName,
-                params IFixedLengthList<TestRecord>[] items
-            )
+            public void InsertRow(NamedValue<int> rowIndex, NamedValue<IFixedLengthList<TestRecord>> items)
             {
                 CalledMethodNames.Add(nameof(InsertRow));
                 Index = rowIndex.Value;
-                Items = items.ToTwoDimensionalArray();
+                Items = new[] { items.Value.ToArray() };
+            }
+
+            public void InsertRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<IFixedLengthList<TestRecord>>> items)
+            {
+                CalledMethodNames.Add(nameof(InsertRow));
+                Index = rowIndex.Value;
+                Items = items.Value.ToTwoDimensionalArray();
+            }
+
+            public void InsertColumn(NamedValue<int> columnIndex, NamedValue<IEnumerable<TestRecord>> items)
+            {
+                CalledMethodNames.Add(nameof(InsertColumn));
+                Index = columnIndex.Value;
+                Items = new[] { items.Value.ToArray() };
             }
 
             public void InsertColumn(
                 NamedValue<int> columnIndex,
-                string targetParamName,
-                params IEnumerable<TestRecord>[] items
+                NamedValue<IEnumerable<IEnumerable<TestRecord>>> items
             )
             {
                 CalledMethodNames.Add(nameof(InsertColumn));
                 Index = columnIndex.Value;
-                Items = items.ToTwoDimensionalArray();
+                Items = items.Value.ToTwoDimensionalArray();
             }
 
             public void OverwriteRow(
                 NamedValue<int> rowIndex,
-                string targetParamName,
-                params IFixedLengthList<TestRecord>[] items
+                NamedValue<IEnumerable<IFixedLengthList<TestRecord>>> items
             )
             {
                 CalledMethodNames.Add(nameof(OverwriteRow));
                 Index = rowIndex.Value;
-                Items = items.ToTwoDimensionalArray();
+                Items = items.Value.ToTwoDimensionalArray();
             }
 
             public void OverwriteColumn(
                 NamedValue<int> columnIndex,
-                string targetParamName,
-                params IEnumerable<TestRecord>[] items
+                NamedValue<IEnumerable<IEnumerable<TestRecord>>> items
             )
             {
                 CalledMethodNames.Add(nameof(OverwriteColumn));
                 Index = columnIndex.Value;
-                Items = items.ToTwoDimensionalArray();
+                Items = items.Value.ToTwoDimensionalArray();
             }
 
             public void MoveRow(NamedValue<int> oldRowIndex, NamedValue<int> newRowIndex, NamedValue<int> count)

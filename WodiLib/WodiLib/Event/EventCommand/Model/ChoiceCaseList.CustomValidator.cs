@@ -39,7 +39,7 @@ namespace WodiLib.Event.EventCommand
                 ListValidationHelper.SelectIndex(index, (nameof(Target.CaseValue), Target.CaseValue));
             }
 
-            public override void Set(NamedValue<int> index, NamedValue<IReadOnlyList<string>> items)
+            public override void Set(NamedValue<int> index, NamedValue<IEnumerable<string>> items)
             {
                 BaseValidator!.Set(index, items);
                 ListValidationHelper.SelectIndex(index, (nameof(Target.CaseValue), Target.CaseValue));
@@ -48,10 +48,10 @@ namespace WodiLib.Event.EventCommand
             public override void Insert(NamedValue<int> index, NamedValue<string> item)
                 => throw new NotSupportedException();
 
-            public override void Insert(NamedValue<int> index, NamedValue<IReadOnlyList<string>> items)
+            public override void Insert(NamedValue<int> index, NamedValue<IEnumerable<string>> items)
                 => throw new NotSupportedException();
 
-            public override void Overwrite(NamedValue<int> index, NamedValue<IReadOnlyList<string>> items)
+            public override void Overwrite(NamedValue<int> index, NamedValue<IEnumerable<string>> items)
                 => throw new NotSupportedException();
 
             public override void Remove(NamedValue<string?> item)

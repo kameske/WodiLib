@@ -2209,6 +2209,8 @@ namespace WodiLib.Test.Sys
                 // not use
                 throw new InvalidOperationException();
             }
+
+            public override NotifiableObject DeepClone() => new();
         }
 
         #endregion

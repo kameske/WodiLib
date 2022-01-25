@@ -38,6 +38,20 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     行の末尾に要素を追加する。
         /// </summary>
+        /// <param name="item">追加する要素</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="item"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="item"/> に <see langword="null"/> 要素が含まれる場合。
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     操作によって要素数が <see cref="GetMaxRowCapacity"/> を上回る場合、
+        ///     または <paramref name="item"/> の要素数が <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
+        /// </exception>
+        public void AddRow(TInRow item);
+
+        /// <summary>
+        ///     行の末尾に要素を追加する。
+        /// </summary>
         /// <param name="items">追加する要素</param>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="items"/> が <see langword="null"/> の場合、
@@ -47,7 +61,22 @@ namespace WodiLib.Sys.Collections
         ///     操作によって要素数が <see cref="GetMaxRowCapacity"/> を上回る場合、
         ///     または <paramref name="items"/> の要素数が <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
         /// </exception>
-        public void AddRow(params TInRow[] items);
+        public void AddRow(IEnumerable<TInRow> items);
+
+        /// <summary>
+        ///     指定した行インデックスの位置に要素を挿入する。
+        /// </summary>
+        /// <param name="rowIndex">[Range(0, <see cref="ITwoDimensionalListProperty.RowCount"/>)] 行インデックス</param>
+        /// <param name="item">挿入する要素</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="item"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="item"/> に <see langword="null"/> 要素が含まれる場合。
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     操作によって要素数が <see cref="GetMaxRowCapacity"/> を上回る場合、
+        ///     または <paramref name="item"/> の要素数が <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
+        /// </exception>
+        public void InsertRow(int rowIndex, TInRow item);
 
         /// <summary>
         ///     指定した行インデックスの位置に要素を挿入する。
@@ -62,7 +91,7 @@ namespace WodiLib.Sys.Collections
         ///     操作によって要素数が <see cref="GetMaxRowCapacity"/> を上回る場合、
         ///     または <paramref name="items"/> の要素数が <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
         /// </exception>
-        public void InsertRow(int rowIndex, params TInRow[] items);
+        public void InsertRow(int rowIndex, IEnumerable<TInRow> items);
 
         /// <summary>
         ///     指定した行インデックスを起点として、要素の上書き/追加を行う。
@@ -84,7 +113,7 @@ namespace WodiLib.Sys.Collections
         ///     または <paramref name="items"/> のいずれかの要素の要素数が
         ///     <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
         /// </exception>
-        public void OverwriteRow(int rowIndex, params TInRow[] items);
+        public void OverwriteRow(int rowIndex, IEnumerable<TInRow> items);
 
         /// <summary>
         ///     要素の範囲を削除する。

@@ -86,10 +86,11 @@ namespace WodiLib.Sys
         /// <param name="src">対象</param>
         /// <typeparam name="T">配列内包型</typeparam>
         /// <returns>内側配列の長さ</returns>
-        public static int GetInnerArrayLength<T>(this T[][] src)
+        public static int GetInnerArrayLength<T>(this IEnumerable<IEnumerable<T>> src)
         {
-            if (src.Length == 0) return 0;
-            return src[0].Length;
+            var twoDimArray = src.ToTwoDimensionalArray();
+            if (twoDimArray.Length == 0) return 0;
+            return twoDimArray[0].Length;
         }
 
         /// <summary>

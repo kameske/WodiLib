@@ -21,7 +21,7 @@ namespace WodiLib.Sys.Collections
         ///     コンストラクタの検証処理
         /// </summary>
         /// <param name="initItems">初期要素</param>
-        public void Constructor(NamedValue<TRow[]> initItems);
+        public void Constructor(NamedValue<IEnumerable<TRow>> initItems);
 
         /// <summary>
         ///     <see cref="IReadableTwoDimensionalList{TOutRow,TOutItem}.GetRow"/> メソッドの検証処理。
@@ -59,20 +59,32 @@ namespace WodiLib.Sys.Collections
         public void GetItem(NamedValue<int> rowIndex, NamedValue<int> columnIndex);
 
         /// <summary>
-        ///     <see cref="IWritableTwoDimensionalList{TInRow,TOutRow,TInItem,TOutItem}.SetRow"/> メソッドの検証処理。
+        ///     <see cref="IWritableTwoDimensionalList{TInRow,TOutRow,TInItem}.SetRow(int,TInRow)"/> メソッドの検証処理。
         /// </summary>
         /// <param name="rowIndex">更新開始行インデックス</param>
-        /// <param name="targetParamName">更新要素パラメータ名</param>
-        /// <param name="rows">更新要素</param>
-        public void SetRow(NamedValue<int> rowIndex, string targetParamName, params TRow[] rows);
+        /// <param name="row">更新要素</param>
+        public void SetRow(NamedValue<int> rowIndex, NamedValue<TRow> row);
 
         /// <summary>
-        ///     <see cref="IWritableTwoDimensionalList{TInRow,TOutRow,TInItem,TOutItem}.SetColumn"/> メソッドの検証処理。
+        ///     <see cref="IWritableTwoDimensionalList{TInRow,TOutRow,TInItem}.SetRow(int,IEnumerable{TInRow})"/> メソッドの検証処理。
+        /// </summary>
+        /// <param name="rowIndex">更新開始行インデックス</param>
+        /// <param name="rows">更新要素</param>
+        public void SetRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<TRow>> rows);
+
+        /// <summary>
+        ///     <see cref="IWritableTwoDimensionalList{TInRow,TOutRow,TInItem}.SetColumn(int,IEnumerable{TInItem})"/> メソッドの検証処理。
         /// </summary>
         /// <param name="columnIndex">更新列インデックス</param>
-        /// <param name="targetParamName">更新要素パラメータ名</param>
         /// <param name="items">更新要素</param>
-        public void SetColumn(NamedValue<int> columnIndex, string targetParamName, params IEnumerable<TItem>[] items);
+        public void SetColumn(NamedValue<int> columnIndex, NamedValue<IEnumerable<TItem>> items);
+
+        /// <summary>
+        ///     <see cref="IWritableTwoDimensionalList{TInRow,TOutRow,TInItem}.SetColumn(int,IEnumerable{TInItem})"/> メソッドの検証処理。
+        /// </summary>
+        /// <param name="columnIndex">更新列インデックス</param>
+        /// <param name="items">更新要素</param>
+        public void SetColumn(NamedValue<int> columnIndex, NamedValue<IEnumerable<IEnumerable<TItem>>> items);
 
         /// <summary>
         ///     <see cref="ITwoDimensionalList{TInRow,TOutRow,TInItem,TOutItem}.this"/> メソッドの検証処理。
@@ -83,47 +95,49 @@ namespace WodiLib.Sys.Collections
         public void SetItem(NamedValue<int> rowIndex, NamedValue<int> columnIndex, NamedValue<TItem> item);
 
         /// <summary>
-        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TInRow,IOutRow,TInItem}.InsertRow"/> メソッドの検証処理。
+        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TInRow,TOutRow,TInItem}.InsertRow(int,TInRow)"/> メソッドの検証処理。
         /// </summary>
         /// <param name="rowIndex">行インデックス</param>
-        /// <param name="targetParamName">挿入要素パラメータ名</param>
         /// <param name="items">挿入する要素</param>
-        public void InsertRow(NamedValue<int> rowIndex, string targetParamName, params TRow[] items);
+        public void InsertRow(NamedValue<int> rowIndex, NamedValue<TRow> items);
 
         /// <summary>
-        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem}.InsertColumn"/> メソッドの検証処理。
+        ///     <see cref="IRowSizeChangeableTwoDimensionalList{TInRow,TOutRow,TInItem}.InsertRow(int,IEnumerable{TInRow})"/> メソッドの検証処理。
+        /// </summary>
+        /// <param name="rowIndex">行インデックス</param>
+        /// <param name="items">挿入する要素</param>
+        public void InsertRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<TRow>> items);
+
+        /// <summary>
+        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem}.InsertColumn(int,IEnumerable{TInItem})"/> メソッドの検証処理。
         /// </summary>
         /// <param name="columnIndex">列インデックス</param>
-        /// <param name="targetParamName">挿入要素パラメータ名</param>
         /// <param name="items">挿入する要素</param>
-        public void InsertColumn(
-            NamedValue<int> columnIndex,
-            string targetParamName,
-            params IEnumerable<TItem>[] items
-        );
+        public void InsertColumn(NamedValue<int> columnIndex, NamedValue<IEnumerable<TItem>> items);
+
+        /// <summary>
+        ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem}.InsertColumn(int,IEnumerable{IEnumerable{TInItem}})"/> メソッドの検証処理。
+        /// </summary>
+        /// <param name="columnIndex">列インデックス</param>
+        /// <param name="items">挿入する要素</param>
+        public void InsertColumn(NamedValue<int> columnIndex, NamedValue<IEnumerable<IEnumerable<TItem>>> items);
 
         /// <summary>
         ///     <see cref="IRowSizeChangeableTwoDimensionalList{TInRow,IOutRow,TInItem}.OverwriteRow"/> メソッドの検証処理。
         /// </summary>
         /// <param name="rowIndex">行インデックス</param>
-        /// <param name="targetParamName">上書き/追加要素パラメータ名</param>
         /// <param name="items">上書き/追加リスト</param>
-        public void OverwriteRow(NamedValue<int> rowIndex, string targetParamName, params TRow[] items);
+        public void OverwriteRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<TRow>> items);
 
         /// <summary>
         ///     <see cref="IColumnSizeChangeableTwoDimensionalList{TOutRow,TInItem}.OverwriteColumn"/> メソッドの検証処理。
         /// </summary>
         /// <param name="columnIndex">列インデックス</param>
-        /// <param name="targetParamName">上書き/追加要素パラメータ名</param>
         /// <param name="items">上書き/追加リスト</param>
-        public void OverwriteColumn(
-            NamedValue<int> columnIndex,
-            string targetParamName,
-            params IEnumerable<TItem>[] items
-        );
+        public void OverwriteColumn(NamedValue<int> columnIndex, NamedValue<IEnumerable<IEnumerable<TItem>>> items);
 
         /// <summary>
-        ///     <see cref="IWritableTwoDimensionalList{TInRow,TOutRow,TInItem,TOutItem}.MoveRow"/> メソッドの検証処理。
+        ///     <see cref="IWritableTwoDimensionalList{TInRow,TOutRow,TInItem}.MoveRow"/> メソッドの検証処理。
         /// </summary>
         /// <param name="oldRowIndex">移動する項目の行番号開始位置</param>
         /// <param name="newRowIndex">移動先の行番号開始位置</param>

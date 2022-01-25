@@ -30,7 +30,7 @@ namespace WodiLib.Sys.Collections
             BaseValidator = new CommonTwoDimensionalListValidator<TInRow, TOutRow, TInItem, TOutItem>(target);
         }
 
-        public override void Constructor(NamedValue<TInRow[]> initItems)
+        public override void Constructor(NamedValue<IEnumerable<TInRow>> initItems)
         {
 #if DEBUG
             RestrictedCapacityTwoDimensionalListValidationHelper.CapacityConfig(
@@ -52,44 +52,74 @@ namespace WodiLib.Sys.Collections
             );
         }
 
-        public override void InsertRow(NamedValue<int> rowIndex, string targetParamName, params TInRow[] items)
+        public override void InsertRow(NamedValue<int> rowIndex, NamedValue<TInRow> items)
         {
-            BaseValidator.InsertRow(rowIndex, targetParamName, items);
-
-            if (items.Length <= 0) return;
+            BaseValidator.InsertRow(rowIndex, items);
 
             RestrictedCapacityTwoDimensionalListValidationHelper.ItemMaxCount(
-                Target.RowCount + items.Length,
+                Target.RowCount + 1,
                 Target.GetMaxRowCapacity(),
                 RowName
             );
         }
 
-        public override void InsertColumn(
-            NamedValue<int> columnIndex,
-            string targetParamName,
-            params IEnumerable<TInItem>[] items
-        )
+        public override void InsertRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<TInRow>> items)
         {
-            BaseValidator.InsertColumn(columnIndex, targetParamName, items);
+            BaseValidator.InsertRow(rowIndex, items);
 
-            if (items.Length <= 0) return;
+            var rowArrays = items.Value.ToArray();
+
+            if (rowArrays.Length <= 0) return;
 
             RestrictedCapacityTwoDimensionalListValidationHelper.ItemMaxCount(
-                Target.ColumnCount + items.Length,
+                Target.RowCount + rowArrays.Length,
+                Target.GetMaxRowCapacity(),
+                RowName
+            );
+        }
+
+        public override void InsertColumn(NamedValue<int> columnIndex, NamedValue<IEnumerable<TInItem>> items)
+        {
+            BaseValidator.InsertColumn(columnIndex, items);
+
+            RestrictedCapacityTwoDimensionalListValidationHelper.ItemMaxCount(
+                Target.ColumnCount + 1,
                 Target.GetMaxColumnCapacity(),
                 ColumnName
             );
         }
 
-        public override void OverwriteRow(NamedValue<int> rowIndex, string targetParamName, params TInRow[] items)
+        public override void InsertColumn(
+            NamedValue<int> columnIndex,
+            NamedValue<IEnumerable<IEnumerable<TInItem>>> items
+        )
         {
-            BaseValidator.OverwriteRow(rowIndex, targetParamName, items);
+            BaseValidator.InsertColumn(columnIndex, items);
 
-            var itemArrays = items.Cast<IEnumerable<TInItem>>().ToTwoDimensionalArray();
+            var itemArrays = items.Value.ToArray();
 
-            if (Target.ColumnCount == 0 && items.Length > 0)
+            if (itemArrays.Length <= 0) return;
+
+            RestrictedCapacityTwoDimensionalListValidationHelper.ItemMaxCount(
+                Target.ColumnCount + itemArrays.Length,
+                Target.GetMaxColumnCapacity(),
+                ColumnName
+            );
+        }
+
+        public override void OverwriteRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<TInRow>> items)
+        {
+            BaseValidator.OverwriteRow(rowIndex, items);
+
+            var itemArrays = items.Cast<IEnumerable<IEnumerable<TInItem>>>().Value.ToTwoDimensionalArray();
+
+            if (Target.ColumnCount == 0 && itemArrays.Length > 0)
             {
+                RestrictedCapacityTwoDimensionalListValidationHelper.ItemMinCount(
+                    itemArrays[0].Length,
+                    Target.GetMinColumnCapacity(),
+                    ColumnName
+                );
                 RestrictedCapacityTwoDimensionalListValidationHelper.ItemMaxCount(
                     itemArrays[0].Length,
                     Target.GetMaxColumnCapacity(),
@@ -97,10 +127,10 @@ namespace WodiLib.Sys.Collections
                 );
             }
 
-            if (rowIndex.Value + items.Length > Target.RowCount)
+            if (rowIndex.Value + itemArrays.Length > Target.RowCount)
             {
                 RestrictedCapacityTwoDimensionalListValidationHelper.ItemMaxCount(
-                    rowIndex.Value + items.Length,
+                    rowIndex.Value + itemArrays.Length,
                     Target.GetMaxRowCapacity(),
                     RowName
                 );
@@ -109,18 +139,18 @@ namespace WodiLib.Sys.Collections
 
         public override void OverwriteColumn(
             NamedValue<int> columnIndex,
-            string targetParamName,
-            params IEnumerable<TInItem>[] items
+            NamedValue<IEnumerable<IEnumerable<TInItem>>> items
         )
         {
-            BaseValidator.OverwriteColumn(columnIndex, targetParamName, items);
+            BaseValidator.OverwriteColumn(columnIndex, items);
 
-            if (columnIndex.Value + items.Length > Target.ColumnCount)
+            var itemLength = items.Value.Count();
+            if (columnIndex.Value + itemLength > Target.RowCount)
             {
                 RestrictedCapacityTwoDimensionalListValidationHelper.ItemMaxCount(
-                    columnIndex.Value + items.Length,
+                    columnIndex.Value + itemLength,
                     Target.GetMaxColumnCapacity(),
-                    ColumnName
+                    RowName
                 );
             }
         }

@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WodiLib.Sys.Collections
 {
@@ -21,7 +22,10 @@ namespace WodiLib.Sys.Collections
         {
         }
 
-        public FixedLengthListValidator(IFixedLengthList<T, T> target, Func<int> capacityGetter) : base(target, capacityGetter)
+        public FixedLengthListValidator(IFixedLengthList<T, T> target, Func<int> capacityGetter) : base(
+            target,
+            capacityGetter
+        )
         {
         }
     }
@@ -54,25 +58,25 @@ namespace WodiLib.Sys.Collections
             BaseValidator = new CommonListValidator<TIn, TOut>(target);
         }
 
-        public override void Constructor(NamedValue<IReadOnlyList<TIn>> initItems)
+        public override void Constructor(NamedValue<IEnumerable<TIn>> initItems)
         {
             BaseValidator?.Constructor(initItems);
-            FixedLengthListValidationHelper.ItemCount(initItems.Value.Count, Capacity.Get());
+            FixedLengthListValidationHelper.ItemCount(initItems.Value.Count(), Capacity.Get());
         }
 
-        public override void Reset(NamedValue<IReadOnlyList<TIn>> items)
+        public override void Reset(NamedValue<IEnumerable<TIn>> items)
         {
             BaseValidator?.Reset(items);
-            FixedLengthListValidationHelper.ItemCount(items.Value.Count, Capacity.Get());
+            FixedLengthListValidationHelper.ItemCount(items.Value.Count(), Capacity.Get());
         }
 
         public override void Insert(NamedValue<int> index, NamedValue<TIn> item)
             => throw new NotSupportedException();
 
-        public override void Insert(NamedValue<int> index, NamedValue<IReadOnlyList<TIn>> items)
+        public override void Insert(NamedValue<int> index, NamedValue<IEnumerable<TIn>> items)
             => throw new NotSupportedException();
 
-        public override void Overwrite(NamedValue<int> index, NamedValue<IReadOnlyList<TIn>> items)
+        public override void Overwrite(NamedValue<int> index, NamedValue<IEnumerable<TIn>> items)
             => throw new NotSupportedException();
 
         public override void Remove(NamedValue<TIn?> item)

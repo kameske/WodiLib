@@ -18,12 +18,10 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="TInRow">リスト行データ入力型</typeparam>
     /// <typeparam name="TOutRow">リスト行データ出力型</typeparam>
     /// <typeparam name="TInItem">リスト要素入力型</typeparam>
-    /// <typeparam name="TOutItem">リスト要素出力型</typeparam>
-    internal interface IWritableTwoDimensionalList<in TInRow, out TOutRow, in TInItem, out TOutItem> :
+    internal interface IWritableTwoDimensionalList<in TInRow, out TOutRow, in TInItem> :
         ITwoDimensionalListProperty,
         IEnumerable<TOutRow>
         where TInRow : IEnumerable<TInItem>
-        where TOutItem : TInItem
     {
         /// <summary>
         ///     インデクサによるアクセス
@@ -33,6 +31,21 @@ namespace WodiLib.Sys.Collections
         /// <returns>指定したインデックスの要素</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="rowIndex"/>が指定範囲外の場合。</exception>
         public TInItem this[int rowIndex, int columnIndex] { set; }
+
+        /// <summary>
+        ///     リストの連続した要素を更新する。
+        /// </summary>
+        /// <param name="rowIndex">[Range(0, <see cref="ITwoDimensionalListProperty.RowCount"/> - 1)] 更新開始行インデックス</param>
+        /// <param name="item">更新要素</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="item"/> が <see langword="null"/> の場合。
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="rowIndex"/>が指定範囲外の場合。</exception>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="item"/> の要素数が <see cref="ITwoDimensionalListProperty.ColumnCount"/> と一致しない場合、
+        ///     または 有効な範囲外の要素を編集しようとした場合。
+        /// </exception>
+        public void SetRow(int rowIndex, TInRow item);
 
         /// <summary>
         ///     リストの連続した行要素を更新する。
@@ -49,7 +62,26 @@ namespace WodiLib.Sys.Collections
         ///     <see cref="ITwoDimensionalListProperty.ColumnCount"/> と一致しない場合、
         ///     または 有効な範囲外の要素を編集しようとした場合。
         /// </exception>
-        public void SetRow(int rowIndex, params TInRow[] items);
+        public void SetRow(int rowIndex, IEnumerable<TInRow> items);
+
+        /// <summary>
+        ///     リストの連続した列要素を更新する。
+        /// </summary>
+        /// <param name="columnIndex">
+        ///     [Range(0, <see cref="ITwoDimensionalListProperty.ColumnCount"/> - 1)]
+        ///     更新開始列インデックス
+        /// </param>
+        /// <param name="items">更新要素</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="items"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="columnIndex"/>が指定範囲外の場合。</exception>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="items"/> の要素数が <see cref="ITwoDimensionalListProperty.RowCount"/> と一致しない場合、
+        ///     または 有効な範囲外の要素を編集しようとした場合。
+        /// </exception>
+        public void SetColumn(int columnIndex, IEnumerable<TInItem> items);
 
         /// <summary>
         ///     リストの連続した列要素を更新する。
@@ -69,7 +101,7 @@ namespace WodiLib.Sys.Collections
         ///     <see cref="ITwoDimensionalListProperty.RowCount"/> と一致しない場合、
         ///     または 有効な範囲外の要素を編集しようとした場合。
         /// </exception>
-        public void SetColumn(int columnIndex, params IEnumerable<TInItem>[] items);
+        public void SetColumn(int columnIndex, IEnumerable<IEnumerable<TInItem>> items);
 
         /// <summary>
         ///     指定した行番号から始まる連続した項目をコレクション内の新しい場所へ移動する。

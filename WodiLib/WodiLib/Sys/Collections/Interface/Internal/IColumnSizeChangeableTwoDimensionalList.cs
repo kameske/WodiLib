@@ -45,7 +45,21 @@ namespace WodiLib.Sys.Collections
         ///     操作によって要素数が <see cref="GetMaxColumnCapacity"/> を上回る場合、
         ///     または <paramref name="items"/> の要素数が <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
         /// </exception>
-        public void AddColumn(params IEnumerable<TInItem>[] items);
+        public void AddColumn(IEnumerable<TInItem> items);
+
+        /// <summary>
+        ///     列の末尾に要素を追加する。
+        /// </summary>
+        /// <param name="items">追加する要素</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="items"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     操作によって要素数が <see cref="GetMaxColumnCapacity"/> を上回る場合、
+        ///     または <paramref name="items"/> の要素数が <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
+        /// </exception>
+        public void AddColumn(IEnumerable<IEnumerable<TInItem>> items);
 
         /// <summary>
         ///     指定した列インデックスの位置に要素を挿入する。
@@ -60,7 +74,22 @@ namespace WodiLib.Sys.Collections
         ///     操作によって要素数が <see cref="GetMaxColumnCapacity"/> を上回る場合、
         ///     または <paramref name="items"/> の要素数が <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
         /// </exception>
-        public void InsertColumn(int columnIndex, params IEnumerable<TInItem>[] items);
+        public void InsertColumn(int columnIndex, IEnumerable<TInItem> items);
+
+        /// <summary>
+        ///     指定した列インデックスの位置に要素を挿入する。
+        /// </summary>
+        /// <param name="columnIndex">[Range(0, <see cref="ITwoDimensionalListProperty.ColumnCount"/>)] 列インデックス</param>
+        /// <param name="items">挿入する要素</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="items"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     操作によって要素数が <see cref="GetMaxColumnCapacity"/> を上回る場合、
+        ///     または <paramref name="items"/> の要素数が <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
+        /// </exception>
+        public void InsertColumn(int columnIndex, IEnumerable<IEnumerable<TInItem>> items);
 
         /// <summary>
         ///     指定した列インデックスを起点として、要素の上書き/追加を行う。
@@ -82,7 +111,7 @@ namespace WodiLib.Sys.Collections
         ///     または <paramref name="items"/> のいずれかの要素の要素数が
         ///     <see cref="ITwoDimensionalListProperty.ColumnCount"/> と異なる場合。
         /// </exception>
-        public void OverwriteColumn(int columnIndex, params IEnumerable<TInItem>[] items);
+        public void OverwriteColumn(int columnIndex, IEnumerable<IEnumerable<TInItem>> items);
 
         /// <summary>
         ///     要素の範囲を削除する。

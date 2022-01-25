@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WodiLib.Sys.Collections
 {
@@ -39,7 +40,7 @@ namespace WodiLib.Sys.Collections
             BaseValidator = new CommonListValidator<TIn, TOut>(target);
         }
 
-        public override void Constructor(NamedValue<IReadOnlyList<TIn>> initItems)
+        public override void Constructor(NamedValue<IEnumerable<TIn>> initItems)
         {
 #if DEBUG
             try
@@ -57,7 +58,7 @@ namespace WodiLib.Sys.Collections
 
             BaseValidator?.Constructor(initItems);
             RestrictedListValidationHelper.ArgumentItemsCount(
-                initItems.Value.Count,
+                initItems.Value.Count(),
                 Target.GetMinCapacity(),
                 Target.GetMaxCapacity()
             );
@@ -72,21 +73,21 @@ namespace WodiLib.Sys.Collections
             );
         }
 
-        public override void Insert(NamedValue<int> index, NamedValue<IReadOnlyList<TIn>> items)
+        public override void Insert(NamedValue<int> index, NamedValue<IEnumerable<TIn>> items)
         {
             BaseValidator?.Insert(index, items);
             RestrictedListValidationHelper.ItemMaxCount(
-                Target.Count + items.Value.Count,
+                Target.Count + items.Value.Count(),
                 Target.GetMaxCapacity()
             );
         }
 
-        public override void Overwrite(NamedValue<int> index, NamedValue<IReadOnlyList<TIn>> items)
+        public override void Overwrite(NamedValue<int> index, NamedValue<IEnumerable<TIn>> items)
         {
             BaseValidator?.Overwrite(index, items);
             RestrictedListValidationHelper.OverwrittenCount(
                 index.Value,
-                items.Value.Count,
+                items.Value.Count(),
                 Target.Count,
                 Target.GetMaxCapacity()
             );
@@ -147,11 +148,11 @@ namespace WodiLib.Sys.Collections
             );
         }
 
-        public override void Reset(NamedValue<IReadOnlyList<TIn>> items)
+        public override void Reset(NamedValue<IEnumerable<TIn>> items)
         {
             BaseValidator?.Reset(items);
             RestrictedListValidationHelper.ArgumentItemsCount(
-                items.Value.Count,
+                items.Value.Count(),
                 Target.GetMinCapacity(),
                 Target.GetMaxCapacity(),
                 items.Name

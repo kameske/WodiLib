@@ -310,48 +310,82 @@ namespace WodiLib.Sys.Collections
 
         public IEnumerable<TRow> GetRow(int rowIndex, int rowCount)
         {
-            Validator?.GetRow((nameof(rowIndex), rowIndex), (nameof(rowCount), rowCount));
+            var namedIndex = new NamedValue<int>(nameof(rowIndex), rowIndex);
+            var namedCount = new NamedValue<int>(nameof(rowCount), rowCount);
+
+            Validator?.GetRow(namedIndex, namedCount);
+
             return GetRow_Impl(rowIndex, rowCount);
         }
 
         public IEnumerable<IEnumerable<TItem>> GetColumn(int columnIndex, int columnCount)
         {
-            Validator?.GetColumn((nameof(columnIndex), columnIndex), (nameof(columnCount), columnCount));
+            var namedIndex = new NamedValue<int>(nameof(columnIndex), columnIndex);
+            var namedCount = new NamedValue<int>(nameof(columnCount), columnCount);
+
+            Validator?.GetColumn(namedIndex, namedCount);
+
             return GetColumn_Impl(columnIndex, columnCount);
         }
 
         public IEnumerable<IEnumerable<TItem>> GetItem(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
-            Validator?.GetItem(
-                (nameof(rowIndex), rowIndex),
-                (nameof(rowCount), rowCount),
-                (nameof(columnIndex), columnIndex),
-                (nameof(columnCount), columnCount)
-            );
+            var namedRowIndex = new NamedValue<int>(nameof(rowIndex), rowIndex);
+            var namedRowCount = new NamedValue<int>(nameof(rowCount), rowCount);
+            var namedColumnIndex = new NamedValue<int>(nameof(columnIndex), columnIndex);
+            var namedColumnCount = new NamedValue<int>(nameof(columnCount), columnCount);
+
+            Validator?.GetItem(namedRowIndex, namedRowCount, namedColumnIndex, namedColumnCount);
+
             return Get_Impl(rowIndex, rowCount, columnIndex, columnCount, Direction.Row);
         }
 
         public IEnumerator<TRow> GetEnumerator()
             => Items.GetEnumerator();
 
-        public void SetRow(int rowIndex, params TRow[] items)
+        public void SetRow(int rowIndex, TRow item)
         {
-            Validator?.SetRow((nameof(rowIndex), rowIndex), nameof(items), items);
-            var setRows = items.Select(FuncMakeRowFromInType).ToArray();
+            var namedIndex = new NamedValue<int>(nameof(rowIndex), rowIndex);
+            var namedRow = new NamedValue<TRow>(nameof(item), item);
+
+            Validator?.SetRow(namedIndex, namedRow);
+
+            var setRow = FuncMakeRowFromInType(item);
+            SetRow_Impl(rowIndex, setRow);
+        }
+
+        public void SetRow(int rowIndex, IEnumerable<TRow> items)
+        {
+            var namedIndex = new NamedValue<int>(nameof(rowIndex), rowIndex);
+            var namedRows = new NamedValue<IEnumerable<TRow>>(nameof(items), items);
+
+            Validator?.SetRow(namedIndex, namedRows);
+
+            var setRows = namedRows.Value.Select(FuncMakeRowFromInType).ToArray();
             SetRow_Impl(rowIndex, setRows);
         }
 
-        public void SetColumn(int columnIndex, params IEnumerable<TItem>[] items)
+        public void SetColumn(int columnIndex, IEnumerable<TItem> items)
         {
-            Validator?.SetColumn((nameof(columnIndex), columnIndex), nameof(items), items);
-            SetColumn_Impl(columnIndex, items.ToTwoDimensionalArray());
+            var namedIndex = new NamedValue<int>(nameof(columnIndex), columnIndex);
+            var namedColumn = new NamedValue<IEnumerable<TItem>>(nameof(items), items);
+
+            Validator?.SetColumn(namedIndex, namedColumn);
+
+            var setColumn = namedColumn.Value.ToArray();
+            SetColumn_Impl(columnIndex, setColumn);
         }
 
-        public void AddRow(params TRow[] items)
-            => InsertRow(RowCount, items);
+        public void SetColumn(int columnIndex, IEnumerable<IEnumerable<TItem>> items)
+        {
+            var namedIndex = new NamedValue<int>(nameof(columnIndex), columnIndex);
+            var namedColumns = new NamedValue<IEnumerable<IEnumerable<TItem>>>(nameof(items), items);
 
-        public void AddColumn(params IEnumerable<TItem>[] items)
-            => InsertColumn(ColumnCount, items);
+            Validator?.SetColumn(namedIndex, namedColumns);
+
+            var setColumns = namedColumns.Value.ToTwoDimensionalArray();
+            SetColumn_Impl(columnIndex, setColumns);
+        }
 
         public void AddRowPropertyChanging(PropertyChangingEventHandler handler)
         {
@@ -395,33 +429,82 @@ namespace WodiLib.Sys.Collections
             rowEventHandlers.AddCollectionChangedEventHandler(handler);
         }
 
-        public void InsertRow(int rowIndex, params TRow[] items)
-        {
-            Validator?.InsertRow((nameof(rowIndex), rowIndex), nameof(items), items);
+        public void AddRow(TRow item)
+            => InsertRow(RowCount, item);
 
-            var insertItems = items.Select(FuncMakeRowFromInType).ToArray();
+        public void AddRow(IEnumerable<TRow> items)
+            => InsertRow(RowCount, items);
+
+        public void AddColumn(IEnumerable<TItem> items)
+            => InsertColumn(ColumnCount, items);
+
+        public void AddColumn(IEnumerable<IEnumerable<TItem>> items)
+            => InsertColumn(ColumnCount, items);
+
+        public void InsertRow(int rowIndex, TRow item)
+        {
+            var namedIndex = new NamedValue<int>(nameof(rowIndex), rowIndex);
+            var namedRow = new NamedValue<TRow>(nameof(item), item);
+
+            Validator?.InsertRow(namedIndex, namedRow);
+
+            var insertRow = FuncMakeRowFromInType(item);
+            InsertRow_Impl(rowIndex, insertRow);
+        }
+
+        public void InsertRow(int rowIndex, IEnumerable<TRow> items)
+        {
+            var namedIndex = new NamedValue<int>(nameof(rowIndex), rowIndex);
+            var namedRows = new NamedValue<IEnumerable<TRow>>(nameof(items), items);
+
+            Validator?.InsertRow(namedIndex, namedRows);
+
+            var insertItems = namedRows.Value.Select(FuncMakeRowFromInType).ToArray();
             InsertRow_Impl(rowIndex, insertItems);
         }
 
-        public void InsertColumn(int columnIndex, params IEnumerable<TItem>[] items)
+        public void InsertColumn(int columnIndex, IEnumerable<TItem> items)
         {
-            Validator?.InsertColumn((nameof(columnIndex), columnIndex), nameof(items), items);
+            var namedIndex = new NamedValue<int>(nameof(columnIndex), columnIndex);
+            var namedColumn = new NamedValue<IEnumerable<TItem>>(nameof(items), items);
 
-            InsertColumn_Impl(columnIndex, items.ToTwoDimensionalArray());
+            Validator?.InsertColumn(namedIndex, namedColumn);
+
+            var insertColumn = namedColumn.Value.ToArray();
+            InsertColumn_Impl(columnIndex, insertColumn);
         }
 
-        public void OverwriteRow(int rowIndex, params TRow[] items)
+        public void InsertColumn(int columnIndex, IEnumerable<IEnumerable<TItem>> items)
         {
-            Validator?.OverwriteRow((nameof(rowIndex), rowIndex), nameof(items), items);
+            var namedIndex = new NamedValue<int>(nameof(columnIndex), columnIndex);
+            var namedColumns = new NamedValue<IEnumerable<IEnumerable<TItem>>>(nameof(items), items);
 
-            OverwriteRow_Impl(rowIndex, items);
+            Validator?.InsertColumn(namedIndex, namedColumns);
+
+            var insertColumns = namedColumns.Value.ToTwoDimensionalArray();
+            InsertColumn_Impl(columnIndex, insertColumns);
         }
 
-        public void OverwriteColumn(int columnIndex, params IEnumerable<TItem>[] items)
+        public void OverwriteRow(int rowIndex, IEnumerable<TRow> items)
         {
-            Validator?.OverwriteColumn((nameof(columnIndex), columnIndex), nameof(items), items);
+            var namedIndex = new NamedValue<int>(nameof(rowIndex), rowIndex);
+            var namedRows = new NamedValue<IEnumerable<TRow>>(nameof(items), items);
 
-            OverwriteColumn_Impl(columnIndex, items);
+            Validator?.OverwriteRow(namedIndex, namedRows);
+
+            var overwriteRows = namedRows.Value.Select(FuncMakeRowFromInType).ToArray();
+            OverwriteRow_Impl(rowIndex, overwriteRows);
+        }
+
+        public void OverwriteColumn(int columnIndex, IEnumerable<IEnumerable<TItem>> items)
+        {
+            var namedIndex = new NamedValue<int>(nameof(columnIndex), columnIndex);
+            var namedColumns = new NamedValue<IEnumerable<IEnumerable<TItem>>>(nameof(items), items);
+
+            Validator?.OverwriteColumn(namedIndex, namedColumns);
+
+            var overwriteColumns = namedColumns.Value.ToArray();
+            OverwriteColumn_Impl(columnIndex, overwriteColumns);
         }
 
         public void MoveRow(int oldRowIndex, int newRowIndex, int count = 1)
@@ -864,16 +947,6 @@ namespace WodiLib.Sys.Collections
 
                 InsertRow_Impl(0, newItems.ToArray());
             }
-        }
-
-        private void OverwriteRow_Impl(int index, params TRow[] items)
-        {
-            if (items.Length == 0) return;
-
-            var rowItems = items.Select(row => FuncMakeRowFromInType(row))
-                .ToArray();
-
-            OverwriteRow_Impl(index, rowItems);
         }
 
         private void OverwriteRow_Impl(int index, params TRowInternal[] items)

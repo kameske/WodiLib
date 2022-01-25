@@ -26,7 +26,7 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="TOutItem">リスト要素出力型</typeparam>
     internal interface ITwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem> :
         IReadableTwoDimensionalList<TOutRow, TOutItem>,
-        IWritableTwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem>,
+        IWritableTwoDimensionalList<TInRow, TOutRow, TInItem>,
         ISizeChangeableTwoDimensionalList<TInRow, TOutRow, TInItem>,
         INotifiableCollectionChange<TOutRow>,
         IEqualityComparable<ITwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem>>

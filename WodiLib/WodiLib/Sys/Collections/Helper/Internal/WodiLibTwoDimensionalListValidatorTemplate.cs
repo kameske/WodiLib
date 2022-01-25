@@ -48,7 +48,7 @@ namespace WodiLib.Sys.Collections
             ColumnName = columnName;
         }
 
-        public virtual void Constructor(NamedValue<TInRow[]> initItems)
+        public virtual void Constructor(NamedValue<IEnumerable<TInRow>> initItems)
             => BaseValidator?.Constructor(initItems);
 
         public virtual void GetRow(NamedValue<int> rowIndex, NamedValue<int> rowCount)
@@ -68,35 +68,44 @@ namespace WodiLib.Sys.Collections
         public virtual void GetItem(NamedValue<int> rowIndex, NamedValue<int> columnIndex)
             => BaseValidator?.GetItem(rowIndex, columnIndex);
 
-        public virtual void SetRow(NamedValue<int> rowIndex, string targetParamName, params TInRow[] rows)
-            => BaseValidator?.SetRow(rowIndex, targetParamName, rows);
+        public virtual void SetRow(NamedValue<int> rowIndex, NamedValue<TInRow> row)
+            => BaseValidator?.SetRow(rowIndex, row);
 
-        public virtual void SetColumn(
-            NamedValue<int> columnIndex,
-            string targetParamName,
-            params IEnumerable<TInItem>[] items
-        )
-            => BaseValidator?.SetColumn(columnIndex, targetParamName, items);
+        public virtual void SetRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<TInRow>> rows)
+            => BaseValidator?.SetRow(rowIndex, rows);
+
+        public virtual void SetColumn(NamedValue<int> columnIndex, NamedValue<IEnumerable<TInItem>> items)
+            => BaseValidator?.SetColumn(columnIndex, items);
+
+        public virtual void SetColumn(NamedValue<int> columnIndex, NamedValue<IEnumerable<IEnumerable<TInItem>>> items)
+            => BaseValidator?.SetColumn(columnIndex, items);
 
         public virtual void SetItem(NamedValue<int> rowIndex, NamedValue<int> columnIndex, NamedValue<TInItem> item)
             => BaseValidator?.SetItem(rowIndex, columnIndex, item);
 
-        public virtual void InsertRow(NamedValue<int> rowIndex, string targetParamName, params TInRow[] items)
-            => BaseValidator?.InsertRow(rowIndex, targetParamName, items);
+        public virtual void InsertRow(NamedValue<int> rowIndex, NamedValue<TInRow> items)
+            => BaseValidator?.InsertRow(rowIndex, items);
+
+        public virtual void InsertRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<TInRow>> items)
+            => BaseValidator?.InsertRow(rowIndex, items);
+
+        public virtual void InsertColumn(NamedValue<int> columnIndex, NamedValue<IEnumerable<TInItem>> items)
+            => BaseValidator?.InsertColumn(columnIndex, items);
 
         public virtual void InsertColumn(
             NamedValue<int> columnIndex,
-            string targetParamName,
-            params IEnumerable<TInItem>[] items
+            NamedValue<IEnumerable<IEnumerable<TInItem>>> items
         )
-            => BaseValidator?.InsertColumn(columnIndex, targetParamName, items);
+            => BaseValidator?.InsertColumn(columnIndex, items);
 
-        public virtual void OverwriteRow(NamedValue<int> rowIndex, string targetParamName, params TInRow[] items)
-            => BaseValidator?.OverwriteRow(rowIndex, targetParamName, items);
+        public virtual void OverwriteRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<TInRow>> items)
+            => BaseValidator?.OverwriteRow(rowIndex, items);
 
-        public virtual void OverwriteColumn(NamedValue<int> columnIndex, string targetParamName,
-            params IEnumerable<TInItem>[] items)
-            => BaseValidator?.OverwriteColumn(columnIndex, targetParamName, items);
+        public virtual void OverwriteColumn(
+            NamedValue<int> columnIndex,
+            NamedValue<IEnumerable<IEnumerable<TInItem>>> items
+        )
+            => BaseValidator?.OverwriteColumn(columnIndex, items);
 
         public virtual void MoveRow(NamedValue<int> oldRowIndex, NamedValue<int> newRowIndex, NamedValue<int> count)
             => BaseValidator?.MoveRow(oldRowIndex, newRowIndex, count);

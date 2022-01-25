@@ -32,7 +32,8 @@ namespace WodiLib.Sys.Collections
         IReadableList<TOut>,
         INotifiableCollectionChange<TOut>,
         IContainerCreatable, IContainerCreatable<ListInitParam<TIn>>,
-        IEqualityComparable<IReadOnlyExtendedList<TIn, TOut>>
+        IEqualityComparable<IReadOnlyExtendedList<TIn, TOut>>,
+        IContainerCreatableParam
         where TOut : TIn
     {
         /// <summary>

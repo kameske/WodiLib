@@ -7,6 +7,7 @@
 // ========================================
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WodiLib.Sys.Collections
 {
@@ -24,71 +25,76 @@ namespace WodiLib.Sys.Collections
         {
         }
 
-        public override void Constructor(NamedValue<IReadOnlyList<TIn>> initItems)
+        public override void Constructor(NamedValue<IEnumerable<TIn>> initItems)
         {
-            ThrowHelper.ValidateArgumentNotNull(initItems.Value is null, nameof(initItems));
-            ListValidationHelper.ItemsHasNotNull(initItems.Cast<IEnumerable<TIn>>());
+            ThrowHelper.ValidateArgumentNotNull(initItems.Value is null, initItems.Name);
+            ListValidationHelper.ItemsHasNotNull(initItems);
         }
 
         public override void Get(NamedValue<int> index, NamedValue<int> count)
         {
-            ListValidationHelper.SelectIndex(index, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
-            ListValidationHelper.Count(count, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
-            ListValidationHelper.Range(index, count, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
+            var namedCount = ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count);
+            ListValidationHelper.SelectIndex(index, namedCount);
+            ListValidationHelper.Count(count, namedCount);
+            ListValidationHelper.Range(index, count, namedCount);
         }
 
         public override void Set(NamedValue<int> index, NamedValue<TIn> item)
         {
-            ThrowHelper.ValidateArgumentNotNull(item.Value is null, nameof(item));
+            ThrowHelper.ValidateArgumentNotNull(item.Value is null, item.Name);
             ListValidationHelper.SelectIndex(index, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
         }
 
-        public override void Set(NamedValue<int> index, NamedValue<IReadOnlyList<TIn>> items)
+        public override void Set(NamedValue<int> index, NamedValue<IEnumerable<TIn>> items)
         {
-            ListValidationHelper.SelectIndex(index, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
-            ListValidationHelper.ItemsHasNotNull(items.Cast<IEnumerable<TIn>>());
+            var namedCount = ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count);
+            ListValidationHelper.SelectIndex(index, namedCount);
+            ThrowHelper.ValidateArgumentNotNull(items.Value is null, items.Name);
+            ListValidationHelper.ItemsHasNotNull(items);
             ListValidationHelper.Range(
                 index,
-                ($"{nameof(items)}.{nameof(items.Value.Count)}", items.Value.Count),
-                ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count)
+                ($"{nameof(items)}.{nameof(items.Value)}の要素数", items.Value.Count()),
+                namedCount
             );
         }
 
         public override void Insert(NamedValue<int> index, NamedValue<TIn> item)
         {
-            ThrowHelper.ValidateArgumentNotNull(item.Value is null, nameof(item));
+            ThrowHelper.ValidateArgumentNotNull(item.Value is null, item.Name);
             ListValidationHelper.InsertIndex(index, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
         }
 
-        public override void Insert(NamedValue<int> index, NamedValue<IReadOnlyList<TIn>> items)
+        public override void Insert(NamedValue<int> index, NamedValue<IEnumerable<TIn>> items)
         {
             ThrowHelper.ValidateArgumentNotNull(items.Value is null, items.Name);
+            ListValidationHelper.ItemsHasNotNull(items);
             ListValidationHelper.InsertIndex(index, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
-            ListValidationHelper.ItemsHasNotNull(items.Cast<IEnumerable<TIn>>());
         }
 
-        public override void Overwrite(NamedValue<int> index, NamedValue<IReadOnlyList<TIn>> items)
+        public override void Overwrite(NamedValue<int> index, NamedValue<IEnumerable<TIn>> items)
         {
-            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+            ThrowHelper.ValidateArgumentNotNull(items.Value is null, items.Name);
+            ListValidationHelper.ItemsHasNotNull(items);
             ListValidationHelper.InsertIndex(index, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
-            ListValidationHelper.ItemsHasNotNull(items.Cast<IEnumerable<TIn>>());
         }
 
         public override void Move(NamedValue<int> oldIndex, NamedValue<int> newIndex, NamedValue<int> count)
         {
-            ListValidationHelper.ItemCountNotZero(($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
-            ListValidationHelper.SelectIndex(oldIndex, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
-            ListValidationHelper.InsertIndex(newIndex, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
-            ListValidationHelper.Count(count, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
-            ListValidationHelper.Range(oldIndex, count, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
-            ListValidationHelper.Range(count, newIndex, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
+            var namedCount = ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count);
+            ListValidationHelper.ItemCountNotZero(namedCount);
+            ListValidationHelper.SelectIndex(oldIndex, namedCount);
+            ListValidationHelper.InsertIndex(newIndex, namedCount);
+            ListValidationHelper.Count(count, namedCount);
+            ListValidationHelper.Range(oldIndex, count, namedCount);
+            ListValidationHelper.Range(count, newIndex, namedCount);
         }
 
         public override void Remove(NamedValue<int> index, NamedValue<int> count)
         {
-            ListValidationHelper.SelectIndex(index, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
-            ListValidationHelper.Count(count, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
-            ListValidationHelper.Range(index, count, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
+            var namedCount = ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count);
+            ListValidationHelper.SelectIndex(index, namedCount);
+            ListValidationHelper.Count(count, namedCount);
+            ListValidationHelper.Range(index, count, namedCount);
         }
 
         public override void AdjustLength(NamedValue<int> length)
@@ -121,10 +127,10 @@ namespace WodiLib.Sys.Collections
             );
         }
 
-        public override void Reset(NamedValue<IReadOnlyList<TIn>> items)
+        public override void Reset(NamedValue<IEnumerable<TIn>> items)
         {
-            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
-            ListValidationHelper.ItemsHasNotNull(items.Cast<IEnumerable<TIn>>());
+            ThrowHelper.ValidateArgumentNotNull(items.Value is null, items.Name);
+            ListValidationHelper.ItemsHasNotNull(items);
         }
     }
 }
