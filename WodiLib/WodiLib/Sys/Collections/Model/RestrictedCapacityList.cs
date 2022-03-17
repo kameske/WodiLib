@@ -107,15 +107,6 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     コンストラクタ
         /// </summary>
-        /// <param name="initParam">初期化パラメータ</param>
-        protected RestrictedCapacityList(ListInitParam<TIn> initParam) : this(
-            initParam.InitItems)
-        {
-        }
-
-        /// <summary>
-        ///     コンストラクタ
-        /// </summary>
         /// <param name="initItems">初期要素</param>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
@@ -155,20 +146,24 @@ namespace WodiLib.Sys.Collections
         {
             base.CollectionChanging += (_, args) =>
             {
-                CollectionChangingEventHandlers.ForEach(handler =>
-                {
-                    var myArgs = NotifyCollectionChangedEventArgsEx<TOut>.CreateFromOtherType(args, item => item);
-                    handler.Invoke(this, myArgs);
-                });
+                CollectionChangingEventHandlers.ForEach(
+                    handler =>
+                    {
+                        var myArgs = NotifyCollectionChangedEventArgsEx<TOut>.CreateFromOtherType(args, item => item);
+                        handler.Invoke(this, myArgs);
+                    }
+                );
             };
 
             base.CollectionChanged += (_, args) =>
             {
-                CollectionChangedEventHandlers.ForEach(handler =>
-                {
-                    var myArgs = NotifyCollectionChangedEventArgsEx<TOut>.CreateFromOtherType(args, item => item);
-                    handler.Invoke(this, myArgs);
-                });
+                CollectionChangedEventHandlers.ForEach(
+                    handler =>
+                    {
+                        var myArgs = NotifyCollectionChangedEventArgsEx<TOut>.CreateFromOtherType(args, item => item);
+                        handler.Invoke(this, myArgs);
+                    }
+                );
             };
         }
 
@@ -350,14 +345,6 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     コンストラクタ
         /// </summary>
-        /// <param name="initParam">初期化パラメータ</param>
-        protected RestrictedCapacityList(ListInitParam<T> initParam) : base(initParam)
-        {
-        }
-
-        /// <summary>
-        ///     コンストラクタ
-        /// </summary>
         /// <param name="initItems">初期要素</param>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
@@ -367,14 +354,16 @@ namespace WodiLib.Sys.Collections
         ///     <paramref name="initItems"/> の要素数が <see cref="RestrictedCapacityListBase{T,TImpl}.GetMinCapacity"/> 未満
         ///     または <see cref="RestrictedCapacityListBase{T,TImpl}.GetMaxCapacity"/> を超える場合。
         /// </exception>
-        protected RestrictedCapacityList(IEnumerable<T> initItems) : base(((Func<IEnumerable<T>>)(() =>
-        {
-            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
-            var initItemArray = initItems.ToArray();
-            ThrowHelper.ValidateArgumentItemsHasNotNull(initItemArray.HasNullItem(), nameof(initItems));
+        protected RestrictedCapacityList(IEnumerable<T> initItems) : base(
+            ((Func<IEnumerable<T>>)(() =>
+            {
+                ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
+                var initItemArray = initItems.ToArray();
+                ThrowHelper.ValidateArgumentItemsHasNotNull(initItemArray.HasNullItem(), nameof(initItems));
 
-            return initItemArray;
-        }))())
+                return initItemArray;
+            }))()
+        )
         {
             SetRange(0, initItems);
         }

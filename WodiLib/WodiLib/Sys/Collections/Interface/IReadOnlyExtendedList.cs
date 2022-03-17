@@ -31,9 +31,8 @@ namespace WodiLib.Sys.Collections
     public interface IReadOnlyExtendedList<TIn, TOut> :
         IReadableList<TOut>,
         INotifiableCollectionChange<TOut>,
-        IContainerCreatable, IContainerCreatable<ListInitParam<TIn>>,
-        IEqualityComparable<IReadOnlyExtendedList<TIn, TOut>>,
-        IContainerCreatableParam
+        IContainerCreatable,
+        IEqualityComparable<IReadOnlyExtendedList<TIn, TOut>>
         where TOut : TIn
     {
         /// <summary>

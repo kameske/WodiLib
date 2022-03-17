@@ -229,6 +229,9 @@ namespace WodiLib.Sys.Cmn
         public WodiLibContainerKeyName KeyName { get; }
 
         /// <inheritdoc/>
+        public WodiLibContainerKeyName? ContainerKeyName { get; set; }
+
+        /// <inheritdoc/>
         public NotifyPropertyChangeEventType DefaultNotifyBeforePropertyChangeEventType
         {
             get => defaultNotifyBeforePropertyChangeEventType;

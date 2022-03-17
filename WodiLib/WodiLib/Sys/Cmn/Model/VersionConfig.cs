@@ -13,7 +13,8 @@ namespace WodiLib.Sys.Cmn
     /// <summary>
     ///     WodiLib全体のバージョン設定
     /// </summary>
-    public class VersionConfig : IVersionConfig, IContainerCreatable
+    public class VersionConfig : IVersionConfig,
+        IContainerCreatable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Static Property
@@ -40,6 +41,9 @@ namespace WodiLib.Sys.Cmn
         ///     設定バージョン
         /// </summary>
         public WoditorVersion Version { get; private set; }
+
+        /// <inheritdoc/>
+        public WodiLibContainerKeyName? ContainerKeyName { get; set; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Static Method
@@ -201,8 +205,11 @@ namespace WodiLib.Sys.Cmn
         /// <returns>設定インスタンス</returns>
         private static VersionConfig GetConfig(WodiLibContainerKeyName keyName)
         {
-            WodiLibContainer.RegisterIfNotHas(() => new VersionConfig(keyName),
-                WodiLibContainer.Lifetime.Container, keyName);
+            WodiLibContainer.RegisterIfNotHas(
+                () => new VersionConfig(keyName),
+                WodiLibContainer.Lifetime.Container,
+                keyName
+            );
             return WodiLibContainer.Resolve<VersionConfig>(keyName);
         }
 

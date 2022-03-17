@@ -20,7 +20,8 @@ namespace WodiLib.Sys
     /// </summary>
     /// <typeparam name="TChild">Model実装クラス型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract partial class ModelBase<TChild> : IModelBase<TChild>, IEqualityComparable<ModelBase<TChild>>
+    public abstract partial class ModelBase<TChild> : IModelBase<TChild>,
+        IEqualityComparable<ModelBase<TChild>>
         where TChild : ModelBase<TChild>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -88,10 +89,8 @@ namespace WodiLib.Sys
             }
         }
 
-        /// <summary>
-        /// 生成元のコンテナキー名（コンテナから生成されていない場合 <see langword="null"/>）
-        /// </summary>
-        public WodiLibContainerKeyName ContainerKeyName { get; init; } = WodiLibContainer.TargetKeyName;
+        /// <inheritdoc/>
+        public WodiLibContainerKeyName? ContainerKeyName { get; set; } = null;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Property
@@ -122,19 +121,6 @@ namespace WodiLib.Sys
         {
             NotifyPropertyChangingEventType = src.NotifyPropertyChangingEventType;
             NotifyPropertyChangedEventType = src.NotifyPropertyChangingEventType;
-        }
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="param">初期化パラメータ</param>
-        /// <exception cref="ArgumentNullException">
-        /// <paramref name="param"/> が <see langword="null"/> の場合。
-        /// </exception>
-        protected ModelBase(IContainerCreatableParam param)
-        {
-            ThrowHelper.ValidateArgumentNotNull(param is null, nameof(param));
-            ContainerKeyName = param.ContainerKeyName;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -241,13 +227,18 @@ namespace WodiLib.Sys
         /// </remarks>
         /// <param name="target">イベント伝播元</param>
         /// <param name="allowNotifyPropertyList">プロパティ通知許可リスト</param>
-        protected void PropagatePropertyChangeEvent(INotifiablePropertyChange target,
-            IEnumerable<string> allowNotifyPropertyList)
+        protected void PropagatePropertyChangeEvent(
+            INotifiablePropertyChange target,
+            IEnumerable<string> allowNotifyPropertyList
+        )
         {
             target.PropertyChanging += (sender, args) =>
             {
                 var notifyArgs = PropertyChangeNotificationHelper.GetPropertyChangingEventArgs(
-                    sender, args, allowNotifyPropertyList);
+                    sender,
+                    args,
+                    allowNotifyPropertyList
+                );
 
                 if (notifyArgs is null) return;
 
@@ -257,7 +248,10 @@ namespace WodiLib.Sys
             target.PropertyChanged += (sender, args) =>
             {
                 var notifyArgs = PropertyChangeNotificationHelper.GetPropertyChangedEventArgs(
-                    sender, args, allowNotifyPropertyList);
+                    sender,
+                    args,
+                    allowNotifyPropertyList
+                );
 
                 if (notifyArgs is null) return;
 
@@ -282,13 +276,18 @@ namespace WodiLib.Sys
         /// </remarks>
         /// <param name="target">イベント伝播元</param>
         /// <param name="filterNotifyPropertyName">プロパティ通知フィルタデリゲート</param>
-        protected void PropagatePropertyChangeEvent(INotifiablePropertyChange target,
-            PropertyChangeNotificationHelper.FilterNotifyPropertyName? filterNotifyPropertyName)
+        protected void PropagatePropertyChangeEvent(
+            INotifiablePropertyChange target,
+            PropertyChangeNotificationHelper.FilterNotifyPropertyName? filterNotifyPropertyName
+        )
         {
             target.PropertyChanging += (sender, args) =>
             {
                 var notifyArgs = PropertyChangeNotificationHelper.GetPropertyChangingEventArgs(
-                    sender, args, filterNotifyPropertyName);
+                    sender,
+                    args,
+                    filterNotifyPropertyName
+                );
 
                 if (notifyArgs is null) return;
 
@@ -298,7 +297,10 @@ namespace WodiLib.Sys
             target.PropertyChanged += (sender, args) =>
             {
                 var notifyArgs = PropertyChangeNotificationHelper.GetPropertyChangedEventArgs(
-                    sender, args, filterNotifyPropertyName);
+                    sender,
+                    args,
+                    filterNotifyPropertyName
+                );
 
                 if (notifyArgs is null) return;
 
@@ -324,8 +326,10 @@ namespace WodiLib.Sys
         /// </remarks>
         /// <param name="target">イベント伝播元</param>
         /// <param name="mapNotifyPropertyName">伝播プロパティ名 Mapper</param>
-        protected void PropagatePropertyChangeEvent(INotifiablePropertyChange target,
-            PropertyChangeNotificationHelper.MapNotifyPropertyName? mapNotifyPropertyName)
+        protected void PropagatePropertyChangeEvent(
+            INotifiablePropertyChange target,
+            PropertyChangeNotificationHelper.MapNotifyPropertyName? mapNotifyPropertyName
+        )
         {
             if (mapNotifyPropertyName is null)
             {
@@ -336,7 +340,10 @@ namespace WodiLib.Sys
             target.PropertyChanging += (sender, args) =>
             {
                 var notifyArgs = PropertyChangeNotificationHelper.GetPropertyChangingEventArgs(
-                    sender, args, mapNotifyPropertyName);
+                    sender,
+                    args,
+                    mapNotifyPropertyName
+                );
 
                 notifyArgs?.ForEach(arg => _propertyChanging?.Invoke(this, arg));
             };
@@ -344,7 +351,10 @@ namespace WodiLib.Sys
             target.PropertyChanged += (sender, args) =>
             {
                 var notifyArgs = PropertyChangeNotificationHelper.GetPropertyChangedEventArgs(
-                    sender, args, mapNotifyPropertyName);
+                    sender,
+                    args,
+                    mapNotifyPropertyName
+                );
 
                 notifyArgs?.ForEach(arg => _propertyChanged?.Invoke(this, arg));
             };

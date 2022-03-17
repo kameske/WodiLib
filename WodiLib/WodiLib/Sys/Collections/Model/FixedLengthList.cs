@@ -111,27 +111,21 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     コンストラクタ
         /// </summary>
-        /// <param name="initParam">初期化パラメータ</param>
-        protected FixedLengthList(ListInitParam<TIn> initParam) : this(initParam.InitItems)
-        {
-        }
-
-        /// <summary>
-        ///     コンストラクタ
-        /// </summary>
         /// <param name="initItems">初期リスト</param>
         /// <exception cref="ArgumentNullException">
         ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
         ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
         /// </exception>
-        protected FixedLengthList(IEnumerable<TIn> initItems) : base(((Func<int>)(() =>
-        {
-            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
-            var initItemArray = initItems.ToArray();
-            ThrowHelper.ValidateArgumentItemsHasNotNull(initItemArray.HasNullItem(), nameof(initItems));
+        protected FixedLengthList(IEnumerable<TIn> initItems) : base(
+            ((Func<int>)(() =>
+            {
+                ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
+                var initItemArray = initItems.ToArray();
+                ThrowHelper.ValidateArgumentItemsHasNotNull(initItemArray.HasNullItem(), nameof(initItems));
 
-            return initItemArray.Length;
-        }))())
+                return initItemArray.Length;
+            }))()
+        )
         {
             SetRange(0, CastInternal(initItems));
             PropagateCollectionChangeChangeEvent();
@@ -145,14 +139,16 @@ namespace WodiLib.Sys.Collections
         ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
         ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
         /// </exception>
-        protected FixedLengthList(IEnumerable<TOut> initItems) : base(((Func<int>)(() =>
-        {
-            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
-            var initItemArray = initItems.ToArray();
-            ThrowHelper.ValidateArgumentItemsHasNotNull(initItemArray.HasNullItem(), nameof(initItems));
+        protected FixedLengthList(IEnumerable<TOut> initItems) : base(
+            ((Func<int>)(() =>
+            {
+                ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
+                var initItemArray = initItems.ToArray();
+                ThrowHelper.ValidateArgumentItemsHasNotNull(initItemArray.HasNullItem(), nameof(initItems));
 
-            return initItemArray.Length;
-        }))())
+                return initItemArray.Length;
+            }))()
+        )
         {
             SetRange(0, CastInternal(initItems));
             PropagateCollectionChangeChangeEvent();
@@ -178,20 +174,24 @@ namespace WodiLib.Sys.Collections
         {
             base.CollectionChanging += (_, args) =>
             {
-                CollectionChangingEventHandlers.ForEach(handler =>
-                {
-                    var myArgs = NotifyCollectionChangedEventArgsEx<TOut>.CreateFromOtherType(args, item => item);
-                    handler.Invoke(this, myArgs);
-                });
+                CollectionChangingEventHandlers.ForEach(
+                    handler =>
+                    {
+                        var myArgs = NotifyCollectionChangedEventArgsEx<TOut>.CreateFromOtherType(args, item => item);
+                        handler.Invoke(this, myArgs);
+                    }
+                );
             };
 
             base.CollectionChanged += (_, args) =>
             {
-                CollectionChangedEventHandlers.ForEach(handler =>
-                {
-                    var myArgs = NotifyCollectionChangedEventArgsEx<TOut>.CreateFromOtherType(args, item => item);
-                    handler.Invoke(this, myArgs);
-                });
+                CollectionChangedEventHandlers.ForEach(
+                    handler =>
+                    {
+                        var myArgs = NotifyCollectionChangedEventArgsEx<TOut>.CreateFromOtherType(args, item => item);
+                        handler.Invoke(this, myArgs);
+                    }
+                );
             };
         }
 
@@ -318,26 +318,20 @@ namespace WodiLib.Sys.Collections
         ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
         ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
         /// </exception>
-        protected FixedLengthList(IEnumerable<T> initItems) : base(((Func<int>)(() =>
-        {
-            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
-            var initItemArray = initItems.ToArray();
-            ThrowHelper.ValidateArgumentItemsHasNotNull(initItemArray.HasNullItem(), nameof(initItems));
+        protected FixedLengthList(IEnumerable<T> initItems) : base(
+            ((Func<int>)(() =>
+            {
+                ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
+                var initItemArray = initItems.ToArray();
+                ThrowHelper.ValidateArgumentItemsHasNotNull(initItemArray.HasNullItem(), nameof(initItems));
 
-            var itemLength = initItemArray.Length;
+                var itemLength = initItemArray.Length;
 
-            return itemLength;
-        }))())
+                return itemLength;
+            }))()
+        )
         {
             SetRange(0, initItems);
-        }
-
-        /// <summary>
-        ///     コンストラクタ
-        /// </summary>
-        /// <param name="initParam">初期化パラメータ</param>
-        protected FixedLengthList(ListInitParam<T> initParam) : base(initParam)
-        {
         }
 
         /// <inheritdoc/>

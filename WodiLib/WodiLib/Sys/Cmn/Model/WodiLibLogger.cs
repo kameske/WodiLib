@@ -37,6 +37,9 @@ namespace WodiLib.Sys.Cmn
         //     Private Property
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
+        /// <inheritdoc/>
+        public WodiLibContainerKeyName? ContainerKeyName { get; set; }
+
         /// <summary>
         ///     ログハンドラ
         /// </summary>
@@ -106,8 +109,11 @@ namespace WodiLib.Sys.Cmn
         {
             if (!WodiLibContainer.HasCreateMethod<WodiLibLogger>(keyName))
             {
-                WodiLibContainer.Register(() => new WodiLibLogger(WodiLibLogHandler.Default),
-                    WodiLibContainer.Lifetime.Container, keyName);
+                WodiLibContainer.Register(
+                    () => new WodiLibLogger(WodiLibLogHandler.Default),
+                    WodiLibContainer.Lifetime.Container,
+                    keyName
+                );
             }
         }
 

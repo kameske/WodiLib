@@ -28,7 +28,7 @@ namespace WodiLib.Sys
     public interface IReadOnlyModelBase<TChild> : INotifiablePropertyChange,
         IEqualityComparable<TChild>,
         IDeepCloneable<TChild>,
-        IContainerCreatableParam
+        IContainerCreatable
         where TChild : IReadOnlyModelBase<TChild>
     {
     }
