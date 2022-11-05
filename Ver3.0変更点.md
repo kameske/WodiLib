@@ -16,6 +16,8 @@ Ver 3.0 変更点
 共通部分（WodiLib.Sys）
 ----------------------------------------
 
+<s>
+
 - ```WodiLibConfig``` （```Ver 3.0``` にて新規追加）
     - ```WodiLib``` 全体の動作を決定するコンフィグコンテナ。
         - 使用方法は ```VersionConfig``` と同じ。
@@ -32,6 +34,8 @@ Ver 3.0 変更点
 |DefaultNotifyBeforeCollectionChangeFlag|コレクション変更前の変更通知タイプ|```None```|
 |DefaultNotifyAfterCollectionChangeFlag|コレクション変更後の変更通知タイプ|```Single```|
 
+</s>
+
 - ```ModelBase``` （可変クラス）
     - ```IEquatable<T>``` を除去、 ```==``` および ```!=``` 演算子のオーバーロードを解除。
         - デフォルトの参照型の動作と異なるため。（```List<T>.IndexOf``` などでこの影響を受けるため）
@@ -43,6 +47,8 @@ Ver 3.0 変更点
     - ディープコピーできることを示す ```IDeepCloneable<T>``` インタフェース、およびディープコピー用のメソッド ```DeepClone()``` を新規追加。
         - このメソッドで作成したコピーインスタンスはすべての参照がディープコピーされる。
 
+<s>
+
 - ```RestrictedCapacityList```（旧名```RestrictedCapacityCollection```）、```FixedLengthList```（リストクラス）
     - コレクション変更通知に関する仕様変更および追加。
         - 変更前の通知イベントとして ```NotifyCollectionChangedEventHandler CollectionChanging``` イベントを実装。
@@ -52,6 +58,8 @@ Ver 3.0 変更点
         - 通知する引数の実装を独自クラスである ```NotifyCollectionChangedEventArgsEx<T>``` (標準クラスである ```NotifyCollectionChangedEventArgs``` を継承) に変更。```NotifyCollectionChangedEventArgs``` との違いは以下のとおり。
             - ```OldItems```, ```NewItems``` が ```IList``` ではなく ```WodiLib.Sys.Collections.IReadOnlyExtendedList<T>``` で定義される。
             - ```Reset``` イベントが通知された際に変更前の要素が ```OldItems``` に格納される。
+
+</s>
 
 </details>
 
@@ -91,6 +99,14 @@ Ver 3.0 変更点
 - ~~内部状態の一部を更新しながらディープコピーを作成する ```DeepCloneWith()``` メソッドの実装。~~
     - ~~引数や制約などは各インタフェース/クラスに依存する。~~
     - ```DeepCloneWith()``` メソッドの実装は見送り。
+
+リスト周りの機能改修
+----------------------------------------
+
+- コレクション変更通知
+    - 範囲操作メソッド（`AddRange`, `InsertRange`, `Overwrite`, `MoveRange`, `RemoveRange`, `Clear`）実行時の通知を一括で行っている既存の処理を廃し、1要素ごとに通知を行うよう変更する。
+      - 標準APIの挙動に則るため。
+      - 範囲操作メソッドは従来どおり利用できるようにする。
 
 データベース周りの機能改修
 ----------------------------------------
