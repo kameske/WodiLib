@@ -7,7 +7,9 @@
 // ========================================
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
@@ -17,71 +19,47 @@ namespace WodiLib.Sys.Collections
     ///     容量制限のあるListクラス
     /// </summary>
     /// <remarks>
-    ///     機能概要は <seealso cref="IRestrictedCapacityList{TIn, TOut}"/> 参照。
+    ///     機能概要は <seealso cref="IRestrictedCapacityList{T}"/> 参照。
     /// </remarks>
-    /// <typeparam name="TIn">リスト要素入力型</typeparam>
-    /// <typeparam name="TOut">リスト要素出力型</typeparam>
-    /// <typeparam name="TInternal">リスト内包型</typeparam>
+    /// <typeparam name="T">リスト要素入力型</typeparam>
     /// <typeparam name="TImpl">リスト実装型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class RestrictedCapacityList<TIn, TOut, TInternal, TImpl> :
-        RestrictedCapacityListBase<TInternal, TImpl>,
-        IRestrictedCapacityList<TIn, TOut>
-        where TImpl : RestrictedCapacityList<TIn, TOut, TInternal, TImpl>
-        where TOut : TIn
-        where TInternal : TOut
+    public abstract class RestrictedCapacityList<T, TImpl> : ModelBase<TImpl>,
+        IRestrictedCapacityList<T>,
+        ICastableFixedLengthList<T>,
+        ICastableReadOnlyExtendedList<T>
+        where TImpl : RestrictedCapacityList<T, TImpl>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Events
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc/>
-        public new virtual event EventHandler<NotifyCollectionChangedEventArgsEx<TOut>>? CollectionChanging
+        public event NotifyCollectionChangedEventHandler? CollectionChanged
         {
-            add
-            {
-                if (value is not null)
-                {
-                    CollectionChangingEventHandlers.Add(value);
-                }
-            }
-            remove
-            {
-                if (value is not null)
-                {
-                    CollectionChangingEventHandlers.Remove(value);
-                }
-            }
+            add => Items.CollectionChanged += value;
+            remove => Items.CollectionChanged -= value;
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Public Properties
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        /// <inheritdoc cref="IRestrictedCapacityList{T}.this"/>
+        public T this[int index]
+        {
+            get => Items[index];
+            set => Items[index] = value;
         }
 
         /// <inheritdoc/>
-        public new virtual event EventHandler<NotifyCollectionChangedEventArgsEx<TOut>>? CollectionChanged
-        {
-            add
-            {
-                if (value is not null)
-                {
-                    CollectionChangedEventHandlers.Add(value);
-                }
-            }
-            remove
-            {
-                if (value is not null)
-                {
-                    CollectionChangedEventHandlers.Remove(value);
-                }
-            }
-        }
+        public int Count => Items.Count;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Properties
+        //      Private Properties
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        private List<EventHandler<NotifyCollectionChangedEventArgsEx<TOut>>>
-            CollectionChangingEventHandlers { get; } = new();
-
-        private List<EventHandler<NotifyCollectionChangedEventArgsEx<TOut>>>
-            CollectionChangedEventHandlers { get; } = new();
+        private protected virtual IExtendedList<T> Items { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Constructors
@@ -90,18 +68,37 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     コンストラクタ
         /// </summary>
+        /// <remarks>
+        ///     デフォルトの要素数は <see cref="GetMinCapacity"/> となる。
+        /// </remarks>
         protected RestrictedCapacityList()
         {
-            PropagateCollectionChangeChangeEvent();
+            var validator = GenerateValidatorForItems();
+            ThrowHelper.ValidateArgumentNotNull(validator is null, $"{nameof(GenerateValidatorForItems)}");
+
+            var initItems = GetMinCapacity().Iterate(MakeDefaultItem);
+            Items = new ExtendedList<T>(MakeDefaultItem, validator, initItems);
+
+            PropagatePropertyChangeEvent(Items);
         }
 
         /// <summary>
         ///     コンストラクタ
         /// </summary>
-        /// <param name="length">要素数</param>
-        protected RestrictedCapacityList(int length) : base(length)
+        /// <param name="length">[Range(<see cref="GetMinCapacity"/>, <see cref="GetMaxCapacity"/>)] 要素数</param>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="length"/> が <see cref="GetMinCapacity"/> 未満
+        ///     または <see cref="GetMaxCapacity"/> を超える場合。
+        /// </exception>
+        protected RestrictedCapacityList(int length)
         {
-            PropagateCollectionChangeChangeEvent();
+            var validator = GenerateValidatorForItems();
+            ThrowHelper.ValidateArgumentNotNull(validator is null, $"{nameof(GenerateValidatorForItems)}");
+
+            var initItems = length.Iterate(MakeDefaultItem);
+            Items = new ExtendedList<T>(MakeDefaultItem, validator, initItems);
+
+            PropagatePropertyChangeEvent(Items);
         }
 
         /// <summary>
@@ -113,58 +110,63 @@ namespace WodiLib.Sys.Collections
         ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     <paramref name="initItems"/> の要素数が <see cref="RestrictedCapacityListBase{T,TImpl}.GetMinCapacity"/> 未満
-        ///     または <see cref="RestrictedCapacityListBase{T,TImpl}.GetMaxCapacity"/> を超える場合。
+        ///     <paramref name="initItems"/> の要素数が <see cref="GetMinCapacity"/> 未満
+        ///     または <see cref="GetMaxCapacity"/> を超える場合。
         /// </exception>
-        // ReSharper disable PossibleMultipleEnumeration
-        protected RestrictedCapacityList(IEnumerable<TIn> initItems) : base(initItems.Count())
+        protected RestrictedCapacityList(IEnumerable<T> initItems)
         {
             ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
 
-            Overwrite(0, CastInternal(initItems));
-            PropagateCollectionChangeChangeEvent();
+            var validator = GenerateValidatorForItems();
+            ThrowHelper.ValidateArgumentNotNull(validator is null, $"{nameof(GenerateValidatorForItems)}");
+
+            Items = new ExtendedList<T>(MakeDefaultItem, validator, initItems);
+
+            PropagatePropertyChangeEvent(Items);
         }
-        // ReSharper restore PossibleMultipleEnumeration
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <remarks>
+        /// 別のリストからリスト実装インスタンスの参照を保ったままインスタンスを作成したい場合に利用する。
+        /// </remarks>
+        /// <param name="itemsImpl">リスト実装インスタンス</param>
+        internal RestrictedCapacityList(IExtendedList<T> itemsImpl)
+        {
+            Items = itemsImpl;
+
+            PropagatePropertyChangeEvent(Items);
+        }
 
         /// <summary>
         ///     ディープコピーコンストラクタ
         /// </summary>
         /// <param name="src"></param>
-        protected RestrictedCapacityList(IReadOnlyExtendedList<TInternal, TInternal> src)
-            : this((IEnumerable<TIn>)src)
+        protected RestrictedCapacityList(IRestrictedCapacityList<T> src)
+            : this((IEnumerable<T>)src)
         {
-            NotifyPropertyChangingEventType = src.NotifyPropertyChangingEventType;
-            NotifyPropertyChangedEventType = src.NotifyPropertyChangedEventType;
-            NotifyCollectionChangingEventType = src.NotifyCollectionChangingEventType;
-            NotifyCollectionChangedEventType = src.NotifyCollectionChangedEventType;
         }
 
         /// <summary>
-        ///     本来のCollectionChangeイベントを自身のCollectionChangeイベントに伝播させる。
+        /// 格納対象のデフォルトインスタンスを生成する。
         /// </summary>
-        private void PropagateCollectionChangeChangeEvent()
-        {
-            base.CollectionChanging += (_, args) =>
-            {
-                CollectionChangingEventHandlers.ForEach(
-                    handler =>
-                    {
-                        var myArgs = NotifyCollectionChangedEventArgsEx<TOut>.CreateFromOtherType(args, item => item);
-                        handler.Invoke(this, myArgs);
-                    }
-                );
-            };
+        /// <param name="index">挿入インデックス</param>
+        /// <returns>デフォルトインスタンス</returns>
+        protected abstract T MakeDefaultItem(int index);
 
-            base.CollectionChanged += (_, args) =>
-            {
-                CollectionChangedEventHandlers.ForEach(
-                    handler =>
-                    {
-                        var myArgs = NotifyCollectionChangedEventArgsEx<TOut>.CreateFromOtherType(args, item => item);
-                        handler.Invoke(this, myArgs);
-                    }
-                );
-            };
+        /// <summary>
+        /// <see cref="Items"/>.<see cref="IExtendedList{T}.Validator"/> に設定するためのバリデーション実装を返す。
+        /// </summary>
+        /// <remarks>
+        ///     このメソッドはコンストラクタから呼ばれる。
+        /// </remarks>
+        /// <returns>バリデーション実装</returns>
+        // protected abstract IWodiLibListValidator<T> GenerateValidatorForItems();
+        protected virtual IWodiLibListValidator<T> GenerateValidatorForItems()
+        {
+            // TODO: 後ほど abstract にする
+            throw new NotImplementedException();
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -172,203 +174,247 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc/>
-        public void SetRange(int index, IEnumerable<TIn> items)
-        {
-            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
+        public abstract int GetMaxCapacity();
 
-            SetRange(index, CastInternal(items));
+        /// <inheritdoc/>
+        public abstract int GetMinCapacity();
+
+        /// <inheritdoc/>
+        public IEnumerable<T> GetRange(int index, int count) => Items.GetRange(index, count);
+
+        /// <inheritdoc/>
+        public void SetRange(int index, IEnumerable<T> items) => Items.SetRange(index, items);
+
+        /// <inheritdoc/>
+        public void Add(T item) => Items.Add(item);
+
+        /// <inheritdoc/>
+        public void AddRange(IEnumerable<T> items) => Items.AddRange(items);
+
+        /// <inheritdoc/>
+        public void Insert(int index, T item) => Items.Insert(index, item);
+
+        /// <inheritdoc/>
+        public void InsertRange(int index, IEnumerable<T> items) => Items.InsertRange(index, items);
+
+        /// <inheritdoc/>
+        public void Overwrite(int index, IEnumerable<T> items) => Items.Overwrite(index, items);
+
+        /// <inheritdoc/>
+        public void Move(int oldIndex, int newIndex) => Items.Move(oldIndex, newIndex);
+
+        /// <inheritdoc/>
+        public void MoveRange(int oldIndex, int newIndex, int count) => Items.MoveRange(oldIndex, newIndex, newIndex);
+
+        /// <inheritdoc/>
+        public void Remove(int index) => Items.Remove(index);
+
+        /// <inheritdoc/>
+        public void RemoveRange(int index, int count) => Items.RemoveRange(index, count);
+
+        /// <inheritdoc/>
+        public void AdjustLength(int length) => Items.AdjustLength(length);
+
+        /// <inheritdoc/>
+        public void AdjustLengthIfShort(int length) => Items.AdjustLengthIfShort(length);
+
+        /// <inheritdoc/>
+        public void AdjustLengthIfLong(int length) => Items.AdjustLengthIfLong(length);
+
+        /// <inheritdoc/>
+        public void Reset(IEnumerable<T> initItems) => Items.Reset(initItems);
+
+        /// <inheritdoc/>
+        public void Clear() => Items.Clear();
+
+        /// <inheritdoc/>
+        // public abstract IFixedLengthList<T> AsFixedLengthList()
+        public virtual IFixedLengthList<T> AsFixedLengthList()
+        {
+            // TODO: 後ほど abstract にする
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void Add(TIn item)
+        // public abstract IReadOnlyExtendedList<T> AsReadOnlyList()
+        public virtual IReadOnlyExtendedList<T> AsReadOnlyList()
         {
-            ThrowHelper.ValidateArgumentNotNull(item is null, nameof(item));
-
-            base.Add(CastInternal(item));
+            // TODO: 後ほど abstract にする
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc/>
-        public void AddRange(IEnumerable<TIn> items)
-        {
-            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
-
-            AddRange(CastInternal(items));
-        }
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateGet(int index) => Items.ValidateGet(index);
 
         /// <inheritdoc/>
-        public void Insert(int index, TIn item)
-        {
-            ThrowHelper.ValidateArgumentNotNull(item is null, nameof(item));
-
-            base.Insert(index, CastInternal(item));
-        }
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateGetRange(int index, int count) => Items.ValidateGetRange(index, count);
 
         /// <inheritdoc/>
-        public void InsertRange(int index, IEnumerable<TIn> items)
-        {
-            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
-
-            InsertRange(index, CastInternal(items));
-        }
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateSet(int index, T item) => Items.ValidateSet(index, item);
 
         /// <inheritdoc/>
-        public void Overwrite(int index, IEnumerable<TIn> items)
-        {
-            ThrowHelper.ValidateArgumentNotNull(items is null, nameof(items));
-
-            Overwrite(index, CastInternal(items));
-        }
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateSetRange(int index, IEnumerable<T> items) => Items.ValidateSetRange(index, items);
 
         /// <inheritdoc/>
-        public bool Remove(TIn? item)
-        {
-            if (item is null)
-            {
-                return false;
-            }
-
-            return base.Remove(CastInternal(item));
-        }
-
-        /// <inheritdoc cref="ISizeChangeableList{TIn,TOut}.Reset"/>
-        public void Reset(IEnumerable<TIn> initItems)
-        {
-            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
-
-            Reset(CastInternal(initItems));
-        }
-
-        void IWritableList<TIn, TOut>.Reset(IEnumerable<TIn> initItems)
-        {
-            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
-
-            ResetAsWritableList(CastInternal(initItems));
-        }
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateAdd(T item) => Items.ValidateAdd(item);
 
         /// <inheritdoc/>
-        public bool ItemEquals(IReadOnlyExtendedList<TIn, TOut>? other)
-            => ItemEquals(other, null);
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateAddRange(IEnumerable<T> items) => Items.ValidateAddRange(items);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateInsert(int index, T item) => Items.ValidateInsert(index, item);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateInsertRange(int index, IEnumerable<T> items) => Items.ValidateInsertRange(index, items);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateOverwrite(int index, IEnumerable<T> items) => Items.ValidateOverwrite(index, items);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateMove(int oldIndex, int newIndex) => Items.ValidateMove(oldIndex, newIndex);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateMoveRange(int oldIndex, int newIndex, int count)
+            => Items.ValidateMoveRange(oldIndex, newIndex, newIndex);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateRemove(int index) => Items.ValidateRemove(index);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateRemoveRange(int index, int count) => Items.ValidateRemoveRange(index, count);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateAdjustLength(int length) => Items.ValidateAdjustLength(length);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateAdjustLengthIfShort(int length) => Items.ValidateAdjustLength(length);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateAdjustLengthIfLong(int length) => Items.ValidateAdjustLength(length);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateReset(IEnumerable<T> items) => Items.ValidateReset(items);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateClear() => Items.ValidateClear();
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public T GetCore(int index) => Items.GetCore(index);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public IEnumerable<T> GetRangeCore(int index, int count) => Items.GetRangeCore(index, count);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void SetCore(int index, T item) => Items.SetCore(index, item);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void SetRangeCore(int index, IEnumerable<T> items) => Items.SetRangeCore(index, items);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void AddCore(T item) => Items.AddCore(item);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void AddRangeCore(IEnumerable<T> items) => Items.AddRangeCore(items);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void InsertCore(int index, T item) => Items.InsertCore(index, item);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void InsertRangeCore(int index, IEnumerable<T> items) => Items.InsertRangeCore(index, items);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void OverwriteCore(int index, IEnumerable<T> items) => Items.OverwriteCore(index, items);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void MoveCore(int oldIndex, int newIndex) => Items.MoveCore(oldIndex, newIndex);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void MoveRangeCore(int oldIndex, int newIndex, int count)
+            => Items.MoveRangeCore(oldIndex, newIndex, newIndex);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void RemoveCore(int index) => Items.RemoveCore(index);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void RemoveRangeCore(int index, int count) => Items.RemoveRangeCore(index, count);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void AdjustLengthCore(int length) => Items.AdjustLengthCore(length);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void AdjustLengthIfShortCore(int length) => Items.AdjustLengthIfShortCore(length);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void AdjustLengthIfLongCore(int length) => Items.AdjustLengthIfLongCore(length);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ResetCore(IEnumerable<T> items) => Items.ResetCore(items);
+
+        /// <inheritdoc/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ClearCore() => Items.ClearCore();
+
+        /// <inheritdoc/>
+        public IEnumerator<T> GetEnumerator() => Items.GetEnumerator();
+
+        /// <inheritdoc/>
+        public bool ItemEquals(IRestrictedCapacityList<T>? other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Items.SequenceEqual(other);
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Interface Implementation
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        #region Indexer
+        #region GetEnumerator
 
-        TIn IWritableList<TIn, TOut>.this[int index]
-        {
-            set
-            {
-                ThrowHelper.ValidateArgumentNotNull(value is null, nameof(value));
-
-                this[index] = CastInternal(value);
-            }
-        }
-
-        TIn IFixedLengthList<TIn, TOut>.this[int index]
-        {
-            get => this[index];
-            set
-            {
-                ThrowHelper.ValidateArgumentNotNull(value is null, nameof(value));
-
-                this[index] = CastInternal(value);
-            }
-        }
-
-        TOut IReadableList<TOut>.this[int index] => this[index];
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion
 
         #region GetEnumerator
 
-        IEnumerator<TOut> IEnumerable<TOut>.GetEnumerator() =>
-            GetRange(0, Count).Select(item => (TOut)item).GetEnumerator();
+        IRestrictedCapacityList<T> IDeepCloneable<IRestrictedCapacityList<T>>.DeepClone()
+            => DeepClone();
 
         #endregion
-
-        #region GetRange
-
-        IEnumerable<TOut> IReadableList<TOut>.GetRange(int index, int count) => GetRange(index, count).Cast<TOut>();
-
-        #endregion
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Protected Methods
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        ///     <typeparamref name="TIn"/> を <typeparamref name="TInternal"/> に変換したディープクローンを生成する。
-        /// </summary>
-        /// <param name="src">クローン元</param>
-        /// <returns>クローンインスタンス</returns>
-        protected abstract TInternal CloneToInternal(TIn src);
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Private Methods
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        private TInternal CastInternal(TIn src)
-            => CloneToInternal(src);
-
-        private IEnumerable<TInternal> CastInternal(IEnumerable<TIn> src)
-            => src.Select(CloneToInternal);
-    }
-
-    /// <summary>
-    ///     容量制限のあるListクラス
-    /// </summary>
-    /// <remarks>
-    ///     機能概要は <seealso cref="IRestrictedCapacityList{TIn, TOut}"/> 参照。
-    /// </remarks>
-    /// <typeparam name="T">リスト要素入力型</typeparam>
-    /// <typeparam name="TImpl">リスト実装型</typeparam>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public abstract class RestrictedCapacityList<T, TImpl> : RestrictedCapacityList<T, T, T, TImpl>
-        where TImpl : RestrictedCapacityList<T, TImpl>
-    {
-        /// <summary>
-        ///     コンストラクタ
-        /// </summary>
-        protected RestrictedCapacityList()
-        {
-        }
-
-        /// <summary>
-        ///     コンストラクタ
-        /// </summary>
-        /// <param name="length">要素数</param>
-        protected RestrictedCapacityList(int length) : base(length)
-        {
-        }
-
-        /// <summary>
-        ///     コンストラクタ
-        /// </summary>
-        /// <param name="initItems">初期要素</param>
-        /// <exception cref="ArgumentNullException">
-        ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
-        ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        ///     <paramref name="initItems"/> の要素数が <see cref="RestrictedCapacityListBase{T,TImpl}.GetMinCapacity"/> 未満
-        ///     または <see cref="RestrictedCapacityListBase{T,TImpl}.GetMaxCapacity"/> を超える場合。
-        /// </exception>
-        protected RestrictedCapacityList(IEnumerable<T> initItems) : base(
-            ((Func<IEnumerable<T>>)(() =>
-            {
-                ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
-                var initItemArray = initItems.ToArray();
-                ThrowHelper.ValidateArgumentItemsHasNotNull(initItemArray.HasNullItem(), nameof(initItems));
-
-                return initItemArray;
-            }))()
-        )
-        {
-            SetRange(0, initItems);
-        }
-
-        /// <inheritdoc/>
-        protected override T CloneToInternal(T src) => src;
     }
 }

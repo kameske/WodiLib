@@ -17,7 +17,8 @@ namespace WodiLib.Database
     /// データベース設定値特殊指定・選択肢手動生成
     /// </summary>
     [Serializable]
-    internal class DBItemSettingDescManual : DBItemSettingDescBase, IEquatable<DBItemSettingDescManual>,
+    internal class DBItemSettingDescManual : DBItemSettingDescBase,
+        IEquatable<DBItemSettingDescManual>,
         ISpecialDataSpecificationCreateOptions
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -112,7 +113,8 @@ namespace WodiLib.Database
         {
             if (argCase is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(argCase)));
+                    ErrorMessage.NotNull(nameof(argCase))
+                );
 
             argCaseList.Add(argCase);
         }
@@ -126,7 +128,8 @@ namespace WodiLib.Database
         {
             if (argCases is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(argCases)));
+                    ErrorMessage.NotNull(nameof(argCases))
+                );
 
             argCaseList.AddRange(argCases);
         }
@@ -144,11 +147,13 @@ namespace WodiLib.Database
             const int min = 0;
             if (index < min || max < index)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(index), min, max, index));
+                    ErrorMessage.OutOfRange(nameof(index), min, max, index)
+                );
 
             if (argCase is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(argCase)));
+                    ErrorMessage.NotNull(nameof(argCase))
+                );
 
             argCaseList.Insert(index, argCase);
         }
@@ -166,11 +171,13 @@ namespace WodiLib.Database
             const int min = 0;
             if (index < min || max < index)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(index), min, max, index));
+                    ErrorMessage.OutOfRange(nameof(index), min, max, index)
+                );
 
             if (argCases is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(argCases)));
+                    ErrorMessage.NotNull(nameof(argCases))
+                );
 
             argCaseList.InsertRange(index, argCases);
         }
@@ -189,10 +196,12 @@ namespace WodiLib.Database
             const int min = 0;
             if (index < min || max < index)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(index), min, max, index));
+                    ErrorMessage.OutOfRange(nameof(index), min, max, index)
+                );
             if (argCase is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotEmpty(nameof(argCase)));
+                    ErrorMessage.NotEmpty(nameof(argCase))
+                );
 
             argCaseList[index] = argCase;
         }
@@ -208,9 +217,10 @@ namespace WodiLib.Database
             const int min = 0;
             if (index < min || max < index)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(index), min, max, index));
+                    ErrorMessage.OutOfRange(nameof(index), min, max, index)
+                );
 
-            argCaseList.RemoveAt(index);
+            argCaseList.Remove(index);
         }
 
         /// <summary>
@@ -228,17 +238,19 @@ namespace WodiLib.Database
             const int min = 0;
             if (index < min || indexMax < index)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(index), min, indexMax, index));
+                    ErrorMessage.OutOfRange(nameof(index), min, indexMax, index)
+                );
             var countMax = allLength;
             if (count < min || countMax < count)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(count), min, countMax, count));
+                    ErrorMessage.OutOfRange(nameof(count), min, countMax, count)
+                );
 
             const int listLengthMin = 0;
             if (allLength - index < count + listLengthMin)
                 throw new ArgumentException(
-                    $"リストの範囲を超えて削除しようとしています。" +
-                    $"{nameof(index)}:{index}, {nameof(count)}:{count}");
+                    $"リストの範囲を超えて削除しようとしています。" + $"{nameof(index)}:{index}, {nameof(count)}:{count}"
+                );
 
             argCaseList.RemoveRange(index, count);
         }
@@ -262,7 +274,8 @@ namespace WodiLib.Database
         {
             if (type is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(type)));
+                    ErrorMessage.NotNull(nameof(type))
+                );
 
             return type == DBItemType.Int;
         }

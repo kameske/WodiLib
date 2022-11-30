@@ -6,9 +6,11 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace WodiLib.Sys.Collections
 {
@@ -23,82 +25,160 @@ namespace WodiLib.Sys.Collections
     ///         固定しているのは容量のみで、要素の入れ替えや更新は可能。
     ///     </para>
     ///     <para>
-    ///         <see cref="ObservableCollection{T}"/> とは異なり、
-    ///         <typeparamref name="TOut"/> が変更通知を行うクラスだった場合、
-    ///         通知を受け取ると自身の "Items[]" プロパティ変更通知を行う。
-    ///     </para>
-    /// </remarks>
-    /// <typeparam name="TIn">リスト要素入力型</typeparam>
-    /// <typeparam name="TOut">リスト要素出力型</typeparam>
-    public interface IFixedLengthList<TIn, TOut> :
-        IReadOnlyExtendedList<TIn, TOut>,
-        IWritableList<TIn, TOut>
-        where TOut : TIn
-    {
-        /// <inheritdoc cref="IWritableList{TIn, TOut}.this[int]"/>
-        public new TIn this[int index] { get; set; }
-    }
-
-    /// <summary>
-    ///     長さが固定されたListインタフェース
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         <see cref="ObservableCollection{T}"/> をベースに、容量を固定した機能。
-    ///         <see cref="ObservableCollection{T}"/> の Read, Update 各種処理に範囲指定バージョン（XXXRange メソッド）を追加している。
-    ///         それ以外にもいくつかメソッドを追加している。
-    ///         固定しているのは容量のみで、要素の入れ替えや更新は可能。
-    ///     </para>
-    ///     <para>
-    ///         <see cref="ObservableCollection{T}"/> とは異なり、
     ///         <typeparamref name="T"/> が変更通知を行うクラスだった場合、
     ///         通知を受け取ると自身の "Items[]" プロパティ変更通知を行う。
     ///     </para>
     /// </remarks>
-    /// <typeparam name="T">リスト要素入力型</typeparam>
-    public interface IFixedLengthList<T> : IFixedLengthList<T, T>,
-        IWritableList<T>,
-        IReadOnlyExtendedList<T>
+    /// <typeparam name="T">リスト要素型</typeparam>
+    public interface IFixedLengthList<T> :
+        IReadOnlyList<T>,
+        IModelBase<IFixedLengthList<T>>,
+        INotifyCollectionChanged
     {
-    }
+        #region Properties
 
-    /// <summary>
-    ///     <see cref="IFixedLengthList{TIn,TOut}"/> および
-    ///     <see cref="IFixedLengthList{T}"/> の拡張クラス
-    /// </summary>
-    public static class FixedLengthListExtension
-    {
-        /// <inheritdoc cref="SetValues{TIn, TOut}" select="summary|param"/>
-        /// <typeparam name="T">リスト要素型</typeparam>
-        public static void SetValues<T>(this IFixedLengthList<T> src, IEnumerable<KeyValuePair<int, T>> values)
-            => SetValues<T, T>(src, values);
+        /// <inheritdoc cref="IExtendedList{T}.this"/>
+        public new T this[int index] { get; set; }
+
+        #endregion
+
+        #region CRUD
+
+        /// <inheritdoc cref="ExtendedListInterfaceExtension.GetRange{T}"/>
+        public IEnumerable<T> GetRange(int index, int count);
+
+        /// <inheritdoc cref="ExtendedListInterfaceExtension.SetRange{T}"/>
+        public void SetRange(int index, IEnumerable<T> items);
+
+        /// <inheritdoc cref="ExtendedListInterfaceExtension.Move{T}"/>
+        public void Move(int oldIndex, int newIndex);
+
+        /// <inheritdoc cref="ExtendedListInterfaceExtension.MoveRange{T}"/>
+        public void MoveRange(int oldIndex, int newIndex, int count);
+
+        /// <inheritdoc cref="ExtendedListInterfaceExtension.Reset{T}"/>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="initItems"/> の要素数が <see cref="IReadOnlyCollection{T}.Count"/> と
+        /// 異なる場合。
+        /// </exception>
+        public void Reset(IEnumerable<T> initItems);
 
         /// <summary>
-        ///     インデックスを指定して複数の要素を更新する。
+        /// 要素をデフォルト値で一新する。
         /// </summary>
-        /// <param name="src">処理対象</param>
-        /// <param name="values">更新要素情報</param>
-        /// <typeparam name="TIn">リスト入力型</typeparam>
-        /// <typeparam name="TOut">リスト出力型</typeparam>
-        public static void SetValues<TIn, TOut>(this IFixedLengthList<TIn, TOut> src,
-            IEnumerable<KeyValuePair<int, TIn>> values)
-            where TOut : TIn
-        {
-            ThrowHelper.ValidateArgumentNotNull(src is null, nameof(src));
-            ThrowHelper.ValidateArgumentNotNull(values is null, nameof(values));
-            var valueArray = values.ToArray();
-            ThrowHelper.ValidateArgumentItemsHasNotNull(valueArray.Select(pair => pair.Value).HasNullItem(),
-                nameof(values));
+        public void Reset();
 
-            valueArray.ForEach(pair =>
-            {
-                if (pair.Key >= src.Count)
-                {
-                    return;
-                }
+        #endregion
 
-                src[pair.Key] = pair.Value;
-            });
-        }
+        #region Validate
+
+        /// <summary>
+        ///     インデクサによる取得の検証処理。
+        /// </summary>
+        /// <inheritdoc cref="this[int]" path="param|exception[cref='ArgumentOutOfRangeException']"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateGet(int index);
+
+        /// <summary>
+        ///     <see cref="GetRange"/> メソッドの検証処理。
+        /// </summary>
+        /// <inheritdoc cref="GetRange" path="param|exception"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateGetRange(int index, int count);
+
+        /// <summary>
+        ///     インデクサによる更新の検証処理。
+        /// </summary>
+        /// <param name="index"><inheritdoc cref="this[int]" path="param[name='index']"/></param>
+        /// <param name="item">編集要素</param>
+        /// <inheritdoc cref="this[int]" path="exception"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateSet(int index, T item);
+
+        /// <summary>
+        ///     <see cref="SetRange"/> メソッドの検証処理。
+        /// </summary>
+        /// <inheritdoc cref="SetRange" path="param|exception"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateSetRange(int index, IEnumerable<T> items);
+
+        /// <summary>
+        ///     <see cref="Move"/> メソッドの検証処理。
+        /// </summary>
+        /// <inheritdoc cref="Move" path="param|exception"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateMove(int oldIndex, int newIndex);
+
+        /// <summary>
+        ///     <see cref="MoveRange"/> メソッドの検証処理。
+        /// </summary>
+        /// <inheritdoc cref="MoveRange" path="param|exception"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateMoveRange(int oldIndex, int newIndex, int count);
+
+        /// <summary>
+        ///     <see cref="Reset(System.Collections.Generic.IEnumerable{T})"/> メソッドの検証処理。
+        /// </summary>
+        /// <inheritdoc cref="Reset(System.Collections.Generic.IEnumerable{T})" path="param|exception"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateReset(IEnumerable<T> items);
+
+        #endregion
+
+        #region CRUD core
+
+        /// <summary>
+        ///     インデクサによる取得処理中核。
+        /// </summary>
+        /// <inheritdoc cref="this[int]" path="param"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public T GetCore(int index);
+
+        /// <summary>
+        ///     <see cref="GetRange"/> メソッド処理中核。
+        /// </summary>
+        /// <inheritdoc cref="GetRange" path="param"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public IEnumerable<T> GetRangeCore(int index, int count);
+
+        /// <summary>
+        ///     インデクサによる更新処理中核。
+        /// </summary>
+        /// <param name="index"><inheritdoc cref="this[int]" path="param"/></param>
+        /// <param name="item">編集要素</param>
+        /// <inheritdoc cref="this[int]" path="exception"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void SetCore(int index, T item);
+
+        /// <summary>
+        ///     <see cref="SetRange"/> メソッド処理中核。
+        /// </summary>
+        /// <inheritdoc cref="SetRange" path="param"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void SetRangeCore(int index, IEnumerable<T> items);
+
+        /// <summary>
+        ///     <see cref="Move"/> メソッド処理中核。
+        /// </summary>
+        /// <inheritdoc cref="Move" path="param"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void MoveCore(int oldIndex, int newIndex);
+
+        /// <summary>
+        ///     <see cref="MoveRange"/> メソッド処理中核。
+        /// </summary>
+        /// <inheritdoc cref="MoveRange" path="param"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void MoveRangeCore(int oldIndex, int newIndex, int count);
+
+        /// <summary>
+        ///     <see cref="Reset(System.Collections.Generic.IEnumerable{T})"/>,
+        ///     <see cref="Reset()"/> メソッド処理中核。
+        /// </summary>
+        /// <inheritdoc cref="Reset(System.Collections.Generic.IEnumerable{T})" path="param"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ResetCore(IEnumerable<T> items);
+
+        #endregion
     }
 }

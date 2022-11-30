@@ -1,6 +1,13 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : CommonEventSpecialNumberArgDescList.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 using System;
 using System.Collections.Generic;
-using WodiLib.Sys;
 using WodiLib.Sys.Collections;
 
 namespace WodiLib.Common
@@ -8,8 +15,8 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベント数値引数特殊指定情報リスト
     /// </summary>
-    [Serializable]
-    public class CommonEventSpecialNumberArgDescList : FixedLengthList<CommonEventSpecialNumberArgDesc, CommonEventSpecialNumberArgDescList>
+    public class CommonEventSpecialNumberArgDescList :
+        FixedLengthList<CommonEventSpecialNumberArgDesc, CommonEventSpecialNumberArgDescList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -36,7 +43,8 @@ namespace WodiLib.Common
         /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
         /// <exception cref="InvalidOperationException">itemsの要素数が5以外の場合</exception>
         public CommonEventSpecialNumberArgDescList(
-            IEnumerable<CommonEventSpecialNumberArgDesc> items)
+            IEnumerable<CommonEventSpecialNumberArgDesc> items
+        )
             : base(items)
         {
         }
@@ -44,9 +52,6 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <inheritdoc/>
-        protected override int GetCapacity() => Capacity;
 
         /// <inheritdoc />
         /// <summary>

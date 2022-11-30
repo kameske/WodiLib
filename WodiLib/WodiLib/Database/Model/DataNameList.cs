@@ -102,5 +102,20 @@ namespace WodiLib.Database
 
             return result.ToArray();
         }
+
+        public override bool ItemEquals(DataNameList? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ItemEquals(IReadOnlyExtendedList<DataName>? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyExtendedList<DataName> DeepClone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

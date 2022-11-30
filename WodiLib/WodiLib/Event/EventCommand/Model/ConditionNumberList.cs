@@ -81,5 +81,10 @@ namespace WodiLib.Event.EventCommand
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override ConditionNumberDesc MakeDefaultItem(int index) => new ConditionNumberDesc();
+
+        public override bool ItemEquals(ConditionNumberList? other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

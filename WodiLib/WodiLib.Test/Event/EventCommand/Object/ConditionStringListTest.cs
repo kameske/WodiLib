@@ -1,5 +1,7 @@
 using NUnit.Framework;
 using WodiLib.Event.EventCommand;
+using WodiLib.Sys;
+using WodiLib.Test.Tools;
 
 namespace WodiLib.Test.Event.EventCommand
 {
@@ -37,48 +39,64 @@ namespace WodiLib.Test.Event.EventCommand
             new object[] { 4, true, true, false, true, 3 },
             new object[] { 4, true, false, true, true, 2 },
             new object[] { 4, false, true, true, true, 1 },
-            new object[] { 4, true, true, true, true, 0 }
+            new object[] { 4, true, true, true, true, 0 },
         };
 
         [TestCaseSource(nameof(SearchUseNumberVariableForRightSideMaxTestCaseSource))]
-        public static void SearchUseNumberVariableForRightSideMaxTest(int conditionValue, bool is1Str, bool is2Str,
-            bool is3Str, bool is4Str, int result)
+        public static void SearchUseNumberVariableForRightSideMaxTest(
+            int conditionValue,
+            bool is1Str,
+            bool is2Str,
+            bool is3Str,
+            bool is4Str,
+            int result
+        )
         {
-            var instance = new ConditionStringList(new[]
-            {
-                new ConditionStringDesc
+            var instance = new ConditionStringList(
+                new[]
                 {
-                    Condition = StringConditionalOperator.Equal,
-                    LeftSide = 0,
-                    RightSide = is1Str ? "a" : 0,
-                    IsUseNumberVariable = !is1Str
-                },
-                new ConditionStringDesc
-                {
-                    Condition = StringConditionalOperator.Equal,
-                    LeftSide = 0,
-                    RightSide = is2Str ? "a" : 0,
-                    IsUseNumberVariable = !is2Str
-                },
-                new ConditionStringDesc
-                {
-                    Condition = StringConditionalOperator.Equal,
-                    LeftSide = 0,
-                    RightSide = is3Str ? "a" : 0,
-                    IsUseNumberVariable = !is3Str
-                },
-                new ConditionStringDesc
-                {
-                    Condition = StringConditionalOperator.Equal,
-                    LeftSide = 0,
-                    RightSide = is4Str ? "a" : 0,
-                    IsUseNumberVariable = !is4Str
-                },
-                new ConditionStringDesc(), new ConditionStringDesc(), new ConditionStringDesc(),
-                new ConditionStringDesc(), new ConditionStringDesc(), new ConditionStringDesc(),
-                new ConditionStringDesc(), new ConditionStringDesc(), new ConditionStringDesc(),
-                new ConditionStringDesc(), new ConditionStringDesc()
-            });
+                    new ConditionStringDesc
+                    {
+                        Condition = StringConditionalOperator.Equal,
+                        LeftSide = 0,
+                        RightSide = is1Str
+                            ? (IntOrStr)"a"
+                            : 0,
+                        IsUseNumberVariable = !is1Str
+                    },
+                    new ConditionStringDesc
+                    {
+                        Condition = StringConditionalOperator.Equal,
+                        LeftSide = 0,
+                        RightSide = is2Str
+                            ? (IntOrStr)"a"
+                            : 0,
+                        IsUseNumberVariable = !is2Str
+                    },
+                    new ConditionStringDesc
+                    {
+                        Condition = StringConditionalOperator.Equal,
+                        LeftSide = 0,
+                        RightSide = is3Str
+                            ? (IntOrStr)"a"
+                            : 0,
+                        IsUseNumberVariable = !is3Str
+                    },
+                    new ConditionStringDesc
+                    {
+                        Condition = StringConditionalOperator.Equal,
+                        LeftSide = 0,
+                        RightSide = is4Str
+                            ? (IntOrStr)"a"
+                            : 0,
+                        IsUseNumberVariable = !is4Str
+                    },
+                    new ConditionStringDesc(), new ConditionStringDesc(), new ConditionStringDesc(),
+                    new ConditionStringDesc(), new ConditionStringDesc(), new ConditionStringDesc(),
+                    new ConditionStringDesc(), new ConditionStringDesc(), new ConditionStringDesc(),
+                    new ConditionStringDesc(), new ConditionStringDesc(),
+                }
+            );
             // 条件数を正しく
             instance.ConditionValue = conditionValue;
 

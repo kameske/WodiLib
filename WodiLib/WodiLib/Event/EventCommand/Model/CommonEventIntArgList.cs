@@ -70,5 +70,10 @@ namespace WodiLib.Event.EventCommand
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override int MakeDefaultItem(int index) => 0;
+
+        public override bool ItemEquals(CommonEventIntArgList? other)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

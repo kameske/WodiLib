@@ -19,8 +19,8 @@ namespace WodiLib.Common
         /// <summary>
         ///     コモンイベント引数特殊指定情報内部クラス・選択肢手動生成
         /// </summary>
-        [Serializable]
-        internal class InnerDescManual : ModelBase<InnerDescManual>, IInnerDesc
+        internal class InnerDescManual : ModelBase<InnerDescManual>,
+            IInnerDesc
         {
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             //     Public Property
@@ -38,7 +38,8 @@ namespace WodiLib.Common
             /// </summary>
             /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
             public DBKind DatabaseUseDbKind => throw new PropertyException(
-                "特殊指定が「データベース参照」ではないため取得できません");
+                "特殊指定が「データベース参照」ではないため取得できません"
+            );
 
             /// <inheritdoc/>
             /// <summary>
@@ -46,7 +47,8 @@ namespace WodiLib.Common
             /// </summary>
             /// <exception cref="PropertyException">特殊指定が「データベース参照」以外の場合</exception>
             public TypeId DatabaseDbTypeId => throw new PropertyException(
-                "特殊指定が「データベース参照」ではないため取得できません");
+                "特殊指定が「データベース参照」ではないため取得できません"
+            );
 
             /// <inheritdoc/>
             /// <summary>
@@ -54,7 +56,8 @@ namespace WodiLib.Common
             /// </summary>
             /// <exception cref="PropertyException">参照種別が「データベース参照」以外の場合</exception>
             public bool DatabaseUseAdditionalItemsFlag => throw new PropertyException(
-                "特殊指定が「データベース参照」ではないため取得できません");
+                "特殊指定が「データベース参照」ではないため取得できません"
+            );
 
             private CommonEventSpecialArgCaseList ArgCaseList { get; } = new();
 
@@ -94,7 +97,8 @@ namespace WodiLib.Common
             public void SetDatabaseRefer(DBKind dbKind, TypeId dbTypeId)
             {
                 throw new InvalidOperationException(
-                    "特殊指定が「データベース参照」ではないため設定できません");
+                    "特殊指定が「データベース参照」ではないため設定できません"
+                );
             }
 
             /// <inheritdoc/>
@@ -106,7 +110,8 @@ namespace WodiLib.Common
             public void SetDatabaseUseAdditionalItemsFlag(bool flag)
             {
                 throw new InvalidOperationException(
-                    "特殊指定が「データベース参照」ではないため設定できません");
+                    "特殊指定が「データベース参照」ではないため設定できません"
+                );
             }
 
             /// <inheritdoc/>
@@ -148,7 +153,8 @@ namespace WodiLib.Common
             {
                 if (argCase is null)
                     throw new ArgumentNullException(
-                        ErrorMessage.NotNull(nameof(argCase)));
+                        ErrorMessage.NotNull(nameof(argCase))
+                    );
 
                 ArgCaseList.Add(argCase);
             }
@@ -162,7 +168,8 @@ namespace WodiLib.Common
             {
                 if (argCases is null)
                     throw new ArgumentNullException(
-                        ErrorMessage.NotNull(nameof(argCases)));
+                        ErrorMessage.NotNull(nameof(argCases))
+                    );
 
                 ArgCaseList.AddRange(argCases);
             }
@@ -180,11 +187,13 @@ namespace WodiLib.Common
                 const int min = 0;
                 if (index < min || max < index)
                     throw new ArgumentOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(index), min, max, index));
+                        ErrorMessage.OutOfRange(nameof(index), min, max, index)
+                    );
 
                 if (argCase is null)
                     throw new ArgumentNullException(
-                        ErrorMessage.NotNull(nameof(argCase)));
+                        ErrorMessage.NotNull(nameof(argCase))
+                    );
 
                 ArgCaseList.Insert(index, argCase);
             }
@@ -202,11 +211,13 @@ namespace WodiLib.Common
                 const int min = 0;
                 if (index < min || max < index)
                     throw new ArgumentOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(index), min, max, index));
+                        ErrorMessage.OutOfRange(nameof(index), min, max, index)
+                    );
 
                 if (argCases is null)
                     throw new ArgumentNullException(
-                        ErrorMessage.NotNull(nameof(argCases)));
+                        ErrorMessage.NotNull(nameof(argCases))
+                    );
 
                 ArgCaseList.InsertRange(index, argCases);
             }
@@ -223,7 +234,8 @@ namespace WodiLib.Common
             public void UpdateDatabaseSpecialCase(int caseNumber, string description)
             {
                 throw new InvalidOperationException(
-                    "特殊指定が「データベース参照」ではないため処理できません");
+                    "特殊指定が「データベース参照」ではないため処理できません"
+                );
             }
 
             /// <summary>
@@ -240,10 +252,12 @@ namespace WodiLib.Common
                 const int min = 0;
                 if (index < min || max < index)
                     throw new ArgumentOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(index), min, max, index));
+                        ErrorMessage.OutOfRange(nameof(index), min, max, index)
+                    );
                 if (argCase is null)
                     throw new ArgumentNullException(
-                        ErrorMessage.NotEmpty(nameof(argCase)));
+                        ErrorMessage.NotEmpty(nameof(argCase))
+                    );
 
                 ArgCaseList[index] = argCase;
             }
@@ -259,9 +273,10 @@ namespace WodiLib.Common
                 const int min = 0;
                 if (index < min || max < index)
                     throw new ArgumentOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(index), min, max, index));
+                        ErrorMessage.OutOfRange(nameof(index), min, max, index)
+                    );
 
-                ArgCaseList.RemoveAt(index);
+                ArgCaseList.Remove(index);
             }
 
             /// <summary>
@@ -279,17 +294,19 @@ namespace WodiLib.Common
                 const int min = 0;
                 if (index < min || indexMax < index)
                     throw new ArgumentOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(index), min, indexMax, index));
+                        ErrorMessage.OutOfRange(nameof(index), min, indexMax, index)
+                    );
                 var countMax = allLength;
                 if (count < min || countMax < count)
                     throw new ArgumentOutOfRangeException(
-                        ErrorMessage.OutOfRange(nameof(count), min, countMax, count));
+                        ErrorMessage.OutOfRange(nameof(count), min, countMax, count)
+                    );
 
                 const int listLengthMin = 0;
                 if (allLength - index < count + listLengthMin)
                     throw new ArgumentException(
-                        $"リストの範囲を超えて削除しようとしています。" +
-                        $"{nameof(index)}:{index}, {nameof(count)}:{count}");
+                        $"リストの範囲を超えて削除しようとしています。" + $"{nameof(index)}:{index}, {nameof(count)}:{count}"
+                    );
 
                 ArgCaseList.RemoveRange(index, count);
             }

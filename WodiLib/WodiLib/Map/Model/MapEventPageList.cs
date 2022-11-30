@@ -101,5 +101,10 @@ namespace WodiLib.Map
 
             return result.ToArray();
         }
+
+        public override bool ItemEquals(MapEventPageList? other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

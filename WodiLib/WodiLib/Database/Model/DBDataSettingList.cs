@@ -106,5 +106,10 @@ namespace WodiLib.Database
 
             return result.ToArray();
         }
+
+        public override bool ItemEquals(DBDataSettingList? other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

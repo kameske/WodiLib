@@ -18,7 +18,8 @@ namespace WodiLib.Map
     /// オートタイルファイル名リストクラス
     /// </summary>
     public class AutoTileFileNameList : FixedLengthList<AutoTileFileName, AutoTileFileNameList>,
-        IFixedLengthAutoTileFileNameList, IEquatable<AutoTileFileNameList>
+        IFixedLengthAutoTileFileNameList,
+        IEquatable<AutoTileFileNameList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -97,9 +98,6 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <inheritdoc/>
-        protected override int GetCapacity() => Capacity;
 
         /// <inheritdoc />
         protected override AutoTileFileName MakeDefaultItem(int index) => "";

@@ -17,7 +17,7 @@ namespace WodiLib.Sys
         ///     自身のディープコピーを作成する。
         /// </summary>
         /// <returns>自身をディープコピーしたインスタンス</returns>
-        public new T DeepClone();
+        new T DeepClone();
     }
 
     /// <summary>

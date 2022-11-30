@@ -7,148 +7,182 @@
 // ========================================
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 
 namespace WodiLib.Sys.Collections
 {
     /// <summary>
     ///     WodiLib 内部で使用する基本リストクラス。
-    ///     基本的なメソッドを定義しただけのクラス。イベント通知などは一切行わない。
+    ///     基本的なメソッドを定義したクラス。
     /// </summary>
-    internal class SimpleList<T> : ModelBase<SimpleList<T>>, IEnumerable<T>
+    internal class SimpleList<T> : ObservableCollection<T>,
+        ISimpleList<T>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Public Properties
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        public T this[int index]
-        {
-            get => Get(index, 1).First();
-            set => Set(index, value);
-        }
+        public WodiLibContainerKeyName? ContainerKeyName { get; set; }
 
-        /// <inheritdoc cref="IList{T}.Count"/>
-        public int Count => Items.Count;
-
-        public Func<int, int, IEnumerable<T>> FuncMakeItems { get; set; } = default!;
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Private Properties
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        private List<T> Items { get; }
+        public DelegateMakeListDefaultItem<T> MakeDefaultItem { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Constructors
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        internal SimpleList(IEnumerable<T>? initValues = null, bool isDeepClone = false)
+        internal SimpleList(DelegateMakeListDefaultItem<T> makeDefaultItem, IEnumerable<T>? initValues = null) : base(
+            initValues ?? Array.Empty<T>()
+        )
         {
-            Items = CreateImpl(initValues, isDeepClone);
-        }
-
-        public SimpleList(IEnumerable<T>? initValues = null) : this(initValues, false)
-        {
-        }
-
-        private static List<T> CreateImpl(IEnumerable<T>? initValues, bool isDeepClone)
-        {
-            if (initValues is null) return new List<T>();
-
-            if (!isDeepClone) return new List<T>(initValues);
-
-            var initValueArray = initValues.ToArray();
-            if (initValueArray.Length == 0) return new List<T>();
-
-            var isDeepCloneable = initValueArray[0] is IDeepCloneable<T>;
-            if (!isDeepCloneable) return new List<T>(initValueArray);
-
-            var deepCloneArray = initValueArray.Cast<IDeepCloneable<T>>()
-                .Select(item => item.DeepClone());
-            return new List<T>(deepCloneArray);
+            MakeDefaultItem = makeDefaultItem;
+            initValues?.ForEach(PostInItem);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Public Methods
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <summary>
-        ///     GetRange メソッドの処理本体
-        /// </summary>
-        /// <param name="index">インデックス</param>
-        /// <param name="count">要素数</param>
+        /// <inheritdoc/>
         public IEnumerable<T> Get(int index, int count)
-            => Items.GetRange(index, count);
+            => Items.Skip(index).Take(count);
 
         /// <inheritdoc/>
-        public IEnumerator<T> GetEnumerator()
-            => Items.GetEnumerator();
-
-        /// <inheritdoc cref="List{T}.IndexOf(T)"/>
-        public int IndexOf(T? item)
-            => item is null ? -1 : Items.IndexOf(item);
-
-        /// <summary>
-        ///     SetRange メソッドの処理本体
-        /// </summary>
-        /// <param name="index">更新開始インデックス</param>
-        /// <param name="items">更新要素</param>
         public void Set(int index, params T[] items)
-            => items.ForEach((item, i) => Items[index + i] = item);
-
-        /// <summary>
-        ///     Add, AddRange メソッドの処理本体
-        /// </summary>
-        /// <param name="items">挿入要素</param>
-        public void Add(params T[] items)
-            => Items.AddRange(items);
-
-        /// <summary>
-        ///     Insert, InsertRange メソッドの処理本体
-        /// </summary>
-        /// <param name="index">挿入先インデックス</param>
-        /// <param name="items">挿入要素</param>
-        public void Insert(int index, params T[] items)
-            => Items.InsertRange(index, items);
-
-        /// <summary>
-        ///     Overwrite メソッドの処理本体
-        /// </summary>
-        /// <param name="index">上書き開始インデックス</param>
-        /// <param name="param">上書き情報</param>
-        public void Overwrite(int index, OverwriteParam<T> param)
         {
-            Set(index, param.ReplaceNewItems);
-            Insert(param.InsertStartIndex, param.InsertItems);
+            switch (items.Length)
+            {
+                case 0:
+                    return;
+                case 1:
+                    SetItem(index, items[0]);
+                    return;
+            }
+
+            CheckReentrancy();
+            items.ForEach(
+                (item, offset) => { Items[index + offset] = item; }
+            );
+
+            OnPropertyChanged(PropertyChangedEventArgsCache.GetInstance(ListConstant.IndexerName));
+            OnCollectionReset();
         }
 
-        /// <summary>
-        ///     Move, MoveRange メソッドの処理本体
-        /// </summary>
-        /// <param name="oldIndex">移動する項目のインデックス開始位置</param>
-        /// <param name="newIndex">移動先のインデックス開始位置</param>
-        /// <param name="count">移動させる要素数</param>
+        /// <inheritdoc/>
+        public void Add(params T[] items)
+            => Insert(Count, items);
+
+        /// <inheritdoc/>
+        public void Insert(int index, params T[] items)
+        {
+            switch (items.Length)
+            {
+                case 0:
+                    return;
+                case 1:
+                    InsertItem(index, items[0]);
+                    return;
+            }
+
+            CheckReentrancy();
+            items.ForEach(
+                (item, offset) => { Items.Insert(index + offset, item); }
+            );
+
+            OnPropertyChanged(PropertyChangedEventArgsCache.GetInstance(nameof(Count)));
+            OnPropertyChanged(PropertyChangedEventArgsCache.GetInstance(ListConstant.IndexerName));
+            OnCollectionReset();
+        }
+
+        /// <inheritdoc/>
+        public void Overwrite(int index, params T[] items)
+        {
+            switch (items.Length)
+            {
+                case 0:
+                    return;
+                case 1 when index < Count:
+                    SetItem(index, items[0]);
+                    return;
+                case 1 when index == Count:
+                    InsertItem(index, items[0]);
+                    return;
+            }
+
+            var overwriteParam = OverwriteParam<T>.Factory.Create(Items, index, items);
+
+            CheckReentrancy();
+
+            overwriteParam.ReplaceNewItems.ForEach(
+                (item, offset) => { Items[index + offset] = item; }
+            );
+            overwriteParam.InsertItems.ForEach(
+                item => { Items.Add(item); }
+            );
+
+            if (overwriteParam.InsertItems.Length > 0)
+            {
+                OnPropertyChanged(PropertyChangedEventArgsCache.GetInstance(nameof(Count)));
+            }
+
+            OnPropertyChanged(PropertyChangedEventArgsCache.GetInstance(ListConstant.IndexerName));
+            OnCollectionReset();
+        }
+
+        /// <inheritdoc/>
         public void Move(int oldIndex, int newIndex, int count)
         {
-            var movedItems = Items.GetRange(oldIndex, count);
-            Items.RemoveRange(oldIndex, count);
-            Items.InsertRange(newIndex, movedItems);
+            switch (count)
+            {
+                case 0:
+                    return;
+                case 1:
+                    MoveItem(oldIndex, newIndex);
+                    return;
+            }
+
+            CheckReentrancy();
+
+            var movedItems = Get(oldIndex, count).ToList();
+            count.Range()
+                .ForEach(
+                    _ => { Items.RemoveAt(oldIndex); }
+                );
+            movedItems.ForEach(
+                (moveItem, offset) => { Items.Insert(newIndex + offset, moveItem); }
+            );
+
+            OnPropertyChanged(PropertyChangedEventArgsCache.GetInstance(ListConstant.IndexerName));
+            OnCollectionReset();
         }
 
-        /// <summary>
-        ///     Remove, Remove, RemoveRange メソッドの処理本体
-        /// </summary>
-        /// <param name="index">除去開始インデックス</param>
-        /// <param name="count">除去する要素数</param>
+        /// <inheritdoc/>
         public void Remove(int index, int count)
-            => Items.RemoveRange(index, count);
+        {
+            switch (count)
+            {
+                case 0:
+                    return;
+                case 1:
+                    RemoveItem(index);
+                    return;
+            }
 
-        /// <summary>
-        ///     AdjustLength メソッドの処理本体
-        /// </summary>
-        /// <param name="length">要素数</param>
+            count.Range()
+                .ForEach(
+                    _ => { Items.RemoveAt(index); }
+                );
+
+
+            OnPropertyChanged(PropertyChangedEventArgsCache.GetInstance(nameof(Count)));
+            OnPropertyChanged(PropertyChangedEventArgsCache.GetInstance(ListConstant.IndexerName));
+            OnCollectionReset();
+        }
+
+        /// <inheritdoc/>
         public void Adjust(int length)
         {
             if (Count == length) return;
@@ -161,40 +195,45 @@ namespace WodiLib.Sys.Collections
             AdjustIfShort(length);
         }
 
-        /// <summary>
-        ///     AdjustLengthIfLong メソッドの処理本体
-        /// </summary>
-        /// <param name="length">要素数</param>
+        /// <inheritdoc/>
         public void AdjustIfLong(int length)
         {
             if (Count <= length) return;
             Remove(length, Count - length);
         }
 
-        /// <summary>
-        ///     AdjustLengthIfShort メソッドの処理本体
-        /// </summary>
-        /// <param name="length">要素数</param>
+        /// <inheritdoc/>
         public void AdjustIfShort(int length)
         {
             if (Count >= length) return;
 
-            var addItems = FuncMakeItems(Count, length - Count);
+            var addItems = (length - Count).Range().Select(i => MakeDefaultItem(Count + i));
             Add(addItems.ToArray());
         }
 
-        /// <summary>
-        ///     Reset, Clear メソッドの処理本体
-        /// </summary>
-        /// <param name="items">初期化要素</param>
+        /// <inheritdoc/>
         public void Reset(params T[] items)
         {
+            CheckReentrancy();
+
+            var isCountChange = Count != items.Length;
+
             Items.Clear();
-            Items.AddRange(items);
+            items.ForEach(
+                item => { Items.Add(item); }
+            );
+
+            if (isCountChange)
+            {
+                OnPropertyChanged(PropertyChangedEventArgsCache.GetInstance(nameof(Count)));
+            }
+
+            OnPropertyChanged(PropertyChangedEventArgsCache.GetInstance(ListConstant.IndexerName));
+            OnCollectionReset();
         }
 
         /// <inheritdoc/>
-        public override bool ItemEquals(SimpleList<T>? other)
+        public bool ItemEquals(ISimpleList<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -202,83 +241,101 @@ namespace WodiLib.Sys.Collections
             return this.SequenceEqual(other);
         }
 
-        /// <inheritdoc cref="IReadOnlyExtendedList{TIn,TOut}.ItemEquals{TOther}"/>
-        public bool ItemEquals<TOther>(IEnumerable<TOther>? other, IEqualityComparer<TOther>? itemComparer = null)
+        /// <inheritdoc/>
+        public bool ItemEquals(object? other)
         {
-            if (other is null) return false;
+            if (other is SimpleList<T> castedSimpleList)
+            {
+                return ItemEquals(castedSimpleList);
+            }
+
+            if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            var otherList = other.ToList();
-
-            if (Count != otherList.Count) return false;
-            if (Count == 0) return true;
-
-            return this.Zip(otherList).All(zip =>
+            if (other is IEnumerable<T> castedEnumerable)
             {
-                var (x, y) = zip;
+                return this.SequenceEqual(castedEnumerable);
+            }
 
-                return ItemEquals(x, y, itemComparer);
-            });
+            return Equals(other);
         }
 
         /// <inheritdoc/>
-        public override SimpleList<T> DeepClone()
+        public ISimpleList<T> DeepClone()
         {
-            var result = new SimpleList<T>(this, true)
-            {
-                FuncMakeItems = FuncMakeItems
-            };
+            var result = new SimpleList<T>(MakeDefaultItem, this);
             return result;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Interface Implementation
+        //      Interface Implements
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc/>
-        IEnumerator IEnumerable.GetEnumerator()
-            => GetEnumerator();
-
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-        //      Private Static Methods
-        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <summary>
-        ///     2つの要素について同値判定を行う。
-        /// </summary>
-        /// <param name="item"></param>
-        /// <param name="other"></param>
-        /// <param name="itemComparer"></param>
-        /// <typeparam name="TOther"></typeparam>
-        /// <returns></returns>
-        private static bool ItemEquals<TOther>(T? item, TOther? other, IEqualityComparer<TOther>? itemComparer)
+        object IDeepCloneable.DeepClone()
         {
-            if (ReferenceEquals(item, other))
-            {
-                return true;
-            }
+            return DeepClone();
+        }
 
-            if (item is null && other is null)
-            {
-                return true;
-            }
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Protected Methods
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-            if (item is null | other is null)
-            {
-                return false;
-            }
+        protected override void SetItem(int index, T item)
+        {
+            var oldItem = Items[index];
+            PreOutItem(oldItem);
+            
+            base.SetItem(index, item);
+            PostInItem(item);
+        }
 
-            if (itemComparer is not null && item is TOther otherX)
-            {
-                return itemComparer.Equals(otherX, other!);
-            }
+        protected override void InsertItem(int index, T item)
+        {
+            base.InsertItem(index, item);
+            PostInItem(item);
+        }
 
-            if (item is IEqualityComparable comparable)
-            {
-                return comparable.ItemEquals(other);
-            }
+        protected override void RemoveItem(int index)
+        {
+            PreOutItem(Items[index]);
+            base.RemoveItem(index);
+        }
 
-            return Equals(item, other);
+        protected override void ClearItems()
+        {
+            Items.ForEach(PreOutItem);
+            base.ClearItems();
+        }
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //      Private Methods
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private void PostInItem(T item)
+        {
+            if (item is INotifyPropertyChanged notifyPropertyChanged)
+            {
+                notifyPropertyChanged.PropertyChanged += NotifyInnerItemPropertyChanged;
+            }
+        }
+
+        private void PreOutItem(T item)
+        {
+            if (item is INotifyPropertyChanged notifyPropertyChanged)
+            {
+                notifyPropertyChanged.PropertyChanged -= NotifyInnerItemPropertyChanged;
+            }
+        }
+
+        private void OnCollectionReset()
+        {
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
+
+        private void NotifyInnerItemPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            var notifyArgs = PropertyChangedEventArgsCache.GetInstance(ListConstant.IndexerName);
+            OnPropertyChanged(notifyArgs);
         }
     }
 }

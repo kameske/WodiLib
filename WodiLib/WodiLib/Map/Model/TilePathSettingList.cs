@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WodiLib.Sys;
 using WodiLib.Sys.Collections;
 
@@ -82,6 +83,33 @@ namespace WodiLib.Map
         /// <returns>容量</returns>
         public int GetCapacity() => Count;
 
+        public override bool ItemEquals(TilePathSettingList? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        IFixedLengthList<TilePathSetting> IDeepCloneable<IFixedLengthList<TilePathSetting>>.DeepClone()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// 値を比較する。
+        /// </summary>
+        /// <param name="other">比較対象</param>
+        /// <returns>一致する場合、true</returns>
+        public bool Equals(TilePathSettingList? other)
+        {
+            if (ReferenceEquals(this, other)) return true;
+            if (ReferenceEquals(null, other)) return false;
+            return ItemEquals(other);
+        }
+
+        /// <inheritdoc />
+        public bool ItemEquals(IFixedLengthList<TilePathSetting>? other)
+            => Equals((IEnumerable<TilePathSetting>?)other);
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -100,6 +128,11 @@ namespace WodiLib.Map
                 result.AddRange(pathSetting.ToBinary());
 
             return result.ToArray();
+        }
+
+        public void Reset()
+        {
+            throw new NotImplementedException();
         }
     }
 }

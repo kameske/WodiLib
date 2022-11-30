@@ -9,7 +9,7 @@ namespace WodiLib.Test.Sys
     [TestFixture]
     public class IntOrStrTest
     {
-        private static Logger logger;
+        private static Logger logger = default!;
 
         [SetUp]
         public static void Setup()

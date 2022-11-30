@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace WodiLib.Test.Sys
     [TestFixture]
     public class ExtendedListTest
     {
-        private static Logger logger;
+        private static Logger logger = default!;
 
         [SetUp]
         public static void Setup()
@@ -22,1406 +23,550 @@ namespace WodiLib.Test.Sys
             logger = Logger.GetInstance();
         }
 
-        #region SingleAction
+        #region Events
 
-        private static readonly object[] NotifyCollectionChangeEventArgsTestCaseSource =
+        [Test]
+        public static void NotifyPropertyChangedTest()
         {
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.None.Id },
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Once.Id },
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Simple.Id },
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Single.Id },
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Multi.Id },
-            new object[] { NotifyCollectionChangeEventType.Once.Id, NotifyCollectionChangeEventType.None.Id },
-            new object[] { NotifyCollectionChangeEventType.Simple.Id, NotifyCollectionChangeEventType.None.Id },
-            new object[] { NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.None.Id },
-            new object[] { NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.None.Id },
-            new object[] { NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.Once.Id },
-            new object[] { NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.Multi.Id },
-        };
+            var instance = InitInstance.GenerateInstanceForCore();
 
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_Get(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId)
-        {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
+            var notifiedPropertyNameList = new List<string>();
+            instance.PropertyChanged += (_, args) => notifiedPropertyNameList.Add(args.PropertyName);
 
-            const int getIndex = 2;
+            instance.SetCore(0, new StubModel("setTest"));
 
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            var _ = instance[getIndex];
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (_, dic) =>
-                {
-                    // 通知が行われていないこと
-                    Assert.IsTrue(dic.IsEmpty);
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
+            // 通知が行われていること
+            Assert.IsTrue(notifiedPropertyNameList.Count == 1);
+            Assert.IsTrue(notifiedPropertyNameList[0] == ListConstant.IndexerName);
         }
 
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_GetRange(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId)
+        [Test]
+        public static void NotifyPropertyChangedByItemTest()
         {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
+            var instance = InitInstance.GenerateInstanceForCore();
 
-            const int getIndex = 2;
-            const int count = 3;
+            var notifiedPropertyNameList = new List<string>();
+            instance.PropertyChanged += (_, args) => notifiedPropertyNameList.Add(args.PropertyName);
 
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
+            instance[0].StringValue = "update value";
 
-            var _ = instance.GetRange(getIndex, count);
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (_, dic) =>
-                {
-                    // 通知が行われていないこと
-                    Assert.IsTrue(dic.IsEmpty);
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
+            // 通知が行われていること
+            Assert.IsTrue(notifiedPropertyNameList.Count == 1);
+            Assert.IsTrue(notifiedPropertyNameList[0] == ListConstant.IndexerName);
         }
 
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_Set(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId)
+        /*
+         * コレクション変更通知のテストは SimpleList で行う。
+         * ExtendedList は内部的には SimpleList を呼び出す前提であるため。
+         * 通知が正しく伝播していることを確認するために Set パターンだけ確認する
+         */
+
+        [Test]
+        public static void NotifyCollectionChangeEventArgsTest_Get()
         {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
+            var instance = InitInstance.GenerateInstanceForCore();
 
-            const int setIndex = 3;
-            const string setValue = "new value";
+            var collectionChangedEventArgsList = new List<NotifyCollectionChangedEventArgs>();
+            instance.CollectionChanged += (_, args) => collectionChangedEventArgsList.Add(args);
 
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
+            instance.SetCore(0, new StubModel("setTest"));
 
-            var oldValue = instance[setIndex];
-            instance[setIndex] = setValue;
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
-                {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Once
-                             || eventType == NotifyCollectionChangeEventType.Simple
-                             || eventType == NotifyCollectionChangeEventType.Single
-                             || eventType == NotifyCollectionChangeEventType.Multi)
-                    {
-                        // Replace が一度通知されていること
-                        dic.CheckReplaceEventArgs(1, false, setIndex, new[] { oldValue }, new[] { setValue });
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
-        }
-
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_SetRange(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId)
-        {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
-
-            const int setIndex = 3;
-            string[] setValues = { "new value", "NEW VALUE 2" };
-            var setValueLength = setValues.Length;
-
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            var oldValues = instance.GetRange(setIndex, setValueLength).ToArray();
-            instance.SetRange(setIndex, setValues);
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
-                {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Once
-                             || eventType == NotifyCollectionChangeEventType.Single)
-                    {
-                        // Replace が一度通知されていること
-                        dic.CheckReplaceEventArgs(setValueLength, false, setIndex, oldValues, setValues);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Simple
-                             || eventType == NotifyCollectionChangeEventType.Multi)
-                    {
-                        // Replace が複数回通知されていること
-                        dic.CheckReplaceEventArgs(setValueLength, true, setIndex, oldValues, setValues);
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
-        }
-
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_Add(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId)
-        {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
-
-            const string addValue = "new value";
-
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            var beforeLength = instance.Count;
-            instance.Add(addValue);
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
-                {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Once
-                             || eventType == NotifyCollectionChangeEventType.Simple
-                             || eventType == NotifyCollectionChangeEventType.Single
-                             || eventType == NotifyCollectionChangeEventType.Multi)
-                    {
-                        // Add が一度通知されていること
-                        dic.CheckAddEventArgs(1, false, beforeLength, new[] { addValue });
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
-        }
-
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_AddRange(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId)
-        {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
-
-            string[] addValues = { "new value", "NEW VALUE 2" };
-            var addValueLength = addValues.Length;
-
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            var beforeLength = instance.Count;
-            instance.AddRange(addValues);
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
-                {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Once
-                             || eventType == NotifyCollectionChangeEventType.Single)
-                    {
-                        // Add が一度通知されていること
-                        dic.CheckAddEventArgs(addValueLength, false, beforeLength, addValues);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Simple
-                             || eventType == NotifyCollectionChangeEventType.Multi)
-                    {
-                        // Add が複数回通知されていること
-                        dic.CheckAddEventArgs(addValueLength, true, beforeLength, addValues);
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
-        }
-
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_Insert(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId)
-        {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
-
-            const int insertIndex = 7;
-            const string insertValue = "new value";
-
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            instance.Insert(insertIndex, insertValue);
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
-                {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Once
-                             || eventType == NotifyCollectionChangeEventType.Simple
-                             || eventType == NotifyCollectionChangeEventType.Single
-                             || eventType == NotifyCollectionChangeEventType.Multi)
-                    {
-                        // Add が一度通知されていること
-                        dic.CheckAddEventArgs(1, false, insertIndex, new[] { insertValue });
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
-        }
-
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_InsertRange(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId)
-        {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
-
-            const int insertIndex = 7;
-            string[] insertValues = { "new value", "NEW VALUE 2" };
-            var insertValueLength = insertValues.Length;
-
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            instance.InsertRange(insertIndex, insertValues);
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
-                {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Once
-                             || eventType == NotifyCollectionChangeEventType.Single)
-                    {
-                        // Add が一度通知されていること
-                        dic.CheckAddEventArgs(insertValueLength, false, insertIndex, insertValues);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Simple
-                             || eventType == NotifyCollectionChangeEventType.Multi)
-                    {
-                        // Add が複数回通知されていること
-                        dic.CheckAddEventArgs(insertValueLength, true, insertIndex, insertValues);
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
-        }
-
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_Move(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId)
-        {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
-
-            const int oldIndex = 2;
-            const int newIndex = 6;
-
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            var moveItem = instance[oldIndex];
-
-            instance.Move(oldIndex, newIndex);
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
-                {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Once
-                             || eventType == NotifyCollectionChangeEventType.Simple
-                             || eventType == NotifyCollectionChangeEventType.Single
-                             || eventType == NotifyCollectionChangeEventType.Multi)
-                    {
-                        // Move が一度通知されていること
-                        dic.CheckMoveEventArgs(1, false, oldIndex, newIndex, new[] { moveItem });
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
-        }
-
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_MoveRange(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId)
-        {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
-
-            const int oldIndex = 2;
-            const int newIndex = 6;
-            const int count = 3;
-
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            var moveItems = instance.GetRange(oldIndex, count).ToArray();
-
-            instance.MoveRange(oldIndex, newIndex, count);
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
-                {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Once
-                             || eventType == NotifyCollectionChangeEventType.Single)
-                    {
-                        // Move が一度通知されていること
-                        dic.CheckMoveEventArgs(count, false, oldIndex, newIndex, moveItems);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Simple
-                             || eventType == NotifyCollectionChangeEventType.Multi)
-                    {
-                        // Add が複数回通知されていること
-                        dic.CheckMoveEventArgs(count, true, oldIndex, newIndex, moveItems);
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
-        }
-
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_Remove(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId)
-        {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
-
-            const int removeIndex = 5;
-
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            var removeItem = instance[removeIndex];
-
-            instance.RemoveAt(removeIndex);
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
-                {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Once
-                             || eventType == NotifyCollectionChangeEventType.Simple
-                             || eventType == NotifyCollectionChangeEventType.Single
-                             || eventType == NotifyCollectionChangeEventType.Multi)
-                    {
-                        // Remove が一度通知されていること
-                        dic.CheckRemoveEventArgs(1, false, removeIndex, new[] { removeItem });
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
-        }
-
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_RemoveRange(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId)
-        {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
-
-            const int removeIndex = 5;
-            const int count = 3;
-
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            var removeItems = instance.GetRange(removeIndex, count).ToArray();
-
-            instance.RemoveRange(removeIndex, count);
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
-                {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Once
-                             || eventType == NotifyCollectionChangeEventType.Single)
-                    {
-                        // Remove が一度通知されていること
-                        dic.CheckRemoveEventArgs(count, false, removeIndex, removeItems);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Simple
-                             || eventType == NotifyCollectionChangeEventType.Multi)
-                    {
-                        // Remove が複数回通知されていること
-                        dic.CheckRemoveEventArgs(count, true, removeIndex, removeItems);
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
-        }
-
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_Reset(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId)
-        {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
-
-            var resetItems = MakeStringList(5, i => $"new {i} string.").ToArray();
-
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            var oldItems = instance.ToArray();
-
-            instance.Reset(resetItems);
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
-                {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Once
-                             || eventType == NotifyCollectionChangeEventType.Simple
-                             || eventType == NotifyCollectionChangeEventType.Single
-                             || eventType == NotifyCollectionChangeEventType.Multi)
-                    {
-                        // Reset が一度通知されていること
-                        dic.CheckResetEventArgs(0, oldItems, resetItems);
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
-        }
-
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgsTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_Clear(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId)
-        {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
-
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            var oldItems = instance.ToArray();
-
-            instance.Clear();
-
-            var clearItems = instance.ToArray();
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
-                {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Once
-                             || eventType == NotifyCollectionChangeEventType.Simple
-                             || eventType == NotifyCollectionChangeEventType.Single
-                             || eventType == NotifyCollectionChangeEventType.Multi)
-                    {
-                        // Reset が一度通知されていること
-                        dic.CheckResetEventArgs(0, oldItems, clearItems);
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
+            // 通知が行われていること
+            Assert.IsTrue(collectionChangedEventArgsList.Count == 1);
+            Assert.IsTrue(collectionChangedEventArgsList[0].Action == NotifyCollectionChangedAction.Replace);
         }
 
         #endregion
 
-        #region MultiAction
+        #region Implementations of ExtendedList
 
-        private static readonly object[] NotifyCollectionChangeEventArgs_OverwriteTestCaseSource =
+        [Test]
+        public static void MakeDefaultItemGetTest()
         {
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.None.Id, 5, 2 },
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Once.Id, 5, 2 },
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Simple.Id, 5, 2 },
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Single.Id, 5, 2 },
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Multi.Id, 5, 2 },
-            new object[] { NotifyCollectionChangeEventType.Once.Id, NotifyCollectionChangeEventType.None.Id, 8, 5 },
-            new object[] { NotifyCollectionChangeEventType.Simple.Id, NotifyCollectionChangeEventType.None.Id, 8, 5 },
-            new object[] { NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.None.Id, 8, 5 },
-            new object[] { NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.None.Id, 8, 5 },
-            new object[] { NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.Once.Id, 8, 5 },
-            new object[] { NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.Multi.Id, 10, 2 },
-            new object[] { NotifyCollectionChangeEventType.Once.Id, NotifyCollectionChangeEventType.Simple.Id, 10, 2 },
-            new object[] { NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.None.Id, 10, 2 },
-        };
+            var instance = InitInstance.GenerateExtendedList();
+            var getResult = instance.MakeDefaultItem;
 
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgs_OverwriteTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_Overwrite(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId,
-            int startIndex, int overwriteItemLength)
+            // 正しく取得されること
+            Assert.NotNull(getResult);
+        }
+
+        [Test]
+        public static void ValidatorGetTest()
         {
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
+            var instance = InitInstance.GenerateExtendedList();
+            var getResult = instance.Validator;
 
-            var overwriteValues = MakeStringList(overwriteItemLength, i => $"Overwrite item {i}.").ToArray();
-            var insertValueLength = Math.Max(0, startIndex + overwriteItemLength - TestListInitLength);
-            var replaceValueLength = overwriteItemLength - insertValueLength;
-            var insertValues = overwriteValues.Skip(replaceValueLength).ToArray();
-            var replaceNewValues = overwriteValues.Take(replaceValueLength).ToArray();
-            var actionType = (insertValueLength != 0, replaceValueLength != 0) switch
-            {
-                (true, true) => OverwriteType.Multi,
-                (true, false) => OverwriteType.Add,
-                (false, true) => OverwriteType.Replace,
-                _ => throw new Exception()
-            };
+            // 正しく取得されること
+            Assert.NotNull(getResult);
+        }
 
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            var replaceOldItems = instance.GetRange(startIndex, replaceValueLength).ToArray();
-
-            instance.Overwrite(startIndex, overwriteValues);
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
+        private static readonly object[] ConstructorTestCaseSource = TestItemGenerator.GenerateTestCaseSource(
+            (
+                // makeListDefaultItem
+                new DelegateMakeListDefaultItem<string>?[]
                 {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                        return;
-                    }
-
-                    switch (actionType)
-                    {
-                        case OverwriteType.Add:
-                            if (eventType == NotifyCollectionChangeEventType.Once
-                                || eventType == NotifyCollectionChangeEventType.Single)
-                            {
-                                // Add が一度通知されていること
-                                dic.CheckAddEventArgs(insertValueLength, false, startIndex, overwriteValues);
-                            }
-                            else if (eventType == NotifyCollectionChangeEventType.Simple
-                                     || eventType == NotifyCollectionChangeEventType.Multi)
-                            {
-                                // Add が複数回通知されていること
-                                dic.CheckAddEventArgs(insertValueLength, true, startIndex, overwriteValues);
-                            }
-                            else
-                            {
-                                Assert.Fail();
-                            }
-
-                            break;
-
-                        case OverwriteType.Replace:
-                            if (eventType == NotifyCollectionChangeEventType.Once
-                                || eventType == NotifyCollectionChangeEventType.Single)
-                            {
-                                // Replace が一度通知されていること
-                                dic.CheckReplaceEventArgs(replaceValueLength, false, startIndex, replaceOldItems,
-                                    replaceNewValues);
-                            }
-                            else if (eventType == NotifyCollectionChangeEventType.Simple
-                                     || eventType == NotifyCollectionChangeEventType.Multi)
-                            {
-                                // Replace が複数回通知されていること
-                                dic.CheckReplaceEventArgs(replaceValueLength, true, startIndex, replaceOldItems,
-                                    replaceNewValues);
-                            }
-                            else
-                            {
-                                Assert.Fail();
-                            }
-
-                            break;
-
-                        case OverwriteType.Multi:
-                            if (eventType == NotifyCollectionChangeEventType.Once
-                                || eventType == NotifyCollectionChangeEventType.Simple)
-                            {
-                                // Reset が一度通知されていること
-                                dic.CheckResetEventArgs(startIndex, replaceOldItems, overwriteValues);
-                            }
-                            else if (eventType == NotifyCollectionChangeEventType.Single)
-                            {
-                                // Add, Replace が一度ずつ通知されていること
-                                dic.CheckOnlyReplaceEventArgs(replaceValueLength, false, startIndex, replaceOldItems,
-                                    replaceNewValues);
-                                dic.CheckOnlyAddEventArgs(insertValueLength, false, TestListInitLength, insertValues);
-                                Assert.IsTrue(dic.IsMoveEventEmpty);
-                                Assert.IsTrue(dic.IsRemoveEventEmpty);
-                                Assert.IsTrue(dic.IsResetEventEmpty);
-                            }
-                            else if (eventType == NotifyCollectionChangeEventType.Multi)
-                            {
-                                // Add, Replace が複数回通知されていること
-                                dic.CheckOnlyReplaceEventArgs(replaceValueLength, true, startIndex, replaceOldItems,
-                                    replaceNewValues);
-                                dic.CheckOnlyAddEventArgs(insertValueLength, true, TestListInitLength, insertValues);
-                                Assert.IsTrue(dic.IsMoveEventEmpty);
-                                Assert.IsTrue(dic.IsRemoveEventEmpty);
-                                Assert.IsTrue(dic.IsResetEventEmpty);
-                            }
-                            else
-                            {
-                                Assert.Fail();
-                            }
-
-                            break;
-
-                        default:
-                            Assert.Fail();
-                            break;
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
-        }
-
-        private static readonly object[] NotifyCollectionChangeEventArgs_AdjustLengthTestCaseSource =
-        {
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.None.Id, 6 },
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Once.Id, 6 },
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Simple.Id, 6 },
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Single.Id, 6 },
-            new object[] { NotifyCollectionChangeEventType.None.Id, NotifyCollectionChangeEventType.Multi.Id, 6 },
-            new object[] { NotifyCollectionChangeEventType.Once.Id, NotifyCollectionChangeEventType.None.Id, 12 },
-            new object[] { NotifyCollectionChangeEventType.Simple.Id, NotifyCollectionChangeEventType.None.Id, 12 },
-            new object[] { NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.None.Id, 12 },
-            new object[] { NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.None.Id, 12 },
-            new object[] { NotifyCollectionChangeEventType.Single.Id, NotifyCollectionChangeEventType.Once.Id, 12 },
-            new object[] { NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.Multi.Id, 6 },
-            new object[] { NotifyCollectionChangeEventType.Multi.Id, NotifyCollectionChangeEventType.Multi.Id, 12 },
-        };
-
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgs_AdjustLengthTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_AdjustLength(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId,
-            int length)
-        {
-            if (length > TestListInitLength)
-            {
-                NotifyCollectionChangeEventArgsTest_AdjustLengthIfShort(collectionChangingEventTypeId,
-                    collectionChangedEventTypeId, length);
-            }
-            else if (length < TestListInitLength)
-            {
-                NotifyCollectionChangeEventArgsTest_AdjustLengthIfLong(collectionChangingEventTypeId,
-                    collectionChangedEventTypeId, length);
-            }
-            else
-            {
-                Assert.Fail();
-            }
-        }
-
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgs_AdjustLengthTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_AdjustLengthIfShort(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId,
-            int length)
-        {
-            if (length < TestListInitLength)
-            {
-                Assert.Pass();
-                return;
-            }
-
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
-
-            var addItemLength = length - TestListInitLength;
-            var addItems = MakeTestListMakeItemsItem(TestListInitLength, addItemLength).ToArray();
-
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            instance.AdjustLengthIfShort(length);
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
+                    null,
+                    i => i.ToString()
+                },
+                // validator
+                new IWodiLibListValidator<string>?[]
                 {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Once
-                             || eventType == NotifyCollectionChangeEventType.Single)
-                    {
-                        // Add が一度通知されていること
-                        dic.CheckAddEventArgs(addItemLength, false, TestListInitLength, addItems);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Simple
-                             || eventType == NotifyCollectionChangeEventType.Multi)
-                    {
-                        // Add が複数回通知されていること
-                        dic.CheckAddEventArgs(addItemLength, true, TestListInitLength, addItems);
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
-        }
-
-        [TestCaseSource(nameof(NotifyCollectionChangeEventArgs_AdjustLengthTestCaseSource))]
-        public static void NotifyCollectionChangeEventArgsTest_AdjustLengthIfLong(
-            string collectionChangingEventTypeId, string collectionChangedEventTypeId,
-            int length)
-        {
-            if (length > TestListInitLength)
-            {
-                Assert.Pass();
-                return;
-            }
-
-            var collectionChangingEventType = NotifyCollectionChangeEventType.FromId(collectionChangingEventTypeId);
-            var collectionChangedEventType = NotifyCollectionChangeEventType.FromId(collectionChangedEventTypeId);
-
-            var removeItemLength = TestListInitLength - length;
-            var removeStartIndex = length;
-
-            var instance = MakeTestList(TestListInitLength, collectionChangingEventType, collectionChangedEventType,
-                out var collectionChangingEventArgsList, out var collectionChangedEventArgsList);
-
-            var removeItems = instance.TakeLast(removeItemLength).ToArray();
-
-            instance.AdjustLengthIfLong(length);
-
-            var checkAction = new Action<NotifyCollectionChangeEventType, NotifyCollectionChangedEventArgsDic>(
-                (eventType, dic) =>
+                    null,
+                    new MockWodiLibListValidator<string>(),
+                },
+                // initItems
+                new[]
                 {
-                    if (eventType == NotifyCollectionChangeEventType.None)
-                    {
-                        // 通知が行われていないこと
-                        Assert.IsTrue(dic.IsEmpty);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Once
-                             || eventType == NotifyCollectionChangeEventType.Single)
-                    {
-                        // Remove が一度通知されていること
-                        dic.CheckRemoveEventArgs(removeItemLength, false, removeStartIndex, removeItems);
-                    }
-                    else if (eventType == NotifyCollectionChangeEventType.Simple
-                             || eventType == NotifyCollectionChangeEventType.Multi)
-                    {
-                        // Remove が複数回通知されていること
-                        dic.CheckRemoveEventArgs(removeItemLength, true, removeStartIndex, removeItems);
-                    }
-                    else
-                    {
-                        Assert.Fail();
-                    }
-                });
-
-            checkAction(collectionChangingEventType, collectionChangingEventArgsList);
-            checkAction(collectionChangedEventType, collectionChangedEventArgsList);
-        }
-
-        #endregion
-
-        #region NotNotifyMethods
-
-        [Test]
-        public static void GetMaxCapacityTest()
-        {
-            var instance = MakeTestList(10);
-            Assert.AreEqual(int.MaxValue, instance.GetMaxCapacity());
-        }
-
-        [Test]
-        public static void GetMinCapacityTest()
-        {
-            var instance = MakeTestList(10);
-            Assert.AreEqual(0, instance.GetMinCapacity());
-        }
-
-        [Test]
-        public static void ItemEqualsTest_ExtendedList()
-        {
-            var instance = MakeTestList(10);
-
-            {
-                // null
-                Assert.AreEqual(false, instance.ItemEquals(null));
-            }
-
-            {
-                // 同じインスタンス
-                Assert.AreEqual(true, instance.ItemEquals(instance));
-            }
-
-            {
-                // 同じ要素のインスタンス
-                var other = MakeTestList(10);
-                Assert.AreEqual(true, instance.ItemEquals(other));
-            }
-
-            {
-                // 一つだけ要素が異なるインスタンス
-                var other = MakeTestList(10);
-                other[2] = "replaced";
-                Assert.AreEqual(false, instance.ItemEquals(other));
-            }
-
-            {
-                // 要素が多いインスタンス
-                var other = MakeTestList(11);
-                Assert.AreEqual(false, instance.ItemEquals(other));
-            }
-
-            {
-                // 要素が不足しているインスタンス
-                var other = MakeTestList(10);
-                other.RemoveAt(4);
-                Assert.AreEqual(false, instance.ItemEquals(other));
-            }
-        }
-
-        [Test]
-        public static void ItemEqualsTest_ItemComparerIsNull()
-        {
-            var instance = MakeTestList(10);
-
-            {
-                // null
-                Assert.AreEqual(false, instance.ItemEquals<string>(null, null));
-            }
-
-            {
-                // 同じインスタンス
-                Assert.AreEqual(true, instance.ItemEquals(instance, null));
-            }
-
-            {
-                // 同じ要素のインスタンス
-                var other = MakeTestList(10);
-                Assert.AreEqual(true, instance.ItemEquals(other, null));
-            }
-
-            {
-                // 一つだけ要素が異なるインスタンス
-                var other = MakeTestList(10);
-                other[2] = "replaced";
-                Assert.AreEqual(false, instance.ItemEquals(other, null));
-            }
-
-            {
-                // 要素が多いインスタンス
-                var other = MakeTestList(11);
-                Assert.AreEqual(false, instance.ItemEquals(other, null));
-            }
-
-            {
-                // 要素が不足しているインスタンス
-                var other = MakeTestList(10);
-                other.RemoveAt(4);
-                Assert.AreEqual(false, instance.ItemEquals(other, null));
-            }
-        }
-
-        [Test]
-        public static void ItemEqualsTest_ItemComparerIsNotNull()
-        {
-            var instance = MakeTestList(10);
-            var itemComparer = new TestStringComparer();
-
-            {
-                // null
-                Assert.AreEqual(false, instance.ItemEquals(null, itemComparer));
-            }
-
-            {
-                // 同じインスタンス
-                Assert.AreEqual(true, instance.ItemEquals(instance, itemComparer));
-            }
-
-            {
-                // 同じ要素のインスタンス
-                var other = MakeTestList(10);
-                Assert.AreEqual(true, instance.ItemEquals(other, itemComparer));
-            }
-
-            {
-                // 一つだけ要素が異なるインスタンス
-                var other = MakeTestList(10);
-                other[2] = "replaced";
-                Assert.AreEqual(false, instance.ItemEquals(other, itemComparer));
-            }
-
-            {
-                // 要素が多いインスタンス
-                var other = MakeTestList(11);
-                Assert.AreEqual(false, instance.ItemEquals(other, itemComparer));
-            }
-
-            {
-                // 要素が不足しているインスタンス
-                var other = MakeTestList(10);
-                other.RemoveAt(4);
-                Assert.AreEqual(false, instance.ItemEquals(other, itemComparer));
-            }
-        }
-
-        #endregion
-
-        private static TestList MakeTestList(int initLength,
-            NotifyCollectionChangeEventType notifyCollectionChangingEventType,
-            NotifyCollectionChangeEventType notifyCollectionChangedEventType,
-            out NotifyCollectionChangedEventArgsDic collectionChangingEventArgsList,
-            out NotifyCollectionChangedEventArgsDic collectionChangedEventArgsList)
-        {
-            var initStringList = MakeStringList(initLength);
-            var result = initStringList == null
-                ? new TestList
-                {
-                    // Observerに購読させないよう、イベントObserver登録より前に通知フラグ設定
-                    NotifyCollectionChangingEventType = notifyCollectionChangingEventType,
-                    NotifyCollectionChangedEventType = notifyCollectionChangedEventType,
-
-                    FuncMakeItems = MakeTestListMakeItemsItem,
+                    null,
+                    3.Iterate(i => i.ToString()),
                 }
-                : new TestList(initStringList)
-                {
-                    // Observerに購読させないよう、イベントObserver登録より前に通知フラグ設定
-                    NotifyCollectionChangingEventType = notifyCollectionChangingEventType,
-                    NotifyCollectionChangedEventType = notifyCollectionChangedEventType,
+            ),
+            // expectedError
+            (makeListDefaultItem, /*validator*/_, /*initItems*/_) =>
+                makeListDefaultItem is null
+        );
 
-                    FuncMakeItems = MakeTestListMakeItemsItem,
-                };
-
-            collectionChangingEventArgsList = new NotifyCollectionChangedEventArgsDic();
-            result.CollectionChanging += MakeCollectionChangeEventHandler(true, collectionChangingEventArgsList);
-
-            collectionChangedEventArgsList = new NotifyCollectionChangedEventArgsDic();
-            result.CollectionChanged += MakeCollectionChangeEventHandler(false, collectionChangedEventArgsList);
-
-            return result;
-        }
-
-        private static TestList MakeTestList(int initLength)
-            => MakeTestList(initLength, NotifyCollectionChangeEventType.None, NotifyCollectionChangeEventType.None,
-                out _, out _);
-
-        #region MakeTestItems
-
-        private static List<string> MakeStringList(int length, Func<int, string> funcMakeItem = null)
+        [TestCaseSource(nameof(ConstructorTestCaseSource))]
+        public static void ConstructorTest(
+            DelegateMakeListDefaultItem<string>? makeListDefaultItem,
+            IWodiLibListValidator<string>? validator,
+            IEnumerable<string>? initItems,
+            bool expectedError
+        )
         {
-            if (length < 0) return null;
-            var result = new List<string>();
-            for (var i = 0; i < length; i++)
-            {
-                result.Add((funcMakeItem ?? MakeDefaultItem)(i));
-            }
-
-            return result;
+            TestTemplate.Constructor(
+                () => new ExtendedList<string>(makeListDefaultItem!, validator!, initItems),
+                expectedThrowCreateNewInstance: expectedError,
+                logger
+            );
         }
 
-        private static string MakeDefaultItem(int index)
-            => index.ToString();
+        public enum ItemEqualsTestType
+        {
+            Null,
+            ReferenceEquals,
+            SameItems,
+            DifferenceOneItem,
+            Longer,
+            Shorter,
+            OtherInstanceInItem,
+        }
 
-        /// <summary>
-        ///     <see cref="TestList"/> の <see cref="IExtendedList{T}.AdjustLengthIfShort"/> で不足要素を補う。
-        /// </summary>
-        private static IEnumerable<string> MakeTestListMakeItemsItem(int index, int count)
-            => Enumerable.Range(index, count).Select(i => $"Adjusted {i} item.");
+        [TestCase(ItemEqualsTestType.Null, false)]
+        [TestCase(ItemEqualsTestType.ReferenceEquals, true)]
+        [TestCase(ItemEqualsTestType.SameItems, true)]
+        [TestCase(ItemEqualsTestType.DifferenceOneItem, false)]
+        [TestCase(ItemEqualsTestType.Longer, false)]
+        [TestCase(ItemEqualsTestType.Shorter, false)]
+        [TestCase(ItemEqualsTestType.OtherInstanceInItem, true)]
+        public static void ItemEqualsTest(ItemEqualsTestType testType, bool expected)
+        {
+            var instance = InitInstance.GenerateExtendedList();
 
-        /// <summary>
-        ///     CollectionChanging, CollectionChanged に登録するイベントハンドラを生成する
-        /// </summary>
-        /// <param name="isBefore">CollectionChanging にセットする場合true, CollectionChanged にセットする場合false</param>
-        /// <param name="resultDic">発生したイベント引数を格納するDirectory</param>
-        /// <returns>生成したインスタンス</returns>
-        private static EventHandler<NotifyCollectionChangedEventArgsEx<string>> MakeCollectionChangeEventHandler(
-            bool isBefore,
-            NotifyCollectionChangedEventArgsDic resultDic)
-            => (_, args) =>
+            var other = testType switch
             {
-                resultDic.Add(args);
-                logger.Debug($"Collection{(isBefore ? "Changing" : "Changed")} Event Raise. ");
-                logger.Debug($"{nameof(args)}: {{");
-                logger.Debug($"    {nameof(args.Action)}: {args.Action}");
-                logger.Debug($"    {nameof(args.OldStartingIndex)}: {args.OldStartingIndex}");
-                logger.Debug($"    {nameof(args.OldItems)}: {args.OldItems}");
-                logger.Debug($"    {nameof(args.NewStartingIndex)}: {args.NewStartingIndex}");
-                logger.Debug($"    {nameof(args.NewItems)}: {args.NewItems}");
-                logger.Debug("}");
+                ItemEqualsTestType.Null => null,
+                ItemEqualsTestType.ReferenceEquals => instance,
+                ItemEqualsTestType.SameItems => instance.DeepClone(),
+                ItemEqualsTestType.DifferenceOneItem => ((Func<IExtendedList<StubModel>>)(() =>
+                {
+                    var result = InitInstance.GenerateExtendedList();
+                    result[0] = new StubModel("___no match___");
+                    return result;
+                }))(),
+                ItemEqualsTestType.Longer => ((Func<IExtendedList<StubModel>>)(() =>
+                {
+                    var result = InitInstance.GenerateExtendedList();
+                    result.AddCore(new StubModel("add item"));
+                    return result;
+                }))(),
+                ItemEqualsTestType.Shorter => ((Func<IExtendedList<StubModel>>)(() =>
+                {
+                    var result = InitInstance.GenerateExtendedList();
+                    result.RemoveCore(InitInstance.InitLength - 1);
+                    return result;
+                }))(),
+                ItemEqualsTestType.OtherInstanceInItem => new InitInstance.AnotherExtendedList(),
+                _ => throw new ArgumentOutOfRangeException(nameof(testType), testType, null)
             };
+
+            TestTemplate.ItemEquals(
+                instance,
+                other,
+                expected,
+                logger
+            );
+        }
+
+        [Test]
+        public static void DeepCloneTest()
+        {
+            var instance = InitInstance.GenerateExtendedList();
+
+            TestTemplate.DeepClone(
+                instance,
+                logger
+            );
+        }
 
         #endregion
 
-        private class TestList : ExtendedList<string>
-        {
-            public TestList()
-            {
-            }
+        #region Transport Methods or Properties
 
-            public TestList(IEnumerable<string> values) : base(values)
-            {
-            }
+        [Test]
+        public static void IndexerGetTest()
+        {
+            var instance = InitInstance.GenerateInstanceForImplementations();
+            var _ = instance[0];
+
+            // 意図したとおり処理が転送されていること
+            ExtendedListTestTemplate.AssertValidatorCalledMethodHistory(
+                instance,
+                nameof(IWodiLibListValidator<StubModel>.Get)
+            );
+            ExtendedListTestTemplate.AssertSimpleListCalledMethodHistory(
+                instance,
+                nameof(ISimpleList<StubModel>.Get)
+            );
         }
 
-        private static readonly int TestListInitLength = 10;
-
-        private enum OverwriteType
+        [Test]
+        public static void IndexerSetTest()
         {
-            Replace,
-            Add,
-            Multi,
+            var instance = InitInstance.GenerateInstanceForImplementations();
+            instance[0] = new StubModel("x");
+
+            // 意図したとおり処理が転送されていること
+            ExtendedListTestTemplate.AssertValidatorCalledMethodHistory(
+                instance,
+                nameof(IWodiLibListValidator<StubModel>.Set)
+            );
+            ExtendedListTestTemplate.AssertSimpleListCalledMethodHistory(
+                instance,
+                nameof(ISimpleList<StubModel>.Set)
+            );
         }
 
-        private class NotifyCollectionChangedEventArgsDic
+        [Test]
+        public static void CountGetTest()
         {
-            private Dictionary<string, List<NotifyCollectionChangedEventArgsEx<string>>> Impl { get; }
+            var instance = InitInstance.GenerateInstanceForImplementations();
+            var _ = instance.Count;
 
-            public NotifyCollectionChangedEventArgsDic()
+            // 意図したとおり処理が転送されていること
+            ExtendedListTestTemplate.AssertValidatorCalledMethodHistory(
+                instance
+            );
+            ExtendedListTestTemplate.AssertSimpleListCalledMethodHistory(
+                instance,
+                nameof(ISimpleList<StubModel>.Count)
+            );
+        }
+
+        [Test]
+        public static void GetEnumeratorTest()
+        {
+            var instance = InitInstance.GenerateInstanceForImplementations();
+            using var _ = instance.GetEnumerator();
+
+            // 意図したとおり処理が転送されていること
+            ExtendedListTestTemplate.AssertValidatorCalledMethodHistory(
+                instance
+            );
+            ExtendedListTestTemplate.AssertSimpleListCalledMethodHistory(
+                instance,
+                nameof(ISimpleList<StubModel>.GetEnumerator)
+            );
+        }
+
+        [Test]
+        public static void GetRangeCoreTest()
+        {
+            var instance = InitInstance.GenerateInstanceForImplementations();
+            var _ = instance.GetRangeCore(0, 1);
+
+            // 意図したとおり処理が転送されていること
+            ExtendedListTestTemplate.AssertValidatorCalledMethodHistory(
+                instance
+            );
+            ExtendedListTestTemplate.AssertSimpleListCalledMethodHistory(
+                instance,
+                nameof(ISimpleList<StubModel>.Get)
+            );
+        }
+
+        [Test]
+        public static void SetRangeCoreTest()
+        {
+            var instance = InitInstance.GenerateInstanceForImplementations();
+            instance.SetRangeCore(0, new[] { new StubModel("new Value") });
+
+            // 意図したとおり処理が転送されていること
+            ExtendedListTestTemplate.AssertValidatorCalledMethodHistory(
+                instance
+            );
+            ExtendedListTestTemplate.AssertSimpleListCalledMethodHistory(
+                instance,
+                nameof(ISimpleList<StubModel>.Set)
+            );
+        }
+
+        [Test]
+        public static void InsertRangeCoreTest()
+        {
+            var instance = InitInstance.GenerateInstanceForImplementations();
+            instance.InsertRangeCore(0, new[] { new StubModel("new Value") });
+
+            // 意図したとおり処理が転送されていること
+            ExtendedListTestTemplate.AssertValidatorCalledMethodHistory(
+                instance
+            );
+            ExtendedListTestTemplate.AssertSimpleListCalledMethodHistory(
+                instance,
+                nameof(ISimpleList<StubModel>.Insert)
+            );
+        }
+
+        [Test]
+        public static void OverwriteCoreTest()
+        {
+            var instance = InitInstance.GenerateInstanceForImplementations();
+            instance.OverwriteCore(0, InitInstance.InitItems);
+
+            // 意図したとおり処理が転送されていること
+            ExtendedListTestTemplate.AssertValidatorCalledMethodHistory(
+                instance
+            );
+            ExtendedListTestTemplate.AssertSimpleListCalledMethodHistory(
+                instance,
+                nameof(ISimpleList<StubModel>.Overwrite)
+            );
+        }
+
+        [Test]
+        public static void MoveRangeCoreTest()
+        {
+            var instance = InitInstance.GenerateInstanceForImplementations();
+            instance.MoveRangeCore(0, 1, 1);
+
+            // 意図したとおり処理が転送されていること
+            ExtendedListTestTemplate.AssertValidatorCalledMethodHistory(
+                instance
+            );
+            ExtendedListTestTemplate.AssertSimpleListCalledMethodHistory(
+                instance,
+                nameof(ISimpleList<StubModel>.Move)
+            );
+        }
+
+        [Test]
+        public static void RemoveRangeCoreTest()
+        {
+            var instance = InitInstance.GenerateInstanceForImplementations();
+            instance.RemoveRangeCore(0, 1);
+
+            // 意図したとおり処理が転送されていること
+            ExtendedListTestTemplate.AssertValidatorCalledMethodHistory(
+                instance
+            );
+            ExtendedListTestTemplate.AssertSimpleListCalledMethodHistory(
+                instance,
+                nameof(ISimpleList<StubModel>.Remove)
+            );
+        }
+
+        [Test]
+        public static void AdjustRangeCoreTest()
+        {
+            var instance = InitInstance.GenerateInstanceForImplementations();
+            instance.AdjustLengthCore(1);
+
+            // 意図したとおり処理が転送されていること
+            ExtendedListTestTemplate.AssertValidatorCalledMethodHistory(
+                instance
+            );
+            ExtendedListTestTemplate.AssertSimpleListCalledMethodHistory(
+                instance,
+                nameof(ISimpleList<StubModel>.Adjust)
+            );
+        }
+
+        [Test]
+        public static void ResetCoreTest()
+        {
+            var instance = InitInstance.GenerateInstanceForImplementations();
+            instance.ResetCore(InitInstance.InitItems);
+
+            // 意図したとおり処理が転送されていること
+            ExtendedListTestTemplate.AssertValidatorCalledMethodHistory(
+                instance
+            );
+            ExtendedListTestTemplate.AssertSimpleListCalledMethodHistory(
+                instance,
+                nameof(ISimpleList<StubModel>.Reset)
+            );
+        }
+
+        [Test]
+        public static void ClearRangeCoreTest()
+        {
+            var instance = InitInstance.GenerateInstanceForImplementations();
+            instance.ClearCore();
+
+            // 意図したとおり処理が転送されていること
+            ExtendedListTestTemplate.AssertValidatorCalledMethodHistory(
+                instance
+            );
+            ExtendedListTestTemplate.AssertSimpleListCalledMethodHistory(
+                instance,
+                nameof(ISimpleList<StubModel>.Clear)
+            );
+        }
+
+        #endregion
+
+        private static class InitInstance
+        {
+            public static readonly StubModel[] InitItems =
             {
-                Impl = new Dictionary<string, List<NotifyCollectionChangedEventArgsEx<string>>>();
-                Clear();
+                new("InitStr"),
+                new("\t_"),
+                new("初期文字列"),
+                new("Init String"),
+                new("string123"),
+            };
+
+            public static readonly DelegateMakeListDefaultItem<StubModel> MakeListDefaultItem = GenerateTestModel;
+
+            public static int InitLength => InitItems.Length;
+
+            public static TestListForCore GenerateInstanceForCore() => new();
+
+            public static TestListForImplementations GenerateInstanceForImplementations()
+            {
+                var result = new TestListForImplementations();
+                result.ValidatorMock.ClearCalledHistory();
+                result.SimpleListMock.ClearCalledHistory();
+                return result;
             }
 
-            public void Add(params NotifyCollectionChangedEventArgsEx<string>[] args)
-            {
-                args.ForEach(arg => { Impl[arg.Action.ToString()].Add(arg); });
-            }
+            public static ExtendedList<StubModel> GenerateExtendedList(
+                IEnumerable<StubModel>? initItems = null
+            ) => new(
+                GenerateTestModel,
+                new MockWodiLibListValidator<StubModel>(),
+                initItems ?? GetClonedInitItems()
+            );
 
-            #region 判定用
+            public static StubModel GenerateTestModel(int index) => new($"{index}");
+
+            private static StubModel[] GetClonedInitItems()
+                => InitItems.Select(item => item.DeepClone()).ToArray();
 
             /// <summary>
-            ///     いずれのイベント引数も格納されていない場合 true
+            /// このリストは validator を設定していないため、テスト時には core メソッドを直接呼び出す必要がある。
             /// </summary>
-            public bool IsEmpty => Impl.All(x => x.Value.Count == 0);
-
-            public bool IsMoveEventEmpty => MoveEventArgs.Count == 0;
-            public bool IsRemoveEventEmpty => RemoveEventArgs.Count == 0;
-            public bool IsResetEventEmpty => ResetEventArgs.Count == 0;
-
-            public void CheckReplaceEventArgs(int argsLength, bool isMultipart,
-                int setIndex, string[] oldItems, string[] setItems)
+            public class TestListForCore : ExtendedList<StubModel>
             {
-                CheckOnlyReplaceEventArgs(argsLength, isMultipart, setIndex, oldItems, setItems);
-                Assert.IsTrue(AddEventArgs.Count == 0);
-                Assert.IsTrue(MoveEventArgs.Count == 0);
-                Assert.IsTrue(RemoveEventArgs.Count == 0);
-                Assert.IsTrue(ResetEventArgs.Count == 0);
-            }
-
-            public void CheckOnlyReplaceEventArgs(int argsLength, bool isMultipart,
-                int setIndex, string[] oldItems, string[] setItems)
-            {
-                if (isMultipart)
+                public TestListForCore() : base(MakeListDefaultItem, default!, GetClonedInitItems())
                 {
-                    // Replace が複数回通知されていること
-                    Assert.IsTrue(ReplaceEventArgs.Count == argsLength);
-                    for (var i = 0; i < argsLength; i++)
-                    {
-                        var arg = ReplaceEventArgs[i];
-                        Assert.IsTrue(arg.OldStartingIndex == setIndex + i);
-                        Assert.IsTrue(arg.OldItems?.Count == 1);
-                        Assert.IsTrue(arg.OldItems[0].Equals(oldItems[i]));
-                        Assert.IsTrue(arg.NewStartingIndex == setIndex + i);
-                        Assert.IsTrue(arg.NewItems?.Count == 1);
-                        Assert.IsTrue(arg.NewItems[0].Equals(setItems[i]));
-                    }
-                }
-                else
-                {
-                    // Replace が一度通知されていること
-                    Assert.IsTrue(ReplaceEventArgs.Count == 1);
-                    {
-                        var arg = ReplaceEventArgs[0];
-                        Assert.IsTrue(arg.OldStartingIndex == setIndex);
-                        Assert.IsTrue(arg.OldItems?.Count == argsLength);
-                        Assert.IsTrue(arg.OldItems.SequenceEqual(oldItems));
-                        Assert.IsTrue(arg.NewStartingIndex == setIndex);
-                        Assert.IsTrue(arg.NewItems?.Count == argsLength);
-                        Assert.IsTrue(arg.NewItems.SequenceEqual(setItems));
-                    }
                 }
             }
 
-            public void CheckAddEventArgs(int argsLength, bool isMultipart,
-                int insertIndex, string[] insertItems)
+            /// <summary>
+            /// このリストは validator を設定している。
+            /// </summary>
+            public class TestListForImplementations : ExtendedList<StubModel>
             {
-                CheckOnlyAddEventArgs(argsLength, isMultipart, insertIndex, insertItems);
-                Assert.IsTrue(ReplaceEventArgs.Count == 0);
-                Assert.IsTrue(MoveEventArgs.Count == 0);
-                Assert.IsTrue(RemoveEventArgs.Count == 0);
-                Assert.IsTrue(ResetEventArgs.Count == 0);
-            }
+                public MockBase<IWodiLibListValidator<StubModel>> ValidatorMock
+                    => (MockWodiLibListValidator<StubModel>)Validator!;
 
-            public void CheckOnlyAddEventArgs(int argsLength, bool isMultipart,
-                int insertIndex, string[] insertItems)
-            {
-                if (isMultipart)
+                public MockBase<ISimpleList<StubModel>> SimpleListMock => (MockSimpleList<StubModel>)Items;
+
+                protected override ISimpleList<StubModel> Items { get; } =
+                    new MockSimpleList<StubModel>(MakeListDefaultItem, InitItems);
+
+                public TestListForImplementations(
+                    IEnumerable<StubModel>? values = null
+                ) : base(MakeListDefaultItem, new MockWodiLibListValidator<StubModel>(), values)
                 {
-                    // Add が複数回通知されていること
-                    Assert.IsTrue(AddEventArgs.Count == argsLength);
-                    for (var i = 0; i < argsLength; i++)
-                    {
-                        var arg = AddEventArgs[i];
-                        Assert.IsTrue(arg.OldStartingIndex == -1);
-                        Assert.IsTrue(arg.OldItems is null);
-                        Assert.IsTrue(arg.NewStartingIndex == insertIndex + i);
-                        Assert.IsTrue(arg.NewItems?.Count == 1);
-                        Assert.IsTrue(arg.NewItems[0].Equals(insertItems[i]));
-                    }
-                }
-                else
-                {
-                    // Add が一度通知されていること
-                    Assert.IsTrue(AddEventArgs.Count == 1);
-                    {
-                        var arg = AddEventArgs[0];
-                        Assert.IsTrue(arg.OldStartingIndex == -1);
-                        Assert.IsTrue(arg.OldItems is null);
-                        Assert.IsTrue(arg.NewStartingIndex == insertIndex);
-                        Assert.IsTrue(arg.NewItems?.Count == argsLength);
-                        Assert.IsTrue(arg.NewItems.SequenceEqual(insertItems));
-                    }
+                    Items = new MockSimpleList<StubModel>(MakeListDefaultItem, InitItems);
                 }
             }
 
-            public void CheckMoveEventArgs(int argsLenght, bool isMultipart,
-                int oldIndex, int newIndex, string[] moveItems)
+            /// <summary>
+            /// <see cref="ExtendedList{T}.ItemEquals(IExtendedList{T}?)"/> メソッド用、
+            /// <see cref="IExtendedList{T}"/> を実装した、 <see cref="ExtendedList{T}"/> とは関連のないクラス
+            /// </summary>
+            /// <remarks>
+            /// 比較には <see cref="Enumerable.SequenceEqual{TSource}(IEnumerable{TSource},IEnumerable{TSource})"/> を利用しているはずなので、
+            /// <see cref="IEnumerable{T}"/> のメソッドのみ実装していれば良い
+            /// </remarks>
+            public class AnotherExtendedList : ModelBase<AnotherExtendedList>,
+                IExtendedList<StubModel>
             {
-                if (isMultipart)
+                private SimpleList<StubModel> Items { get; }
+
+                public AnotherExtendedList()
                 {
-                    Assert.IsTrue(MoveEventArgs.Count == argsLenght);
-                    for (var i = 0; i < argsLenght; i++)
-                    {
-                        var arg = MoveEventArgs[i];
-                        Assert.IsTrue(arg.OldStartingIndex == oldIndex + i);
-                        Assert.IsTrue(arg.OldItems?.Count == 1);
-                        Assert.IsTrue(arg.OldItems[0].Equals(moveItems[i]));
-                        Assert.IsTrue(arg.NewStartingIndex == newIndex + i);
-                        Assert.IsTrue(arg.NewItems?.Count == 1);
-                        Assert.IsTrue(arg.NewItems[0].Equals(moveItems[i]));
-                    }
-
-                    Assert.IsTrue(ReplaceEventArgs.Count == 0);
-                    Assert.IsTrue(AddEventArgs.Count == 0);
-                    Assert.IsTrue(RemoveEventArgs.Count == 0);
-                    Assert.IsTrue(ResetEventArgs.Count == 0);
+                    Items = new SimpleList<StubModel>(MakeListDefaultItem, GetClonedInitItems());
                 }
-                else
+
+                #region IEnumerable<T>
+
+                public IEnumerator<StubModel> GetEnumerator() => Items.GetEnumerator();
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+                #endregion
+
+                // @formatter:off
+                #region NotUse
+
+                IExtendedList<StubModel> IDeepCloneable<IExtendedList<StubModel>>.DeepClone() => throw new NotImplementedException();
+                public override bool ItemEquals(AnotherExtendedList? other) => throw new NotImplementedException();
+                public override AnotherExtendedList DeepClone() => throw new NotImplementedException();
+                public bool ItemEquals(IExtendedList<StubModel>? other) => throw new NotImplementedException();
+                public event NotifyCollectionChangedEventHandler? CollectionChanged;
+                public StubModel this[int index]
                 {
-                    Assert.IsTrue(MoveEventArgs.Count == 1);
-                    {
-                        var arg = MoveEventArgs[0];
-                        Assert.IsTrue(arg.OldStartingIndex == oldIndex);
-                        Assert.IsTrue(arg.OldItems?.Count == argsLenght);
-                        Assert.IsTrue(arg.OldItems.SequenceEqual(moveItems));
-                        Assert.IsTrue(arg.NewStartingIndex == newIndex);
-                        Assert.IsTrue(arg.NewItems?.Count == argsLenght);
-                        Assert.IsTrue(arg.NewItems.SequenceEqual(moveItems));
-                    }
-                    Assert.IsTrue(ReplaceEventArgs.Count == 0);
-                    Assert.IsTrue(AddEventArgs.Count == 0);
-                    Assert.IsTrue(RemoveEventArgs.Count == 0);
-                    Assert.IsTrue(ResetEventArgs.Count == 0);
+                    get => throw new NotImplementedException();
+                    set => throw new NotImplementedException();
                 }
-            }
-
-            public void CheckRemoveEventArgs(int argsLength, bool isMultipart,
-                int removeIndex, string[] removeItems)
-            {
-                if (isMultipart)
-                {
-                    // Remove が複数回通知されていること
-                    Assert.IsTrue(RemoveEventArgs.Count == argsLength);
-                    for (var i = 0; i < argsLength; i++)
-                    {
-                        var arg = RemoveEventArgs[i];
-                        Assert.IsTrue(arg.OldStartingIndex == removeIndex + i);
-                        Assert.IsTrue(arg.OldItems?.Count == 1);
-                        Assert.IsTrue(arg.OldItems[0].Equals(removeItems[i]));
-                        Assert.IsTrue(arg.NewStartingIndex == -1);
-                        Assert.IsTrue(arg.NewItems is null);
-                    }
-
-                    Assert.IsTrue(ReplaceEventArgs.Count == 0);
-                    Assert.IsTrue(AddEventArgs.Count == 0);
-                    Assert.IsTrue(MoveEventArgs.Count == 0);
-                    Assert.IsTrue(ResetEventArgs.Count == 0);
-                }
-                else
-                {
-                    // Remove が一度通知されていること
-                    Assert.IsTrue(RemoveEventArgs.Count == 1);
-                    {
-                        var arg = RemoveEventArgs[0];
-                        Assert.IsTrue(arg.OldStartingIndex == removeIndex);
-                        Assert.IsTrue(arg.OldItems?.Count == argsLength);
-                        Assert.IsTrue(arg.OldItems.SequenceEqual(removeItems));
-                        Assert.IsTrue(arg.NewStartingIndex == -1);
-                        Assert.IsTrue(arg.NewItems is null);
-                    }
-                    Assert.IsTrue(ReplaceEventArgs.Count == 0);
-                    Assert.IsTrue(AddEventArgs.Count == 0);
-                    Assert.IsTrue(MoveEventArgs.Count == 0);
-                    Assert.IsTrue(ResetEventArgs.Count == 0);
-                }
-            }
-
-            public void CheckResetEventArgs(int startIndex,
-                string[] oldItems, string[] newItems)
-            {
-                // Remove が一度通知されていること
-                Assert.IsTrue(ResetEventArgs.Count == 1);
-                {
-                    var arg = ResetEventArgs[0];
-                    Assert.IsTrue(arg.OldStartingIndex == startIndex);
-                    Assert.IsTrue(arg.OldItems?.Count == oldItems.Length);
-                    Assert.IsTrue(arg.OldItems.SequenceEqual(oldItems));
-                    Assert.IsTrue(arg.NewStartingIndex == startIndex);
-                    Assert.IsTrue(arg.NewItems?.Count == newItems.Length);
-                    Assert.IsTrue(arg.NewItems.SequenceEqual(newItems));
-                }
-                Assert.IsTrue(ReplaceEventArgs.Count == 0);
-                Assert.IsTrue(AddEventArgs.Count == 0);
-                Assert.IsTrue(MoveEventArgs.Count == 0);
-                Assert.IsTrue(RemoveEventArgs.Count == 0);
-            }
-
-            #endregion
-
-            private List<NotifyCollectionChangedEventArgsEx<string>> ReplaceEventArgs =>
-                Impl[nameof(NotifyCollectionChangedAction.Replace)];
-
-            private List<NotifyCollectionChangedEventArgsEx<string>> AddEventArgs =>
-                Impl[nameof(NotifyCollectionChangedAction.Add)];
-
-            private List<NotifyCollectionChangedEventArgsEx<string>> RemoveEventArgs =>
-                Impl[nameof(NotifyCollectionChangedAction.Remove)];
-
-            private List<NotifyCollectionChangedEventArgsEx<string>> ResetEventArgs =>
-                Impl[nameof(NotifyCollectionChangedAction.Reset)];
-
-            private List<NotifyCollectionChangedEventArgsEx<string>> MoveEventArgs =>
-                Impl[nameof(NotifyCollectionChangedAction.Move)];
-
-            private void Clear()
-            {
-                Impl.Clear();
-                Impl.Add(nameof(NotifyCollectionChangedAction.Replace),
-                    new List<NotifyCollectionChangedEventArgsEx<string>>());
-                Impl.Add(nameof(NotifyCollectionChangedAction.Add),
-                    new List<NotifyCollectionChangedEventArgsEx<string>>());
-                Impl.Add(nameof(NotifyCollectionChangedAction.Remove),
-                    new List<NotifyCollectionChangedEventArgsEx<string>>());
-                Impl.Add(nameof(NotifyCollectionChangedAction.Reset),
-                    new List<NotifyCollectionChangedEventArgsEx<string>>());
-                Impl.Add(nameof(NotifyCollectionChangedAction.Move),
-                    new List<NotifyCollectionChangedEventArgsEx<string>>());
+                public int Count => throw new NotImplementedException();
+                public Func<int, StubModel> MakeDefaultItem  => throw new NotImplementedException();
+                public IWodiLibListValidator<StubModel> Validator  => throw new NotImplementedException();
+                public IEnumerable<StubModel> GetRangeCore(int index, int count) => throw new NotImplementedException();
+                public void SetRangeCore(int index, IEnumerable<StubModel> items) => throw new NotImplementedException();
+                public void InsertRangeCore(int index, IEnumerable<StubModel> items) => throw new NotImplementedException();
+                public void OverwriteCore(int index, IEnumerable<StubModel> items) => throw new NotImplementedException();
+                public void MoveRangeCore(int oldIndex, int newIndex, int count) => throw new NotImplementedException();
+                public void RemoveRangeCore(int index, int count) => throw new NotImplementedException();
+                public void AdjustLengthCore(int length) => throw new NotImplementedException();
+                public void ResetCore(IEnumerable<StubModel> items) => throw new NotImplementedException();
+                public void ClearCore() => throw new NotImplementedException();
+                public bool ItemEquals(IEnumerable<StubModel>? other) => throw new NotImplementedException();
+                #endregion
+                // @formatter:on
             }
         }
 
-        /// <summary>
-        ///     Contains, IndexOf テスト用の IEqualityComparer。
-        ///     文字列を数値に変換して、1の位のみ比較する。
-        /// </summary>
-        private class TestStringComparer : IEqualityComparer<string>
+        private static class ExtendedListTestTemplate
         {
-            public bool Equals(string x, string y)
+            public static void AssertValidatorCalledMethodHistory(
+                InitInstance.TestListForImplementations list,
+                params string[] expectedValidationCalled
+            )
             {
-                int.TryParse(x, out var xResult);
-                int.TryParse(y, out var yResult);
-
-                return xResult % 10 == yResult % 10;
+                TestTemplateWithMock.AssertEqualsCalledMemberHistory(list.ValidatorMock, expectedValidationCalled);
             }
 
-            public int GetHashCode(string obj)
-                => obj.GetHashCode();
+            public static void AssertSimpleListCalledMethodHistory(
+                InitInstance.TestListForImplementations list,
+                params string[] expectedSimpleListCalled
+            )
+            {
+                TestTemplateWithMock.AssertEqualsCalledMemberHistory(list.SimpleListMock, expectedSimpleListCalled);
+            }
         }
     }
 }

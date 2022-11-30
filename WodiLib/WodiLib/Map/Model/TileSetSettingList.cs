@@ -90,5 +90,10 @@ namespace WodiLib.Map
 
             return result.ToArray();
         }
+
+        public override bool ItemEquals(TileSetSettingList? other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

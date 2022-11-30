@@ -7,7 +7,8 @@
 // ========================================
 
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 
 namespace WodiLib.Sys.Collections
 {
@@ -16,54 +17,48 @@ namespace WodiLib.Sys.Collections
     /// </summary>
     /// <remarks>
     ///     <para>
-    ///         <see cref="IReadOnlyList{T}"/> のメソッドと <see cref="ObservableCollection{T}"/> の機能を融合した機能。
-    ///         <see cref="ObservableCollection{T}"/> のCRUD各種処理に範囲指定バージョン（XXXRange メソッド）を追加している。
-    ///         それ以外にもいくつかメソッドを追加している。
+    ///         <see cref="IReadOnlyList{T}"/> のメソッドと ObservableCollection の機能を融合した機能。
     ///     </para>
     ///     <para>
-    ///         <see cref="ObservableCollection{T}"/> とは異なり、
-    ///         <typeparamref name="TOut"/> が変更通知を行うクラスだった場合、
-    ///         通知を受け取ると自身の "Items[]" プロパティ変更通知を行う。
-    ///     </para>
-    /// </remarks>
-    /// <typeparam name="TIn">リスト要素入力型</typeparam>
-    /// <typeparam name="TOut">リスト要素出力型</typeparam>
-    public interface IReadOnlyExtendedList<TIn, TOut> :
-        IReadableList<TOut>,
-        INotifiableCollectionChange<TOut>,
-        IContainerCreatable,
-        IEqualityComparable<IReadOnlyExtendedList<TIn, TOut>>
-        where TOut : TIn
-    {
-        /// <summary>
-        ///     現在のオブジェクトが、同じ型の別のリストと同値であるかどうかを示す。
-        /// </summary>
-        /// <param name="other">比較対象</param>
-        /// <param name="itemComparer">比較対象との比較に使用する比較処理</param>
-        /// <typeparam name="TOther">比較対象型。</typeparam>
-        /// <returns>
-        ///     同値 または 同一 である場合 <see langword="true"/>。
-        /// </returns>
-        public bool ItemEquals<TOther>(IEnumerable<TOther>? other, IEqualityComparer<TOther>? itemComparer = null);
-    }
-
-    /// <summary>
-    ///     WodiLib 独自読み取り専用リストインタフェース
-    /// </summary>
-    /// <remarks>
-    ///     <para>
-    ///         <see cref="IReadOnlyList{T}"/> のメソッドと <see cref="ObservableCollection{T}"/> の機能を融合した機能。
-    ///         <see cref="ObservableCollection{T}"/> のCRUD各種処理に範囲指定バージョン（XXXRange メソッド）を追加している。
-    ///         それ以外にもいくつかメソッドを追加している。
-    ///     </para>
-    ///     <para>
-    ///         <see cref="ObservableCollection{T}"/> とは異なり、
     ///         <typeparamref name="T"/> が変更通知を行うクラスだった場合、
     ///         通知を受け取ると自身の "Items[]" プロパティ変更通知を行う。
     ///     </para>
     /// </remarks>
     /// <typeparam name="T">リスト要素型</typeparam>
-    public interface IReadOnlyExtendedList<T> : IReadOnlyExtendedList<T, T>
+    public interface IReadOnlyExtendedList<T> :
+        IReadOnlyList<T>,
+        IReadOnlyModelBase<IReadOnlyExtendedList<T>>,
+        INotifyCollectionChanged
     {
+        /// <inheritdoc cref="ExtendedListInterfaceExtension.GetRange{T}"/>
+        public IEnumerable<T> GetRange(int index, int count);
+
+        /// <summary>
+        ///     インデクサによる取得の検証処理。
+        /// </summary>
+        /// <inheritdoc cref="IReadOnlyList{T}.this" path="param|exception[cref='ArgumentOutOfRangeException']"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateGet(int index);
+
+        /// <summary>
+        ///     <see cref="GetRange"/> メソッドの検証処理。
+        /// </summary>
+        /// <inheritdoc cref="GetRange" path="param|exception"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public void ValidateGetRange(int index, int count);
+
+        /// <summary>
+        ///     インデクサによる取得処理中核。
+        /// </summary>
+        /// <inheritdoc cref="IReadOnlyList{T}.this" path="param"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public T GetCore(int index);
+        
+        /// <summary>
+        ///     <see cref="GetRange"/> メソッド処理中核。
+        /// </summary>
+        /// <inheritdoc cref="GetRange" path="param"/>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        public IEnumerable<T> GetRangeCore(int index, int count);
     }
 }

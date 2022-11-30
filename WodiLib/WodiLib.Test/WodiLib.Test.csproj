@@ -7,7 +7,7 @@
 
     <RootNamespace>WodiLib.Test</RootNamespace>
 
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
 
     <AssemblyName>WodiLib.Test</AssemblyName>
 
@@ -72,6 +72,13 @@
 
   <ItemGroup>
     <None Remove="Database\**" />
+    <None Remove="Cmn\**" />
+    <None Remove="Common\**" />
+    <None Remove="Event\**" />
+    <None Remove="Ini\**" />
+    <None Remove="IO\**" />
+    <None Remove="Map\**" />
+    <None Remove="Project\**" />
   </ItemGroup>
 
 </Project>

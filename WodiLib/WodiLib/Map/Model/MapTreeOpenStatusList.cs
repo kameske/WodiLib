@@ -90,5 +90,10 @@ namespace WodiLib.Map
 
             return result.ToArray();
         }
+
+        public override bool ItemEquals(MapTreeOpenStatusList? other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

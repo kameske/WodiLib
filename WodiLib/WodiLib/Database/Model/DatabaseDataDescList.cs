@@ -62,8 +62,10 @@ namespace WodiLib.Database
         /// <param name="valuesList">値リスト</param>
         /// <exception cref="ArgumentNullException">dataNameList, valuesList が null の場合</exception>
         /// <exception cref="ArgumentException">dataNameListとvaluesListの要素数が異なる場合</exception>
-        internal DatabaseDataDescList(DataNameList dataNameList,
-            DBItemValuesList valuesList)
+        internal DatabaseDataDescList(
+            DataNameList dataNameList,
+            DBItemValuesList valuesList
+        )
             : this(DatabaseDataDescCreator.CreateEnumerableDatabaseDataDesc(dataNameList, valuesList))
         {
         }
@@ -73,7 +75,7 @@ namespace WodiLib.Database
         /// </summary>
         private void StartObserveListEvent()
         {
-            CollectionChanging += OnCollectionChanging;
+            // CollectionChanging += OnCollectionChanging;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -133,7 +135,8 @@ namespace WodiLib.Database
         {
             e.ExecuteByAction<DatabaseDataDesc>(
                 replaceAction: OnPreSetItem,
-                addAction: OnPreInsertItem);
+                addAction: OnPreInsertItem
+            );
         }
 
         /// <summary>
@@ -143,8 +146,11 @@ namespace WodiLib.Database
         /// <param name="oldItems">更新前要素</param>
         /// <param name="newItems">更新後要素</param>
         /// <exception cref="InvalidOperationException">値型情報が一致しない場合場合</exception>
-        private void OnPreSetItem(int index, IEnumerable<DatabaseDataDesc> oldItems,
-            IEnumerable<DatabaseDataDesc> newItems)
+        private void OnPreSetItem(
+            int index,
+            IEnumerable<DatabaseDataDesc> oldItems,
+            IEnumerable<DatabaseDataDesc> newItems
+        )
         {
             if (Count <= 1) return;
             newItems.ForEach(item => DBItemValueListValidationHelper.ItemTypeIsSame(this[0], item));
@@ -163,5 +169,10 @@ namespace WodiLib.Database
         }
 
         #endregion
+
+        public override bool ItemEquals(DatabaseDataDescList? other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

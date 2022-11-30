@@ -29,13 +29,16 @@ namespace WodiLib.Sys
         /// <exception cref="PropertyAccessException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void ValidatePropertyAccess([DoesNotReturnIf(true)] bool isThrow,
-            string reason)
+        public static void ValidatePropertyAccess(
+            [DoesNotReturnIf(true)] bool isThrow,
+            string reason
+        )
         {
             if (!isThrow) return;
 
             throw new PropertyAccessException(
-                ErrorMessage.NotAccess(reason));
+                ErrorMessage.NotAccess(reason)
+            );
         }
 
         /// <summary>
@@ -51,7 +54,25 @@ namespace WodiLib.Sys
             if (!isThrow) return;
 
             throw new PropertyNullException(
-                ErrorMessage.NotNull(itemName));
+                ErrorMessage.NotNull(itemName)
+            );
+        }
+
+        /// <summary>
+        ///     列挙子に <see langword="null"/> が含まれないことを検証する際の例外処理。
+        /// </summary>
+        /// <param name="isThrow">検証結果</param>
+        /// <param name="itemName">検証項目名</param>
+        /// <exception cref="PropertyNullException">
+        ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
+        /// </exception>
+        public static void ValidatePropertyItemsHasNotNull([DoesNotReturnIf(true)] bool isThrow, string itemName)
+        {
+            if (!isThrow) return;
+
+            throw new PropertyNullException(
+                ErrorMessage.NotNullInList(itemName)
+            );
         }
 
         #endregion
@@ -73,7 +94,8 @@ namespace WodiLib.Sys
             if (!isThrow) return;
 
             throw new ArgumentNullException(
-                ErrorMessage.NotNull(itemName));
+                ErrorMessage.NotNull(itemName)
+            );
         }
 
         /// <summary>
@@ -89,7 +111,8 @@ namespace WodiLib.Sys
             if (!isThrow) return;
 
             throw new ArgumentException(
-                ErrorMessage.NotEmpty(itemName));
+                ErrorMessage.NotEmpty(itemName)
+            );
         }
 
         /// <summary>
@@ -105,7 +128,8 @@ namespace WodiLib.Sys
             if (!isThrow) return;
 
             throw new ArgumentNullException(
-                ErrorMessage.NotNullInList(itemName));
+                ErrorMessage.NotNullInList(itemName)
+            );
         }
 
         #endregion
@@ -122,13 +146,18 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void ValidateArgumentValueGreaterOrEqual([DoesNotReturnIf(true)] bool isThrow,
-            string itemName, IntOrStr limit, int itemValue)
+        public static void ValidateArgumentValueGreaterOrEqual(
+            [DoesNotReturnIf(true)] bool isThrow,
+            string itemName,
+            IntOrStr limit,
+            int itemValue
+        )
         {
             if (!isThrow) return;
 
             throw new ArgumentOutOfRangeException(
-                ErrorMessage.GreaterOrEqual(itemName, limit, itemValue));
+                ErrorMessage.GreaterOrEqual(itemName, limit, itemValue)
+            );
         }
 
         /// <summary>
@@ -142,13 +171,19 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void ValidateArgumentValueRange([DoesNotReturnIf(true)] bool isThrow,
-            string itemName, int target, IntOrStr min, IntOrStr max)
+        public static void ValidateArgumentValueRange(
+            [DoesNotReturnIf(true)] bool isThrow,
+            string itemName,
+            int target,
+            IntOrStr min,
+            IntOrStr max
+        )
         {
             if (!isThrow) return;
 
             throw new ArgumentOutOfRangeException(
-                ErrorMessage.OutOfRange(itemName, min, max, target));
+                ErrorMessage.OutOfRange(itemName, min, max, target)
+            );
         }
 
         /// <summary>
@@ -160,13 +195,39 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void ValidateArgumentNotEqual([DoesNotReturnIf(true)] bool isThrow,
-            string itemName, string otherName)
+        public static void ValidateArgumentNotEqual(
+            [DoesNotReturnIf(true)] bool isThrow,
+            string itemName,
+            string otherName
+        )
         {
             if (!isThrow) return;
 
             throw new ArgumentException(
-                ErrorMessage.NotEqual(itemName, otherName));
+                ErrorMessage.NotEqual(itemName, otherName)
+            );
+        }
+
+        /// <summary>
+        ///     同値検証時の例外処理。
+        /// </summary>
+        /// <param name="isThrow">検証結果</param>
+        /// <param name="itemName">検証項目名</param>
+        /// <param name="item">比較項目</param>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
+        /// </exception>
+        public static void ValidateArgumentNotMatch(
+            [DoesNotReturnIf(true)] bool isThrow,
+            string itemName,
+            IntOrStr item
+        )
+        {
+            if (!isThrow) return;
+
+            throw new ArgumentException(
+                ErrorMessage.NotMatch(itemName, item)
+            );
         }
 
         /// <summary>
@@ -178,13 +239,17 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void ValidateArgumentNotMatch([DoesNotReturnIf(true)] bool isThrow,
-            string itemName, IEnumerable<IntOrStr> items)
+        public static void ValidateArgumentNotMatch(
+            [DoesNotReturnIf(true)] bool isThrow,
+            string itemName,
+            IEnumerable<IntOrStr> items
+        )
         {
             if (!isThrow) return;
 
             throw new ArgumentException(
-                ErrorMessage.NotMatch(itemName, items));
+                ErrorMessage.NotMatch(itemName, items)
+            );
         }
 
         /// <summary>
@@ -196,13 +261,17 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentNewLineException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void ValidateArgumentNotNewLine([DoesNotReturnIf(true)] bool isThrow,
-            string itemName, string value)
+        public static void ValidateArgumentNotNewLine(
+            [DoesNotReturnIf(true)] bool isThrow,
+            string itemName,
+            string value
+        )
         {
             if (!isThrow) return;
 
             throw new ArgumentNewLineException(
-                ErrorMessage.NotNewLine(itemName, value));
+                ErrorMessage.NotNewLine(itemName, value)
+            );
         }
 
         /// <summary>
@@ -214,13 +283,17 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentNewLineException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void ValidateArgumentNotRegex([DoesNotReturnIf(true)] bool isThrow,
-            string value, Regex regex)
+        public static void ValidateArgumentNotRegex(
+            [DoesNotReturnIf(true)] bool isThrow,
+            string value,
+            Regex regex
+        )
         {
             if (!isThrow) return;
 
             throw new ArgumentNewLineException(
-                ErrorMessage.StringNotMatchRegex(value, regex));
+                ErrorMessage.StringNotMatchRegex(value, regex)
+            );
         }
 
         /// <summary>
@@ -231,13 +304,16 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void ValidateOverDataSize([DoesNotReturnIf(true)] bool isThrow,
-            int maxSize)
+        public static void ValidateOverDataSize(
+            [DoesNotReturnIf(true)] bool isThrow,
+            int maxSize
+        )
         {
             if (!isThrow) return;
 
             throw new ArgumentException(
-                ErrorMessage.OverDataSize(maxSize));
+                ErrorMessage.OverDataSize(maxSize)
+            );
         }
 
         #endregion
@@ -253,13 +329,17 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void ValidateListRange([DoesNotReturnIf(true)] bool isThrow,
-            string indexArgName, string countArgName)
+        public static void ValidateListRange(
+            [DoesNotReturnIf(true)] bool isThrow,
+            string indexArgName,
+            string countArgName
+        )
         {
             if (!isThrow) return;
 
             throw new ArgumentException(
-                $"{indexArgName}および{countArgName}が有効な範囲を示していません。");
+                $"{indexArgName}および{countArgName}が有効な範囲を示していません。"
+            );
         }
 
         /// <summary>
@@ -275,7 +355,8 @@ namespace WodiLib.Sys
             if (!isThrow) return;
 
             throw new InvalidOperationException(
-                ErrorMessage.NotExecute($"{itemName}の要素が0個のため"));
+                ErrorMessage.NotExecute($"{itemName}の要素が0個のため")
+            );
         }
 
         /// <summary>
@@ -287,13 +368,17 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void ValidateListMaxItemCount([DoesNotReturnIf(true)] bool isThrow,
-            string itemName, int limit)
+        public static void ValidateListMaxItemCount(
+            [DoesNotReturnIf(true)] bool isThrow,
+            string itemName,
+            int limit
+        )
         {
             if (!isThrow) return;
 
             throw new ArgumentException(
-                ErrorMessage.OverListLength(limit, itemName));
+                ErrorMessage.OverListLength(limit, itemName)
+            );
         }
 
         /// <summary>
@@ -305,13 +390,17 @@ namespace WodiLib.Sys
         /// <exception cref="InvalidOperationException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void ValidateListMinItemCount([DoesNotReturnIf(true)] bool isThrow,
-            string itemName, int limit)
+        public static void ValidateListMinItemCount(
+            [DoesNotReturnIf(true)] bool isThrow,
+            string itemName,
+            int limit
+        )
         {
             if (!isThrow) return;
 
             throw new ArgumentException(
-                ErrorMessage.UnderListLength(limit, itemName));
+                ErrorMessage.UnderListLength(limit, itemName)
+            );
         }
 
         #endregion
@@ -326,13 +415,16 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void ValidateTwoDimListInnerItemLength([DoesNotReturnIf(true)] bool isThrow,
-            int rowNum)
+        public static void ValidateTwoDimListInnerItemLength(
+            [DoesNotReturnIf(true)] bool isThrow,
+            int rowNum
+        )
         {
             if (!isThrow) return;
 
             throw new ArgumentException(
-                $"{rowNum}行目の要素数が基準要素数と異なります。");
+                $"{rowNum}行目の要素数が基準要素数と異なります。"
+            );
         }
 
         #endregion
@@ -348,13 +440,17 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void ValidateArgumentUnsuitable([DoesNotReturnIf(true)] bool isThrow,
-            string itemName, object item)
+        public static void ValidateArgumentUnsuitable(
+            [DoesNotReturnIf(true)] bool isThrow,
+            string itemName,
+            object item
+        )
         {
             if (!isThrow) return;
 
             throw new ArgumentException(
-                ErrorMessage.Unsuitable(itemName, item));
+                ErrorMessage.Unsuitable(itemName, item)
+            );
         }
 
         #endregion
@@ -369,13 +465,16 @@ namespace WodiLib.Sys
         /// <exception cref="ArgumentException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void ValidateArgumentNotExecute([DoesNotReturnIf(true)] bool isThrow,
-            Func<string> message)
+        public static void ValidateArgumentNotExecute(
+            [DoesNotReturnIf(true)] bool isThrow,
+            Func<string> message
+        )
         {
             if (!isThrow) return;
 
             throw new ArgumentException(
-                ErrorMessage.NotExecute(message()));
+                ErrorMessage.NotExecute(message())
+            );
         }
 
         #endregion
@@ -392,13 +491,16 @@ namespace WodiLib.Sys
         /// <exception cref="InvalidOperationException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void InvalidOperationIf([DoesNotReturnIf(true)] bool isThrow,
-            Func<string> message)
+        public static void InvalidOperationIf(
+            [DoesNotReturnIf(true)] bool isThrow,
+            Func<string> message
+        )
         {
             if (!isThrow) return;
 
             throw new InvalidOperationException(
-                ErrorMessage.NotExecute(message()));
+                ErrorMessage.NotExecute(message())
+            );
         }
 
         /// <summary>
@@ -409,15 +511,18 @@ namespace WodiLib.Sys
         /// <exception cref="InvalidCastException">
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
-        public static void InvalidCastIf([DoesNotReturnIf(true)] bool isThrow,
-            Func<string>? message = null)
+        public static void InvalidCastIf(
+            [DoesNotReturnIf(true)] bool isThrow,
+            Func<string>? message = null
+        )
         {
             if (!isThrow) return;
 
             if (message is not null)
             {
                 throw new InvalidCastException(
-                    ErrorMessage.NotCast(message()));
+                    ErrorMessage.NotCast(message())
+                );
             }
 
             throw new InvalidCastException();
@@ -455,8 +560,11 @@ namespace WodiLib.Sys
         ///     <paramref name="isThrow"/> が <see langword="true"/> の場合。
         /// </exception>
         /// <typeparam name="T">エラーなし時の偽装戻り値</typeparam>
-        public static T ObsoleteMethod<T>([DoesNotReturnIf(true)] bool isThrow,
-            Type caller, [CallerMemberName] string targetName = "")
+        public static T ObsoleteMethod<T>(
+            [DoesNotReturnIf(true)] bool isThrow,
+            Type caller,
+            [CallerMemberName] string targetName = ""
+        )
         {
             if (!isThrow) return default!;
 

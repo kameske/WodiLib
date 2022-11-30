@@ -49,7 +49,8 @@ namespace WodiLib.Common
         /// <exception cref="ArgumentNullException">itemsがnullの場合</exception>
         /// <exception cref="InvalidOperationException">itemsの要素数がMaxLengthを超える場合</exception>
         public CommonEventSpecialArgCaseList(
-            IEnumerable<CommonEventSpecialArgCase> items) : base(items)
+            IEnumerable<CommonEventSpecialArgCase> items
+        ) : base(items)
         {
         }
 
@@ -107,6 +108,21 @@ namespace WodiLib.Common
         public CommonEventSpecialArgCase? GetForCaseNumber(int caseNumber)
         {
             return this.FirstOrDefault(x => x.CaseNumber == caseNumber);
+        }
+
+        public override bool ItemEquals(CommonEventSpecialArgCaseList? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ItemEquals(IReadOnlyExtendedList<CommonEventSpecialArgCase>? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyExtendedList<CommonEventSpecialArgCase> DeepClone()
+        {
+            throw new NotImplementedException();
         }
     }
 }

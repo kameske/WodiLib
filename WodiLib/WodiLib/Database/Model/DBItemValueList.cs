@@ -19,7 +19,9 @@ namespace WodiLib.Database
     /// </summary>
     [Serializable]
     public class DBItemValueList : RestrictedCapacityList<DBItemValue, DBItemValueList>,
-        IFixedLengthDBItemValueList, IReadOnlyDBItemValueList, IEquatable<DBItemValueList>,
+        IFixedLengthDBItemValueList,
+        IReadOnlyDBItemValueList,
+        IEquatable<DBItemValueList>,
         IChildDBItemValueList
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -72,7 +74,8 @@ namespace WodiLib.Database
         {
             if (outer is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(outer)));
+                    ErrorMessage.NotNull(nameof(outer))
+                );
 
             // イニシャライズでItems.Count = 0 の状態で到達する可能性がある
             if (outer.Count == 0) return;
@@ -93,15 +96,19 @@ namespace WodiLib.Database
         ///     itemsの要素数、
         ///     またはitems中の値種別が不適切な場合
         /// </exception>
-        internal DBItemValueList(DBItemValuesList outer,
-            IEnumerable<DBItemValue> items)
+        internal DBItemValueList(
+            DBItemValuesList outer,
+            IEnumerable<DBItemValue> items
+        )
         {
             if (outer is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(outer)));
+                    ErrorMessage.NotNull(nameof(outer))
+                );
             if (items is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(items)));
+                    ErrorMessage.NotNull(nameof(items))
+                );
 
             // validationのためにここで追加する。validation後には追加しない。
             this.AddRange(items);
@@ -173,8 +180,9 @@ namespace WodiLib.Database
         {
             if (HasRelationship)
                 throw new InvalidOperationException(
-                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
-                    $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
+                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。"
+                    + $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。"
+                );
 
             base.Add(item);
         }
@@ -195,8 +203,9 @@ namespace WodiLib.Database
         {
             if (HasRelationship)
                 throw new InvalidOperationException(
-                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
-                    $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
+                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。"
+                    + $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。"
+                );
 
             base.AddRange(items);
         }
@@ -216,8 +225,9 @@ namespace WodiLib.Database
         {
             if (HasRelationship)
                 throw new InvalidOperationException(
-                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
-                    $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
+                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。"
+                    + $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。"
+                );
 
             base.Insert(index, item);
         }
@@ -240,8 +250,9 @@ namespace WodiLib.Database
         {
             if (HasRelationship)
                 throw new InvalidOperationException(
-                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
-                    $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
+                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。"
+                    + $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。"
+                );
 
             base.InsertRange(index, items);
         }
@@ -261,8 +272,9 @@ namespace WodiLib.Database
         {
             if (HasRelationship)
                 throw new InvalidOperationException(
-                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
-                    $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
+                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。"
+                    + $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。"
+                );
 
             base.Move(oldIndex, newIndex);
         }
@@ -284,10 +296,16 @@ namespace WodiLib.Database
         {
             if (HasRelationship)
                 throw new InvalidOperationException(
-                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
-                    $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
+                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。"
+                    + $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。"
+                );
 
             base.MoveRange(oldIndex, newIndex, count);
+        }
+
+        public void Reset()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -303,10 +321,12 @@ namespace WodiLib.Database
         {
             if (HasRelationship)
                 throw new InvalidOperationException(
-                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
-                    $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
+                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。"
+                    + $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。"
+                );
 
-            return base.Remove(item);
+            return false;
+            // return base.Remove(item);
         }
 
         /// <summary>
@@ -322,10 +342,11 @@ namespace WodiLib.Database
         {
             if (HasRelationship)
                 throw new InvalidOperationException(
-                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
-                    $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
+                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。"
+                    + $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。"
+                );
 
-            base.RemoveAt(index);
+            base.Remove(index);
         }
 
         /// <summary>
@@ -343,8 +364,9 @@ namespace WodiLib.Database
         {
             if (HasRelationship)
                 throw new InvalidOperationException(
-                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
-                    $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
+                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。"
+                    + $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。"
+                );
 
             base.RemoveRange(index, count);
         }
@@ -360,8 +382,9 @@ namespace WodiLib.Database
         {
             if (HasRelationship)
                 throw new InvalidOperationException(
-                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
-                    $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
+                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。"
+                    + $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。"
+                );
 
             base.AdjustLength(length);
         }
@@ -374,8 +397,9 @@ namespace WodiLib.Database
         {
             if (HasRelationship)
                 throw new InvalidOperationException(
-                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。" +
-                    $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。");
+                    $"{nameof(DBItemValuesList)}に紐付けされているため、個別の操作はできません。"
+                    + $"紐付けされている{nameof(DBItemValuesList)}を通じて操作してください。"
+                );
 
             base.Clear();
         }
@@ -402,7 +426,7 @@ namespace WodiLib.Database
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return Equals((IReadOnlyExtendedList<DBItemValue>) other);
+            return Equals((IReadOnlyExtendedList<DBItemValue>)other);
         }
 
         /// <summary>
@@ -517,7 +541,7 @@ namespace WodiLib.Database
         /// <exception cref="ArgumentOutOfRangeException">indexが指定範囲外の場合</exception>
         /// <exception cref="InvalidOperationException">削除した結果要素数がMinCapacity未満になる場合</exception>
         void IChildDBItemValueList.RemoveAt(int index)
-            => base.RemoveAt(index);
+            => base.Remove(index);
 
         /// <summary>
         /// 要素の範囲を削除する。
@@ -566,14 +590,31 @@ namespace WodiLib.Database
             var result = new List<byte>();
 
             // 数値項目
-            this.Where(x => x.Type == DBItemType.Int).ToList()
+            this.Where(x => x.Type == DBItemType.Int)
+                .ToList()
                 .ForEach(x => result.AddRange(x.ToBinary()));
 
             // 文字列項目
-            this.Where(x => x.Type == DBItemType.String).ToList()
+            this.Where(x => x.Type == DBItemType.String)
+                .ToList()
                 .ForEach(x => result.AddRange(x.ToBinary()));
 
             return result.ToArray();
+        }
+
+        public override bool ItemEquals(DBItemValueList? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ItemEquals(IFixedLengthList<DBItemValue>? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IFixedLengthList<DBItemValue> DeepClone()
+        {
+            throw new NotImplementedException();
         }
     }
 }

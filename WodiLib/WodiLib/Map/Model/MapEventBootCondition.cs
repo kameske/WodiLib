@@ -6,7 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 using WodiLib.Cmn;
@@ -18,8 +17,8 @@ namespace WodiLib.Map
     /// <summary>
     ///     マップイベント起動条件実装クラス
     /// </summary>
-    [Serializable]
-    public class MapEventBootCondition : ModelBase<MapEventBootCondition>, ISerializable
+    public class MapEventBootCondition : ModelBase<MapEventBootCondition>,
+        ISerializable
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Private Constant
@@ -57,7 +56,8 @@ namespace WodiLib.Map
             {
                 if (value is null)
                     throw new PropertyNullException(
-                        ErrorMessage.NotNull(nameof(Operation)));
+                        ErrorMessage.NotNull(nameof(Operation))
+                    );
                 operation = value;
                 NotifyPropertyChanged();
             }
@@ -112,12 +112,9 @@ namespace WodiLib.Map
         {
             byte result = 0x00;
             result += Operation.Code;
-
-            if (UseCondition)
-            {
-                result += FlgHasCondition;
-            }
-
+            result += (byte)(UseCondition
+                ? FlgHasCondition
+                : 0x00);
             return result;
         }
 

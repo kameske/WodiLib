@@ -18,7 +18,8 @@ namespace WodiLib.Ini
     /// ショートカット位置リスト
     /// </summary>
     public class ShortCutPositionList : FixedLengthList<ShortCutPosition, ShortCutPositionList>,
-        IFixedLengthShortCutPositionList, IEquatable<ShortCutPositionList>
+        IFixedLengthShortCutPositionList,
+        IEquatable<ShortCutPositionList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -42,17 +43,19 @@ namespace WodiLib.Ini
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public ShortCutPositionList() : this(((Func<List<ShortCutPosition>>) (() =>
-        {
-            var result = new List<ShortCutPosition>();
-
-            for (var i = 0; i < Capacity; i++)
+        public ShortCutPositionList() : this(
+            ((Func<List<ShortCutPosition>>)(() =>
             {
-                result.Add(i);
-            }
+                var result = new List<ShortCutPosition>();
 
-            return result;
-        }))())
+                for (var i = 0; i < Capacity; i++)
+                {
+                    result.Add(i);
+                }
+
+                return result;
+            }))()
+        )
         {
         }
 
@@ -106,9 +109,6 @@ namespace WodiLib.Ini
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <inheritdoc/>
-        protected override int GetCapacity() => Capacity;
 
         /// <inheritdoc />
         /// <summary>

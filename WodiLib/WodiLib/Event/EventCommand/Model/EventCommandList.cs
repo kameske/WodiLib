@@ -241,5 +241,10 @@ namespace WodiLib.Event.EventCommand
 
             return result.ToArray();
         }
+
+        public override bool ItemEquals(EventCommandList? other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -17,7 +17,8 @@ namespace WodiLib.Map
     /// <summary>
     /// マップチップ列
     /// </summary>
-    public class MapChipColumns : RestrictedCapacityList<MapChip, MapChipColumns>, IFixedLengthMapChipColumns,
+    public class MapChipColumns : RestrictedCapacityList<MapChip, MapChipColumns>,
+        IFixedLengthMapChipColumns,
         IEquatable<MapChipColumns>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -63,18 +64,21 @@ namespace WodiLib.Map
         {
             if (chips is null)
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNull(nameof(chips)));
+                    ErrorMessage.NotNull(nameof(chips))
+                );
 
             var chipArr = chips.ToArray();
 
             if (chipArr.HasNullItem())
                 throw new ArgumentNullException(
-                    ErrorMessage.NotNullInList(nameof(chips)));
+                    ErrorMessage.NotNullInList(nameof(chips))
+                );
 
             var length = chipArr.Length;
             if (length < MinCapacity || MaxCapacity < length)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(chips), MinCapacity, MaxCapacity, length));
+                    ErrorMessage.OutOfRange(nameof(chips), MinCapacity, MaxCapacity, length)
+                );
 
             AdjustLength(length);
             for (var i = 0; i < length; i++)
@@ -142,7 +146,7 @@ namespace WodiLib.Map
         {
             if (ReferenceEquals(this, other)) return true;
             if (ReferenceEquals(null, other)) return false;
-            return Equals((RestrictedCapacityList<MapChip, MapChipColumns>) other);
+            return Equals((RestrictedCapacityList<MapChip, MapChipColumns>)other);
         }
 
 
@@ -157,6 +161,21 @@ namespace WodiLib.Map
             if (ReferenceEquals(null, other)) return false;
             if (!(other is MapChipColumns casted)) return false;
             return Equals(casted);
+        }
+
+        /// <inheritdoc />
+        public bool ItemEquals(IFixedLengthList<MapChip>? other)
+            => ItemEquals((IEnumerable<MapChip>?)other);
+
+        public override bool ItemEquals(MapChipColumns? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        IFixedLengthList<MapChip> IDeepCloneable<IFixedLengthList<MapChip>>.DeepClone()
+        {
+            throw new NotImplementedException();
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -179,9 +198,14 @@ namespace WodiLib.Map
             var result = new List<byte>();
 
             foreach (var chip in this)
-                result.AddRange(((int) chip).ToBytes(Endian.Woditor));
+                result.AddRange(((int)chip).ToBytes(Endian.Woditor));
 
             return result.ToArray();
+        }
+
+        public void Reset()
+        {
+            throw new NotImplementedException();
         }
     }
 }

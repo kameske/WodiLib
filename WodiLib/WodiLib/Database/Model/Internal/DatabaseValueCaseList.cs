@@ -108,5 +108,20 @@ namespace WodiLib.Database
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override DatabaseValueCase MakeDefaultItem(int index) => new DatabaseValueCase(0, "");
+
+        public override bool ItemEquals(DatabaseValueCaseList? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ItemEquals(IReadOnlyExtendedList<DatabaseValueCase>? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyExtendedList<DatabaseValueCase> DeepClone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

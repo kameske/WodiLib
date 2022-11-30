@@ -10,7 +10,7 @@ namespace WodiLib.Test.Common.Internal
     [TestFixture]
     public class CommonEventSelfVariableNameListTest
     {
-        private static Logger logger;
+        private static Logger logger = default!;
 
         [SetUp]
         public static void Setup()
@@ -82,9 +82,10 @@ namespace WodiLib.Test.Common.Internal
             var result = new List<CommonEventSelfVariableName>();
             for (var i = 0; i < length; i++)
             {
-                result.Add(hasNullItem && i == length / 2
-                    ? null
-                    : new CommonEventSelfVariableName(i.ToString())
+                result.Add(
+                    hasNullItem && i == length / 2
+                        ? null
+                        : new CommonEventSelfVariableName(i.ToString())
                 );
             }
 

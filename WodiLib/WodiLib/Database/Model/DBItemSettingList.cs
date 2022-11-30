@@ -225,5 +225,20 @@ namespace WodiLib.Database
 
             return result.ToArray();
         }
+
+        public override bool ItemEquals(DBItemSettingList? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ItemEquals(IReadOnlyExtendedList<DBItemSetting>? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyExtendedList<DBItemSetting> DeepClone()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

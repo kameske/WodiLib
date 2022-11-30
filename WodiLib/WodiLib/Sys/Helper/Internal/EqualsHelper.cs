@@ -19,17 +19,17 @@ namespace WodiLib.Sys
         ///     <see langword="null"/> の可能性がある二つのインスタンスを比較する。
         /// </summary>
         /// <remarks>
-        ///     引数 <paramref name="comparer"/> を指定した場合、これを用いて比較処理を行う。
-        ///     指定しなかった場合は独自に <see cref="IEqualityComparer{T}"/> インスタンスを作成する。
+        ///     どちらも <see langword="null"/> ではなかった場合、
+        ///     <ul>
+        ///     <li><typeparamref name="T"/> が <see cref="IEqualityComparable"/> を実装していれば <see cref="IEqualityComparable.ItemEquals"/> による比較を行う</li>
+        ///     <li><typeparamref name="T"/> が <see cref="IEqualityComparable"/> を実装していなければ <see cref="EqualityComparer{T}.Default"/> による比較を行う</li>
+        ///     </ul>
         /// </remarks>
         /// <param name="left">左項</param>
         /// <param name="right">右項</param>
-        /// <param name="comparer">比較処理実施クラスインスタンス</param>
         /// <typeparam name="T">比較インスタンス型</typeparam>
         /// <returns>差項と右項が一致する場合 <see langword="true"/></returns>
-        public static bool NullableEquals<T>(T? left, T? right,
-            IEqualityComparer<T>? comparer = null)
-            where T : IEqualityComparable<T>
+        public static bool NullableEquals<T>(T? left, T? right)
         {
             if (ReferenceEquals(left, right))
             {
@@ -49,8 +49,14 @@ namespace WodiLib.Sys
                 return true;
             }
 
+            // IEqualityComparable が使用できる場合は使用する
+            if (left is IEqualityComparable comparable)
+            {
+                return comparable.ItemEquals(right);
+            }
+
             // EqualityComparer に判断を任せる
-            var useComparer = comparer ?? EqualityComparerFactory.Create<T>();
+            var useComparer = EqualityComparer<T>.Default;
             return useComparer.Equals(left, right!);
         }
     }

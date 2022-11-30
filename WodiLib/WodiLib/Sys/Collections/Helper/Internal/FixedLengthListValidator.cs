@@ -15,83 +15,51 @@ namespace WodiLib.Sys.Collections
     /// <summary>
     ///     IFixedLengthList の基本検証処理実施クラス
     /// </summary>
-    /// <typeparam name="T">リスト要素型</typeparam>
-    internal class FixedLengthListValidator<T> : FixedLengthListValidator<T, T>
+    /// <typeparam name="T">リスト要素入力型</typeparam>
+    internal class FixedLengthListValidator<T> : WodiLibListValidatorTemplate<T>
     {
-        public FixedLengthListValidator(IFixedLengthList<T, T> target, int capacity) : base(target, capacity)
-        {
-        }
-
-        public FixedLengthListValidator(IFixedLengthList<T, T> target, Func<int> capacityGetter) : base(
-            target,
-            capacityGetter
-        )
-        {
-        }
-    }
-
-    /// <summary>
-    ///     IFixedLengthList の基本検証処理実施クラス
-    /// </summary>
-    /// <typeparam name="TIn">リスト要素入力型</typeparam>
-    /// <typeparam name="TOut">リスト要素出力型</typeparam>
-    internal class FixedLengthListValidator<TIn, TOut> : WodiLibListValidatorTemplate<TIn, TOut>
-        where TOut : TIn
-    {
-        protected override IWodiLibListValidator<TIn>? BaseValidator { get; }
-
-        private new IFixedLengthList<TIn, TOut> Target { get; }
+        protected override IWodiLibListValidator<T>? BaseValidator { get; }
 
         private ICapacityGetter Capacity { get; }
 
-        public FixedLengthListValidator(IFixedLengthList<TIn, TOut> target, int capacity) : base(target)
+        public FixedLengthListValidator(IFixedLengthList<T> target, int capacity) : base(
+            new TargetAdapter(target, capacity)
+        )
         {
-            Target = target;
             Capacity = new ICapacityGetter.ForStaticValue(capacity);
-            BaseValidator = new CommonListValidator<TIn, TOut>(target);
+            BaseValidator = new CommonListValidator<T>(target, capacity);
         }
 
-        public FixedLengthListValidator(IFixedLengthList<TIn, TOut> target, Func<int> capacityGetter) : base(target)
+        public FixedLengthListValidator(IFixedLengthList<T> target, Func<int> capacityGetter) : base(
+            new TargetAdapter(target, capacityGetter)
+        )
         {
-            Target = target;
             Capacity = new ICapacityGetter.ForGetter(capacityGetter);
-            BaseValidator = new CommonListValidator<TIn, TOut>(target);
+            BaseValidator = new CommonListValidator<T>(target, capacityGetter);
         }
 
-        public override void Constructor(NamedValue<IEnumerable<TIn>> initItems)
+        public override void Constructor(NamedValue<IEnumerable<T>> initItems)
         {
             BaseValidator?.Constructor(initItems);
             FixedLengthListValidationHelper.ItemCount(initItems.Value.Count(), Capacity.Get());
         }
 
-        public override void Reset(NamedValue<IEnumerable<TIn>> items)
+        public override void Reset(NamedValue<IEnumerable<T>> items)
         {
             BaseValidator?.Reset(items);
             FixedLengthListValidationHelper.ItemCount(items.Value.Count(), Capacity.Get());
         }
 
-        public override void Insert(NamedValue<int> index, NamedValue<TIn> item)
+        public override void Insert(NamedValue<int> index, NamedValue<IEnumerable<T>> items)
             => throw new NotSupportedException();
 
-        public override void Insert(NamedValue<int> index, NamedValue<IEnumerable<TIn>> items)
-            => throw new NotSupportedException();
-
-        public override void Overwrite(NamedValue<int> index, NamedValue<IEnumerable<TIn>> items)
-            => throw new NotSupportedException();
-
-        public override void Remove(NamedValue<TIn?> item)
+        public override void Overwrite(NamedValue<int> index, NamedValue<IEnumerable<T>> items)
             => throw new NotSupportedException();
 
         public override void Remove(NamedValue<int> index, NamedValue<int> count)
             => throw new NotSupportedException();
 
         public override void AdjustLength(NamedValue<int> length)
-            => throw new NotSupportedException();
-
-        public override void AdjustLengthIfShort(NamedValue<int> length)
-            => throw new NotSupportedException();
-
-        public override void AdjustLengthIfLong(NamedValue<int> length)
             => throw new NotSupportedException();
 
         private interface ICapacityGetter

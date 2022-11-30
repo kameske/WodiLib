@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using WodiLib.Sys;
 using WodiLib.Sys.Collections;
 
 namespace WodiLib.Common
@@ -16,7 +15,6 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベントセルフ変数名リスト
     /// </summary>
-    [Serializable]
     public class CommonEventSelfVariableNameList :
         FixedLengthList<CommonEventSelfVariableName, CommonEventSelfVariableNameList>,
         IReadOnlyCommonEventSelfVariableNameList
@@ -56,9 +54,6 @@ namespace WodiLib.Common
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc/>
-        protected override int GetCapacity() => Capacity;
-
         /// <inheritdoc />
         /// <summary>
         /// 格納対象のデフォルトインスタンスを生成する。
@@ -66,10 +61,10 @@ namespace WodiLib.Common
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override CommonEventSelfVariableName MakeDefaultItem(int index) =>
-            new CommonEventSelfVariableName("");
+            new("");
 
         /// <inheritdoc/>
-        protected override IWodiLibListValidator<CommonEventSelfVariableName> MakeValidator()
+        protected override IWodiLibListValidator<CommonEventSelfVariableName> GenerateValidatorForItems()
             => new Validator(this);
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

@@ -113,13 +113,10 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        protected override int GetCapacity() => Capacity;
-
-        /// <inheritdoc />
         protected override string MakeDefaultItem(int index) => "";
 
         /// <inheritdoc />
-        protected override IWodiLibListValidator<string> MakeValidator()
+        protected override IWodiLibListValidator<string> GenerateValidatorForItems()
         {
             return new CustomValidator(this);
         }

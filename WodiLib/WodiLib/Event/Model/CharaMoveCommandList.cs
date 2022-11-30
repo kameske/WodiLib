@@ -151,5 +151,10 @@ namespace WodiLib.Event
         }
 
         #endregion
+
+        public override bool ItemEquals(CharaMoveCommandList? other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

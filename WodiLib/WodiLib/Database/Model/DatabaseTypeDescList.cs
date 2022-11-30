@@ -81,5 +81,10 @@ namespace WodiLib.Database
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override DatabaseTypeDesc MakeDefaultItem(int index) => new DatabaseTypeDesc();
+
+        public override bool ItemEquals(DatabaseTypeDescList? other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -15,7 +15,7 @@ using WodiLib.Sys.Collections;
 namespace WodiLib.Event.EventCommand
 {
     /// <summary>
-    /// 条件（文字列）条件リスト
+    ///     条件（文字列）条件リスト
     /// </summary>
     public class ConditionStringList : FixedLengthList<ConditionStringDesc, ConditionStringList>,
         IModelBase<ConditionStringList>
@@ -25,7 +25,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 容量
+        ///     容量
         /// </summary>
         public static readonly int Capacity = 15;
 
@@ -56,14 +56,14 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         internal ConditionStringList() : base(Capacity)
         {
         }
 
         /// <summary>
-        /// コンストラクタ
+        ///     コンストラクタ
         /// </summary>
         /// <param name="items">初期リスト</param>
         /// <exception cref="TypeInitializationException">派生クラスの設定値が不正な場合</exception>
@@ -81,7 +81,7 @@ namespace WodiLib.Event.EventCommand
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 右辺に数値変数を設定している条件を探し、その最大のインデックスを返す。
+        ///     右辺に数値変数を設定している条件を探し、その最大のインデックスを返す。
         /// </summary>
         /// <returns>右辺に数値変数を設定している条件のインデックス最大値（0～4）</returns>
         public int SearchUseNumberVariableForRightSideMax()
@@ -94,7 +94,7 @@ namespace WodiLib.Event.EventCommand
             return 0;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool ItemEquals(ConditionStringList? other)
         {
             if (ReferenceEquals(this, other)) return true;
@@ -108,16 +108,13 @@ namespace WodiLib.Event.EventCommand
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
-        /// <inheritdoc/>
-        protected override int GetCapacity() => Capacity;
-
         /// <inheritdoc />
         /// <summary>
-        /// 格納対象のデフォルトインスタンスを生成する。
+        ///     格納対象のデフォルトインスタンスを生成する。
         /// </summary>
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override ConditionStringDesc MakeDefaultItem(int index)
-            => new ConditionStringDesc();
+            => new();
     }
 }

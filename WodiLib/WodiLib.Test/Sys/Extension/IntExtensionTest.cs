@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Commons;
 using NUnit.Framework;
 using WodiLib.Sys;
@@ -9,7 +11,7 @@ namespace WodiLib.Test.Sys
     [TestFixture]
     public class IntExtensionTest
     {
-        private static Logger logger;
+        private static Logger logger = default!;
 
         [SetUp]
         public static void Setup()
@@ -222,6 +224,58 @@ namespace WodiLib.Test.Sys
             if (errorOccured) return;
 
             Assert.AreEqual(result, answer);
+        }
+
+        [Test]
+        public static void RangeTest()
+        {
+            var errorOccured = false;
+            IEnumerable<int> result = default!;
+            try
+            {
+                result = 5.Range();
+            }
+            catch
+            {
+                errorOccured = true;
+            }
+
+            Assert.IsFalse(errorOccured);
+
+            var resultArray = result.ToArray();
+
+            Assert.AreEqual(5, resultArray.Length);
+            Assert.AreEqual(0, resultArray[0]);
+            Assert.AreEqual(1, resultArray[1]);
+            Assert.AreEqual(2, resultArray[2]);
+            Assert.AreEqual(3, resultArray[3]);
+            Assert.AreEqual(4, resultArray[4]);
+        }
+
+        [Test]
+        public static void IterateTest()
+        {
+            var errorOccured = false;
+            IEnumerable<string> result = default!;
+            try
+            {
+                result = 5.Iterate(i => $"{(i + 2) * 100}");
+            }
+            catch
+            {
+                errorOccured = true;
+            }
+
+            Assert.IsFalse(errorOccured);
+
+            var resultArray = result.ToArray();
+
+            Assert.AreEqual(5, resultArray.Length);
+            Assert.AreEqual($"{(0 + 2) * 100}", resultArray[0]);
+            Assert.AreEqual($"{(1 + 2) * 100}", resultArray[1]);
+            Assert.AreEqual($"{(2 + 2) * 100}", resultArray[2]);
+            Assert.AreEqual($"{(3 + 2) * 100}", resultArray[3]);
+            Assert.AreEqual($"{(4 + 2) * 100}", resultArray[4]);
         }
     }
 }

@@ -213,5 +213,10 @@ namespace WodiLib.Map
 
             return result.ToArray();
         }
+
+        public override bool ItemEquals(MapChipList? other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

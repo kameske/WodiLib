@@ -33,20 +33,11 @@ namespace WodiLib.Event.EventCommand
                 ListValidationHelper.SelectIndex(index, (nameof(Target.CaseValue), Target.CaseValue));
             }
 
-            public override void Set(NamedValue<int> index, NamedValue<string> item)
-            {
-                BaseValidator!.Set(index, item);
-                ListValidationHelper.SelectIndex(index, (nameof(Target.CaseValue), Target.CaseValue));
-            }
-
             public override void Set(NamedValue<int> index, NamedValue<IEnumerable<string>> items)
             {
                 BaseValidator!.Set(index, items);
                 ListValidationHelper.SelectIndex(index, (nameof(Target.CaseValue), Target.CaseValue));
             }
-
-            public override void Insert(NamedValue<int> index, NamedValue<string> item)
-                => throw new NotSupportedException();
 
             public override void Insert(NamedValue<int> index, NamedValue<IEnumerable<string>> items)
                 => throw new NotSupportedException();
@@ -54,19 +45,10 @@ namespace WodiLib.Event.EventCommand
             public override void Overwrite(NamedValue<int> index, NamedValue<IEnumerable<string>> items)
                 => throw new NotSupportedException();
 
-            public override void Remove(NamedValue<string?> item)
-                => throw new NotSupportedException();
-
             public override void Remove(NamedValue<int> index, NamedValue<int> count)
                 => throw new NotSupportedException();
 
             public override void AdjustLength(NamedValue<int> length)
-                => throw new NotSupportedException();
-
-            public override void AdjustLengthIfShort(NamedValue<int> length)
-                => throw new NotSupportedException();
-
-            public override void AdjustLengthIfLong(NamedValue<int> length)
                 => throw new NotSupportedException();
         }
     }

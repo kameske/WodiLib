@@ -42,7 +42,7 @@ namespace WodiLib.Test.Sys
         private static readonly WodiLibContainerKeyName TestContainerName_UnregisterMethodTest =
             "__wodilib_test_container--unregister_if_not_has_test_";
 
-        private static Logger logger;
+        private static Logger logger = default!;
 
         [SetUp]
         public static void Setup()

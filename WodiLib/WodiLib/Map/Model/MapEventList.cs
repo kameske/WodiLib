@@ -142,12 +142,6 @@ namespace WodiLib.Map
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <inheritdoc />
-        protected override Validators MakeValidator()
-        {
-            return new Validators(new CustomValidator(this), new CustomValidator(this));
-        }
-
-        /// <inheritdoc />
         protected override MapEvent MakeDefaultItem(int index) => new() { MapEventId = index };
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -168,6 +162,11 @@ namespace WodiLib.Map
             }
 
             return result.ToArray();
+        }
+
+        public override bool ItemEquals(MapEventList? other)
+        {
+            throw new NotImplementedException();
         }
     }
 }

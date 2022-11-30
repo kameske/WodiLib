@@ -18,8 +18,12 @@ namespace WodiLib.Cmn
     ///     [SafetyRange(1300000000, 1399999920)]
     ///     システムDB変アドレス値
     /// </summary>
-    [VariableAddress(MinValue = 1300000000, MaxValue = 1399999999,
-        SafetyMinValue = 1300000000, SafetyMaxValue = 1399999920)]
+    [VariableAddress(
+        MinValue = 1300000000,
+        MaxValue = 1399999999,
+        SafetyMinValue = 1300000000,
+        SafetyMaxValue = 1399999920
+    )]
     [VariableAddressGapCalculatable(
         OtherTypes = new[] { typeof(SystemDatabaseAddress), typeof(VariableAddress) }
     )]
@@ -64,14 +68,23 @@ namespace WodiLib.Cmn
         /// <param name="desc">付加情報</param>
         /// <returns>イベントコマンド文字列</returns>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        protected override string ResolveEventCommandString(EventCommandSentenceResolver resolver,
-            EventCommandSentenceType type, EventCommandSentenceResolveDesc? desc)
+        protected override string ResolveEventCommandString(
+            EventCommandSentenceResolver resolver,
+            EventCommandSentenceType type,
+            EventCommandSentenceResolveDesc? desc
+        )
         {
             var dataName = resolver.GetDatabaseDataName(DBKind.System, TypeId, DataId).Item2;
             var itemName = resolver.GetDatabaseItemName(DBKind.System, TypeId, ItemId).Item2;
 
-            return string.Format(EventCommandSentenceFormat,
-                TypeId, DataId, ItemId, dataName, itemName);
+            return string.Format(
+                EventCommandSentenceFormat,
+                TypeId,
+                DataId,
+                ItemId,
+                dataName,
+                itemName
+            );
         }
     }
 }

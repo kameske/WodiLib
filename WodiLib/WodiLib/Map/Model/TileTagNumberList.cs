@@ -17,7 +17,8 @@ namespace WodiLib.Map
     ///     タイルタグ番号リストクラス
     /// </summary>
     public class TileTagNumberList : RestrictedCapacityList<TileTagNumber, TileTagNumberList>,
-        IFixedLengthTileTagNumberList, IEquatable<TileTagNumberList>
+        IFixedLengthTileTagNumberList,
+        IEquatable<TileTagNumberList>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Public Constant
@@ -94,6 +95,20 @@ namespace WodiLib.Map
             return ItemEquals(other);
         }
 
+        /// <inheritdoc/>
+        public bool ItemEquals(IFixedLengthList<TileTagNumber>? other)
+            => Equals(other);
+
+        public override bool ItemEquals(TileTagNumberList? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        IFixedLengthList<TileTagNumber> IDeepCloneable<IFixedLengthList<TileTagNumber>>.DeepClone()
+        {
+            throw new NotImplementedException();
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -112,6 +127,11 @@ namespace WodiLib.Map
                 result.Add(tagId.RawValue);
 
             return result.ToArray();
+        }
+
+        public void Reset()
+        {
+            throw new NotImplementedException();
         }
     }
 }

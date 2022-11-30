@@ -6,6 +6,7 @@
 // see LICENSE file
 // ========================================
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,18 +15,34 @@ namespace WodiLib.Sys.Collections
     /// <summary>
     ///     リスト編集メソッドの引数汎用検証処理実施クラス
     /// </summary>
-    /// <typeparam name="TIn">リスト要素入力型</typeparam>
-    /// <typeparam name="TOut">リスト要素出力型</typeparam>
-    internal class CommonListValidator<TIn, TOut> : WodiLibListValidatorTemplate<TIn, TOut>
-        where TOut : TIn
+    /// <typeparam name="T">リスト要素入力型</typeparam>
+    internal class CommonListValidator<T> : WodiLibListValidatorTemplate<T>
     {
-        protected override IWodiLibListValidator<TIn>? BaseValidator => null;
+        protected override IWodiLibListValidator<T>? BaseValidator => null;
 
-        public CommonListValidator(IReadOnlyExtendedList<TIn, TOut> target) : base(target)
+        public CommonListValidator(IRestrictedCapacityList<T> target) : base(new TargetAdapter(target))
         {
         }
 
-        public override void Constructor(NamedValue<IEnumerable<TIn>> initItems)
+        public CommonListValidator(IFixedLengthList<T> target, int capacity) : base(
+            new TargetAdapter(target, capacity)
+        )
+        {
+        }
+
+        public CommonListValidator(IFixedLengthList<T> target, Func<int> capacityGetter) : base(
+            new TargetAdapter(target, capacityGetter)
+        )
+        {
+        }
+
+        public CommonListValidator(IEnumerable<T> target, int minCapacity, int maxCapacity) : base(
+            new TargetAdapter(target, minCapacity, maxCapacity)
+        )
+        {
+        }
+
+        public override void Constructor(NamedValue<IEnumerable<T>> initItems)
         {
             ThrowHelper.ValidateArgumentNotNull(initItems.Value is null, initItems.Name);
             ListValidationHelper.ItemsHasNotNull(initItems);
@@ -39,13 +56,7 @@ namespace WodiLib.Sys.Collections
             ListValidationHelper.Range(index, count, namedCount);
         }
 
-        public override void Set(NamedValue<int> index, NamedValue<TIn> item)
-        {
-            ThrowHelper.ValidateArgumentNotNull(item.Value is null, item.Name);
-            ListValidationHelper.SelectIndex(index, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
-        }
-
-        public override void Set(NamedValue<int> index, NamedValue<IEnumerable<TIn>> items)
+        public override void Set(NamedValue<int> index, NamedValue<IEnumerable<T>> items)
         {
             var namedCount = ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count);
             ListValidationHelper.SelectIndex(index, namedCount);
@@ -58,20 +69,14 @@ namespace WodiLib.Sys.Collections
             );
         }
 
-        public override void Insert(NamedValue<int> index, NamedValue<TIn> item)
-        {
-            ThrowHelper.ValidateArgumentNotNull(item.Value is null, item.Name);
-            ListValidationHelper.InsertIndex(index, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
-        }
-
-        public override void Insert(NamedValue<int> index, NamedValue<IEnumerable<TIn>> items)
+        public override void Insert(NamedValue<int> index, NamedValue<IEnumerable<T>> items)
         {
             ThrowHelper.ValidateArgumentNotNull(items.Value is null, items.Name);
             ListValidationHelper.ItemsHasNotNull(items);
             ListValidationHelper.InsertIndex(index, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
         }
 
-        public override void Overwrite(NamedValue<int> index, NamedValue<IEnumerable<TIn>> items)
+        public override void Overwrite(NamedValue<int> index, NamedValue<IEnumerable<T>> items)
         {
             ThrowHelper.ValidateArgumentNotNull(items.Value is null, items.Name);
             ListValidationHelper.ItemsHasNotNull(items);
@@ -107,27 +112,7 @@ namespace WodiLib.Sys.Collections
             );
         }
 
-        public override void AdjustLengthIfShort(NamedValue<int> length)
-        {
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(
-                length.Value < 0,
-                nameof(length),
-                0,
-                length.Value
-            );
-        }
-
-        public override void AdjustLengthIfLong(NamedValue<int> length)
-        {
-            ThrowHelper.ValidateArgumentValueGreaterOrEqual(
-                length.Value < 0,
-                nameof(length),
-                0,
-                length.Value
-            );
-        }
-
-        public override void Reset(NamedValue<IEnumerable<TIn>> items)
+        public override void Reset(NamedValue<IEnumerable<T>> items)
         {
             ThrowHelper.ValidateArgumentNotNull(items.Value is null, items.Name);
             ListValidationHelper.ItemsHasNotNull(items);

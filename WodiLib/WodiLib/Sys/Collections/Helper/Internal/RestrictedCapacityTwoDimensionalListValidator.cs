@@ -12,25 +12,22 @@ using System.Linq;
 namespace WodiLib.Sys.Collections
 {
     internal class
-        RestrictedCapacityTwoDimensionalListValidator<TInRow, TOutRow, TInItem, TOutItem> :
-            WodiLibTwoDimensionalListValidator<TInRow, TOutRow,
-                TInItem, TOutItem>
-        where TInRow : IEnumerable<TInItem>
-        where TOutRow : IEnumerable<TOutItem>, TInRow
-        where TOutItem : TInItem
+        RestrictedCapacityTwoDimensionalListValidator<TRow, TItem> :
+            WodiLibTwoDimensionalListValidatorTemplate<TRow, TItem>
+        where TRow : IEnumerable<TItem>
     {
-        protected override ITwoDimensionalListValidator<TInRow, TInItem> BaseValidator { get; }
+        protected override ITwoDimensionalListValidator<TRow, TItem> BaseValidator { get; }
 
         public RestrictedCapacityTwoDimensionalListValidator(
-            ITwoDimensionalList<TInRow, TOutRow, TInItem, TOutItem> target,
+            ITwoDimensionalList<TRow, TItem> target,
             string rowName,
             string columnName
         ) : base(target, rowName, columnName)
         {
-            BaseValidator = new CommonTwoDimensionalListValidator<TInRow, TOutRow, TInItem, TOutItem>(target);
+            BaseValidator = new CommonTwoDimensionalListValidator<TRow, TItem>(target);
         }
 
-        public override void Constructor(NamedValue<IEnumerable<TInRow>> initItems)
+        public override void Constructor(NamedValue<IEnumerable<TRow>> initItems)
         {
 #if DEBUG
             RestrictedCapacityTwoDimensionalListValidationHelper.CapacityConfig(
@@ -42,7 +39,7 @@ namespace WodiLib.Sys.Collections
 #endif
             BaseValidator.Constructor(initItems);
             RestrictedCapacityTwoDimensionalListValidationHelper.RowAndColCount(
-                initItems.Value.Cast<IEnumerable<TInItem>>().ToTwoDimensionalArray(),
+                initItems.Value.Cast<IEnumerable<TItem>>().ToTwoDimensionalArray(),
                 Target.GetMinRowCapacity(),
                 Target.GetMaxRowCapacity(),
                 Target.GetMinColumnCapacity(),
@@ -52,18 +49,7 @@ namespace WodiLib.Sys.Collections
             );
         }
 
-        public override void InsertRow(NamedValue<int> rowIndex, NamedValue<TInRow> items)
-        {
-            BaseValidator.InsertRow(rowIndex, items);
-
-            RestrictedCapacityTwoDimensionalListValidationHelper.ItemMaxCount(
-                Target.RowCount + 1,
-                Target.GetMaxRowCapacity(),
-                RowName
-            );
-        }
-
-        public override void InsertRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<TInRow>> items)
+        public override void InsertRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<TRow>> items)
         {
             BaseValidator.InsertRow(rowIndex, items);
 
@@ -78,20 +64,9 @@ namespace WodiLib.Sys.Collections
             );
         }
 
-        public override void InsertColumn(NamedValue<int> columnIndex, NamedValue<IEnumerable<TInItem>> items)
-        {
-            BaseValidator.InsertColumn(columnIndex, items);
-
-            RestrictedCapacityTwoDimensionalListValidationHelper.ItemMaxCount(
-                Target.ColumnCount + 1,
-                Target.GetMaxColumnCapacity(),
-                ColumnName
-            );
-        }
-
         public override void InsertColumn(
             NamedValue<int> columnIndex,
-            NamedValue<IEnumerable<IEnumerable<TInItem>>> items
+            NamedValue<IEnumerable<IEnumerable<TItem>>> items
         )
         {
             BaseValidator.InsertColumn(columnIndex, items);
@@ -107,11 +82,11 @@ namespace WodiLib.Sys.Collections
             );
         }
 
-        public override void OverwriteRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<TInRow>> items)
+        public override void OverwriteRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<TRow>> items)
         {
             BaseValidator.OverwriteRow(rowIndex, items);
 
-            var itemArrays = items.Cast<IEnumerable<IEnumerable<TInItem>>>().Value.ToTwoDimensionalArray();
+            var itemArrays = items.Cast<IEnumerable<IEnumerable<TItem>>>().Value.ToTwoDimensionalArray();
 
             if (Target.ColumnCount == 0 && itemArrays.Length > 0)
             {
@@ -139,7 +114,7 @@ namespace WodiLib.Sys.Collections
 
         public override void OverwriteColumn(
             NamedValue<int> columnIndex,
-            NamedValue<IEnumerable<IEnumerable<TInItem>>> items
+            NamedValue<IEnumerable<IEnumerable<TItem>>> items
         )
         {
             BaseValidator.OverwriteColumn(columnIndex, items);
@@ -194,11 +169,11 @@ namespace WodiLib.Sys.Collections
             );
         }
 
-        public override void Reset(NamedValue<IEnumerable<TInRow>> initItems)
+        public override void Reset(NamedValue<IEnumerable<TRow>> initItems)
         {
             BaseValidator.Reset(initItems);
 
-            var itemTwoDimArray = initItems.Value.Cast<IEnumerable<TInItem>>().ToTwoDimensionalArray();
+            var itemTwoDimArray = initItems.Value.Cast<IEnumerable<TItem>>().ToTwoDimensionalArray();
 
             RestrictedCapacityTwoDimensionalListValidationHelper.RowAndColCount(
                 itemTwoDimArray,
@@ -209,19 +184,6 @@ namespace WodiLib.Sys.Collections
                 RowName,
                 ColumnName
             );
-        }
-    }
-
-    internal class RestrictedCapacityTwoDimensionalListValidator<TRow, TItem> :
-        RestrictedCapacityTwoDimensionalListValidator<TRow, TRow, TItem, TItem>
-        where TRow : IEnumerable<TItem>
-    {
-        public RestrictedCapacityTwoDimensionalListValidator(
-            ITwoDimensionalList<TRow, TRow, TItem, TItem> target,
-            string rowName,
-            string columnName
-        ) : base(target, rowName, columnName)
-        {
         }
     }
 }

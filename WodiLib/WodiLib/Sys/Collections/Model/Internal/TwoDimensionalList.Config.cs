@@ -11,17 +11,16 @@ using System.Collections.Generic;
 
 namespace WodiLib.Sys.Collections
 {
-    internal partial class TwoDimensionalList<TRow, TRowInternal, TItem>
+    internal partial class TwoDimensionalList<TRow, TItem>
     {
         /// <summary>
         ///     二次元リスト設定
         /// </summary>
         public record Config(
-            Func<IEnumerable<TItem>, TRowInternal> RowFactoryFromItems,
-            Func<TRow, TRowInternal> ToInternalRow,
+            Func<IEnumerable<TItem>, TRow> RowFactoryFromItems,
             Func<int, int, TItem> ItemFactory,
             Func<TItem, TItem, bool> ItemComparer,
-            Func<TwoDimensionalList<TRow, TRowInternal, TItem>, ITwoDimensionalListValidator<TRow, TItem>?>
+            Func<TwoDimensionalList<TRow, TItem>, ITwoDimensionalListValidator<TRow, TItem>>
                 ValidatorFactory
         )
         {

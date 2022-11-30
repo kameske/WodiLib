@@ -34,22 +34,10 @@ namespace WodiLib.Map
                 DuplicateEventId(initItems.Value.ToArray());
             }
 
-            public override void Set(NamedValue<int> index, NamedValue<MapEvent> item)
-            {
-                BaseValidator!.Set(index, item);
-                DuplicateSetEventId(index.Value, item.Value);
-            }
-
             public override void Set(NamedValue<int> index, NamedValue<IEnumerable<MapEvent>> item)
             {
                 BaseValidator!.Set(index, item);
                 DuplicateSetEventId(index.Value, item.Value.ToArray());
-            }
-
-            public override void Insert(NamedValue<int> index, NamedValue<MapEvent> items)
-            {
-                BaseValidator!.Insert(index, items);
-                DuplicateAddEventId(Target, items.Value);
             }
 
             public override void Insert(NamedValue<int> index, NamedValue<IEnumerable<MapEvent>> items)

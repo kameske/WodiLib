@@ -13,7 +13,7 @@ using System.Linq;
 namespace WodiLib.Sys.Collections
 {
     /// <summary>
-    ///     <see cref="ExtendedList{T}.Overwrite_Impl"/> の実行パラメータ
+    ///     <see cref="IExtendedList{T}.OverwriteCore"/> の実行パラメータ
     /// </summary>
     internal record OverwriteParam<T>
     {
@@ -36,7 +36,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        ///     <see cref="ExtendedList{T}.Overwrite_Impl"/> の実行パラメータFactoryクラス
+        ///     <see cref="IExtendedList{T}.OverwriteCore"/> の実行パラメータFactoryクラス
         /// </summary>
         public static class Factory
         {

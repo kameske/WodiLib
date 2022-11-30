@@ -95,5 +95,10 @@ namespace WodiLib.Ini
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override Extension MakeDefaultItem(int index) => new Extension("");
+
+        public override bool ItemEquals(ExtensionList? other)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -17,7 +17,6 @@ namespace WodiLib.Common
     /// <summary>
     /// コモンイベントリスト
     /// </summary>
-    [Serializable]
     public class CommonEventList : RestrictedCapacityList<CommonEvent, CommonEventList>,
         IReadOnlyCommonEventList
     {
@@ -83,7 +82,8 @@ namespace WodiLib.Common
             const int min = 0;
             if (commonEventId < min || max < commonEventId)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(commonEventId), min, max, commonEventId));
+                    ErrorMessage.OutOfRange(nameof(commonEventId), min, max, commonEventId)
+                );
 
             var targetCommonEvent = this[commonEventId];
 
@@ -103,14 +103,17 @@ namespace WodiLib.Common
         ///     または必要なときに desc が null の場合
         /// </exception>
         public IReadOnlyList<EventCommandSentenceInfo> GetCommonEventEventCommandSentenceInfoList(
-            CommonEventId commonEventId, EventCommandSentenceResolver resolver,
-            EventCommandSentenceResolveDesc? desc)
+            CommonEventId commonEventId,
+            EventCommandSentenceResolver resolver,
+            EventCommandSentenceResolveDesc? desc
+        )
         {
             var max = Count;
             const int min = 0;
             if (commonEventId < min || max < commonEventId)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange(nameof(commonEventId), min, max, commonEventId));
+                    ErrorMessage.OutOfRange(nameof(commonEventId), min, max, commonEventId)
+                );
 
             var targetCommonEvent = this[commonEventId];
 
@@ -151,6 +154,21 @@ namespace WodiLib.Common
             }
 
             return result.ToArray();
+        }
+
+        public bool ItemEquals(IReadOnlyExtendedList<CommonEvent>? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool ItemEquals(CommonEventList? other)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IReadOnlyExtendedList<CommonEvent> DeepClone()
+        {
+            throw new NotImplementedException();
         }
     }
 }

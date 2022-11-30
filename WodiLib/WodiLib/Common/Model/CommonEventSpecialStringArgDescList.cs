@@ -1,6 +1,13 @@
+// ========================================
+// Project Name : WodiLib
+// File Name    : CommonEventSpecialNumberArgDescList.cs
+//
+// MIT License Copyright(c) 2019 kameske
+// see LICENSE file
+// ========================================
+
 using System;
 using System.Collections.Generic;
-using WodiLib.Sys;
 using WodiLib.Sys.Collections;
 
 namespace WodiLib.Common
@@ -46,9 +53,6 @@ namespace WodiLib.Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Protected Override Method
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-
-        /// <inheritdoc/>
-        protected override int GetCapacity() => Capacity;
 
         /// <inheritdoc />
         /// <summary>
