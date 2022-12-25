@@ -16,26 +16,26 @@ namespace WodiLib.Cmn
     /// <summary>
     ///     変数アドレス値の +, - 演算子オーバーロード定義属性
     /// </summary>
-    public class VariableAddressAddAndSubtractableAttribute : BinaryOperateAttribute
+    internal class VariableAddressAddAndSubtractableAttribute : BinaryOperateAttribute
     {
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValue(BinaryOperationType.AddAndSubtract)]
         public override BinaryOperationType Operation { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValue(typeof(int))]
         public override Type InnerCastType { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValue(BinaryOperateOtherPosition.Right)]
         public override BinaryOperateOtherPosition OtherPosition { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValue(typeof(int))]
         public override Type ReturnType { get; init; } = default!;
 
-        /// <inheritDoc/>
-        [DefaultValueAttribute(OperationResultReturnCodeType.ImplicitCast)]
+        /// <inheritdoc/>
+        [DefaultValue(OperationResultReturnCodeType.ImplicitCast)]
         public override OperationResultReturnCodeType ReturnCodeType { get; init; } = default!;
     }
 }

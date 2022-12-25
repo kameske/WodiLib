@@ -33,7 +33,7 @@ namespace WodiLib.SourceGenerator.Core.Templates.FromAttribute
         /// <summary>
         ///     ロガー
         /// </summary>
-        public virtual ILogger? Logger { get; } = new DefaultLogger();
+        public virtual ILogger? Logger { get; private set; } = new DefaultLogger();
 
         private IPropertyValueKeyResolver? keyResolver;
 
@@ -89,7 +89,8 @@ namespace WodiLib.SourceGenerator.Core.Templates.FromAttribute
         /// <summary>
         ///     属性プロパティデフォルト値ディクショナリ
         /// </summary>
-        private protected AnalyzedPropertyValueDictionary PropertyDefaultValueDict { get; } = new();
+        private protected AnalyzedPropertyValueDictionary PropertyDefaultValueDict { get; private set; }
+            = new();
 
         /// <inheritdoc/>
         public virtual void AddSource(GeneratorExecutionContext context,
@@ -132,10 +133,11 @@ namespace WodiLib.SourceGenerator.Core.Templates.FromAttribute
                 catch (ArgumentException)
                 {
                     Logger?.AppendLine($"[WARNING] Duplicate HintName {hintName}");
-                    /* TODO: 複数プロジェクトから利用すると重複登録される？ */
                     // throw new DuplicateHintNameException(ex, hintName);
                 }
             }
+
+            ClearLocalState();
         }
 
         /// <inheritdoc/>
@@ -329,6 +331,15 @@ namespace WodiLib.SourceGenerator.Core.Templates.FromAttribute
             resultBuilder.Append(objTypeText);
 
             return resultBuilder.ToString();
+        }
+
+        private void ClearLocalState()
+        {
+            Logger = new DefaultLogger();
+            keyResolver = null;
+            syntaxWorkResultDict = null;
+            propertyValuesDict = null;
+            PropertyDefaultValueDict = new AnalyzedPropertyValueDictionary();
         }
     }
 }

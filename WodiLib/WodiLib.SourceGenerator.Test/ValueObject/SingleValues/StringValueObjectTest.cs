@@ -101,12 +101,14 @@ namespace WodiLib.SourceGenerator.Test.ValueObject.SingleValues
         [TestCase("", null, false)]
         [TestCase("abc", null, false)]
         [TestCase("abc", "ab\nc", false)]
-        public static void EqualsSameClassTest(string left, string right, bool answer)
+        public static void EqualsSameClassTest(string left, string? right, bool answer)
         {
             /* 文字列としての比較が正しく行われること */
 
             var leftInstance = new SimpleStringValueObject(left);
-            var rightInstance = right is null ? null : new SimpleStringValueObject(right);
+            var rightInstance = right is null
+                ? null
+                : new SimpleStringValueObject(right);
 
             var equalsResult = leftInstance.Equals(rightInstance);
 
@@ -116,12 +118,14 @@ namespace WodiLib.SourceGenerator.Test.ValueObject.SingleValues
         [TestCase(ObjectType.Simple, "abc", true)]
         [TestCase(ObjectType.Simple, null, false)]
         [TestCase(ObjectType.Utf8, "abc", false)]
-        public static void EqualsOtherClassTest(ObjectType rightType, string right, bool answer)
+        public static void EqualsOtherClassTest(ObjectType rightType, string? right, bool answer)
         {
             /* 異なる文字列値オブジェクトクラスの場合同じ文字列でも一致しないと判定されること */
 
             var leftInstance = new SimpleStringValueObject("abc");
-            object? rightInstance = right is null ? null : CreateStringValueObject(rightType, right);
+            object? rightInstance = right is null
+                ? null
+                : CreateStringValueObject(rightType, right);
 
             var equalsResult = leftInstance.Equals(rightInstance);
 
@@ -145,12 +149,14 @@ namespace WodiLib.SourceGenerator.Test.ValueObject.SingleValues
         [TestCase("", null, false)]
         [TestCase("abc", null, false)]
         [TestCase("abc", "ab\nc", false)]
-        public static void OperationEqualTest(string left, string right, bool answer)
+        public static void OperationEqualTest(string left, string? right, bool answer)
         {
             /* 文字列としての比較が正しく行われること */
 
             var leftInstance = new SimpleStringValueObject(left);
-            var rightInstance = right is null ? null : new SimpleStringValueObject(right);
+            var rightInstance = right is null
+                ? null
+                : new SimpleStringValueObject(right);
 
             var equalsResult = leftInstance == rightInstance;
 
@@ -163,12 +169,14 @@ namespace WodiLib.SourceGenerator.Test.ValueObject.SingleValues
         [TestCase("", null, true)]
         [TestCase("abc", null, true)]
         [TestCase("abc", "ab\nc", true)]
-        public static void OperationNotEqualTest(string left, string right, bool answer)
+        public static void OperationNotEqualTest(string left, string? right, bool answer)
         {
             /* 文字列としての比較が正しく行われること */
 
             var leftInstance = new SimpleStringValueObject(left);
-            var rightInstance = right is null ? null : new SimpleStringValueObject(right);
+            var rightInstance = right is null
+                ? null
+                : new SimpleStringValueObject(right);
 
             var equalsResult = leftInstance != rightInstance;
 
@@ -179,12 +187,14 @@ namespace WodiLib.SourceGenerator.Test.ValueObject.SingleValues
         [TestCase("aabbcc", "abc")]
         [TestCase("abc", "aabbcc")]
         [TestCase("abc", null)]
-        public static void CompareToTest(string left, string right)
+        public static void CompareToTest(string left, string? right)
         {
             /* 文字列としての比較が正しく行われること */
 
             var leftInstance = new ComparableStringValueObject(left);
-            var rightInstance = right is null ? null : new ComparableStringValueObject(right);
+            var rightInstance = right is null
+                ? null
+                : new ComparableStringValueObject(right);
 
             var expected = string.Compare(left, right, StringComparison.Ordinal);
 
@@ -226,8 +236,10 @@ namespace WodiLib.SourceGenerator.Test.ValueObject.SingleValues
     {
     }
 
-    [StringValueObject(Pattern = "abcdefg",
-        PatternOption = RegexOptions.IgnoreCase)]
+    [StringValueObject(
+        Pattern = "abcdefg",
+        PatternOption = RegexOptions.IgnoreCase
+    )]
     public partial class AToGStringValueObject
     {
     }
@@ -237,15 +249,22 @@ namespace WodiLib.SourceGenerator.Test.ValueObject.SingleValues
     {
     }
 
-    [StringValueObject(ByteLengthEncoding = "Shift_JIS",
-        ByteMaxLength = 10, ByteMinLength = 5,
-        MaxLength = 8, MinLength = 4)]
+    [StringValueObject(
+        ByteLengthEncoding = "Shift_JIS",
+        ByteMaxLength = 10,
+        ByteMinLength = 5,
+        MaxLength = 8,
+        MinLength = 4
+    )]
     public partial class SJisStringValueObject
     {
     }
 
-    [StringValueObject(ByteLengthEncoding = "utf-8",
-        ByteMaxLength = 13, MinLength = 1)]
+    [StringValueObject(
+        ByteLengthEncoding = "utf-8",
+        ByteMaxLength = 13,
+        MinLength = 1
+    )]
     public partial class Utf8StringValueObject
     {
     }

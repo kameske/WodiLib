@@ -15,7 +15,7 @@ namespace WodiLib.Sys
     ///     汎用複数値オブジェクトの設定属性
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class CommonMultiValueObjectAttribute : MultiValueObjectAttribute
+    internal class CommonMultiValueObjectAttribute : MultiValueObjectAttribute
     {
     }
 }

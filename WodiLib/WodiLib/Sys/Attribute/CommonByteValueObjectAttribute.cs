@@ -16,13 +16,13 @@ namespace WodiLib.Sys
     ///     汎用単一byte値オブジェクトの設定属性
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class CommonByteValueObjectAttribute : ByteValueObjectAttribute
+    internal class CommonByteValueObjectAttribute : ByteValueObjectAttribute
     {
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValueAttribute(CastType.Implicit)]
         public override CastType CastType { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValueAttribute(true)]
         public override bool IsComparable { get; init; } = default!;
     }

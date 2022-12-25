@@ -17,27 +17,28 @@ namespace WodiLib.Cmn
     /// 変数アドレス値クラス自動生成用属性
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class VariableAddressAttribute : IntValueObjectAttribute
+    internal class VariableAddressAttribute : IntValueObjectAttribute
     {
-        /// <inheritDoc/>
-        [DefaultValueAttribute(CastType.Implicit)]
+        /// <inheritdoc/>
+        [DefaultValue(CastType.Implicit)]
         public override CastType CastType { get; init; } = default!;
 
-        /// <inheritDoc/>
-        [DefaultValueAttribute(true)]
+        /// <inheritdoc/>
+        [DefaultValue(true)]
         public override bool IsComparable { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValue(
             IntegralNumericOperation.IncreaseAndDecreasable
-            | IntegralNumericOperation.Compare)]
+            | IntegralNumericOperation.Compare
+        )]
         public override IntegralNumericOperation Operations { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValue(new[] { typeof(int) })]
         public override Type[]? AddAndSubtractTypes { get; init; }
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValue(new[] { typeof(VariableAddress) })]
         public override Type[]? CompareOtherTypes { get; init; }
     }

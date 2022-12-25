@@ -87,11 +87,14 @@ namespace WodiLib.SourceGenerator.Core.SourceAddables.PostInitialize
         /// <returns>SourceGenerator出力ソースコード</returns>
         private string Source()
         {
-            return SourceTextFormatter.Format(new SourceFormatTarget[]
+            return SourceTextFormatter.Format(
+                new SourceFormatTarget[]
                 {
                     $@"namespace {NameSpace}",
                     $@"{{"
-                }, SourceTextFormatter.Format(IndentSpace,
+                },
+                SourceTextFormatter.Format(
+                    IndentSpace,
                     new SourceFormatTarget[]
                     {
                         $@"/// <summary>",
@@ -102,13 +105,21 @@ namespace WodiLib.SourceGenerator.Core.SourceAddables.PostInitialize
                     new SourceFormatTarget[]
                     {
                         $@"[System.AttributeUsage({AttributeTargets.ToSource()}, Inherited = {Inherited.ToString().ToLower()}, AllowMultiple = {AllowMultiple.ToString().ToLower()})]",
-                        $@"public class {AttributeName} : System.Attribute",
+                        $@"internal class {AttributeName} : System.Attribute",
                         $@"{{"
                     },
-                    SourceTextFormatter.ReduceMany(IndentSpace, Properties().Select(prop =>
-                            prop.ToSourceFormatTargets()).ToArray()
-                    ).TrimLastEmptyLine()
-                ), new SourceFormatTarget[]
+                    SourceTextFormatter.ReduceMany(
+                            IndentSpace,
+                            Properties()
+                                .Select(
+                                    prop =>
+                                        prop.ToSourceFormatTargets()
+                                )
+                                .ToArray()
+                        )
+                        .TrimLastEmptyLine()
+                ),
+                new SourceFormatTarget[]
                 {
                     $@"{__}}}",
                     $@"}}"
@@ -121,13 +132,15 @@ namespace WodiLib.SourceGenerator.Core.SourceAddables.PostInitialize
         {
             if (Remarks is null) return Array.Empty<SourceFormatTarget>();
 
-            return SourceTextFormatter.Format(IndentSpace,
+            return SourceTextFormatter.Format(
+                IndentSpace,
                 new SourceFormatTarget[]
                 {
                     $@"/// <remarks>",
                     $@"/// {__}{Remarks.TrimNewLine()}",
                     $@"/// </remarks>"
-                });
+                }
+            );
         }
 
         /// <returns>デフォルト値ディクショナリ</returns>
@@ -141,21 +154,24 @@ namespace WodiLib.SourceGenerator.Core.SourceAddables.PostInitialize
                                      .ToList()
                                  ?? new List<IPropertySymbol>();
 
-            return Properties().ToDictionary(
-                prop => prop.Name,
-                prop =>
-                {
-                    var defaultValueForAttr = attrProperties.FirstOrDefault(attrProp
-                        => attrProp.Name.Equals(prop.Name)
-                    )?.GetDefaultValue();
-                    if (defaultValueForAttr.HasValue)
+            return Properties()
+                .ToDictionary(
+                    prop => prop.Name,
+                    prop =>
                     {
-                        return new PropertyValue(defaultValueForAttr);
-                    }
+                        var defaultValueForAttr = attrProperties.FirstOrDefault(
+                                attrProp
+                                    => attrProp.Name.Equals(prop.Name)
+                            )
+                            ?.GetDefaultValue();
+                        if (defaultValueForAttr.HasValue)
+                        {
+                            return new PropertyValue(defaultValueForAttr);
+                        }
 
-                    return prop.SourceTextDefaultValue(false);
-                }
-            );
+                        return prop.SourceTextDefaultValue(false);
+                    }
+                );
         }
     }
 }

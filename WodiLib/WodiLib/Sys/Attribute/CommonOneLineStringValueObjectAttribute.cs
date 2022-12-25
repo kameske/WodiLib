@@ -19,13 +19,13 @@ namespace WodiLib.Sys
     ///     この属性はデフォルト設定で改行コードを許さない。
     /// </remarks>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class CommonOneLineStringValueObjectAttribute : StringValueObjectAttribute
+    internal class CommonOneLineStringValueObjectAttribute : StringValueObjectAttribute
     {
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValueAttribute(CastType.Implicit)]
         public override CastType CastType { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValueAttribute(false)]
         public override bool IsAllowNewLine { get; init; } = default!;
     }

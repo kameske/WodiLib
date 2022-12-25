@@ -19,9 +19,9 @@ namespace WodiLib.Sys
     ///     この属性はデフォルト設定で何の制限も設けない。
     /// </remarks>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class CommonAnyStringValueObjectAttribute : StringValueObjectAttribute
+    internal class CommonAnyStringValueObjectAttribute : StringValueObjectAttribute
     {
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValueAttribute(CastType.Implicit)]
         public override CastType CastType { get; init; } = default!;
     }

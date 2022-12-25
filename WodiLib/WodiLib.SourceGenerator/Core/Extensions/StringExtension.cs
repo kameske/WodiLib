@@ -6,7 +6,6 @@
 // see LICENSE file
 // ========================================
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,11 +48,14 @@ namespace WodiLib.SourceGenerator.Core.Extensions
         /// <param name="prefix">付与するPrefix</param>
         /// <returns>処理結果</returns>
         public static string PrefixIfNotEmpty(this string src, string prefix)
-            => src.IsEmpty() ? src : $"{prefix}{src}";
+            => src.IsEmpty()
+                ? src
+                : $"{prefix}{src}";
 
         /// <returns>改行コードで分割した文字列リスト</returns>
         public static IEnumerable<string> Lines(this string src, bool filterEmpty)
-            => src.Replace("\r\n", "\n").Split('\n')
+            => src.Replace("\r\n", "\n")
+                .Split('\n')
                 .Where(line => !filterEmpty || !line.IsEmpty());
 
         /// <returns>名前空間部分を圧縮した文字列</returns>

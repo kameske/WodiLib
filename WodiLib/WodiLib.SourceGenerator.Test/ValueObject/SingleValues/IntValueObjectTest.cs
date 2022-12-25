@@ -328,7 +328,7 @@ namespace WodiLib.SourceGenerator.Test.ValueObject.SingleValues
     {
     }
 
-    public class ExtendIntValueObjectAttribute : IntValueObjectAttribute
+    internal class ExtendIntValueObjectAttribute : IntValueObjectAttribute
     {
         [DefaultValue(9998)] public override int MaxValue { get; init; }
     }
@@ -341,7 +341,7 @@ namespace WodiLib.SourceGenerator.Test.ValueObject.SingleValues
 
 namespace TestNameSpace
 {
-    public class ExExtendIntValueObjectAttribute : ExtendIntValueObjectAttribute
+    internal class ExExtendIntValueObjectAttribute : ExtendIntValueObjectAttribute
     {
         [DefaultValue(-20)] public override int MinValue { get; init; }
     }

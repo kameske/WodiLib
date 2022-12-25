@@ -16,32 +16,32 @@ namespace WodiLib.Sys
     ///     汎用単一int値オブジェクトの設定属性
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class CommonIntValueObjectAttribute : IntValueObjectAttribute
+    internal class CommonIntValueObjectAttribute : IntValueObjectAttribute
     {
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValueAttribute(CastType.Implicit)]
         public override CastType CastType { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValueAttribute(true)]
         public override bool IsComparable { get; init; } = default!;
 
-        // /// <inheritDoc/>
+        // /// <inheritdoc/>
         // [DefaultValueAttribute(
         //     IntegralNumericOperation.IncreaseAndDecreasable
         //     | IntegralNumericOperation.Compare
         // )]
         // public override IntegralNumericOperation Operations { get; init; } = default!;
         //
-        // /// <inheritDoc/>
+        // /// <inheritdoc/>
         // [DefaultValueAttribute(new[]{typeof(int)})]
         // public override Type[]? AddAndSubtractTypes { get; init; } = default!;
         //
-        // /// <inheritDoc/>
+        // /// <inheritdoc/>
         // [DefaultValueAttribute(new[]{typeof(int)})]
         // public override Type[]? MultipleAndDivideOtherTypes { get; init; } = default!;
         //
-        // /// <inheritDoc/>
+        // /// <inheritdoc/>
         // [DefaultValueAttribute(new[] { typeof(int) })]
         // public override Type[]? CompareOtherTypes { get; init; } = default!;
     }

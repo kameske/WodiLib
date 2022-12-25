@@ -16,29 +16,29 @@ namespace WodiLib.Cmn
     /// <summary>
     ///     変数アドレス値の差分計算演算子オーバーロード定義属性
     /// </summary>
-    public class VariableAddressGapCalculatableAttribute : BinaryOperateAttribute
+    internal class VariableAddressGapCalculatableAttribute : BinaryOperateAttribute
     {
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValue(BinaryOperationType.Subtract)]
         public override BinaryOperationType Operation { get; init; } = default!;
 
-        /// <inheritDoc/>
-        [DefaultValueAttribute(new[] { typeof(VariableAddress) })]
+        /// <inheritdoc/>
+        [DefaultValue(new[] { typeof(VariableAddress) })]
         public override Type[] OtherTypes { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValue(typeof(int))]
         public override Type InnerCastType { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValue(BinaryOperateOtherPosition.Right)]
         public override BinaryOperateOtherPosition OtherPosition { get; init; } = default!;
 
-        /// <inheritDoc/>
-        [DefaultValueAttribute(typeof(int))]
+        /// <inheritdoc/>
+        [DefaultValue(typeof(int))]
         public override Type ReturnType { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValue(OperationResultReturnCodeType.ImplicitCast)]
         public override OperationResultReturnCodeType ReturnCodeType { get; init; } = default!;
     }

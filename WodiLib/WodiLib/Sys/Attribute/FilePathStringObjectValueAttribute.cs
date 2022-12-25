@@ -15,17 +15,17 @@ namespace WodiLib.Sys
     ///     汎用ファイルパス文字列オブジェクトの設定属性（継承元クラス用）
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class FilePathStringObjectValueAttribute : CommonOneLineStringValueObjectAttribute
+    internal class FilePathStringObjectValueAttribute : CommonOneLineStringValueObjectAttribute
     {
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValueAttribute(260)]
         public override int MaxLength { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValueAttribute(true)]
         public override bool IsAllowEmpty { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValueAttribute(RegexOptions.IgnoreCase)]
         public override RegexOptions PatternOption { get; init; } = default!;
     }

@@ -62,8 +62,12 @@ namespace WodiLib.SourceGenerator.Core.SourceBuilder
         /// </summary>
         private List<SourceFormatTarget> BlockImpl { get; }
 
-        public SourceFormatTargetBlock(params string[] targets) : this(targets.Select(s =>
-            new SourceFormatTarget(s)))
+        public SourceFormatTargetBlock(params string[] targets) : this(
+            targets.Select(
+                s =>
+                    new SourceFormatTarget(s)
+            )
+        )
         {
         }
 
@@ -161,6 +165,9 @@ namespace WodiLib.SourceGenerator.Core.SourceBuilder
             => new(src);
 
         public static implicit operator SourceFormatTargetBlock(List<SourceFormatTarget> src)
+            => new(src);
+
+        public static implicit operator SourceFormatTargetBlock(string src)
             => new(src);
     }
 }

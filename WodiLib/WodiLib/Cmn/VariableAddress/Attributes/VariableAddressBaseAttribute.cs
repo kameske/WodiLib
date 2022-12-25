@@ -14,20 +14,20 @@ using WodiLib.SourceGenerator.ValueObject.Enums;
 namespace WodiLib.Cmn
 {
     /// <summary>
-    /// 変数アドレス値基底クラス自動生成用属性
+    ///     変数アドレス値基底クラス自動生成用属性
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public class VariableAddressBaseAttribute : IntValueObjectAttribute
+    internal class VariableAddressBaseAttribute : IntValueObjectAttribute
     {
-        /// <inheritDoc/>
-        [DefaultValueAttribute(true)]
+        /// <inheritdoc/>
+        [DefaultValue(true)]
         public override bool IsComparable { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValue(IntegralNumericOperation.Compare)]
         public override IntegralNumericOperation Operations { get; init; } = default!;
 
-        /// <inheritDoc/>
+        /// <inheritdoc/>
         [DefaultValue(new[] { typeof(VariableAddress), typeof(int) })]
         public override Type[]? CompareOtherTypes { get; init; }
     }

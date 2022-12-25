@@ -9,7 +9,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using WodiLib.SourceGenerator.Core.Extensions;
 
@@ -46,8 +45,10 @@ namespace WodiLib.SourceGenerator.Core.Dtos
         /// </summary>
         /// <param name="targetClassSymbol">対象シンボル</param>
         /// <param name="srcAttributeData">情報取得のきっかけとなった属性データ</param>
-        public SyntaxWorkResult(INamedTypeSymbol? targetClassSymbol,
-            AttributeData srcAttributeData)
+        public SyntaxWorkResult(
+            INamedTypeSymbol? targetClassSymbol,
+            AttributeData srcAttributeData
+        )
         {
             TargetSymbol = targetClassSymbol;
             SrcAttributeData = srcAttributeData;

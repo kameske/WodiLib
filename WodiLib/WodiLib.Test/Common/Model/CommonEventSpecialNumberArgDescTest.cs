@@ -1342,7 +1342,9 @@ namespace WodiLib.Test.Common
                 Assert.AreEqual(changedSpecialArgCaseListCollectionArgList.Count, 1);
                 Assert.AreEqual(
                     changedSpecialArgCaseListCollectionArgList[0].Action,
-                    NotifyCollectionChangedAction.Remove
+                    count == 1
+                        ? NotifyCollectionChangedAction.Remove
+                        : NotifyCollectionChangedAction.Reset
                 );
             }
             else
