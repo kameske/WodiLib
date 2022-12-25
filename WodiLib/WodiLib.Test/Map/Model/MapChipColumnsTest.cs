@@ -241,7 +241,9 @@ namespace WodiLib.Test.Map
             // 件数が意図した値と一致すること
             Assert.AreEqual(instance.Count, (int)height);
 
-            var notChangedLength = initLength < height ? initLength : (int)height;
+            var notChangedLength = initLength < height
+                ? initLength
+                : (int)height;
 
             var i = 0;
             // 操作しなかった項目がもとの値のままであること
@@ -263,7 +265,12 @@ namespace WodiLib.Test.Map
                 Assert.AreEqual(changedPropertyList.Count, 2);
                 Assert.IsTrue(changedPropertyList[0].Equals(nameof(MapChipColumns.Count)));
                 Assert.IsTrue(changedPropertyList[1].Equals(ListConstant.IndexerName));
-                if (initLength > height)
+
+                if (Math.Abs(initLength - height) > 1)
+                {
+                    Assert.IsTrue(changedCollectionList[0].Action == NotifyCollectionChangedAction.Reset);
+                }
+                else if (initLength > height)
                 {
                     Assert.AreEqual(changedCollectionList.Count, 1);
                     Assert.IsTrue(changedCollectionList[0].Action == NotifyCollectionChangedAction.Remove);

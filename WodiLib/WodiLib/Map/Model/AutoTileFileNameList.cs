@@ -102,6 +102,12 @@ namespace WodiLib.Map
         /// <inheritdoc />
         protected override AutoTileFileName MakeDefaultItem(int index) => "";
 
+        /// <inheritdoc/>
+        protected override IWodiLibListValidator<AutoTileFileName> GenerateValidatorForItems()
+        {
+            return new FixedLengthListValidator<AutoTileFileName>(this, Capacity);
+        }
+
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Common
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

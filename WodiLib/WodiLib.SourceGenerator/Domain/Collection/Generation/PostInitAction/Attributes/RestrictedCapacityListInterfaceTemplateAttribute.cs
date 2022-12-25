@@ -1,6 +1,6 @@
 // ========================================
 // Project Name : WodiLib.SourceGenerator
-// File Name    : RestrictedCapacityListInterfaceTemplatedAttribute.cs
+// File Name    : RestrictedCapacityListInterfaceTemplateAttribute.cs
 //
 // MIT License Copyright(c) 2019 kameske
 // see LICENSE file
@@ -16,16 +16,17 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.PostInitAction.At
     /// <summary>
     ///     テンプレートを用いたリストインタフェース生成情報
     /// </summary>
-    internal class RestrictedCapacityListInterfaceTemplatedAttribute : InitializeAttributeSourceAddable
+    internal class RestrictedCapacityListInterfaceTemplateAttribute : InitializeAttributeSourceAddable
     {
         /// <inheritdoc/>
-        public override string AttributeName => nameof(RestrictedCapacityListInterfaceTemplatedAttribute);
+        public override string AttributeName => nameof(RestrictedCapacityListInterfaceTemplateAttribute);
 
         /// <inheritdoc/>
         public override string NameSpace => GenerationConst.NameSpaces.Attributes;
 
         /// <inheritdoc/>
-        public override string Summary => "テンプレートを用いたリストインタフェース生成情報";
+        public override string Summary
+            => "テンプレートを用いた <see cref=\"WodiLib.Sys.Collections.IRestrictedCapacityList{T}\"/> 生成情報";
 
         public override bool AllowMultiple => false;
 
@@ -37,19 +38,11 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.PostInitAction.At
             DefaultValue = "",
         };
 
-        public static readonly PropertyInfo InterfaceInItemType = new()
+        public static readonly PropertyInfo InterfaceItemType = new()
         {
-            Name = nameof(InterfaceInItemType),
+            Name = nameof(InterfaceItemType),
             Type = typeof(Type).FullName,
             Summary = "リスト要素内包型",
-            DefaultValue = null,
-        };
-
-        public static readonly PropertyInfo InterfaceOutItemType = new()
-        {
-            Name = nameof(InterfaceOutItemType),
-            Type = typeof(Type).FullName,
-            Summary = "リスト要素出力型",
             DefaultValue = null,
         };
 
@@ -62,14 +55,13 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.PostInitAction.At
             => new[]
             {
                 Description,
-                InterfaceInItemType,
-                InterfaceOutItemType
+                InterfaceItemType,
             };
 
-        private RestrictedCapacityListInterfaceTemplatedAttribute()
+        private RestrictedCapacityListInterfaceTemplateAttribute()
         {
         }
 
-        public static RestrictedCapacityListInterfaceTemplatedAttribute Instance { get; } = new();
+        public static RestrictedCapacityListInterfaceTemplateAttribute Instance { get; } = new();
     }
 }

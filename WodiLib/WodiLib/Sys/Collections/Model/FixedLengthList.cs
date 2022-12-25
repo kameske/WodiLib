@@ -25,8 +25,8 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="TImpl">リスト実装型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class FixedLengthList<T, TImpl> : ModelBase<TImpl>,
-        IFixedLengthList<T>,
-        ICastableReadOnlyExtendedList<T>
+        IFixedLengthList<T>
+        where T : notnull
         where TImpl : FixedLengthList<T, TImpl>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -167,12 +167,7 @@ namespace WodiLib.Sys.Collections
         ///     このメソッドはコンストラクタから呼ばれる。
         /// </remarks>
         /// <returns>バリデーション実装</returns>
-        protected virtual IWodiLibListValidator<T> GenerateValidatorForItems()
-        {
-            // TODO: ビルドエラー回避のため一時的に virtual 宣言。あとで abstract 宣言する。
-            throw new NotImplementedException();
-        }
-        // protected abstract IWodiLibListValidator<T> GenerateValidatorForItems();
+        protected abstract IWodiLibListValidator<T> GenerateValidatorForItems();
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Public Methods
@@ -195,14 +190,6 @@ namespace WodiLib.Sys.Collections
 
         /// <inheritdoc/>
         public void Reset() => Reset(Count.Iterate(MakeDefaultItem));
-
-        /// <inheritdoc/>
-        public virtual IReadOnlyExtendedList<T> AsReadOnlyList()
-        {
-            // TODO: ビルドエラー回避のため一時的に virtual 宣言。あとで abstract 宣言する。
-            throw new NotImplementedException();
-        }
-        // public abstract IReadOnlyExtendedList<T> AsReadOnlyList();
 
         /// <inheritdoc/>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -267,15 +254,19 @@ namespace WodiLib.Sys.Collections
 
         /// <inheritdoc/>
         public bool ItemEquals(IFixedLengthList<T>? other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Items.SequenceEqual(other);
-        }
+            => ItemEquals((IEnumerable<T>?)other);
 
         /// <inheritdoc/>
         public override bool ItemEquals(TImpl? other)
-            => ItemEquals(other);
+            => ItemEquals((IEnumerable<T>?)other);
+
+        /// <inheritdoc cref="IEqualityComparable{T}.ItemEquals(T?)"/>
+        public bool ItemEquals(IEnumerable<T>? other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Items.ItemEquals(other);
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Interface Implementation

@@ -565,7 +565,6 @@ namespace WodiLib.Test.Sys
                 public override bool ItemEquals(TransportMembersTestFixedLengthList? other) => false;
                 protected override StubModel MakeDefaultItem(int index) => new (index.ToString());
                 protected override IWodiLibListValidator<StubModel> GenerateValidatorForItems() => new MockWodiLibListValidator<StubModel>();
-                public override IReadOnlyExtendedList<StubModel> AsReadOnlyList() => throw new NotImplementedException();
                 public override TransportMembersTestFixedLengthList DeepClone() => throw new NotImplementedException();
                 #endregion
                 // @formatter:on
@@ -611,7 +610,6 @@ namespace WodiLib.Test.Sys
                 public override bool ItemEquals(PropagateTestFixedLengthList? other) => false;
                 protected override StubModel MakeDefaultItem(int index) => new (index.ToString());
                 protected override IWodiLibListValidator<StubModel> GenerateValidatorForItems() => new MockWodiLibListValidator<StubModel>();
-                public override IReadOnlyExtendedList<StubModel> AsReadOnlyList() => throw new NotImplementedException();
                 public override PropagateTestFixedLengthList DeepClone() => throw new NotImplementedException();
                 #endregion
                 // @formatter:on

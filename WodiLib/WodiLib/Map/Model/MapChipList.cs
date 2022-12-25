@@ -8,7 +8,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using WodiLib.Sys;
 using WodiLib.Sys.Collections;
@@ -38,9 +37,17 @@ namespace WodiLib.Map
         /// <summary>サイズ横</summary>
         public MapSizeWidth Width => Count;
 
-        // コンストラクタ中で呼ばれる場合は Items.Count == 0 となる
+        // コンストラクタ中で呼ばれる場合は this[0] が正しく初期化されていない
         /// <summary>サイズ縦</summary>
-        public MapSizeHeight Height => Count > 0 ? this[0].Count : MinCapacity;
+        public MapSizeHeight Height => isInitialized
+            ? this[0].Count
+            : MinCapacity;
+
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+        //     Fields
+        // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
+        private readonly bool isInitialized = false;
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //     Constructor
@@ -51,6 +58,7 @@ namespace WodiLib.Map
         /// </summary>
         public MapChipList() : this(MapSizeWidth.MinValue, MapSizeHeight.MinValue)
         {
+            isInitialized = true;
         }
 
         /// <summary>
@@ -61,6 +69,7 @@ namespace WodiLib.Map
         public MapChipList(MapSizeWidth width, MapSizeHeight height)
         {
             InitializeChips(width, height);
+            isInitialized = true;
         }
 
         /// <summary>
@@ -79,7 +88,8 @@ namespace WodiLib.Map
             var width = mapChipsArr.Length;
             if (width < MapSizeWidth.MinValue || MapSizeWidth.MaxValue < width)
                 throw new ArgumentOutOfRangeException(
-                    ErrorMessage.OutOfRange("mapChipsの要素数", MapSizeWidth.MinValue, MapSizeWidth.MaxValue, width));
+                    ErrorMessage.OutOfRange("mapChipsの要素数", MapSizeWidth.MinValue, MapSizeWidth.MaxValue, width)
+                );
 
             var height = mapChipsArr.First().Count();
 
@@ -93,8 +103,13 @@ namespace WodiLib.Map
                 var lineHeight = lineArr.Length;
                 if (lineHeight < MapSizeHeight.MinValue || MapSizeHeight.MaxValue < lineHeight)
                     throw new ArgumentOutOfRangeException(
-                        ErrorMessage.OutOfRange($"mapChips[{h}の要素数", MapSizeHeight.MinValue, MapSizeHeight.MaxValue,
-                            lineHeight));
+                        ErrorMessage.OutOfRange(
+                            $"mapChips[{h}の要素数",
+                            MapSizeHeight.MinValue,
+                            MapSizeHeight.MaxValue,
+                            lineHeight
+                        )
+                    );
                 if (lineHeight != height)
                     throw new ArgumentException($"{h}行目の縦幅が他の行と異なります。（マップ縦幅はすべての行で同じにする必要があります。）");
 
@@ -104,6 +119,8 @@ namespace WodiLib.Map
             }
 
             Overwrite(0, chips);
+
+            isInitialized = true;
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

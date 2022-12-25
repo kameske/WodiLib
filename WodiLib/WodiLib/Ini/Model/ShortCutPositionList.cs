@@ -117,5 +117,11 @@ namespace WodiLib.Ini
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override ShortCutPosition MakeDefaultItem(int index) => 0;
+
+        /// <inheritdoc/>
+        protected override IWodiLibListValidator<ShortCutPosition> GenerateValidatorForItems()
+        {
+            return new FixedLengthListValidator<ShortCutPosition>(this, Capacity);
+        }
     }
 }

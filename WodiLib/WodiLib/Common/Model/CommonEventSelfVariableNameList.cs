@@ -103,7 +103,7 @@ namespace WodiLib.Common
             /// コンストラクタ
             /// </summary>
             /// <param name="target">対象</param>
-            public Validator(CommonEventSelfVariableNameList target) : base(target)
+            public Validator(CommonEventSelfVariableNameList target) : base(target, Capacity)
             {
                 BaseValidator = new FixedLengthListValidator<CommonEventSelfVariableName>(target, Capacity);
             }

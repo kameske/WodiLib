@@ -1090,8 +1090,6 @@ namespace WodiLib.Test.Sys
                 protected override IWodiLibListValidator<StubModel> GenerateValidatorForItems() => new MockWodiLibListValidator<StubModel>();
                 public override int GetMaxCapacity() => int.MaxValue;
                 public override int GetMinCapacity() => 0;
-                public override IFixedLengthList<StubModel> AsFixedLengthList() => throw new NotImplementedException();
-                public override IReadOnlyExtendedList<StubModel> AsReadOnlyList() => throw new NotImplementedException();
                 public override TransportMembersTestRestrictedCapacityList DeepClone() => throw new NotImplementedException();
                 #endregion
                 // @formatter:on
@@ -1139,8 +1137,6 @@ namespace WodiLib.Test.Sys
                 protected override IWodiLibListValidator<StubModel> GenerateValidatorForItems() => new MockWodiLibListValidator<StubModel>();
                 public override int GetMaxCapacity() => int.MaxValue;
                 public override int GetMinCapacity() => 1;
-                public override IFixedLengthList<StubModel> AsFixedLengthList() => throw new NotImplementedException();
-                public override IReadOnlyExtendedList<StubModel> AsReadOnlyList() => throw new NotImplementedException();
                 public override PropagateTestRestrictedCapacityList DeepClone() => throw new NotImplementedException();
                 #endregion
                 // @formatter:on

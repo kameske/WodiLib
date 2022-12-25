@@ -62,5 +62,11 @@ namespace WodiLib.Common
         /// <returns>デフォルトインスタンス</returns>
         protected override CommonEventSpecialStringArgDesc MakeDefaultItem(int index) =>
             new CommonEventSpecialStringArgDesc();
+
+        /// <inheritdoc/>
+        protected override IWodiLibListValidator<CommonEventSpecialStringArgDesc> GenerateValidatorForItems()
+        {
+            return new FixedLengthListValidator<CommonEventSpecialStringArgDesc>(this, Capacity);
+        }
     }
 }

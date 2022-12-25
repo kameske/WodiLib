@@ -36,6 +36,10 @@ namespace WodiLib.Sys.Collections
         {
         }
 
+        public CommonListValidator(IReadOnlyExtendedList<T> target) : base(new TargetAdapter(target))
+        {
+        }
+
         public CommonListValidator(IEnumerable<T> target, int minCapacity, int maxCapacity) : base(
             new TargetAdapter(target, minCapacity, maxCapacity)
         )

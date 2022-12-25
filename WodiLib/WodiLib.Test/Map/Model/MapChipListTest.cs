@@ -288,7 +288,11 @@ namespace WodiLib.Test.Map
                 Assert.IsTrue(changedPropertyList[1].Equals(ListConstant.IndexerName));
                 Assert.IsTrue(changedPropertyList[2].Equals(nameof(instance.Width)));
                 Assert.AreEqual(changedCollectionList.Count, 1);
-                if (initWidth > width)
+                if (Math.Abs(initWidth - width) > 1)
+                {
+                    Assert.IsTrue(changedCollectionList[0].Action == NotifyCollectionChangedAction.Reset);
+                }
+                else if (initWidth > width)
                 {
                     Assert.IsTrue(changedCollectionList[0].Action == NotifyCollectionChangedAction.Remove);
                     Assert.IsTrue(changedCollectionList[0].OldStartingIndex == width);

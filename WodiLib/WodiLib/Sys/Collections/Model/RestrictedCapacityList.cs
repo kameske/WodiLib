@@ -11,7 +11,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 
 namespace WodiLib.Sys.Collections
 {
@@ -25,9 +24,8 @@ namespace WodiLib.Sys.Collections
     /// <typeparam name="TImpl">リスト実装型</typeparam>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class RestrictedCapacityList<T, TImpl> : ModelBase<TImpl>,
-        IRestrictedCapacityList<T>,
-        ICastableFixedLengthList<T>,
-        ICastableReadOnlyExtendedList<T>
+        IRestrictedCapacityList<T>
+        where T : notnull
         where TImpl : RestrictedCapacityList<T, TImpl>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -160,13 +158,12 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <remarks>
         ///     このメソッドはコンストラクタから呼ばれる。
+        ///     継承先のクラスで実装しない場合、RestrictedCapacityListValidator を返す。
         /// </remarks>
         /// <returns>バリデーション実装</returns>
-        // protected abstract IWodiLibListValidator<T> GenerateValidatorForItems();
         protected virtual IWodiLibListValidator<T> GenerateValidatorForItems()
         {
-            // TODO: 後ほど abstract にする
-            throw new NotImplementedException();
+            return new RestrictedCapacityListValidator<T>(this, GetMinCapacity(), GetMaxCapacity());
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -226,22 +223,6 @@ namespace WodiLib.Sys.Collections
 
         /// <inheritdoc/>
         public void Clear() => Items.Clear();
-
-        /// <inheritdoc/>
-        // public abstract IFixedLengthList<T> AsFixedLengthList()
-        public virtual IFixedLengthList<T> AsFixedLengthList()
-        {
-            // TODO: 後ほど abstract にする
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        // public abstract IReadOnlyExtendedList<T> AsReadOnlyList()
-        public virtual IReadOnlyExtendedList<T> AsReadOnlyList()
-        {
-            // TODO: 後ほど abstract にする
-            throw new NotImplementedException();
-        }
 
         /// <inheritdoc/>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -394,10 +375,18 @@ namespace WodiLib.Sys.Collections
 
         /// <inheritdoc/>
         public bool ItemEquals(IRestrictedCapacityList<T>? other)
+            => ItemEquals((IEnumerable<T>?)other);
+
+        /// <inheritdoc/>
+        public override bool ItemEquals(TImpl? other)
+            => ItemEquals(other);
+
+        /// <inheritdoc cref="IEqualityComparable{T}.ItemEquals(T?)"/>
+        public bool ItemEquals(IEnumerable<T>? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Items.SequenceEqual(other);
+            return Items.ItemEquals(other);
         }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

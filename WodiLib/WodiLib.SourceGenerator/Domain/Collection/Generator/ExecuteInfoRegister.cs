@@ -21,8 +21,10 @@ namespace WodiLib.SourceGenerator.Domain.Collection
         {
             public static IEnumerable<MainSourceAddableTemplate> MakeExecuteGenerateInfoList()
             {
-                yield return RestrictedCapacityListImplementTemplatedGenerator.Instance;
-                yield return RestrictedCapacityListInterfaceTemplatedGenerator.Instance;
+                yield return FixedLengthListImplementTemplateGenerator.Instance;
+                yield return FixedLengthListInterfaceTemplateGenerator.Instance;
+                yield return RestrictedCapacityListImplementTemplateGenerator.Instance;
+                yield return RestrictedCapacityListInterfaceTemplateGenerator.Instance;
             }
         }
     }

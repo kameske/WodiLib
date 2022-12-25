@@ -21,7 +21,7 @@ namespace WodiLib.Event.EventCommand
 
             private new ChoiceCaseList Target { get; }
 
-            public CustomValidator(ChoiceCaseList target) : base(target)
+            public CustomValidator(ChoiceCaseList target) : base(target, Capacity)
             {
                 Target = target;
                 BaseValidator = new FixedLengthListValidator<string>(target, Capacity);

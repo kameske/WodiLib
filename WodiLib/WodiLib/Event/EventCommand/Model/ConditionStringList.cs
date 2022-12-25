@@ -116,5 +116,11 @@ namespace WodiLib.Event.EventCommand
         /// <returns>デフォルトインスタンス</returns>
         protected override ConditionStringDesc MakeDefaultItem(int index)
             => new();
+
+        /// <inheritdoc/>
+        protected override IWodiLibListValidator<ConditionStringDesc> GenerateValidatorForItems()
+        {
+            return new FixedLengthListValidator<ConditionStringDesc>(this, Capacity);
+        }
     }
 }

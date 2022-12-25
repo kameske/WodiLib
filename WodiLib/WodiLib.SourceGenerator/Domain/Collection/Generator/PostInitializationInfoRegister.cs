@@ -24,8 +24,10 @@ namespace WodiLib.SourceGenerator.Domain.Collection
                 var result = new List<IInitializeSourceAddable>
                 {
                     // attributes
-                    RestrictedCapacityListImplementTemplatedAttribute.Instance,
-                    RestrictedCapacityListInterfaceTemplatedAttribute.Instance,
+                    FixedLengthListImplementTemplateAttribute.Instance,
+                    FixedLengthListInterfaceTemplateAttribute.Instance,
+                    RestrictedCapacityListImplementTemplateAttribute.Instance,
+                    RestrictedCapacityListInterfaceTemplateAttribute.Instance,
                 };
 
                 return result;

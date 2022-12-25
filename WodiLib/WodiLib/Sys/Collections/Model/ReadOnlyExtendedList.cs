@@ -11,7 +11,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 
 namespace WodiLib.Sys.Collections
 {
@@ -26,6 +25,7 @@ namespace WodiLib.Sys.Collections
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract class ReadOnlyExtendedList<T, TImpl> : ModelBase<TImpl>,
         IReadOnlyExtendedList<T>
+        where T : notnull
         where TImpl : ReadOnlyExtendedList<T, TImpl>
     {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -110,9 +110,13 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <remarks>
         ///     このメソッドはコンストラクタから呼ばれる。
+        ///     継承先のクラスで実装しない場合、CommonListValidator を返す。
         /// </remarks>
         /// <returns>バリデーション実装</returns>
-        protected abstract IWodiLibListValidator<T> GenerateValidatorForItems();
+        protected virtual IWodiLibListValidator<T> GenerateValidatorForItems()
+        {
+            return new CommonListValidator<T>(this);
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Public Methods
@@ -142,15 +146,19 @@ namespace WodiLib.Sys.Collections
 
         /// <inheritdoc/>
         public bool ItemEquals(IReadOnlyExtendedList<T>? other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Items.SequenceEqual(other);
-        }
+            => ItemEquals((IEnumerable<T>?)other);
 
         /// <inheritdoc/>
         public override bool ItemEquals(TImpl? other)
-            => ItemEquals(other);
+            => ItemEquals((IEnumerable<T>?)other);
+
+        /// <inheritdoc cref="IEqualityComparable{T}.ItemEquals(T?)"/>
+        public bool ItemEquals(IEnumerable<T>? other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Items.ItemEquals(other);
+        }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Interface Implementation

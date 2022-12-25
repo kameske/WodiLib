@@ -74,6 +74,20 @@ namespace WodiLib.Sys.Collections
         {
         }
 
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        /// <param name="target">各種メソッドの操作対象</param>
+        /// <param name="capacity">容量</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="target"/> が <see langword="null"/> の場合。
+        /// </exception>
+        protected WodiLibListValidatorTemplate(IFixedLengthList<T> target, int capacity) : this(
+            new TargetAdapter(target, capacity)
+        )
+        {
+        }
+
         /// <inheritdoc/>
         public virtual void Constructor(NamedValue<IEnumerable<T>> initItems)
             => BaseValidator?.Constructor(initItems);
@@ -180,6 +194,23 @@ namespace WodiLib.Sys.Collections
                 getCount = () => target.Count;
                 getMaxCapacity = capacityGetter;
                 getMinCapacity = capacityGetter;
+                targetItems = target;
+            }
+
+            /// <summary>
+            /// コンストラクタ
+            /// </summary>
+            /// <param name="target">検証対象</param>
+            /// <exception cref="ArgumentNullException">
+            /// <paramref name="target"/> が <see langword="null"/> の場合。
+            /// </exception>
+            public TargetAdapter(IReadOnlyExtendedList<T> target)
+            {
+                ThrowHelper.ValidateArgumentNotNull(target is null, nameof(target));
+
+                getCount = () => target.Count;
+                getMaxCapacity = getCount;
+                getMinCapacity = getCount;
                 targetItems = target;
             }
 

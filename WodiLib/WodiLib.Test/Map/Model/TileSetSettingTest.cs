@@ -30,8 +30,11 @@ namespace WodiLib.Test.Map
         [TestCase(30, 31, -1, true)]
         [TestCase(30, 29, -1, true)]
         public static void ConstructorTest(
-            int tileTagNumberLength, int tilePathSettingLength,
-            int autoTileFileNameLength, bool isError)
+            int tileTagNumberLength,
+            int tilePathSettingLength,
+            int autoTileFileNameLength,
+            bool isError
+        )
         {
             TileSetSetting instance = null;
             var tileTagNumbers = MakeTileTagNumberList(tileTagNumberLength);
@@ -310,6 +313,7 @@ namespace WodiLib.Test.Map
                 changedTilePathSettingListCollectionList.Add(args);
             };
 
+            var beforeLength = instance.SettingLength;
             const int length = 30;
 
             var errorOccured = false;
@@ -335,12 +339,26 @@ namespace WodiLib.Test.Map
             Assert.IsTrue(changedTileTagNumberListPropertyList[0].Equals(nameof(instance.TileTagNumberList.Count)));
             Assert.IsTrue(changedTileTagNumberListPropertyList[1].Equals(ListConstant.IndexerName));
             Assert.AreEqual(changedTileTagNumberListCollectionList.Count, 1);
-            Assert.IsTrue(changedTileTagNumberListCollectionList[0].Action == NotifyCollectionChangedAction.Add);
+            Assert.IsTrue(
+                changedTileTagNumberListCollectionList[0].Action
+                == (
+                    length - beforeLength > 1
+                        ? NotifyCollectionChangedAction.Reset
+                        : NotifyCollectionChangedAction.Add
+                )
+            );
             Assert.AreEqual(changedTilePathSettingListPropertyList.Count, 2);
             Assert.IsTrue(changedTilePathSettingListPropertyList[0].Equals(nameof(instance.TilePathSettingList.Count)));
             Assert.IsTrue(changedTilePathSettingListPropertyList[1].Equals(ListConstant.IndexerName));
             Assert.AreEqual(changedTilePathSettingListCollectionList.Count, 1);
-            Assert.IsTrue(changedTilePathSettingListCollectionList[0].Action == NotifyCollectionChangedAction.Add);
+            Assert.IsTrue(
+                changedTilePathSettingListCollectionList[0].Action
+                == (
+                    length - beforeLength > 1
+                        ? NotifyCollectionChangedAction.Reset
+                        : NotifyCollectionChangedAction.Add
+                )
+            );
         }
 
 

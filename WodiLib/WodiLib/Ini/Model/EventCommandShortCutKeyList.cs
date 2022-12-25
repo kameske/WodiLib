@@ -695,5 +695,11 @@ namespace WodiLib.Ini
         /// <param name="index">挿入インデックス</param>
         /// <returns>デフォルトインスタンス</returns>
         protected override EventCommandShortCutKey MakeDefaultItem(int index) => EventCommandShortCutKey.One;
+
+        /// <inheritdoc/>
+        protected override IWodiLibListValidator<EventCommandShortCutKey> GenerateValidatorForItems()
+        {
+            return new FixedLengthListValidator<EventCommandShortCutKey>(this, Capacity);
+        }
     }
 }
