@@ -82,6 +82,15 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.PostInitAction.At
             DefaultValue = true,
         };
 
+        public static readonly PropertyInfo IsAutoOverrideGenerateValidatorForItemsInFixedLengthList = new()
+        {
+            Name = nameof(IsAutoOverrideGenerateValidatorForItemsInFixedLengthList),
+            Type = "bool",
+            Summary = "FixedLengthList の GenerateValidatorForItems メソッド自動生成フラグ",
+            Remarks = "自動生成する場合、FixedLengthListValidator を利用する。",
+            DefaultValue = true,
+        };
+
         /// <inheritdoc/>
         public override AttributeTargets AttributeTargets
             => AttributeTargets.Class;
@@ -96,6 +105,7 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.PostInitAction.At
                 MinCapacity,
                 InterfaceItemType,
                 IsAutoOverrideMakeDefaultItem,
+                IsAutoOverrideGenerateValidatorForItemsInFixedLengthList,
             };
 
         private RestrictedCapacityListImplementTemplateAttribute()

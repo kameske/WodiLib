@@ -43,10 +43,17 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                     $"{__}/// <summary>容量最小値</summary>",
                     $"{__}public static int MinCapacity => {minCapacity};",
                     $"",
+                    $"{__}private readonly {fixedLengthInterfaceName} fixedLengthInstance;",
+                    $"{__}private readonly {readOnlyInterfaceName} readonlyInstance;",
+                    $"",
                     $"{__}/// <summary>",
                     $"{__}///{__} コンストラクタ",
                     $"{__}/// </summary>",
-                    $"{__}public {className}() {{ }}",
+                    $"{__}public {className}() {{",
+                    $"{__}{__}var _fixedLengthInstance = new {fixedLengthClassName}(Items);",
+                    $"{__}{__}fixedLengthInstance = _fixedLengthInstance;",
+                    $"{__}{__}readonlyInstance = _fixedLengthInstance.AsReadOnlyList();",
+                    $"{__}}}",
                     $"",
                     $"{__}/// <summary>",
                     $"{__}///{__} コンストラクタ",
@@ -55,7 +62,11 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                     $"{__}/// <exception cref=\"System.ArgumentOutOfRangeException\">",
                     $"{__}///{__} <paramref name=\"length\"/> が <see cref=\"MinCapacity\"/> 未満または <see cref=\"MaxCapacity\"/> を超える場合。",
                     $"{__}/// </exception>",
-                    $"{__}public {className}(int length) : base(length) {{ }}",
+                    $"{__}public {className}(int length) : base(length) {{",
+                    $"{__}{__}var _fixedLengthInstance = new {fixedLengthClassName}(Items);",
+                    $"{__}{__}fixedLengthInstance = _fixedLengthInstance;",
+                    $"{__}{__}readonlyInstance = _fixedLengthInstance.AsReadOnlyList();",
+                    $"{__}}}",
                     $"",
                     $"{__}/// <summary>",
                     $"{__}///{__} コンストラクタ",
@@ -69,13 +80,21 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                     $"{__}///{__} <paramref name=\"initItems\"/> の要素数が <see cref=\"MinCapacity\"/> 未満",
                     $"{__}///{__} または <see cref=\"MaxCapacity\"/> を超える場合。",
                     $"{__}/// </exception>",
-                    $"{__}public {className}(System.Collections.Generic.IEnumerable<{interfaceItemType}> initItems) : base(initItems) {{ }}",
+                    $"{__}public {className}(System.Collections.Generic.IEnumerable<{interfaceItemType}> initItems) : base(initItems) {{",
+                    $"{__}{__}var _fixedLengthInstance = new {fixedLengthClassName}(Items);",
+                    $"{__}{__}fixedLengthInstance = _fixedLengthInstance;",
+                    $"{__}{__}readonlyInstance = _fixedLengthInstance.AsReadOnlyList();",
+                    $"{__}}}",
                     $"",
                     $"{__}/// <summary>",
                     $"{__}///{__} コンストラクタ",
                     $"{__}/// </summary>",
                     $"{__}/// <param name=\"itemsImpl\">リスト実装インスタンス</param>",
-                    $"{__}internal {className}(WodiLib.Sys.Collections.IExtendedList<{interfaceItemType}> itemsImpl) : base(itemsImpl) {{ }}",
+                    $"{__}internal {className}(WodiLib.Sys.Collections.IExtendedList<{interfaceItemType}> itemsImpl) : base(itemsImpl) {{",
+                    $"{__}{__}var _fixedLengthInstance = new {fixedLengthClassName}(Items);",
+                    $"{__}{__}fixedLengthInstance = _fixedLengthInstance;",
+                    $"{__}{__}readonlyInstance = _fixedLengthInstance.AsReadOnlyList();",
+                    $"{__}}}",
                     $"",
                     $"{__}/// <inheritdoc/>",
                     $"{__}public override int GetMaxCapacity() => MaxCapacity;",
@@ -103,6 +122,7 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                     $"{__}/// </summary>",
                     $"{__}/// <returns><see cref=\"WodiLib.Sys.Collections.IFixedLengthList{{T}}\"/> を実装した、自分自身を参照するインスタンス。</returns>",
                     $"{__}public {fixedLengthInterfaceName} AsFixedLengthList() => new {fixedLengthClassName}(Items);",
+                    $"",
                     $"{__}/// <summary>",
                     $"{__}/// 読取専用リストにキャストする。",
                     $"{__}/// </summary>",
@@ -127,7 +147,8 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
             string interfaceItemType,
             string maxCapacity,
             string minCapacity,
-            bool isOverrideMakeDefaultItem
+            bool isOverrideMakeDefaultItem,
+            bool isOverrideGenerateValidatorForItemsInFixedLengthList
         )
         {
             return SourceTextFormatter.Format(
@@ -140,10 +161,30 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                     $"{accessibility} partial class {className} : Sys.Collections.FixedLengthList<{interfaceItemType}, {className}>,",
                     $"{__}{interfaceName}",
                     $"{{",
-                    $"{__}/// <summary>容量最大値</summary>",
-                    $"{__}public static int MaxCapacity => {maxCapacity};",
-                    $"{__}/// <summary>容量最小値</summary>",
-                    $"{__}public static int MinCapacity => {minCapacity};",
+                },
+                SourceTextFormatter.If(
+                    maxCapacity != minCapacity,
+                    new[]
+                    {
+                        $"{__}/// <summary>容量最大値</summary>",
+                        $"{__}protected static int MaxCapacity => {maxCapacity};",
+                        $"{__}/// <summary>容量最小値</summary>",
+                        $"{__}protected static int MinCapacity => {minCapacity};",
+                        $"",
+                    }
+                ),
+                SourceTextFormatter.If(
+                    maxCapacity == minCapacity,
+                    new[]
+                    {
+                        $"{__}/// <summary>容量</summary>",
+                        $"{__}public static int Capacity => {maxCapacity};",
+                        $"",
+                    }
+                ),
+                new[]
+                {
+                    $"{__}private readonly {readOnlyInterfaceName} readonlyInstance;",
                     $"",
                 },
                 SourceTextFormatter.If(
@@ -153,7 +194,45 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                         $"{__}/// <summary>",
                         $"{__}///{__} コンストラクタ",
                         $"{__}/// </summary>",
-                        $"{__}public {className}() : base(MinCapacity) {{ }}",
+                        $"{__}public {className}() : base(Capacity) {{",
+                        $"{__}{__}readonlyInstance = new {readOnlyClassName}(Items);",
+                        $"{__}}}",
+                        $"",
+                        $"{__}/// <summary>",
+                        $"{__}///{__} コンストラクタ",
+                        $"{__}/// </summary>",
+                        $"{__}/// <param name=\"initItems\">初期要素</param>",
+                        $"{__}/// <exception cref=\"System.ArgumentNullException\">",
+                        $"{__}///{__} <paramref name=\"initItems\"/> が <see langword=\"null\"/> の場合、",
+                        $"{__}///{__} または <paramref name=\"initItems\"/> 中に <see langword=\"null\"/> が含まれる場合。",
+                        $"{__}/// </exception>",
+                        $"{__}/// <exception cref=\"System.ArgumentException\">",
+                        $"{__}///{__} <paramref name=\"initItems\"/> の要素数が <see cref=\"Capacity\"/> と一致しない場合。",
+                        $"{__}/// </exception>",
+                        $"{__}public {className}(System.Collections.Generic.IEnumerable<{interfaceItemType}> initItems) : base(initItems, Capacity) {{",
+                        $"{__}{__}readonlyInstance = new {readOnlyClassName}(Items);",
+                        $"{__}}}",
+                    }
+                ),
+                SourceTextFormatter.If(
+                    maxCapacity != minCapacity,
+                    new[]
+                    {
+                        $"{__}/// <summary>",
+                        $"{__}///{__} コンストラクタ",
+                        $"{__}/// </summary>",
+                        $"{__}/// <param name=\"initItems\">初期要素</param>",
+                        $"{__}/// <exception cref=\"System.ArgumentNullException\">",
+                        $"{__}///{__} <paramref name=\"initItems\"/> が <see langword=\"null\"/> の場合、",
+                        $"{__}///{__} または <paramref name=\"initItems\"/> 中に <see langword=\"null\"/> が含まれる場合。",
+                        $"{__}/// </exception>",
+                        $"{__}/// <exception cref=\"System.ArgumentException\">",
+                        $"{__}///{__} <paramref name=\"initItems\"/> の要素数が <see cref=\"MinCapacity\"/> 未満",
+                        $"{__}///{__} または <see cref=\"MaxCapacity\"/> を超える場合。",
+                        $"{__}/// </exception>",
+                        $"{__}public {className}(System.Collections.Generic.IEnumerable<{interfaceItemType}> initItems) : base(initItems, MinCapacity, MaxCapacity) {{",
+                        $"{__}{__}readonlyInstance = new {readOnlyClassName}(Items);",
+                        $"{__}}}",
                         $"",
                     }
                 ),
@@ -162,22 +241,10 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                     $"{__}/// <summary>",
                     $"{__}///{__} コンストラクタ",
                     $"{__}/// </summary>",
-                    $"{__}/// <param name=\"initItems\">初期要素</param>",
-                    $"{__}/// <exception cref=\"System.ArgumentNullException\">",
-                    $"{__}///{__} <paramref name=\"initItems\"/> が <see langword=\"null\"/> の場合、",
-                    $"{__}///{__} または <paramref name=\"initItems\"/> 中に <see langword=\"null\"/> が含まれる場合。",
-                    $"{__}/// </exception>",
-                    $"{__}/// <exception cref=\"System.ArgumentException\">",
-                    $"{__}///{__} <paramref name=\"initItems\"/> の要素数が <see cref=\"MinCapacity\"/> 未満",
-                    $"{__}///{__} または <see cref=\"MaxCapacity\"/> を超える場合。",
-                    $"{__}/// </exception>",
-                    $"{__}public {className}(System.Collections.Generic.IEnumerable<{interfaceItemType}> initItems) : base(initItems, System.Linq.Enumerable.ToList(initItems).Count) {{ }}",
-                    $"",
-                    $"{__}/// <summary>",
-                    $"{__}///{__} コンストラクタ",
-                    $"{__}/// </summary>",
                     $"{__}/// <param name=\"itemsImpl\">リスト実装インスタンス</param>",
-                    $"{__}internal {className}(WodiLib.Sys.Collections.IExtendedList<{interfaceItemType}> itemsImpl) : base(itemsImpl) {{ }}",
+                    $"{__}internal {className}(WodiLib.Sys.Collections.IExtendedList<{interfaceItemType}> itemsImpl) : base(itemsImpl) {{",
+                    $"{__}{__}readonlyInstance = new {readOnlyClassName}(Items);",
+                    $"{__}}}",
                     $"",
                 },
                 SourceTextFormatter.If(
@@ -186,6 +253,26 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                     {
                         $"{__}/// <inheritdoc/>",
                         $"{__}protected override {interfaceItemType} MakeDefaultItem(int index) => new();",
+                        $"",
+                    }
+                ),
+                SourceTextFormatter.If(
+                    isOverrideGenerateValidatorForItemsInFixedLengthList && maxCapacity != minCapacity,
+                    new[]
+                    {
+                        $"{__}/// <inheritdoc/>",
+                        $"{__}protected override WodiLib.Sys.Collections.IWodiLibListValidator<{interfaceItemType}> GenerateValidatorForItems()",
+                        $"{__}{__}=> new WodiLib.Sys.Collections.FixedLengthListValidator<{interfaceItemType}>(this, () => Count);",
+                        $"",
+                    }
+                ),
+                SourceTextFormatter.If(
+                    isOverrideGenerateValidatorForItemsInFixedLengthList && maxCapacity == minCapacity,
+                    new[]
+                    {
+                        $"{__}/// <inheritdoc/>",
+                        $"{__}protected override WodiLib.Sys.Collections.IWodiLibListValidator<{interfaceItemType}> GenerateValidatorForItems()",
+                        $"{__}{__}=> new WodiLib.Sys.Collections.FixedLengthListValidator<{interfaceItemType}>(this, {maxCapacity});",
                         $"",
                     }
                 ),

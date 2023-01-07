@@ -125,7 +125,43 @@ namespace WodiLib.Sys.Collections
             var validator = GenerateValidatorForItems();
             ThrowHelper.ValidateArgumentNotNull(validator is null, $"{nameof(GenerateValidatorForItems)}");
 
-            Items = new ExtendedList<T>(MakeDefaultItem, validator, initItems);
+            Items = new ExtendedList<T>(MakeDefaultItem, validator, initItemArray);
+
+            PropagatePropertyChangeEvent(Items);
+        }
+
+        /// <summary>
+        ///     コンストラクタ
+        /// </summary>
+        /// <param name="initItems">初期要素</param>
+        /// <param name="minCapacity">最小要素数</param>
+        /// <param name="maxCapacity">最大要素数</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <paramref name="initItems"/> が <see langword="null"/> の場合、
+        ///     または <paramref name="initItems"/> 中に <see langword="null"/> が含まれる場合。
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     <paramref name="initItems"/> の要素数が <see cref="minCapacity"/> 未満または
+        ///     <see cref="maxCapacity"/> を超える場合。
+        /// </exception>
+        protected FixedLengthList(IEnumerable<T> initItems, int minCapacity, int maxCapacity)
+        {
+            ThrowHelper.ValidateArgumentNotNull(initItems is null, nameof(initItems));
+
+            var initItemArray = initItems.ToArray();
+            ThrowHelper.ValidateArgumentItemsHasNotNull(initItemArray.HasNullItem(), nameof(initItems));
+            ThrowHelper.ValidateArgumentValueRange(
+                !initItemArray.Length.IsBetween(minCapacity, maxCapacity),
+                $"{nameof(initItems)}の要素数",
+                initItemArray.Length,
+                minCapacity,
+                maxCapacity
+            );
+
+            var validator = GenerateValidatorForItems();
+            ThrowHelper.ValidateArgumentNotNull(validator is null, $"{nameof(GenerateValidatorForItems)}");
+
+            Items = new ExtendedList<T>(MakeDefaultItem, validator, initItemArray);
 
             PropagatePropertyChangeEvent(Items);
         }

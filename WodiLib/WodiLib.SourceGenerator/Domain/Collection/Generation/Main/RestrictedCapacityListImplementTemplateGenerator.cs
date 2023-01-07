@@ -41,6 +41,12 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                     propertyValues[
                         RestrictedCapacityListImplementTemplateAttribute.IsAutoOverrideMakeDefaultItem.Name]!
                 );
+            var isOverrideGenerateValidatorForItemsInFixedLengthList =
+                bool.Parse(
+                    propertyValues[
+                        RestrictedCapacityListImplementTemplateAttribute
+                            .IsAutoOverrideGenerateValidatorForItemsInFixedLengthList.Name]!
+                );
             var interfaceTypeNameSplit = interfaceTypeName.Split('.');
             var interfaceName = interfaceTypeNameSplit[interfaceTypeNameSplit.Length - 1];
             var fixedLengthInterfaceName = $"IFixedLength{interfaceName.Substring(1)}";
@@ -74,7 +80,8 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                     interfaceItemType,
                     maxCapacity,
                     minCapacity,
-                    isOverrideMakeDefaultItem
+                    isOverrideMakeDefaultItem,
+                    isOverrideGenerateValidatorForItemsInFixedLengthList
                 ),
                 ImplementTemplateGenerateHelper.GenerateReadOnlyListSourceText(
                     readOnlyClassName,
