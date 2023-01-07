@@ -66,31 +66,31 @@ namespace WodiLib.Sys.Collections
         public void SetRange(int index, IEnumerable<T> items);
 
         /// <inheritdoc cref="ExtendedListInterfaceExtension.Add{T}"/>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="InvalidOperationException">
         ///     操作によって要素数が <see cref="GetMaxCapacity"/> を上回る場合。
         /// </exception>
         public void Add(T item);
 
         /// <inheritdoc cref="ExtendedListInterfaceExtension.AddRange{T}"/>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="InvalidOperationException">
         ///     操作によって要素数が <see cref="GetMaxCapacity"/> を上回る場合。
         /// </exception>
         public void AddRange(IEnumerable<T> items);
 
         /// <inheritdoc cref="ExtendedListInterfaceExtension.Insert{T}"/>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="InvalidOperationException">
         ///     操作によって要素数が <see cref="GetMaxCapacity"/> を上回る場合。
         /// </exception>
         public void Insert(int index, T item);
 
         /// <inheritdoc cref="ExtendedListInterfaceExtension.InsertRange{T}"/>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="InvalidOperationException">
         ///     操作によって要素数が <see cref="GetMaxCapacity"/> を超える場合。
         /// </exception>
         public void InsertRange(int index, IEnumerable<T> items);
 
         /// <inheritdoc cref="ExtendedListInterfaceExtension.Overwrite{T}"/>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="InvalidOperationException">
         ///     操作によって要素数が <see cref="GetMaxCapacity"/> を超える場合。
         /// </exception>
         public void Overwrite(int index, IEnumerable<T> items);
@@ -102,13 +102,13 @@ namespace WodiLib.Sys.Collections
         public void MoveRange(int oldIndex, int newIndex, int count);
 
         /// <inheritdoc cref="ExtendedListInterfaceExtension.Remove{T}"/>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="InvalidOperationException">
         ///     操作によって要素数が <see cref="GetMinCapacity"/> を下回る場合。
         /// </exception>
         public void Remove(int index);
 
         /// <inheritdoc cref="ExtendedListInterfaceExtension.RemoveRange{T}"/>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="InvalidOperationException">
         ///     操作によって要素数が <see cref="GetMinCapacity"/> を下回る場合。
         /// </exception>
         public void RemoveRange(int index, int count);

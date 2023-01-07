@@ -44,7 +44,7 @@ namespace WodiLib.Sys.Collections
         /// </exception>
         public static void ItemMaxCount(int count, int max)
         {
-            ThrowHelper.ValidateArgumentNotExecute(
+            ThrowHelper.InvalidOperationIf(
                 count > max,
                 () => ErrorMessage.OverListLength(max)
             );

@@ -325,7 +325,7 @@ namespace WodiLib.Sys.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="rowIndex"/> が指定範囲外の場合。
         /// </exception>
-        /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合</exception>
+        /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合。</exception>
         public static TRow GetRow<TRow, TItem>(this ITwoDimensionalList<TRow, TItem> list, int rowIndex)
             where TRow : IEnumerable<TItem>
             => list.GetRowRange(rowIndex, 1).First();
@@ -340,7 +340,7 @@ namespace WodiLib.Sys.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="rowIndex"/>, <paramref name="rowCount"/> が指定範囲外の場合。
         /// </exception>
-        /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合</exception>
+        /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合。</exception>
         public static IEnumerable<TRow> GetRowRange<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
             int rowIndex,
@@ -361,7 +361,7 @@ namespace WodiLib.Sys.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="columnIndex"/> が指定範囲外の場合。
         /// </exception>
-        /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合</exception>
+        /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合。</exception>
         public static IEnumerable<TItem> GetColumn<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
             int columnIndex
@@ -384,7 +384,7 @@ namespace WodiLib.Sys.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="columnIndex"/>, <paramref name="columnCount"/> が指定範囲外の場合。
         /// </exception>
-        /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合</exception>
+        /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合。</exception>
         public static IEnumerable<IEnumerable<TItem>> GetColumnRange<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
             int columnIndex,
@@ -414,7 +414,7 @@ namespace WodiLib.Sys.Collections
         ///     <paramref name="columnIndex"/>, <paramref name="columnCount"/>,
         ///     <paramref name="rowIndex"/>, <paramref name="rowCount"/> が指定範囲外の場合。
         /// </exception>
-        /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合</exception>
+        /// <exception cref="ArgumentException">有効な範囲外の要素を取得しようとした場合。</exception>
         public static IEnumerable<IEnumerable<TItem>> GetItem<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
             int rowIndex,
@@ -462,7 +462,7 @@ namespace WodiLib.Sys.Collections
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="rowIndex"/>が指定範囲外の場合。</exception>
         /// <exception cref="ArgumentException">
-        ///     <paramref name="items"/> のいずれかの要素要素について 要素数が
+        ///     <paramref name="items"/> のいずれかの要素について 要素数が
         ///     <see cref="ITwoDimensionalList{TRow,TItem}.ColumnCount"/> と一致しない場合、
         ///     または 有効な範囲外の要素を編集しようとした場合。
         /// </exception>
@@ -518,7 +518,7 @@ namespace WodiLib.Sys.Collections
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="columnIndex"/>が指定範囲外の場合。</exception>
         /// <exception cref="ArgumentException">
-        ///     <paramref name="items"/> のいずれかの要素要素について 要素数が
+        ///     <paramref name="items"/> のいずれかの要素について 要素数が
         ///     <see cref="ITwoDimensionalList{TRow,TItem}.RowCount"/> と一致しない場合、
         ///     または 有効な範囲外の要素を編集しようとした場合。
         /// </exception>
@@ -574,8 +574,10 @@ namespace WodiLib.Sys.Collections
         ///     または <paramref name="item"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     操作によって要素数が <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxRowCapacity"/> を上回る場合、
-        ///     または <paramref name="item"/> の要素数が <see cref="ITwoDimensionalList{TRow,ITtem}.ColumnCount"/> と異なる場合。
+        ///     <paramref name="item"/> の要素数が <see cref="ITwoDimensionalList{TRow,ITtem}.ColumnCount"/> と異なる場合。
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     操作によって行数が <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxRowCapacity"/> を上回る場合。
         /// </exception>
         public static void AddRow<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
@@ -594,8 +596,10 @@ namespace WodiLib.Sys.Collections
         ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     操作によって要素数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMaxRowCapacity"/> を上回る場合、
-        ///     または <paramref name="items"/> の要素数が <see cref="ITwoDimensionalList{TRow,TItem}.ColumnCount"/> と異なる場合。
+        ///     <paramref name="items"/> の要素数が <see cref="ITwoDimensionalList{TRow,TItem}.ColumnCount"/> と異なる場合。
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     操作によって行数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMaxRowCapacity"/> を上回る場合。
         /// </exception>
         public static void AddRowRange<TRow, TItem>(this ITwoDimensionalList<TRow, TItem> list, IEnumerable<TRow> items)
             where TRow : IEnumerable<TItem>
@@ -614,8 +618,10 @@ namespace WodiLib.Sys.Collections
         ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     操作によって要素数が <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxColumnCapacity"/> を上回る場合、
-        ///     または <paramref name="items"/> の要素数が <see cref="ITwoDimensionalList{TRow,ITtem}.RowCount"/> と異なる場合。
+        ///     <paramref name="items"/> の要素数が <see cref="ITwoDimensionalList{TRow,ITtem}.RowCount"/> と異なる場合。
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     操作によって列数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMaxColumnCapacity"/> を上回る場合。
         /// </exception>
         public static void AddColumn<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
@@ -634,8 +640,10 @@ namespace WodiLib.Sys.Collections
         ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     操作によって要素数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMaxColumnCapacity"/> を上回る場合、
-        ///     または <paramref name="items"/> のいずれかの要素の要素数が <see cref="ITwoDimensionalList{TRow,TItem}.RowCount"/> と異なる場合。
+        ///     <paramref name="items"/> のいずれかの要素の要素数が <see cref="ITwoDimensionalList{TRow,TItem}.RowCount"/> と異なる場合。
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     操作によって列数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMaxColumnCapacity"/> を上回る場合。
         /// </exception>
         public static void AddColumnRange<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
@@ -658,8 +666,10 @@ namespace WodiLib.Sys.Collections
         ///     または <paramref name="item"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     操作によって要素数が <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxRowCapacity"/> を上回る場合、
-        ///     または <paramref name="item"/> の要素数が <see cref="ITwoDimensionalList{TRow,ITtem}.ColumnCount"/> と異なる場合。
+        ///     <paramref name="item"/> の要素数が <see cref="ITwoDimensionalList{TRow,ITtem}.ColumnCount"/> と異なる場合。
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     操作によって行数が <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxRowCapacity"/> を上回る場合。
         /// </exception>
         public static void InsertRow<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
@@ -680,8 +690,10 @@ namespace WodiLib.Sys.Collections
         ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     操作によって要素数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMaxRowCapacity"/> を上回る場合、
-        ///     または <paramref name="items"/> の要素数が <see cref="ITwoDimensionalList{TRow,TItem}.ColumnCount"/> と異なる場合。
+        ///     <paramref name="items"/> の要素数が <see cref="ITwoDimensionalList{TRow,TItem}.ColumnCount"/> と異なる場合。
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     操作によって行数が <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxRowCapacity"/> を上回る場合。
         /// </exception>
         public static void InsertRowRange<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
@@ -705,8 +717,10 @@ namespace WodiLib.Sys.Collections
         ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     操作によって要素数が <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxColumnCapacity"/> を上回る場合、
-        ///     または <paramref name="items"/> の要素数が <see cref="ITwoDimensionalList{TRow,ITtem}.RowCount"/> と異なる場合。
+        ///     <paramref name="items"/> の要素数が <see cref="ITwoDimensionalList{TRow,ITtem}.RowCount"/> と異なる場合。
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     操作によって列数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMaxColumnCapacity"/> を上回る場合。
         /// </exception>
         public static void InsertColumn<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
@@ -727,8 +741,10 @@ namespace WodiLib.Sys.Collections
         ///     または <paramref name="items"/> に <see langword="null"/> 要素が含まれる場合。
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     操作によって要素数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMaxColumnCapacity"/> を上回る場合、
-        ///     または <paramref name="items"/> のいずれかの要素の要素数が <see cref="ITwoDimensionalList{TRow,TItem}.RowCount"/> と異なる場合。
+        ///     <paramref name="items"/> のいずれかの要素の要素数が <see cref="ITwoDimensionalList{TRow,TItem}.RowCount"/> と異なる場合。
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     操作によって列数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMaxColumnCapacity"/> を上回る場合。
         /// </exception>
         public static void InsertColumnRange<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
@@ -758,9 +774,11 @@ namespace WodiLib.Sys.Collections
         ///     <paramref name="rowIndex"/> が指定範囲外の場合。
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     操作によって行数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMaxRowCapacity"/> を超える場合、
-        ///     または <paramref name="items"/> のいずれかの要素の要素数が
+        ///     <paramref name="items"/> のいずれかの要素の要素数が
         ///     <see cref="ITwoDimensionalList{TRow,TItem}.RowCount"/> と異なる場合。
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     操作によって行数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMaxRowCapacity"/> を上回る場合。
         /// </exception>
         public static void OverwriteRow<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
@@ -790,9 +808,11 @@ namespace WodiLib.Sys.Collections
         ///     <paramref name="columnIndex"/> が指定範囲外の場合。
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     操作によって列数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMaxColumnCapacity"/> を超える場合、
-        ///     または <paramref name="items"/> のいずれかの要素の要素数が
+        ///     <paramref name="items"/> のいずれかの要素の要素数が
         ///     <see cref="ITwoDimensionalList{TRow,TItem}.RowCount"/> と異なる場合。
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     操作によって列数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMaxColumnCapacity"/> を上回る場合。
         /// </exception>
         public static void OverwriteColumn<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
@@ -937,7 +957,8 @@ namespace WodiLib.Sys.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="rowIndex"/> が指定範囲外の場合。
         /// </exception>
-        /// <exception cref="ArgumentException">操作によって要素数が <see cref="ITwoDimensionalList{TRow,ITtem}.GetMinRowCapacity"/> を下回る場合。
+        /// <exception cref="InvalidOperationException">
+        ///     操作によって行数が <see cref="ITwoDimensionalList{TRow,ITtem}.GetMinRowCapacity"/> を下回る場合。
         /// </exception>
         public static void RemoveRow<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
@@ -951,13 +972,15 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="list">list</param>
         /// <param name="rowIndex">[Range(0, <see cref="ITwoDimensionalList{TRow,TItem}.RowCount"/> - 1)] インデックス</param>
-        /// <param name="count">[Range(0, <see cref="ITwoDimensionalList{TRow,TItem}.RowCount"/>)] 削除する要素数</param>
+        /// <param name="count">[Range(0, <see cref="ITwoDimensionalList{TRow,TItem}.RowCount"/>)] 削除する行数</param>
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="rowIndex"/>, <paramref name="count"/> が指定範囲外の場合。
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     有効な範囲外の要素を削除しようとした場合、
-        ///     または 操作によって要素数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMinRowCapacity"/> を下回る場合。
+        ///     有効な範囲外の要素を削除しようとした場合。
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     操作によって行数が <see cref="ITwoDimensionalList{TRow,ITtem}.GetMinRowCapacity"/> を下回る場合。
         /// </exception>
         public static void RemoveRowRange<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
@@ -979,8 +1002,10 @@ namespace WodiLib.Sys.Collections
         ///     <paramref name="columnIndex"/> が指定範囲外の場合。
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     有効な範囲外の要素を削除しようとした場合、
-        ///     または 操作によって要素数が <see cref="ITwoDimensionalList{TRow,ITtem}.GetMinColumnCapacity"/> を下回る場合。
+        ///     有効な範囲外の要素を削除しようとした場合。
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     操作によって列数が <see cref="ITwoDimensionalList{TRow,ITtem}.GetMinColumnCapacity"/> を下回る場合。
         /// </exception>
         public static void RemoveColumn<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
@@ -994,13 +1019,15 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="list">list</param>
         /// <param name="columnIndex">[Range(0, <see cref="ITwoDimensionalList{TRow,TItem}.ColumnCount"/> - 1)] インデックス</param>
-        /// <param name="count">[Range(0, <see cref="ITwoDimensionalList{TRow,TItem}.ColumnCount"/>)] 削除する要素数</param>
+        /// <param name="count">[Range(0, <see cref="ITwoDimensionalList{TRow,TItem}.ColumnCount"/>)] 削除する列数</param>
         /// <exception cref="ArgumentOutOfRangeException">
         ///     <paramref name="columnIndex"/>, <paramref name="count"/> が指定範囲外の場合。
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     有効な範囲外の要素を削除しようとした場合、
-        ///     または 操作によって要素数が <see cref="ITwoDimensionalList{TRow,TItem}.GetMinColumnCapacity"/> を下回る場合。
+        ///     有効な範囲外の要素を削除しようとした場合。
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     操作によって列数が <see cref="ITwoDimensionalList{TRow,ITtem}.GetMinColumnCapacity"/> を下回る場合。
         /// </exception>
         public static void RemoveColumnRange<TRow, TItem>(
             this ITwoDimensionalList<TRow, TItem> list,
