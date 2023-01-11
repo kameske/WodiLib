@@ -40,6 +40,8 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                 "",
                 InterfaceTemplateGenerateHelper.GenerateRestrictedCapacityListInterfaceSourceText(
                     interfaceName,
+                    fixedLengthInterfaceName,
+                    readOnlyInterfaceName,
                     description,
                     accessibility,
                     interfaceItemType
@@ -47,6 +49,7 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                 "",
                 InterfaceTemplateGenerateHelper.GenerateFixedLengthListInterfaceSourceText(
                     fixedLengthInterfaceName,
+                    readOnlyInterfaceName,
                     description,
                     accessibility,
                     interfaceItemType

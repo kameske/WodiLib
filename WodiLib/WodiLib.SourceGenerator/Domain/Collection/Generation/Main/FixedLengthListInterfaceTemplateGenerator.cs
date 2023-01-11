@@ -39,6 +39,7 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                 "",
                 InterfaceTemplateGenerateHelper.GenerateFixedLengthListInterfaceSourceText(
                     interfaceName,
+                    readOnlyInterfaceName,
                     description,
                     accessibility,
                     interfaceItemType

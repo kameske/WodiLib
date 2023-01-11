@@ -14,6 +14,8 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
     {
         public static string[] GenerateRestrictedCapacityListInterfaceSourceText(
             string interfaceName,
+            string fixedLengthInterfaceName,
+            string readOnlyInterfaceName,
             string description,
             string accessibility,
             string itemType
@@ -28,12 +30,24 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                 $"{__}Sys.Collections.IRestrictedCapacityList<{itemType}>,",
                 $"{__}Sys.IDeepCloneable<{interfaceName}>",
                 $"{{",
+                $"{__}/// <summary>",
+                $"{__}/// 容量固定リストにキャストする。",
+                $"{__}/// </summary>",
+                $"{__}/// <returns><see cref=\"WodiLib.Sys.Collections.IFixedLengthList{{T}}\"/> を実装した、自分自身を参照するインスタンス</returns>",
+                $"{__}public {fixedLengthInterfaceName} AsFixedLengthList();",
+                $"",
+                $"{__}/// <summary>",
+                $"{__}/// 読取専用リストにキャストする。",
+                $"{__}/// </summary>",
+                $"{__}/// <returns><see cref=\"WodiLib.Sys.Collections.IReadOnlyExtendedList{{T}}\"/> を実装した、自分自身を参照するインスタンス</returns>",
+                $"{__}public {readOnlyInterfaceName} AsReadOnlyList();",
                 $"}}",
             };
         }
 
         public static string[] GenerateFixedLengthListInterfaceSourceText(
             string interfaceName,
+            string readOnlyInterfaceName,
             string description,
             string accessibility,
             string itemType
@@ -48,6 +62,11 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                 $"{__}Sys.Collections.IFixedLengthList<{itemType}>,",
                 $"{__}Sys.IDeepCloneable<{interfaceName}>",
                 $"{{",
+                $"{__}/// <summary>",
+                $"{__}/// 読取専用リストにキャストする。",
+                $"{__}/// </summary>",
+                $"{__}/// <returns><see cref=\"WodiLib.Sys.Collections.IReadOnlyExtendedList{{T}}\"/> を実装した、自分自身を参照するインスタンス</returns>",
+                $"{__}public {readOnlyInterfaceName} AsReadOnlyList();",
                 $"}}",
             };
         }

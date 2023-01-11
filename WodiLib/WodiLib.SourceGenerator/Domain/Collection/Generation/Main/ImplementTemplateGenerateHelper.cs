@@ -117,16 +117,10 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                 ),
                 new[]
                 {
-                    $"{__}/// <summary>",
-                    $"{__}/// 容量固定リストにキャストする。",
-                    $"{__}/// </summary>",
-                    $"{__}/// <returns><see cref=\"WodiLib.Sys.Collections.IFixedLengthList{{T}}\"/> を実装した、自分自身を参照するインスタンス。</returns>",
+                    $"{__}/// <inheritdoc/>",
                     $"{__}public {fixedLengthInterfaceName} AsFixedLengthList() => new {fixedLengthClassName}(Items);",
                     $"",
-                    $"{__}/// <summary>",
-                    $"{__}/// 読取専用リストにキャストする。",
-                    $"{__}/// </summary>",
-                    $"{__}/// <returns><see cref=\"WodiLib.Sys.Collections.IReadOnlyExtendedList{{T}}\"/> を実装した、自分自身を参照するインスタンス。</returns>",
+                    $"{__}/// <inheritdoc/>",
                     $"{__}public {readOnlyInterfaceName} AsReadOnlyList() => new {readOnlyClassName}(Items);",
                     $"",
                     $"{__}/// <inheritdoc/>",
@@ -278,10 +272,7 @@ namespace WodiLib.SourceGenerator.Domain.Collection.Generation.Main
                 ),
                 new[]
                 {
-                    $"{__}/// <summary>",
-                    $"{__}/// 読取専用リストにキャストする。",
-                    $"{__}/// </summary>",
-                    $"{__}/// <returns><see cref=\"WodiLib.Sys.Collections.IReadOnlyExtendedList{{T}}\"/> を実装した、自分自身を参照するインスタンス。</returns>",
+                    $"{__}/// <inheritdoc/>",
                     $"{__}public {readOnlyInterfaceName} AsReadOnlyList() => new {readOnlyClassName}(Items);",
                     $"",
                     $"{__}/// <inheritdoc/>",
