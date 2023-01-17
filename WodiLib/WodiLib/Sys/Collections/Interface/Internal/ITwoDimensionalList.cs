@@ -1092,7 +1092,10 @@ namespace WodiLib.Sys.Collections
             int columnLength
         )
             where TRow : IEnumerable<TItem>
-            => list.AdjustLength(Math.Max(rowLength, list.RowCount), Math.Max(columnLength, list.ColumnCount));
+        {
+            list.ValidateAdjustLength(rowLength, columnLength);
+            list.AdjustLengthCore(Math.Max(rowLength, list.RowCount), columnLength);
+        }
 
         /// <summary>
         ///     行数が超過している場合、行数を指定の数に合わせる。
@@ -1118,7 +1121,10 @@ namespace WodiLib.Sys.Collections
             int columnLength
         )
             where TRow : IEnumerable<TItem>
-            => list.AdjustLength(Math.Min(rowLength, list.RowCount), Math.Min(columnLength, list.ColumnCount));
+        {
+            list.ValidateAdjustLength(rowLength, columnLength);
+            list.AdjustLengthCore(Math.Min(rowLength, list.RowCount), columnLength);
+        }
 
         /// <summary>
         ///     行数を指定の数に合わせる。
@@ -1136,7 +1142,10 @@ namespace WodiLib.Sys.Collections
             int rowLength
         )
             where TRow : IEnumerable<TItem>
-            => list.AdjustLength(rowLength, list.ColumnCount);
+        {
+            list.ValidateAdjustLength(rowLength, list.ColumnCount);
+            list.AdjustLengthCore(rowLength, list.ColumnCount);
+        }
 
         /// <summary>
         ///     行数が不足している場合、行数を指定の数に合わせる。
@@ -1154,7 +1163,10 @@ namespace WodiLib.Sys.Collections
             int rowLength
         )
             where TRow : IEnumerable<TItem>
-            => list.AdjustLength(Math.Max(rowLength, list.RowCount), list.ColumnCount);
+        {
+            list.ValidateAdjustLength(rowLength, list.ColumnCount);
+            list.AdjustLengthCore(Math.Max(rowLength, list.RowCount), list.ColumnCount);
+        }
 
         /// <summary>
         ///     行数が超過している場合、行数を指定の数に合わせる。
@@ -1172,7 +1184,10 @@ namespace WodiLib.Sys.Collections
             int rowLength
         )
             where TRow : IEnumerable<TItem>
-            => list.AdjustLength(Math.Min(rowLength, list.RowCount), list.ColumnCount);
+        {
+            list.ValidateAdjustLength(rowLength, list.ColumnCount);
+            list.AdjustLengthCore(Math.Min(rowLength, list.RowCount), list.ColumnCount);
+        }
 
         /// <summary>
         ///     列数を指定の数に合わせる。
@@ -1190,7 +1205,10 @@ namespace WodiLib.Sys.Collections
             int columnLength
         )
             where TRow : IEnumerable<TItem>
-            => list.AdjustLength(list.RowCount, columnLength);
+        {
+            list.ValidateAdjustLength(list.RowCount, columnLength);
+            list.AdjustLengthCore(list.RowCount, columnLength);
+        }
 
         /// <summary>
         ///     列数が不足している場合、列数を指定の数に合わせる。
@@ -1208,7 +1226,10 @@ namespace WodiLib.Sys.Collections
             int columnLength
         )
             where TRow : IEnumerable<TItem>
-            => list.AdjustLength(list.RowCount, Math.Max(columnLength, list.ColumnCount));
+        {
+            list.ValidateAdjustLength(list.RowCount, columnLength);
+            list.AdjustLengthCore(list.RowCount, Math.Max(columnLength, list.ColumnCount));
+        }
 
         /// <summary>
         ///     列数が超過している場合、列数を指定の数に合わせる。
@@ -1226,7 +1247,10 @@ namespace WodiLib.Sys.Collections
             int columnLength
         )
             where TRow : IEnumerable<TItem>
-            => list.AdjustLength(list.RowCount, Math.Min(columnLength, list.ColumnCount));
+        {
+            list.ValidateAdjustLength(list.RowCount, columnLength);
+            list.AdjustLengthCore(list.RowCount, Math.Min(columnLength, list.ColumnCount));
+        }
 
         /// <summary>
         ///     要素を与えられた内容で一新する。
