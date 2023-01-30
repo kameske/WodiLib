@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,7 +27,7 @@ namespace WodiLib.Sys.Collections
             BaseValidator = new CommonListValidator<T>(target);
         }
 
-        public RestrictedCapacityListValidator(IEnumerable<T> target, int minCapacity, int maxCapacity) : base(
+        public RestrictedCapacityListValidator(IEnumerable target, int minCapacity, int maxCapacity) : base(
             new TargetAdapter(target, minCapacity, maxCapacity)
         )
         {
@@ -61,7 +62,7 @@ namespace WodiLib.Sys.Collections
         {
             BaseValidator?.Insert(index, items);
             RestrictedListValidationHelper.ItemMaxCount(
-                Target.Count + items.Value.Count(),
+                Target.GetCount() + items.Value.Count(),
                 Target.GetMaxCapacity()
             );
         }
@@ -72,7 +73,7 @@ namespace WodiLib.Sys.Collections
             RestrictedListValidationHelper.OverwrittenCount(
                 index.Value,
                 items.Value.Count(),
-                Target.Count,
+                Target.GetCount(),
                 Target.GetMaxCapacity()
             );
         }
@@ -81,7 +82,7 @@ namespace WodiLib.Sys.Collections
         {
             BaseValidator?.Remove(index, count);
             RestrictedListValidationHelper.ItemMinCount(
-                (ListItemsName, Target.Count - count.Value),
+                (ListItemsName, Target.GetCount() - count.Value),
                 Target.GetMinCapacity()
             );
         }

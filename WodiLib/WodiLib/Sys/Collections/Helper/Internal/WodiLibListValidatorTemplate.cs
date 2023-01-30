@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,14 +35,14 @@ namespace WodiLib.Sys.Collections
         /// <summary>
         ///     各種メソッドの操作対象
         /// </summary>
-        protected TargetAdapter Target { get; }
+        protected ITargetAdapter Target { get; }
 
         /// <summary>
         ///     コンストラクタ
         /// </summary>
         /// <param name="target">各種メソッドの操作対象</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="target"/> が <see langword="null"/> の場合。
+        ///     <paramref name="target"/> が <see langword="null"/> の場合。
         /// </exception>
         protected WodiLibListValidatorTemplate(TargetAdapter target)
         {
@@ -55,7 +56,7 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="target">各種メソッドの操作対象</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="target"/> が <see langword="null"/> の場合。
+        ///     <paramref name="target"/> が <see langword="null"/> の場合。
         /// </exception>
         protected WodiLibListValidatorTemplate(IRestrictedCapacityList<T> target) : this(new TargetAdapter(target))
         {
@@ -66,7 +67,7 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="target">各種メソッドの操作対象</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="target"/> が <see langword="null"/> の場合。
+        ///     <paramref name="target"/> が <see langword="null"/> の場合。
         /// </exception>
         protected WodiLibListValidatorTemplate(IFixedLengthList<T> target) : this(
             new TargetAdapter(target, target.Count)
@@ -80,7 +81,7 @@ namespace WodiLib.Sys.Collections
         /// <param name="target">各種メソッドの操作対象</param>
         /// <param name="capacity">容量</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="target"/> が <see langword="null"/> の場合。
+        ///     <paramref name="target"/> が <see langword="null"/> の場合。
         /// </exception>
         protected WodiLibListValidatorTemplate(IFixedLengthList<T> target, int capacity) : this(
             new TargetAdapter(target, capacity)
@@ -129,9 +130,24 @@ namespace WodiLib.Sys.Collections
             => BaseValidator?.Clear();
 
         /// <summary>
-        /// 検証対象Adapter
+        ///     検証対象Adapterインタフェース
         /// </summary>
-        protected class TargetAdapter
+        protected interface ITargetAdapter
+        {
+            /// <summary>要素数を取得する。</summary>
+            public int GetCount();
+
+            /// <summary>容量最大値を取得する。</summary>
+            public int GetMaxCapacity();
+
+            /// <summary>容量最小値を取得する。</summary>
+            public int GetMinCapacity();
+        }
+
+        /// <summary>
+        ///     検証対象Adapter
+        /// </summary>
+        protected class TargetAdapter : ITargetAdapter
         {
             /*
              * 検証処理で必要なメソッド等あればここに定義を追加する。
@@ -141,14 +157,15 @@ namespace WodiLib.Sys.Collections
             private readonly Func<int> getMaxCapacity;
             private readonly Func<int> getMinCapacity;
 
-            private readonly IEnumerable<T> targetItems;
+            // ReSharper disable once NotAccessedField.Local
+            private readonly IEnumerable targetItems;
 
             /// <summary>
-            /// コンストラクタ
+            ///     コンストラクタ
             /// </summary>
             /// <param name="target">検証対象</param>
             /// <exception cref="ArgumentNullException">
-            /// <paramref name="target"/> が <see langword="null"/> の場合。
+            ///     <paramref name="target"/> が <see langword="null"/> の場合。
             /// </exception>
             public TargetAdapter(IRestrictedCapacityList<T> target)
             {
@@ -161,12 +178,12 @@ namespace WodiLib.Sys.Collections
             }
 
             /// <summary>
-            /// コンストラクタ
+            ///     コンストラクタ
             /// </summary>
             /// <param name="target">検証対象</param>
             /// <param name="capacity">容量</param>
             /// <exception cref="ArgumentNullException">
-            /// <paramref name="target"/> が <see langword="null"/> の場合。
+            ///     <paramref name="target"/> が <see langword="null"/> の場合。
             /// </exception>
             public TargetAdapter(IFixedLengthList<T> target, int capacity)
             {
@@ -179,12 +196,12 @@ namespace WodiLib.Sys.Collections
             }
 
             /// <summary>
-            /// コンストラクタ
+            ///     コンストラクタ
             /// </summary>
             /// <param name="target">検証対象</param>
             /// <param name="capacityGetter">容量取得</param>
             /// <exception cref="ArgumentNullException">
-            /// <paramref name="target"/>, <paramref name="capacityGetter"/> が <see langword="null"/> の場合。
+            ///     <paramref name="target"/>, <paramref name="capacityGetter"/> が <see langword="null"/> の場合。
             /// </exception>
             public TargetAdapter(IFixedLengthList<T> target, Func<int> capacityGetter)
             {
@@ -198,11 +215,11 @@ namespace WodiLib.Sys.Collections
             }
 
             /// <summary>
-            /// コンストラクタ
+            ///     コンストラクタ
             /// </summary>
             /// <param name="target">検証対象</param>
             /// <exception cref="ArgumentNullException">
-            /// <paramref name="target"/> が <see langword="null"/> の場合。
+            ///     <paramref name="target"/> が <see langword="null"/> の場合。
             /// </exception>
             public TargetAdapter(IReadOnlyExtendedList<T> target)
             {
@@ -215,16 +232,16 @@ namespace WodiLib.Sys.Collections
             }
 
             /// <summary>
-            /// コンストラクタ
+            ///     コンストラクタ
             /// </summary>
             /// <param name="target">検証対象</param>
             /// <param name="minCapacity">最小容量</param>
             /// <param name="maxCapacity">最大容量</param>
             /// <exception cref="ArgumentNullException">
-            /// <paramref name="target"/> が <see langword="null"/> の場合。
+            ///     <paramref name="target"/> が <see langword="null"/> の場合。
             /// </exception>
             /// <exception cref="ArgumentOutOfRangeException">
-            /// <paramref name="maxCapacity"/> が <paramref name="minCapacity"/> 未満の場合。
+            ///     <paramref name="maxCapacity"/> が <paramref name="minCapacity"/> 未満の場合。
             /// </exception>
             public TargetAdapter(IEnumerable<T> target, int minCapacity, int maxCapacity)
             {
@@ -246,22 +263,42 @@ namespace WodiLib.Sys.Collections
                 targetItems = target;
             }
 
+            /// <summary>
+            ///     コンストラクタ
+            /// </summary>
+            /// <param name="target">検証対象</param>
+            /// <param name="minCapacity">最小容量</param>
+            /// <param name="maxCapacity">最大容量</param>
+            /// <exception cref="ArgumentNullException">
+            ///     <paramref name="target"/> が <see langword="null"/> の場合。
+            /// </exception>
+            /// <exception cref="ArgumentOutOfRangeException">
+            ///     <paramref name="maxCapacity"/> が <paramref name="minCapacity"/> 未満の場合。
+            /// </exception>
+            public TargetAdapter(IEnumerable target, int minCapacity, int maxCapacity)
+            {
+                ThrowHelper.ValidateArgumentNotNull(target is null, nameof(target));
+                ThrowHelper.ValidateArgumentValueGreaterOrEqual(
+                    minCapacity > maxCapacity,
+                    nameof(maxCapacity),
+                    nameof(minCapacity),
+                    maxCapacity
+                );
+
+                getCount = () => target.Cast<object?>().Count();
+                getMaxCapacity = () => maxCapacity;
+                getMinCapacity = () => minCapacity;
+                targetItems = target;
+            }
+
             /// <inheritdoc cref="ICollection{T}.Count"/>
-            public int Count => getCount();
+            public int GetCount() => getCount();
 
             /// <inheritdoc cref="IRestrictedCapacityList{T}.GetMaxCapacity"/>
             public int GetMaxCapacity() => getMaxCapacity();
 
             /// <inheritdoc cref="IRestrictedCapacityList{T}.GetMinCapacity"/>
             public int GetMinCapacity() => getMinCapacity();
-
-            /// <summary>
-            /// 指定された要素のインデックスを取得する。
-            /// </summary>
-            /// <returns>指定された要素が存在しない場合、-1</returns>
-            public int FindIndex(T item) => targetItems.FindIndex(
-                targetItem => ReferenceEquals(item, targetItem)
-            );
         }
     }
 }

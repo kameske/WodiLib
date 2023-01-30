@@ -72,71 +72,71 @@ namespace WodiLib.Sys.Collections
         public int AllCount { get; }
 
         /// <summary>検証処理実装</summary>
-        public ITwoDimensionalListValidator<TRow, TItem> Validator { get; }
+        public ITwoDimensionalListValidator<TRow, TItem>? Validator { get; }
 
         /// <summary>
-        /// すべての行要素に対し <see cref="INotifyPropertyChanged"/> イベントを登録する。
+        ///     すべての行要素に対し <see cref="INotifyPropertyChanged"/> イベントを登録する。
         /// </summary>
         /// <remarks>
-        /// <para>
-        /// このメソッドで登録したイベントは、要素がリストから除去されるときに同時に解除される。
-        ///     また、新規行データが追加された場合には自動でイベントが付与される。
-        /// </para>
-        /// <para>
-        ///     <see cref="AddRowPropertyChanged"/> メソッドで登録したイベントを任意のタイミングで解除するには
-        ///     <see cref="RemoveRowPropertyChanged"/> を実行する。
-        /// </para>
+        ///     <para>
+        ///         このメソッドで登録したイベントは、要素がリストから除去されるときに同時に解除される。
+        ///         また、新規行データが追加された場合には自動でイベントが付与される。
+        ///     </para>
+        ///     <para>
+        ///         <see cref="AddRowPropertyChanged"/> メソッドで登録したイベントを任意のタイミングで解除するには
+        ///         <see cref="RemoveRowPropertyChanged"/> を実行する。
+        ///     </para>
         /// </remarks>
         /// <param name="handler">登録するイベント</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="handler"/> が <see langword="null"/> の場合。
+        ///     <paramref name="handler"/> が <see langword="null"/> の場合。
         /// </exception>
         public void AddRowPropertyChanged(PropertyChangedEventHandler handler);
 
         /// <summary>
-        /// すべての行要素にから登録した <see cref="INotifyPropertyChanged"/> イベントを解除する。
+        ///     すべての行要素にから登録した <see cref="INotifyPropertyChanged"/> イベントを解除する。
         /// </summary>
         /// <remarks>
-        /// <para>
-        /// <paramref name="handler"/> が <see cref="AddRowPropertyChanged"/> を通して登録されたものでない場合はなにもしない。
-        /// </para>
+        ///     <para>
+        ///         <paramref name="handler"/> が <see cref="AddRowPropertyChanged"/> を通して登録されたものでない場合はなにもしない。
+        ///     </para>
         /// </remarks>
         /// <param name="handler">解除するイベント</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="handler"/> が <see langword="null"/> の場合。
+        ///     <paramref name="handler"/> が <see langword="null"/> の場合。
         /// </exception>
         public void RemoveRowPropertyChanged(PropertyChangedEventHandler handler);
 
         /// <summary>
-        /// すべての行要素に対し <see cref="INotifyCollectionChanged.CollectionChanged"/> イベントを登録する。
+        ///     すべての行要素に対し <see cref="INotifyCollectionChanged.CollectionChanged"/> イベントを登録する。
         /// </summary>
         /// <remarks>
-        /// <para>
-        ///     このメソッドで登録したイベントは、要素がリストから除去されるときに同時に解除される。
-        ///     また、新規行データが追加された場合には自動でイベントが付与される。
-        /// </para>
-        /// <para>
-        ///     AddRowCollectionChanging メソッドで登録したイベントを任意のタイミングで解除するには
-        ///     RemoveRowCollectionChanging を実行する。
-        /// </para>
+        ///     <para>
+        ///         このメソッドで登録したイベントは、要素がリストから除去されるときに同時に解除される。
+        ///         また、新規行データが追加された場合には自動でイベントが付与される。
+        ///     </para>
+        ///     <para>
+        ///         AddRowCollectionChanging メソッドで登録したイベントを任意のタイミングで解除するには
+        ///         RemoveRowCollectionChanging を実行する。
+        ///     </para>
         /// </remarks>
         /// <param name="handler">登録するイベント</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="handler"/> が <see langword="null"/> の場合。
+        ///     <paramref name="handler"/> が <see langword="null"/> の場合。
         /// </exception>
         public void AddRowCollectionChanged(NotifyCollectionChangedEventHandler handler);
 
         /// <summary>
-        /// すべての行要素から登録した <see cref="INotifyCollectionChanged.CollectionChanged"/> イベントを解除する。
+        ///     すべての行要素から登録した <see cref="INotifyCollectionChanged.CollectionChanged"/> イベントを解除する。
         /// </summary>
         /// <remarks>
-        /// <para>
-        /// <paramref name="handler"/> が <see cref="AddRowCollectionChanged"/> を通して登録されたものでない場合はなにもしない。
-        /// </para>
+        ///     <para>
+        ///         <paramref name="handler"/> が <see cref="AddRowCollectionChanged"/> を通して登録されたものでない場合はなにもしない。
+        ///     </para>
         /// </remarks>
         /// <param name="handler">解除するイベント</param>
         /// <exception cref="ArgumentNullException">
-        /// <paramref name="handler"/> が <see langword="null"/> の場合。
+        ///     <paramref name="handler"/> が <see langword="null"/> の場合。
         /// </exception>
         public void RemoveRowCollectionChanged(NotifyCollectionChangedEventHandler handler);
 
@@ -1093,7 +1093,7 @@ namespace WodiLib.Sys.Collections
         )
             where TRow : IEnumerable<TItem>
         {
-            list.ValidateAdjustLength(rowLength, columnLength);
+            list.ValidateAdjustLengthIfShort(rowLength, columnLength);
             list.AdjustLengthCore(Math.Max(rowLength, list.RowCount), columnLength);
         }
 
@@ -1122,7 +1122,7 @@ namespace WodiLib.Sys.Collections
         )
             where TRow : IEnumerable<TItem>
         {
-            list.ValidateAdjustLength(rowLength, columnLength);
+            list.ValidateAdjustLengthIfLong(rowLength, columnLength);
             list.AdjustLengthCore(Math.Min(rowLength, list.RowCount), columnLength);
         }
 
@@ -1131,7 +1131,8 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="list">list</param>
         /// <param name="rowLength">
-        ///     [Range(<see cref="ITwoDimensionalList{TRow,ITtem}.GetMinRowCapacity"/>, <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxRowCapacity"/>)]
+        ///     [Range(<see cref="ITwoDimensionalList{TRow,ITtem}.GetMinRowCapacity"/>,
+        ///     <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxRowCapacity"/>)]
         ///     調整する行数
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -1143,7 +1144,7 @@ namespace WodiLib.Sys.Collections
         )
             where TRow : IEnumerable<TItem>
         {
-            list.ValidateAdjustLength(rowLength, list.ColumnCount);
+            list.ValidateAdjustRowLength(rowLength);
             list.AdjustLengthCore(rowLength, list.ColumnCount);
         }
 
@@ -1152,7 +1153,8 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="list">list</param>
         /// <param name="rowLength">
-        ///     [Range(<see cref="ITwoDimensionalList{TRow,ITtem}.GetMinRowCapacity"/>, <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxRowCapacity"/>)]
+        ///     [Range(<see cref="ITwoDimensionalList{TRow,ITtem}.GetMinRowCapacity"/>,
+        ///     <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxRowCapacity"/>)]
         ///     調整する行数
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -1164,7 +1166,7 @@ namespace WodiLib.Sys.Collections
         )
             where TRow : IEnumerable<TItem>
         {
-            list.ValidateAdjustLength(rowLength, list.ColumnCount);
+            list.ValidateAdjustRowLengthIfShort(rowLength);
             list.AdjustLengthCore(Math.Max(rowLength, list.RowCount), list.ColumnCount);
         }
 
@@ -1173,7 +1175,8 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="list">list</param>
         /// <param name="rowLength">
-        ///     [Range(<see cref="ITwoDimensionalList{TRow,ITtem}.GetMinRowCapacity"/>, <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxRowCapacity"/>)]
+        ///     [Range(<see cref="ITwoDimensionalList{TRow,ITtem}.GetMinRowCapacity"/>,
+        ///     <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxRowCapacity"/>)]
         ///     調整する行数
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -1185,7 +1188,7 @@ namespace WodiLib.Sys.Collections
         )
             where TRow : IEnumerable<TItem>
         {
-            list.ValidateAdjustLength(rowLength, list.ColumnCount);
+            list.ValidateAdjustRowLengthIfLong(rowLength);
             list.AdjustLengthCore(Math.Min(rowLength, list.RowCount), list.ColumnCount);
         }
 
@@ -1194,7 +1197,8 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="list">list</param>
         /// <param name="columnLength">
-        ///     [Range(<see cref="ITwoDimensionalList{TRow,ITtem}.GetMinColumnCapacity"/>, <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxColumnCapacity"/>)]
+        ///     [Range(<see cref="ITwoDimensionalList{TRow,ITtem}.GetMinColumnCapacity"/>,
+        ///     <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxColumnCapacity"/>)]
         ///     調整する列数
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -1206,7 +1210,7 @@ namespace WodiLib.Sys.Collections
         )
             where TRow : IEnumerable<TItem>
         {
-            list.ValidateAdjustLength(list.RowCount, columnLength);
+            list.ValidateAdjustColumnLength(columnLength);
             list.AdjustLengthCore(list.RowCount, columnLength);
         }
 
@@ -1215,7 +1219,8 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="list">list</param>
         /// <param name="columnLength">
-        ///     [Range(<see cref="ITwoDimensionalList{TRow,ITtem}.GetMinColumnCapacity"/>, <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxColumnCapacity"/>)]
+        ///     [Range(<see cref="ITwoDimensionalList{TRow,ITtem}.GetMinColumnCapacity"/>,
+        ///     <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxColumnCapacity"/>)]
         ///     調整する列数
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -1227,7 +1232,7 @@ namespace WodiLib.Sys.Collections
         )
             where TRow : IEnumerable<TItem>
         {
-            list.ValidateAdjustLength(list.RowCount, columnLength);
+            list.ValidateAdjustColumnLengthIfShort(columnLength);
             list.AdjustLengthCore(list.RowCount, Math.Max(columnLength, list.ColumnCount));
         }
 
@@ -1236,7 +1241,8 @@ namespace WodiLib.Sys.Collections
         /// </summary>
         /// <param name="list">list</param>
         /// <param name="columnLength">
-        ///     [Range(<see cref="ITwoDimensionalList{TRow,ITtem}.GetMinColumnCapacity"/>, <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxColumnCapacity"/>)]
+        ///     [Range(<see cref="ITwoDimensionalList{TRow,ITtem}.GetMinColumnCapacity"/>,
+        ///     <see cref="ITwoDimensionalList{TRow,ITtem}.GetMaxColumnCapacity"/>)]
         ///     調整する列数
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -1305,7 +1311,7 @@ namespace WodiLib.Sys.Collections
             int rowCount
         )
             where TRow : IEnumerable<TItem>
-            => list.Validator.GetRow((nameof(rowIndex), rowIndex), (nameof(rowCount), rowCount));
+            => list.Validator?.GetRow((nameof(rowIndex), rowIndex), (nameof(rowCount), rowCount));
 
         /// <summary>
         ///     <see cref="GetColumn{TRow, TItem}"/> メソッドの検証処理。
@@ -1328,7 +1334,7 @@ namespace WodiLib.Sys.Collections
             int columnCount
         )
             where TRow : IEnumerable<TItem>
-            => list.Validator.GetColumn((nameof(columnIndex), columnIndex), (nameof(columnCount), columnCount));
+            => list.Validator?.GetColumn((nameof(columnIndex), columnIndex), (nameof(columnCount), columnCount));
 
         /// <summary>
         ///     <see cref="GetItem{TRow,TItem}"/> メソッドの検証処理
@@ -1342,7 +1348,7 @@ namespace WodiLib.Sys.Collections
             int columnCount
         )
             where TRow : IEnumerable<TItem>
-            => list.Validator.GetItem(
+            => list.Validator?.GetItem(
                 (nameof(rowIndex), rowIndex),
                 (nameof(rowCount), rowCount),
                 (nameof(columnIndex), columnIndex),
@@ -1371,7 +1377,7 @@ namespace WodiLib.Sys.Collections
             IEnumerable<TRow> items
         )
             where TRow : IEnumerable<TItem>
-            => list.Validator.SetRow((nameof(rowIndex), rowIndex), (nameof(items), items));
+            => list.Validator?.SetRow((nameof(rowIndex), rowIndex), (nameof(items), items));
 
         /// <summary>
         ///     <see cref="SetColumn{TRow, TItem}"/> メソッドの検証処理。
@@ -1395,7 +1401,7 @@ namespace WodiLib.Sys.Collections
             IEnumerable<IEnumerable<TItem>> items
         )
             where TRow : IEnumerable<TItem>
-            => list.Validator.SetColumn((nameof(columnIndex), columnIndex), (nameof(items), items));
+            => list.Validator?.SetColumn((nameof(columnIndex), columnIndex), (nameof(items), items));
 
         /// <summary>
         ///     <see cref="SetItem{TRow,TItem}"/> メソッドの検証処理
@@ -1408,7 +1414,7 @@ namespace WodiLib.Sys.Collections
             TItem item
         )
             where TRow : IEnumerable<TItem>
-            => list.Validator.SetItem(
+            => list.Validator?.SetItem(
                 (nameof(rowIndex), rowIndex),
                 (nameof(columnIndex), columnIndex),
                 (nameof(item), item)
@@ -1433,7 +1439,7 @@ namespace WodiLib.Sys.Collections
             this ITwoDimensionalList<TRow, TItem> list,
             IEnumerable<TRow> items
         )
-            where TRow : IEnumerable<TItem> => list.Validator.InsertRow(
+            where TRow : IEnumerable<TItem> => list.Validator?.InsertRow(
             (nameof(list.RowCount), list.RowCount),
             (nameof(items), items)
         );
@@ -1457,7 +1463,7 @@ namespace WodiLib.Sys.Collections
             this ITwoDimensionalList<TRow, TItem> list,
             IEnumerable<IEnumerable<TItem>> items
         )
-            where TRow : IEnumerable<TItem> => list.Validator.InsertColumn(
+            where TRow : IEnumerable<TItem> => list.Validator?.InsertColumn(
             (nameof(list.ColumnCount), list.ColumnCount),
             (nameof(items), items)
         );
@@ -1483,7 +1489,7 @@ namespace WodiLib.Sys.Collections
             int rowIndex,
             IEnumerable<TRow> items
         )
-            where TRow : IEnumerable<TItem> => list.Validator.InsertRow(
+            where TRow : IEnumerable<TItem> => list.Validator?.InsertRow(
             (nameof(rowIndex), rowIndex),
             (nameof(items), items)
         );
@@ -1509,7 +1515,7 @@ namespace WodiLib.Sys.Collections
             int columnIndex,
             IEnumerable<IEnumerable<TItem>> items
         )
-            where TRow : IEnumerable<TItem> => list.Validator.InsertColumn(
+            where TRow : IEnumerable<TItem> => list.Validator?.InsertColumn(
             (nameof(columnIndex), columnIndex),
             (nameof(items), items)
         );
@@ -1523,7 +1529,7 @@ namespace WodiLib.Sys.Collections
             int rowIndex,
             IEnumerable<TRow> items
         )
-            where TRow : IEnumerable<TItem> => list.Validator.OverwriteRow(
+            where TRow : IEnumerable<TItem> => list.Validator?.OverwriteRow(
             (nameof(rowIndex), rowIndex),
             (nameof(items), items)
         );
@@ -1537,7 +1543,7 @@ namespace WodiLib.Sys.Collections
             int columnIndex,
             IEnumerable<IEnumerable<TItem>> items
         )
-            where TRow : IEnumerable<TItem> => list.Validator.OverwriteColumn(
+            where TRow : IEnumerable<TItem> => list.Validator?.OverwriteColumn(
             (nameof(columnIndex), columnIndex),
             (nameof(items), items)
         );
@@ -1564,7 +1570,7 @@ namespace WodiLib.Sys.Collections
             int newRowIndex,
             int count
         )
-            where TRow : IEnumerable<TItem> => list.Validator.MoveRow(
+            where TRow : IEnumerable<TItem> => list.Validator?.MoveRow(
             (nameof(oldRowIndex), oldRowIndex),
             (nameof(newRowIndex), newRowIndex),
             (nameof(count), count)
@@ -1592,7 +1598,7 @@ namespace WodiLib.Sys.Collections
             int newColumnIndex,
             int count
         )
-            where TRow : IEnumerable<TItem> => list.Validator.MoveColumn(
+            where TRow : IEnumerable<TItem> => list.Validator?.MoveColumn(
             (nameof(oldColumnIndex), oldColumnIndex),
             (nameof(newColumnIndex), newColumnIndex),
             (nameof(count), count)
@@ -1618,7 +1624,7 @@ namespace WodiLib.Sys.Collections
             int rowIndex,
             int count
         )
-            where TRow : IEnumerable<TItem> => list.Validator.RemoveRow(
+            where TRow : IEnumerable<TItem> => list.Validator?.RemoveRow(
             (nameof(rowIndex), rowIndex),
             (nameof(count), count)
         );
@@ -1643,10 +1649,11 @@ namespace WodiLib.Sys.Collections
             int columnIndex,
             int count
         )
-            where TRow : IEnumerable<TItem> => list.Validator.RemoveColumn(
-            (nameof(columnIndex), columnIndex),
-            (nameof(count), count)
-        );
+            where TRow : IEnumerable<TItem>
+            => list.Validator?.RemoveColumn(
+                (nameof(columnIndex), columnIndex),
+                (nameof(count), count)
+            );
 
         /// <summary>
         ///     <see cref="AdjustLength{TRow,TItem}"/> メソッドの検証処理
@@ -1657,10 +1664,11 @@ namespace WodiLib.Sys.Collections
             int rowLength,
             int columnLength
         )
-            where TRow : IEnumerable<TItem> => list.Validator.AdjustLength(
-            (nameof(rowLength), rowLength),
-            (nameof(columnLength), columnLength)
-        );
+            where TRow : IEnumerable<TItem>
+            => list.Validator?.AdjustLength(
+                (nameof(rowLength), rowLength),
+                (nameof(columnLength), columnLength)
+            );
 
         /// <summary>
         ///     <see cref="AdjustLengthIfShort{TRow, TItem}"/> メソッドの検証処理。
@@ -1760,14 +1768,14 @@ namespace WodiLib.Sys.Collections
             this ITwoDimensionalList<TRow, TItem> list,
             IEnumerable<TRow> rows
         )
-            where TRow : IEnumerable<TItem> => list.Validator.Reset((nameof(rows), rows));
+            where TRow : IEnumerable<TItem> => list.Validator?.Reset((nameof(rows), rows));
 
         /// <summary>
         ///     <see cref="Clear{TRow,TItem}"/> メソッドの検証処理
         /// </summary>
         /// <inheritdoc cref="Clear{TRow,TItem}" path="param|exception"/>
         public static void ValidateClear<TRow, TItem>(this ITwoDimensionalList<TRow, TItem> list)
-            where TRow : IEnumerable<TItem> => list.Validator.Clear();
+            where TRow : IEnumerable<TItem> => list.Validator?.Clear();
 
         #endregion
     }

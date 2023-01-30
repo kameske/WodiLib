@@ -62,7 +62,7 @@ namespace WodiLib.Sys.Collections
             NamedValue<int> columnIndex,
             NamedValue<int> columnCount
         )
-            => BaseValidator?.GetItem(columnIndex, columnCount, rowIndex, rowCount);
+            => BaseValidator?.GetItem(rowIndex, rowCount, columnIndex, columnCount);
 
         public virtual void GetItem(NamedValue<int> rowIndex, NamedValue<int> columnIndex)
             => BaseValidator?.GetItem(rowIndex, columnIndex);
@@ -141,7 +141,7 @@ namespace WodiLib.Sys.Collections
             => BaseValidator?.Clear();
 
         /// <summary>
-        /// この二次元配列に対して 追加、挿入、上書き される行データに対する共通的な検証処理。
+        ///     この二次元配列に対して 追加、挿入、上書き される行データに対する共通的な検証処理。
         /// </summary>
         /// <remarks>
         ///     デフォルトでは何もしない。
@@ -153,7 +153,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// この二次元配列に対して 追加、挿入、上書き される列データに対する共通的な検証処理。
+        ///     この二次元配列に対して 追加、挿入、上書き される列データに対する共通的な検証処理。
         /// </summary>
         /// <remarks>
         ///     デフォルトでは何もしない。

@@ -17,22 +17,22 @@ using WodiLib.Sys;
 namespace WodiLib.Test.Tools
 {
     /// <summary>
-    /// テスト用テンプレート処理
+    ///     テスト用テンプレート処理
     /// </summary>
     internal static class TestTemplate
     {
         #region Constructor
 
         /// <summary>
-        /// コンストラクタテスト
+        ///     コンストラクタテスト
         /// </summary>
         /// <remarks>
-        /// 以下の手順のテストを行う。
-        /// <ul>
-        /// <li>コンストラクタ実行によりインスタンスを生成する。</li>
-        /// <li>インスタンス生成によるエラーの有無をテスト</li>
-        /// <li>生成されたインスタンスまたはデフォルト値を返却</li>
-        /// </ul>
+        ///     以下の手順のテストを行う。
+        ///     <ul>
+        ///         <li>コンストラクタ実行によりインスタンスを生成する。</li>
+        ///         <li>インスタンス生成によるエラーの有無をテスト</li>
+        ///         <li>生成されたインスタンスまたはデフォルト値を返却</li>
+        ///     </ul>
         /// </remarks>
         /// <param name="factory">コンストラクタ実行処理</param>
         /// <param name="expectedThrowCreateNewInstance">コンストラクタエラー有無</param>
@@ -69,22 +69,22 @@ namespace WodiLib.Test.Tools
         #region Property
 
         /// <summary>
-        /// プロパティ値編集 &amp; 取得のテスト
+        ///     プロパティ値編集 &amp; 取得のテスト
         /// </summary>
         /// <remarks>
-        /// 以下の手順のテストを行う。
-        /// <ul>
-        /// <li>プロパティに対して値の編集を試みる</li>
-        /// <li>値編集によるエラーの有無をテスト</li>
-        /// <li>プロパティ値編集によりエラーが発生した場合処理を終了</li>
-        /// <li>既値と異なる値が編集された場合、プロパティ変更通知が行われていることをテスト</li>
-        /// <li>既値と同一値が編集された場合、プロパティ変更通知が行われていないことをテスト</li>
-        /// <li>プロパティ値の取得を試みる</li>
-        /// <li>プロパティ値取得によるエラーの有無をテスト</li>
-        /// <li>プロパティ変更通知が行われていないことをテスト</li>
-        /// <li>プロパティ値取得によりエラーが発生した場合処理を終了</li>
-        /// <li>編集したプロパティ値と取得したプロパティ値が同値であることをテスト</li>
-        /// </ul>
+        ///     以下の手順のテストを行う。
+        ///     <ul>
+        ///         <li>プロパティに対して値の編集を試みる</li>
+        ///         <li>値編集によるエラーの有無をテスト</li>
+        ///         <li>プロパティ値編集によりエラーが発生した場合処理を終了</li>
+        ///         <li>既値と異なる値が編集された場合、プロパティ変更通知が行われていることをテスト</li>
+        ///         <li>既値と同一値が編集された場合、プロパティ変更通知が行われていないことをテスト</li>
+        ///         <li>プロパティ値の取得を試みる</li>
+        ///         <li>プロパティ値取得によるエラーの有無をテスト</li>
+        ///         <li>プロパティ変更通知が行われていないことをテスト</li>
+        ///         <li>プロパティ値取得によりエラーが発生した場合処理を終了</li>
+        ///         <li>編集したプロパティ値と取得したプロパティ値が同値であることをテスト</li>
+        ///     </ul>
         /// </remarks>
         /// <param name="instance">テスト対象のインスタンス</param>
         /// <param name="propertyName">テスト対象のプロパティ名</param>
@@ -127,18 +127,18 @@ namespace WodiLib.Test.Tools
         }
 
         /// <summary>
-        /// プロパティ値取得のテスト
+        ///     プロパティ値取得のテスト
         /// </summary>
         /// <remarks>
-        /// 以下の手順のテストを行う。
-        /// <ul>
-        /// <li>プロパティ値の取得を試みる</li>
-        /// <li>プロパティ値取得によりエラーが発生しないことをテスト</li>
-        /// <li>プロパティ値取得によるエラーの有無をテスト</li>
-        /// <li>プロパティ変更通知が行われていないことをテスト</li>
-        /// <li>プロパティ値取得によりエラーが発生した場合処理を終了</li>
-        /// <li>取得したプロパティ値が同値であることをテスト</li>
-        /// </ul>
+        ///     以下の手順のテストを行う。
+        ///     <ul>
+        ///         <li>プロパティ値の取得を試みる</li>
+        ///         <li>プロパティ値取得によりエラーが発生しないことをテスト</li>
+        ///         <li>プロパティ値取得によるエラーの有無をテスト</li>
+        ///         <li>プロパティ変更通知が行われていないことをテスト</li>
+        ///         <li>プロパティ値取得によりエラーが発生した場合処理を終了</li>
+        ///         <li>取得したプロパティ値が同値であることをテスト</li>
+        ///     </ul>
         /// </remarks>
         /// <param name="instance">テスト対象のインスタンス</param>
         /// <param name="propertyGetter">プロパティ取得処理</param>
@@ -187,18 +187,18 @@ namespace WodiLib.Test.Tools
         }
 
         /// <summary>
-        /// プロパティ値編集のテスト
+        ///     プロパティ値編集のテスト
         /// </summary>
         /// <remarks>
-        /// 以下の手順のテストを行う。
-        /// <ul>
-        /// <li>プロパティに対して値の編集を試みる</li>
-        /// <li>値編集によるエラーの有無をテスト</li>
-        /// <li>既値と異なる値が編集された場合、プロパティ変更通知が行われていることをテスト</li>
-        /// <li>既値と同一値が編集された場合、プロパティ変更通知が行われていないことをテスト</li>
-        /// <li>プロパティに対して同じ値の編集を試みる</li>
-        /// <li>プロパティ変更通知が行われていないことをテスト</li>
-        /// </ul>
+        ///     以下の手順のテストを行う。
+        ///     <ul>
+        ///         <li>プロパティに対して値の編集を試みる</li>
+        ///         <li>値編集によるエラーの有無をテスト</li>
+        ///         <li>既値と異なる値が編集された場合、プロパティ変更通知が行われていることをテスト</li>
+        ///         <li>既値と同一値が編集された場合、プロパティ変更通知が行われていないことをテスト</li>
+        ///         <li>プロパティに対して同じ値の編集を試みる</li>
+        ///         <li>プロパティ変更通知が行われていないことをテスト</li>
+        ///     </ul>
         /// </remarks>
         /// <param name="instance">テスト対象のインスタンス</param>
         /// <param name="propertyName">テスト対象のプロパティ名</param>
@@ -274,17 +274,17 @@ namespace WodiLib.Test.Tools
         #region Method
 
         /// <summary>
-        /// 純粋メソッドのテスト
+        ///     純粋メソッドのテスト
         /// </summary>
         /// <remarks>
-        /// 以下の手順のテストを行う。
-        /// <ul>
-        /// <li>メソッドを実行する</li>
-        /// <li>メソッド実行によるエラーの有無をテスト</li>
-        /// <li>メソッド実行によりプロパティ変更通知が発火していないことをテスト</li>
-        /// <li>メソッド実行前後で状態が変化していないことをテスト</li>
-        /// <li>メソッド実行によりエラーが発生していない場合、取得した値が意図した値であることをテスト</li>
-        /// </ul>
+        ///     以下の手順のテストを行う。
+        ///     <ul>
+        ///         <li>メソッドを実行する</li>
+        ///         <li>メソッド実行によるエラーの有無をテスト</li>
+        ///         <li>メソッド実行によりプロパティ変更通知が発火していないことをテスト</li>
+        ///         <li>メソッド実行前後で状態が変化していないことをテスト</li>
+        ///         <li>メソッド実行によりエラーが発生していない場合、取得した値が意図した値であることをテスト</li>
+        ///     </ul>
         /// </remarks>
         /// <param name="instance">テスト対象のインスタンス</param>
         /// <param name="execFunc">メソッド実行処理</param>
@@ -301,10 +301,13 @@ namespace WodiLib.Test.Tools
             Func<TResult, bool> isExpectedItem,
             Logger logger
         )
-            where TTarget : INotifyPropertyChanged, IEqualityComparable<TTarget>
         {
+            var notifyChangeable = instance as INotifyPropertyChanged;
             var changedPropertyList = new List<string>();
-            instance.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
+            if (notifyChangeable is not null)
+            {
+                notifyChangeable.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
+            }
 
             TResult execResult = default!;
             var errorOccured = false;
@@ -321,8 +324,11 @@ namespace WodiLib.Test.Tools
             // エラーフラグが一致すること
             Assert.AreEqual(expectedThrowExecute, errorOccured);
 
-            // プロパティ変更通知が発火していないこと
-            Assert.AreEqual(changedPropertyList.Count, 0);
+            if (notifyChangeable is not null)
+            {
+                // プロパティ変更通知が発火していないこと
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
 
             // 取得した値が意図した値であること
             if (!errorOccured)
@@ -334,19 +340,73 @@ namespace WodiLib.Test.Tools
         }
 
         /// <summary>
-        /// 非純粋メソッドのテスト(戻り値あり)
+        ///     純粋メソッドのテスト
         /// </summary>
         /// <remarks>
-        /// 以下の手順のテストを行う。
-        /// <ul>
-        /// <li>メソッドを実行する</li>
-        /// <li>メソッド実行によるエラーの有無をテスト</li>
-        /// <li>ソッド実行によりエラーが発生していない場合、メソッド実行によりプロパティ変更通知が意図したとおり発火していることをテスト</li>
-        /// <li>メソッド実行によりエラーが発生していない場合、実行結果が意図した値であることをテスト</li>
-        /// <li>メソッド実行によりエラーが発生していない場合、実行の状態が意図した状態であることをテスト</li>
-        /// <li>ソッド実行によりエラーが発生した場合、メソッド実行によりプロパティ変更通知が発火していないことをテスト</li>
-        /// <li>メソッド実行によりエラーが発生した場合、メソッド実行前後で状態が変化していないことをテスト</li>
-        /// </ul>
+        ///     以下の手順のテストを行う。
+        ///     <ul>
+        ///         <li>メソッドを実行する</li>
+        ///         <li>メソッド実行によるエラーの有無をテスト</li>
+        ///         <li>メソッド実行によりプロパティ変更通知が発火していないことをテスト</li>
+        ///         <li>メソッド実行前後で状態が変化していないことをテスト</li>
+        ///         <li>メソッド実行によりエラーが発生していない場合、取得した値が意図した値であることをテスト</li>
+        ///     </ul>
+        /// </remarks>
+        /// <param name="instance">テスト対象のインスタンス</param>
+        /// <param name="execAction">メソッド実行処理</param>
+        /// <param name="expectedThrowExecute">メソッド実行時例外有無期待値</param>
+        /// <param name="logger">ロガー</param>
+        /// <typeparam name="TTarget">テスト対象インスタンス型</typeparam>
+        /// <returns></returns>
+        public static void PureMethod<TTarget>(
+            TTarget instance,
+            Action<TTarget> execAction,
+            bool expectedThrowExecute,
+            Logger logger
+        )
+        {
+            var notifyChangeable = instance as INotifyPropertyChanged;
+            var changedPropertyList = new List<string>();
+            if (notifyChangeable is not null)
+            {
+                notifyChangeable.PropertyChanged += (_, args) => { changedPropertyList.Add(args.PropertyName); };
+            }
+
+            var errorOccured = false;
+            try
+            {
+                execAction(instance);
+            }
+            catch (Exception ex)
+            {
+                logger.Exception(ex);
+                errorOccured = true;
+            }
+
+            // エラーフラグが一致すること
+            Assert.AreEqual(expectedThrowExecute, errorOccured);
+
+            if (notifyChangeable is not null)
+            {
+                // プロパティ変更通知が発火していないこと
+                Assert.AreEqual(changedPropertyList.Count, 0);
+            }
+        }
+
+        /// <summary>
+        ///     非純粋メソッドのテスト(戻り値あり)
+        /// </summary>
+        /// <remarks>
+        ///     以下の手順のテストを行う。
+        ///     <ul>
+        ///         <li>メソッドを実行する</li>
+        ///         <li>メソッド実行によるエラーの有無をテスト</li>
+        ///         <li>ソッド実行によりエラーが発生していない場合、メソッド実行によりプロパティ変更通知が意図したとおり発火していることをテスト</li>
+        ///         <li>メソッド実行によりエラーが発生していない場合、実行結果が意図した値であることをテスト</li>
+        ///         <li>メソッド実行によりエラーが発生していない場合、実行の状態が意図した状態であることをテスト</li>
+        ///         <li>ソッド実行によりエラーが発生した場合、メソッド実行によりプロパティ変更通知が発火していないことをテスト</li>
+        ///         <li>メソッド実行によりエラーが発生した場合、メソッド実行前後で状態が変化していないことをテスト</li>
+        ///     </ul>
         /// </remarks>
         /// <param name="instance">テスト対象のインスタンス</param>
         /// <param name="execFunc">メソッド実行処理</param>
@@ -408,19 +468,19 @@ namespace WodiLib.Test.Tools
         }
 
         /// <summary>
-        /// 非純粋メソッドのテスト(戻り値なし)
+        ///     非純粋メソッドのテスト(戻り値なし)
         /// </summary>
         /// <remarks>
-        /// 以下の手順のテストを行う。
-        /// <ul>
-        /// <li>メソッドを実行する</li>
-        /// <li>メソッド実行によるエラーの有無をテスト</li>
-        /// <li>ソッド実行によりエラーが発生していない場合、メソッド実行によりプロパティ変更通知が意図したとおり発火していることをテスト</li>
-        /// <li>メソッド実行によりエラーが発生していない場合、実行結果が意図した値であることをテスト</li>
-        /// <li>メソッド実行によりエラーが発生していない場合、実行の状態が意図した状態であることをテスト</li>
-        /// <li>ソッド実行によりエラーが発生した場合、メソッド実行によりプロパティ変更通知が発火していないことをテスト</li>
-        /// <li>メソッド実行によりエラーが発生した場合、メソッド実行前後で状態が変化していないことをテスト</li>
-        /// </ul>
+        ///     以下の手順のテストを行う。
+        ///     <ul>
+        ///         <li>メソッドを実行する</li>
+        ///         <li>メソッド実行によるエラーの有無をテスト</li>
+        ///         <li>ソッド実行によりエラーが発生していない場合、メソッド実行によりプロパティ変更通知が意図したとおり発火していることをテスト</li>
+        ///         <li>メソッド実行によりエラーが発生していない場合、実行結果が意図した値であることをテスト</li>
+        ///         <li>メソッド実行によりエラーが発生していない場合、実行の状態が意図した状態であることをテスト</li>
+        ///         <li>ソッド実行によりエラーが発生した場合、メソッド実行によりプロパティ変更通知が発火していないことをテスト</li>
+        ///         <li>メソッド実行によりエラーが発生した場合、メソッド実行前後で状態が変化していないことをテスト</li>
+        ///     </ul>
         /// </remarks>
         /// <param name="instance">テスト対象のインスタンス</param>
         /// <param name="execFunc">メソッド実行処理</param>
@@ -475,17 +535,17 @@ namespace WodiLib.Test.Tools
         }
 
         /// <summary>
-        /// 比較処理のテスト
+        ///     比較処理のテスト
         /// </summary>
         /// <remarks>
-        /// 以下の手順のテストを行う。
-        /// <ul>
-        /// <li>比較メソッドを実行する</li>
-        /// <li>メソッド実行によりエラーが発生しないことをテスト</li>
-        /// <li>メソッド実行によりプロパティ変更通知が発火していないことをテスト</li>
-        /// <li>メソッド実行前後で状態が変化していないことをテスト</li>
-        /// <li>結果が意図した値であることをテスト</li>
-        /// </ul>
+        ///     以下の手順のテストを行う。
+        ///     <ul>
+        ///         <li>比較メソッドを実行する</li>
+        ///         <li>メソッド実行によりエラーが発生しないことをテスト</li>
+        ///         <li>メソッド実行によりプロパティ変更通知が発火していないことをテスト</li>
+        ///         <li>メソッド実行前後で状態が変化していないことをテスト</li>
+        ///         <li>結果が意図した値であることをテスト</li>
+        ///     </ul>
         /// </remarks>
         /// <param name="left">比較対象のインスタンスその1</param>
         /// <param name="right">比較対象のインスタンスその2</param>
@@ -510,17 +570,17 @@ namespace WodiLib.Test.Tools
         }
 
         /// <summary>
-        /// DeepCloneメソッドのテスト
+        ///     DeepCloneメソッドのテスト
         /// </summary>
         /// <remarks>
-        /// 以下の手順のテストを行う。
-        /// <ul>
-        /// <li>メソッドを実行する</li>
-        /// <li>メソッド実行によりエラーが発生しないことをテスト</li>
-        /// <li>メソッド実行によりプロパティ変更通知が発火していないことをテスト</li>
-        /// <li>メソッド実行前後で状態が変化していないことをテスト</li>
-        /// <li>取得した値が元のインスタンスとは別インスタンスであり、同値であることをテスト</li>
-        /// </ul>
+        ///     以下の手順のテストを行う。
+        ///     <ul>
+        ///         <li>メソッドを実行する</li>
+        ///         <li>メソッド実行によりエラーが発生しないことをテスト</li>
+        ///         <li>メソッド実行によりプロパティ変更通知が発火していないことをテスト</li>
+        ///         <li>メソッド実行前後で状態が変化していないことをテスト</li>
+        ///         <li>取得した値が元のインスタンスとは別インスタンスであり、同値であることをテスト</li>
+        ///     </ul>
         /// </remarks>
         /// <param name="instance">テスト対象のインスタンス</param>
         /// <param name="logger">ロガー</param>
@@ -558,15 +618,15 @@ namespace WodiLib.Test.Tools
         #region StaticClass
 
         /// <summary>
-        /// staticクラスの関数テスト
+        ///     staticクラスの関数テスト
         /// </summary>
         /// <remarks>
-        /// 以下の手順のテストを行う。
-        /// <ul>
-        /// <li>関数を実行する</li>
-        /// <li>関数実行によるエラーの有無をテスト</li>
-        /// <li>関数実行によりエラーが発生していない場合、取得した値が意図した値であることをテスト</li>
-        /// </ul>
+        ///     以下の手順のテストを行う。
+        ///     <ul>
+        ///         <li>関数を実行する</li>
+        ///         <li>関数実行によるエラーの有無をテスト</li>
+        ///         <li>関数実行によりエラーが発生していない場合、取得した値が意図した値であることをテスト</li>
+        ///     </ul>
         /// </remarks>
         /// <param name="execFunc">関数実行処理</param>
         /// <param name="expectedThrowExecute">メソッド実行時例外有無期待値</param>
@@ -610,7 +670,7 @@ namespace WodiLib.Test.Tools
         #region class
 
         /// <summary>
-        /// メソッドテスト結果
+        ///     メソッドテスト結果
         /// </summary>
         /// <param name="Result">メソッド返戻値</param>
         /// <param name="ErrorOccured">エラー有無</param>

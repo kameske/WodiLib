@@ -7,6 +7,7 @@
 // ========================================
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,7 +41,7 @@ namespace WodiLib.Sys.Collections
         {
         }
 
-        public CommonListValidator(IEnumerable<T> target, int minCapacity, int maxCapacity) : base(
+        public CommonListValidator(IEnumerable target, int minCapacity, int maxCapacity) : base(
             new TargetAdapter(target, minCapacity, maxCapacity)
         )
         {
@@ -54,7 +55,10 @@ namespace WodiLib.Sys.Collections
 
         public override void Get(NamedValue<int> index, NamedValue<int> count)
         {
-            var namedCount = ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count);
+            var namedCount = new NamedValue<int>(
+                $"{nameof(Target)}.{nameof(IExtendedList<object>.Count)}",
+                Target.GetCount()
+            );
             ListValidationHelper.SelectIndex(index, namedCount);
             ListValidationHelper.Count(count, namedCount);
             ListValidationHelper.Range(index, count, namedCount);
@@ -62,7 +66,10 @@ namespace WodiLib.Sys.Collections
 
         public override void Set(NamedValue<int> index, NamedValue<IEnumerable<T>> items)
         {
-            var namedCount = ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count);
+            var namedCount = new NamedValue<int>(
+                $"{nameof(Target)}.{nameof(IExtendedList<object>.Count)}",
+                Target.GetCount()
+            );
             ListValidationHelper.SelectIndex(index, namedCount);
             ThrowHelper.ValidateArgumentNotNull(items.Value is null, items.Name);
             ListValidationHelper.ItemsHasNotNull(items);
@@ -77,22 +84,31 @@ namespace WodiLib.Sys.Collections
         {
             ThrowHelper.ValidateArgumentNotNull(items.Value is null, items.Name);
             ListValidationHelper.ItemsHasNotNull(items);
-            ListValidationHelper.InsertIndex(index, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
+            ListValidationHelper.InsertIndex(
+                index,
+                ($"{nameof(Target)}.{nameof(IExtendedList<object>.Count)}", Target.GetCount())
+            );
         }
 
         public override void Overwrite(NamedValue<int> index, NamedValue<IEnumerable<T>> items)
         {
             ThrowHelper.ValidateArgumentNotNull(items.Value is null, items.Name);
             ListValidationHelper.ItemsHasNotNull(items);
-            ListValidationHelper.InsertIndex(index, ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count));
+            ListValidationHelper.InsertIndex(
+                index,
+                ($"{nameof(Target)}.{nameof(IExtendedList<object>.Count)}", Target.GetCount())
+            );
         }
 
         public override void Move(NamedValue<int> oldIndex, NamedValue<int> newIndex, NamedValue<int> count)
         {
-            var namedCount = ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count);
+            var namedCount = new NamedValue<int>(
+                $"{nameof(Target)}.{nameof(IExtendedList<object>.Count)}",
+                Target.GetCount()
+            );
             ListValidationHelper.ItemCountNotZero(namedCount);
             ListValidationHelper.SelectIndex(oldIndex, namedCount);
-            ListValidationHelper.InsertIndex(newIndex, namedCount);
+            ListValidationHelper.SelectIndex(newIndex, namedCount);
             ListValidationHelper.Count(count, namedCount);
             ListValidationHelper.Range(oldIndex, count, namedCount);
             ListValidationHelper.Range(count, newIndex, namedCount);
@@ -100,7 +116,10 @@ namespace WodiLib.Sys.Collections
 
         public override void Remove(NamedValue<int> index, NamedValue<int> count)
         {
-            var namedCount = ($"{nameof(Target)}.{nameof(Target.Count)}", Target.Count);
+            var namedCount = new NamedValue<int>(
+                $"{nameof(Target)}.{nameof(IExtendedList<object>.Count)}",
+                Target.GetCount()
+            );
             ListValidationHelper.SelectIndex(index, namedCount);
             ListValidationHelper.Count(count, namedCount);
             ListValidationHelper.Range(index, count, namedCount);

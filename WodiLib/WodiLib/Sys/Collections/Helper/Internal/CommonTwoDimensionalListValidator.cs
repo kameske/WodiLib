@@ -105,19 +105,24 @@ namespace WodiLib.Sys.Collections
             TwoDimensionalListValidationHelper.ItemNotNull(rowArrays);
             TwoDimensionalListValidationHelper.InnerItemLength(rowArrays.Value);
 
+            var setRowLength = rowArrays.Value.Count();
             ListValidationHelper.Range(
                 rowIndex,
-                ($"{rows.Name}.{nameof(Enumerable.Count)}", rowArrays.Value.Count()),
+                ($"{rows.Name}.{nameof(Enumerable.Count)}", setRowLength),
                 namedRowCount
             );
 
-            var columnLength = rowArrays.Value.GetInnerArrayLength();
-            TwoDimensionalListValidationHelper.SizeEqual(
-                ($"{rows.Name}の要素数", columnLength),
-                MakeNamedColumnCount()
-            );
+            // 列数の検証は行数 > 0 (=行データをセットする場合)のみ行う
+            if (setRowLength > 0)
+            {
+                var columnLength = rowArrays.Value.GetInnerArrayLength();
+                TwoDimensionalListValidationHelper.SizeEqual(
+                    ($"{rows.Name}の要素数", columnLength),
+                    MakeNamedColumnCount()
+                );
+            }
         }
-        
+
         public override void SetColumn(NamedValue<int> columnIndex, NamedValue<IEnumerable<IEnumerable<TItem>>> items)
         {
             var namedColumnCount = MakeNamedColumnCount();
@@ -131,17 +136,22 @@ namespace WodiLib.Sys.Collections
             TwoDimensionalListValidationHelper.ItemNotNull(items);
             TwoDimensionalListValidationHelper.InnerItemLength(itemArrays.Value);
 
+            var setItemLength = items.Value.Count();
             ListValidationHelper.Range(
                 columnIndex,
-                ($"{items.Name}.{nameof(Enumerable.Count)}", items.Value.Count()),
+                ($"{items.Name}.{nameof(Enumerable.Count)}", setItemLength),
                 namedColumnCount
             );
 
-            var rowLength = itemArrays.Value.GetInnerArrayLength();
-            TwoDimensionalListValidationHelper.SizeEqual(
-                ($"{items.Name}の要素数", rowLength),
-                MakeNamedRowCount()
-            );
+            // 行数の検証は列数 > 0 (=列データをセットする場合)のみ行う
+            if (setItemLength > 0)
+            {
+                var rowLength = itemArrays.Value.GetInnerArrayLength();
+                TwoDimensionalListValidationHelper.SizeEqual(
+                    ($"{items.Name}の要素数", rowLength),
+                    MakeNamedRowCount()
+                );
+            }
         }
 
         public override void SetItem(NamedValue<int> rowIndex, NamedValue<int> columnIndex, NamedValue<TItem> item)
@@ -154,7 +164,7 @@ namespace WodiLib.Sys.Collections
                 columnIndex,
                 MakeNamedColumnCount()
             );
-            ThrowHelper.ValidateArgumentNotNull(item is null, item.Name);
+            ThrowHelper.ValidateArgumentNotNull(item.Value is null, item.Name);
         }
 
         public override void InsertRow(NamedValue<int> rowIndex, NamedValue<IEnumerable<TRow>> items)
@@ -264,7 +274,7 @@ namespace WodiLib.Sys.Collections
             var namedRowCount = MakeNamedRowCount();
             TwoDimensionalListValidationHelper.LengthNotZero((RowName, Target.RowCount));
             ListValidationHelper.SelectIndex(oldRowIndex, namedRowCount);
-            ListValidationHelper.InsertIndex(newRowIndex, namedRowCount);
+            ListValidationHelper.SelectIndex(newRowIndex, namedRowCount);
             ListValidationHelper.Count(count, namedRowCount);
             ListValidationHelper.Range(oldRowIndex, count, namedRowCount);
             ListValidationHelper.Range(count, newRowIndex, namedRowCount);
@@ -279,7 +289,7 @@ namespace WodiLib.Sys.Collections
             var namedColumnCount = MakeNamedColumnCount();
             TwoDimensionalListValidationHelper.LengthNotZero((ColumnIndexName, Target.ColumnCount));
             ListValidationHelper.SelectIndex(oldColumnIndex, namedColumnCount);
-            ListValidationHelper.InsertIndex(newColumnIndex, namedColumnCount);
+            ListValidationHelper.SelectIndex(newColumnIndex, namedColumnCount);
             ListValidationHelper.Count(count, namedColumnCount);
             ListValidationHelper.Range(oldColumnIndex, count, namedColumnCount);
             ListValidationHelper.Range(count, newColumnIndex, namedColumnCount);

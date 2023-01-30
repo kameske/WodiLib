@@ -19,11 +19,11 @@ namespace WodiLib.Test.Tools
         {
             NotNull,
             EvenNull,
-            AllNull,
+            AllNull
         }
 
         /// <summary>
-        /// テスト用の列挙データを生成する。
+        ///     テスト用の列挙データを生成する。
         /// </summary>
         /// <param name="length">要素数。0未満の場合 null を返却する。</param>
         /// <param name="type">列挙タイプ</param>
@@ -54,8 +54,80 @@ namespace WodiLib.Test.Tools
                 );
         }
 
+        public enum GenerateTwoDimArrayType
+        {
+            Null,
+            Dig,
+            HasNull,
+            NotEqualColumnLength,
+            Fill
+        }
+
         /// <summary>
-        /// TestCaseSource を生成する。
+        ///     テスト用の二次元列挙データを生成する。
+        /// </summary>
+        /// <param name="type">列挙タイプ</param>
+        /// <param name="rowLength">行要素数。0未満の場合 null を返却する。</param>
+        /// <param name="columnLength">列要素数。0未満の場合すべての列要素を null として返却する。</param>
+        /// <param name="generator">要素生成処理</param>
+        /// <typeparam name="T">生成データ型</typeparam>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static IEnumerable<IEnumerable<T>> GenerateTwoDimArray<T>(
+            GenerateTwoDimArrayType type,
+            int rowLength,
+            int columnLength,
+            Func<int, int, T> generator
+        )
+        {
+            if (rowLength < 0)
+            {
+                return null!;
+            }
+
+            if (columnLength < 0)
+            {
+                return rowLength.Iterate(_ => (IEnumerable<T>)null!);
+            }
+
+            return type switch
+            {
+                GenerateTwoDimArrayType.Null => default!,
+                GenerateTwoDimArrayType.Dig => rowLength.Iterate(
+                    i => (columnLength + i % 2).Iterate(j => generator(i, j))
+                ),
+                GenerateTwoDimArrayType.HasNull => rowLength.Iterate(
+                    i => columnLength.Iterate(
+                        j => j % 2 == 0
+                            ? generator(i, j)
+                            : default!
+                    )
+                ),
+                GenerateTwoDimArrayType.NotEqualColumnLength => rowLength.Iterate(
+                    i => (columnLength + 1).Iterate(j => generator(i, j))
+                ),
+                GenerateTwoDimArrayType.Fill => rowLength.Iterate(
+                    i => columnLength.Iterate(j => generator(i, j))
+                ),
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
+        }
+
+        /// <summary>
+        ///     テスト用の二次元列挙データを生成する。
+        /// </summary>
+        /// <param name="rowsInfo">データ生成情報</param>
+        /// <param name="generator">要素生成処理</param>
+        /// <typeparam name="T">生成データ型</typeparam>
+        /// <returns></returns>
+        public static IEnumerable<IEnumerable<T>> GenerateTwoDimArray<T>(
+            RowsInfo rowsInfo,
+            Func<int, int, T> generator
+        )
+            => GenerateTwoDimArray(rowsInfo.Type, rowsInfo.RowLength, rowsInfo.ColumnLength, generator);
+
+        /// <summary>
+        ///     TestCaseSource を生成する。
         /// </summary>
         /// <param name="params">引数パターン</param>
         /// <param name="expectedError">引数パターン別 実行エラー有無期待値</param>
@@ -68,7 +140,7 @@ namespace WodiLib.Test.Tools
             => GenerateTestCaseSource(@params, null, expectedError);
 
         /// <summary>
-        /// TestCaseSource を生成する。
+        ///     TestCaseSource を生成する。
         /// </summary>
         /// <param name="params">引数パターン</param>
         /// <param name="filter">生成した組み合わせフィルタ処理</param>
@@ -88,7 +160,7 @@ namespace WodiLib.Test.Tools
         }
 
         /// <summary>
-        /// TestCaseSource を生成する。
+        ///     TestCaseSource を生成する。
         /// </summary>
         /// <param name="params">引数パターン</param>
         /// <param name="expectedError">引数パターン別 実行エラー有無期待値</param>
@@ -102,7 +174,7 @@ namespace WodiLib.Test.Tools
             => GenerateTestCaseSource(@params, null, expectedError);
 
         /// <summary>
-        /// TestCaseSource を生成する。
+        ///     TestCaseSource を生成する。
         /// </summary>
         /// <param name="params">引数パターン</param>
         /// <param name="filter">生成した組み合わせフィルタ処理</param>
@@ -129,7 +201,7 @@ namespace WodiLib.Test.Tools
         }
 
         /// <summary>
-        /// TestCaseSource を生成する。
+        ///     TestCaseSource を生成する。
         /// </summary>
         /// <param name="params">引数パターン</param>
         /// <param name="expectedError">引数パターン別 実行エラー有無期待値</param>
@@ -144,7 +216,7 @@ namespace WodiLib.Test.Tools
             => GenerateTestCaseSource(@params, null, expectedError);
 
         /// <summary>
-        /// TestCaseSource を生成する。
+        ///     TestCaseSource を生成する。
         /// </summary>
         /// <param name="params">引数パターン</param>
         /// <param name="filter">生成した組み合わせフィルタ処理</param>
@@ -175,7 +247,7 @@ namespace WodiLib.Test.Tools
         }
 
         /// <summary>
-        /// TestCaseSource を生成する。
+        ///     TestCaseSource を生成する。
         /// </summary>
         /// <param name="params">引数パターン</param>
         /// <param name="expectedError">引数パターン別 実行エラー有無期待値</param>
@@ -191,7 +263,7 @@ namespace WodiLib.Test.Tools
             => GenerateTestCaseSource(@params, null, expectedError);
 
         /// <summary>
-        /// TestCaseSource を生成する。
+        ///     TestCaseSource を生成する。
         /// </summary>
         /// <param name="params">引数パターン</param>
         /// <param name="filter">生成した組み合わせフィルタ処理</param>
@@ -223,7 +295,7 @@ namespace WodiLib.Test.Tools
         }
 
         /// <summary>
-        /// 2つの集合の積を生成する。
+        ///     2つの集合の積を生成する。
         /// </summary>
         /// <param name="x">集合X</param>
         /// <param name="y">集合Y</param>
@@ -234,7 +306,7 @@ namespace WodiLib.Test.Tools
             => x.SelectMany(xItem => y.Select(yItem => (xItem, yItem)));
 
         /// <summary>
-        /// 3つの集合の積を生成する。
+        ///     3つの集合の積を生成する。
         /// </summary>
         /// <param name="x">集合X</param>
         /// <param name="y">集合Y</param>
@@ -251,7 +323,7 @@ namespace WodiLib.Test.Tools
             => GenerateProduct(x, GenerateProduct(y, z)).Select(a => (a.Item1, a.Item2.Item1, a.Item2.Item2));
 
         /// <summary>
-        /// 4つの集合の積を生成する。
+        ///     4つの集合の積を生成する。
         /// </summary>
         /// <param name="a">集合A</param>
         /// <param name="b">集合B</param>
@@ -270,5 +342,16 @@ namespace WodiLib.Test.Tools
         )
             => GenerateProduct(a, GenerateProduct(b, c, d))
                 .Select(x => (x.Item1, x.Item2.Item1, x.Item2.Item2, x.Item2.Item3));
+
+        /// <summary>
+        /// </summary>
+        /// <param name="Type"></param>
+        /// <param name="RowLength"></param>
+        /// <param name="ColumnLength"></param>
+        public record RowsInfo(
+            GenerateTwoDimArrayType Type,
+            int RowLength,
+            int ColumnLength
+        );
     }
 }

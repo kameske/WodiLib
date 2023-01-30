@@ -20,7 +20,7 @@ namespace WodiLib.Sys.Collections
             Func<IEnumerable<TItem>, TRow> RowFactoryFromItems,
             Func<int, int, TItem> ItemFactory,
             Func<TItem, TItem, bool> ItemComparer,
-            Func<TwoDimensionalList<TRow, TItem>, ITwoDimensionalListValidator<TRow, TItem>>
+            Func<TwoDimensionalList<TRow, TItem>, ITwoDimensionalListValidator<TRow, TItem>?>
                 ValidatorFactory
         )
         {

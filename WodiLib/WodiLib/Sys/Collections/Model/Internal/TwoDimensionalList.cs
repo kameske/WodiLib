@@ -108,7 +108,7 @@ namespace WodiLib.Sys.Collections
 
         public int AllCount => RowCount * ColumnCount;
 
-        public ITwoDimensionalListValidator<TRow, TItem> Validator { get; }
+        public ITwoDimensionalListValidator<TRow, TItem>? Validator { get; }
 
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         //      Protected Properties
@@ -149,14 +149,14 @@ namespace WodiLib.Sys.Collections
 
             var initItems = values.ToArray();
 
-            Validator.Constructor((nameof(values), initItems));
+            Validator?.Constructor((nameof(values), initItems));
 
             AddNotifyInnerItemPropertyChanged(initItems);
             Items = new ExtendedList<TRow>(
-                makeListDefaultItem: rowIndex => FuncMakeDefaultRowFromItems(
+                rowIndex => FuncMakeDefaultRowFromItems(
                     ColumnCount.Iterate(columnIndex => FuncMakeDefaultItem(rowIndex, columnIndex))
                 ),
-                validator: default!, // 利用しないため
+                default!, // 利用しないため
                 initItems
             );
             notifyPropertyChangedActionReserver =
@@ -198,7 +198,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// 各変更通知を自身に伝播させる。
+        ///     各変更通知を自身に伝播させる。
         /// </summary>
         private void PropagatePropertyChangeEvent()
         {
@@ -550,7 +550,7 @@ namespace WodiLib.Sys.Collections
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 
         /// <summary>
-        /// 行要素のプロパティ変更通知を自身のプロパティ変更通知として通知する。
+        ///     行要素のプロパティ変更通知を自身のプロパティ変更通知として通知する。
         /// </summary>
         /// <param name="sender">発火元</param>
         /// <param name="e">通知イベント引数</param>
@@ -563,7 +563,7 @@ namespace WodiLib.Sys.Collections
         }
 
         /// <summary>
-        /// 行要素のコレクション変更通知を自身のプロパティ変更通知として通知する。
+        ///     行要素のコレクション変更通知を自身のプロパティ変更通知として通知する。
         /// </summary>
         /// <param name="sender">発火元</param>
         /// <param name="args">通知イベント引数</param>
