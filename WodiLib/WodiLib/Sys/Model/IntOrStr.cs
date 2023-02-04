@@ -81,7 +81,9 @@ namespace WodiLib.Sys
         /// <param name="value">設定値</param>
         public void Merge(int value)
         {
-            InstanceIntOrStrType = HasStr ? IntOrStrType.IntAndStr : IntOrStrType.Int;
+            InstanceIntOrStrType = HasStr
+                ? IntOrStrType.IntAndStr
+                : IntOrStrType.Int;
             numValue = value;
             NotifyPropertyChanged(NotifyPropertyChangedName);
         }
@@ -93,7 +95,9 @@ namespace WodiLib.Sys
         /// <param name="value">設定値</param>
         public void Merge(string value)
         {
-            InstanceIntOrStrType = HasInt ? IntOrStrType.IntAndStr : IntOrStrType.Str;
+            InstanceIntOrStrType = HasInt
+                ? IntOrStrType.IntAndStr
+                : IntOrStrType.Str;
             strValue = value;
             NotifyPropertyChanged(NotifyPropertyChangedName);
         }
@@ -162,6 +166,16 @@ namespace WodiLib.Sys
 
         /// <summary>
         ///     int -> IntOrStr 暗黙型変換
+        /// </summary>
+        /// <param name="src">変換元</param>
+        /// <returns>変換した値</returns>
+        public static implicit operator IntOrStr(int src)
+        {
+            return new IntOrStr(src);
+        }
+
+        /// <summary>
+        ///     int? -> IntOrStr 暗黙型変換
         /// </summary>
         /// <param name="src">変換元</param>
         /// <returns>変換した値</returns>
